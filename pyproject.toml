@@ -1,0 +1,30 @@
+[project]
+name = "stericx-tools"
+version = "0.1.0"
+description = "Reproducible data preparation and scientific validation tools for StericX"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "rdkit>=2025.3",
+    "requests>=2.32",
+]
+
+[project.optional-dependencies]
+science = [
+    "matplotlib>=3.10",
+    "morfeus-ml>=0.8",
+    "scikit-learn>=1.7",
+    "scipy>=1.15",
+]
+
+[dependency-groups]
+dev = ["ruff>=0.12"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "RUF", "EXE"]
+

@@ -1,0 +1,11 @@
+Source_ID,Ligand_SMILES,Scaffold,vbur_max_delta_qvbur_min,Predicted_ddG_kcal_mol,Predicted_ee_percent,Applicability_Domain,Selection_Stratum,Experimental_Target_Accessed,Measurement_Status,Model_Frozen
+1818,c1ccc([Si](c2ccccc2)(c2ccccc2)P([Si](c2ccccc2)(c2ccccc2)c2ccccc2)[Si](c2ccccc2)(c2ccccc2)c2ccccc2)cc1,c1ccc([Si](c2ccccc2)(c2ccccc2)P([Si](c2ccccc2)(c2ccccc2)c2ccccc2)[Si](c2ccccc2)(c2ccccc2)c2ccccc2)cc1,2.659735536,0.03932528656,3.317456067,inside_training_feature_range,interpolation_maximin,False,pending,published_model.json
+193,Cc1cc(C)c(C)c(P(c2c(C)c(C)cc(C)c2C)c2c(C)c(C)cc(C)c2C)c1C,c1ccc(P(c2ccccc2)c2ccccc2)cc1,3.020572642,0.07151349584,6.027731211,inside_training_feature_range,interpolation_maximin,False,pending,published_model.json
+1280,C[C-](P(C1CCCCC1)C1CCCCC1)[P+](c1ccccc1)(c1ccccc1)c1ccccc1,c1ccc([P+]([CH-]P(C2CCCCC2)C2CCCCC2)(c2ccccc2)c2ccccc2)cc1,3.762119042,0.1376625983,11.56540838,inside_training_feature_range,interpolation_maximin,False,pending,published_model.json
+1699,CP([Si](C)(C)C)[Si](C)(C)C,CP([Si](C)(C)C)[Si](C)(C)C,3.363629369,0.1021156195,8.596301842,inside_training_feature_range,interpolation_maximin,False,pending,published_model.json
+396,c1ccc(P2CC2)cc1,c1ccc(P2CC2)cc1,4.366651932,0.1915895112,16.02887237,inside_training_feature_range,interpolation_maximin,False,pending,published_model.json
+271,C(=C\P(/C=C\c1cccs1)/C=C\c1cccs1)\c1cccs1,C(=CP(C=Cc1cccs1)C=Cc1cccs1)c1cccs1,4.173159571,0.1743291671,14.60646967,inside_training_feature_range,interpolation_maximin,False,pending,published_model.json
+1070,CC(C)c1cccc(C(C)C)c1-n1ccn(-c2c(C(C)C)cccc2C(C)C)c1=NP(C(C)(C)C)C(C)(C)C,N=c1n(-c2ccccc2)ccn1-c1ccccc1,22.99212202,1.853060904,91.60346153,inside_training_feature_range,interpolation_maximin,False,pending,published_model.json
+1796,Cc1cc(C)c(P([Si](C)(C)C)[Si](C)(C)C)c(C)c1,c1ccccc1,19.71216502,1.560474746,86.60083728,inside_training_feature_range,interpolation_maximin,False,pending,published_model.json
+312,CCC(C)(C)c1cccc(P(c2ccccc2)c2ccccc2)n1,c1ccc(P(c2ccccc2)c2ccccn2)cc1,2.395121659,0.01572059983,1.326588768,below_training_feature_range,lower_boundary_challenge,False,pending,published_model.json
+100,COc1cccc(OC)c1-c1ccccc1P(C(F)(F)F)C(F)(F)F,c1ccc(-c2ccccc2)cc1,28.96214579,2.385612494,96.4950207,above_training_feature_range,upper_boundary_challenge,False,pending,published_model.json

@@ -1,0 +1,24 @@
+{
+  "feature": "xtb_lmo_max_delta_qvbur_min",
+  "historical_replay_source_ids": [
+    723
+  ],
+  "intercept": -0.17973901426114355,
+  "model": "historical_replay_univariate_ols",
+  "prospective_deck_sha256": "564d7b87567a036582ecd7a2a0bd4f43ad2e1b33a61452ab6ae87b16e6ef457a",
+  "schema_version": 3,
+  "sigpack_v2_sha256": "8fb1a1228f041373292566923eae575a13bf63eceeda154d8309d50e5470a5fd",
+  "slope": 0.08939677012170852,
+  "training_source_ids": [
+    401,
+    498,
+    724,
+    785,
+    1057,
+    1058,
+    2062,
+    2063,
+    2064,
+    2067
+  ]
+}

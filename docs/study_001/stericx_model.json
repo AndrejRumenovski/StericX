@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "model": "mechanistically_constrained_ols",
+  "training_count": 10,
+  "training_group_count": 9,
+  "feature_names": [
+    "intercept",
+    "L_boltz",
+    "B1_boltz",
+    "B5_boltz",
+    "nbo_charge",
+    "B1_x_nbo_charge",
+    "B5_x_nbo_charge",
+    "ir_frequency"
+  ],
+  "selected_feature_indices": [
+    6
+  ],
+  "selected_features": [
+    "B5_x_nbo_charge"
+  ],
+  "weights": [
+    1.863738,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    -0.11433673,
+    0.0
+  ],
+  "standardized_means": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    9.972000551223754,
+    0.0
+  ],
+  "standardized_scales": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    3.627745747731182,
+    1.0
+  ],
+  "training": {
+    "count": 10,
+    "r2": 0.36254551871085705,
+    "mae": 0.44844398752596815,
+    "rmse": 0.5500040833634215
+  },
+  "fixed_feature_loo": {
+    "count": 10,
+    "r2": 0.002041716065248389,
+    "mae": 0.5582741312774857,
+    "rmse": 0.6881728240191488
+  },
+  "fixed_feature_group_loo": {
+    "count": 10,
+    "r2": 0.0013155404705411655,
+    "mae": 0.554722568949261,
+    "rmse": 0.6884231568444389
+  },
+  "ridge_baseline": {
+    "model": "ridge",
+    "regularization": 1.0,
+    "weights": [
+      1.7600864,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.103942476,
+      0.0
+    ],
+    "training": {
+      "count": 10,
+      "r2": 0.3595492734352991,
+      "mae": 0.44407845555719627,
+      "rmse": 0.5512951678637537
+    },
+    "nested_loo": {
+      "count": 10,
+      "r2": -0.1296735986490194,
+      "mae": 0.6031503965358785,
+      "rmse": 0.7321799197869394
+    }
+  },
+  "lasso_baseline": {
+    "model": "lasso",
+    "regularization": 0.0001,
+    "weights": [
+      1.863463,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.11430916,
+      0.0
+    ],
+    "training": {
+      "count": 10,
+      "r2": 0.36254549763963606,
+      "mae": 0.44843240946752727,
+      "rmse": 0.5500040924536844
+    },
+    "nested_loo": {
+      "count": 10,
+      "r2": -0.35017783220438914,
+      "mae": 0.6462157411964178,
+      "rmse": 0.8004547961810861
+    }
+  },
+  "coefficient_intervals": [
+    {
+      "feature": "intercept",
+      "estimate": 1.863737940788269,
+      "lower_95": -0.3191237635910511,
+      "upper_95": 2.903146183490753
+    },
+    {
+      "feature": "B5_x_nbo_charge",
+      "estimate": -0.11433672904968262,
+      "lower_95": -0.20489567518234253,
+      "upper_95": 0.05352415107190602
+    }
+  ],
+  "response_permutation_p_value": 0.063968015992004,
+  "correlation_matrix": [
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0,
+      0.36989548170823755,
+      0.8749362004294347,
+      0.35903681353769773,
+      0.5924078759297855,
+      0.5565391935120708,
+      0.0
+    ],
+    [
+      0.0,
+      0.36989548170823755,
+      1.0,
+      0.1872546458783398,
+      -0.04170950927320936,
+      0.6214195515324802,
+      0.08723186976782601,
+      0.0
+    ],
+    [
+      0.0,
+      0.8749362004294347,
+      0.1872546458783398,
+      1.0,
+      0.5257778492038232,
+      0.6396207813131138,
+      0.7318221833059342,
+      0.0
+    ],
+    [
+      0.0,
+      0.35903681353769773,
+      -0.04170950927320936,
+      0.5257778492038232,
+      1.0,
+      0.7339095628201134,
+      0.9602625780917265,
+      0.0
+    ],
+    [
+      0.0,
+      0.5924078759297855,
+      0.6214195515324802,
+      0.6396207813131138,
+      0.7339095628201134,
+      1.0,
+      0.8232491118530227,
+      0.0
+    ],
+    [
+      0.0,
+      0.5565391935120708,
+      0.08723186976782601,
+      0.7318221833059342,
+      0.9602625780917265,
+      0.8232491118530227,
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "variance_inflation_factors": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    1.0,
+    null
+  ],
+  "applicability_domain": [
+    {
+      "feature": "B5_x_nbo_charge",
+      "minimum": 5.053457260131836,
+      "maximum": 14.475939750671387
+    }
+  ],
+  "notes": [
+    "Descriptors were standardized using training rows only.",
+    "Forward selection used BIC and rejected |r| > 0.95 descriptor pairs.",
+    "LOO, bootstrap, and permutation diagnostics keep the selected descriptor set fixed.",
+    "Group LOO holds out every row sharing the same ligand-group label.",
+    "A prospective claim still requires an experimentally untouched test set."
+  ]
+}

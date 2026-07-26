@@ -1,0 +1,199 @@
+{
+  "frozen_prediction_sha256": "f79e24353ee61123d13e68b826abf081d6c3f4349b5e821f4a48de654f8d89bb",
+  "generated_at_utc": "2026-07-26T00:00:56.996612+00:00",
+  "historical_blind_evaluation": {
+    "applicability_domain": "inside_training_range",
+    "count": 1,
+    "experimental_ddg_kcal_mol": 1.930777231,
+    "mae": 0.37300815969539847,
+    "predicted_ddg_kcal_mol": 1.5577690713046015,
+    "r2": null,
+    "residual_kcal_mol": -0.37300815969539847,
+    "rmse": 0.37300815969539847,
+    "source_id": 723
+  },
+  "labeled_rows": 11,
+  "lasso_nested_loo": {
+    "alpha": 0.05455594781168514,
+    "coefficients_standardized": {
+      "dipolemoment_boltz": -0.0,
+      "fmo_e_homo_boltz": 0.042979136290728984,
+      "fmo_e_lumo_boltz": 0.0,
+      "nbo_P_boltz": -0.011756226901220268,
+      "pyr_P_vburminconf": 0.033496807728712136,
+      "vbur_far_vbur_boltz": 0.0,
+      "vbur_max_delta_qvbur_min": 0.5218696782349166,
+      "vbur_near_vbur_boltz": -0.0
+    },
+    "metrics": {
+      "count": 10,
+      "mae": 0.32685039392499526,
+      "r2": 0.6557515450025655,
+      "rmse": 0.4041823292473457
+    },
+    "model": "lasso",
+    "predictions": [
+      0.3789066888349275,
+      0.39721667390655807,
+      2.3332887976032772,
+      0.20415393422735556,
+      1.1749815261327368,
+      1.1306563172123374,
+      0.5495856456345593,
+      0.46554531248064596,
+      0.510658570199541,
+      0.7171060011628729
+    ]
+  },
+  "limitations": [
+    "Only ten labeled observations are used for model fitting.",
+    "The single holdout is historical, not newly prospective.",
+    "One holdout supports an error estimate but not a holdout R2.",
+    "The complete 1,566-ligand library must not be treated as labeled."
+  ],
+  "published_model": {
+    "feature": "vbur_max_delta_qvbur_min",
+    "fixed_feature_loo_metrics": {
+      "count": 10,
+      "mae": 0.2509824358387186,
+      "r2": 0.7521012496674199,
+      "rmse": 0.34298765675788595
+    },
+    "intercept": -0.19793447033801925,
+    "intercept_95_ci": [
+      -0.5247414988741924,
+      0.17596159383560037
+    ],
+    "parametric_correlation_p_value": 0.00031530059296021085,
+    "response_permutation_p_value": 0.0014992503748125937,
+    "slope": 0.08920426624752129,
+    "slope_95_ci": [
+      0.06733003203043357,
+      0.11499001365105653
+    ],
+    "training_count": 10,
+    "training_metrics": {
+      "count": 10,
+      "mae": 0.20495535510815296,
+      "r2": 0.819306069401162,
+      "rmse": 0.29282833963155286
+    }
+  },
+  "ridge_nested_loo": {
+    "alpha": 1.1288378916846884,
+    "coefficients_standardized": {
+      "dipolemoment_boltz": -0.14171931882629943,
+      "fmo_e_homo_boltz": 0.19154833815861536,
+      "fmo_e_lumo_boltz": 0.05004343252777521,
+      "nbo_P_boltz": -0.21169587312306695,
+      "pyr_P_vburminconf": 0.06027587972732837,
+      "vbur_far_vbur_boltz": 0.06125700301568156,
+      "vbur_max_delta_qvbur_min": 0.2951994238937992,
+      "vbur_near_vbur_boltz": -0.13043472313475607
+    },
+    "metrics": {
+      "count": 10,
+      "mae": 0.302479746767102,
+      "r2": 0.6652380027089588,
+      "rmse": 0.39857439688924157
+    },
+    "model": "ridge",
+    "predictions": [
+      0.28392625493344714,
+      0.2196087054167436,
+      2.2246531745788274,
+      0.2202340975156285,
+      1.2499643792570592,
+      1.2542421882799242,
+      0.7881786434415868,
+      0.6342042040680624,
+      0.49039124878347923,
+      0.42988831605836325
+    ]
+  },
+  "schema_version": 1,
+  "source_rows": 1566,
+  "source_sha256": "4af1a776378a1f1aa369e076c9b35de2afa8c60e30841ec63cd13d95ccb8f00d",
+  "source_url": "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv",
+  "stericx_native_ensemble_model": {
+    "fixed_feature_group_loo": {
+      "count": 10,
+      "mae": 0.554722568949261,
+      "r2": 0.0013155404705411655,
+      "rmse": 0.6884231568444389
+    },
+    "fixed_feature_loo": {
+      "count": 10,
+      "mae": 0.5582741312774857,
+      "r2": 0.002041716065248389,
+      "rmse": 0.6881728240191488
+    },
+    "historical_blind": {
+      "applicability_warnings": 0,
+      "mae_kcal_mol": 0.6977559328079224,
+      "rmse_kcal_mol": 0.6977559328079224
+    },
+    "lasso_baseline": {
+      "model": "lasso",
+      "nested_loo": {
+        "count": 10,
+        "mae": 0.6462157411964178,
+        "r2": -0.35017783220438914,
+        "rmse": 0.8004547961810861
+      },
+      "regularization": 0.0001,
+      "training": {
+        "count": 10,
+        "mae": 0.44843240946752727,
+        "r2": 0.36254549763963606,
+        "rmse": 0.5500040924536844
+      },
+      "weights": [
+        1.863463,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.11430916,
+        0.0
+      ]
+    },
+    "response_permutation_p_value": 0.063968015992004,
+    "ridge_baseline": {
+      "model": "ridge",
+      "nested_loo": {
+        "count": 10,
+        "mae": 0.6031503965358785,
+        "r2": -0.1296735986490194,
+        "rmse": 0.7321799197869394
+      },
+      "regularization": 1.0,
+      "training": {
+        "count": 10,
+        "mae": 0.44407845555719627,
+        "r2": 0.3595492734352991,
+        "rmse": 0.5512951678637537
+      },
+      "weights": [
+        1.7600864,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.103942476,
+        0.0
+      ]
+    },
+    "selected_features": [
+      "B5_x_nbo_charge"
+    ],
+    "training": {
+      "count": 10,
+      "mae": 0.44844398752596815,
+      "r2": 0.36254551871085705,
+      "rmse": 0.5500040833634215
+    }
+  }
+}

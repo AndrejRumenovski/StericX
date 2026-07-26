@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "model_path": "docs/study_001/stericx_model.json",
+  "frozen_predictions_path": "docs/study_001/stericx_frozen_predictions.csv",
+  "frozen_predictions_fnv1a64": "b6c1cbb3e18be2e7",
+  "evaluated_records": 1,
+  "mae_kcal_mol": 0.6977559328079224,
+  "rmse_kcal_mol": 0.6977559328079224,
+  "r2": null,
+  "applicability_warnings": 0,
+  "scored_predictions": [
+    {
+      "reaction_id": "SIG-NIHDA-723",
+      "ligand_group": "c1ccc(-c2cccc3c2PCO3)cc1",
+      "dataset_split": "blind",
+      "predicted_ddg_kcal_mol": 1.2330213,
+      "experimental_ddg_kcal_mol": 1.9307772,
+      "residual_kcal_mol": -0.69775593,
+      "applicability_domain": "inside_training_range"
+    }
+  ]
+}

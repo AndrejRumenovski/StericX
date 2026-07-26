@@ -1,0 +1,34 @@
+{
+  "blind_source_ids": [
+    723
+  ],
+  "created_at_utc": "2026-07-26T00:00:56.534410+00:00",
+  "feature": "vbur_max_delta_qvbur_min",
+  "intercept": -0.19793447033801925,
+  "intercept_95_ci": [
+    -0.5247414988741924,
+    0.17596159383560037
+  ],
+  "model": "published_univariate_ols",
+  "schema_version": 1,
+  "slope": 0.08920426624752129,
+  "slope_95_ci": [
+    0.06733003203043357,
+    0.11499001365105653
+  ],
+  "source_sha256": "4af1a776378a1f1aa369e076c9b35de2afa8c60e30841ec63cd13d95ccb8f00d",
+  "training_feature_maximum": 27.06487474,
+  "training_feature_minimum": 2.396167563,
+  "training_source_ids": [
+    401,
+    498,
+    724,
+    785,
+    1057,
+    1058,
+    2062,
+    2063,
+    2064,
+    2067
+  ]
+}

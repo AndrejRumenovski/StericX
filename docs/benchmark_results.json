@@ -1,0 +1,51 @@
+{
+  "generated_at_utc": "2026-07-25T23:53:29Z",
+  "build": {
+    "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+    "rustflags": "-C target-cpu=native"
+  },
+  "methodology": {
+    "record_bytes": 64,
+    "time_utility": "/usr/bin/time -v",
+    "parse_process_metrics_shared": true,
+    "note": "Sterimol extraction and packing are internal phases of one parse process; phase latency is isolated by StericX timers while GNU time CPU, RSS, and page faults are shared."
+  },
+  "workloads": {
+    "sterimol_extraction": {
+      "records": 10000,
+      "phase_seconds": 0.160964,
+      "process_wall_seconds": 0.160000,
+      "throughput_records_per_second": 62125.7,
+      "cpu_utilization_percent": 99,
+      "peak_rss_kb": 7936,
+      "peak_rss_mb": 7.75,
+      "major_page_faults": 0,
+      "minor_page_faults": 997
+    },
+    "binary_packing": {
+      "records": 10000,
+      "output_bytes": 640000,
+      "phase_seconds": 0.000176,
+      "process_wall_seconds": 0.160000,
+      "throughput_records_per_second": 56818181.8,
+      "cpu_utilization_percent": 99,
+      "peak_rss_kb": 7936,
+      "peak_rss_mb": 7.75,
+      "major_page_faults": 0,
+      "minor_page_faults": 997
+    },
+    "regressx_prediction": {
+      "records": 1000000,
+      "mapped_bytes": 64000000,
+      "rayon_threads": 48,
+      "phase_seconds": 0.003147,
+      "process_wall_seconds": 0.000000,
+      "throughput_records_per_second": 317762948.8,
+      "cpu_utilization_percent": 925,
+      "peak_rss_kb": 60356,
+      "peak_rss_mb": 58.94,
+      "major_page_faults": 0,
+      "minor_page_faults": 3176
+    }
+  }
+}

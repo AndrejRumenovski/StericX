@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  quality:
+    name: Format, lint, and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install stable Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Cache Rust build artifacts
+        uses: Swatinem/rust-cache@v2
+
+      - name: Check Rust formatting
+        run: cargo fmt --all --check
+
+      - name: Lint all Rust targets
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Run Rust tests
+        run: cargo test --all-targets
+
+      - name: Install locked Python environment
+        uses: astral-sh/setup-uv@v6
+
+      - name: Sync Python dependencies
+        run: uv sync --locked
+
+      - name: Check support-script syntax
+        run: |
+          uv run python -m py_compile \
+            prepare_data.py \
+            prepare_quantum_data.py \
+            freeze_prospective_deck.py \
+            stericx_quantum.py \
+            validate_stericx.py \
+            study_ni_hda.py \
+            study_buried_volume.py \
+            study_quantum_geometry.py
+          bash -n benchmark_linux.sh install_quantum_tools.sh
+
+      - name: Lint and format-check Python
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+
+      - name: Test quantum parsers without external executables
+        run: uv run python -m unittest tests/test_quantum_backend.py

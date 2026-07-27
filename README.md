@@ -358,6 +358,40 @@ results, gate table, historical-replay label, provenance, and
 measurement-pending candidate deck are in
 [`docs/study_003/STUDY_003.md`](docs/study_003/STUDY_003.md).
 
+## Descriptor-Gap Resolution on Kraken's DFT Geometries
+
+Studies 002 and 003 left the native buried-volume descriptor below the official
+Kraken values (\(R^2 = 0.8626\) and \(0.9254\)), without isolating whether the
+shortfall came from the StericX kernel or the cheaper conformer geometries.
+[`study_kraken_dft_reproduction.py`](study_kraken_dft_reproduction.py) settles
+it: it downloads Kraken's own DFT-optimized geometries (PBE/6-31+G(d,p), GD3BJ)
+from the public MolSSI descriptor-library REST API and runs the unchanged
+StericX buried-volume kernel on them, holding the Study 002 geometric-centre
+convention fixed so only the geometry source changes.
+
+```bash
+uv run --extra science python study_kraken_dft_reproduction.py --no-build
+```
+
+Current measured results:
+
+| Geometry source | Native descriptor \(R^2\) vs official Kraken |
+|---|---:|
+| Study 002 — RDKit/MMFF | 0.8626 |
+| Study 003 — CREST/GFN2-xTB | 0.9254 |
+| Kraken's own DFT geometries | \(R^2 = 0.9937\), Pearson \(r = 0.9993\), RMSE 0.5682 Å³ |
+
+Swapping only the geometry source raises agreement to \(R^2 = 0.9937\) with a
+near-constant offset (Pearson \(r = 0.9993\)). This localizes the earlier
+shortfall to conformer geometry generation rather than the voxel kernel: on
+identical DFT structures the kernel reproduces the published descriptor. The
+small residual reflects StericX's geometrically inferred lone-pair centre versus
+Kraken's exact coordination-centre convention. The per-ligand table, parity
+plot, and provenance are in
+[`docs/study_004/STUDY_004.md`](docs/study_004/STUDY_004.md).
+
+![Buried volume on Kraken DFT geometry](docs/study_004/kraken_dft_parity.png)
+
 ## Chemical Fidelity & Validation
 
 [`validate_stericx.py`](validate_stericx.py) evaluates every structure in

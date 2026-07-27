@@ -17,7 +17,8 @@ through the Eyring equation.
 
 A manuscript-style summary of the reproduction results and their honest
 limitations is in
-[`docs/REPRODUCTION_REPORT.md`](docs/REPRODUCTION_REPORT.md).
+[`docs/REPRODUCTION_REPORT.md`](docs/REPRODUCTION_REPORT.md); a visual,
+one-page overview is in [`docs/results.html`](docs/results.html).
 
 ## Key Systems Features
 

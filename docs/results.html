@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StericX — Reproduction Results</title>
+<style>
+  :root {
+    --paper: #f5f7f7;
+    --raise: #ffffff;
+    --ink: #101619;
+    --slate: #566065;
+    --faint: #7d878c;
+    --accent: #0b6076;
+    --accent-soft: #0b607614;
+    --amber: #9a6413;
+    --amber-soft: #9a641314;
+    --line: #1016191f;
+    --line-strong: #1016192e;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    --serif: "Charter", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0c1214;
+      --raise: #121a1d;
+      --ink: #e8edee;
+      --slate: #9aa4a8;
+      --faint: #6c777b;
+      --accent: #2aa7c4;
+      --accent-soft: #2aa7c41f;
+      --amber: #e0a94a;
+      --amber-soft: #e0a94a1c;
+      --line: #e8edee1c;
+      --line-strong: #e8edee2e;
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #f5f7f7; --raise: #ffffff; --ink: #101619; --slate: #566065; --faint: #7d878c;
+    --accent: #0b6076; --accent-soft: #0b607614; --amber: #9a6413; --amber-soft: #9a641314;
+    --line: #1016191f; --line-strong: #1016192e;
+  }
+  :root[data-theme="dark"] {
+    --paper: #0c1214; --raise: #121a1d; --ink: #e8edee; --slate: #9aa4a8; --faint: #6c777b;
+    --accent: #2aa7c4; --accent-soft: #2aa7c41f; --amber: #e0a94a; --amber-soft: #e0a94a1c;
+    --line: #e8edee1c; --line-strong: #e8edee2e;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem; }
+  .mono { font-family: var(--mono); }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1rem;
+  }
+  h1, h2, h3 { text-wrap: balance; font-weight: 600; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-soft); }
+  a:hover { border-bottom-color: currentColor; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  /* ---- masthead ---- */
+  header.top {
+    border-bottom: 1px solid var(--line);
+    padding: 1.4rem 0;
+  }
+  .brandrow { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .wordmark {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 1.02rem;
+    letter-spacing: 0.06em;
+  }
+  .wordmark b { color: var(--accent); font-weight: 600; }
+  .brandrow .meta { font-family: var(--mono); font-size: 0.72rem; color: var(--faint); letter-spacing: 0.04em; }
+
+  /* ---- hero ---- */
+  .hero { padding: 4rem 0 3rem; }
+  .hero h1 {
+    font-size: clamp(1.9rem, 5.2vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.4rem;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .lede { font-size: 1.18rem; color: var(--slate); margin: 0; max-width: 34rem; }
+
+  .keyline {
+    margin-top: 2.6rem;
+    display: flex; align-items: baseline; gap: 1.1rem; flex-wrap: wrap;
+    padding-top: 1.4rem; border-top: 1px solid var(--line);
+  }
+  .keyline .big {
+    font-family: var(--mono); font-weight: 600;
+    font-size: clamp(2.6rem, 8vw, 3.8rem);
+    letter-spacing: -0.02em; color: var(--ink);
+    font-variant-numeric: tabular-nums; line-height: 1;
+  }
+  .keyline .cap { font-family: var(--mono); font-size: 0.8rem; color: var(--slate); max-width: 20rem; letter-spacing: 0.02em; }
+
+  /* ---- sections ---- */
+  section { padding: 3.4rem 0; border-top: 1px solid var(--line); }
+  section > .wrap > h2 { font-size: 1.5rem; margin: 0.2rem 0 0.6rem; letter-spacing: -0.01em; }
+  section p { color: var(--ink); }
+  section p.sub { color: var(--slate); margin-top: 0; }
+
+  /* ---- progression chart ---- */
+  .prog { display: flex; flex-direction: column; gap: 0.9rem; margin: 2rem 0 0.8rem; }
+  .prog-row { display: grid; grid-template-columns: 1fr; gap: 0.4rem; }
+  .prog-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+  .prog-label { font-family: var(--mono); font-size: 0.82rem; letter-spacing: 0.01em; }
+  .prog-label span { color: var(--faint); }
+  .prog-val { font-family: var(--mono); font-weight: 600; font-size: 0.95rem; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .track {
+    position: relative; height: 12px; border-radius: 2px;
+    background: var(--accent-soft);
+    box-shadow: inset 0 0 0 1px var(--line);
+    overflow: hidden;
+  }
+  .fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 2px 0 0 2px; }
+  .prog-row:last-child .fill { background: linear-gradient(90deg, var(--accent), var(--accent)); }
+  .prog-row.peak .prog-val { font-size: 1.05rem; }
+  .axis-note { font-family: var(--mono); font-size: 0.72rem; color: var(--faint); letter-spacing: 0.02em; margin-top: 0.4rem; }
+
+  /* ---- stat grid ---- */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 5px; overflow: hidden; margin-top: 1.8rem; }
+  .stat { background: var(--paper); padding: 1.1rem 1.15rem; }
+  .stat .n { font-family: var(--mono); font-weight: 600; font-size: 1.5rem; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .stat .k { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--slate); margin-top: 0.35rem; }
+
+  /* ---- data table ---- */
+  .tablewrap { overflow-x: auto; margin-top: 1.6rem; }
+  table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 0.86rem; }
+  th, td { text-align: right; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; white-space: normal; }
+  thead th { color: var(--faint); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; border-bottom-color: var(--line-strong); }
+  tbody tr:last-child td { border-bottom: none; }
+  td.good { color: var(--accent); font-weight: 600; }
+
+  /* ---- limitations ---- */
+  .caveats { background: var(--amber-soft); border: 1px solid color-mix(in srgb, var(--amber) 34%, transparent); border-radius: 6px; padding: 1.6rem 1.7rem; }
+  .caveats .eyebrow { color: var(--amber); }
+  .caveats ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
+  .caveats li { padding-left: 1.2rem; position: relative; color: var(--ink); }
+  .caveats li::before { content: "—"; position: absolute; left: 0; color: var(--amber); font-family: var(--mono); }
+  .caveats li b { font-weight: 600; }
+
+  /* ---- refs / footer ---- */
+  .refs { font-size: 0.95rem; color: var(--slate); }
+  .refs p { margin: 0 0 0.9rem; }
+  footer { border-top: 1px solid var(--line); padding: 2.4rem 0 3.4rem; }
+  .footrow { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-family: var(--mono); font-size: 0.78rem; color: var(--faint); letter-spacing: 0.02em; }
+  .disclaim { font-family: var(--mono); font-size: 0.74rem; color: var(--faint); letter-spacing: 0.02em; line-height: 1.6; margin-top: 1.4rem; }
+
+  @media (max-width: 34rem) {
+    .keyline { gap: 0.6rem; }
+    section { padding: 2.6rem 0; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap brandrow">
+    <span class="wordmark">Steric<b>X</b></span>
+    <span class="meta">physical-organic featurization engine · Rust</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <p class="eyebrow">Independent reproduction study</p>
+    <h1>Reproducing a published quantum-chemistry descriptor from scratch — and finding exactly <em>where</em> it drifts.</h1>
+    <p class="lede">StericX is a ground-up reimplementation of Sterimol and buried-volume ligand descriptors. This is what it reproduces, what it doesn't, and the controlled experiment that pins the difference to one variable.</p>
+
+    <div class="keyline">
+      <span class="big">0.9986</span>
+      <span class="cap">R² against the published Kraken buried-volume descriptor, computed on the authors' own DFT geometries (Pearson r = 0.9998, 11 ligands).</span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">The experiment</p>
+    <h2>One variable changed per step</h2>
+    <p class="sub">The native descriptor fell short of the published values in earlier studies. Rather than guess why, each step below changes exactly one thing — geometry source, then coordination-centre convention — and re-measures agreement with the published <span class="mono">vbur_max_delta_qvbur_min</span>.</p>
+
+    <div class="prog" role="img" aria-label="R-squared rising from 0.8626 to 0.9986 across four treatments">
+      <div class="prog-row">
+        <div class="prog-head">
+          <span class="prog-label">RDKit / MMFF geometry <span>· force field</span></span>
+          <span class="prog-val">0.8626</span>
+        </div>
+        <div class="track"><div class="fill" style="width:31.3%"></div></div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-head">
+          <span class="prog-label">CREST / GFN2-xTB geometry <span>· semi-empirical</span></span>
+          <span class="prog-val">0.9254</span>
+        </div>
+        <div class="track"><div class="fill" style="width:62.7%"></div></div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-head">
+          <span class="prog-label">Kraken's DFT geometry <span>· 2.1 Å centre</span></span>
+          <span class="prog-val">0.9937</span>
+        </div>
+        <div class="track"><div class="fill" style="width:96.85%"></div></div>
+      </div>
+      <div class="prog-row peak">
+        <div class="prog-head">
+          <span class="prog-label">+ Kraken's 2.28 Å convention <span>· documented value</span></span>
+          <span class="prog-val">0.9986</span>
+        </div>
+        <div class="track"><div class="fill" style="width:99.3%"></div></div>
+      </div>
+    </div>
+    <p class="axis-note">Bar length maps R² over a 0.80–1.00 axis. Perfect agreement = full width.</p>
+
+    <p>Swapping the force-field geometry for Kraken's own DFT structures — and nothing else — lifted agreement from 0.86 to 0.99, proving the kernel was never the problem. The last remaining offset traced to a single number: Kraken's descriptor code places the reference metal 2.28 Å from phosphorus, not the 2.1 Å used to isolate the geometry. Adopting their documented value closed it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Generalization</p>
+    <h2>It holds across the whole library</h2>
+    <p class="sub">The same kernel, run on every Kraken ligand with a published value and a DFT geometry — the full sweep of organophosphorus chemistry, not a curated handful.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="n">1,535</div><div class="k">ligands</div></div>
+      <div class="stat"><div class="n">31,605</div><div class="k">DFT conformers</div></div>
+      <div class="stat"><div class="n">0.9649</div><div class="k">R² vs published</div></div>
+      <div class="stat"><div class="n">0.11 Å³</div><div class="k">median abs. error</div></div>
+    </div>
+    <p>The diverse-set R² sits below the eleven-ligand figure — expected across such varied chemistry — but the typical ligand still matches to a tenth of a cubic ångström. That number, not a cherry-picked best case, is the honest headline.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Fidelity check</p>
+    <h2>The kernels match the reference tools</h2>
+    <p class="sub">Before any of the above means anything, the geometry engine has to be correct. Against <span class="mono">morfeus</span> on identical structures:</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Descriptor</th><th>R²</th><th>RMSE</th></tr></thead>
+        <tbody>
+          <tr><td>Sterimol L</td><td class="good">1.000000</td><td>0.000000 Å</td></tr>
+          <tr><td>Sterimol B₁</td><td>0.999959</td><td>0.0105 Å</td></tr>
+          <tr><td>Sterimol B₅</td><td class="good">1.000000</td><td>0.000001 Å</td></tr>
+          <tr><td>Buried-volume geometry</td><td class="good">1.000000</td><td>8×10⁻⁶ % err</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="caveats">
+      <p class="eyebrow">What it does not claim</p>
+      <ul>
+        <li><b>Compact descriptors don't replace the published one.</b> StericX's own feature set does not reproduce the ten-ligand Ni-catalyzed homo-Diels–Alder selectivity model (native leave-one-out Q² ≈ 0.00) — a deliberate ablation, reported not hidden.</li>
+        <li><b>Better geometry didn't improve the kinetic model.</b> Higher descriptor fidelity did not raise held-out Q² on that small n = 11 family; the two are decoupled here.</li>
+        <li><b>A residual tail remains.</b> On the full set the median error is 0.11 Å³ but a minority of ligands scatter further, where the inferred lone-pair centre diverges most from Kraken's exact convention.</li>
+        <li><b>No prospective validation.</b> A frozen ten-candidate deck exists with predictions recorded; its experimental outcomes are unmeasured, so no predictive-success claim is made.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap refs">
+    <p class="eyebrow">Method &amp; attribution</p>
+    <p>Kraken's DFT geometries were retrieved from the public MolSSI descriptor-library REST API; the API's descriptor values match the published dataset, confirming provenance. Buried volumes use a deterministic voxel grid at Kraken's convention (3.5 Å sphere, Bondi radii ×1.17, 2.28 Å metal distance).</p>
+    <p>Kraken descriptor platform — Gensch, T.; <span style="white-space:nowrap">dos Passos</span> Gomes, G.; Friederich, P.; et&nbsp;al.; Sigman, M.&nbsp;S.; Aspuru-Guzik, A. <em>J. Am. Chem. Soc.</em> <b>2022</b>, 144 (3), 1205. <a href="https://doi.org/10.1021/jacs.1c09718">10.1021/jacs.1c09718</a></p>
+    <p>Ni-catalyzed homo-Diels–Alder dataset — Cadge, J.&nbsp;A.; Lozano, C.; Merriman, M.&nbsp;T.; Oblad, P.; Sigman, M.&nbsp;S.; Reisman, S.&nbsp;E. <em>J. Am. Chem. Soc.</em> <b>2025</b>, 147 (34), 31175. <a href="https://doi.org/10.1021/jacs.5c09948">10.1021/jacs.5c09948</a></p>
+    <p class="disclaim">StericX is an independent reproduction and reimplementation. It is not affiliated with, endorsed by, or produced by the Sigman or Reisman groups or the Kraken authors, and reuses only their publicly released data and descriptor definitions.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footrow">
+    <span>Andrej Rumenovski · Dwight D. Eisenhower High School</span>
+    <span><a href="https://github.com/AndrejRumenovski/StericX">github.com/AndrejRumenovski/StericX</a></span>
+  </div>
+</footer>
+</body>
+</html>

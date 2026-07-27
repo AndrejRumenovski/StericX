@@ -26,6 +26,7 @@ from stericx_quantum import (
     QuantumBackendError,
     QuantumConfig,
     atomic_write_json,
+    relativize_paths,
     sha256_file,
 )
 
@@ -314,7 +315,10 @@ def main(argv: Iterable[str] | None = None) -> int:
             },
             "calculation_manifests": sorted(set(calculation_manifests)),
         }
-        atomic_write_json(args.provenance, provenance)
+        atomic_write_json(
+            args.provenance,
+            relativize_paths(provenance, Path(__file__).resolve().parent),
+        )
         print("\nQuantum data preparation complete")
         print(f"  mode={args.mode}")
         print(f"  records={len(output_frame)}")

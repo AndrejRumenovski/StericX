@@ -13,7 +13,7 @@
   },
   "descriptor_r2_change": 0.06270713965011798,
   "full_crest_production_ensemble_complete": true,
-  "generated_at_utc": "2026-07-27T02:06:20.287003+00:00",
+  "generated_at_utc": "2026-07-27T02:21:12.152973+00:00",
   "model": {
     "feature": "xtb_lmo_max_delta_qvbur_min",
     "fixed_feature_loo": {
@@ -37,7 +37,7 @@
       "rmse": 0.3669305292120807
     }
   },
-  "native_console_log": "buried_volume_progress_rows=1,reaction_id=SIG-NIHDA-401,conformers=85\nburied_volume_progress_rows=2,reaction_id=SIG-NIHDA-498,conformers=2\nburied_volume_progress_rows=3,reaction_id=SIG-NIHDA-723,conformers=5\nburied_volume_progress_rows=4,reaction_id=SIG-NIHDA-724,conformers=2\nburied_volume_progress_rows=5,reaction_id=SIG-NIHDA-785,conformers=2\nburied_volume_progress_rows=6,reaction_id=SIG-NIHDA-1057,conformers=4\nburied_volume_progress_rows=7,reaction_id=SIG-NIHDA-1058,conformers=9\nburied_volume_progress_rows=8,reaction_id=SIG-NIHDA-2062,conformers=107\nburied_volume_progress_rows=9,reaction_id=SIG-NIHDA-2063,conformers=9\nburied_volume_progress_rows=10,reaction_id=SIG-NIHDA-2064,conformers=16\nburied_volume_progress_rows=11,reaction_id=SIG-NIHDA-2067,conformers=81\ncommand=buried-volume\nschema_version=2\nrecords_processed=11\nconformers_processed=322\nsphere_radius_angstrom=3.5000\ngrid_density_angstrom3=0.010000\nvirtual_center_distance_angstrom=2.1000\nradii_scale=1.1700\nexplicit_coordination_centers_required=true\nofficial_kraken_center_method=xtb_lmo_center\nxyz_bytes_read=1078256\nsigpack_v2_output=data/reactions_quantum_v2.sigpack\nsigpack_v2_bytes=1472\nper_conformer_output=data/quantum_buried_volume_conformers.csv\nbinary_export_ms=0.101\ntotal_ms=427.107\nthroughput_conformers_per_second=753.9\nrss_start_bytes=3743744\nrss_end_bytes=4427776\nrss_delta_bytes=684032\n",
+  "native_console_log": "buried_volume_progress_rows=1,reaction_id=SIG-NIHDA-401,conformers=85\nburied_volume_progress_rows=2,reaction_id=SIG-NIHDA-498,conformers=2\nburied_volume_progress_rows=3,reaction_id=SIG-NIHDA-723,conformers=5\nburied_volume_progress_rows=4,reaction_id=SIG-NIHDA-724,conformers=2\nburied_volume_progress_rows=5,reaction_id=SIG-NIHDA-785,conformers=2\nburied_volume_progress_rows=6,reaction_id=SIG-NIHDA-1057,conformers=4\nburied_volume_progress_rows=7,reaction_id=SIG-NIHDA-1058,conformers=9\nburied_volume_progress_rows=8,reaction_id=SIG-NIHDA-2062,conformers=107\nburied_volume_progress_rows=9,reaction_id=SIG-NIHDA-2063,conformers=9\nburied_volume_progress_rows=10,reaction_id=SIG-NIHDA-2064,conformers=16\nburied_volume_progress_rows=11,reaction_id=SIG-NIHDA-2067,conformers=81\ncommand=buried-volume\nschema_version=2\nrecords_processed=11\nconformers_processed=322\nsphere_radius_angstrom=3.5000\ngrid_density_angstrom3=0.010000\nvirtual_center_distance_angstrom=2.1000\nradii_scale=1.1700\nexplicit_coordination_centers_required=true\nofficial_kraken_center_method=xtb_lmo_center\nxyz_bytes_read=1078256\nsigpack_v2_output=data/reactions_quantum_v2.sigpack\nsigpack_v2_bytes=1472\nper_conformer_output=data/quantum_buried_volume_conformers.csv\nbinary_export_ms=0.093\ntotal_ms=418.670\nthroughput_conformers_per_second=769.1\nrss_start_bytes=3584000\nrss_end_bytes=4411392\nrss_delta_bytes=827392\n",
   "phase": "xtb_lmo_centers_on_existing_rdkit_mmff_ensembles",
   "prospective_deck": {
     "candidates": 10,

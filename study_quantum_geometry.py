@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from stericx_quantum import relativize_paths
 from study_buried_volume import (
     BLIND_ID,
     OFFICIAL_FEATURE,
@@ -346,6 +347,7 @@ def main(argv: Iterable[str] | None = None) -> int:
             },
             "native_console_log": console_log,
         }
+        result = relativize_paths(result, Path(__file__).resolve().parent)
         atomic_write_text(
             args.output_dir / "study_results.json",
             json.dumps(result, indent=2, sort_keys=True) + "\n",

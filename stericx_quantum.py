@@ -197,6 +197,27 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def relativize_paths(value: object, root: Path) -> object:
+    """Recursively rewrite absolute paths under ``root`` to repo-relative form.
+
+    Provenance artifacts embed the absolute paths of the machine that generated
+    them (tool executables, cache manifests, and the native CLI console log),
+    which breaks portability across checkouts. Rewriting those against the
+    repository root keeps the records reproducible anywhere. Strings are also
+    scanned so embedded paths inside a captured log are normalized. Paths that
+    do not live under ``root`` are left unchanged.
+    """
+    root_str = str(root)
+    prefix = f"{root_str}{os.sep}"
+    if isinstance(value, dict):
+        return {key: relativize_paths(item, root) for key, item in value.items()}
+    if isinstance(value, list):
+        return [relativize_paths(item, root) for item in value]
+    if isinstance(value, str):
+        return value.replace(prefix, "").replace(root_str, ".")
+    return value
+
+
 def atomic_write_json(path: Path, value: object) -> None:
     """Atomically replace one JSON manifest."""
     path.parent.mkdir(parents=True, exist_ok=True)

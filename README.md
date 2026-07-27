@@ -39,7 +39,17 @@ through the Eyring equation.
 
 ## Build
 
-The project requires a current stable Rust toolchain.
+For a fresh checkout, one script installs the toolchains, builds the binary,
+and smoke-tests it. See [`REPRODUCE.md`](REPRODUCE.md) for a full clone-to-
+results walkthrough with the expected numbers.
+
+```bash
+./bootstrap.sh                 # uv + Rust + build + smoke test
+./bootstrap.sh --with-quantum  # also fetch CREST 2.12 / xTB 6.4.0 (Study 003)
+```
+
+To build manually instead, the project requires a current stable Rust
+toolchain.
 
 ```bash
 cargo build --release

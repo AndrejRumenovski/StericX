@@ -69,8 +69,10 @@ if [[ ! -x "$XTB_REAL" || ! -x "$CREST_REAL" ]]; then
   exit 2
 fi
 
-ln -sfn "$XTB_REAL" "$INSTALL_ROOT/bin/xtb"
-ln -sfn "$CREST_REAL" "$INSTALL_ROOT/bin/crest"
+# Relative symlinks so the tool tree survives being moved or copied between
+# machines; an absolute link would dangle at a foreign checkout path.
+ln -sfnr "$XTB_REAL" "$INSTALL_ROOT/bin/xtb"
+ln -sfnr "$CREST_REAL" "$INSTALL_ROOT/bin/crest"
 
 echo "quantum_toolchain_installed=true"
 echo "tool_root=$INSTALL_ROOT"

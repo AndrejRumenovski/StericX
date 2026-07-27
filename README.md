@@ -396,6 +396,24 @@ plot, and provenance are in
 
 ![Buried volume on Kraken DFT geometry](docs/study_004/kraken_dft_parity.png)
 
+The same experiment scales to the entire public Kraken set.
+[`study_kraken_dft_scaled.py`](study_kraken_dft_scaled.py) runs the identical
+kernel on every Kraken ligand with a published value and DFT geometry:
+
+```bash
+uv run --extra science python study_kraken_dft_scaled.py --no-build
+```
+
+Across **1,535 chemically diverse ligands** (31,605 DFT conformers) the kernel
+reproduces the published descriptor with \(R^2 = 0.9553\), Pearson
+\(r = 0.9785\), and a median absolute error of 0.24 Å³. The wider spread than
+the eleven Ni-hDA ligands is expected across the full organophosphorus chemical
+space; the large-sample agreement confirms the geometry conclusion generalizes
+well beyond the Ni-hDA chemotype. Details are in
+[`docs/study_004/STUDY_004_SCALED.md`](docs/study_004/STUDY_004_SCALED.md).
+
+![Scaled parity across the full Kraken set](docs/study_004/kraken_dft_scaled_parity.png)
+
 ## Chemical Fidelity & Validation
 
 [`validate_stericx.py`](validate_stericx.py) evaluates every structure in

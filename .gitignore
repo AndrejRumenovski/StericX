@@ -9,3 +9,7 @@ __pycache__/
 *.tmp
 /.stericx/
 /logs/
+# Large regenerable Study 004 scaled intermediates (results are summarized in
+# STUDY_004_SCALED.md and kraken_dft_scaled_comparison.csv).
+/docs/study_004/kraken_dft_scaled_reactions.csv
+/docs/study_004/kraken_dft_scaled_conformers.csv

@@ -1,0 +1,22 @@
+{
+  "api_base": "https://descriptor-libraries.molssi.org/api/kraken",
+  "build_skips": {
+    "donor_not_single_phosphorus": 3,
+    "donor_not_trisubstituted": 8
+  },
+  "conformers": 31605,
+  "download_reasons": {
+    "no_dft": 20,
+    "ok": 1546
+  },
+  "elapsed_seconds": 103.4,
+  "eligible": 1566,
+  "generated_at_utc": "2026-07-27T16:58:44.835423+00:00",
+  "ligands": 1535,
+  "median_abs_err": 0.24168567600000035,
+  "nihda_r2": 0.9937,
+  "official_feature": "vbur_max_delta_qvbur_min",
+  "pearson_r": 0.9784526656085898,
+  "r2": 0.9552641922926643,
+  "rmse": 0.8523611963898922
+}

@@ -291,7 +291,7 @@ uv run --extra science python prepare_quantum_data.py --mode lmo
 uv run --extra science python study_quantum_geometry.py --no-build
 ```
 
-Current measured phase-A results:
+Measured phase-A results (56 ETKDGv3/MMFF94 conformers, LMO centre swap only):
 
 | Validation target | Result | Gate |
 |---|---:|---|
@@ -301,10 +301,11 @@ Current measured phase-A results:
 | Historical replay of ligand 723 | Absolute error \(0.1902\) kcal/mol | Historical only |
 | Frozen target-free prospective deck | 10 candidates, targets unaccessed | Pass |
 
-The negative descriptor result is retained: changing the centre alone reduces
-agreement from Study 002's \(R^2 = 0.8626\). This points to conformational
-sampling as the next controlled variable. A full production ensemble uses the
-same CREST profile recorded by Kraken:
+The negative phase-A descriptor result is retained: changing the centre alone
+reduced agreement from Study 002's \(R^2 = 0.8626\). This isolated
+conformational sampling as the next controlled variable, which the production
+CREST ensemble tests directly. It uses the same CREST profile recorded by
+Kraken:
 
 ```bash
 uv run --extra science python prepare_quantum_data.py \
@@ -322,11 +323,28 @@ completed conformer. Interrupted jobs resume from the existing CREST and LMO
 caches, while PID/start-time-aware locks reclaim dead local owners without
 stealing live work.
 
-The full eleven-ligand ensemble is substantially more expensive than phase A.
-The checked integration smoke test completed one ligand end to end with 59
-CREST conformers and replayed its cached ensemble in 0.22 seconds; it remains
-explicitly non-production. The
-complete results, failed gates, historical-replay label, provenance, and
+### Production CREST ensemble results
+
+The complete eleven-ligand production run replaces the ETKDGv3/MMFF94
+conformers with 322 freshly sampled CREST 2.12/GFN2-xTB conformers and confirms
+the sampling hypothesis:
+
+| Validation target | Result | Gate |
+|---|---:|---|
+| Native descriptor vs official Kraken | \(R^2 = 0.9254\), RMSE \(2.8354\) Å³ (\(+0.0627\) over Study 002) | Improves over Study 002 |
+| Native descriptor \(R^2 > 0.99\) | \(R^2 = 0.9254\) | Fail |
+| Fixed-feature Ni-hDA model | LOO \(Q^2 = 0.5941\), RMSE \(0.4389\) kcal/mol | Below published target |
+| Historical replay of ligand 723 | Absolute error \(0.1107\) kcal/mol | Historical only |
+| Frozen target-free prospective deck | 10 candidates, targets unaccessed | Pass |
+
+Replacing the conformer ensemble raised descriptor agreement with the official
+Kraken values from Study 002's \(R^2 = 0.8626\) to \(R^2 = 0.9254\) — the best
+of the three geometry pipelines — and lowered the historical ligand-723 error
+to \(0.1107\) kcal/mol. The small ten-ligand fixed-feature model did not
+improve: its leave-one-out \(Q^2\) fell to \(0.5941\), so better descriptor
+fidelity did not translate into better held-out kinetic prediction on this
+reaction family. Both the passed and failed gates remain visible. The complete
+results, gate table, historical-replay label, provenance, and
 measurement-pending candidate deck are in
 [`docs/study_003/STUDY_003.md`](docs/study_003/STUDY_003.md).
 

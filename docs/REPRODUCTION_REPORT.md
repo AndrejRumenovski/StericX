@@ -1,11 +1,14 @@
 # StericX: An Independent Reproduction of Physical-Organic Ligand Descriptors and a Nickel homo-Diels–Alder Selectivity Model
 
-**Author:** Andrej Rumenovski
+**Author:** Andrej Rumenovski (Dwight D. Eisenhower High School)
 
 **Status:** Reproduction / validation study. StericX is an independent
 reimplementation and is not affiliated with, endorsed by, or produced by the
 Sigman or Reisman groups or the Kraken authors. It reuses only publicly released
 data and descriptor definitions, which are cited below.
+
+**Keywords:** physical-organic descriptors · buried volume · Sterimol · Kraken ·
+reproducibility · organophosphorus ligands
 
 ---
 
@@ -19,15 +22,18 @@ the Kraken buried-volume descriptor `vbur_max_delta_qvbur_min`, and (ii) the
 ten-ligand nickel-catalyzed homo-Diels–Alder (Ni-hDA) enantioselectivity
 relationship. Against `morfeus`, StericX reproduces Sterimol parameters to
 \(R^2 \ge 0.9999\) and buried-volume geometry to numerical precision
-(\(R^2 = 1.000000\)). A controlled experiment then isolates the source of a
-residual descriptor gap: run on inexpensive RDKit/MMFF geometries the native
-descriptor reaches \(R^2 = 0.8626\) against published Kraken values, on
-CREST/GFN2-xTB geometries \(R^2 = 0.9254\), and on Kraken's own DFT-optimized
-geometries \(R^2 = 0.9937\) (Pearson \(r = 0.9993\)). This localizes the gap to
-conformer geometry generation rather than the descriptor kernel. The compact
-StericX descriptors do **not** replace the published coordination-aware
-descriptor for the small Ni-hDA family; that negative result is reported rather
-than hidden.
+(\(R^2 = 1.000000\)). A two-step controlled experiment then isolates the source
+of a residual descriptor gap. Changing only the conformer geometry source, the
+native descriptor rises from \(R^2 = 0.8626\) (RDKit/MMFF) to \(0.9254\)
+(CREST/GFN2-xTB) to \(0.9937\) on Kraken's own DFT geometries, localizing the
+gap to geometry rather than the kernel. Adopting Kraken's documented 2.28 Å
+reference-metal distance (from the 2.1 Å used to isolate geometry) then resolves
+the remaining offset, reaching \(R^2 = 0.9986\) (Pearson \(r = 0.9998\)). The
+result generalizes: across all 1,535 Kraken ligands with a published value and
+DFT geometry (31,605 conformers), the unchanged kernel reproduces the descriptor
+with \(R^2 = 0.9649\) and a median absolute error of 0.11 Å³. The compact StericX
+descriptors do **not** replace the published coordination-aware descriptor for
+the small Ni-hDA family; that negative result is reported rather than hidden.
 
 ---
 
@@ -88,24 +94,52 @@ On identical structures the StericX voxel kernel matches `morfeus` buried volume
 to \(R^2 = 1.000000\) (worst mean relative error \(8\times10^{-6}\)%). The kernel
 is therefore not the source of any disagreement with published values.
 
-### 3.3 Localizing the descriptor gap (controlled geometry experiment)
+### 3.3 Localizing and resolving the descriptor gap
 
-Holding the descriptor kernel and coordination-centre convention fixed and
-varying only the conformer geometry source:
+**Step 1 — isolate the geometry.** Holding the descriptor kernel and a fixed
+2.1 Å geometric coordination centre, varying only the conformer geometry source
+(11 Ni-hDA ligands):
 
-| Geometry source | \(R^2\) vs published Kraken | Notes |
+| Geometry source (2.1 Å centre) | \(R^2\) vs published Kraken | Notes |
 |---|---:|---|
 | RDKit / MMFF94 | 0.8626 | inexpensive force-field conformers |
 | CREST / GFN2-xTB | 0.9254 | semi-empirical ensemble (322 conformers) |
-| Kraken's own DFT | **0.9937** | \(r = 0.9993\), RMSE 0.5682 Å³ (135 conformers, 11 ligands) |
+| Kraken's own DFT | 0.9937 | \(r = 0.9993\), RMSE 0.5682 Å³ (135 conformers) |
 
 Agreement rises monotonically with geometry quality and reaches \(R^2 = 0.9937\)
-on the reference DFT structures, with a near-constant offset (Pearson
-\(r = 0.9993\)). The residual is consistent with StericX's geometrically
-inferred lone-pair centre versus Kraken's exact coordination-centre convention,
-not the structures. **Conclusion:** the earlier shortfall is attributable to
-conformer geometry generation, and the descriptor implementation reproduces the
-published value on identical geometries.
+on the reference DFT structures, with a near-constant offset — localizing the
+earlier shortfall to conformer geometry generation, not the kernel.
+
+**Step 2 — resolve the residual.** Kraken's descriptor code
+(`PL_dft_library_201027.py`) places the reference metal 2.28 Å from phosphorus,
+not the 2.1 Å used above. Adopting that documented value closes the offset:
+
+| Reference-metal distance | \(R^2\) | RMSE (Å³) | Slope |
+|---|---:|---:|---:|
+| 2.1 Å (geometry-isolating baseline) | 0.9937 | 0.5682 | 0.93 |
+| 2.28 Å (Kraken's convention) | **0.9986** | **0.2725** | 0.98 |
+
+At Kraken's convention the kernel reproduces the published descriptor on
+identical DFT geometries to \(R^2 = 0.9986\) (Pearson \(r = 0.9998\); Fig. 1),
+confirming the residual was a coordination-centre convention difference.
+
+**Generalization to the full library.** Repeating the experiment at Kraken's
+2.28 Å convention across every Kraken ligand with a published value and DFT
+geometry — 1,535 ligands, 31,605 conformers spanning the full organophosphorus
+chemical space — gives \(R^2 = 0.9649\), Pearson \(r = 0.9823\), and a median
+absolute error of 0.11 Å³ (Fig. 2). The wider spread than the eleven Ni-hDA
+ligands is expected across such diverse chemistry; the large-sample agreement
+confirms the conclusion is not specific to the Ni-hDA chemotype.
+
+![Figure 1. Buried-volume descriptor on Kraken's DFT geometries, 11 Ni-hDA ligands, at Kraken's 2.28 Å convention.](study_004/kraken_dft_parity.png)
+
+*Figure 1. Reproduced vs published `vbur_max_delta_qvbur_min` on the eleven
+Ni-hDA ligands, Kraken DFT geometries, 2.28 Å convention (\(R^2 = 0.9986\)).*
+
+![Figure 2. The same experiment across all 1,535 Kraken ligands.](study_004/kraken_dft_scaled_parity.png)
+
+*Figure 2. The same kernel across 1,535 ligands / 31,605 DFT conformers
+(\(R^2 = 0.9649\), median absolute error 0.11 Å³).*
 
 ### 3.4 Ni-hDA enantioselectivity reproduction
 
@@ -125,8 +159,10 @@ historical ligand-723 error of 0.1107 kcal/mol.
 - **Small sample.** The Ni-hDA model has ten training ligands; leave-one-out
   metrics are correspondingly unstable, and improved descriptor fidelity in §3.3
   did not raise held-out kinetic \(Q^2\).
-- **Coordination-centre convention.** The ~0.006 residual in §3.3 reflects an
-  approximate lone-pair centre, not an exact reproduction of Kraken's convention.
+- **Residual tail on the full set.** After matching Kraken's 2.28 Å convention
+  the median absolute error is 0.11 Å³, but a minority of the 1,535 ligands
+  scatter further, where the geometrically inferred lone-pair centre diverges
+  most from Kraken's exact convention.
 - **No prospective validation.** A frozen ten-candidate deck exists with
   predictions recorded; its experimental outcomes are unmeasured, so no
   predictive-success claim is made.
@@ -137,12 +173,15 @@ historical ligand-723 error of 0.1107 kcal/mol.
 ## 5. Conclusion
 
 An independent reimplementation reproduces published Sterimol and buried-volume
-descriptors to reference precision, and a controlled experiment localizes the
-descriptor-value gap entirely to conformer geometry generation
-(\(R^2\): 0.86 → 0.93 → 0.99 as geometry quality increases). The compact native
-descriptors are shown, honestly, not to substitute for the published
-coordination-aware descriptor on a small reaction family. All passed and failed
-gates are retained.
+descriptors to reference precision. A two-step controlled experiment first
+localizes the descriptor-value gap to conformer geometry generation
+(\(R^2\): 0.86 → 0.93 → 0.99 as geometry quality increases) and then resolves the
+remaining offset by adopting Kraken's documented 2.28 Å coordination-centre
+distance (\(R^2 = 0.9986\), Pearson \(r = 0.9998\)). The conclusion holds across
+the full 1,535-ligand library (\(R^2 = 0.9649\), median error 0.11 Å³). Finally,
+the compact native descriptors are shown, honestly, not to substitute for the
+published coordination-aware descriptor on a small reaction family. All passed
+and failed gates are retained.
 
 ## References
 
@@ -162,6 +201,8 @@ gates are retained.
 
 Source code, all study drivers, provenance, and per-run results are in the
 StericX repository (https://github.com/AndrejRumenovski/StericX). The §3.3
-geometry experiment is reproduced by
-`study_kraken_dft_reproduction.py`, which downloads Kraken's DFT geometries from
-the public MolSSI API. See `REPRODUCE.md` for a clone-to-results walkthrough.
+geometry experiment is reproduced by `study_kraken_dft_reproduction.py`
+(11 ligands) and `study_kraken_dft_scaled.py` (the full 1,535-ligand set), both
+of which download Kraken's DFT geometries from the public MolSSI API. A
+one-page visual summary is at `docs/results.html`, and `REPRODUCE.md` gives a
+clone-to-results walkthrough.

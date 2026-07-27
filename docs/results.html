@@ -242,12 +242,13 @@
     <p class="sub">The same kernel, run on every Kraken ligand with a published value and a DFT geometry — the full sweep of organophosphorus chemistry, not a curated handful.</p>
 
     <div class="stats">
-      <div class="stat"><div class="n">1,535</div><div class="k">ligands</div></div>
-      <div class="stat"><div class="n">31,605</div><div class="k">DFT conformers</div></div>
-      <div class="stat"><div class="n">0.9649</div><div class="k">R² vs published</div></div>
+      <div class="stat"><div class="n">1,541</div><div class="k">ligands</div></div>
+      <div class="stat"><div class="n">31,611</div><div class="k">DFT conformers</div></div>
+      <div class="stat"><div class="n">0.9852</div><div class="k">R² vs published</div></div>
       <div class="stat"><div class="n">0.11 Å³</div><div class="k">median abs. error</div></div>
     </div>
-    <p>The diverse-set R² sits below the eleven-ligand figure — expected across such varied chemistry — but the typical ligand still matches to a tenth of a cubic ångström. That number, not a cherry-picked best case, is the honest headline.</p>
+    <p>The diverse-set R² sits just below the eleven-ligand figure — expected across such varied chemistry — while the typical ligand matches to a tenth of a cubic ångström. That number, not a cherry-picked best case, is the honest headline.</p>
+    <p>Scaling to the full library also surfaced a real kernel bug the eleven trisubstituted ligands could never trigger: the quadrant frame identified a donor's substituents as its three nearest <em>heavy</em> atoms, which silently mis-framed primary and secondary phosphines (R–PH₂, R₂P–H) by discarding their bonded hydrogens. Selecting the covalently bonded atoms instead — hydrogens included — removed every spurious zero and lifted R² from 0.9649 to 0.9852 <em>without dropping a single ligand</em> (the validated count in fact rose). The residual is heavy-tailed: median error 0.11 Å³, 90th percentile 0.71 Å³, and R² rises to 0.9897 once the thinnest 1% tail is set aside.</p>
   </div>
 </section>
 
@@ -277,7 +278,7 @@
       <ul>
         <li><b>Compact descriptors don't replace the published one.</b> StericX's own feature set does not reproduce the ten-ligand Ni-catalyzed homo-Diels–Alder selectivity model (native leave-one-out Q² ≈ 0.00) — a deliberate ablation, reported not hidden.</li>
         <li><b>Better geometry didn't improve the kinetic model.</b> Higher descriptor fidelity did not raise held-out Q² on that small n = 11 family; the two are decoupled here.</li>
-        <li><b>A residual tail remains.</b> On the full set the median error is 0.11 Å³ but a minority of ligands scatter further, where the inferred lone-pair centre diverges most from Kraken's exact convention.</li>
+        <li><b>A residual tail remains.</b> On the full set the median error is 0.11 Å³ but a thin minority of ligands scatter further (90th percentile 0.71 Å³), where the geometrically inferred lone-pair centre diverges most from Kraken's exact xTB convention.</li>
         <li><b>No prospective validation.</b> A frozen ten-candidate deck exists with predictions recorded; its experimental outcomes are unmeasured, so no predictive-success claim is made.</li>
       </ul>
     </div>

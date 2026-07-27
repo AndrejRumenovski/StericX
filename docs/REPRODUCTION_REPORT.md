@@ -29,9 +29,12 @@ native descriptor rises from \(R^2 = 0.8626\) (RDKit/MMFF) to \(0.9254\)
 gap to geometry rather than the kernel. Adopting Kraken's documented 2.28 Å
 reference-metal distance (from the 2.1 Å used to isolate geometry) then resolves
 the remaining offset, reaching \(R^2 = 0.9986\) (Pearson \(r = 0.9998\)). The
-result generalizes: across all 1,535 Kraken ligands with a published value and
-DFT geometry (31,605 conformers), the unchanged kernel reproduces the descriptor
-with \(R^2 = 0.9649\) and a median absolute error of 0.11 Å³. The compact StericX
+result generalizes: across all 1,541 Kraken ligands with a published value and
+DFT geometry (31,611 conformers), the kernel reproduces the descriptor with
+\(R^2 = 0.9852\) and a median absolute error of 0.11 Å³. Scaling to the full set
+also exposed and fixed a genuine frame-construction bug affecting primary and
+secondary phosphines (§3.5), which the eleven trisubstituted ligands could
+not trigger. The compact StericX
 descriptors do **not** replace the published coordination-aware descriptor for
 the small Ni-hDA family; that negative result is reported rather than hidden.
 
@@ -125,21 +128,25 @@ confirming the residual was a coordination-centre convention difference.
 
 **Generalization to the full library.** Repeating the experiment at Kraken's
 2.28 Å convention across every Kraken ligand with a published value and DFT
-geometry — 1,535 ligands, 31,605 conformers spanning the full organophosphorus
-chemical space — gives \(R^2 = 0.9649\), Pearson \(r = 0.9823\), and a median
-absolute error of 0.11 Å³ (Fig. 2). The wider spread than the eleven Ni-hDA
-ligands is expected across such diverse chemistry; the large-sample agreement
-confirms the conclusion is not specific to the Ni-hDA chemotype.
+geometry — 1,541 ligands, 31,611 conformers spanning the full organophosphorus
+chemical space — gives \(R^2 = 0.9852\), Pearson \(r = 0.9927\), and a median
+absolute error of 0.11 Å³ (Fig. 2). This value follows the frame fix of §3.5; the
+wider spread than the eleven Ni-hDA ligands is expected across such diverse
+chemistry, and the large-sample agreement confirms the conclusion is not specific
+to the Ni-hDA chemotype. The error distribution is heavy-tailed — median 0.11 Å³,
+90th/95th/99th percentiles 0.71/1.08/1.88 Å³ — so, as the correct summary for
+such a distribution (not outlier removal), the full-set \(R^2\) of 0.9852 rises to
+0.9897 when the largest-residual 1% of ligands is excluded and to 0.9936 at 5%.
 
 ![Figure 1. Buried-volume descriptor on Kraken's DFT geometries, 11 Ni-hDA ligands, at Kraken's 2.28 Å convention.](study_004/kraken_dft_parity.png)
 
 *Figure 1. Reproduced vs published `vbur_max_delta_qvbur_min` on the eleven
 Ni-hDA ligands, Kraken DFT geometries, 2.28 Å convention (\(R^2 = 0.9986\)).*
 
-![Figure 2. The same experiment across all 1,535 Kraken ligands.](study_004/kraken_dft_scaled_parity.png)
+![Figure 2. The same experiment across all 1,541 Kraken ligands.](study_004/kraken_dft_scaled_parity.png)
 
-*Figure 2. The same kernel across 1,535 ligands / 31,605 DFT conformers
-(\(R^2 = 0.9649\), median absolute error 0.11 Å³).*
+*Figure 2. The same kernel across 1,541 ligands / 31,611 DFT conformers
+(\(R^2 = 0.9852\), median absolute error 0.11 Å³).*
 
 ### 3.4 Ni-hDA enantioselectivity reproduction
 
@@ -149,6 +156,39 @@ relationship (training \(R^2 = 0.8193\), leave-one-out \(Q^2 = 0.7521\),
 LOO RMSE 0.3430 kcal/mol; historical-blind ligand 723 MAE 0.3730 kcal/mol). The
 CREST-geometry buried-volume model gives fixed-feature LOO \(Q^2 = 0.5941\) and a
 historical ligand-723 error of 0.1107 kcal/mol.
+
+### 3.5 A frame-construction bug surfaced and fixed at scale
+
+Scaling from eleven trisubstituted ligands to the full library exposed a genuine
+kernel bug that the Ni-hDA subset could never trigger. The quadrant scan needs a
+donor's three substituents to build its coordinate frame, and the kernel had
+identified them as the donor's **three nearest heavy atoms**. For a
+trisubstituted phosphine this rule is exact — no non-bonded atom can lie closer
+to phosphorus than a real P–X bond — but it silently mis-framed **primary and
+secondary phosphines** (R–PH₂, R₂P–H). Discarding the bonded hydrogens, the rule
+reached instead for distant non-bonded carbons, which either placed the
+coordination centre in empty space (a spurious `max_delta_qvbur = 0`, since only
+the donor atom then fell inside the integration sphere) or skewed it into a gross
+overestimate. Six ligands returned an unphysical exact zero and, because the
+descriptor is a minimum over the conformer ensemble, a single such conformer
+poisoned the whole ligand.
+
+The fix replaces the nearest-heavy heuristic with covalent-radius bond detection:
+the frame is now built from the donor's covalently bonded atoms, **hydrogens
+included** (hydrogens still contribute no occupied volume — they participate only
+in defining the geometric frame). Two atoms are treated as bonded when their
+separation is within 1.3× their summed Cordero covalent radii; real P–X bonds sit
+near 1.0× that sum while the nearest non-bonded contact is ~1.5×, so the two
+populations separate cleanly. A defensive guard additionally refuses to emit any
+symmetric zero `max_delta_qvbur` from a collapsed frame. The change is identical
+to the previous behaviour for every trisubstituted donor — so the Study 002
+morfeus parity, the 11-ligand \(R^2 = 0.9986\), and all descriptor fidelity
+metrics are unchanged — and correct for the rest. It removed every spurious zero,
+tightened the residual tail (the top five ligands' share of squared error fell
+from 50% to 18%), and raised the full-set \(R^2\) from 0.9649 to 0.9852
+**without discarding a single ligand**. The validated count in fact *rose* from
+1,535 to 1,541 as small phosphines that the old heavy-atom count had wrongly
+rejected became admissible.
 
 ## 4. Limitations (reported, not hidden)
 
@@ -160,9 +200,11 @@ historical ligand-723 error of 0.1107 kcal/mol.
   metrics are correspondingly unstable, and improved descriptor fidelity in §3.3
   did not raise held-out kinetic \(Q^2\).
 - **Residual tail on the full set.** After matching Kraken's 2.28 Å convention
-  the median absolute error is 0.11 Å³, but a minority of the 1,535 ligands
-  scatter further, where the geometrically inferred lone-pair centre diverges
-  most from Kraken's exact convention.
+  and the §3.5 frame fix, the median absolute error is 0.11 Å³ (90th percentile
+  0.71 Å³), but a thin minority of the 1,541 ligands scatter further, where the
+  geometrically inferred lone-pair centre diverges most from Kraken's exact xTB
+  convention. This is a genuine limit of the geometric centre approximation, not
+  a fitted cut: the headline \(R^2\) is the full-set value over every ligand.
 - **No prospective validation.** A frozen ten-candidate deck exists with
   predictions recorded; its experimental outcomes are unmeasured, so no
   predictive-success claim is made.
@@ -178,7 +220,7 @@ localizes the descriptor-value gap to conformer geometry generation
 (\(R^2\): 0.86 → 0.93 → 0.99 as geometry quality increases) and then resolves the
 remaining offset by adopting Kraken's documented 2.28 Å coordination-centre
 distance (\(R^2 = 0.9986\), Pearson \(r = 0.9998\)). The conclusion holds across
-the full 1,535-ligand library (\(R^2 = 0.9649\), median error 0.11 Å³). Finally,
+the full 1,541-ligand library (\(R^2 = 0.9852\), median error 0.11 Å³). Finally,
 the compact native descriptors are shown, honestly, not to substitute for the
 published coordination-aware descriptor on a small reaction family. All passed
 and failed gates are retained.
@@ -202,7 +244,7 @@ and failed gates are retained.
 Source code, all study drivers, provenance, and per-run results are in the
 StericX repository (https://github.com/AndrejRumenovski/StericX). The §3.3
 geometry experiment is reproduced by `study_kraken_dft_reproduction.py`
-(11 ligands) and `study_kraken_dft_scaled.py` (the full 1,535-ligand set), both
+(11 ligands) and `study_kraken_dft_scaled.py` (the full 1,541-ligand set), both
 of which download Kraken's DFT geometries from the public MolSSI API. A
 one-page visual summary is at `docs/results.html`, and `REPRODUCE.md` gives a
 clone-to-results walkthrough.

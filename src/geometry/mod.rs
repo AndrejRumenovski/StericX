@@ -9,4 +9,6 @@ pub use buried_volume::{
     BuriedVolumeParams,
 };
 pub use sterimol::{SterimolCalculator, SterimolParams};
-pub use xyz::{Atom, GeometryError, Molecule, parse_coordinate_file, parse_sdf, parse_xyz};
+pub use xyz::{
+    Atom, GeometryError, Molecule, covalent_radius, parse_coordinate_file, parse_sdf, parse_xyz,
+};

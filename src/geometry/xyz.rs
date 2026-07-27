@@ -237,6 +237,32 @@ pub fn van_der_waals_radius(element: &str) -> f32 {
     }
 }
 
+/// Returns a Cordero (2008) single-bond covalent radius in ångströms.
+///
+/// Used to decide bonded connectivity from Cartesian geometry when explicit
+/// bond records are absent or unreliable. Two atoms are treated as bonded when
+/// their separation is within a small tolerance of the summed covalent radii.
+/// Unknown elements fall back to 0.77 Å (a carbon-like default) rather than
+/// rejecting otherwise valid coordinate data.
+#[must_use]
+pub fn covalent_radius(element: &str) -> f32 {
+    match element.trim().to_ascii_uppercase().as_str() {
+        "H" => 0.31,
+        "B" => 0.84,
+        "C" => 0.76,
+        "N" => 0.71,
+        "O" => 0.66,
+        "F" => 0.57,
+        "SI" => 1.11,
+        "P" => 1.07,
+        "S" => 1.05,
+        "CL" => 1.02,
+        "BR" => 1.20,
+        "I" => 1.39,
+        _ => 0.77,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

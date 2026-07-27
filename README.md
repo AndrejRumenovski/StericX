@@ -458,6 +458,42 @@ src/
 └── main.rs       clap command-line interface
 ```
 
+## References and Attribution
+
+StericX is an **independent** reproduction and reimplementation. It is not
+affiliated with, endorsed by, or produced by the Sigman or Reisman groups, and
+it reuses only their publicly released data and descriptor definitions. If you
+use the descriptors, datasets, or reaction models reproduced here, please cite
+the original scientific work:
+
+- Gensch, T.; dos Passos Gomes, G.; Friederich, P.; Peters, E.; Gaudin, T.;
+  Pollice, R.; Jorner, K.; Nigam, A.; Lindner-D'Addario, M.; Sigman, M. S.;
+  Aspuru-Guzik, A. "A Comprehensive Discovery Platform for Organophosphorus
+  Ligands for Catalysis." *J. Am. Chem. Soc.* **2022**, *144* (3), 1205–1217.
+  DOI: [10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718). (The
+  "Kraken" descriptor platform.)
+- Cadge, J. A.; Lozano, C.; Merriman, M. T.; Oblad, P.; Sigman, M. S.;
+  Reisman, S. E. "A Data Science-Guided Approach for the Development of
+  Nickel-Catalyzed Homo-Diels–Alder Reactions." *J. Am. Chem. Soc.* **2025**,
+  *147* (34), 31175–31186.
+  DOI: [10.1021/jacs.5c09948](https://doi.org/10.1021/jacs.5c09948). (The
+  Ni-hDA reaction and enantioselectivity dataset reproduced in Study 001.)
+
+Descriptor reference values are compared against
+[`morfeus`](https://github.com/digital-chemistry-laboratory/morfeus) and the
+public [Kraken](https://kraken.cs.toronto.edu) tabulation. To cite StericX
+itself, see [`CITATION.cff`](CITATION.cff).
+
 ## License
 
-Licensed under either the MIT License or the Apache License, Version 2.0.
+Licensed under either of
+
+- Apache License, Version 2.0 ([`LICENSE-APACHE`](LICENSE-APACHE) or
+  <http://www.apache.org/licenses/LICENSE-2.0>)
+- MIT License ([`LICENSE-MIT`](LICENSE-MIT) or
+  <http://opensource.org/licenses/MIT>)
+
+at your option (SPDX: `MIT OR Apache-2.0`). Unless you explicitly state
+otherwise, any contribution intentionally submitted for inclusion in the work
+by you, as defined in the Apache-2.0 license, shall be dual licensed as above,
+without any additional terms or conditions.

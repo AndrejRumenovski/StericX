@@ -298,7 +298,11 @@ def main(argv: Iterable[str] | None = None) -> int:
         result = {
             "schema_version": 3,
             "generated_at_utc": datetime.now(UTC).isoformat(),
-            "phase": "xtb_lmo_centers_on_existing_rdkit_mmff_ensembles",
+            "phase": (
+                "full_crest_production_ensemble"
+                if quantum_provenance.get("production_profile")
+                else "xtb_lmo_centers_on_existing_rdkit_mmff_ensembles"
+            ),
             "full_crest_production_ensemble_complete": bool(
                 quantum_provenance.get("production_profile")
             ),
@@ -417,13 +421,44 @@ def write_report(output_dir: Path, result: dict[str, object]) -> None:
         f"| `{name}` | {'PASS' if status else 'FAIL'} |"
         for name, status in gates.items()
     )
+    production = bool(result.get("full_crest_production_ensemble_complete"))
+    if production:
+        overview_heading = "## Production CREST ensemble"
+        overview_body = (
+            f"All {result['conformers']} CREST 2.12/GFN2-xTB conformers were "
+            "resampled and evaluated with the pinned xTB 6.4.0 Kraken property "
+            "profile. The Rust engine was required to consume an explicit "
+            "center for every conformer; geometric fallback was disabled."
+        )
+        closing_section = (
+            "## Ensemble provenance\n\n"
+            "This report reflects the complete eleven-ligand CREST 2.12 "
+            "production ensemble, which replaces the Study 002 ETKDGv3/MMFF94 "
+            "conformers. Gates are declared only from measured results, and the "
+            "failed gates above are retained rather than hidden."
+        )
+    else:
+        overview_heading = "## Phase A: exact xTB LMO centers"
+        overview_body = (
+            f"All {result['conformers']} existing conformers were evaluated "
+            "with the pinned xTB 6.4.0 Kraken property profile. The Rust engine "
+            "was required to consume an explicit center for every conformer; "
+            "geometric fallback was disabled."
+        )
+        closing_section = (
+            "## Remaining production phase\n\n"
+            "This phase isolates the LMO-center effect while retaining the "
+            "Study 002 ETKDGv3/MMFF94 conformers. The production CREST 2.12 "
+            "ensemble backend is implemented and checksum-pinned, but the "
+            "complete eleven-ligand CREST run is reported separately when those "
+            "expensive calculations finish. No gate is declared passed merely "
+            "because the execution path exists."
+        )
     report = f"""# StericX Study 003
 
-## Phase A: exact xTB LMO centers
+{overview_heading}
 
-All {result["conformers"]} existing conformers were evaluated with the pinned
-xTB 6.4.0 Kraken property profile. The Rust engine was required to consume an
-explicit center for every conformer; geometric fallback was disabled.
+{overview_body}
 
 | Quantity | Value |
 |---|---:|
@@ -463,13 +498,7 @@ this artifact is not a synthesis or safety instruction.
 |---|---|
 {gate_rows}
 
-## Remaining production phase
-
-This phase isolates the LMO-center effect while retaining the Study 002
-ETKDGv3/MMFF94 conformers. The production CREST 2.12 ensemble backend is
-implemented and checksum-pinned, but the complete eleven-ligand CREST run is
-reported separately when those expensive calculations finish. No gate is
-declared passed merely because the execution path exists.
+{closing_section}
 """
     atomic_write_text(output_dir / "STUDY_003.md", report)
 

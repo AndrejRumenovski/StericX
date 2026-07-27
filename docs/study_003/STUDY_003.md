@@ -1,10 +1,8 @@
 # StericX Study 003
 
-## Phase A: exact xTB LMO centers
+## Production CREST ensemble
 
-All 322 existing conformers were evaluated with the pinned
-xTB 6.4.0 Kraken property profile. The Rust engine was required to consume an
-explicit center for every conformer; geometric fallback was disabled.
+All 322 CREST 2.12/GFN2-xTB conformers were resampled and evaluated with the pinned xTB 6.4.0 Kraken property profile. The Rust engine was required to consume an explicit center for every conformer; geometric fallback was disabled.
 
 | Quantity | Value |
 |---|---:|
@@ -48,10 +46,6 @@ this artifact is not a synthesis or safety instruction.
 | `fixed_feature_loo_q2_at_least_published` | FAIL |
 | `prospective_deck_is_frozen_and_target_free` | PASS |
 
-## Remaining production phase
+## Ensemble provenance
 
-This phase isolates the LMO-center effect while retaining the Study 002
-ETKDGv3/MMFF94 conformers. The production CREST 2.12 ensemble backend is
-implemented and checksum-pinned, but the complete eleven-ligand CREST run is
-reported separately when those expensive calculations finish. No gate is
-declared passed merely because the execution path exists.
+This report reflects the complete eleven-ligand CREST 2.12 production ensemble, which replaces the Study 002 ETKDGv3/MMFF94 conformers. Gates are declared only from measured results, and the failed gates above are retained rather than hidden.

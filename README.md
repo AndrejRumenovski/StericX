@@ -15,6 +15,10 @@ through the Eyring equation.
 > Ni-hDA reproduction also retains a weaker native-descriptor result instead
 > of hiding a chemically important model failure.
 
+A manuscript-style summary of the reproduction results and their honest
+limitations is in
+[`docs/REPRODUCTION_REPORT.md`](docs/REPRODUCTION_REPORT.md).
+
 ## Key Systems Features
 
 - **Zero-copy mapped reads:** reaction observations use an exact 64-byte

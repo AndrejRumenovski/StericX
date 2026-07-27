@@ -4,18 +4,17 @@
 
 The StericX voxel kernel was run, unchanged, on Kraken's public DFT-optimized
 conformer geometries (PBE/6-31+G(d,p), GD3BJ), downloaded from the MolSSI
-descriptor-library REST API. The geometric-centre convention is identical to
-Study 002, so the only variable relative to that study is the geometry source.
-`vbur_max_delta_qvbur_min` is the minimum over the ensemble of each conformer's
-`max_delta_qvbur`, requiring geometries only.
+descriptor-library REST API, using Kraken's documented 2.28 Å reference-metal
+distance. `vbur_max_delta_qvbur_min` is the minimum over the ensemble of each
+conformer's `max_delta_qvbur`, requiring geometries only.
 
 | Quantity | Value |
 |---|---:|
 | Ligands | 11 |
 | Conformers | 135 |
-| R² vs published (1:1) | 0.9937 |
-| Pearson r | 0.9993 |
-| RMSE | 0.5682 Å³ |
+| R² vs published (1:1) | 0.9986 |
+| Pearson r | 0.9998 |
+| RMSE | 0.2725 Å³ |
 | Study 002 R² (RDKit/MMFF geometry) | 0.8626 |
 | Study 003 R² (CREST/GFN2-xTB geometry) | 0.9254 |
 
@@ -25,29 +24,37 @@ Study 002, so the only variable relative to that study is the geometry source.
 
 | Kraken ID | Published | StericX on DFT | Absolute error (Å³) |
 |---|---:|---:|---:|
-| 401 | 2.3962 | 2.7391 | 0.3430 |
-| 498 | 5.5820 | 5.9212 | 0.3392 |
-| 723 | 19.6818 | 19.4421 | 0.2398 |
-| 724 | 27.0649 | 25.8412 | 1.2237 |
-| 785 | 6.7199 | 7.1218 | 0.4018 |
-| 1057 | 16.5828 | 15.7122 | 0.8706 |
-| 1058 | 15.5317 | 15.3742 | 0.1575 |
-| 2062 | 6.9239 | 7.5997 | 0.6758 |
-| 2063 | 6.1959 | 6.4807 | 0.2848 |
-| 2064 | 6.4647 | 6.9702 | 0.5055 |
-| 2067 | 9.8409 | 10.0008 | 0.1599 |
+| 401 | 2.3962 | 2.4128 | 0.0166 |
+| 498 | 5.5820 | 5.4317 | 0.1503 |
+| 723 | 19.6818 | 19.2789 | 0.4029 |
+| 724 | 27.0649 | 26.5988 | 0.4661 |
+| 785 | 6.7199 | 6.6089 | 0.1110 |
+| 1057 | 16.5828 | 16.1201 | 0.4627 |
+| 1058 | 15.5317 | 15.3508 | 0.1808 |
+| 2062 | 6.9239 | 7.1218 | 0.1979 |
+| 2063 | 6.1959 | 6.1427 | 0.0533 |
+| 2064 | 6.4647 | 6.5739 | 0.1092 |
+| 2067 | 9.8409 | 9.5229 | 0.3180 |
 
 ## Interpretation
 
-Holding the coordination-centre method fixed and swapping only the geometry
-source raises agreement with the published descriptor from Study 002's
-0.8626 to 0.9937. The residual is a near-constant offset
-(Pearson r = 0.9993), consistent with the difference between
-StericX's geometrically inferred lone-pair centre and Kraken's exact
-coordination-centre convention rather than the structures. This localizes the
-Study 002/003 shortfall to conformer geometry generation and confirms the voxel
-kernel reproduces the published buried-volume descriptor on identical DFT
-geometries.
+Swapping the geometry source alone (holding StericX's 2.1 Å geometric-centre
+convention) already raised agreement with the published descriptor from Study
+002's 0.8626 to R² = 0.9937, isolating the earlier
+shortfall to conformer geometry generation rather than the voxel kernel.
+
+The remaining offset was then resolved by adopting Kraken's own documented
+reference-metal distance of 2.28 Å (versus the 2.1 Å used to isolate geometry):
+
+| Reference-metal distance | R² | RMSE (Å³) |
+|---|---:|---:|
+| 2.1 Å (geometry baseline) | 0.9937 | 0.5682 |
+| 2.28 Å (Kraken's documented convention) | 0.9986 | 0.2725 |
+
+At Kraken's convention the kernel reproduces the published buried-volume
+descriptor on identical DFT geometries to R² = 0.9986
+(Pearson r = 0.9998), confirming the residual was a
+coordination-centre convention difference, not the structures or the kernel.
 
 ## Provenance
 

@@ -62,15 +62,24 @@ LIGAND_IDS: Final[tuple[int, ...]] = (
     2067,
 )
 
-# Geometric settings shared with Study 002 / Study 003 so only the geometry
-# source changes between studies.
+# Geometric settings. Sphere radius (3.5 Å) and Bondi radii scale (1.17) match
+# the morfeus/Kraken buried-volume defaults. The reference-metal distance is set
+# to Kraken's documented 2.28 A P-metal distance (PL_dft_library_201027.py:
+# "Metal/point of reference should be 2.28 A away from P"). Study 002/003 used
+# 2.1 Å (CENTER_DISTANCE_BASELINE); adopting Kraken's convention resolves the
+# systematic offset seen when the geometry alone was matched.
 SPHERE_RADIUS: Final[str] = "3.5"
 DENSITY: Final[str] = "0.01"
-CENTER_DISTANCE: Final[str] = "2.1"
+CENTER_DISTANCE: Final[str] = "2.28"
+CENTER_DISTANCE_BASELINE: Final[str] = "2.1"
 RADII_SCALE: Final[str] = "1.17"
 
+# Descriptor R^2 at the 2.1 Å geometric-centre baseline, before adopting
+# Kraken's 2.28 Å convention (see the residual-resolution note in the report).
 STUDY_002_R2: Final[float] = 0.8626
 STUDY_003_R2: Final[float] = 0.9254
+BASELINE_NIHDA_R2: Final[float] = 0.9937
+BASELINE_NIHDA_RMSE: Final[float] = 0.5682
 
 
 def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
@@ -262,10 +271,9 @@ def write_report(
 
 The StericX voxel kernel was run, unchanged, on Kraken's public DFT-optimized
 conformer geometries (PBE/6-31+G(d,p), GD3BJ), downloaded from the MolSSI
-descriptor-library REST API. The geometric-centre convention is identical to
-Study 002, so the only variable relative to that study is the geometry source.
-`{OFFICIAL_FEATURE}` is the minimum over the ensemble of each conformer's
-`max_delta_qvbur`, requiring geometries only.
+descriptor-library REST API, using Kraken's documented 2.28 Å reference-metal
+distance. `{OFFICIAL_FEATURE}` is the minimum over the ensemble of each
+conformer's `max_delta_qvbur`, requiring geometries only.
 
 | Quantity | Value |
 |---|---:|
@@ -287,15 +295,23 @@ Study 002, so the only variable relative to that study is the geometry source.
 
 ## Interpretation
 
-Holding the coordination-centre method fixed and swapping only the geometry
-source raises agreement with the published descriptor from Study 002's
-{STUDY_002_R2:.4f} to {result["r2"]:.4f}. The residual is a near-constant offset
-(Pearson r = {result["pearson_r"]:.4f}), consistent with the difference between
-StericX's geometrically inferred lone-pair centre and Kraken's exact
-coordination-centre convention rather than the structures. This localizes the
-Study 002/003 shortfall to conformer geometry generation and confirms the voxel
-kernel reproduces the published buried-volume descriptor on identical DFT
-geometries.
+Swapping the geometry source alone (holding StericX's 2.1 Å geometric-centre
+convention) already raised agreement with the published descriptor from Study
+002's {STUDY_002_R2:.4f} to R² = {BASELINE_NIHDA_R2:.4f}, isolating the earlier
+shortfall to conformer geometry generation rather than the voxel kernel.
+
+The remaining offset was then resolved by adopting Kraken's own documented
+reference-metal distance of 2.28 Å (versus the 2.1 Å used to isolate geometry):
+
+| Reference-metal distance | R² | RMSE (Å³) |
+|---|---:|---:|
+| 2.1 Å (geometry baseline) | {BASELINE_NIHDA_R2:.4f} | {BASELINE_NIHDA_RMSE:.4f} |
+| 2.28 Å (Kraken's documented convention) | {result["r2"]:.4f} | {result["rmse"]:.4f} |
+
+At Kraken's convention the kernel reproduces the published buried-volume
+descriptor on identical DFT geometries to R² = {result["r2"]:.4f}
+(Pearson r = {result["pearson_r"]:.4f}), confirming the residual was a
+coordination-centre convention difference, not the structures or the kernel.
 
 ## Provenance
 

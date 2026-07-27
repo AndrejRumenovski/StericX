@@ -368,48 +368,59 @@ Studies 002 and 003 left the native buried-volume descriptor below the official
 Kraken values (\(R^2 = 0.8626\) and \(0.9254\)), without isolating whether the
 shortfall came from the StericX kernel or the cheaper conformer geometries.
 [`study_kraken_dft_reproduction.py`](study_kraken_dft_reproduction.py) settles
-it: it downloads Kraken's own DFT-optimized geometries (PBE/6-31+G(d,p), GD3BJ)
-from the public MolSSI descriptor-library REST API and runs the unchanged
-StericX buried-volume kernel on them, holding the Study 002 geometric-centre
-convention fixed so only the geometry source changes.
+it in two controlled steps: it downloads Kraken's own DFT-optimized geometries
+(PBE/6-31+G(d,p), GD3BJ) from the public MolSSI descriptor-library REST API and
+runs the unchanged StericX buried-volume kernel on them.
 
 ```bash
 uv run --extra science python study_kraken_dft_reproduction.py --no-build
 ```
 
-Current measured results:
+**Step 1 — isolate the geometry.** Holding StericX's 2.1 Å geometric-centre
+convention fixed and changing only the geometry source:
 
-| Geometry source | Native descriptor \(R^2\) vs official Kraken |
+| Geometry source (2.1 Å centre) | Native descriptor \(R^2\) vs official Kraken |
 |---|---:|
 | Study 002 — RDKit/MMFF | 0.8626 |
 | Study 003 — CREST/GFN2-xTB | 0.9254 |
 | Kraken's own DFT geometries | \(R^2 = 0.9937\), Pearson \(r = 0.9993\), RMSE 0.5682 Å³ |
 
-Swapping only the geometry source raises agreement to \(R^2 = 0.9937\) with a
-near-constant offset (Pearson \(r = 0.9993\)). This localizes the earlier
-shortfall to conformer geometry generation rather than the voxel kernel: on
-identical DFT structures the kernel reproduces the published descriptor. The
-small residual reflects StericX's geometrically inferred lone-pair centre versus
-Kraken's exact coordination-centre convention. The per-ligand table, parity
-plot, and provenance are in
+Agreement jumps to \(R^2 = 0.9937\) with a near-constant offset, localizing the
+earlier shortfall to conformer geometry — not the voxel kernel.
+
+**Step 2 — resolve the residual.** Kraken's descriptor code places the
+reference metal 2.28 Å from phosphorus (`PL_dft_library_201027.py`), not 2.1 Å.
+Adopting that documented convention closes the offset:
+
+| Reference-metal distance | 11-ligand \(R^2\) | RMSE (Å³) | Slope |
+|---|---:|---:|---:|
+| 2.1 Å (geometry-isolating baseline) | 0.9937 | 0.5682 | 0.93 |
+| 2.28 Å (Kraken's documented value) | **0.9986** | **0.2725** | 0.98 |
+
+At Kraken's convention the kernel reproduces the published descriptor to
+\(R^2 = 0.9986\), Pearson \(r = 0.9998\) — confirming the residual was a
+coordination-centre convention difference, not the structures or the kernel. The
+per-ligand table, parity plot, and provenance are in
 [`docs/study_004/STUDY_004.md`](docs/study_004/STUDY_004.md).
 
 ![Buried volume on Kraken DFT geometry](docs/study_004/kraken_dft_parity.png)
 
-The same experiment scales to the entire public Kraken set.
+**Scaled to the entire public Kraken set.**
 [`study_kraken_dft_scaled.py`](study_kraken_dft_scaled.py) runs the identical
-kernel on every Kraken ligand with a published value and DFT geometry:
+kernel (2.28 Å convention) on every Kraken ligand with a published value and DFT
+geometry:
 
 ```bash
 uv run --extra science python study_kraken_dft_scaled.py --no-build
 ```
 
 Across **1,535 chemically diverse ligands** (31,605 DFT conformers) the kernel
-reproduces the published descriptor with \(R^2 = 0.9553\), Pearson
-\(r = 0.9785\), and a median absolute error of 0.24 Å³. The wider spread than
-the eleven Ni-hDA ligands is expected across the full organophosphorus chemical
-space; the large-sample agreement confirms the geometry conclusion generalizes
-well beyond the Ni-hDA chemotype. Details are in
+reproduces the published descriptor with \(R^2 = 0.9649\), Pearson
+\(r = 0.9823\), and a median absolute error of **0.11 Å³** — the convention fix
+more than halves the typical error from the 0.24 Å³ seen at 2.1 Å. The wider
+spread than the eleven Ni-hDA ligands is expected across the full
+organophosphorus chemical space; the large-sample agreement confirms the
+conclusion generalizes well beyond the Ni-hDA chemotype. Details are in
 [`docs/study_004/STUDY_004_SCALED.md`](docs/study_004/STUDY_004_SCALED.md).
 
 ![Scaled parity across the full Kraken set](docs/study_004/kraken_dft_scaled_parity.png)

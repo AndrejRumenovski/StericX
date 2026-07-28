@@ -8,6 +8,12 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Full buried-volume descriptor-family validation (`study_kraken_vbur_family.py`,
+  `STUDY_004_FAMILY.md`): StericX reproduces Kraken's *entire* published `vbur`
+  family — buried volume, quadrant and octant extrema, and near/far hemispheres,
+  eight descriptors — across all 1,541 ligands at mean R² = 0.9925. The headline
+  `max_delta_qvbur` lands at 0.9852 by an independent path, matching the scaled
+  Study 004 as an internal consistency check.
 - `stericx descriptors <file>...` — compute Sterimol (L, B₁, B₅) and
   buried-volume descriptors for any ligand geometry directly. The phosphorus
   donor and its substituents are detected from the geometry (covalent-radius

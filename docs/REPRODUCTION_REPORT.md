@@ -31,10 +31,12 @@ reference-metal distance (from the 2.1 Å used to isolate geometry) then resolve
 the remaining offset, reaching \(R^2 = 0.9986\) (Pearson \(r = 0.9998\)). The
 result generalizes: across all 1,541 Kraken ligands with a published value and
 DFT geometry (31,611 conformers), the kernel reproduces the descriptor with
-\(R^2 = 0.9852\) and a median absolute error of 0.11 Å³. Scaling to the full set
-also exposed and fixed a genuine frame-construction bug affecting primary and
-secondary phosphines (§3.5), which the eleven trisubstituted ligands could
-not trigger. The compact StericX
+\(R^2 = 0.9852\) and a median absolute error of 0.11 Å³, and reproduces Kraken's
+entire published buried-volume descriptor family (eight descriptors) over the
+same set at a mean \(R^2 = 0.9925\). Scaling to the full set also exposed and
+fixed a genuine frame-construction bug affecting primary and secondary
+phosphines (§3.5), which the eleven trisubstituted ligands could not trigger.
+The compact StericX
 descriptors do **not** replace the published coordination-aware descriptor for
 the small Ni-hDA family; that negative result is reported rather than hidden.
 
@@ -148,6 +150,37 @@ Ni-hDA ligands, Kraken DFT geometries, 2.28 Å convention (\(R^2 = 0.9986\)).*
 *Figure 2. The same kernel across 1,541 ligands / 31,611 DFT conformers
 (\(R^2 = 0.9852\), median absolute error 0.11 Å³).*
 
+**The whole buried-volume family, not one descriptor.** `max_delta_qvbur` is a
+derived quantity, so reproducing it alone leaves open whether the underlying
+buried-volume computation is right or merely right on that one contrast. The
+same kernel run produces Kraken's entire `vbur` family, so each member was
+compared against Kraken's *published* value across the 1,541 ligands, at the
+published minimum over the conformer ensemble (`study_kraken_vbur_family.py`,
+`study_004/STUDY_004_FAMILY.md`). Every descriptor reproduces, mean
+\(R^2 = 0.9925\) (Fig. 3):
+
+| Descriptor | Kraken property | \(R^2\) |
+|---|---|---:|
+| Buried volume | `vbur_vbur` | 0.9982 |
+| Quadrant \(V_\mathrm{bur}\), min | `vbur_qvbur_min` | 0.9900 |
+| Quadrant \(V_\mathrm{bur}\), max | `vbur_qvbur_max` | 0.9925 |
+| Octant \(V_\mathrm{bur}\), min | `vbur_ovbur_min` | 0.9982 |
+| Octant \(V_\mathrm{bur}\), max | `vbur_ovbur_max` | 0.9845 |
+| Near hemisphere | `vbur_near_vbur` | 0.9975 |
+| Far hemisphere | `vbur_far_vbur` | 0.9940 |
+| Max Δ quadrant | `vbur_max_delta_qvbur` | 0.9852 |
+
+The `max_delta_qvbur` value here (0.9852) is computed by an independent path
+from the §3.3 scaled study yet lands on the same number — an internal
+consistency check. The near and far hemispheres correlate in the correct sense
+(no axis swap), confirming the octant partitioning is oriented as Kraken's.
+
+![Figure 3. Buried-volume descriptor family vs published Kraken values.](study_004/kraken_vbur_family_parity.png)
+
+*Figure 3. StericX vs published Kraken value for each of the eight
+buried-volume descriptors, 1,541 ligands, at each descriptor's minimum over the
+conformer ensemble (mean \(R^2 = 0.9925\)).*
+
 ### 3.4 Ni-hDA enantioselectivity reproduction
 
 Using the preregistered Kraken descriptor `vbur_max_delta_qvbur_min`, an ordinary
@@ -253,6 +286,7 @@ StericX repository (https://github.com/AndrejRumenovski/StericX). The §3.3
 geometry experiment is reproduced by `study_kraken_dft_reproduction.py`
 (11 ligands) and `study_kraken_dft_scaled.py` (the full 1,541-ligand set), both
 of which download Kraken's DFT geometries from the public MolSSI API;
-`study_frame_residual.py` reproduces the §3.5/§4 residual-by-donor-class
+`study_kraken_vbur_family.py` reproduces the §3.3 full buried-volume family
+comparison, and `study_frame_residual.py` the §3.5/§4 residual-by-donor-class
 analysis. A one-page visual summary is at `docs/results.html`, and `REPRODUCE.md`
 gives a clone-to-results walkthrough.

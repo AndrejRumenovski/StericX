@@ -249,6 +249,20 @@
     </div>
     <p>The diverse-set R² sits just below the eleven-ligand figure — expected across such varied chemistry — while the typical ligand matches to a tenth of a cubic ångström. That number, not a cherry-picked best case, is the honest headline.</p>
     <p>Scaling to the full library also surfaced a real kernel bug the eleven trisubstituted ligands could never trigger: the quadrant frame identified a donor's substituents as its three nearest <em>heavy</em> atoms, which silently mis-framed primary and secondary phosphines (R–PH₂, R₂P–H) by discarding their bonded hydrogens. Selecting the covalently bonded atoms instead — hydrogens included — removed every spurious zero and lifted R² from 0.9649 to 0.9852 <em>without dropping a single ligand</em> (the validated count in fact rose). The residual is heavy-tailed: median error 0.11 Å³, 90th percentile 0.71 Å³, and R² rises to 0.9897 once the thinnest 1% tail is set aside.</p>
+
+    <p><code class="mono">max_delta_qvbur</code> is one derived contrast. The same kernel run produces Kraken's <em>whole</em> buried-volume descriptor family — and every member reproduces the published value across all 1,541 ligands, mean R² = 0.9925:</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Kraken descriptor</th><th>R²</th><th>Kraken descriptor</th><th>R²</th></tr></thead>
+        <tbody>
+          <tr><td>Buried volume</td><td class="good">0.9982</td><td>Octant V<sub>bur</sub>, max</td><td>0.9845</td></tr>
+          <tr><td>Quadrant V<sub>bur</sub>, min</td><td>0.9900</td><td>Near hemisphere</td><td class="good">0.9975</td></tr>
+          <tr><td>Quadrant V<sub>bur</sub>, max</td><td>0.9925</td><td>Far hemisphere</td><td>0.9940</td></tr>
+          <tr><td>Octant V<sub>bur</sub>, min</td><td class="good">0.9982</td><td>Max Δ quadrant</td><td>0.9852</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The buried volume itself, both quadrant and octant extremes, and the near/far hemispheres — each against Kraken's own published numbers. The hemispheres match in the correct sense, confirming the octant grid is oriented as theirs.</p>
   </div>
 </section>
 

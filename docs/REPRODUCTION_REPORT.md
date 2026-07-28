@@ -201,9 +201,16 @@ rejected became admissible.
   did not raise held-out kinetic \(Q^2\).
 - **Residual tail on the full set.** After matching Kraken's 2.28 Å convention
   and the §3.5 frame fix, the median absolute error is 0.11 Å³ (90th percentile
-  0.71 Å³), but a thin minority of the 1,541 ligands scatter further, where the
-  geometrically inferred lone-pair centre diverges most from Kraken's exact xTB
-  convention. This is a genuine limit of the geometric centre approximation, not
+  0.71 Å³), but a thin minority of the 1,541 ligands scatter further. A residual
+  analysis (`study_frame_residual.py`, `study_004/STUDY_004_RESIDUAL.md`)
+  localizes this precisely: the 1,517 **tertiary** phosphines (98.4% of the set)
+  are unbiased (mean residual −0.010 Å³, class \(R^2 = 0.9869\)), and the entire
+  systematic bias lives in the 24 primary and secondary phosphines, growing
+  monotonically by ~0.7 Å³ per P–H bond (+0.78 Å³ for R₂PH, +1.46 Å³ for RPH₂).
+  This is the signature of the one documented approximation — the geometrically
+  inferred lone-pair centre standing in for Kraken's exact xTB
+  localized-molecular-orbital centre, which the geometric construction cannot
+  reproduce for short P–H bonds. It is a genuine limit of that approximation, not
   a fitted cut: the headline \(R^2\) is the full-set value over every ligand.
 - **No prospective validation.** A frozen ten-candidate deck exists with
   predictions recorded; its experimental outcomes are unmeasured, so no
@@ -245,6 +252,7 @@ Source code, all study drivers, provenance, and per-run results are in the
 StericX repository (https://github.com/AndrejRumenovski/StericX). The §3.3
 geometry experiment is reproduced by `study_kraken_dft_reproduction.py`
 (11 ligands) and `study_kraken_dft_scaled.py` (the full 1,541-ligand set), both
-of which download Kraken's DFT geometries from the public MolSSI API. A
-one-page visual summary is at `docs/results.html`, and `REPRODUCE.md` gives a
-clone-to-results walkthrough.
+of which download Kraken's DFT geometries from the public MolSSI API;
+`study_frame_residual.py` reproduces the §3.5/§4 residual-by-donor-class
+analysis. A one-page visual summary is at `docs/results.html`, and `REPRODUCE.md`
+gives a clone-to-results walkthrough.

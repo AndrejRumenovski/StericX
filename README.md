@@ -13,10 +13,12 @@ through the Eyring equation.
 
 > [!NOTE]
 > The checked-in chemical validation exceeds \(R^2 = 0.9999\) against
-> `morfeus-fsu` for \(L\), \(B_1\), and \(B_5\). Results below are generated
-> measurements rather than aspirational performance claims. The separate
-> Ni-hDA reproduction also retains a weaker native-descriptor result instead
-> of hiding a chemically important model failure.
+> `morfeus-fsu` for \(L\), \(B_1\), and \(B_5\), and reproduces Kraken's own
+> published descriptors across **1,541 ligands** — the full buried-volume
+> family (mean \(R^2 = 0.9925\)) and Sterimol (mean \(R^2 = 0.9887\)). Results
+> below are generated measurements rather than aspirational performance claims.
+> The separate Ni-hDA reproduction also retains a weaker native-descriptor
+> result instead of hiding a chemically important model failure.
 
 A manuscript-style summary of the reproduction results and their honest
 limitations is in
@@ -413,7 +415,7 @@ results, gate table, historical-replay label, provenance, and
 measurement-pending candidate deck are in
 [`docs/study_003/STUDY_003.md`](docs/study_003/STUDY_003.md).
 
-## Descriptor-Gap Resolution on Kraken's DFT Geometries
+## Reproducing Kraken's Published Descriptors on DFT Geometries
 
 Studies 002 and 003 left the native buried-volume descriptor below the official
 Kraken values (\(R^2 = 0.8626\) and \(0.9254\)), without isolating whether the
@@ -465,16 +467,49 @@ geometry:
 uv run --extra science python study_kraken_dft_scaled.py --no-build
 ```
 
-Across **1,535 chemically diverse ligands** (31,605 DFT conformers) the kernel
-reproduces the published descriptor with \(R^2 = 0.9649\), Pearson
-\(r = 0.9823\), and a median absolute error of **0.11 Å³** — the convention fix
-more than halves the typical error from the 0.24 Å³ seen at 2.1 Å. The wider
-spread than the eleven Ni-hDA ligands is expected across the full
-organophosphorus chemical space; the large-sample agreement confirms the
-conclusion generalizes well beyond the Ni-hDA chemotype. Details are in
+Across **1,541 chemically diverse ligands** (31,611 DFT conformers) the kernel
+reproduces the published `vbur_max_delta_qvbur_min` with \(R^2 = 0.9852\),
+Pearson \(r = 0.9927\), and a median absolute error of **0.11 Å³**. The error is
+heavy-tailed, so the robust summary (correct for such a distribution, not
+outlier removal) is a trimmed \(R^2\) of 0.9897 excluding the worst 1 % of
+ligands. Details are in
 [`docs/study_004/STUDY_004_SCALED.md`](docs/study_004/STUDY_004_SCALED.md).
 
 ![Scaled parity across the full Kraken set](docs/study_004/kraken_dft_scaled_parity.png)
+
+**A genuine kernel bug, found and fixed at scale.** Scaling exposed a bug the
+eleven trisubstituted Ni-hDA ligands could never trigger: the quadrant frame
+took a donor's three *nearest heavy atoms* as its substituents, which silently
+mis-framed primary and secondary phosphines (R–PH₂, R₂P–H) by discarding their
+bonded hydrogens. Switching to covalent-radius bonding (hydrogens included)
+removed every spurious zero and lifted \(R^2\) from 0.9649 to 0.9852 **without
+discarding a single ligand** — the validated count in fact rose. The residual is
+then fully characterized: tertiary phosphines (98.4 %) are unbiased, and the
+entire remaining bias is confined to 24 primary/secondary phosphines, growing
+~0.7 Å³ per P–H bond — the signature of the geometric lone-pair centre standing
+in for Kraken's exact xTB centre
+([`study_frame_residual.py`](study_frame_residual.py),
+[`STUDY_004_RESIDUAL.md`](docs/study_004/STUDY_004_RESIDUAL.md)).
+
+**The whole descriptor family, not one contrast.**
+[`study_kraken_vbur_family.py`](study_kraken_vbur_family.py) compares StericX
+against Kraken's published values for the *entire* `vbur` family — buried
+volume, quadrant and octant extrema, near/far hemispheres, eight descriptors —
+across all 1,541 ligands, mean \(R^2 = 0.9925\).
+[`study_kraken_sterimol.py`](study_kraken_sterimol.py) does the same for Kraken's
+published Sterimol once its coordination-axis convention is matched (a virtual
+metal at the same 2.28 Å centre, with the +0.40 Å Verloop \(L\) correction),
+mean \(R^2 = 0.9887\). Two independent classical steric-descriptor families,
+each reproduced to ~0.99 against Kraken's own numbers over the whole library.
+
+| Full-set validation vs published Kraken (1,541 ligands) | Mean \(R^2\) |
+|---|---:|
+| Buried-volume family (`vbur_vbur`, quadrant/octant, near/far, `max_delta_qvbur`) | 0.9925 |
+| Sterimol (`L`, `B1`, `B5`, coordination axis) | 0.9887 |
+
+![Buried-volume family parity](docs/study_004/kraken_vbur_family_parity.png)
+
+![Sterimol parity](docs/study_004/kraken_sterimol_parity.png)
 
 ## Chemical Fidelity & Validation
 
@@ -579,12 +614,29 @@ pub struct PackedReactionRecordV2 {
 
 ```text
 src/
-├── geometry/     XYZ/SDF, Sterimol, and buried-volume descriptors
+├── geometry/     XYZ/SDF parsing, Sterimol, and buried-volume descriptors
 ├── storage/      Cache-aligned schema and memory-mapped .sigpack I/O
 ├── model/        Scientific fitting, feature interactions, and SIMD inference
 ├── kinetics/     Eyring rates and enantiomeric distributions
-└── main.rs       clap command-line interface
+└── main.rs       clap command-line interface (incl. `descriptors`)
+
+Reproduction studies (Python drivers → docs/):
+├── study_ni_hda.py                 Ni-hDA enantioselectivity model (Study 001)
+├── study_buried_volume.py          buried-volume fidelity vs morfeus (Study 002)
+├── study_quantum_geometry.py       CREST/xTB geometry ensemble (Study 003)
+├── study_kraken_dft_reproduction.py   11-ligand Kraken DFT reproduction (Study 004)
+├── study_kraken_dft_scaled.py      full 1,541-ligand scaled reproduction
+├── study_kraken_vbur_family.py     whole buried-volume family vs Kraken
+├── study_kraken_sterimol.py        Sterimol vs Kraken, coordination axis
+├── study_frame_residual.py         residual anatomy by phosphine class
+└── validate_stericx.py             Sterimol fidelity vs morfeus
 ```
+
+Per-study results, tables, and parity figures live under `docs/study_00N/`. A
+manuscript-style write-up is in
+[`docs/REPRODUCTION_REPORT.md`](docs/REPRODUCTION_REPORT.md), a one-page visual
+overview in [`docs/results.html`](docs/results.html), and the release history in
+[`CHANGELOG.md`](CHANGELOG.md).
 
 ## References and Attribution
 

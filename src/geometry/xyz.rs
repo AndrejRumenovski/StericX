@@ -134,6 +134,20 @@ pub fn parse_sdf(input: &str) -> Result<Vec<Molecule>, GeometryError> {
         if block.trim().is_empty() {
             continue;
         }
+        // The first record begins at the file start, where an empty first line
+        // is a legitimate (blank) molecule title. Every later record begins with
+        // the single line terminator that followed the `$$$$` delimiter, which is
+        // not part of the record and must be dropped so the fixed four-line
+        // header (title, program, comment, counts) stays aligned. Blank titles
+        // are common — OpenBabel and RDKit both emit them.
+        let block = if block_index == 0 {
+            block
+        } else {
+            block
+                .strip_prefix("\r\n")
+                .or_else(|| block.strip_prefix('\n'))
+                .unwrap_or(block)
+        };
         molecules.push(parse_mol_block(block, block_index + 1)?);
     }
     if molecules.is_empty() {
@@ -145,7 +159,9 @@ pub fn parse_sdf(input: &str) -> Result<Vec<Molecule>, GeometryError> {
 }
 
 fn parse_mol_block(block: &str, block_number: usize) -> Result<Molecule, GeometryError> {
-    let lines: Vec<&str> = block.trim_start_matches(['\r', '\n']).lines().collect();
+    // The record separator has already been stripped by `parse_sdf`; keep the
+    // header intact here (line 0 is the title, which may be blank).
+    let lines: Vec<&str> = block.lines().collect();
     if lines.len() < 4 {
         return Err(GeometryError::Format(format!(
             "SDF record {block_number} has no counts line"
@@ -318,6 +334,30 @@ O  0.000000  -1.400000  0.250000
         let molecules = parse_sdf(sdf).unwrap();
         assert_eq!(molecules.len(), 1);
         assert_eq!(molecules[0].atoms[0].element, "O");
+    }
+
+    #[test]
+    fn parses_sdf_with_blank_title_line() {
+        // OpenBabel and RDKit routinely write an empty first (title) line.
+        let sdf = "\n OpenBabel\n\n  2  1  0  0  0  0            999 V2000\n\
+                   0.0000    0.0000    0.0000 P   0  0\n\
+                   0.0000    0.0000    1.4300 C   0  0\nM  END\n$$$$\n";
+        let molecules = parse_sdf(sdf).unwrap();
+        assert_eq!(molecules.len(), 1);
+        assert_eq!(molecules[0].atoms.len(), 2);
+        assert_eq!(molecules[0].atoms[0].element, "P");
+    }
+
+    #[test]
+    fn parses_multi_record_sdf_with_blank_titles() {
+        // Each record has a blank title; the `$$$$` delimiter sits on its own
+        // line, so the newline that follows it must not be mistaken for a title.
+        let record = "\n prog\n\n  1  0  0  0  0  0            999 V2000\n\
+                      0.0000    0.0000    0.0000 P   0  0\nM  END\n";
+        let sdf = format!("{record}$$$$\n{record}$$$$\n");
+        let molecules = parse_sdf(&sdf).unwrap();
+        assert_eq!(molecules.len(), 2);
+        assert!(molecules.iter().all(|m| m.atoms[0].element == "P"));
     }
 
     #[test]

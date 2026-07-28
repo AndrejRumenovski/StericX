@@ -1,4 +1,4 @@
-use clap::{Parser, Subcommand};
+use clap::{Parser, Subcommand, ValueEnum};
 use glam::Vec3;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
@@ -8,10 +8,11 @@ use std::path::{Component, Path, PathBuf};
 use std::time::{Duration, Instant};
 use steric_x::model::{MODEL_FEATURE_COUNT, expand_features};
 use steric_x::{
-    BuriedVolumeCalculator, BuriedVolumeConfig, EyringKineticLink, FitOptions, Molecule,
-    PackedBuriedVolumeRecord, PackedReactionRecord, PackedReactionRecordV2, RegressXPredictor,
-    ScientificFitReport, SigPackReader, SigPackV2Writer, SigPackWriter, SterimolCalculator,
-    SterimolParams, fit_scientific_model_grouped,
+    BuriedVolumeCalculator, BuriedVolumeConfig, BuriedVolumeParams, EyringKineticLink, FitOptions,
+    Molecule, PackedBuriedVolumeRecord, PackedReactionRecord, PackedReactionRecordV2,
+    RegressXPredictor, ScientificFitReport, SigPackReader, SigPackV2Writer, SigPackWriter,
+    SterimolCalculator, SterimolParams, covalent_radius, fit_scientific_model_grouped,
+    parse_coordinate_file,
 };
 
 #[derive(Debug, Parser)]
@@ -132,6 +133,50 @@ enum Command {
         #[arg(long)]
         temp: f32,
     },
+    /// Compute Sterimol and buried-volume descriptors for one or more ligand files.
+    ///
+    /// Auto-detects the phosphine donor and its substituents straight from the
+    /// geometry — no reaction CSV and no manual atom indices. Accepts `.xyz`
+    /// (one geometry) and `.sdf`/`.mol` (one or more conformers); a multi-model
+    /// file is treated as a conformer ensemble and reported as Kraken's tables
+    /// do, including the `max_delta_qvbur_min` headline descriptor.
+    Descriptors {
+        /// Ligand coordinate files (`.xyz`, `.sdf`, `.mol`). Globs are expanded by the shell.
+        #[arg(required = true, value_name = "FILE")]
+        inputs: Vec<PathBuf>,
+        /// Donor element to locate (defaults to phosphorus).
+        #[arg(long, default_value = "P")]
+        donor_element: String,
+        /// Explicit zero-based donor atom index, overriding auto-detection.
+        #[arg(long)]
+        donor_index: Option<usize>,
+        /// Output format.
+        #[arg(long, value_enum, default_value_t = DescriptorFormat::Text)]
+        format: DescriptorFormat,
+        /// Metal-centred integration sphere radius in ångströms.
+        #[arg(long, default_value_t = 3.5)]
+        sphere_radius: f32,
+        /// Grid density in Å³ per point.
+        #[arg(long, default_value_t = 0.01)]
+        density: f32,
+        /// Donor-to-virtual-metal distance in ångströms (Kraken convention = 2.28).
+        #[arg(long, default_value_t = 2.28)]
+        center_distance: f32,
+        /// Bondi radius scale factor used by Morfeus.
+        #[arg(long, default_value_t = 1.17)]
+        radii_scale: f32,
+    },
+}
+
+/// Output format for the `descriptors` subcommand.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
+enum DescriptorFormat {
+    /// Human-readable summary, one block per file.
+    Text,
+    /// One JSON array of per-file descriptor records.
+    Json,
+    /// Comma-separated table, one row per file (spreadsheet-ready).
+    Csv,
 }
 
 /// One row of the raw reaction CSV.
@@ -310,6 +355,28 @@ fn run() -> Result<(), Box<dyn Error>> {
             output,
         } => evaluate_command(&data, &metadata, &model, &predictions, &output),
         Command::Simulate { ddg, temp } => simulate_command(ddg, temp),
+        Command::Descriptors {
+            inputs,
+            donor_element,
+            donor_index,
+            format,
+            sphere_radius,
+            density,
+            center_distance,
+            radii_scale,
+        } => descriptors_command(
+            &inputs,
+            &donor_element,
+            donor_index,
+            format,
+            BuriedVolumeConfig {
+                sphere_radius,
+                density,
+                center_distance,
+                radii_scale,
+                include_hydrogens: false,
+            },
+        ),
     }
 }
 
@@ -998,6 +1065,319 @@ fn simulate_command(ddg_kcal: f32, temp_k: f32) -> Result<(), Box<dyn Error>> {
     println!("output_bytes={}", 6 * size_of::<f32>());
     println!("total_microseconds={:.3}", total_time.as_secs_f64() * 1e6);
     print_memory_metrics(rss_start, resident_memory_bytes());
+    Ok(())
+}
+
+/// Covalent-radius tolerance for bond detection, matching the buried-volume kernel.
+const DESCRIPTOR_BOND_TOLERANCE: f32 = 1.3;
+
+/// The donor atom, its bonded substituents, and the substituent chosen as the
+/// primary reference axis — everything the descriptor kernels need, recovered
+/// from geometry alone.
+struct DonorTopology {
+    donor_idx: usize,
+    reference_idx: usize,
+    substituents: [usize; 3],
+}
+
+/// Auto-detect the trivalent donor and its three bonded substituents.
+///
+/// The donor is the sole atom of `donor_element` unless `explicit_index` names
+/// one. Substituents are the covalently bonded atoms (hydrogens included),
+/// identical to the kernel's own frame construction, and the primary axis is the
+/// nearest bonded heavy atom.
+fn detect_donor(
+    molecule: &Molecule,
+    donor_element: &str,
+    explicit_index: Option<usize>,
+) -> Result<DonorTopology, String> {
+    let donor_idx = match explicit_index {
+        Some(index) => {
+            if index >= molecule.atoms.len() {
+                return Err(format!(
+                    "--donor-index {index} is out of bounds for {} atoms",
+                    molecule.atoms.len()
+                ));
+            }
+            index
+        }
+        None => {
+            let matches = molecule
+                .atoms
+                .iter()
+                .enumerate()
+                .filter(|(_, atom)| atom.element.eq_ignore_ascii_case(donor_element))
+                .map(|(index, _)| index)
+                .collect::<Vec<_>>();
+            match matches.as_slice() {
+                [single] => *single,
+                [] => {
+                    return Err(format!(
+                        "no {donor_element} donor atom found; pass --donor-element or --donor-index"
+                    ));
+                }
+                many => {
+                    return Err(format!(
+                        "found {} {donor_element} atoms; pass --donor-index to choose the donor",
+                        many.len()
+                    ));
+                }
+            }
+        }
+    };
+
+    let donor = &molecule.atoms[donor_idx];
+    let donor_covalent = covalent_radius(&donor.element);
+    let mut bonded = molecule
+        .atoms
+        .iter()
+        .enumerate()
+        .filter(|(index, _)| *index != donor_idx)
+        .filter_map(|(index, atom)| {
+            let cutoff =
+                DESCRIPTOR_BOND_TOLERANCE * (donor_covalent + covalent_radius(&atom.element));
+            (atom.position.distance_squared(donor.position) <= cutoff * cutoff)
+                .then_some((atom.position.distance_squared(donor.position), index))
+        })
+        .collect::<Vec<_>>();
+    if bonded.len() != 3 {
+        return Err(format!(
+            "{} donor (atom {donor_idx}) is not three-coordinate — found {} bonded atoms; \
+             the descriptor is defined for trivalent (e.g. phosphine) donors",
+            donor.element,
+            bonded.len()
+        ));
+    }
+    bonded.sort_by(|left, right| {
+        left.0
+            .total_cmp(&right.0)
+            .then_with(|| left.1.cmp(&right.1))
+    });
+    let reference_idx = bonded
+        .iter()
+        .find(|(_, index)| !molecule.atoms[*index].element.eq_ignore_ascii_case("H"))
+        .map(|(_, index)| *index)
+        .ok_or_else(|| {
+            format!(
+                "{} donor (atom {donor_idx}) has no bonded heavy atom to define an axis",
+                donor.element
+            )
+        })?;
+    Ok(DonorTopology {
+        donor_idx,
+        reference_idx,
+        substituents: [bonded[0].1, bonded[1].1, bonded[2].1],
+    })
+}
+
+/// One file's descriptors, ready for text, JSON, or CSV emission.
+#[derive(Debug, Serialize)]
+struct DescriptorResult {
+    file: String,
+    conformers: usize,
+    donor_element: String,
+    donor_index: usize,
+    substituents: Vec<String>,
+    sterimol_l: f32,
+    sterimol_b1: f32,
+    sterimol_b5: f32,
+    percent_buried_volume: f32,
+    buried_volume: f32,
+    qvbur_min: f32,
+    qvbur_max: f32,
+    max_delta_qvbur: f32,
+    /// Kraken's headline `vbur_max_delta_qvbur_min`: the minimum over conformers.
+    max_delta_qvbur_min: f32,
+}
+
+/// Compute ensemble-averaged descriptors for a single ligand file.
+fn descriptors_for_file(
+    path: &Path,
+    donor_element: &str,
+    donor_index: Option<usize>,
+    config: BuriedVolumeConfig,
+) -> Result<DescriptorResult, String> {
+    let conformers = parse_coordinate_file(path)
+        .map_err(|error| format!("failed to read {}: {error}", path.display()))?;
+    if conformers.is_empty() {
+        return Err(format!("{} contains no geometries", path.display()));
+    }
+
+    let topology = detect_donor(&conformers[0], donor_element, donor_index)?;
+    let substituents = topology
+        .substituents
+        .iter()
+        .map(|index| conformers[0].atoms[*index].element.clone())
+        .collect::<Vec<_>>();
+
+    let mut sterimol = Vec::with_capacity(conformers.len());
+    let mut buried = Vec::with_capacity(conformers.len());
+    for (conformer_index, molecule) in conformers.iter().enumerate() {
+        // Re-detect per conformer so this tolerates files whose models differ.
+        let topology = detect_donor(molecule, donor_element, donor_index).map_err(|message| {
+            format!(
+                "{} (conformer {conformer_index}): {message}",
+                path.display()
+            )
+        })?;
+        sterimol.push(SterimolCalculator::compute(
+            molecule,
+            topology.donor_idx,
+            topology.reference_idx,
+        ));
+        buried.push(
+            BuriedVolumeCalculator::compute(
+                molecule,
+                topology.donor_idx,
+                topology.reference_idx,
+                config,
+            )
+            .map_err(|error| {
+                format!("{} (conformer {conformer_index}): {error}", path.display())
+            })?,
+        );
+    }
+
+    let count = buried.len() as f32;
+    let sterimol_mean =
+        |select: fn(&SterimolParams) -> f32| sterimol.iter().map(select).sum::<f32>() / count;
+    let buried_mean =
+        |select: fn(&BuriedVolumeParams) -> f32| buried.iter().map(select).sum::<f32>() / count;
+    let max_delta_qvbur_min = buried
+        .iter()
+        .map(|params| params.max_delta_qvbur)
+        .fold(f32::INFINITY, f32::min);
+
+    Ok(DescriptorResult {
+        file: path.display().to_string(),
+        conformers: conformers.len(),
+        donor_element: conformers[0].atoms[topology.donor_idx].element.clone(),
+        donor_index: topology.donor_idx,
+        substituents,
+        sterimol_l: sterimol_mean(|params| params.l),
+        sterimol_b1: sterimol_mean(|params| params.b1),
+        sterimol_b5: sterimol_mean(|params| params.b5),
+        percent_buried_volume: buried_mean(|params| params.percent_buried_volume),
+        buried_volume: buried_mean(|params| params.buried_volume),
+        qvbur_min: buried_mean(|params| params.qvbur_min),
+        qvbur_max: buried_mean(|params| params.qvbur_max),
+        max_delta_qvbur: buried_mean(|params| params.max_delta_qvbur),
+        max_delta_qvbur_min,
+    })
+}
+
+fn print_descriptor_text(result: &DescriptorResult) {
+    let ensemble = result.conformers > 1;
+    let qualifier = if ensemble { " (conformer mean)" } else { "" };
+    println!("{}", result.file);
+    println!(
+        "  donor          {} (atom {})",
+        result.donor_element, result.donor_index
+    );
+    println!("  substituents   {}", result.substituents.join(", "));
+    println!("  conformers     {}", result.conformers);
+    println!(
+        "  Sterimol{}      L {:.2}   B1 {:.2}   B5 {:.2}   Å",
+        qualifier, result.sterimol_l, result.sterimol_b1, result.sterimol_b5
+    );
+    println!(
+        "  buried volume{}  Vbur {:.1}%   ({:.1} Å³)",
+        qualifier, result.percent_buried_volume, result.buried_volume
+    );
+    println!(
+        "                 qvbur_min {:.2}   qvbur_max {:.2}   max_delta_qvbur {:.2}   Å³",
+        result.qvbur_min, result.qvbur_max, result.max_delta_qvbur
+    );
+    if ensemble {
+        println!(
+            "                 max_delta_qvbur_min {:.2} Å³   [Kraken vbur_max_delta_qvbur_min]",
+            result.max_delta_qvbur_min
+        );
+    }
+}
+
+fn print_descriptor_csv(results: &[DescriptorResult]) {
+    println!(
+        "file,conformers,donor_element,donor_index,substituents,sterimol_l,sterimol_b1,\
+         sterimol_b5,percent_buried_volume,buried_volume,qvbur_min,qvbur_max,max_delta_qvbur,\
+         max_delta_qvbur_min"
+    );
+    for result in results {
+        println!(
+            "{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}",
+            csv_field(&result.file),
+            result.conformers,
+            result.donor_element,
+            result.donor_index,
+            csv_field(&result.substituents.join(" ")),
+            result.sterimol_l,
+            result.sterimol_b1,
+            result.sterimol_b5,
+            result.percent_buried_volume,
+            result.buried_volume,
+            result.qvbur_min,
+            result.qvbur_max,
+            result.max_delta_qvbur,
+            result.max_delta_qvbur_min,
+        );
+    }
+}
+
+/// Quote a CSV field only when it contains a comma, quote, or newline.
+fn csv_field(value: &str) -> String {
+    if value.contains([',', '"', '\n']) {
+        format!("\"{}\"", value.replace('"', "\"\""))
+    } else {
+        value.to_owned()
+    }
+}
+
+fn descriptors_command(
+    inputs: &[PathBuf],
+    donor_element: &str,
+    donor_index: Option<usize>,
+    format: DescriptorFormat,
+    config: BuriedVolumeConfig,
+) -> Result<(), Box<dyn Error>> {
+    if inputs.len() > 1 && donor_index.is_some() {
+        return Err("--donor-index applies to a single file; omit it for batch runs".into());
+    }
+    let mut results = Vec::with_capacity(inputs.len());
+    let mut failures = 0_usize;
+    for path in inputs {
+        match descriptors_for_file(path, donor_element, donor_index, config) {
+            Ok(result) => results.push(result),
+            Err(message) => {
+                eprintln!("skipped {}: {message}", path.display());
+                failures += 1;
+            }
+        }
+    }
+    if results.is_empty() {
+        return Err("no ligand files could be featurized".into());
+    }
+
+    match format {
+        DescriptorFormat::Text => {
+            for (index, result) in results.iter().enumerate() {
+                if index > 0 {
+                    println!();
+                }
+                print_descriptor_text(result);
+            }
+        }
+        DescriptorFormat::Json => {
+            println!("{}", serde_json::to_string_pretty(&results)?);
+        }
+        DescriptorFormat::Csv => print_descriptor_csv(&results),
+    }
+    if failures > 0 {
+        eprintln!(
+            "featurized {} of {} files ({failures} skipped)",
+            results.len(),
+            inputs.len()
+        );
+    }
     Ok(())
 }
 

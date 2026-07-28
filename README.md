@@ -87,6 +87,46 @@ calculation cache under the ignored `.stericx/` directory:
 
 ## Command-Line Interface
 
+### Featurize a ligand (start here)
+
+Point `descriptors` at any phosphine geometry — an `.xyz`, or an `.sdf`/`.mol`
+(one or many conformers) — and get its Sterimol and buried-volume descriptors.
+The phosphorus donor and its substituents are detected from the geometry, so
+there is no reaction CSV to build and no atom indices to look up:
+
+```bash
+./target/release/stericx descriptors data/xyz/SIG-NIHDA-401_9d42bff1.xyz
+```
+
+```text
+data/xyz/SIG-NIHDA-401_9d42bff1.xyz
+  donor          P (atom 14)
+  substituents   C, C, C
+  conformers     1
+  Sterimol      L 7.76   B1 1.73   B5 8.75   Å
+  buried volume  Vbur 24.3%   (43.6 Å³)
+                 qvbur_min 9.73   qvbur_max 13.53   max_delta_qvbur 3.80   Å³
+```
+
+Descriptors use Kraken's convention by default (3.5 Å sphere, Bondi radii
+×1.17, 2.28 Å reference-metal distance); override with `--sphere-radius`,
+`--radii-scale`, or `--center-distance`. A multi-model SDF is treated as a
+conformer ensemble, and the per-file values are averaged over conformers with
+Kraken's `max_delta_qvbur_min` (the minimum over the ensemble) reported as the
+headline buried-volume descriptor.
+
+Featurize a whole folder into a spreadsheet-ready table, or emit JSON:
+
+```bash
+./target/release/stericx descriptors --format csv  ligands/*.xyz > descriptors.csv
+./target/release/stericx descriptors --format json ligands/*.sdf
+```
+
+Non-phosphine donors work too — pass `--donor-element N`, or name the atom
+directly with `--donor-index` when a structure has more than one candidate.
+Files that are not valid trivalent donors are reported on stderr and skipped,
+so a batch run over a messy folder still completes.
+
 ### Parse molecular structures
 
 ```bash

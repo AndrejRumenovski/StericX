@@ -57,6 +57,7 @@ jobs:
             study_kraken_dft_reproduction.py \
             study_kraken_dft_scaled.py \
             study_kraken_vbur_family.py \
+            study_kraken_sterimol.py \
             study_frame_residual.py
           bash -n benchmark_linux.sh install_quantum_tools.sh
 

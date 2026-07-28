@@ -31,9 +31,11 @@ reference-metal distance (from the 2.1 Å used to isolate geometry) then resolve
 the remaining offset, reaching \(R^2 = 0.9986\) (Pearson \(r = 0.9998\)). The
 result generalizes: across all 1,541 Kraken ligands with a published value and
 DFT geometry (31,611 conformers), the kernel reproduces the descriptor with
-\(R^2 = 0.9852\) and a median absolute error of 0.11 Å³, and reproduces Kraken's
+\(R^2 = 0.9852\) and a median absolute error of 0.11 Å³, reproduces Kraken's
 entire published buried-volume descriptor family (eight descriptors) over the
-same set at a mean \(R^2 = 0.9925\). Scaling to the full set also exposed and
+same set at a mean \(R^2 = 0.9925\), and — once the coordination-axis convention
+is matched — reproduces Kraken's published Sterimol (\(L\), \(B_1\), \(B_5\)) at
+a mean \(R^2 = 0.9887\). Scaling to the full set also exposed and
 fixed a genuine frame-construction bug affecting primary and secondary
 phosphines (§3.5), which the eleven trisubstituted ligands could not trigger.
 The compact StericX
@@ -181,6 +183,31 @@ consistency check. The near and far hemispheres correlate in the correct sense
 buried-volume descriptors, 1,541 ligands, at each descriptor's minimum over the
 conformer ensemble (mean \(R^2 = 0.9925\)).*
 
+**A second descriptor class: Sterimol.** Sterimol \(L\), \(B_1\), \(B_5\) is the
+other classical steric descriptor Kraken publishes, and reproducing it tests a
+completely separate kernel. It also repeated the §3.2 lesson about conventions.
+StericX's default Sterimol axis runs along a P–substituent bond, but Kraken
+measures Sterimol along the **coordination axis** — a virtual metal 2.28 Å from
+phosphorus on the lone pair, the *same* centre the buried volume uses, with the
+historical +0.40 Å Verloop correction on \(L\). That distance was not assumed:
+sweeping it, 2.28 Å is the one value at which the published \(L\) falls on the
+diagonal, exactly mirroring §3.2. With the axis matched (exposed as
+`stericx descriptors --sterimol-axis coordination`), StericX reproduces Kraken's
+published Sterimol across the 1,541 ligands at each conformer-ensemble extreme,
+mean \(R^2 = 0.9887\) (`study_kraken_sterimol.py`,
+`study_004/STUDY_004_STERIMOL.md`, Fig. 4):
+
+| | \(L\) | \(B_1\) | \(B_5\) |
+|---|---:|---:|---:|
+| min over conformers | 0.9864 | 0.9815 | 0.9927 |
+| max over conformers | 0.9935 | 0.9825 | 0.9955 |
+
+![Figure 4. Sterimol vs published Kraken values, coordination axis.](study_004/kraken_sterimol_parity.png)
+
+*Figure 4. StericX vs published Kraken Sterimol \(L\)/\(B_1\)/\(B_5\), 1,541
+ligands, coordination axis, per conformer-ensemble minimum and maximum (mean
+\(R^2 = 0.9887\)).*
+
 ### 3.4 Ni-hDA enantioselectivity reproduction
 
 Using the preregistered Kraken descriptor `vbur_max_delta_qvbur_min`, an ordinary
@@ -287,6 +314,6 @@ geometry experiment is reproduced by `study_kraken_dft_reproduction.py`
 (11 ligands) and `study_kraken_dft_scaled.py` (the full 1,541-ligand set), both
 of which download Kraken's DFT geometries from the public MolSSI API;
 `study_kraken_vbur_family.py` reproduces the §3.3 full buried-volume family
-comparison, and `study_frame_residual.py` the §3.5/§4 residual-by-donor-class
-analysis. A one-page visual summary is at `docs/results.html`, and `REPRODUCE.md`
+comparison, `study_kraken_sterimol.py` the §3.3 Sterimol comparison, and
+`study_frame_residual.py` the §3.5/§4 residual-by-donor-class analysis. A one-page visual summary is at `docs/results.html`, and `REPRODUCE.md`
 gives a clone-to-results walkthrough.

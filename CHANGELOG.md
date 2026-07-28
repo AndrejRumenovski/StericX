@@ -8,6 +8,14 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Sterimol reproduced against Kraken at scale (`study_kraken_sterimol.py`,
+  `STUDY_004_STERIMOL.md`). Kraken measures Sterimol along the coordination axis
+  (a virtual metal 2.28 Å from the donor on the lone pair, +0.40 Å Verloop `L`
+  correction) — a convention recovered by a distance sweep, not assumed. With it
+  matched, StericX reproduces Kraken's published `sterimol_L/B1/B5` across the
+  1,541 ligands at mean R² = 0.9887. Exposed as a new kernel method
+  (`SterimolCalculator::compute_with_dummy`), the public `coordination_center`
+  helper, and `descriptors --sterimol-axis coordination`.
 - Full buried-volume descriptor-family validation (`study_kraken_vbur_family.py`,
   `STUDY_004_FAMILY.md`): StericX reproduces Kraken's *entire* published `vbur`
   family — buried volume, quadrant and octant extrema, and near/far hemispheres,

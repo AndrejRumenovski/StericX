@@ -11,8 +11,8 @@ use steric_x::{
     BuriedVolumeCalculator, BuriedVolumeConfig, BuriedVolumeParams, EyringKineticLink, FitOptions,
     Molecule, PackedBuriedVolumeRecord, PackedReactionRecord, PackedReactionRecordV2,
     RegressXPredictor, ScientificFitReport, SigPackReader, SigPackV2Writer, SigPackWriter,
-    SterimolCalculator, SterimolParams, covalent_radius, fit_scientific_model_grouped,
-    parse_coordinate_file,
+    SterimolCalculator, SterimolParams, coordination_center, covalent_radius,
+    fit_scientific_model_grouped, parse_coordinate_file,
 };
 
 #[derive(Debug, Parser)]
@@ -150,6 +150,10 @@ enum Command {
         /// Explicit zero-based donor atom index, overriding auto-detection.
         #[arg(long)]
         donor_index: Option<usize>,
+        /// Sterimol axis: `bond` (donor→substituent) or `coordination`
+        /// (metal→donor along the lone pair, the Kraken/ligand convention).
+        #[arg(long, value_enum, default_value_t = SterimolAxis::Bond)]
+        sterimol_axis: SterimolAxis,
         /// Output format.
         #[arg(long, value_enum, default_value_t = DescriptorFormat::Text)]
         format: DescriptorFormat,
@@ -178,6 +182,21 @@ enum DescriptorFormat {
     /// Comma-separated table, one row per file (spreadsheet-ready).
     Csv,
 }
+
+/// Which axis defines the Sterimol frame.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
+enum SterimolAxis {
+    /// Donor → nearest bonded substituent (a P–C bond direction).
+    Bond,
+    /// Virtual metal → donor, along the lone pair. This is the convention
+    /// Kraken and the ligand-descriptor literature use, and it applies the
+    /// historical +0.40 Å Verloop correction to `L`.
+    Coordination,
+}
+
+/// Historical Verloop/Morfeus correction added to the raw geometric Sterimol
+/// `L` under the coordination-axis convention.
+const STERIMOL_L_CORRECTION: f32 = 0.40;
 
 /// One row of the raw reaction CSV.
 #[derive(Clone, Debug, Deserialize)]
@@ -359,6 +378,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             inputs,
             donor_element,
             donor_index,
+            sterimol_axis,
             format,
             sphere_radius,
             density,
@@ -368,6 +388,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             &inputs,
             &donor_element,
             donor_index,
+            sterimol_axis,
             format,
             BuriedVolumeConfig {
                 sphere_radius,
@@ -1196,6 +1217,7 @@ fn descriptors_for_file(
     path: &Path,
     donor_element: &str,
     donor_index: Option<usize>,
+    sterimol_axis: SterimolAxis,
     config: BuriedVolumeConfig,
 ) -> Result<DescriptorResult, String> {
     let conformers = parse_coordinate_file(path)
@@ -1221,11 +1243,26 @@ fn descriptors_for_file(
                 path.display()
             )
         })?;
-        sterimol.push(SterimolCalculator::compute(
-            molecule,
-            topology.donor_idx,
-            topology.reference_idx,
-        ));
+        sterimol.push(match sterimol_axis {
+            SterimolAxis::Bond => {
+                SterimolCalculator::compute(molecule, topology.donor_idx, topology.reference_idx)
+            }
+            SterimolAxis::Coordination => {
+                let center = coordination_center(
+                    molecule,
+                    topology.donor_idx,
+                    topology.reference_idx,
+                    config,
+                )
+                .map_err(|error| {
+                    format!("{} (conformer {conformer_index}): {error}", path.display())
+                })?;
+                let mut params =
+                    SterimolCalculator::compute_with_dummy(molecule, topology.donor_idx, center);
+                params.l += STERIMOL_L_CORRECTION;
+                params
+            }
+        });
         buried.push(
             BuriedVolumeCalculator::compute(
                 molecule,
@@ -1337,6 +1374,7 @@ fn descriptors_command(
     inputs: &[PathBuf],
     donor_element: &str,
     donor_index: Option<usize>,
+    sterimol_axis: SterimolAxis,
     format: DescriptorFormat,
     config: BuriedVolumeConfig,
 ) -> Result<(), Box<dyn Error>> {
@@ -1346,7 +1384,7 @@ fn descriptors_command(
     let mut results = Vec::with_capacity(inputs.len());
     let mut failures = 0_usize;
     for path in inputs {
-        match descriptors_for_file(path, donor_element, donor_index, config) {
+        match descriptors_for_file(path, donor_element, donor_index, sterimol_axis, config) {
             Ok(result) => results.push(result),
             Err(message) => {
                 eprintln!("skipped {}: {message}", path.display());
@@ -2124,6 +2162,8 @@ mod tests {
                 "descriptors",
                 "ligand_a.xyz",
                 "ligand_b.sdf",
+                "--sterimol-axis",
+                "coordination",
                 "--format",
                 "csv",
             ])
@@ -2243,7 +2283,14 @@ mod tests {
              C -0.7 -1.212 0.45\nC 2.8 0 0.7\n",
         )
         .unwrap();
-        let result = descriptors_for_file(&path, "P", None, BuriedVolumeConfig::default()).unwrap();
+        let result = descriptors_for_file(
+            &path,
+            "P",
+            None,
+            SterimolAxis::Bond,
+            BuriedVolumeConfig::default(),
+        )
+        .unwrap();
         assert_eq!(result.donor_element, "P");
         assert_eq!(result.conformers, 1);
         assert_eq!(result.substituents.len(), 3);
@@ -2251,6 +2298,19 @@ mod tests {
         assert!(result.max_delta_qvbur_min.is_finite());
         // With one conformer the ensemble minimum equals the single value.
         assert_eq!(result.max_delta_qvbur, result.max_delta_qvbur_min);
+
+        // The coordination axis is a different frame, so it yields a different
+        // (also valid) Sterimol L, and applies the +0.40 Å correction.
+        let coordination = descriptors_for_file(
+            &path,
+            "P",
+            None,
+            SterimolAxis::Coordination,
+            BuriedVolumeConfig::default(),
+        )
+        .unwrap();
+        assert!(coordination.sterimol_l.is_finite() && coordination.sterimol_l > 0.0);
+        assert!((coordination.sterimol_l - result.sterimol_l).abs() > 1.0e-4);
         std::fs::remove_dir_all(&directory).ok();
     }
 

@@ -6,7 +6,7 @@ mod xyz;
 
 pub use buried_volume::{
     BuriedVolumeCalculator, BuriedVolumeConfig, BuriedVolumeEnsembleParams, BuriedVolumeError,
-    BuriedVolumeParams,
+    BuriedVolumeParams, coordination_center,
 };
 pub use sterimol::{SterimolCalculator, SterimolParams};
 pub use xyz::{

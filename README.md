@@ -125,6 +125,13 @@ Featurize a whole folder into a spreadsheet-ready table, or emit JSON:
 ./target/release/stericx descriptors --format json ligands/*.sdf
 ```
 
+By default Sterimol is measured along the donor→substituent bond. For a
+metal-bound ligand, pass `--sterimol-axis coordination` to measure it along the
+coordination axis instead (a virtual metal 2.28 Å from the donor on the lone
+pair, with the +0.40 Å Verloop `L` correction) — the convention Kraken and the
+ligand-descriptor literature use, which StericX reproduces to a mean
+`R² = 0.9887` against Kraken's published values across 1,541 ligands.
+
 Non-phosphine donors work too — pass `--donor-element N`, or name the atom
 directly with `--donor-index` when a structure has more than one candidate.
 Files that are not valid trivalent donors are reported on stderr and skipped,

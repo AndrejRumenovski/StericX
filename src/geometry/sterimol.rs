@@ -61,29 +61,75 @@ impl SterimolCalculator {
             projected.push((aligned.truncate(), aligned.z, atom.vdw_radius));
         }
 
-        let l = projected
-            .iter()
-            .map(|(_, z, radius)| z + radius)
-            .fold(f32::NEG_INFINITY, f32::max);
-
-        let b5 = projected
-            .iter()
-            .map(|(xy, _, radius)| xy.length() + radius)
-            .fold(0.0_f32, f32::max);
-
-        let b1 = (0_u16..360)
-            .map(|degrees| {
-                let angle = f32::from(degrees).to_radians();
-                let scan = Vec2::new(angle.cos(), angle.sin());
-                projected
-                    .iter()
-                    .map(|(xy, _, radius)| xy.dot(scan) + radius)
-                    .fold(0.0_f32, f32::max)
-            })
-            .fold(f32::INFINITY, f32::min);
-
-        SterimolParams { l, b1, b5 }
+        params_from_projection(&projected)
     }
+
+    /// Computes Sterimol against an axis anchored at an explicit virtual dummy
+    /// position rather than a second atom.
+    ///
+    /// The axis runs from `dummy` to `base_idx` and is rotated onto positive Z,
+    /// with the dummy at the origin. This is the coordination-centre convention
+    /// used for metal-bound ligands: the dummy stands in for the coordinating
+    /// metal (placed along the donor's lone pair), the donor is the base atom,
+    /// and — because the dummy is virtual rather than a real atom — every real
+    /// atom, the donor included, contributes to the surface envelope. Returns
+    /// the raw geometric `L`; callers reproducing Verloop/Morfeus conventions
+    /// add the historical +0.40 Å correction.
+    #[must_use]
+    pub fn compute_with_dummy(molecule: &Molecule, base_idx: usize, dummy: Vec3) -> SterimolParams {
+        let Some(base) = molecule.atoms.get(base_idx) else {
+            return SterimolParams::default();
+        };
+        let primary_axis = base.position - dummy;
+        if !dummy.is_finite()
+            || !primary_axis.is_finite()
+            || primary_axis.length_squared() <= f32::EPSILON
+        {
+            return SterimolParams::default();
+        }
+
+        let rotation = Quat::from_rotation_arc(primary_axis.normalize(), Vec3::Z);
+        let mut projected = Vec::with_capacity(molecule.atoms.len());
+        for atom in &molecule.atoms {
+            if !atom.position.is_finite() || !atom.vdw_radius.is_finite() || atom.vdw_radius < 0.0 {
+                return SterimolParams::default();
+            }
+            let aligned = rotation * (atom.position - dummy);
+            projected.push((aligned.truncate(), aligned.z, atom.vdw_radius));
+        }
+
+        params_from_projection(&projected)
+    }
+}
+
+/// Reduces axis-aligned atom projections `(perpendicular, axial, radius)` to the
+/// `L`, `B1`, and `B5` Sterimol dimensions.
+fn params_from_projection(projected: &[(Vec2, f32, f32)]) -> SterimolParams {
+    if projected.is_empty() {
+        return SterimolParams::default();
+    }
+    let l = projected
+        .iter()
+        .map(|(_, z, radius)| z + radius)
+        .fold(f32::NEG_INFINITY, f32::max);
+
+    let b5 = projected
+        .iter()
+        .map(|(xy, _, radius)| xy.length() + radius)
+        .fold(0.0_f32, f32::max);
+
+    let b1 = (0_u16..360)
+        .map(|degrees| {
+            let angle = f32::from(degrees).to_radians();
+            let scan = Vec2::new(angle.cos(), angle.sin());
+            projected
+                .iter()
+                .map(|(xy, _, radius)| xy.dot(scan) + radius)
+                .fold(0.0_f32, f32::max)
+        })
+        .fold(f32::INFINITY, f32::min);
+
+    SterimolParams { l, b1, b5 }
 }
 
 #[cfg(test)]
@@ -136,6 +182,25 @@ mod tests {
         assert!((params.l - 2.2).abs() < 1.0e-5);
         assert!((params.b1 - 1.2).abs() < 1.0e-5);
         assert!((params.b5 - 1.2).abs() < 1.0e-5);
+    }
+
+    #[test]
+    fn dummy_axis_measures_length_from_the_virtual_origin() {
+        // Donor P at the origin, a carbon 2 Å beyond it, and a virtual metal
+        // dummy 2.28 Å below along the same line. The dummy is not a real atom,
+        // so both P and C contribute; L is measured from the dummy origin.
+        let molecule = Molecule {
+            atoms: vec![atom("P", 0.0, 0.0, 0.0), atom("C", 0.0, 0.0, 2.0)],
+        };
+
+        let params =
+            SterimolCalculator::compute_with_dummy(&molecule, 0, Vec3::new(0.0, 0.0, -2.28));
+
+        // C at axial 4.28 + radius 1.70 = 5.98 is the farthest; P (2.28 + 1.80)
+        // is nearer. Both lie on the axis, so B1 = B5 = the widest radius (P).
+        assert!((params.l - 5.98).abs() < 1.0e-4);
+        assert!((params.b1 - 1.80).abs() < 1.0e-4);
+        assert!((params.b5 - 1.80).abs() < 1.0e-4);
     }
 
     #[test]

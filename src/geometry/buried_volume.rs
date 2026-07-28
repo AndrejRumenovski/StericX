@@ -267,6 +267,33 @@ impl BuriedVolumeCalculator {
     }
 }
 
+/// The virtual coordination centre for a donor: the point a fixed distance from
+/// the donor along its geometrically inferred lone-pair direction, where a
+/// coordinating metal (or a Sterimol dummy) sits.
+///
+/// This is the same centre [`BuriedVolumeCalculator::compute`] integrates
+/// around, exposed so callers can place a metal probe or Sterimol dummy there.
+pub fn coordination_center(
+    molecule: &Molecule,
+    donor_idx: usize,
+    reference_neighbor_idx: usize,
+    config: BuriedVolumeConfig,
+) -> Result<Vec3, BuriedVolumeError> {
+    validate_config(config)?;
+    let donor = molecule
+        .atoms
+        .get(donor_idx)
+        .ok_or_else(|| BuriedVolumeError(format!("donor index {donor_idx} is out of bounds")))?;
+    if !donor.position.is_finite() {
+        return Err(BuriedVolumeError(
+            "donor coordinate is not finite".to_owned(),
+        ));
+    }
+    let neighbor_indices = donor_neighbor_indices(molecule, donor_idx, reference_neighbor_idx)?;
+    let lone_pair_direction = infer_lone_pair_direction(molecule, donor_idx, &neighbor_indices)?;
+    Ok(donor.position + config.center_distance * lone_pair_direction)
+}
+
 #[derive(Clone, Copy)]
 struct Basis {
     x: Vec3,

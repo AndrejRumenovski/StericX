@@ -1074,6 +1074,7 @@ const DESCRIPTOR_BOND_TOLERANCE: f32 = 1.3;
 /// The donor atom, its bonded substituents, and the substituent chosen as the
 /// primary reference axis — everything the descriptor kernels need, recovered
 /// from geometry alone.
+#[derive(Clone, Copy, Debug)]
 struct DonorTopology {
     donor_idx: usize,
     reference_idx: usize,
@@ -1134,10 +1135,10 @@ fn detect_donor(
         .enumerate()
         .filter(|(index, _)| *index != donor_idx)
         .filter_map(|(index, atom)| {
+            let distance_squared = atom.position.distance_squared(donor.position);
             let cutoff =
                 DESCRIPTOR_BOND_TOLERANCE * (donor_covalent + covalent_radius(&atom.element));
-            (atom.position.distance_squared(donor.position) <= cutoff * cutoff)
-                .then_some((atom.position.distance_squared(donor.position), index))
+            (distance_squared <= cutoff * cutoff).then_some((distance_squared, index))
         })
         .collect::<Vec<_>>();
     if bonded.len() != 3 {
@@ -2117,5 +2118,146 @@ mod tests {
             Cli::try_parse_from(["stericx", "simulate", "--ddg", "1.82", "--temp", "298.15",])
                 .is_ok()
         );
+        assert!(
+            Cli::try_parse_from([
+                "stericx",
+                "descriptors",
+                "ligand_a.xyz",
+                "ligand_b.sdf",
+                "--format",
+                "csv",
+            ])
+            .is_ok()
+        );
+        // `descriptors` requires at least one input file.
+        assert!(Cli::try_parse_from(["stericx", "descriptors"]).is_err());
+    }
+
+    fn molecule_from(atoms: &[(&str, f32, f32, f32)]) -> Molecule {
+        Molecule {
+            atoms: atoms
+                .iter()
+                .map(|(element, x, y, z)| Atom::new(*element, Vec3::new(*x, *y, *z)))
+                .collect(),
+        }
+    }
+
+    fn tertiary_phosphine() -> Molecule {
+        molecule_from(&[
+            ("P", 0.0, 0.0, 0.0),
+            ("C", 1.4, 0.0, 0.45),
+            ("C", -0.7, 1.212, 0.45),
+            ("C", -0.7, -1.212, 0.45),
+            // A distal, non-bonded carbon that must never be taken as a substituent.
+            ("C", 2.8, 0.0, 0.7),
+        ])
+    }
+
+    #[test]
+    fn detect_donor_finds_the_single_phosphine() {
+        let topology = detect_donor(&tertiary_phosphine(), "P", None).unwrap();
+        assert_eq!(topology.donor_idx, 0);
+        let mut substituents = topology.substituents;
+        substituents.sort_unstable();
+        assert_eq!(substituents, [1, 2, 3]);
+        // The primary axis is a bonded heavy atom, never the distal carbon (4).
+        assert!([1, 2, 3].contains(&topology.reference_idx));
+    }
+
+    #[test]
+    fn detect_donor_counts_bonded_hydrogens_as_substituents() {
+        // Primary phosphine R-PH2: the two bonded hydrogens are substituents,
+        // and the reference axis falls on the lone bonded carbon.
+        let molecule = molecule_from(&[
+            ("P", 0.0, 0.0, 0.0),
+            ("C", 1.5, 0.0, 0.6),
+            ("H", -0.6, 1.1, 0.55),
+            ("H", -0.6, -1.1, 0.55),
+        ]);
+        let topology = detect_donor(&molecule, "P", None).unwrap();
+        let mut substituents = topology.substituents;
+        substituents.sort_unstable();
+        assert_eq!(substituents, [1, 2, 3]);
+        assert_eq!(topology.reference_idx, 1);
+    }
+
+    #[test]
+    fn detect_donor_reports_missing_and_ambiguous_donors() {
+        let no_phosphorus = molecule_from(&[("C", 0.0, 0.0, 0.0), ("H", 0.0, 0.0, 1.1)]);
+        let error = detect_donor(&no_phosphorus, "P", None).unwrap_err();
+        assert!(error.contains("no P donor"));
+
+        let two_phosphorus = molecule_from(&[
+            ("P", 0.0, 0.0, 0.0),
+            ("C", 1.5, 0.0, 0.0),
+            ("C", -1.5, 0.0, 0.0),
+            ("C", 0.0, 1.5, 0.0),
+            ("P", 6.0, 0.0, 0.0),
+            ("C", 7.5, 0.0, 0.0),
+            ("C", 4.5, 0.0, 0.0),
+            ("C", 6.0, 1.5, 0.0),
+        ]);
+        let error = detect_donor(&two_phosphorus, "P", None).unwrap_err();
+        assert!(error.contains("--donor-index"));
+        // Naming one of them resolves the ambiguity.
+        assert_eq!(
+            detect_donor(&two_phosphorus, "P", Some(4))
+                .unwrap()
+                .donor_idx,
+            4
+        );
+    }
+
+    #[test]
+    fn detect_donor_rejects_a_non_trivalent_donor() {
+        let two_coordinate = molecule_from(&[
+            ("P", 0.0, 0.0, 0.0),
+            ("C", 1.5, 0.0, 0.0),
+            ("H", -0.9, 0.9, 0.0),
+        ]);
+        let error = detect_donor(&two_coordinate, "P", None).unwrap_err();
+        assert!(error.contains("three-coordinate"));
+    }
+
+    #[test]
+    fn detect_donor_supports_a_non_phosphorus_element() {
+        // A trivalent amine donor located by --donor-element N.
+        let amine = molecule_from(&[
+            ("N", 0.0, 0.0, 0.0),
+            ("C", 1.47, 0.0, 0.3),
+            ("C", -0.7, 1.2, 0.3),
+            ("C", -0.7, -1.2, 0.3),
+        ]);
+        let topology = detect_donor(&amine, "N", None).unwrap();
+        assert_eq!(topology.donor_idx, 0);
+    }
+
+    #[test]
+    fn descriptors_for_file_featurizes_an_xyz_geometry() {
+        let directory = temporary_directory("descriptors_xyz");
+        std::fs::create_dir_all(&directory).unwrap();
+        let path = directory.join("phosphine.xyz");
+        std::fs::write(
+            &path,
+            "5\nphosphine\nP 0 0 0\nC 1.4 0 0.45\nC -0.7 1.212 0.45\n\
+             C -0.7 -1.212 0.45\nC 2.8 0 0.7\n",
+        )
+        .unwrap();
+        let result = descriptors_for_file(&path, "P", None, BuriedVolumeConfig::default()).unwrap();
+        assert_eq!(result.donor_element, "P");
+        assert_eq!(result.conformers, 1);
+        assert_eq!(result.substituents.len(), 3);
+        assert!(result.buried_volume.is_finite() && result.buried_volume > 0.0);
+        assert!(result.max_delta_qvbur_min.is_finite());
+        // With one conformer the ensemble minimum equals the single value.
+        assert_eq!(result.max_delta_qvbur, result.max_delta_qvbur_min);
+        std::fs::remove_dir_all(&directory).ok();
+    }
+
+    #[test]
+    fn csv_field_quotes_only_when_required() {
+        assert_eq!(csv_field("plain"), "plain");
+        assert_eq!(csv_field("a,b"), "\"a,b\"");
+        assert_eq!(csv_field("say \"hi\""), "\"say \"\"hi\"\"\"");
     }
 }

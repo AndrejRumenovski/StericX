@@ -53,7 +53,10 @@ jobs:
             validate_stericx.py \
             study_ni_hda.py \
             study_buried_volume.py \
-            study_quantum_geometry.py
+            study_quantum_geometry.py \
+            study_kraken_dft_reproduction.py \
+            study_kraken_dft_scaled.py \
+            study_frame_residual.py
           bash -n benchmark_linux.sh install_quantum_tools.sh
 
       - name: Lint and format-check Python

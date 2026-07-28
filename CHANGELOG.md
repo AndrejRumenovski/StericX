@@ -1,0 +1,53 @@
+# Changelog
+
+All notable changes to StericX are recorded here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project aims to
+follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+
+- `stericx descriptors <file>...` — compute Sterimol (L, B₁, B₅) and
+  buried-volume descriptors for any ligand geometry directly. The phosphorus
+  donor and its substituents are detected from the geometry (covalent-radius
+  bonding), so no reaction CSV or manual atom indices are needed. Accepts
+  `.xyz` and `.sdf`/`.mol`, treats a multi-model file as a conformer ensemble,
+  and reports Kraken's `max_delta_qvbur_min` as the headline descriptor.
+  Supports `--format text|json|csv`, batch runs over many files (unparseable or
+  non-trivalent inputs are skipped on stderr), and `--donor-element` /
+  `--donor-index` for non-phosphine or ambiguous donors.
+- Residual-anatomy study (`study_frame_residual.py`, `STUDY_004_RESIDUAL.md`,
+  `residual_by_phosphine_class.png`): the full-set residual is dissected by
+  donor class, showing tertiary phosphines are unbiased and the remaining bias
+  is confined to primary/secondary phosphines and grows ~0.7 Å³ per P–H bond.
+- Robust statistics for the full-set validation (mean/median absolute error,
+  abs-residual percentiles, and trimmed R² of 0.9897 at 1 % / 0.9936 at 5 %).
+- Rust unit tests for donor detection, CSV quoting, and the descriptors path;
+  SDF tests for blank-title and multi-record files. Continuous integration now
+  also syntax-checks the Kraken-reproduction study drivers.
+
+### Fixed
+
+- **Buried-volume frame for primary and secondary phosphines.** The quadrant
+  frame identified a donor's substituents as its three nearest *heavy* atoms,
+  which mis-framed R–PH₂ and R₂P–H donors by discarding their bonded hydrogens
+  (producing a spurious `max_delta_qvbur = 0` or a gross overestimate). The
+  frame now uses the donor's covalently bonded atoms, hydrogens included. This
+  is identical to the old behaviour for trisubstituted donors, and raised the
+  full-set R² from 0.9649 to 0.9852 without discarding any ligand (the validated
+  count rose from 1,535 to 1,541).
+- **SDF parsing of blank title lines.** A blank first (title) line — which
+  OpenBabel and RDKit both emit — was stripped together with the `$$$$` record
+  separator, misaligning the fixed four-line header so the counts line was
+  misread. Only the inter-record separator newline is now removed.
+
+## [0.1.0]
+
+Initial reproduction study: from-scratch Rust reimplementation of the Kraken
+Sterimol and buried-volume ligand descriptors, validated against `morfeus`
+(Sterimol R² ≥ 0.9999; buried-volume geometry to numerical precision) and
+against Kraken's published `vbur_max_delta_qvbur_min` on the authors' DFT
+geometries (11 Ni-hDA ligands, R² = 0.9986). Includes the Ni-catalyzed
+homo-Diels–Alder reproduction, the SIMD `.sigpack` storage format, the Eyring
+kinetic link, quantum-geometry tooling (CREST/xTB), and the reproduction report.

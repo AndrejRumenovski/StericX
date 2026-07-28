@@ -1,0 +1,36 @@
+{
+  "upload_type": "software",
+  "title": "StericX: physical-organic molecular featurization and reaction-selectivity inference",
+  "description": "StericX is an independent, from-scratch Rust reimplementation of the Kraken Sterimol and coordination-aware buried-volume ligand descriptors, together with a reproduction of the Ni-catalyzed homo-Diels-Alder selectivity study. The descriptor kernels are validated against morfeus to numerical precision and against Kraken's published values on the authors' own DFT geometries (1,541 ligands, R^2 = 0.9852; 11 Ni-hDA ligands, R^2 = 0.9986). It is an honest reproduction: negative results and known limitations are reported rather than hidden. Dual-licensed under MIT OR Apache-2.0.",
+  "creators": [
+    {
+      "name": "Rumenovski, Andrej",
+      "affiliation": "Dwight D. Eisenhower High School"
+    }
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "keywords": [
+    "cheminformatics",
+    "physical-organic chemistry",
+    "Sterimol",
+    "buried volume",
+    "reaction selectivity",
+    "Kraken",
+    "Rust"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.1021/jacs.1c09718",
+      "relation": "references",
+      "scheme": "doi",
+      "resource_type": "publication-article"
+    },
+    {
+      "identifier": "10.1021/jacs.5c09948",
+      "relation": "references",
+      "scheme": "doi",
+      "resource_type": "publication-article"
+    }
+  ]
+}

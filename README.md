@@ -58,15 +58,16 @@ produced by the Sigman or Reisman groups. See [References](#references-and-attri
 - **Reproduction accuracy** — \(R^2 = 0.9986\) on the 11-ligand DFT set;
   \(R^2 = 0.9852\) (median absolute error **0.11 Å³**) at full scale.
 - **Descriptor families** — whole buried-volume family (8 descriptors) mean
-  \(R^2 = 0.9925\); Sterimol on the coordination axis mean \(R^2 = 0.9887\).
+  \(R^2 = 0.9925\); Sterimol on the coordination axis mean \(R^2 = 0.9887\);
+  pyramidalization (`pyr_P`, `pyr_alpha`) mean \(R^2 = 0.99998\).
 - **Performance** — 62k molecules/s Sterimol extraction, 317.8 M evals/s SIMD
   inference over a memory-mapped million-record matrix.
 - **Reproducibility** — one-command bootstrap, checksum-pinned CREST 2.12 / xTB
   6.4.0, content-addressed caches, frozen prediction hashes, green CI, dual
   MIT/Apache licensing.
-- **Scientific studies** — four preregistered studies (Ni-hDA model,
-  buried-volume fidelity, quantum geometry, Kraken DFT reproduction), each with
-  passed *and* failed gates recorded.
+- **Scientific studies** — five preregistered studies (Ni-hDA model,
+  buried-volume fidelity, quantum geometry, Kraken DFT reproduction,
+  pyramidalization), each with passed *and* failed gates recorded.
 - **Transparency at scale** — a genuine kernel bug surfaced by the full library
   was fixed **without discarding a single ligand**, and the remaining residual is
   fully characterized by phosphine class.
@@ -122,6 +123,7 @@ data/xyz/SIG-NIHDA-401_9d42bff1.xyz
   Sterimol      L 7.76   B1 1.73   B5 8.75   Å
   buried volume  Vbur 24.3%   (43.6 Å³)
                  qvbur_min 9.73   qvbur_max 13.53   max_delta_qvbur 3.80   Å³
+  pyramidalization pyr_P 0.932   pyr_alpha 17.10°
 ```
 
 The full command set is in the [CLI Reference](#cli-reference); manual builds and
@@ -170,6 +172,8 @@ calculation cache under the ignored `.stericx/` directory:
 - **Coordination-aware sterics** — a deterministic metal-centred voxel engine
   calculates total, quadrant, octant, near/far, and conformer-ensemble buried
   volumes using the public Kraken/Morfeus convention.
+- **Pyramidalization** — Radhakrishnan `pyr_P` and the mean out-of-plane angle
+  `pyr_alpha` from the donor's three bond vectors, matching Kraken/morfeus.
 - **Transition-state kinetics** — Eyring calculations convert
   \(\Delta\Delta G^\ddagger\) into rate constants, R:S distributions, and
   enantiomeric excess.
@@ -238,6 +242,7 @@ whole public library. Full derivation is in
 | `vbur_max_delta_qvbur_min` | 1,541 ligands / 31,611 conformers | \(R^2 = 0.9852\) · medAE 0.11 Å³ |
 | Buried-volume family (8 descriptors) | 1,541 ligands | mean \(R^2 = 0.9925\) |
 | Sterimol \(L\)/\(B_1\)/\(B_5\) (coordination axis) | 1,541 ligands | mean \(R^2 = 0.9887\) |
+| Pyramidalization `pyr_P`, `pyr_alpha` (min/max) | 1,541 ligands | mean \(R^2 = 0.99998\) |
 
 ---
 
@@ -495,6 +500,44 @@ are the headline rows summarized under [Validation](#validation).)
 | ![Buried-volume family parity](docs/study_004/kraken_vbur_family_parity.png) | ![Sterimol parity](docs/study_004/kraken_sterimol_parity.png) |
 |:---:|:---:|
 
+### Study 005 — Pyramidalization descriptors
+
+Kraken publishes two geometric pyramidalization descriptors for the phosphorus
+donor: `pyr_P` (Radhakrishnan's dimensionless pyramidalization) and `pyr_alpha`
+(the mean out-of-plane angle in degrees), both defined by morfeus's
+`Pyramidalization` class. StericX reimplements the identical definitions
+natively in Rust, reducing each to a closed form on the donor's three unit bond
+vectors — `pyr_P = |det[â, b̂, ĉ]|` (with morfeus's `2 − P` acute correction) and
+`pyr_alpha` as the mean signed out-of-plane angle. Both were verified against
+morfeus to machine precision (4.4×10⁻¹⁶ and 2.8×10⁻¹⁴) before implementation.
+
+[`study_kraken_pyramidalization.py`](study_kraken_pyramidalization.py) runs the
+native kernel on Kraken's own DFT conformers and compares the `min` and `max`
+conformer reductions (both weight-independent) against Kraken's published values
+across the same 1,541 ligands.
+
+```bash
+uv run --extra science python study_kraken_pyramidalization.py --no-build --workers 8
+```
+
+| Descriptor | Reduction | \(R^2\) | RMSE | Median abs. err |
+|---|---|---:|---:|---:|
+| `pyr_P` | min | 0.999983 | 0.000204 | 0.000028 |
+| `pyr_P` | max | 0.999977 | 0.000174 | 0.000028 |
+| `pyr_alpha` (°) | min | 0.999979 | 0.022463 | 0.001932 |
+| `pyr_alpha` (°) | max | 0.999968 | 0.030468 | 0.001748 |
+
+Mean \(R^2 = 0.99998\) — higher than the buried-volume family or Sterimol, and
+expected rather than tuned: pyramidalization depends only on the three bond
+directions, so it is insensitive to the virtual-metal centre, sphere radius, and
+lone-pair conventions that bound the buried-volume agreement. The residual (RMSE
+~2×10⁻⁴ for `pyr_P`, ~0.03° for `pyr_alpha`) is consistent with the 4-decimal
+coordinate precision of the cached DFT SDFs and `f32` arithmetic — a
+geometry-input floor, not a method difference. Full results:
+[`docs/study_005/STUDY_005.md`](docs/study_005/STUDY_005.md).
+
+![Pyramidalization parity](docs/study_005/kraken_pyramidalization_parity.png)
+
 ---
 
 ## Roadmap
@@ -510,19 +553,18 @@ graph TD
         D6[CREST/xTB quantum backend · Study 003]
         D7[SIMD inference · .sigpack v1/v2 storage]
         D8[CLI descriptors tool · benchmarks · green CI]
+        D9[Pyramidalization pyr_P / pyr_alpha · mean R² 0.99998 · Study 005]
     end
     subgraph Next["🔭 Planned / optional"]
-        P1["Pyramidalization descriptors (pyr_P / pyr_alpha)<br/>Kraken-published, geometric, not yet reproduced"]
-        P2["Prospective 10-candidate deck<br/>frozen; awaits experimental measurement"]
-        P3["Zenodo DOI / v0.1.0 release<br/>metadata prepared, currently deferred"]
+        P1["Prospective 10-candidate deck<br/>frozen; awaits experimental measurement"]
+        P2["Zenodo DOI / v0.1.0 release<br/>metadata prepared, currently deferred"]
     end
     Done --> Next
 ```
 
-Planned items are scoped but not started. Pyramidalization would be validated at
-the same 1,541-ligand scale as the `vbur` family, pending confirmation of
-Kraken's exact formula; the prospective candidate deck stays target-free until
-lab data exists.
+Planned items are scoped but not started. The prospective candidate deck stays
+target-free until lab data exists; a Zenodo DOI / release remains available if
+the metadata is ever published.
 
 ---
 
@@ -664,7 +706,7 @@ distribution, enantiomeric excess, execution time, and memory metrics.
 
 ```text
 src/
-├── geometry/     XYZ/SDF parsing, Sterimol, and buried-volume descriptors
+├── geometry/     XYZ/SDF parsing, Sterimol, buried-volume, and pyramidalization
 ├── storage/      Cache-aligned schema and memory-mapped .sigpack I/O
 ├── model/        Scientific fitting, feature interactions, and SIMD inference
 ├── kinetics/     Eyring rates and enantiomeric distributions
@@ -678,6 +720,7 @@ Reproduction studies (Python drivers → docs/):
 ├── study_kraken_dft_scaled.py         full 1,541-ligand scaled reproduction
 ├── study_kraken_vbur_family.py        whole buried-volume family vs Kraken
 ├── study_kraken_sterimol.py           Sterimol vs Kraken, coordination axis
+├── study_kraken_pyramidalization.py   pyr_P / pyr_alpha vs Kraken (Study 005)
 ├── study_frame_residual.py            residual anatomy by phosphine class
 └── validate_stericx.py                Sterimol fidelity vs morfeus
 ```

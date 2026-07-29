@@ -8,6 +8,19 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Pyramidalization descriptors (`src/geometry/pyramidalization.rs`): a native
+  Rust kernel for Kraken's `pyr_P` (Radhakrishnan) and `pyr_alpha` (mean
+  out-of-plane angle), reduced to order-invariant closed forms on the donor's
+  three unit bond vectors — `pyr_P = |det[â, b̂, ĉ]|` with morfeus's `2 − P`
+  acute correction, and `pyr_alpha` as the mean signed out-of-plane angle. Both
+  were verified against morfeus to machine precision (4.4×10⁻¹⁶ and 2.8×10⁻¹⁴)
+  before implementation. Surfaced through `stericx descriptors` (text/json/csv).
+- Study 005 (`study_kraken_pyramidalization.py`, `docs/study_005/STUDY_005.md`):
+  the native kernel reproduces Kraken's published `pyr_P` and `pyr_alpha` (min
+  and max conformer reductions) across the same 1,541 ligands at mean
+  R² = 0.99998. The small residual (RMSE ~2×10⁻⁴ for `pyr_P`, ~0.03° for
+  `pyr_alpha`) reflects the cached DFT SDFs' 4-decimal coordinate precision, not
+  a method difference.
 - Sterimol reproduced against Kraken at scale (`study_kraken_sterimol.py`,
   `STUDY_004_STERIMOL.md`). Kraken measures Sterimol along the coordination axis
   (a virtual metal 2.28 Å from the donor on the lone pair, +0.40 Å Verloop `L`

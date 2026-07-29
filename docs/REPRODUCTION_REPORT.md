@@ -35,7 +35,9 @@ DFT geometry (31,611 conformers), the kernel reproduces the descriptor with
 entire published buried-volume descriptor family (eight descriptors) over the
 same set at a mean \(R^2 = 0.9925\), and — once the coordination-axis convention
 is matched — reproduces Kraken's published Sterimol (\(L\), \(B_1\), \(B_5\)) at
-a mean \(R^2 = 0.9887\). Scaling to the full set also exposed and
+a mean \(R^2 = 0.9887\). A third descriptor class, pyramidalization
+(`pyr_P`, `pyr_alpha`), is reproduced across the same set at a mean
+\(R^2 = 0.99998\). Scaling to the full set also exposed and
 fixed a genuine frame-construction bug affecting primary and secondary
 phosphines (§3.5), which the eleven trisubstituted ligands could not trigger.
 The compact StericX
@@ -208,6 +210,39 @@ mean \(R^2 = 0.9887\) (`study_kraken_sterimol.py`,
 ligands, coordination axis, per conformer-ensemble minimum and maximum (mean
 \(R^2 = 0.9887\)).*
 
+**A third descriptor class: pyramidalization.** Kraken also publishes two
+geometric pyramidalization descriptors for the donor — `pyr_P` (Radhakrishnan's
+dimensionless pyramidalization) and `pyr_alpha` (the mean out-of-plane angle) —
+both defined by `morfeus`' `Pyramidalization` class. Reading that definition,
+`pyr_P` reduces to the absolute scalar triple product of the donor's three unit
+bond vectors, \(|\det[\hat{a}, \hat{b}, \hat{c}]|\) (with `morfeus`' \(2 - P\)
+acute correction), and `pyr_alpha` to the mean signed out-of-plane angle. StericX
+reimplements both natively in Rust; on identical coordinates they match `morfeus`
+to machine precision (\(4.4 \times 10^{-16}\) and \(2.8 \times 10^{-14}\)),
+confirming the definitions before any scale test. Run on Kraken's DFT conformers,
+the native kernel reproduces the published values across the 1,541 ligands at
+each conformer-ensemble extreme (mean \(R^2 = 0.99998\);
+`study_kraken_pyramidalization.py`, `study_005/STUDY_005.md`, Fig. 5):
+
+| | min over conformers | max over conformers |
+|---|---:|---:|
+| `pyr_P` | 0.999983 | 0.999977 |
+| `pyr_alpha` | 0.999979 | 0.999968 |
+
+The agreement is higher than the buried-volume family or Sterimol, and is
+expected rather than tuned: pyramidalization depends only on the three bond
+directions, so it is insensitive to the virtual-metal centre, sphere radius, and
+lone-pair conventions that bound the buried-volume agreement (§3.2–3.3). The
+residual (RMSE \(\sim 2 \times 10^{-4}\) for `pyr_P`, \(\sim 0.03^\circ\) for
+`pyr_alpha`) tracks the 4-decimal coordinate precision of the cached DFT SDFs,
+not a method difference.
+
+![Figure 5. Pyramidalization vs published Kraken values.](study_005/kraken_pyramidalization_parity.png)
+
+*Figure 5. StericX (native Rust) vs published Kraken `pyr_P` and `pyr_alpha`,
+1,541 ligands, per conformer-ensemble minimum and maximum (mean
+\(R^2 = 0.99998\)).*
+
 ### 3.4 Ni-hDA enantioselectivity reproduction
 
 Using the preregistered Kraken descriptor `vbur_max_delta_qvbur_min`, an ordinary
@@ -287,7 +322,10 @@ localizes the descriptor-value gap to conformer geometry generation
 (\(R^2\): 0.86 → 0.93 → 0.99 as geometry quality increases) and then resolves the
 remaining offset by adopting Kraken's documented 2.28 Å coordination-centre
 distance (\(R^2 = 0.9986\), Pearson \(r = 0.9998\)). The conclusion holds across
-the full 1,541-ligand library (\(R^2 = 0.9852\), median error 0.11 Å³). Finally,
+the full 1,541-ligand library (\(R^2 = 0.9852\), median error 0.11 Å³), and
+generalizes to three independent classical descriptor classes over that same
+library — the buried-volume family (mean \(R^2 = 0.9925\)), Sterimol
+(\(0.9887\)), and pyramidalization (\(0.99998\)). Finally,
 the compact native descriptors are shown, honestly, not to substitute for the
 published coordination-aware descriptor on a small reaction family. All passed
 and failed gates are retained.
@@ -314,6 +352,7 @@ geometry experiment is reproduced by `study_kraken_dft_reproduction.py`
 (11 ligands) and `study_kraken_dft_scaled.py` (the full 1,541-ligand set), both
 of which download Kraken's DFT geometries from the public MolSSI API;
 `study_kraken_vbur_family.py` reproduces the §3.3 full buried-volume family
-comparison, `study_kraken_sterimol.py` the §3.3 Sterimol comparison, and
+comparison, `study_kraken_sterimol.py` the §3.3 Sterimol comparison,
+`study_kraken_pyramidalization.py` the §3.3 pyramidalization comparison, and
 `study_frame_residual.py` the §3.5/§4 residual-by-donor-class analysis. A one-page visual summary is at `docs/results.html`, and `REPRODUCE.md`
 gives a clone-to-results walkthrough.

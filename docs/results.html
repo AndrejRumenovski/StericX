@@ -274,6 +274,18 @@
         </tbody>
       </table>
     </div>
+
+    <p>A <em>third</em> descriptor class closes even tighter. Kraken publishes two geometric pyramidalization descriptors for the donor — <code class="mono">pyr_P</code> (Radhakrishnan) and <code class="mono">pyr_alpha</code> (mean out-of-plane angle). Both reduce to closed forms on the donor's three bond vectors, verified against <span class="mono">morfeus</span> to machine precision before implementation. Because they depend only on those three directions — not on the metal centre, sphere, or lone-pair conventions that bound the buried volume — the native kernel reproduces the published values almost exactly, mean R² = 0.99998:</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Over conformers</th><th>pyr_P</th><th>pyr_alpha</th></tr></thead>
+        <tbody>
+          <tr><td>minimum</td><td class="good">0.999983</td><td class="good">0.999979</td></tr>
+          <tr><td>maximum</td><td class="good">0.999977</td><td class="good">0.999968</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The residual here (RMSE ~2×10⁻⁴ for pyr_P, ~0.03° for pyr_alpha) tracks the four-decimal coordinate precision of the cached DFT geometries — an input-precision floor, not a method gap.</p>
   </div>
 </section>
 

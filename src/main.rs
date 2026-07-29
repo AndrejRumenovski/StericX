@@ -10,9 +10,9 @@ use steric_x::model::{MODEL_FEATURE_COUNT, expand_features};
 use steric_x::{
     BuriedVolumeCalculator, BuriedVolumeConfig, BuriedVolumeParams, EyringKineticLink, FitOptions,
     Molecule, PackedBuriedVolumeRecord, PackedReactionRecord, PackedReactionRecordV2,
-    RegressXPredictor, ScientificFitReport, SigPackReader, SigPackV2Writer, SigPackWriter,
-    SterimolCalculator, SterimolParams, coordination_center, covalent_radius,
-    fit_scientific_model_grouped, parse_coordinate_file,
+    PyramidalizationCalculator, PyramidalizationParams, RegressXPredictor, ScientificFitReport,
+    SigPackReader, SigPackV2Writer, SigPackWriter, SterimolCalculator, SterimolParams,
+    coordination_center, covalent_radius, fit_scientific_model_grouped, parse_coordinate_file,
 };
 
 #[derive(Debug, Parser)]
@@ -1210,6 +1210,10 @@ struct DescriptorResult {
     max_delta_qvbur: f32,
     /// Kraken's headline `vbur_max_delta_qvbur_min`: the minimum over conformers.
     max_delta_qvbur_min: f32,
+    /// Radhakrishnan pyramidalization `P` (Kraken `pyr_P`), conformer mean.
+    pyr_p: f32,
+    /// Mean pyramidalization angle in degrees (Kraken `pyr_alpha`), conformer mean.
+    pyr_alpha: f32,
 }
 
 /// Compute ensemble-averaged descriptors for a single ligand file.
@@ -1235,6 +1239,7 @@ fn descriptors_for_file(
 
     let mut sterimol = Vec::with_capacity(conformers.len());
     let mut buried = Vec::with_capacity(conformers.len());
+    let mut pyramidalization = Vec::with_capacity(conformers.len());
     for (conformer_index, molecule) in conformers.iter().enumerate() {
         // Re-detect per conformer so this tolerates files whose models differ.
         let topology = detect_donor(molecule, donor_element, donor_index).map_err(|message| {
@@ -1243,6 +1248,11 @@ fn descriptors_for_file(
                 path.display()
             )
         })?;
+        pyramidalization.push(PyramidalizationCalculator::compute(
+            molecule,
+            topology.donor_idx,
+            topology.substituents,
+        ));
         sterimol.push(match sterimol_axis {
             SterimolAxis::Bond => {
                 SterimolCalculator::compute(molecule, topology.donor_idx, topology.reference_idx)
@@ -1281,6 +1291,9 @@ fn descriptors_for_file(
         |select: fn(&SterimolParams) -> f32| sterimol.iter().map(select).sum::<f32>() / count;
     let buried_mean =
         |select: fn(&BuriedVolumeParams) -> f32| buried.iter().map(select).sum::<f32>() / count;
+    let pyr_mean = |select: fn(&PyramidalizationParams) -> f32| {
+        pyramidalization.iter().map(select).sum::<f32>() / count
+    };
     let max_delta_qvbur_min = buried
         .iter()
         .map(|params| params.max_delta_qvbur)
@@ -1301,6 +1314,8 @@ fn descriptors_for_file(
         qvbur_max: buried_mean(|params| params.qvbur_max),
         max_delta_qvbur: buried_mean(|params| params.max_delta_qvbur),
         max_delta_qvbur_min,
+        pyr_p: pyr_mean(|params| params.pyr_p),
+        pyr_alpha: pyr_mean(|params| params.pyr_alpha),
     })
 }
 
@@ -1332,17 +1347,21 @@ fn print_descriptor_text(result: &DescriptorResult) {
             result.max_delta_qvbur_min
         );
     }
+    println!(
+        "  pyramidalization{} pyr_P {:.3}   pyr_alpha {:.2}°",
+        qualifier, result.pyr_p, result.pyr_alpha
+    );
 }
 
 fn print_descriptor_csv(results: &[DescriptorResult]) {
     println!(
         "file,conformers,donor_element,donor_index,substituents,sterimol_l,sterimol_b1,\
          sterimol_b5,percent_buried_volume,buried_volume,qvbur_min,qvbur_max,max_delta_qvbur,\
-         max_delta_qvbur_min"
+         max_delta_qvbur_min,pyr_p,pyr_alpha"
     );
     for result in results {
         println!(
-            "{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}",
+            "{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}",
             csv_field(&result.file),
             result.conformers,
             result.donor_element,
@@ -1357,6 +1376,8 @@ fn print_descriptor_csv(results: &[DescriptorResult]) {
             result.qvbur_max,
             result.max_delta_qvbur,
             result.max_delta_qvbur_min,
+            result.pyr_p,
+            result.pyr_alpha,
         );
     }
 }

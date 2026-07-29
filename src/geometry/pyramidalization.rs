@@ -90,9 +90,11 @@ impl PyramidalizationCalculator {
             let cos_alpha = v3.dot(normal.normalize()).clamp(-1.0, 1.0);
             let mut alpha = cos_alpha.acos();
             // A pyramid whose apex leans onto the same side as the other two
-            // vectors' bisector is "acute": the angle is signed negative.
+            // vectors' bisector is "acute": the angle is signed negative. Only
+            // the sign of the projection matters, so the bisector need not be
+            // normalised (its length is positive by the guard).
             let bisector = v1 + v2;
-            if bisector.length_squared() > f32::EPSILON && bisector.normalize().dot(v3) > 0.0 {
+            if bisector.length_squared() > f32::EPSILON && bisector.dot(v3) > 0.0 {
                 alpha = -alpha;
             }
             alpha_sum += alpha;

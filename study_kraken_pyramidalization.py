@@ -27,7 +27,7 @@ import csv
 import io
 import json
 import subprocess
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -117,6 +117,39 @@ def stericx_one(binary: Path, cache_dir: Path, mid: int) -> dict[str, float] | N
     }
 
 
+def cached_parallel(
+    ids: list[int],
+    cache: Path,
+    workers: int,
+    refresh: bool,
+    worker: Callable[[int], tuple[int, dict[str, float] | None]],
+    label: str,
+) -> pd.DataFrame:
+    """Run `worker(mid) -> (mid, values)` over all ids in a thread pool.
+
+    Results are indexed by `Source_ID` and cached to `cache`; a cached file that
+    already covers every id is reused unless `refresh` is set.
+    """
+    if cache.is_file() and not refresh:
+        cached = pd.read_csv(cache).set_index("Source_ID")
+        if set(ids).issubset(cached.index):
+            return cached.loc[ids]
+    rows: dict[int, dict[str, float]] = {}
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = [pool.submit(worker, mid) for mid in ids]
+        for done, future in enumerate(as_completed(futures), start=1):
+            mid, values = future.result()
+            if values is not None:
+                rows[mid] = values
+            if done % 200 == 0:
+                print(f"  {label} {done}/{len(ids)} (kept {len(rows)})", flush=True)
+    frame = pd.DataFrame.from_dict(rows, orient="index")
+    frame.index.name = "Source_ID"
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    frame.sort_index().to_csv(cache)
+    return frame
+
+
 def stericx_reductions(
     ids: list[int],
     binary: Path,
@@ -125,25 +158,14 @@ def stericx_reductions(
     workers: int,
     refresh: bool,
 ) -> pd.DataFrame:
-    if cache.is_file() and not refresh:
-        cached = pd.read_csv(cache).set_index("Source_ID")
-        if set(ids).issubset(cached.index):
-            return cached.loc[ids]
-    rows: dict[int, dict[str, float]] = {}
-    with ThreadPoolExecutor(max_workers=workers) as pool:
-        futures = {pool.submit(stericx_one, binary, cache_dir, mid): mid for mid in ids}
-        for done, future in enumerate(as_completed(futures), start=1):
-            mid = futures[future]
-            values = future.result()
-            if values is not None:
-                rows[mid] = values
-            if done % 200 == 0:
-                print(f"  StericX {done}/{len(ids)} (kept {len(rows)})", flush=True)
-    frame = pd.DataFrame.from_dict(rows, orient="index")
-    frame.index.name = "Source_ID"
-    cache.parent.mkdir(parents=True, exist_ok=True)
-    frame.sort_index().to_csv(cache)
-    return frame
+    return cached_parallel(
+        ids,
+        cache,
+        workers,
+        refresh,
+        lambda mid: (mid, stericx_one(binary, cache_dir, mid)),
+        "StericX",
+    )
 
 
 def fetch_published(mid: int) -> tuple[int, dict[str, float] | None]:
@@ -173,24 +195,7 @@ def fetch_published(mid: int) -> tuple[int, dict[str, float] | None]:
 def published_reductions(
     ids: list[int], cache: Path, workers: int, refresh: bool
 ) -> pd.DataFrame:
-    if cache.is_file() and not refresh:
-        cached = pd.read_csv(cache).set_index("Source_ID")
-        if set(ids).issubset(cached.index):
-            return cached.loc[ids]
-    rows: dict[int, dict[str, float]] = {}
-    with ThreadPoolExecutor(max_workers=workers) as pool:
-        futures = {pool.submit(fetch_published, mid): mid for mid in ids}
-        for done, future in enumerate(as_completed(futures), start=1):
-            mid, values = future.result()
-            if values is not None:
-                rows[mid] = values
-            if done % 200 == 0:
-                print(f"  published {done}/{len(ids)} (kept {len(rows)})", flush=True)
-    frame = pd.DataFrame.from_dict(rows, orient="index")
-    frame.index.name = "Source_ID"
-    cache.parent.mkdir(parents=True, exist_ok=True)
-    frame.sort_index().to_csv(cache)
-    return frame
+    return cached_parallel(ids, cache, workers, refresh, fetch_published, "published")
 
 
 def metric_key(column: str, reduction: str) -> str:

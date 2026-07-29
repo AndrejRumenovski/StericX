@@ -8,11 +8,11 @@ use std::path::{Component, Path, PathBuf};
 use std::time::{Duration, Instant};
 use steric_x::model::{MODEL_FEATURE_COUNT, expand_features};
 use steric_x::{
-    BuriedVolumeCalculator, BuriedVolumeConfig, BuriedVolumeParams, EyringKineticLink, FitOptions,
-    Molecule, PackedBuriedVolumeRecord, PackedReactionRecord, PackedReactionRecordV2,
-    PyramidalizationCalculator, PyramidalizationParams, RegressXPredictor, ScientificFitReport,
-    SigPackReader, SigPackV2Writer, SigPackWriter, SterimolCalculator, SterimolParams,
-    coordination_center, covalent_radius, fit_scientific_model_grouped, parse_coordinate_file,
+    BuriedVolumeCalculator, BuriedVolumeConfig, EyringKineticLink, FitOptions, Molecule,
+    PackedBuriedVolumeRecord, PackedReactionRecord, PackedReactionRecordV2,
+    PyramidalizationCalculator, RegressXPredictor, ScientificFitReport, SigPackReader,
+    SigPackV2Writer, SigPackWriter, SterimolCalculator, SterimolParams, bonded_neighbors,
+    coordination_center, fit_scientific_model_grouped, parse_coordinate_file,
 };
 
 #[derive(Debug, Parser)]
@@ -1089,9 +1089,6 @@ fn simulate_command(ddg_kcal: f32, temp_k: f32) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-/// Covalent-radius tolerance for bond detection, matching the buried-volume kernel.
-const DESCRIPTOR_BOND_TOLERANCE: f32 = 1.3;
-
 /// The donor atom, its bonded substituents, and the substituent chosen as the
 /// primary reference axis — everything the descriptor kernels need, recovered
 /// from geometry alone.
@@ -1149,19 +1146,9 @@ fn detect_donor(
     };
 
     let donor = &molecule.atoms[donor_idx];
-    let donor_covalent = covalent_radius(&donor.element);
-    let mut bonded = molecule
-        .atoms
-        .iter()
-        .enumerate()
-        .filter(|(index, _)| *index != donor_idx)
-        .filter_map(|(index, atom)| {
-            let distance_squared = atom.position.distance_squared(donor.position);
-            let cutoff =
-                DESCRIPTOR_BOND_TOLERANCE * (donor_covalent + covalent_radius(&atom.element));
-            (distance_squared <= cutoff * cutoff).then_some((distance_squared, index))
-        })
-        .collect::<Vec<_>>();
+    // Shared covalent-radius frame (already sorted by ascending distance/index),
+    // identical to the buried-volume kernel's own substituent detection.
+    let bonded = bonded_neighbors(molecule, donor_idx);
     if bonded.len() != 3 {
         return Err(format!(
             "{} donor (atom {donor_idx}) is not three-coordinate — found {} bonded atoms; \
@@ -1170,11 +1157,6 @@ fn detect_donor(
             bonded.len()
         ));
     }
-    bonded.sort_by(|left, right| {
-        left.0
-            .total_cmp(&right.0)
-            .then_with(|| left.1.cmp(&right.1))
-    });
     let reference_idx = bonded
         .iter()
         .find(|(_, index)| !molecule.atoms[*index].element.eq_ignore_ascii_case("H"))
@@ -1286,14 +1268,6 @@ fn descriptors_for_file(
         );
     }
 
-    let count = buried.len() as f32;
-    let sterimol_mean =
-        |select: fn(&SterimolParams) -> f32| sterimol.iter().map(select).sum::<f32>() / count;
-    let buried_mean =
-        |select: fn(&BuriedVolumeParams) -> f32| buried.iter().map(select).sum::<f32>() / count;
-    let pyr_mean = |select: fn(&PyramidalizationParams) -> f32| {
-        pyramidalization.iter().map(select).sum::<f32>() / count
-    };
     let max_delta_qvbur_min = buried
         .iter()
         .map(|params| params.max_delta_qvbur)
@@ -1305,18 +1279,23 @@ fn descriptors_for_file(
         donor_element: conformers[0].atoms[topology.donor_idx].element.clone(),
         donor_index: topology.donor_idx,
         substituents,
-        sterimol_l: sterimol_mean(|params| params.l),
-        sterimol_b1: sterimol_mean(|params| params.b1),
-        sterimol_b5: sterimol_mean(|params| params.b5),
-        percent_buried_volume: buried_mean(|params| params.percent_buried_volume),
-        buried_volume: buried_mean(|params| params.buried_volume),
-        qvbur_min: buried_mean(|params| params.qvbur_min),
-        qvbur_max: buried_mean(|params| params.qvbur_max),
-        max_delta_qvbur: buried_mean(|params| params.max_delta_qvbur),
+        sterimol_l: conformer_mean(&sterimol, |params| params.l),
+        sterimol_b1: conformer_mean(&sterimol, |params| params.b1),
+        sterimol_b5: conformer_mean(&sterimol, |params| params.b5),
+        percent_buried_volume: conformer_mean(&buried, |params| params.percent_buried_volume),
+        buried_volume: conformer_mean(&buried, |params| params.buried_volume),
+        qvbur_min: conformer_mean(&buried, |params| params.qvbur_min),
+        qvbur_max: conformer_mean(&buried, |params| params.qvbur_max),
+        max_delta_qvbur: conformer_mean(&buried, |params| params.max_delta_qvbur),
         max_delta_qvbur_min,
-        pyr_p: pyr_mean(|params| params.pyr_p),
-        pyr_alpha: pyr_mean(|params| params.pyr_alpha),
+        pyr_p: conformer_mean(&pyramidalization, |params| params.pyr_p),
+        pyr_alpha: conformer_mean(&pyramidalization, |params| params.pyr_alpha),
     })
+}
+
+/// Arithmetic mean of one descriptor field over a conformer ensemble.
+fn conformer_mean<T>(items: &[T], select: impl Fn(&T) -> f32) -> f32 {
+    items.iter().map(select).sum::<f32>() / items.len() as f32
 }
 
 fn print_descriptor_text(result: &DescriptorResult) {
@@ -1353,31 +1332,51 @@ fn print_descriptor_text(result: &DescriptorResult) {
     );
 }
 
+/// A CSV column: its header and a formatter for one result's value.
+type CsvColumn = (&'static str, fn(&DescriptorResult) -> String);
+
 fn print_descriptor_csv(results: &[DescriptorResult]) {
+    // Single source of truth: each column pairs its header with its value
+    // formatter, so the header row and every data row derive from one list and
+    // adding a descriptor cannot desynchronise column names, order, or count.
+    let columns: [CsvColumn; 16] = [
+        ("file", |r| csv_field(&r.file)),
+        ("conformers", |r| r.conformers.to_string()),
+        ("donor_element", |r| r.donor_element.clone()),
+        ("donor_index", |r| r.donor_index.to_string()),
+        ("substituents", |r| csv_field(&r.substituents.join(" "))),
+        ("sterimol_l", |r| format!("{:.4}", r.sterimol_l)),
+        ("sterimol_b1", |r| format!("{:.4}", r.sterimol_b1)),
+        ("sterimol_b5", |r| format!("{:.4}", r.sterimol_b5)),
+        ("percent_buried_volume", |r| {
+            format!("{:.4}", r.percent_buried_volume)
+        }),
+        ("buried_volume", |r| format!("{:.4}", r.buried_volume)),
+        ("qvbur_min", |r| format!("{:.4}", r.qvbur_min)),
+        ("qvbur_max", |r| format!("{:.4}", r.qvbur_max)),
+        ("max_delta_qvbur", |r| format!("{:.4}", r.max_delta_qvbur)),
+        ("max_delta_qvbur_min", |r| {
+            format!("{:.4}", r.max_delta_qvbur_min)
+        }),
+        ("pyr_p", |r| format!("{:.4}", r.pyr_p)),
+        ("pyr_alpha", |r| format!("{:.4}", r.pyr_alpha)),
+    ];
     println!(
-        "file,conformers,donor_element,donor_index,substituents,sterimol_l,sterimol_b1,\
-         sterimol_b5,percent_buried_volume,buried_volume,qvbur_min,qvbur_max,max_delta_qvbur,\
-         max_delta_qvbur_min,pyr_p,pyr_alpha"
+        "{}",
+        columns
+            .iter()
+            .map(|(name, _)| *name)
+            .collect::<Vec<_>>()
+            .join(",")
     );
     for result in results {
         println!(
-            "{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}",
-            csv_field(&result.file),
-            result.conformers,
-            result.donor_element,
-            result.donor_index,
-            csv_field(&result.substituents.join(" ")),
-            result.sterimol_l,
-            result.sterimol_b1,
-            result.sterimol_b5,
-            result.percent_buried_volume,
-            result.buried_volume,
-            result.qvbur_min,
-            result.qvbur_max,
-            result.max_delta_qvbur,
-            result.max_delta_qvbur_min,
-            result.pyr_p,
-            result.pyr_alpha,
+            "{}",
+            columns
+                .iter()
+                .map(|(_, format)| format(result))
+                .collect::<Vec<_>>()
+                .join(",")
         );
     }
 }

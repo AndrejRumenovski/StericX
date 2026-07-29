@@ -7,7 +7,7 @@ mod xyz;
 
 pub use buried_volume::{
     BuriedVolumeCalculator, BuriedVolumeConfig, BuriedVolumeEnsembleParams, BuriedVolumeError,
-    BuriedVolumeParams, coordination_center,
+    BuriedVolumeParams, bonded_neighbors, coordination_center,
 };
 pub use pyramidalization::{PyramidalizationCalculator, PyramidalizationParams};
 pub use sterimol::{SterimolCalculator, SterimolParams};

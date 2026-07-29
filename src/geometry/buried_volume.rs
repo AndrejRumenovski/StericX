@@ -344,6 +344,36 @@ fn validate_config(config: BuriedVolumeConfig) -> Result<(), BuriedVolumeError> 
 /// the nearest non-bonded contact is ~1.5×, so 1.3 separates them with margin.
 const BOND_TOLERANCE_FACTOR: f32 = 1.3;
 
+/// Covalently bonded neighbours of `donor_idx` as `(distance_squared, index)`,
+/// sorted by ascending distance then index.
+///
+/// The bond cutoff is [`BOND_TOLERANCE_FACTOR`] × the summed covalent radii.
+/// `donor_idx` must be a valid atom index. This is the single source of the
+/// covalent-radius frame used by both the buried-volume quadrant frame and the
+/// `descriptors` command's donor detection, so the two never drift apart.
+pub fn bonded_neighbors(molecule: &Molecule, donor_idx: usize) -> Vec<(f32, usize)> {
+    let donor = &molecule.atoms[donor_idx];
+    let donor_covalent = covalent_radius(&donor.element);
+    let mut bonded = molecule
+        .atoms
+        .iter()
+        .enumerate()
+        .filter(|(index, _)| *index != donor_idx)
+        .filter_map(|(index, atom)| {
+            let distance_squared = atom.position.distance_squared(donor.position);
+            let bond_cutoff =
+                BOND_TOLERANCE_FACTOR * (donor_covalent + covalent_radius(&atom.element));
+            (distance_squared <= bond_cutoff * bond_cutoff).then_some((distance_squared, index))
+        })
+        .collect::<Vec<_>>();
+    bonded.sort_by(|left, right| {
+        left.0
+            .total_cmp(&right.0)
+            .then_with(|| left.1.cmp(&right.1))
+    });
+    bonded
+}
+
 /// Identify the three atoms covalently bonded to a trivalent donor.
 ///
 /// Substituents are selected by covalent-radius bond detection, **including any
@@ -367,20 +397,9 @@ fn donor_neighbor_indices(
             "reference neighbor index is invalid".to_owned(),
         ));
     }
-    let donor = &molecule.atoms[donor_idx];
-    let donor_covalent = covalent_radius(&donor.element);
-    let mut bonded = molecule
-        .atoms
-        .iter()
-        .enumerate()
-        .filter(|(index, _)| *index != donor_idx)
-        .filter_map(|(index, atom)| {
-            let distance_squared = atom.position.distance_squared(donor.position);
-            let bond_cutoff =
-                BOND_TOLERANCE_FACTOR * (donor_covalent + covalent_radius(&atom.element));
-            (distance_squared <= bond_cutoff * bond_cutoff).then_some((distance_squared, index))
-        })
-        .collect::<Vec<_>>();
+    // `bonded_neighbors` returns the covalent-radius frame already sorted by
+    // ascending distance then index.
+    let bonded = bonded_neighbors(molecule, donor_idx);
     if bonded.len() != 3 {
         return Err(BuriedVolumeError(format!(
             "donor must be trivalent for the quadrant frame, found {} bonded substituents",
@@ -398,11 +417,6 @@ fn donor_neighbor_indices(
     // Deterministic order: reference substituent first, then the remaining two
     // by ascending distance and index. Order does not affect the min/max
     // quadrant descriptors, but keeps the audit output reproducible.
-    bonded.sort_by(|left, right| {
-        left.0
-            .total_cmp(&right.0)
-            .then_with(|| left.1.cmp(&right.1))
-    });
     let mut neighbors = [reference_neighbor_idx; 3];
     let mut cursor = 1;
     for (_, index) in bonded {

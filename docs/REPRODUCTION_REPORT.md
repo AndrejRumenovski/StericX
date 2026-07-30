@@ -285,6 +285,32 @@ from 50% to 18%), and raised the full-set \(R^2\) from 0.9649 to 0.9852
 1,535 to 1,541 as small phosphines that the old heavy-atom count had wrongly
 rejected became admissible.
 
+### 3.6 Localizing the residual with an internal control
+
+The residual that remains after the frame fix is confined to the 24 primary and
+secondary phosphines and grows ~0.7 Å³ per P–H bond (§3.5). That was attributed
+to the geometric lone-pair centre standing in for Kraken's xTB
+localized-molecular-orbital centre. A controlled test settles the attribution
+rather than asserting it. StericX computes six descriptors from the *same* DFT
+geometries, split by their dependence on the coordination centre: buried volume
+and Sterimol \(L\), \(B_1\), \(B_5\) are anchored on the centre / lone-pair axis,
+whereas pyramidalization (`pyr_P`, `pyr_alpha`, §3.3) is computed purely from the
+three donor→substituent bond vectors and never references the centre at all. If
+the residual is a centre artefact it must appear in the former and vanish in the
+latter — on the same ligands, which no kernel or geometry error could fake.
+
+Measuring each descriptor's signed residual against P–H count and standardizing
+by its own residual spread, the four centre-coupled descriptors shift by a mean
+of 1.54 residual-σ per P–H bond (the signs differ — a mis-placed axis lengthens
+some measures and shortens others), while the two centre-free pyramidalization
+descriptors are flat at 0.04 σ — an order-of-magnitude separation. Because
+pyramidalization shares the donor, geometries, covalent-radius frame, and `f32`
+kernel with the buried volume and differs only in never placing the coordination
+centre, the kernel, the frame, and the geometries are ruled out: the residual is
+specifically the geometric lone-pair centre diverging from Kraken's xTB centre,
+exactly where a P–H bond replaces a bulky substituent with a short, light one
+(`study_residual_localization.py`, `study_006/STUDY_006.md`).
+
 ## 4. Limitations (reported, not hidden)
 
 - **Compact native descriptors underperform.** StericX's own Sterimol/NBO feature

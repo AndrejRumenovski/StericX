@@ -65,9 +65,9 @@ produced by the Sigman or Reisman groups. See [References](#references-and-attri
 - **Reproducibility** — one-command bootstrap, checksum-pinned CREST 2.12 / xTB
   6.4.0, content-addressed caches, frozen prediction hashes, green CI, dual
   MIT/Apache licensing.
-- **Scientific studies** — five preregistered studies (Ni-hDA model,
-  buried-volume fidelity, quantum geometry, Kraken DFT reproduction,
-  pyramidalization), each with passed *and* failed gates recorded.
+- **Scientific studies** — six studies (Ni-hDA model, buried-volume fidelity,
+  quantum geometry, Kraken DFT reproduction, pyramidalization, and a controlled
+  localization of the residual), each with passed *and* failed gates recorded.
 - **Transparency at scale** — a genuine kernel bug surfaced by the full library
   was fixed **without discarding a single ligand**, and the remaining residual is
   fully characterized by phosphine class.
@@ -538,6 +538,45 @@ geometry-input floor, not a method difference. Full results:
 
 ![Pyramidalization parity](docs/study_005/kraken_pyramidalization_parity.png)
 
+### Study 006 — Localizing the residual to the coordination center
+
+Study 004 found the buried-volume residual is confined to 24 primary/secondary
+phosphines and grows ~0.7 Å³ per P–H bond, and attributed it to StericX's
+geometric lone-pair center standing in for Kraken's xTB localized-orbital center.
+[`study_residual_localization.py`](study_residual_localization.py) turns that
+attribution into a controlled test. It splits the six descriptors by their
+dependence on the coordination center — buried volume and Sterimol `L`/`B1`/`B5`
+are anchored on it; pyramidalization (`pyr_P`, `pyr_alpha`) is computed purely
+from the three bond vectors and never references it — and measures the residual's
+dependence on P–H count for each, on the *same* 1,541 ligands.
+
+```bash
+uv run --extra science python study_residual_localization.py --no-build --workers 8
+```
+
+| Descriptor | Center | Std. residual slope per P–H |
+|---|---|---:|
+| buried volume | coupled | +1.51σ |
+| Sterimol L | coupled | −1.86σ |
+| Sterimol B1 | coupled | −1.12σ |
+| Sterimol B5 | coupled | +1.67σ |
+| pyramidalization `pyr_P` | free | +0.02σ |
+| pyramidalization `pyr_alpha` | free | +0.05σ |
+
+Every center-coupled descriptor shifts systematically with P–H count (mean 1.54 σ
+per bond; signs differ because a mis-placed axis lengthens some measures and
+shortens others), while both center-free pyramidalization descriptors are flat
+(mean 0.04 σ) — an order-of-magnitude separation. Since pyramidalization shares
+the donor, geometries, covalent-radius frame, and `f32` kernel with the buried
+volume and differs *only* in never placing the coordination center, this rules
+out the kernel, the frame, and the geometries: the residual is specifically the
+geometric lone-pair center diverging from Kraken's xTB center. A bounded,
+understood limit of the free pipeline (1.6% of the library) — not a bug, not
+tuned away. Full results:
+[`docs/study_006/STUDY_006.md`](docs/study_006/STUDY_006.md).
+
+![Residual localization](docs/study_006/residual_localization.png)
+
 ---
 
 ## Roadmap
@@ -721,6 +760,7 @@ Reproduction studies (Python drivers → docs/):
 ├── study_kraken_vbur_family.py        whole buried-volume family vs Kraken
 ├── study_kraken_sterimol.py           Sterimol vs Kraken, coordination axis
 ├── study_kraken_pyramidalization.py   pyr_P / pyr_alpha vs Kraken (Study 005)
+├── study_residual_localization.py     residual localized to the centre (Study 006)
 ├── study_frame_residual.py            residual anatomy by phosphine class
 └── validate_stericx.py                Sterimol fidelity vs morfeus
 ```

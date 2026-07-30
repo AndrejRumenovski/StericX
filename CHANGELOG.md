@@ -8,6 +8,15 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Study 006 (`study_residual_localization.py`, `docs/study_006/STUDY_006.md`): a
+  controlled test that localizes the buried-volume residual to the coordination
+  centre. On the same 1,541 ligands, the four descriptors anchored on the centre
+  (buried volume, Sterimol L/B1/B5) shift by a mean 1.54 residual-sigma per P-H
+  bond, while the two centre-free pyramidalization descriptors stay flat at 0.04
+  sigma. Since pyramidalization shares the donor, geometries, frame, and kernel
+  and differs only in never placing the centre, this rules out the kernel, the
+  frame, and the geometries — confirming the residual is the geometric lone-pair
+  centre diverging from Kraken's xTB centre, not a bug.
 - Pyramidalization descriptors (`src/geometry/pyramidalization.rs`): a native
   Rust kernel for Kraken's `pyr_P` (Radhakrishnan) and `pyr_alpha` (mean
   out-of-plane angle), reduced to order-invariant closed forms on the donor's

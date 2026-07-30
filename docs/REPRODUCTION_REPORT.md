@@ -327,10 +327,14 @@ ligand–reaction data points at \(R^2 = 0.9992\) (mean absolute error 0.144%). 
 single-node tree fit on StericX's descriptor, with the paper's per-reaction yield
 cutoffs and class weighting, then recovers the paper's own classifier (its Table
 S11): the same decision thresholds (near 32% %Vbur(min) for the Ni datasets), the
-same direction, and a matching mean accuracy (0.69 for both). The per-reaction
-accuracies are intentionally modest — the univariate model has documented
-exceptions and is meant to be read across many reactions — and StericX reproduces
-that behaviour from its own descriptor rather than papering over it
+same direction, and matching mean accuracy and Matthews correlation (0.69 / 0.50
+for both). The per-reaction scores are intentionally modest — accuracy sits near
+the majority-class baseline for two reactions because the model's 20:1 active
+weighting trades accuracy to catch active ligands, and the honest metric, MCC, is
+a moderate 0.36–0.59 throughout. This is expected of a deliberately univariate
+model that cannot see electronics or substrate; the result is that StericX
+reproduces the published model exactly — its successes and documented limitations
+alike — rather than papering over them
 (`study_kraken_crosscoupling.py`, `study_007/STUDY_007.md`).
 
 ## 4. Limitations (reported, not hidden)

@@ -10,11 +10,13 @@
       "paper": {
         "acc": 0.79,
         "dir": "Left",
+        "mcc": 0.62,
         "thr": 32.42,
         "y_cut": 10
       },
       "stericx": {
         "accuracy": 0.7647058823529411,
+        "baseline_accuracy": 0.5294117647058824,
         "direction": "Left",
         "f1": 0.8181818181818182,
         "mcc": 0.588348405414552,
@@ -28,11 +30,13 @@
       "paper": {
         "acc": 0.7,
         "dir": "Left",
+        "mcc": 0.53,
         "thr": 32.74,
         "y_cut": 10
       },
       "stericx": {
         "accuracy": 0.7191011235955056,
+        "baseline_accuracy": 0.6067415730337079,
         "direction": "Left",
         "f1": 0.7368421052631579,
         "mcc": 0.5597067133224968,
@@ -46,11 +50,13 @@
       "paper": {
         "acc": 0.67,
         "dir": "Left",
+        "mcc": 0.5,
         "thr": 31.55,
         "y_cut": 5
       },
       "stericx": {
         "accuracy": 0.6404494382022472,
+        "baseline_accuracy": 0.6966292134831461,
         "direction": "Left",
         "f1": 0.627906976744186,
         "mcc": 0.4705661236885403,
@@ -64,11 +70,13 @@
       "paper": {
         "acc": 0.64,
         "dir": "Left",
+        "mcc": 0.45,
         "thr": 31.89,
         "y_cut": 5
       },
       "stericx": {
         "accuracy": 0.6629213483146067,
+        "baseline_accuracy": 0.6629213483146067,
         "direction": "Left",
         "f1": 0.6666666666666666,
         "mcc": 0.4957446034647344,
@@ -82,11 +90,13 @@
       "paper": {
         "acc": 0.7,
         "dir": "Left",
+        "mcc": 0.54,
         "thr": 31.89,
         "y_cut": 10
       },
       "stericx": {
         "accuracy": 0.7078651685393258,
+        "baseline_accuracy": 0.6179775280898876,
         "direction": "Left",
         "f1": 0.723404255319149,
         "mcc": 0.5466149273372242,
@@ -100,11 +110,13 @@
       "paper": {
         "acc": 0.66,
         "dir": "Left",
+        "mcc": 0.36,
         "thr": 51.53,
         "y_cut": 20
       },
       "stericx": {
         "accuracy": 0.651685393258427,
+        "baseline_accuracy": 0.5617977528089888,
         "direction": "Left",
         "f1": 0.7633587786259542,
         "mcc": 0.3558403417890825,

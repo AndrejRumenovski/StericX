@@ -311,6 +311,28 @@ specifically the geometric lone-pair centre diverging from Kraken's xTB centre,
 exactly where a P–H bond replaces a bulky substituent with a short, light one
 (`study_residual_localization.py`, `study_006/STUDY_006.md`).
 
+### 3.7 An independent second reaction model
+
+The Ni-hDA study (§3.4) is one reaction. To test whether a StericX descriptor
+supports reactivity modeling beyond it, we reproduce a separate published study:
+Newman-Stonebraker et al. (*Science* **2021**, *374*, 301) classify monodentate
+phosphines as catalytically active or inactive across a family of Ni
+cross-coupling reactions using a single-node decision-tree threshold on one
+descriptor — the minimum percent buried volume, %Vbur(min) — which StericX
+already reproduces at library scale (§3.3). On the authors' own high-throughput
+datasets (Reactions I–V and RS1; the experimental yields are read locally from
+the copyrighted supplementary information and not redistributed), StericX's
+independently-computed %Vbur(min) matches the published values across 479
+ligand–reaction data points at \(R^2 = 0.9992\) (mean absolute error 0.144%). A
+single-node tree fit on StericX's descriptor, with the paper's per-reaction yield
+cutoffs and class weighting, then recovers the paper's own classifier (its Table
+S11): the same decision thresholds (near 32% %Vbur(min) for the Ni datasets), the
+same direction, and a matching mean accuracy (0.69 for both). The per-reaction
+accuracies are intentionally modest — the univariate model has documented
+exceptions and is meant to be read across many reactions — and StericX reproduces
+that behaviour from its own descriptor rather than papering over it
+(`study_kraken_crosscoupling.py`, `study_007/STUDY_007.md`).
+
 ## 4. Limitations (reported, not hidden)
 
 - **Compact native descriptors underperform.** StericX's own Sterimol/NBO feature
@@ -351,7 +373,10 @@ distance (\(R^2 = 0.9986\), Pearson \(r = 0.9998\)). The conclusion holds across
 the full 1,541-ligand library (\(R^2 = 0.9852\), median error 0.11 Å³), and
 generalizes to three independent classical descriptor classes over that same
 library — the buried-volume family (mean \(R^2 = 0.9925\)), Sterimol
-(\(0.9887\)), and pyramidalization (\(0.99998\)). Finally,
+(\(0.9887\)), and pyramidalization (\(0.99998\)). A StericX descriptor also
+reproduces a *separate* published reaction study — the %Vbur(min) cross-coupling
+reactivity classifier of Newman-Stonebraker et al. — recovering that model's own
+thresholds and accuracy (§3.7). Finally,
 the compact native descriptors are shown, honestly, not to substitute for the
 published coordination-aware descriptor on a small reaction family. All passed
 and failed gates are retained.
@@ -369,6 +394,10 @@ and failed gates are retained.
    31175–31186. DOI: 10.1021/jacs.5c09948.
 3. Luchini, G.; Paton, R. S. et al. `morfeus`: molecular featurizer.
    https://github.com/digital-chemistry-laboratory/morfeus.
+4. Newman-Stonebraker, S. H.; Smith, S. R.; Borowski, J. E.; Peters, E.; Gensch,
+   T.; Johnson, H. C.; Sigman, M. S.; Doyle, A. G. Univariate Classification of
+   Phosphine Ligation State and Reactivity in Cross-Coupling Catalysis. *Science*
+   **2021**, *374* (6565), 301–308. DOI: 10.1126/science.abj4213. (§3.7.)
 
 ## Data and code availability
 

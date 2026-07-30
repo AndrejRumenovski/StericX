@@ -65,9 +65,10 @@ produced by the Sigman or Reisman groups. See [References](#references-and-attri
 - **Reproducibility** — one-command bootstrap, checksum-pinned CREST 2.12 / xTB
   6.4.0, content-addressed caches, frozen prediction hashes, green CI, dual
   MIT/Apache licensing.
-- **Scientific studies** — six studies (Ni-hDA model, buried-volume fidelity,
-  quantum geometry, Kraken DFT reproduction, pyramidalization, and a controlled
-  localization of the residual), each with passed *and* failed gates recorded.
+- **Scientific studies** — seven studies (Ni-hDA model, buried-volume fidelity,
+  quantum geometry, Kraken DFT reproduction, pyramidalization, residual
+  localization, and an independent cross-coupling reaction model), each with
+  passed *and* failed gates recorded.
 - **Transparency at scale** — a genuine kernel bug surfaced by the full library
   was fixed **without discarding a single ligand**, and the remaining residual is
   fully characterized by phosphine class.
@@ -577,6 +578,50 @@ tuned away. Full results:
 
 ![Residual localization](docs/study_006/residual_localization.png)
 
+### Study 007 — An independent second reaction model (cross-coupling)
+
+Studies 001–006 validate StericX's descriptors and one reaction model (Ni-hDA).
+Study 007 puts a descriptor to work on a **second, independent reaction study**:
+Newman-Stonebraker, Sigman & Doyle (*Science* **2021**, *374*, 301,
+[10.1126/science.abj4213](https://doi.org/10.1126/science.abj4213)) classify
+monodentate phosphines as active/inactive across Ni cross-coupling reactions
+using a single-node threshold on **%Vbur(min)** — a descriptor StericX already
+reproduces (Study 004). [`study_kraken_crosscoupling.py`](study_kraken_crosscoupling.py)
+tests whether StericX reproduces both the descriptor and the classifier on the
+authors' own datasets (Reactions I–V, RS1).
+
+**1. Descriptor fidelity.** Across **479 ligand–reaction points**, StericX's
+independently-computed %Vbur(min) reproduces the published values at
+**R² = 0.9992** (MAE 0.144%).
+
+**2. Classifier reproduction (vs the paper's Table S11).** A single-node tree
+(the paper's method) fit on StericX's descriptor recovers the same threshold,
+direction, and accuracy per reaction:
+
+| Reaction | n | StericX thr / dir / acc | Paper thr / dir / acc |
+|---|---:|---|---|
+| I | 34 | 32.5 / Left / 0.76 | 32.4 / Left / 0.79 |
+| II | 89 | 32.0 / Left / 0.72 | 32.7 / Left / 0.70 |
+| III | 89 | 31.8 / Left / 0.64 | 31.6 / Left / 0.67 |
+| IV | 89 | 32.0 / Left / 0.66 | 31.9 / Left / 0.64 |
+| V | 89 | 50.8 / Left / 0.65 | 51.5 / Left / 0.66 |
+| RS1 | 89 | 32.0 / Left / 0.71 | 31.9 / Left / 0.70 |
+
+StericX's mean accuracy across the six reactions is **0.69**, matching the
+paper's **0.69**. Single-reaction accuracies are modest *by design* — the paper
+notes exceptions (low-%Vbur ligands that are still inactive), which is why the
+univariate model is applied across many reactions; StericX reproduces that
+behaviour, successes and imperfections alike, from its own descriptor. This
+extends the project from "reproduces Kraken's numbers" to "supports a real
+reaction model beyond Ni-hDA." Full results:
+[`docs/study_007/STUDY_007.md`](docs/study_007/STUDY_007.md).
+
+The paper's supplementary data is copyrighted (AAAS) and is **not** redistributed
+here; the study reads it locally (gitignored) and commits only StericX's own
+computed values and the comparison.
+
+![Cross-coupling %Vbur parity](docs/study_007/crosscoupling_vbur_parity.png)
+
 ---
 
 ## Roadmap
@@ -593,6 +638,8 @@ graph TD
         D7[SIMD inference · .sigpack v1/v2 storage]
         D8[CLI descriptors tool · benchmarks · green CI]
         D9[Pyramidalization pyr_P / pyr_alpha · mean R² 0.99998 · Study 005]
+        D10[Residual localized to the centre · Study 006]
+        D11[Second reaction model · Ni cross-coupling · Study 007]
     end
     subgraph Next["🔭 Planned / optional"]
         P1["Prospective 10-candidate deck<br/>frozen; awaits experimental measurement"]
@@ -761,6 +808,7 @@ Reproduction studies (Python drivers → docs/):
 ├── study_kraken_sterimol.py           Sterimol vs Kraken, coordination axis
 ├── study_kraken_pyramidalization.py   pyr_P / pyr_alpha vs Kraken (Study 005)
 ├── study_residual_localization.py     residual localized to the centre (Study 006)
+├── study_kraken_crosscoupling.py      independent cross-coupling model (Study 007)
 ├── study_frame_residual.py            residual anatomy by phosphine class
 └── validate_stericx.py                Sterimol fidelity vs morfeus
 ```
@@ -823,6 +871,13 @@ original scientific work:
   Homo-Diels–Alder Reactions." *J. Am. Chem. Soc.* **2025**, *147* (34),
   31175–31186. DOI: [10.1021/jacs.5c09948](https://doi.org/10.1021/jacs.5c09948).
   (The Ni-hDA reaction and enantioselectivity dataset reproduced in Study 001.)
+- Newman-Stonebraker, S. H.; Smith, S. R.; Borowski, J. E.; Peters, E.; Gensch,
+  T.; Johnson, H. C.; Sigman, M. S.; Doyle, A. G. "Univariate Classification of
+  Phosphine Ligation State and Reactivity in Cross-Coupling Catalysis."
+  *Science* **2021**, *374* (6565), 301–308.
+  DOI: [10.1126/science.abj4213](https://doi.org/10.1126/science.abj4213). (The
+  cross-coupling reactivity classifier reproduced in Study 007; its supplementary
+  data is copyrighted by AAAS and is **not** redistributed in this repository.)
 
 Descriptor reference values are compared against
 [`morfeus`](https://github.com/digital-chemistry-laboratory/morfeus) and the

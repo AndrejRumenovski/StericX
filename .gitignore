@@ -10,6 +10,9 @@ __pycache__/
 /.stericx/
 /logs/
 /HANDOFF.md
+# Third-party copyrighted source data (e.g. journal supplementary information).
+# Used locally to derive StericX results; never redistributed in this repo.
+/data/external/
 # Large regenerable Study 004 scaled intermediates (results are summarized in
 # STUDY_004_SCALED.md and kraken_dft_scaled_comparison.csv).
 /docs/study_004/kraken_dft_scaled_reactions.csv

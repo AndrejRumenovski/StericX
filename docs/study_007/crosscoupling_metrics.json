@@ -1,0 +1,118 @@
+{
+  "descriptor_fidelity": {
+    "mae": 0.14376617954071,
+    "n": 479,
+    "r2": 0.9991749203612923
+  },
+  "ligands": 103,
+  "reactions": {
+    "I": {
+      "paper": {
+        "acc": 0.79,
+        "dir": "Left",
+        "thr": 32.42,
+        "y_cut": 10
+      },
+      "stericx": {
+        "accuracy": 0.7647058823529411,
+        "direction": "Left",
+        "f1": 0.8181818181818182,
+        "mcc": 0.588348405414552,
+        "n": 34,
+        "n_active": 18,
+        "threshold": 32.54155158996582
+      },
+      "y_cut": 10
+    },
+    "II": {
+      "paper": {
+        "acc": 0.7,
+        "dir": "Left",
+        "thr": 32.74,
+        "y_cut": 10
+      },
+      "stericx": {
+        "accuracy": 0.7191011235955056,
+        "direction": "Left",
+        "f1": 0.7368421052631579,
+        "mcc": 0.5597067133224968,
+        "n": 89,
+        "n_active": 35,
+        "threshold": 31.950950622558594
+      },
+      "y_cut": 10
+    },
+    "III": {
+      "paper": {
+        "acc": 0.67,
+        "dir": "Left",
+        "thr": 31.55,
+        "y_cut": 5
+      },
+      "stericx": {
+        "accuracy": 0.6404494382022472,
+        "direction": "Left",
+        "f1": 0.627906976744186,
+        "mcc": 0.4705661236885403,
+        "n": 89,
+        "n_active": 27,
+        "threshold": 31.75624942779541
+      },
+      "y_cut": 5
+    },
+    "IV": {
+      "paper": {
+        "acc": 0.64,
+        "dir": "Left",
+        "thr": 31.89,
+        "y_cut": 5
+      },
+      "stericx": {
+        "accuracy": 0.6629213483146067,
+        "direction": "Left",
+        "f1": 0.6666666666666666,
+        "mcc": 0.4957446034647344,
+        "n": 89,
+        "n_active": 30,
+        "threshold": 31.950950622558594
+      },
+      "y_cut": 5
+    },
+    "RS1": {
+      "paper": {
+        "acc": 0.7,
+        "dir": "Left",
+        "thr": 31.89,
+        "y_cut": 10
+      },
+      "stericx": {
+        "accuracy": 0.7078651685393258,
+        "direction": "Left",
+        "f1": 0.723404255319149,
+        "mcc": 0.5466149273372242,
+        "n": 89,
+        "n_active": 34,
+        "threshold": 31.950950622558594
+      },
+      "y_cut": 10
+    },
+    "V": {
+      "paper": {
+        "acc": 0.66,
+        "dir": "Left",
+        "thr": 51.53,
+        "y_cut": 20
+      },
+      "stericx": {
+        "accuracy": 0.651685393258427,
+        "direction": "Left",
+        "f1": 0.7633587786259542,
+        "mcc": 0.3558403417890825,
+        "n": 89,
+        "n_active": 50,
+        "threshold": 50.791799545288086
+      },
+      "y_cut": 20
+    }
+  }
+}

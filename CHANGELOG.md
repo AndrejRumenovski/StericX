@@ -8,6 +8,16 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Study 007 (`study_kraken_crosscoupling.py`, `docs/study_007/STUDY_007.md`): an
+  independent second reaction model. StericX reproduces the %Vbur(min)
+  cross-coupling reactivity classifier of Newman-Stonebraker et al. (Science
+  2021, 374, 301) on the authors' Reactions I-V and RS1 — matching the published
+  %Vbur(min) across 479 ligand-reaction points at R2 = 0.9992 (MAE 0.144%), and
+  recovering the paper's single-node threshold classifier (Table S11): same
+  thresholds (~32%), same direction, matching mean accuracy (0.69 vs 0.69). The
+  paper's copyrighted supplementary data is read locally (data/external/,
+  gitignored) and never redistributed; only StericX's computed values and the
+  comparison are committed.
 - Study 006 (`study_residual_localization.py`, `docs/study_006/STUDY_006.md`): a
   controlled test that localizes the buried-volume residual to the coordination
   centre. On the same 1,541 ligands, the four descriptors anchored on the centre

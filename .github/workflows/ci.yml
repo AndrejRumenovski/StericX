@@ -46,11 +46,11 @@ jobs:
       - name: Check support-script syntax
         run: |
           uv run python -m py_compile \
-            studies/prepare_data.py \
-            studies/prepare_quantum_data.py \
-            studies/freeze_prospective_deck.py \
-            studies/stericx_quantum.py \
-            studies/study_002_sterimol_validation.py \
+            scripts/prepare_data.py \
+            scripts/prepare_quantum_data.py \
+            scripts/freeze_prospective_deck.py \
+            scripts/stericx_quantum.py \
+            scripts/validate_stericx.py \
             studies/study_001_ni_hda.py \
             studies/study_002_buried_volume.py \
             studies/study_003_quantum_geometry.py \

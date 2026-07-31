@@ -12,7 +12,7 @@ Dependencies:
     morfeus-fsu (import name: morfeus), numpy, matplotlib, scipy, pandas
 
 Run:
-    python studies/study_002_sterimol_validation.py
+    python scripts/validate_stericx.py
 """
 
 from __future__ import annotations

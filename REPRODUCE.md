@@ -32,7 +32,7 @@ The quantum toolchain and Python virtualenv live under the git-ignored
 ## Chemical fidelity — Sterimol vs. morfeus
 
 ```bash
-uv run --extra science python studies/study_002_sterimol_validation.py
+uv run --extra science python scripts/validate_stericx.py
 ```
 
 | Parameter | Expected R² | RMSE |
@@ -71,7 +71,7 @@ Phase A isolates the xTB LMO coordination centre on the existing RDKit/MMFF
 conformers:
 
 ```bash
-uv run --extra science python studies/prepare_quantum_data.py --mode lmo
+uv run --extra science python scripts/prepare_quantum_data.py --mode lmo
 uv run --extra science python studies/study_003_quantum_geometry.py --no-build
 ```
 
@@ -82,7 +82,7 @@ The full eleven-ligand production CREST ensemble (hours of CREST/GFN2-xTB;
 cache-resumable):
 
 ```bash
-uv run --extra science python studies/prepare_quantum_data.py \
+uv run --extra science python scripts/prepare_quantum_data.py \
   --mode crest --threads 6 --lmo-workers 6 \
   --output-csv data/reactions_crest.csv \
   --provenance data/quantum/crest_provenance.json

@@ -152,7 +152,7 @@ The reproduction studies use Python, installed reproducibly with
 uv sync --extra science
 ```
 
-Then prefix Python workflows with `uv run` (for example `uv run studies/prepare_data.py`).
+Then prefix Python workflows with `uv run` (for example `uv run scripts/prepare_data.py`).
 Study 003 optionally uses the exact public Kraken-era quantum toolchain; the
 installer verifies the release-archive checksums and keeps the executables and
 calculation cache under the ignored `.stericx/` directory:
@@ -202,12 +202,12 @@ for chemical accuracy at library scale.
 
 ### Numerical fidelity vs `morfeus-fsu`
 
-[`studies/study_002_sterimol_validation.py`](studies/study_002_sterimol_validation.py) evaluates every structure in
+[`scripts/validate_stericx.py`](scripts/validate_stericx.py) evaluates every structure in
 `data/xyz/` with both StericX and `morfeus-fsu`, using identical attachment
 indices and atomic radii, and renders 400-DPI correlation plots.
 
 ```bash
-python studies/study_002_sterimol_validation.py
+python scripts/validate_stericx.py
 ```
 
 The current checked-in validation run contains 11 structures.
@@ -283,7 +283,7 @@ raw comparisons, plots, and machine-readable results under `docs/study_00N/`.
 
 ### Dataset preparation
 
-[`studies/prepare_data.py`](studies/prepare_data.py) downloads the public Sigman Group
+[`scripts/prepare_data.py`](scripts/prepare_data.py) downloads the public Sigman Group
 Ni-catalyzed homo-Diels–Alder/Kraken table when available. It preserves the
 complete 1,566-ligand source table and exact-download SHA-256 provenance,
 identifies the ten published training ligands and historical holdout, and
@@ -291,7 +291,7 @@ generates deterministic ETKDGv3/MMFF94 conformer ensembles for measured rows
 (optimized, energy-windowed, and Boltzmann-weighted before export).
 
 ```bash
-python studies/prepare_data.py            # or --offline for the embedded 100-reaction benchmark
+python scripts/prepare_data.py            # or --offline for the embedded 100-reaction benchmark
 ```
 
 ```text
@@ -366,7 +366,7 @@ coordination centres.
 effect of replacing the inferred centre with the xTB LMO centre:
 
 ```bash
-uv run --extra science python studies/prepare_quantum_data.py --mode lmo
+uv run --extra science python scripts/prepare_quantum_data.py --mode lmo
 uv run --extra science python studies/study_003_quantum_geometry.py --no-build
 ```
 
@@ -384,7 +384,7 @@ the next controlled variable. **Phase B** replaces the ensemble with 322 freshly
 sampled CREST conformers using the same CREST profile Kraken recorded:
 
 ```bash
-uv run --extra science python studies/prepare_quantum_data.py \
+uv run --extra science python scripts/prepare_quantum_data.py \
   --mode crest --threads 4 --lmo-workers 4 \
   --output-csv data/reactions_crest.csv \
   --provenance data/quantum/crest_provenance.json
@@ -854,7 +854,6 @@ src/
 studies/          Reproduction study drivers (Python → docs/study_00N/)
 ├── study_001_ni_hda.py                 Ni-hDA enantioselectivity model (Study 001)
 ├── study_002_buried_volume.py          buried-volume fidelity vs morfeus (Study 002)
-├── study_002_sterimol_validation.py    Sterimol fidelity vs morfeus (Study 002)
 ├── study_003_quantum_geometry.py       CREST/xTB geometry ensemble (Study 003)
 ├── study_004_reproduction.py           11-ligand Kraken DFT reproduction (Study 004)
 ├── study_004_scaled.py                 full 1,541-ligand scaled reproduction
@@ -864,9 +863,12 @@ studies/          Reproduction study drivers (Python → docs/study_00N/)
 ├── study_005_pyramidalization.py       pyr_P / pyr_alpha vs Kraken (Study 005)
 ├── study_006_residual_localization.py  residual localized to the centre (Study 006)
 ├── study_007_crosscoupling.py          independent cross-coupling model (Study 007)
-├── study_008_speed_benchmark.py        speed benchmark vs morfeus (Study 008)
+└── study_008_speed_benchmark.py        speed benchmark vs morfeus (Study 008)
+
+scripts/          Support utilities (data prep, validation, quantum backend)
 ├── prepare_data.py                     reaction-data preparation
 ├── prepare_quantum_data.py             CREST/xTB geometry preparation
+├── validate_stericx.py                 Sterimol fidelity vs morfeus
 ├── stericx_quantum.py                  xTB/CREST backend wrapper
 └── freeze_prospective_deck.py          frozen prospective candidate deck
 ```

@@ -90,10 +90,10 @@ fi
 log "Bootstrap complete"
 cat <<'EOF'
 Next steps (see REPRODUCE.md for expected numbers):
-  uv run --extra science python studies/study_002_sterimol_validation.py     # Sterimol vs morfeus
+  uv run --extra science python scripts/validate_stericx.py     # Sterimol vs morfeus
   uv run --extra science python studies/study_001_ni_hda.py --offline
   uv run --extra science python studies/study_002_buried_volume.py
   # Study 003 (needs ./bootstrap.sh --with-quantum first):
-  uv run --extra science python studies/prepare_quantum_data.py --mode lmo
+  uv run --extra science python scripts/prepare_quantum_data.py --mode lmo
   uv run --extra science python studies/study_003_quantum_geometry.py --no-build
 EOF

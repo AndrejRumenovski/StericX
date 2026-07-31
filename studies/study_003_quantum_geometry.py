@@ -21,6 +21,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+
+# The quantum backend (stericx_quantum) lives in scripts/; make it importable.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 from stericx_quantum import relativize_paths
 from study_002_buried_volume import (
     BLIND_ID,

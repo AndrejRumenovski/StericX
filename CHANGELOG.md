@@ -8,6 +8,18 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Study 008 (`study_speed_benchmark.py`, `docs/study_008/STUDY_008.md`): a
+  head-to-head throughput benchmark against morfeus, the reference Python
+  implementation. Computing the flagship buried-volume descriptor on the same
+  1,546-ligand library, on the same single CPU core, StericX is ~14x faster
+  (~1,110 vs ~81 structures/s) — a conservative figure, since StericX also
+  computes Sterimol and pyramidalization in the same timed pass. The speedup is
+  not from a cheaper computation: of the 1,534 phosphines morfeus can frame,
+  1,518 agree to R2 = 0.999999 (max |diff| 0.42 %Vbur); the 16 that differ are
+  frame-topology cases (morfeus's nearest-3-heavy vs StericX's covalent bonding,
+  Study 006), reported separately rather than averaged away. Only StericX's own
+  timings and the aggregate agreement are committed; the Kraken SDF cache stays
+  local and gitignored.
 - Study 007 (`study_kraken_crosscoupling.py`, `docs/study_007/STUDY_007.md`): an
   independent second reaction model. StericX reproduces the %Vbur(min)
   cross-coupling reactivity classifier of Newman-Stonebraker et al. (Science

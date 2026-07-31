@@ -65,10 +65,10 @@ produced by the Sigman or Reisman groups. See [References](#references-and-attri
 - **Reproducibility** — one-command bootstrap, checksum-pinned CREST 2.12 / xTB
   6.4.0, content-addressed caches, frozen prediction hashes, green CI, dual
   MIT/Apache licensing.
-- **Scientific studies** — seven studies (Ni-hDA model, buried-volume fidelity,
+- **Scientific studies** — eight studies (Ni-hDA model, buried-volume fidelity,
   quantum geometry, Kraken DFT reproduction, pyramidalization, residual
-  localization, and an independent cross-coupling reaction model), each with
-  passed *and* failed gates recorded.
+  localization, an independent cross-coupling reaction model, and a head-to-head
+  speed benchmark vs morfeus), each with passed *and* failed gates recorded.
 - **Transparency at scale** — a genuine kernel bug surfaced by the full library
   was fixed **without discarding a single ligand**, and the remaining residual is
   fully characterized by phosphine class.
@@ -648,6 +648,32 @@ computed values and the comparison.
 ![Cross-coupling %Vbur parity](docs/study_007/crosscoupling_vbur_parity.png)
 ![Independent-geometry %Vbur parity](docs/study_007/crosscoupling_independent_geom.png)
 
+### Study 008 — A head-to-head speed benchmark vs morfeus
+
+Fidelity (Studies 002/005) is only half of a reproduction's practical value; the
+other half is cost. Study 008 times StericX against **morfeus**, the reference
+Python implementation, computing the flagship **buried-volume** descriptor on the
+same **1,546-ligand** library, on the **same single CPU core**, both timed
+end-to-end from a warm cache.
+
+| | Wall time | Throughput | Relative |
+|---|---:|---:|---:|
+| morfeus (Python) | 19.2 s | 81 / s | 1× |
+| **StericX** (Rust binary) | **1.4 s** | **1,110 / s** | **≈14×** |
+
+StericX is **~14× faster on a single core** — and the comparison is
+*conservative*: StericX computes Sterimol and pyramidalization in the same timed
+pass, while morfeus is timed for buried volume alone. The speedup is not from
+computing something cheaper: of the 1,534 phosphines morfeus can frame, **1,518
+agree to R² = 0.999999** (max |diff| 0.42 %Vbur). The 16 that differ are
+frame-topology cases — morfeus's naive "3 nearest heavy atoms" vs StericX's
+covalent-radius bonding (the Study 006 frame issue) — shown separately, not
+averaged away. StericX also ships as a single **1.9 MB** binary with zero runtime
+dependencies. Full results:
+[`docs/study_008/STUDY_008.md`](docs/study_008/STUDY_008.md).
+
+![Speed benchmark vs morfeus](docs/study_008/speed_benchmark.png)
+
 ---
 
 ## Roadmap
@@ -666,6 +692,7 @@ graph TD
         D9[Pyramidalization pyr_P / pyr_alpha · mean R² 0.99998 · Study 005]
         D10[Residual localized to the centre · Study 006]
         D11[Second reaction model · Ni cross-coupling · Study 007]
+        D12[Speed benchmark vs morfeus · ≈14× single-core · Study 008]
     end
     subgraph Next["🔭 Planned / optional"]
         P1["Prospective 10-candidate deck<br/>frozen; awaits experimental measurement"]
@@ -835,6 +862,7 @@ Reproduction studies (Python drivers → docs/):
 ├── study_kraken_pyramidalization.py   pyr_P / pyr_alpha vs Kraken (Study 005)
 ├── study_residual_localization.py     residual localized to the centre (Study 006)
 ├── study_kraken_crosscoupling.py      independent cross-coupling model (Study 007)
+├── study_speed_benchmark.py           speed benchmark vs morfeus (Study 008)
 ├── study_frame_residual.py            residual anatomy by phosphine class
 └── validate_stericx.py                Sterimol fidelity vs morfeus
 ```

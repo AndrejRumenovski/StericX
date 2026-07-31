@@ -1,0 +1,32 @@
+{
+  "agreement": {
+    "frame_outliers": 16,
+    "frame_tolerance": 0.5,
+    "mae": 0.03700605330744724,
+    "max_abs_diff": 8.547505399792314,
+    "max_abs_diff_excluding_frame_outliers": 0.4218328141225314,
+    "n": 1534,
+    "r2": 0.998549372511589,
+    "r2_excluding_frame_outliers": 0.9999989022833605
+  },
+  "morfeus": {
+    "seconds": 19.149868673000128,
+    "throughput_per_s": 80.73162413796307
+  },
+  "reps": 3,
+  "scale": "ligands (one geometry each)",
+  "speedup": 13.753190406014937,
+  "stericx": {
+    "seconds": 1.3923946449999676,
+    "throughput_per_s": 1110.3173985562375
+  },
+  "structures": 1546,
+  "system": {
+    "binary_bytes": 1857272,
+    "cores": 12,
+    "cpu": "AMD Ryzen 5 5600G with Radeon Graphics",
+    "machine": "x86_64",
+    "morfeus_version": "morfeus-ml 0.8.0",
+    "threads": "single (RAYON_NUM_THREADS=1; morfeus single-threaded)"
+  }
+}

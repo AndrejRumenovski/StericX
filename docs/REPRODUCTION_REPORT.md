@@ -358,6 +358,25 @@ StericX itself spans across Kraken's conformers. This is a fully independent pat
 — their structures through StericX's kernel, with no shared coordinates
 (`study_kraken_crosscoupling.py`, `study_007/STUDY_007.md`).
 
+### 3.8 Throughput: how much faster than the reference
+
+Reproducing a descriptor faithfully is necessary but not sufficient to be useful;
+speed is the other half. We benchmark StericX against morfeus, the reference
+Python implementation, computing the flagship buried-volume descriptor on the same
+1,546-ligand library, on the same single CPU core, both timed end-to-end from a
+warm file cache. StericX completes the library in 1.4 s (≈1,110 structures/s)
+against morfeus's 19.2 s (≈81 structures/s) — a **≈14× single-core speedup**. The
+comparison is conservative: StericX computes Sterimol and pyramidalization in the
+same timed pass, whereas morfeus is timed for buried volume alone. The speedup is
+not an artifact of computing a cheaper quantity — of the 1,534 phosphines morfeus
+can frame, 1,518 agree to \(R^2 = 0.999999\) (maximum absolute difference
+0.42 %Vbur); the 16 that differ are frame-topology cases (morfeus's nearest-three-
+heavy rule versus StericX's covalent bonding, §3.5–3.6), reported separately
+rather than averaged away. Combined with a single 1.9 MB dependency-free binary,
+the practical advantage at library scale is both the constant-factor speed and the
+absence of any interpreter or scientific-Python stack to deploy
+(`study_speed_benchmark.py`, `study_008/STUDY_008.md`).
+
 ## 4. Limitations (reported, not hidden)
 
 - **Compact native descriptors underperform.** StericX's own Sterimol/NBO feature

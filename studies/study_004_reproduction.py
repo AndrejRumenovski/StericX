@@ -83,7 +83,7 @@ BASELINE_NIHDA_RMSE: Final[float] = 0.5682
 
 
 def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--binary", default=root / "target" / "release" / "stericx")
     parser.add_argument(

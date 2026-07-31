@@ -53,7 +53,7 @@ TEMPERATURE_K: Final[float] = 298.15
 
 
 def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(
         description="Freeze a target-free diverse ligand deck for new experiments."
     )

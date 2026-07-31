@@ -46,19 +46,23 @@ jobs:
       - name: Check support-script syntax
         run: |
           uv run python -m py_compile \
-            prepare_data.py \
-            prepare_quantum_data.py \
-            freeze_prospective_deck.py \
-            stericx_quantum.py \
-            validate_stericx.py \
-            study_ni_hda.py \
-            study_buried_volume.py \
-            study_quantum_geometry.py \
-            study_kraken_dft_reproduction.py \
-            study_kraken_dft_scaled.py \
-            study_kraken_vbur_family.py \
-            study_kraken_sterimol.py \
-            study_frame_residual.py
+            studies/prepare_data.py \
+            studies/prepare_quantum_data.py \
+            studies/freeze_prospective_deck.py \
+            studies/stericx_quantum.py \
+            studies/study_002_sterimol_validation.py \
+            studies/study_001_ni_hda.py \
+            studies/study_002_buried_volume.py \
+            studies/study_003_quantum_geometry.py \
+            studies/study_004_reproduction.py \
+            studies/study_004_scaled.py \
+            studies/study_004_vbur_family.py \
+            studies/study_004_sterimol.py \
+            studies/study_004_frame_residual.py \
+            studies/study_005_pyramidalization.py \
+            studies/study_006_residual_localization.py \
+            studies/study_007_crosscoupling.py \
+            studies/study_008_speed_benchmark.py
           bash -n benchmark_linux.sh install_quantum_tools.sh
 
       - name: Lint and format-check Python

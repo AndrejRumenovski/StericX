@@ -152,7 +152,7 @@ The reproduction studies use Python, installed reproducibly with
 uv sync --extra science
 ```
 
-Then prefix Python workflows with `uv run` (for example `uv run prepare_data.py`).
+Then prefix Python workflows with `uv run` (for example `uv run studies/prepare_data.py`).
 Study 003 optionally uses the exact public Kraken-era quantum toolchain; the
 installer verifies the release-archive checksums and keeps the executables and
 calculation cache under the ignored `.stericx/` directory:
@@ -202,12 +202,12 @@ for chemical accuracy at library scale.
 
 ### Numerical fidelity vs `morfeus-fsu`
 
-[`validate_stericx.py`](validate_stericx.py) evaluates every structure in
+[`studies/study_002_sterimol_validation.py`](studies/study_002_sterimol_validation.py) evaluates every structure in
 `data/xyz/` with both StericX and `morfeus-fsu`, using identical attachment
 indices and atomic radii, and renders 400-DPI correlation plots.
 
 ```bash
-python validate_stericx.py
+python studies/study_002_sterimol_validation.py
 ```
 
 The current checked-in validation run contains 11 structures.
@@ -283,7 +283,7 @@ raw comparisons, plots, and machine-readable results under `docs/study_00N/`.
 
 ### Dataset preparation
 
-[`prepare_data.py`](prepare_data.py) downloads the public Sigman Group
+[`studies/prepare_data.py`](studies/prepare_data.py) downloads the public Sigman Group
 Ni-catalyzed homo-Diels–Alder/Kraken table when available. It preserves the
 complete 1,566-ligand source table and exact-download SHA-256 provenance,
 identifies the ten published training ligands and historical holdout, and
@@ -291,7 +291,7 @@ generates deterministic ETKDGv3/MMFF94 conformer ensembles for measured rows
 (optimized, energy-windowed, and Boltzmann-weighted before export).
 
 ```bash
-python prepare_data.py            # or --offline for the embedded 100-reaction benchmark
+python studies/prepare_data.py            # or --offline for the embedded 100-reaction benchmark
 ```
 
 ```text
@@ -303,13 +303,13 @@ data/reactions_raw.csv             10 training + 1 historical-blind reaction
 
 ### Study 001 — Ni-hDA enantioselectivity model
 
-[`study_ni_hda.py`](study_ni_hda.py) reproduces the published ten-ligand
+[`studies/study_001_ni_hda.py`](studies/study_001_ni_hda.py) reproduces the published ten-ligand
 enantioselectivity relationship using the preregistered Kraken descriptor
 `vbur_max_delta_qvbur_min`, writing and hashing the ligand-723 prediction before
 revealing the experimental target.
 
 ```bash
-python study_ni_hda.py --offline
+python studies/study_001_ni_hda.py --offline
 ```
 
 | Model | Training \(R^2\) | LOO \(Q^2\) | LOO RMSE | Historical-blind MAE |
@@ -329,14 +329,14 @@ limitations, frozen prediction hashes, residuals, correlations, and VIF table:
 
 ### Study 002 — Coordination-aware buried-volume fidelity
 
-[`study_buried_volume.py`](study_buried_volume.py) freezes the descriptor
+[`studies/study_002_buried_volume.py`](studies/study_002_buried_volume.py) freezes the descriptor
 definition from the public Kraken implementation, calculates a trusted Morfeus
 reference on every retained conformer, executes the native Rust implementation,
 validates `.sigpack` v2 aggregation, and reruns the unchanged Ni-hDA
 train/holdout partition.
 
 ```bash
-uv run --extra science python study_buried_volume.py
+uv run --extra science python studies/study_002_buried_volume.py
 ```
 
 | Validation target | Result | Status |
@@ -366,8 +366,8 @@ coordination centres.
 effect of replacing the inferred centre with the xTB LMO centre:
 
 ```bash
-uv run --extra science python prepare_quantum_data.py --mode lmo
-uv run --extra science python study_quantum_geometry.py --no-build
+uv run --extra science python studies/prepare_quantum_data.py --mode lmo
+uv run --extra science python studies/study_003_quantum_geometry.py --no-build
 ```
 
 | Validation target | Result | Gate |
@@ -384,7 +384,7 @@ the next controlled variable. **Phase B** replaces the ensemble with 322 freshly
 sampled CREST conformers using the same CREST profile Kraken recorded:
 
 ```bash
-uv run --extra science python prepare_quantum_data.py \
+uv run --extra science python studies/prepare_quantum_data.py \
   --mode crest --threads 4 --lmo-workers 4 \
   --output-csv data/reactions_crest.csv \
   --provenance data/quantum/crest_provenance.json
@@ -416,13 +416,13 @@ family. Both outcomes remain visible. Full results:
 Studies 002 and 003 left the native descriptor below the official values
 (\(R^2 = 0.8626\) and \(0.9254\)) without isolating whether the shortfall came
 from the StericX kernel or the cheaper conformer geometries.
-[`study_kraken_dft_reproduction.py`](study_kraken_dft_reproduction.py) settles it
+[`studies/study_004_reproduction.py`](studies/study_004_reproduction.py) settles it
 by downloading Kraken's own DFT-optimized geometries (PBE/6-31+G(d,p), GD3BJ)
 from the public MolSSI descriptor-library REST API and running the unchanged
 kernel on them.
 
 ```bash
-uv run --extra science python study_kraken_dft_reproduction.py --no-build
+uv run --extra science python studies/study_004_reproduction.py --no-build
 ```
 
 **Step 1 — isolate the geometry.** Holding StericX's 2.1 Å geometric-centre
@@ -455,12 +455,12 @@ Per-ligand table, parity plot, and provenance:
 ![Buried volume on Kraken DFT geometry](docs/study_004/kraken_dft_parity.png)
 
 **Scaled to the entire public Kraken set.**
-[`study_kraken_dft_scaled.py`](study_kraken_dft_scaled.py) runs the identical
+[`studies/study_004_scaled.py`](studies/study_004_scaled.py) runs the identical
 kernel (2.28 Å convention) on every Kraken ligand with a published value and DFT
 geometry:
 
 ```bash
-uv run --extra science python study_kraken_dft_scaled.py --no-build
+uv run --extra science python studies/study_004_scaled.py --no-build
 ```
 
 Across **1,541 chemically diverse ligands** (31,611 DFT conformers) the kernel
@@ -483,15 +483,15 @@ then fully characterized: tertiary phosphines (98.4 %) are unbiased, and the
 entire remaining bias is confined to 24 primary/secondary phosphines, growing
 ~0.7 Å³ per P–H bond — the signature of the geometric lone-pair centre standing
 in for Kraken's exact xTB centre
-([`study_frame_residual.py`](study_frame_residual.py),
+([`studies/study_004_frame_residual.py`](studies/study_004_frame_residual.py),
 [`STUDY_004_RESIDUAL.md`](docs/study_004/STUDY_004_RESIDUAL.md)).
 
 **The whole descriptor family, not one contrast.**
-[`study_kraken_vbur_family.py`](study_kraken_vbur_family.py) compares StericX
+[`studies/study_004_vbur_family.py`](studies/study_004_vbur_family.py) compares StericX
 against Kraken's published values for the *entire* `vbur` family — buried volume,
 quadrant and octant extrema, near/far hemispheres, eight descriptors — across all
 1,541 ligands (mean \(R^2 = 0.9925\)).
-[`study_kraken_sterimol.py`](study_kraken_sterimol.py) does the same for Kraken's
+[`studies/study_004_sterimol.py`](studies/study_004_sterimol.py) does the same for Kraken's
 published Sterimol once its coordination-axis convention is matched (a virtual
 metal at the same 2.28 Å centre, with the +0.40 Å Verloop \(L\) correction; mean
 \(R^2 = 0.9887\)). Two independent classical steric-descriptor families, each
@@ -512,13 +512,13 @@ vectors — `pyr_P = |det[â, b̂, ĉ]|` (with morfeus's `2 − P` acute correct
 `pyr_alpha` as the mean signed out-of-plane angle. Both were verified against
 morfeus to machine precision (4.4×10⁻¹⁶ and 2.8×10⁻¹⁴) before implementation.
 
-[`study_kraken_pyramidalization.py`](study_kraken_pyramidalization.py) runs the
+[`studies/study_005_pyramidalization.py`](studies/study_005_pyramidalization.py) runs the
 native kernel on Kraken's own DFT conformers and compares the `min` and `max`
 conformer reductions (both weight-independent) against Kraken's published values
 across the same 1,541 ligands.
 
 ```bash
-uv run --extra science python study_kraken_pyramidalization.py --no-build --workers 8
+uv run --extra science python studies/study_005_pyramidalization.py --no-build --workers 8
 ```
 
 | Descriptor | Reduction | \(R^2\) | RMSE | Median abs. err |
@@ -544,7 +544,7 @@ geometry-input floor, not a method difference. Full results:
 Study 004 found the buried-volume residual is confined to 24 primary/secondary
 phosphines and grows ~0.7 Å³ per P–H bond, and attributed it to StericX's
 geometric lone-pair center standing in for Kraken's xTB localized-orbital center.
-[`study_residual_localization.py`](study_residual_localization.py) turns that
+[`studies/study_006_residual_localization.py`](studies/study_006_residual_localization.py) turns that
 attribution into a controlled test. It splits the six descriptors by their
 dependence on the coordination center — buried volume and Sterimol `L`/`B1`/`B5`
 are anchored on it; pyramidalization (`pyr_P`, `pyr_alpha`) is computed purely
@@ -552,7 +552,7 @@ from the three bond vectors and never references it — and measures the residua
 dependence on P–H count for each, on the *same* 1,541 ligands.
 
 ```bash
-uv run --extra science python study_residual_localization.py --no-build --workers 8
+uv run --extra science python studies/study_006_residual_localization.py --no-build --workers 8
 ```
 
 | Descriptor | Center | Std. residual slope per P–H |
@@ -586,7 +586,7 @@ Newman-Stonebraker, Sigman & Doyle (*Science* **2021**, *374*, 301,
 [10.1126/science.abj4213](https://doi.org/10.1126/science.abj4213)) classify
 monodentate phosphines as active/inactive across Ni cross-coupling reactions
 using a single-node threshold on **%Vbur(min)** — a descriptor StericX already
-reproduces (Study 004). [`study_kraken_crosscoupling.py`](study_kraken_crosscoupling.py)
+reproduces (Study 004). [`studies/study_007_crosscoupling.py`](studies/study_007_crosscoupling.py)
 tests whether StericX reproduces both the descriptor and the classifier on the
 authors' own datasets (Reactions I–V, RS1).
 
@@ -851,20 +851,24 @@ src/
 ├── kinetics/     Eyring rates and enantiomeric distributions
 └── main.rs       clap command-line interface (incl. `descriptors`)
 
-Reproduction studies (Python drivers → docs/):
-├── study_ni_hda.py                    Ni-hDA enantioselectivity model (Study 001)
-├── study_buried_volume.py             buried-volume fidelity vs morfeus (Study 002)
-├── study_quantum_geometry.py          CREST/xTB geometry ensemble (Study 003)
-├── study_kraken_dft_reproduction.py   11-ligand Kraken DFT reproduction (Study 004)
-├── study_kraken_dft_scaled.py         full 1,541-ligand scaled reproduction
-├── study_kraken_vbur_family.py        whole buried-volume family vs Kraken
-├── study_kraken_sterimol.py           Sterimol vs Kraken, coordination axis
-├── study_kraken_pyramidalization.py   pyr_P / pyr_alpha vs Kraken (Study 005)
-├── study_residual_localization.py     residual localized to the centre (Study 006)
-├── study_kraken_crosscoupling.py      independent cross-coupling model (Study 007)
-├── study_speed_benchmark.py           speed benchmark vs morfeus (Study 008)
-├── study_frame_residual.py            residual anatomy by phosphine class
-└── validate_stericx.py                Sterimol fidelity vs morfeus
+studies/          Reproduction study drivers (Python → docs/study_00N/)
+├── study_001_ni_hda.py                 Ni-hDA enantioselectivity model (Study 001)
+├── study_002_buried_volume.py          buried-volume fidelity vs morfeus (Study 002)
+├── study_002_sterimol_validation.py    Sterimol fidelity vs morfeus (Study 002)
+├── study_003_quantum_geometry.py       CREST/xTB geometry ensemble (Study 003)
+├── study_004_reproduction.py           11-ligand Kraken DFT reproduction (Study 004)
+├── study_004_scaled.py                 full 1,541-ligand scaled reproduction
+├── study_004_vbur_family.py            whole buried-volume family vs Kraken
+├── study_004_sterimol.py               Sterimol vs Kraken, coordination axis
+├── study_004_frame_residual.py         residual anatomy by phosphine class
+├── study_005_pyramidalization.py       pyr_P / pyr_alpha vs Kraken (Study 005)
+├── study_006_residual_localization.py  residual localized to the centre (Study 006)
+├── study_007_crosscoupling.py          independent cross-coupling model (Study 007)
+├── study_008_speed_benchmark.py        speed benchmark vs morfeus (Study 008)
+├── prepare_data.py                     reaction-data preparation
+├── prepare_quantum_data.py             CREST/xTB geometry preparation
+├── stericx_quantum.py                  xTB/CREST backend wrapper
+└── freeze_prospective_deck.py          frozen prospective candidate deck
 ```
 
 Per-study results, tables, and parity figures live under `docs/study_00N/`; a

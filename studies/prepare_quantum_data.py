@@ -20,7 +20,6 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import pandas as pd
-
 from stericx_quantum import (
     QuantumBackend,
     QuantumBackendError,
@@ -32,7 +31,7 @@ from stericx_quantum import (
 
 
 def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(
         description="Generate quantum-derived conformers and coordination centers."
     )
@@ -317,7 +316,7 @@ def main(argv: Iterable[str] | None = None) -> int:
         }
         atomic_write_json(
             args.provenance,
-            relativize_paths(provenance, Path(__file__).resolve().parent),
+            relativize_paths(provenance, Path(__file__).resolve().parent.parent),
         )
         print("\nQuantum data preparation complete")
         print(f"  mode={args.mode}")

@@ -10,7 +10,7 @@ Dependencies:
     morfeus, numpy, matplotlib, scipy, pandas
 
 Run:
-    uv run --extra science python study_buried_volume.py
+    uv run --extra science python studies/study_002_buried_volume.py
 """
 
 from __future__ import annotations
@@ -42,7 +42,7 @@ try:
 except ImportError as exc:  # pragma: no cover - environment dependent
     raise SystemExit(
         "Missing study dependency. Run with "
-        "`uv run --extra science python study_buried_volume.py`."
+        "`uv run --extra science python studies/study_002_buried_volume.py`."
     ) from exc
 
 
@@ -145,7 +145,7 @@ class ModelMetrics:
 
 
 def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(
         description="Run StericX Study 002 buried-volume fidelity validation."
     )
@@ -412,7 +412,7 @@ def ensure_binary(binary: Path, no_build: bool) -> None:
         return
     if no_build:
         raise FileNotFoundError(f"release binary not found: {binary}")
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     completed = subprocess.run(
         ["cargo", "build", "--release"],
         cwd=root,

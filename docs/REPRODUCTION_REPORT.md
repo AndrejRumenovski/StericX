@@ -159,7 +159,7 @@ derived quantity, so reproducing it alone leaves open whether the underlying
 buried-volume computation is right or merely right on that one contrast. The
 same kernel run produces Kraken's entire `vbur` family, so each member was
 compared against Kraken's *published* value across the 1,541 ligands, at the
-published minimum over the conformer ensemble (`study_kraken_vbur_family.py`,
+published minimum over the conformer ensemble (`studies/study_004_vbur_family.py`,
 `study_004/STUDY_004_FAMILY.md`). Every descriptor reproduces, mean
 \(R^2 = 0.9925\) (Fig. 3):
 
@@ -196,7 +196,7 @@ sweeping it, 2.28 Å is the one value at which the published \(L\) falls on the
 diagonal, exactly mirroring §3.2. With the axis matched (exposed as
 `stericx descriptors --sterimol-axis coordination`), StericX reproduces Kraken's
 published Sterimol across the 1,541 ligands at each conformer-ensemble extreme,
-mean \(R^2 = 0.9887\) (`study_kraken_sterimol.py`,
+mean \(R^2 = 0.9887\) (`studies/study_004_sterimol.py`,
 `study_004/STUDY_004_STERIMOL.md`, Fig. 4):
 
 | | \(L\) | \(B_1\) | \(B_5\) |
@@ -222,7 +222,7 @@ to machine precision (\(4.4 \times 10^{-16}\) and \(2.8 \times 10^{-14}\)),
 confirming the definitions before any scale test. Run on Kraken's DFT conformers,
 the native kernel reproduces the published values across the 1,541 ligands at
 each conformer-ensemble extreme (mean \(R^2 = 0.99998\);
-`study_kraken_pyramidalization.py`, `study_005/STUDY_005.md`, Fig. 5):
+`studies/study_005_pyramidalization.py`, `study_005/STUDY_005.md`, Fig. 5):
 
 | | min over conformers | max over conformers |
 |---|---:|---:|
@@ -309,7 +309,7 @@ kernel with the buried volume and differs only in never placing the coordination
 centre, the kernel, the frame, and the geometries are ruled out: the residual is
 specifically the geometric lone-pair centre diverging from Kraken's xTB centre,
 exactly where a P–H bond replaces a bulky substituent with a short, light one
-(`study_residual_localization.py`, `study_006/STUDY_006.md`).
+(`studies/study_006_residual_localization.py`, `study_006/STUDY_006.md`).
 
 ### 3.7 An independent second reaction model
 
@@ -356,7 +356,7 @@ present in the reaction tables reproduces the published %Vbur(boltz) at \(R^2 =
 0.9735\) (offset +0.12%), with 16 of 18 falling inside the per-ligand %Vbur range
 StericX itself spans across Kraken's conformers. This is a fully independent path
 — their structures through StericX's kernel, with no shared coordinates
-(`study_kraken_crosscoupling.py`, `study_007/STUDY_007.md`).
+(`studies/study_007_crosscoupling.py`, `study_007/STUDY_007.md`).
 
 ### 3.8 Throughput: how much faster than the reference
 
@@ -375,7 +375,7 @@ heavy rule versus StericX's covalent bonding, §3.5–3.6), reported separately
 rather than averaged away. Combined with a single 1.9 MB dependency-free binary,
 the practical advantage at library scale is both the constant-factor speed and the
 absence of any interpreter or scientific-Python stack to deploy
-(`study_speed_benchmark.py`, `study_008/STUDY_008.md`).
+(`studies/study_008_speed_benchmark.py`, `study_008/STUDY_008.md`).
 
 ## 4. Limitations (reported, not hidden)
 
@@ -389,7 +389,7 @@ absence of any interpreter or scientific-Python stack to deploy
 - **Residual tail on the full set.** After matching Kraken's 2.28 Å convention
   and the §3.5 frame fix, the median absolute error is 0.11 Å³ (90th percentile
   0.71 Å³), but a thin minority of the 1,541 ligands scatter further. A residual
-  analysis (`study_frame_residual.py`, `study_004/STUDY_004_RESIDUAL.md`)
+  analysis (`studies/study_004_frame_residual.py`, `study_004/STUDY_004_RESIDUAL.md`)
   localizes this precisely: the 1,517 **tertiary** phosphines (98.4% of the set)
   are unbiased (mean residual −0.010 Å³, class \(R^2 = 0.9869\)), and the entire
   systematic bias lives in the 24 primary and secondary phosphines, growing
@@ -447,11 +447,11 @@ and failed gates are retained.
 
 Source code, all study drivers, provenance, and per-run results are in the
 StericX repository (https://github.com/AndrejRumenovski/StericX). The §3.3
-geometry experiment is reproduced by `study_kraken_dft_reproduction.py`
-(11 ligands) and `study_kraken_dft_scaled.py` (the full 1,541-ligand set), both
+geometry experiment is reproduced by `studies/study_004_reproduction.py`
+(11 ligands) and `studies/study_004_scaled.py` (the full 1,541-ligand set), both
 of which download Kraken's DFT geometries from the public MolSSI API;
-`study_kraken_vbur_family.py` reproduces the §3.3 full buried-volume family
-comparison, `study_kraken_sterimol.py` the §3.3 Sterimol comparison,
-`study_kraken_pyramidalization.py` the §3.3 pyramidalization comparison, and
-`study_frame_residual.py` the §3.5/§4 residual-by-donor-class analysis. A one-page visual summary is at `docs/results.html`, and `REPRODUCE.md`
+`studies/study_004_vbur_family.py` reproduces the §3.3 full buried-volume family
+comparison, `studies/study_004_sterimol.py` the §3.3 Sterimol comparison,
+`studies/study_005_pyramidalization.py` the §3.3 pyramidalization comparison, and
+`studies/study_004_frame_residual.py` the §3.5/§4 residual-by-donor-class analysis. A one-page visual summary is at `docs/results.html`, and `REPRODUCE.md`
 gives a clone-to-results walkthrough.

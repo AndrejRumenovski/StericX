@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 import tempfile
 import time
 import unittest
@@ -9,6 +10,9 @@ from pathlib import Path
 from unittest.mock import patch
 
 import numpy as np
+
+# The study/support scripts live under studies/; add it to the import path.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "studies"))
 
 from stericx_quantum import (
     ANGSTROM_TO_BOHR,

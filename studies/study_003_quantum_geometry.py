@@ -21,9 +21,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
 from stericx_quantum import relativize_paths
-from study_buried_volume import (
+from study_002_buried_volume import (
     BLIND_ID,
     OFFICIAL_FEATURE,
     TRAIN_IDS,
@@ -40,7 +39,7 @@ PUBLISHED_LOO_Q2: Final[float] = 0.7521
 
 
 def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(
         description="Validate xTB LMO centers and report the Study 003 replay."
     )
@@ -111,7 +110,7 @@ def ensure_binary(binary: Path, no_build: bool) -> None:
         return
     if no_build:
         raise FileNotFoundError(f"release binary not found: {binary}")
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     completed = subprocess.run(
         ["cargo", "build", "--release"],
         cwd=root,
@@ -290,7 +289,7 @@ def main(argv: Iterable[str] | None = None) -> int:
         prospective = json.loads(args.prospective_manifest.read_text(encoding="utf-8"))
         deck_path = Path(str(prospective["deck_path"]))
         if not deck_path.is_absolute():
-            deck_path = Path(__file__).resolve().parent / deck_path
+            deck_path = Path(__file__).resolve().parent.parent / deck_path
         deck_sha = hashlib.sha256(deck_path.read_bytes()).hexdigest()
         if deck_sha != prospective["deck_sha256"]:
             raise ValueError("prospective deck hash does not match its manifest")
@@ -351,7 +350,7 @@ def main(argv: Iterable[str] | None = None) -> int:
             },
             "native_console_log": console_log,
         }
-        result = relativize_paths(result, Path(__file__).resolve().parent)
+        result = relativize_paths(result, Path(__file__).resolve().parent.parent)
         atomic_write_text(
             args.output_dir / "study_results.json",
             json.dumps(result, indent=2, sort_keys=True) + "\n",

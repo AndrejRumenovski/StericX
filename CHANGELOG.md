@@ -8,7 +8,7 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- Study 008 (`study_speed_benchmark.py`, `docs/study_008/STUDY_008.md`): a
+- Study 008 (`studies/study_008_speed_benchmark.py`, `docs/study_008/STUDY_008.md`): a
   head-to-head throughput benchmark against morfeus, the reference Python
   implementation. Computing the flagship buried-volume descriptor on the same
   1,546-ligand library, on the same single CPU core, StericX is ~14x faster
@@ -20,7 +20,7 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   Study 006), reported separately rather than averaged away. Only StericX's own
   timings and the aggregate agreement are committed; the Kraken SDF cache stays
   local and gitignored.
-- Study 007 (`study_kraken_crosscoupling.py`, `docs/study_007/STUDY_007.md`): an
+- Study 007 (`studies/study_007_crosscoupling.py`, `docs/study_007/STUDY_007.md`): an
   independent second reaction model. StericX reproduces the %Vbur(min)
   cross-coupling reactivity classifier of Newman-Stonebraker et al. (Science
   2021, 374, 301) on the authors' Reactions I-V and RS1 — matching the published
@@ -38,7 +38,7 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   reaction accuracy/MCC. The paper's copyrighted supplementary data is read
   locally (data/external/, gitignored) and never redistributed; only StericX's
   computed values and the comparison are committed.
-- Study 006 (`study_residual_localization.py`, `docs/study_006/STUDY_006.md`): a
+- Study 006 (`studies/study_006_residual_localization.py`, `docs/study_006/STUDY_006.md`): a
   controlled test that localizes the buried-volume residual to the coordination
   centre. On the same 1,541 ligands, the four descriptors anchored on the centre
   (buried volume, Sterimol L/B1/B5) shift by a mean 1.54 residual-sigma per P-H
@@ -54,13 +54,13 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   acute correction, and `pyr_alpha` as the mean signed out-of-plane angle. Both
   were verified against morfeus to machine precision (4.4×10⁻¹⁶ and 2.8×10⁻¹⁴)
   before implementation. Surfaced through `stericx descriptors` (text/json/csv).
-- Study 005 (`study_kraken_pyramidalization.py`, `docs/study_005/STUDY_005.md`):
+- Study 005 (`studies/study_005_pyramidalization.py`, `docs/study_005/STUDY_005.md`):
   the native kernel reproduces Kraken's published `pyr_P` and `pyr_alpha` (min
   and max conformer reductions) across the same 1,541 ligands at mean
   R² = 0.99998. The small residual (RMSE ~2×10⁻⁴ for `pyr_P`, ~0.03° for
   `pyr_alpha`) reflects the cached DFT SDFs' 4-decimal coordinate precision, not
   a method difference.
-- Sterimol reproduced against Kraken at scale (`study_kraken_sterimol.py`,
+- Sterimol reproduced against Kraken at scale (`studies/study_004_sterimol.py`,
   `STUDY_004_STERIMOL.md`). Kraken measures Sterimol along the coordination axis
   (a virtual metal 2.28 Å from the donor on the lone pair, +0.40 Å Verloop `L`
   correction) — a convention recovered by a distance sweep, not assumed. With it
@@ -68,7 +68,7 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   1,541 ligands at mean R² = 0.9887. Exposed as a new kernel method
   (`SterimolCalculator::compute_with_dummy`), the public `coordination_center`
   helper, and `descriptors --sterimol-axis coordination`.
-- Full buried-volume descriptor-family validation (`study_kraken_vbur_family.py`,
+- Full buried-volume descriptor-family validation (`studies/study_004_vbur_family.py`,
   `STUDY_004_FAMILY.md`): StericX reproduces Kraken's *entire* published `vbur`
   family — buried volume, quadrant and octant extrema, and near/far hemispheres,
   eight descriptors — across all 1,541 ligands at mean R² = 0.9925. The headline
@@ -83,7 +83,7 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   Supports `--format text|json|csv`, batch runs over many files (unparseable or
   non-trivalent inputs are skipped on stderr), and `--donor-element` /
   `--donor-index` for non-phosphine or ambiguous donors.
-- Residual-anatomy study (`study_frame_residual.py`, `STUDY_004_RESIDUAL.md`,
+- Residual-anatomy study (`studies/study_004_frame_residual.py`, `STUDY_004_RESIDUAL.md`,
   `residual_by_phosphine_class.png`): the full-set residual is dissected by
   donor class, showing tertiary phosphines are unbiased and the remaining bias
   is confined to primary/secondary phosphines and grows ~0.7 Å³ per P–H bond.

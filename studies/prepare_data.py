@@ -12,7 +12,7 @@ Dependencies:
     rdkit, pandas, requests, numpy
 
 Run:
-    python prepare_data.py
+    python studies/prepare_data.py
 
 Outputs:
     data/xyz/<Reaction_ID>.xyz
@@ -51,7 +51,7 @@ except ImportError as exc:  # pragma: no cover - depends on the host environment
     missing = getattr(exc, "name", "required package")
     raise SystemExit(
         f"Missing dependency `{missing}`. Install rdkit, pandas, requests, and "
-        "numpy before running prepare_data.py."
+        "numpy before running studies/prepare_data.py."
     ) from exc
 
 

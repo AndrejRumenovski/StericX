@@ -1150,7 +1150,7 @@ class QuantumBackend:
         configured: Path | None,
         environment_name: str,
     ) -> ToolInfo:
-        root = Path(__file__).resolve().parent
+        root = Path(__file__).resolve().parent.parent
         candidates = [
             configured,
             Path(os.environ[environment_name])

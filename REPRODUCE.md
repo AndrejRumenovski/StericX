@@ -32,7 +32,7 @@ The quantum toolchain and Python virtualenv live under the git-ignored
 ## Chemical fidelity — Sterimol vs. morfeus
 
 ```bash
-uv run --extra science python validate_stericx.py
+uv run --extra science python studies/study_002_sterimol_validation.py
 ```
 
 | Parameter | Expected R² | RMSE |
@@ -44,7 +44,7 @@ uv run --extra science python validate_stericx.py
 ## Study 001 — Ni-hDA reproduction
 
 ```bash
-uv run --extra science python study_ni_hda.py --offline
+uv run --extra science python studies/study_001_ni_hda.py --offline
 ```
 
 Published Kraken-descriptor OLS: training R² = 0.8193, LOO Q² = 0.7521,
@@ -55,7 +55,7 @@ retained, not hidden.
 ## Study 002 — Coordination-aware buried volume
 
 ```bash
-uv run --extra science python study_buried_volume.py
+uv run --extra science python studies/study_002_buried_volume.py
 ```
 
 | Validation target | Expected |
@@ -71,8 +71,8 @@ Phase A isolates the xTB LMO coordination centre on the existing RDKit/MMFF
 conformers:
 
 ```bash
-uv run --extra science python prepare_quantum_data.py --mode lmo
-uv run --extra science python study_quantum_geometry.py --no-build
+uv run --extra science python studies/prepare_quantum_data.py --mode lmo
+uv run --extra science python studies/study_003_quantum_geometry.py --no-build
 ```
 
 Expected phase-A: descriptor R² = 0.8517 vs Kraken (a regression from Study
@@ -82,11 +82,11 @@ The full eleven-ligand production CREST ensemble (hours of CREST/GFN2-xTB;
 cache-resumable):
 
 ```bash
-uv run --extra science python prepare_quantum_data.py \
+uv run --extra science python studies/prepare_quantum_data.py \
   --mode crest --threads 6 --lmo-workers 6 \
   --output-csv data/reactions_crest.csv \
   --provenance data/quantum/crest_provenance.json
-uv run --extra science python study_quantum_geometry.py --no-build \
+uv run --extra science python studies/study_003_quantum_geometry.py --no-build \
   --reactions-csv data/reactions_crest.csv \
   --quantum-provenance data/quantum/crest_provenance.json
 ```

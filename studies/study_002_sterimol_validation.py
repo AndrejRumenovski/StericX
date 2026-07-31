@@ -12,7 +12,7 @@ Dependencies:
     morfeus-fsu (import name: morfeus), numpy, matplotlib, scipy, pandas
 
 Run:
-    python validate_stericx.py
+    python studies/study_002_sterimol_validation.py
 """
 
 from __future__ import annotations
@@ -38,7 +38,7 @@ except ImportError as exc:  # pragma: no cover - depends on the host environment
     missing = getattr(exc, "name", "required package")
     raise SystemExit(
         f"Missing dependency `{missing}`. Install morfeus-fsu, numpy, "
-        "matplotlib, scipy, and pandas before running validate_stericx.py."
+        "matplotlib, scipy, and pandas before running this study."
     ) from exc
 
 
@@ -98,7 +98,7 @@ class RegressionMetrics:
 
 
 def parse_args() -> argparse.Namespace:
-    project_root = Path(__file__).resolve().parent
+    project_root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(
         description="Compare StericX Sterimol descriptors with morfeus-fsu."
     )
@@ -277,7 +277,7 @@ def ensure_release_binary(binary: Path, no_build: bool) -> None:
     if no_build:
         raise FileNotFoundError(f"release binary not found: {binary}")
 
-    project_root = Path(__file__).resolve().parent
+    project_root = Path(__file__).resolve().parent.parent
     print("[info] Release binary is missing; running `cargo build --release`.")
     completed = subprocess.run(
         ["cargo", "build", "--release"],

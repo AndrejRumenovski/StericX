@@ -10,7 +10,7 @@ and DFT geometry, turning the small-sample result into a large-N validation over
 diverse organophosphorus chemistry. The diverse-set R^2 is reported honestly as
 the headline, whatever it is.
 
-Method and settings are identical to ``study_kraken_dft_reproduction.py``; only
+Method and settings are identical to ``studies/study_004_reproduction.py``; only
 the ligand set and the (modest, concurrent) download differ. Geometries are
 cached on disk, so interrupted runs resume.
 """
@@ -36,9 +36,7 @@ import numpy as np
 import pandas as pd
 import requests
 from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
-
-from study_kraken_dft_reproduction import (
+from study_004_reproduction import (
     API_BASE,
     CENTER_DISTANCE,
     DENSITY,
@@ -51,6 +49,7 @@ from study_kraken_dft_reproduction import (
     r_squared,
     sdf_to_xyz,
 )
+from urllib3.util.retry import Retry
 
 # Ni-hDA 11-ligand subset R^2 at Kraken's 2.28 Å convention (Study 004).
 NIHDA_R2: float = 0.9986
@@ -140,7 +139,7 @@ def donor_and_neighbour(molecule) -> tuple[int, int]:
 
 
 def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--binary", default=root / "target" / "release" / "stericx")
     parser.add_argument(

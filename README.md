@@ -4,6 +4,7 @@
 
 [![CI](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml/badge.svg)](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21726666.svg)](https://doi.org/10.5281/zenodo.21726666)
 
 StericX computes 3D **Sterimol** and coordination-aware **buried-volume**
 descriptors directly from Cartesian coordinates, stores reaction observations in
@@ -967,16 +968,16 @@ A machine-readable citation is in [`CITATION.cff`](CITATION.cff) (GitHub renders
 "Cite this repository" button from it). To cite the software directly:
 
 > Rumenovski, A. *StericX: physical-organic molecular featurization and
-> reaction-selectivity inference*, version 0.1.0, 2026.
+> reaction-selectivity inference*, version 0.1.0, 2026. Zenodo.
+> DOI: [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666).
 > https://github.com/AndrejRumenovski/StericX
 
-<!-- ARCHIVE-DOI: replaced with the Zenodo `Cite all versions` DOI when the
-     v0.1.0 GitHub release is archived; see RELEASING.md. -->
-
-Once archived, an immutable, version-specific DOI (Zenodo) is preferred for
-reproducibility. StericX is an independent reproduction; if you use the
-descriptors, datasets, or reaction models it reproduces, please also cite the
-original scientific works above.
+The badge/concept DOI [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666)
+always resolves to the latest version; to cite this exact release, use the
+version DOI [10.5281/zenodo.21726667](https://doi.org/10.5281/zenodo.21726667).
+StericX is an independent reproduction; if you use the descriptors, datasets, or
+reaction models it reproduces, please also cite the original scientific works
+above.
 
 ---
 

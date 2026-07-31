@@ -8,6 +8,21 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Pre-registered prospective prediction (`scripts/preregister_prediction.py`,
+  `docs/study_003/PREREGISTRATION.md`): the frozen Study 003 Ni-hDA ligand deck is
+  elevated to a falsifiable pre-registration. Without touching the frozen deck (it
+  is committed to by SHA-256 and verified byte-for-byte), each point prediction of
+  ΔΔG‡ gains a 95% OLS prediction interval and an applicability-domain judgement
+  (leverage vs h* = 3p/n = 0.60; 9 of 10 candidates inside). The document fixes,
+  before any measurement, an exact experimental protocol (asymmetric Ni-hDA,
+  cited to the Sigman public repo; ee → ΔΔG‡ via 2RT·atanh(ee)) and a
+  pre-registered falsification rule (measured ΔΔG‡ within the 95% interval for ≥6
+  of 8 primary candidates AND positive predicted-vs-measured rank correlation,
+  else falsified; two boundary ligands scored separately as an extrapolation
+  stress-test). It keeps the honest limit in view: for 7 of 10 candidates the 95%
+  ee interval spans both enantiomers, so those near-racemate predictions are not
+  meaningfully falsifiable on ee, and the test is run on ΔΔG‡. Candidates are
+  DFT-characterized Kraken ligands, not synthesis or safety instructions.
 - Study 008 (`studies/study_008_speed_benchmark.py`, `docs/study_008/STUDY_008.md`): a
   head-to-head throughput benchmark against morfeus, the reference Python
   implementation. Computing the flagship buried-volume descriptor on the same

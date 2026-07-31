@@ -51,6 +51,7 @@ jobs:
             scripts/freeze_prospective_deck.py \
             scripts/stericx_quantum.py \
             scripts/validate_stericx.py \
+            scripts/preregister_prediction.py \
             studies/study_001_ni_hda.py \
             studies/study_002_buried_volume.py \
             studies/study_003_quantum_geometry.py \

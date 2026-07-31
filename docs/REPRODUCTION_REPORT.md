@@ -399,9 +399,20 @@ absence of any interpreter or scientific-Python stack to deploy
   localized-molecular-orbital centre, which the geometric construction cannot
   reproduce for short P–H bonds. It is a genuine limit of that approximation, not
   a fitted cut: the headline \(R^2\) is the full-set value over every ligand.
-- **No prospective validation.** A frozen ten-candidate deck exists with
-  predictions recorded; its experimental outcomes are unmeasured, so no
-  predictive-success claim is made.
+- **No prospective validation *yet*, but a pre-registered one is on the record.**
+  A frozen ten-candidate Ni-hDA deck is elevated to a full pre-registration
+  (`study_003/PREREGISTRATION.md`, `scripts/preregister_prediction.py`): each
+  ΔΔG‡ prediction carries a 95% OLS prediction interval and a leverage-based
+  applicability-domain judgement (h\* = 3p/n = 0.60; 9 of 10 in domain), and the
+  document commits — by the deck's SHA-256, dated, before any measurement — to an
+  exact experimental protocol and a falsification rule (measured ΔΔG‡ within the
+  95% interval for ≥6 of 8 primary candidates *and* positive predicted-vs-measured
+  rank correlation, else falsified). Its experimental outcomes are unmeasured, so
+  no predictive-success claim is made; the honest limit is stated explicitly
+  (7 of 10 ee intervals span both enantiomers, so those near-racemate predictions
+  are not falsifiable on ee and the test runs on ΔΔG‡). The rigor of the open,
+  falsifiable prediction is the contribution — a lab measurement is required to
+  close it.
 - **DFT not recomputed.** §3.3 consumes Kraken's published DFT geometries rather
   than regenerating them (Gaussian + NBO7 are proprietary; full re-optimization
   is out of scope).

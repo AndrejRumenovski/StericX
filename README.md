@@ -411,6 +411,23 @@ fidelity did **not** translate into better held-out kinetic prediction on this
 family. Both outcomes remain visible. Full results:
 [`docs/study_003/STUDY_003.md`](docs/study_003/STUDY_003.md).
 
+**Pre-registered, falsifiable prediction.** The frozen ten-ligand deck is
+elevated to a full pre-registration —
+[`docs/study_003/PREREGISTRATION.md`](docs/study_003/PREREGISTRATION.md) — that
+commits (by the deck's SHA-256, dated, before any measurement) to a 95%
+prediction interval and applicability-domain judgement for every candidate, an
+exact experimental protocol (asymmetric Ni-hDA; ee → ΔΔG‡ via `2RT·atanh(ee)`),
+and a pre-registered falsification rule: **corroborated iff** measured ΔΔG‡ lands
+within the 95% interval for ≥6 of 8 primary candidates **and** the
+predicted-vs-measured rank correlation is positive, **else falsified**. It states
+its own honest limit — for 7 of 10 candidates the 95% ee interval spans both
+enantiomers, so those near-racemate predictions are not falsifiable on ee, and
+the test runs on ΔΔG‡. Unmeasured by design: the rigor of the open prediction is
+the point. Regenerate with
+[`scripts/preregister_prediction.py`](scripts/preregister_prediction.py).
+
+![Pre-registered Ni-hDA forecast](docs/study_003/prospective_prediction_forecast.png)
+
 ### Study 004 — Reproducing Kraken's published descriptors on DFT geometries
 
 Studies 002 and 003 left the native descriptor below the official values
@@ -870,7 +887,8 @@ scripts/          Support utilities (data prep, validation, quantum backend)
 ├── prepare_quantum_data.py             CREST/xTB geometry preparation
 ├── validate_stericx.py                 Sterimol fidelity vs morfeus
 ├── stericx_quantum.py                  xTB/CREST backend wrapper
-└── freeze_prospective_deck.py          frozen prospective candidate deck
+├── freeze_prospective_deck.py          frozen prospective candidate deck
+└── preregister_prediction.py           pre-registered falsifiable forecast
 ```
 
 Per-study results, tables, and parity figures live under `docs/study_00N/`; a

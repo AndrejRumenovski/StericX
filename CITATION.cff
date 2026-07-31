@@ -7,7 +7,7 @@ message: >-
 title: "StericX: physical-organic molecular featurization and reaction-selectivity inference"
 type: software
 version: 0.1.0
-date-released: "2026-07-28"
+date-released: "2026-07-31"
 authors:
   - given-names: Andrej
     family-names: Rumenovski
@@ -79,3 +79,29 @@ references:
     start: 31175
     end: 31186
     doi: 10.1021/jacs.5c09948
+  - type: article
+    title: "Univariate Classification of Phosphine Ligation State and Reactivity in Cross-Coupling Catalysis"
+    authors:
+      - given-names: "S. H."
+        family-names: Newman-Stonebraker
+      - given-names: "S. R."
+        family-names: Smith
+      - given-names: "J. E."
+        family-names: Borowski
+      - given-names: Ellyn
+        family-names: Peters
+      - given-names: Tobias
+        family-names: Gensch
+      - given-names: "H. C."
+        family-names: Johnson
+      - given-names: "Matthew S."
+        family-names: Sigman
+      - given-names: "Abigail G."
+        family-names: Doyle
+    journal: "Science"
+    year: 2021
+    volume: 374
+    issue: 6565
+    start: 301
+    end: 308
+    doi: 10.1126/science.abj4213

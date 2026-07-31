@@ -4,7 +4,18 @@ All notable changes to StericX are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project aims to
 follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.0] - 2026-07-31
+
+First public release: a complete, independent, honest reproduction of the Kraken
+physical-organic ligand descriptors and two published reaction models, as a
+single dependency-free Rust binary. Highlights: descriptor kernels validated
+against `morfeus` to numerical precision and against Kraken's published values
+across 1,541 ligands (buried-volume family, Sterimol, and pyramidalization); a
+second reaction model (the Newman-Stonebraker cross-coupling classifier); a
+head-to-head speed benchmark (~14x faster than `morfeus` at library scale); and a
+pre-registered, falsifiable prospective prediction. Negative results are led with,
+not hidden — most notably, StericX's compact native descriptors do **not** model
+Ni-hDA enantioselectivity (leave-one-out Q² ≈ 0.002).
 
 ### Added
 
@@ -123,12 +134,10 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   separator, misaligning the fixed four-line header so the counts line was
   misread. Only the inter-record separator newline is now removed.
 
-## [0.1.0]
+### Foundation (initial reimplementation)
 
-Initial reproduction study: from-scratch Rust reimplementation of the Kraken
-Sterimol and buried-volume ligand descriptors, validated against `morfeus`
-(Sterimol R² ≥ 0.9999; buried-volume geometry to numerical precision) and
-against Kraken's published `vbur_max_delta_qvbur_min` on the authors' DFT
-geometries (11 Ni-hDA ligands, R² = 0.9986). Includes the Ni-catalyzed
-homo-Diels–Alder reproduction, the SIMD `.sigpack` storage format, the Eyring
-kinetic link, quantum-geometry tooling (CREST/xTB), and the reproduction report.
+- Foundational reimplementation captured in this release: the Sterimol and
+  buried-volume kernels (validated against `morfeus`, Sterimol R² ≥ 0.9999 and
+  buried-volume geometry to numerical precision), the Ni-catalyzed
+  homo-Diels–Alder reproduction, the SIMD `.sigpack` storage format, the Eyring
+  kinetic link, quantum-geometry tooling (CREST/xTB), and the reproduction report.

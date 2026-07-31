@@ -959,8 +959,24 @@ original scientific work:
 
 Descriptor reference values are compared against
 [`morfeus`](https://github.com/digital-chemistry-laboratory/morfeus) and the
-public [Kraken](https://kraken.cs.toronto.edu) tabulation. To cite StericX
-itself, see [`CITATION.cff`](CITATION.cff).
+public [Kraken](https://kraken.cs.toronto.edu) tabulation.
+
+### How to cite StericX
+
+A machine-readable citation is in [`CITATION.cff`](CITATION.cff) (GitHub renders a
+"Cite this repository" button from it). To cite the software directly:
+
+> Rumenovski, A. *StericX: physical-organic molecular featurization and
+> reaction-selectivity inference*, version 0.1.0, 2026.
+> https://github.com/AndrejRumenovski/StericX
+
+<!-- ARCHIVE-DOI: replaced with the Zenodo `Cite all versions` DOI when the
+     v0.1.0 GitHub release is archived; see RELEASING.md. -->
+
+Once archived, an immutable, version-specific DOI (Zenodo) is preferred for
+reproducibility. StericX is an independent reproduction; if you use the
+descriptors, datasets, or reaction models it reproduces, please also cite the
+original scientific works above.
 
 ---
 

@@ -40,9 +40,21 @@ a mean \(R^2 = 0.9887\). A third descriptor class, pyramidalization
 \(R^2 = 0.99998\). Scaling to the full set also exposed and
 fixed a genuine frame-construction bug affecting primary and secondary
 phosphines (§3.5), which the eleven trisubstituted ligands could not trigger.
-The compact StericX
-descriptors do **not** replace the published coordination-aware descriptor for
-the small Ni-hDA family; that negative result is reported rather than hidden.
+Beyond the descriptors, a StericX buried-volume quantity reproduces a *second,
+independent* published reaction model — the %Vbur(min) cross-coupling reactivity
+classifier of Newman-Stonebraker et al. (§3.7) — and, computing the same
+descriptor as the reference Python tool `morfeus` on identical geometries, StericX
+is ≈14× faster on a single core as a dependency-free binary (§3.8). A frozen,
+hash-anchored prospective prediction with pre-registered uncertainty and an
+explicit falsification protocol is placed on the record (§4).
+
+**The reproduction is deliberately honest, and the honesty is the point.** The
+compact StericX native descriptor set does **not** substitute for the published
+coordination-aware descriptor on the small Ni-hDA family — a leave-one-out
+\(Q^2 \approx 0.002\), no better than guessing the mean, reported here rather than
+hidden — and every failed validation gate is retained alongside the passed ones. A
+suspiciously perfect reproduction would be less trustworthy than one that shows
+exactly where an independent implementation stops working.
 
 ---
 
@@ -251,6 +263,17 @@ relationship (training \(R^2 = 0.8193\), leave-one-out \(Q^2 = 0.7521\),
 LOO RMSE 0.3430 kcal/mol; historical-blind ligand 723 MAE 0.3730 kcal/mol). The
 CREST-geometry buried-volume model gives fixed-feature LOO \(Q^2 = 0.5941\) and a
 historical ligand-723 error of 0.1107 kcal/mol.
+
+**The honest negative result — stated here, not just in the limitations.**
+Reproducing the *published* descriptor's relationship is not the same as claiming
+StericX's own features solve this reaction. Substituting StericX's compact native
+descriptor set — Sterimol \(L/B_1/B_5\) with donor NBO charge, in place of the
+coordination-aware `vbur_max_delta_qvbur_min` — collapses the model to a
+leave-one-out \(Q^2 \approx 0.002\): no better than predicting the training mean.
+StericX reproduces the coordination-aware descriptor faithfully, but its compact
+steric–electronic features do **not** capture Ni-hDA enantioselectivity on ten
+ligands. That ablation is exactly the kind of negative result a reproduction
+exists to surface, and it is reported in full rather than quietly dropped.
 
 ### 3.5 A frame-construction bug surfaced and fixed at scale
 

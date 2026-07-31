@@ -15,9 +15,17 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   %Vbur(min) across 479 ligand-reaction points at R2 = 0.9992 (MAE 0.144%), and
   recovering the paper's single-node threshold classifier (Table S11): same
   thresholds (~32%), same direction, matching mean accuracy (0.69 vs 0.69). The
-  paper's copyrighted supplementary data is read locally (data/external/,
-  gitignored) and never redistributed; only StericX's computed values and the
-  comparison are committed.
+  study now also (A) tests out-of-sample transferability of the ~32% ligation
+  cliff — a pooled universal threshold (32.8%, MCC 0.49) and leave-one-reaction-
+  out cross-validation (OOS MCC 0.41-0.54), with Reaction V documented as a
+  threshold-space outlier that nonetheless still transfers; (B) removes the
+  shared-geometry circularity by running StericX on the authors' own DFT
+  free-ligand structures (18 ligands, matched to Kraken IDs by molecular formula),
+  reproducing published %Vbur(boltz) at R2 = 0.9735 with 16/18 inside StericX's
+  own Kraken-conformer range; and (C) reports bootstrap 95% CIs on the per-
+  reaction accuracy/MCC. The paper's copyrighted supplementary data is read
+  locally (data/external/, gitignored) and never redistributed; only StericX's
+  computed values and the comparison are committed.
 - Study 006 (`study_residual_localization.py`, `docs/study_006/STUDY_006.md`): a
   controlled test that localizes the buried-volume residual to the coordination
   centre. On the same 1,541 ligands, the four descriptors anchored on the centre

@@ -331,10 +331,31 @@ same direction, and matching mean accuracy and Matthews correlation (0.69 / 0.50
 for both). The per-reaction scores are intentionally modest — accuracy sits near
 the majority-class baseline for two reactions because the model's 20:1 active
 weighting trades accuracy to catch active ligands, and the honest metric, MCC, is
-a moderate 0.36–0.59 throughout. This is expected of a deliberately univariate
-model that cannot see electronics or substrate; the result is that StericX
-reproduces the published model exactly — its successes and documented limitations
-alike — rather than papering over them
+a moderate 0.36–0.59 throughout (bootstrap 95% CIs are wide at these sample
+sizes, n = 34–89). This is expected of a deliberately univariate model that
+cannot see electronics or substrate; the result is that StericX reproduces the
+published model exactly — its successes and documented limitations alike — rather
+than papering over them.
+
+Two further tests move past reproduction. First, **out-of-sample
+transferability**: the paper's real claim is that ~32% %Vbur(min) is a single
+transferable ligation cliff, not six independent thresholds. A universal
+threshold pooled across all 479 points sits at 32.8% (accuracy 0.68, MCC 0.49),
+and leave-one-reaction-out cross-validation — fitting the threshold on five
+reactions and predicting the sixth out-of-sample — holds the trained threshold
+near 33% with out-of-sample MCC positive throughout (0.41–0.54). The honest
+exception is Reaction V, whose own best-fit threshold jumps to 51% (matching the
+paper's reported 51.5); it is an outlier in threshold space, yet the shared ~32%
+cliff still predicts it out-of-sample at MCC 0.47, so it is not a transfer
+failure. Second, an **independent-geometry** check that removes the residual
+circularity of §3.3/§3.7 (which used Kraken's own cached coordinates): running
+StericX on the authors' *own* DFT free-ligand geometries — supplied in the
+supplementary information, optimized by a different group with a different DFT
+stack, and matched to Kraken IDs by molecular formula — for the 18 ligands also
+present in the reaction tables reproduces the published %Vbur(boltz) at \(R^2 =
+0.9735\) (offset +0.12%), with 16 of 18 falling inside the per-ligand %Vbur range
+StericX itself spans across Kraken's conformers. This is a fully independent path
+— their structures through StericX's kernel, with no shared coordinates
 (`study_kraken_crosscoupling.py`, `study_007/STUDY_007.md`).
 
 ## 4. Limitations (reported, not hidden)

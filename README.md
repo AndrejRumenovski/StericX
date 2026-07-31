@@ -613,13 +613,32 @@ StericX's mean accuracy is **0.69** (mean MCC **0.50**), matching the paper's
 data — for Reactions III/IV it sits at or below the majority-class baseline,
 because the paper's 20:1 active weighting trades raw accuracy to avoid missing
 active ligands. The honest metric is MCC (positive throughout, **0.36–0.59** — a
-real but *moderate* signal). That's expected, not a shortfall: a deliberately
+real but *moderate* signal; the bootstrap 95% CIs are wide at n = 34–89, and
+Reaction V's reaches ~0.00). That's expected, not a shortfall: a deliberately
 univariate model (one steric number) can't see electronics, substrate, or
-conditions. The point isn't that the model is highly accurate — it's that
-StericX's from-scratch descriptor reproduces the published model **exactly**
-(successes and documented limitations alike), while the descriptor itself matches
-to R² = 0.9992. This extends the project from "reproduces Kraken's numbers" to
-"supports a real reaction model beyond Ni-hDA." Full results:
+conditions.
+
+**3. Out-of-sample transferability.** Sections 1–2 are in-sample; this tests the
+paper's actual claim — that ~32% %Vbur(min) is a *transferable* ligation cliff.
+A single universal threshold pooled across all 479 points sits at **32.8%**
+(acc 0.68, MCC 0.49). Leave-one-reaction-out (fit on five reactions, predict the
+sixth out-of-sample) keeps the trained threshold near ~33% and OOS MCC positive
+throughout (**0.41–0.54**) — the cliff genuinely transfers. The honest wrinkle is
+Reaction V, whose *own* best-fit threshold jumps to **51%** (matching the paper's
+51.5); yet the shared ~32% cliff still predicts V out-of-sample at MCC 0.47. V is
+an outlier in threshold-space, exactly as documented, not a transfer failure.
+
+**4. Independent geometry (removing the circularity).** Section 1's fidelity used
+Kraken's *own* cached coordinates. Running StericX instead on the **paper's own
+DFT free-ligand geometries** (18 ligands, matched to Kraken IDs by molecular
+formula) reproduces the published %Vbur(boltz) at **R² = 0.9735** (offset
++0.12%), with **16/18** landing inside StericX's own Kraken-conformer %Vbur range
+— a genuinely independent path (their structures → StericX's kernel, no shared
+coordinates).
+
+Together this extends the project from "reproduces Kraken's numbers" to
+"reproduces, and stress-tests out-of-sample and off Kraken's own geometry, a real
+reaction model beyond Ni-hDA." Full results:
 [`docs/study_007/STUDY_007.md`](docs/study_007/STUDY_007.md).
 
 The paper's supplementary data is copyrighted (AAAS) and is **not** redistributed
@@ -627,6 +646,7 @@ here; the study reads it locally (gitignored) and commits only StericX's own
 computed values and the comparison.
 
 ![Cross-coupling %Vbur parity](docs/study_007/crosscoupling_vbur_parity.png)
+![Independent-geometry %Vbur parity](docs/study_007/crosscoupling_independent_geom.png)
 
 ---
 

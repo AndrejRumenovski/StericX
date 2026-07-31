@@ -195,6 +195,8 @@ def main(argv: list[str] | None = None) -> int:
     model = json.loads(model_bytes)
     if model.get("feature") != FEATURE:
         raise SystemExit("model does not use the pre-registered buried-volume feature")
+    if tuple(model.get("training_source_ids", ())) != TRAIN_IDS:
+        raise SystemExit("model training_source_ids do not match TRAIN_IDS")
     slope, intercept = float(model["slope"]), float(model["intercept"])
 
     catalog_bytes = args.catalog.read_bytes()
@@ -210,6 +212,7 @@ def main(argv: list[str] | None = None) -> int:
     intervals = build_intervals(deck, forecast)
 
     intervals_bytes = deterministic_csv(intervals)
+    intervals_sha = sha256_bytes(intervals_bytes)
     intervals_path = args.output_dir / "prospective_prediction_intervals.csv"
     intervals_path.write_bytes(intervals_bytes)
 
@@ -220,7 +223,7 @@ def main(argv: list[str] | None = None) -> int:
 
     prereg_at = datetime.now(UTC).isoformat()
     figure_path = args.output_dir / "prospective_prediction_forecast.png"
-    write_forecast_figure(intervals, forecast, figure_path)
+    write_forecast_figure(intervals, figure_path)
 
     preregistration = {
         "schema_version": 1,
@@ -295,7 +298,7 @@ def main(argv: list[str] | None = None) -> int:
             "deck_frozen_at_utc": manifest.get("frozen_at_utc"),
             "model_sha256": sha256_bytes(model_bytes),
             "catalog_sha256": sha256_bytes(catalog_bytes),
-            "intervals_csv_sha256": sha256_bytes(intervals_bytes),
+            "intervals_csv_sha256": intervals_sha,
         },
         "supersedes": (
             "adds an uncertainty/applicability-domain/protocol layer over the "
@@ -330,75 +333,69 @@ def main(argv: list[str] | None = None) -> int:
         f"{len(intervals)}"
     )
     print(f"  deck_sha256 committed: {deck_sha}")
-    print(f"  intervals_csv_sha256: {sha256_bytes(intervals_bytes)}")
+    print(f"  intervals_csv_sha256: {intervals_sha}")
     return 0
 
 
-def write_forecast_figure(
-    intervals: pd.DataFrame, forecast: OlsForecast, output: Path
-) -> None:
+def _interval_panel(
+    axis, positions, labels, values, low, high, colors, ylabel, title, ylim=None
+):
+    """Draw one per-candidate 95%-interval error-bar panel."""
+    for pos, value, lo, hi, color in zip(
+        positions, values, values - low, high - values, colors, strict=True
+    ):
+        axis.errorbar(
+            pos,
+            value,
+            yerr=[[lo], [hi]],
+            fmt="o",
+            color=color,
+            capsize=3,
+            markersize=6,
+            linewidth=1.3,
+        )
+    axis.axhline(0.0, color="#999999", linewidth=0.8, linestyle=":")
+    if ylim is not None:
+        axis.set_ylim(*ylim)
+    axis.set_xticks(positions)
+    axis.set_xticklabels(labels, rotation=45, ha="right", fontsize=8)
+    axis.set_xlabel("candidate (Kraken Source_ID)")
+    axis.set_ylabel(ylabel)
+    axis.set_title(title)
+
+
+def write_forecast_figure(intervals: pd.DataFrame, output: Path) -> None:
     ordered = intervals.sort_values("Predicted_ddG_kcal_mol").reset_index(drop=True)
     labels = [str(i) for i in ordered["Source_ID"]]
-    in_domain = ordered["in_leverage_domain"].to_numpy(bool)
-    colors = ["#176B87" if flag else "#B4530A" for flag in in_domain]
+    colors = [
+        "#176B87" if flag else "#B4530A" for flag in ordered["in_leverage_domain"]
+    ]
     positions = np.arange(len(ordered))
 
     figure, (ddg_ax, ee_ax) = plt.subplots(1, 2, figsize=(12, 5.2))
-
-    ddg = ordered["Predicted_ddG_kcal_mol"].to_numpy()
-    yerr = np.vstack(
-        [
-            ddg - ordered["ddG_95pi_low"].to_numpy(),
-            ordered["ddG_95pi_high"].to_numpy() - ddg,
-        ]
+    _interval_panel(
+        ddg_ax,
+        positions,
+        labels,
+        ordered["Predicted_ddG_kcal_mol"].to_numpy(),
+        ordered["ddG_95pi_low"].to_numpy(),
+        ordered["ddG_95pi_high"].to_numpy(),
+        colors,
+        "predicted ddG-double-dagger (kcal/mol) +/- 95% PI",
+        "Frozen forecast: enantioselectivity free energy",
     )
-    for pos, value, err_lo, err_hi, color in zip(
-        positions, ddg, yerr[0], yerr[1], colors, strict=True
-    ):
-        ddg_ax.errorbar(
-            pos,
-            value,
-            yerr=[[err_lo], [err_hi]],
-            fmt="o",
-            color=color,
-            capsize=3,
-            markersize=6,
-            linewidth=1.3,
-        )
-    ddg_ax.axhline(0.0, color="#999999", linewidth=0.8, linestyle=":")
-    ddg_ax.set_xticks(positions)
-    ddg_ax.set_xticklabels(labels, rotation=45, ha="right", fontsize=8)
-    ddg_ax.set_xlabel("candidate (Kraken Source_ID)")
-    ddg_ax.set_ylabel("predicted ddG-double-dagger (kcal/mol) +/- 95% PI")
-    ddg_ax.set_title("Frozen forecast: enantioselectivity free energy")
-
-    ee = ordered["Predicted_ee_percent"].to_numpy()
-    ee_err = np.vstack(
-        [
-            ee - ordered["ee_95pi_low"].to_numpy(),
-            ordered["ee_95pi_high"].to_numpy() - ee,
-        ]
+    _interval_panel(
+        ee_ax,
+        positions,
+        labels,
+        ordered["Predicted_ee_percent"].to_numpy(),
+        ordered["ee_95pi_low"].to_numpy(),
+        ordered["ee_95pi_high"].to_numpy(),
+        colors,
+        "predicted ee (%) +/- 95% PI",
+        "Same forecast as ee: intervals cross racemic at low ee",
+        ylim=(-100, 100),
     )
-    for pos, value, err_lo, err_hi, color in zip(
-        positions, ee, ee_err[0], ee_err[1], colors, strict=True
-    ):
-        ee_ax.errorbar(
-            pos,
-            value,
-            yerr=[[err_lo], [err_hi]],
-            fmt="o",
-            color=color,
-            capsize=3,
-            markersize=6,
-            linewidth=1.3,
-        )
-    ee_ax.axhline(0.0, color="#999999", linewidth=0.8, linestyle=":")
-    ee_ax.set_ylim(-100, 100)
-    ee_ax.set_xticks(positions)
-    ee_ax.set_xticklabels(labels, rotation=45, ha="right", fontsize=8)
-    ee_ax.set_xlabel("candidate (Kraken Source_ID)")
-    ee_ax.set_ylabel("predicted ee (%) +/- 95% PI")
-    ee_ax.set_title("Same forecast as ee: intervals cross racemic at low ee")
 
     handles = [
         plt.Line2D(

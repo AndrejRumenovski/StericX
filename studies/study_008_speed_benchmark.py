@@ -35,6 +35,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import study_002_buried_volume as bv
+from study_004_reproduction import r_squared
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -202,7 +203,7 @@ def main(argv: list[str] | None = None) -> int:
     m = np.array([morfeus_vals[k] for k in shared])
     s = np.array([stericx_vals[k] for k in shared])
     resid = s - m
-    r2 = float(1 - np.sum(resid**2) / np.sum((m - m.mean()) ** 2))
+    r2 = r_squared(m, s)
     max_abs = float(np.max(np.abs(resid)))
     mae = float(np.mean(np.abs(resid)))
 
@@ -213,9 +214,7 @@ def main(argv: list[str] | None = None) -> int:
     frame_mask = np.abs(resid) > FRAME_TOLERANCE
     clean = ~frame_mask
     frame_outliers = int(frame_mask.sum())
-    r2_clean = float(
-        1 - np.sum(resid[clean] ** 2) / np.sum((m[clean] - m[clean].mean()) ** 2)
-    )
+    r2_clean = r_squared(m[clean], s[clean])
     max_abs_clean = float(np.max(np.abs(resid[clean])))
 
     n = len(paths)

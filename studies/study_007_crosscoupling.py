@@ -73,6 +73,10 @@ ROW_S2 = re.compile(
 S2_REACTIONS = ("II", "III", "IV", "V", "RS1")
 ALL_REACTIONS = ("I", *S2_REACTIONS)
 
+# %Vbur slack (in units of %Vbur) allowed around a ligand's Kraken-conformer range
+# when checking whether the paper-geometry value falls inside it (improvement B).
+CONFORMER_RANGE_SLACK = 0.5
+
 # Improvement B: the paper's own DFT free-ligand geometries (SI data_s1.zip,
 # DFT_xyz_coodinates/{Name}/{Name}_free.xyz). This maps each supplied geometry
 # to its Kraken molecule id, read by hand from SI Table S1/S2 (name + Kraken ID#).
@@ -174,7 +178,7 @@ def _find(lines: list[str], needle: str, start: int = 0) -> int:
 
 def parse_reactions(lines: list[str]) -> dict[str, list[dict]]:
     """Extract {reaction: [{id, ligand, vbur_min_pub, yield}]} from S1 and S2."""
-    reactions: dict[str, list[dict]] = {name: [] for name in ("I", *S2_REACTIONS)}
+    reactions: dict[str, list[dict]] = {name: [] for name in ALL_REACTIONS}
 
     s1_start = _find(lines, "Compiled yields")  # Table S1 (Reaction I)
     s1_end = _find(lines, "High-throughput experimentation")
@@ -422,44 +426,33 @@ def _sdf_formula(path: Path) -> tuple[tuple[str, int], ...]:
     return tuple(sorted(Counter(lines[4 + i].split()[3] for i in range(n)).items()))
 
 
+def _run_vbur(binary: Path, files: list[str]) -> list[float]:
+    """Run `stericx descriptors` over files and return the %Vbur column."""
+    out = subprocess.run(
+        [str(binary), "descriptors", "--format", "csv", *files],
+        capture_output=True,
+        text=True,
+        check=False,
+    ).stdout
+    return [
+        float(r["percent_buried_volume"])
+        for r in csv.DictReader(io.StringIO(out))
+        if r.get("percent_buried_volume")
+    ]
+
+
 def stericx_vbur_xyz(binary: Path, xyz_text: str) -> float | None:
     """Run StericX on a single .xyz geometry (donor auto-detected) -> %Vbur."""
     with tempfile.NamedTemporaryFile("w", suffix=".xyz", delete=True) as handle:
         handle.write(xyz_text)
         handle.flush()
-        out = subprocess.run(
-            [str(binary), "descriptors", "--format", "csv", handle.name],
-            capture_output=True,
-            text=True,
-            check=False,
-        ).stdout
-    rows = list(csv.DictReader(io.StringIO(out)))
-    vals = [
-        float(r["percent_buried_volume"])
-        for r in rows
-        if r.get("percent_buried_volume")
-    ]
+        vals = _run_vbur(binary, [handle.name])
     return vals[0] if vals else None
 
 
-def stericx_vbur_range(
-    binary: Path, cache_dir: Path, mid: int
-) -> tuple[float, float] | None:
-    """StericX %Vbur across all of one Kraken id's cached conformers -> (min, max)."""
-    sdfs = sorted((cache_dir / str(mid)).glob("*.sdf"))
-    if not sdfs:
-        return None
-    out = subprocess.run(
-        [str(binary), "descriptors", "--format", "csv", *map(str, sdfs)],
-        capture_output=True,
-        text=True,
-        check=False,
-    ).stdout
-    vals = [
-        float(r["percent_buried_volume"])
-        for r in csv.DictReader(io.StringIO(out))
-        if r.get("percent_buried_volume")
-    ]
+def stericx_vbur_range(binary: Path, sdfs: list[Path]) -> tuple[float, float] | None:
+    """StericX %Vbur across a set of cached conformer SDFs -> (min, max)."""
+    vals = _run_vbur(binary, [str(path) for path in sdfs])
     return (min(vals), max(vals)) if vals else None
 
 
@@ -512,7 +505,7 @@ def independent_geometry(
                 skipped.append(f"{stem}(formula)")
                 continue
             paper_geom = stericx_vbur_xyz(binary, text)
-            span = stericx_vbur_range(binary, cache_dir, mid)
+            span = stericx_vbur_range(binary, sdfs)
             if paper_geom is None or span is None:
                 skipped.append(stem)
                 continue
@@ -527,7 +520,9 @@ def independent_geometry(
                     "published_boltz": pub_boltz,
                     "published_min": pub_min,
                     "in_conformer_range": bool(
-                        span[0] - 0.5 <= paper_geom <= span[1] + 0.5
+                        span[0] - CONFORMER_RANGE_SLACK
+                        <= paper_geom
+                        <= span[1] + CONFORMER_RANGE_SLACK
                     ),
                 }
             )
@@ -901,7 +896,7 @@ def write_report(
         "StericX acc / MCC | MCC 95% CI | Paper acc / MCC |",
         "|---|---:|---:|---:|---|---:|---:|---:|",
     ]
-    for name in ("I", "II", "III", "IV", "V", "RS1"):
+    for name in ALL_REACTIONS:
         s = results[name]["stericx"]
         p = results[name]["paper"]
         ci = s["bootstrap"]["mcc_ci"]

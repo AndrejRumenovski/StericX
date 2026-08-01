@@ -325,6 +325,21 @@
 
 <section>
   <div class="wrap">
+    <p class="eyebrow">The cliff runs both ways</p>
+    <h2>The same descriptor, the opposite direction</h2>
+    <p class="sub">The Ni reactions put the <em>small</em> ligands on the active side of the cliff. The same paper's <em>palladium</em> couplings (Reactions VII–XII) invert it — the <em>bulky</em> ligands are active. Study 009 asks whether one descriptor, fit the same way, captures both regimes.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">0.9994</div><div class="k">R² · descriptor vs published</div></div>
+      <div class="stat"><div class="n">6 / 6</div><div class="k">bulky-active direction recovered</div></div>
+      <div class="stat"><div class="n">0.64 / 0.67</div><div class="k">mean MCC · StericX vs paper</div></div>
+      <div class="stat"><div class="n">2</div><div class="k">datasets from other groups</div></div>
+    </div>
+    <p>Across 267 ligand–reaction points StericX's %V<sub>bur</sub>(min) matches the published value at R² = 0.9994, and its single-node classifier independently recovers the "bulky-active" direction for every one of the six Pd reactions — the mirror image of the Ni cliff. Two of the six are lifted from <em>other groups'</em> published work (Zhao, <em>Science</em> 2018; Stambuli <em>et al.</em>), a genuine off-bench test that reproduces cleanly. And the honesty holds in the other direction too: Reaction VII, which the paper's own SI flags as pathological, is exactly where StericX's independent fit also disagrees, and the weak Heck dataset is weak for everyone — reported, not dropped.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
     <p class="eyebrow">Why a practitioner would use it</p>
     <h2>The same numbers, ≈14× faster</h2>
     <p class="sub">Fidelity is half the value; the other half is cost. Computing the identical buried-volume descriptor over the whole 1,546-ligand library, on one CPU core, timed end-to-end against <span class="mono">morfeus</span> — the reference Python implementation.</p>

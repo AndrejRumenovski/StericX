@@ -66,10 +66,11 @@ produced by the Sigman or Reisman groups. See [References](#references-and-attri
 - **Reproducibility** — one-command bootstrap, checksum-pinned CREST 2.12 / xTB
   6.4.0, content-addressed caches, frozen prediction hashes, green CI, dual
   MIT/Apache licensing.
-- **Scientific studies** — eight studies (Ni-hDA model, buried-volume fidelity,
+- **Scientific studies** — nine studies (Ni-hDA model, buried-volume fidelity,
   quantum geometry, Kraken DFT reproduction, pyramidalization, residual
-  localization, an independent cross-coupling reaction model, and a head-to-head
-  speed benchmark vs morfeus), each with passed *and* failed gates recorded.
+  localization, an independent cross-coupling reaction model, a head-to-head
+  speed benchmark vs morfeus, and the opposite "bulky-active" direction of the
+  ligation cliff), each with passed *and* failed gates recorded.
 - **Transparency at scale** — a genuine kernel bug surfaced by the full library
   was fixed **without discarding a single ligand**, and the remaining residual is
   fully characterized by phosphine class.
@@ -690,7 +691,41 @@ averaged away. StericX also ships as a single **1.9 MB** binary with zero runtim
 dependencies. Full results:
 [`docs/study_008/STUDY_008.md`](docs/study_008/STUDY_008.md).
 
+**Scale check.** Repeated over *every* cached conformer rather than one geometry
+per ligand — **31,721 structures**, ~20× the set — the result holds: StericX is
+**13.8× faster** (1,058 vs 77 structures/s single-core), and of the 31,599
+phosphines morfeus can frame, 31,533 agree to **R² = 0.99999983** (the 66 that
+differ are the same frame-convention edge, 0.2 %). The speedup is a property of
+the kernel, not of the sampling
+([`docs/study_008_all_conformers/`](docs/study_008_all_conformers/STUDY_008.md)).
+
 ![Speed benchmark vs morfeus](docs/study_008/speed_benchmark.png)
+
+### Study 009 — The other direction of the ligation cliff (Pd cross-coupling)
+
+Study 007 reproduced the Newman-Stonebraker *Science* 2021 classifier for **nickel**
+reactions, where the *small* ligands are active (`Left` of the ~32 % %Vbur(min)
+cliff). The same paper reports **palladium** couplings (Reactions VII–XII) where
+the relationship inverts — the *bulky* ligands are active (`Right` of the cliff).
+Study 009 asks whether the **same** descriptor, fit the **same** way, reproduces
+that opposite direction.
+
+It does. Across **267 ligand-reaction points** StericX's %Vbur(min) matches the
+published value at **R² = 0.9994** (MAE 0.116 %), and its single-node classifier
+(the paper's mechanistically-preferred *balanced* weight, Tables S12/S14)
+independently recovers the **`Right` (bulky-active) direction for all six**
+reactions — mean MCC **0.64** vs the paper's 0.67. The well-conditioned reactions
+match nearly exactly (Reaction X: 0.86 = 0.86), **including the two drawn from
+other groups' published data** (Zhao *Science* 2018; Stambuli *et al.*) — a
+genuinely off-bench test. The honesty is preserved: Reaction VII, which the paper
+itself flags as pathological, is where StericX's independent fit also disagrees,
+and the weak Heck dataset (XII) is weak for everyone. Full results:
+[`docs/study_009/STUDY_009.md`](docs/study_009/STUDY_009.md). The paper's SI is
+copyrighted (AAAS) and is **not** redistributed; only StericX's own values and the
+comparison are committed.
+
+![Pd cross-coupling %Vbur parity](docs/study_009/pd_crosscoupling_parity.png)
+![Reproduced MCC per reaction](docs/study_009/pd_crosscoupling_mcc.png)
 
 ---
 
@@ -711,17 +746,17 @@ graph TD
         D10[Residual localized to the centre · Study 006]
         D11[Second reaction model · Ni cross-coupling · Study 007]
         D12[Speed benchmark vs morfeus · ≈14× single-core · Study 008]
+        D13[Opposite cliff direction · Pd cross-coupling · Study 009]
+        D14[v0.1.0 released · Zenodo DOI minted]
     end
     subgraph Next["🔭 Planned / optional"]
         P1["Prospective 10-candidate deck<br/>frozen; awaits experimental measurement"]
-        P2["Zenodo DOI / v0.1.0 release<br/>metadata prepared, currently deferred"]
     end
     Done --> Next
 ```
 
-Planned items are scoped but not started. The prospective candidate deck stays
-target-free until lab data exists; a Zenodo DOI / release remains available if
-the metadata is ever published.
+The prospective candidate deck stays target-free until lab data exists; a measured
+outcome would seed a v0.2.0 under the existing concept DOI.
 
 ---
 
@@ -881,7 +916,8 @@ studies/          Reproduction study drivers (Python → docs/study_00N/)
 ├── study_005_pyramidalization.py       pyr_P / pyr_alpha vs Kraken (Study 005)
 ├── study_006_residual_localization.py  residual localized to the centre (Study 006)
 ├── study_007_crosscoupling.py          independent cross-coupling model (Study 007)
-└── study_008_speed_benchmark.py        speed benchmark vs morfeus (Study 008)
+├── study_008_speed_benchmark.py        speed benchmark vs morfeus (Study 008)
+└── study_009_pd_crosscoupling.py       opposite cliff direction · Pd (Study 009)
 
 scripts/          Support utilities (data prep, validation, quantum backend)
 ├── prepare_data.py                     reaction-data preparation

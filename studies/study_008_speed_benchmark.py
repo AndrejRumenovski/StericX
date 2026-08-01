@@ -154,25 +154,48 @@ def time_morfeus(paths: list[Path], reps: int) -> tuple[float, dict[str, float]]
     return best, values
 
 
+# Maximum structures passed to one `descriptors` invocation. Kept well below the
+# OS argument-length limit (ARG_MAX) so an all-conformers run (~31k files) is split
+# across a handful of calls instead of overflowing argv; a per-ligand run (~1.5k
+# files) still fits in a single call, leaving the committed single-geometry
+# benchmark byte-identical.
+STERICX_BATCH = 2000
+
+
 def time_stericx(
     binary: Path, paths: list[Path], reps: int
 ) -> tuple[float, dict[str, float]]:
-    """Fastest wall time for one single-threaded CLI pass, plus %Vbur per file."""
+    """Fastest wall time for one single-threaded CLI pass, plus %Vbur per file.
+
+    Paths are chunked into batches below the OS argument limit; every batch of a
+    pass is timed together, so a chunked all-conformers run and a single-call
+    per-ligand run are measured the same end-to-end way.
+    """
     env = {**os.environ, "RAYON_NUM_THREADS": "1"}
-    command = [str(binary), "descriptors", "--format", "csv", *map(str, paths)]
+    batches = [
+        paths[i : i + STERICX_BATCH] for i in range(0, len(paths), STERICX_BATCH)
+    ]
     best = float("inf")
     values: dict[str, float] = {}
     for _rep in range(reps):
         start = time.perf_counter()
-        output = subprocess.run(
-            command, capture_output=True, text=True, check=True, env=env
-        ).stdout
+        outputs = [
+            subprocess.run(
+                [str(binary), "descriptors", "--format", "csv", *map(str, batch)],
+                capture_output=True,
+                text=True,
+                check=True,
+                env=env,
+            ).stdout
+            for batch in batches
+        ]
         best = min(best, time.perf_counter() - start)
         rep_values: dict[str, float] = {}
-        for row in csv.DictReader(io.StringIO(output)):
-            vbur = row.get("percent_buried_volume")
-            if vbur:
-                rep_values[Path(row["file"]).name] = float(vbur)
+        for output in outputs:
+            for row in csv.DictReader(io.StringIO(output)):
+                vbur = row.get("percent_buried_volume")
+                if vbur:
+                    rep_values[Path(row["file"]).name] = float(vbur)
         values = rep_values
     return best, values
 

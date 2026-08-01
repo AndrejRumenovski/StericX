@@ -4,6 +4,27 @@ All notable changes to StericX are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project aims to
 follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Study 009 — the opposite direction of the buried-volume ligation cliff
+  (`studies/study_009_pd_crosscoupling.py`, `docs/study_009/`). Study 007
+  reproduced the Newman-Stonebraker *Science* 2021 classifier for the **nickel**
+  reactions, where the *small* ligands are active (`Left` of the ~32 % %Vbur(min)
+  cliff). Study 009 reproduces the **palladium** reactions VII–XII, where the
+  relationship inverts and the *bulky* ligands are active (`Right` of the cliff),
+  using the same descriptor and the paper's mechanistically-preferred *balanced*
+  class weight (Tables S12/S14). StericX's %Vbur(min) matches the published value
+  at R² = 0.9994 (MAE 0.116 %, n = 267) and its single-node classifier
+  independently recovers the `Right` direction for all six reactions (mean MCC
+  0.64 vs the paper's 0.67), **including two reactions taken from other groups'
+  published data** (Zhao *Science* 2018; Stambuli *et al.*). Honesty is preserved:
+  Reaction VII — which the paper's own SI flags as pathological — is where the
+  independent fit also disagrees, and the weak Heck dataset (XII) is weak for
+  everyone. The copyrighted SI (AAAS) is read locally and never redistributed;
+  only StericX's own values and the aggregate comparison are committed.
+
 ## [0.1.0] - 2026-07-31
 
 First public release: a complete, independent, honest reproduction of the Kraken

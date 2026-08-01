@@ -6,6 +6,14 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- README restructured as a scannable landing page (~1,030 → ~340 lines): a
+  one-minute overview, quick start, highlights, and a two-table validation stay
+  inline, while the nine-study detail, CLI reference, internal architecture,
+  benchmarks, and roadmap move into collapsed sections and links to the existing
+  per-study docs. No content was removed — depth now lives one click away.
+
 ### Added
 
 - Study 009 — the opposite direction of the buried-volume ligation cliff

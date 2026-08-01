@@ -1,16 +1,20 @@
 # StericX
 
-**A native-Rust engine for physical-organic molecular featurization and reaction-selectivity inference.**
+**StericX is a native-Rust engine that reproduces the published molecular steric
+descriptors used in modern catalysis research — with an order-of-magnitude speed
+improvement over the existing Python implementations.**
 
 [![CI](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml/badge.svg)](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21726666.svg)](https://doi.org/10.5281/zenodo.21726666)
 
-StericX computes 3D **Sterimol** and coordination-aware **buried-volume** descriptors
-straight from Cartesian coordinates and turns them into interpretable reaction models —
-as a single, dependency-free binary. It is an **independent, from-scratch reproduction**
-of the Kraken / morfeus steric-descriptor toolchain, validated against both `morfeus`
-(numerically) and Kraken's *own published values* across the full 1,541-ligand library.
+Chemists use *steric descriptors* — numbers that capture how big and what shape a ligand
+is — to predict how catalysts behave. The reference tools (Kraken, morfeus) are Python and
+tuned to specific research workflows. StericX is an **independent, from-scratch
+reproduction** of that toolchain as a single, dependency-free binary: it computes the same
+**Sterimol** and **buried-volume** descriptors straight from atomic coordinates, and is
+validated against both `morfeus` (numerically) and Kraken's *own published values* across
+the full 1,541-ligand library — with every failure kept in view.
 
 📄 [Manuscript write-up](docs/REPRODUCTION_REPORT.md) · 🖼️ [One-page visual overview](docs/results.html) · 🔁 [Clone-to-results walkthrough](REPRODUCE.md)
 
@@ -37,14 +41,16 @@ Six numbers carry the project. Everything else — RMSE, Pearson, slope, interce
 AE, trimmed summaries, per-parameter tables — lives in the [study docs](#scientific-studies).
 These are the ones that matter:
 
+Correctness first — speed is the last row on purpose:
+
 | What it means | Number |
 |---|---|
 | The geometry kernel **equals** the reference tool (`morfeus`) on identical structures | **R² = 1.000000** |
 | It reproduces Kraken's **published** descriptors across the full public library | **R² = 0.9852** · 1,541 ligands |
 | It reproduces two independent **published reaction models** (Ni + Pd cross-coupling) | **descriptor R² ≈ 0.999** |
-| On one CPU core it is far faster than `morfeus`, computing the same numbers | **~14×** |
 | **Honest limit:** compact native descriptors *don't* model Ni-hDA — reported, not hidden | **LOO Q² ≈ 0.002** |
 | A **falsifiable prediction**, frozen before any measurement | **10 ligands · SHA-256** |
+| Only then — on one CPU core it is far faster than `morfeus`, computing the same numbers | **~14×** |
 
 ---
 

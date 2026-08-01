@@ -14,7 +14,10 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   benchmarks, and roadmap move into collapsed sections and links to the existing
   per-study docs. Statistical density was deliberately cut — the reading path now
   carries only the handful of numbers that matter, with every RMSE / Pearson /
-  slope / intercept / median-AE table left in `docs/`. No content was removed.
+  slope / intercept / median-AE table left in `docs/`. The opening now leads with a
+  plain-language description before any chemistry, and the ordering puts validation
+  ahead of speed (benchmarks collapsed low; speed is the last Key Results row). No
+  content was removed.
 
 ### Added
 

@@ -29,15 +29,22 @@ portable, and, above all, *checked*. The project's entire purpose is an **honest
 defensible reproduction**: every number below is a generated measurement, and every
 failed gate is kept in view rather than hidden.
 
-**Results.**
+---
 
-| What | Result |
+## Key Results
+
+Six numbers carry the project. Everything else — RMSE, Pearson, slope, intercept, median
+AE, trimmed summaries, per-parameter tables — lives in the [study docs](#scientific-studies).
+These are the ones that matter:
+
+| What it means | Number |
 |---|---|
-| Descriptor fidelity vs `morfeus` (identical geometries) | Sterimol R² ≥ 0.9999 · buried volume R² = 1.000000 |
-| Reproducing Kraken's **published** values | R² = 0.9852 across **1,541 ligands / 31,611 DFT conformers** |
-| Two published reaction models reproduced | Ni **and** Pd cross-coupling cliff — *both* directions |
-| Speed vs `morfeus` (single core) | **~14× faster** — and it holds at 31,721 conformers |
-| Honest by construction | compact native descriptors *fail* Ni-hDA (LOO Q² ≈ 0.002) — reported, led-with |
+| The geometry kernel **equals** the reference tool (`morfeus`) on identical structures | **R² = 1.000000** |
+| It reproduces Kraken's **published** descriptors across the full public library | **R² = 0.9852** · 1,541 ligands |
+| It reproduces two independent **published reaction models** (Ni + Pd cross-coupling) | **descriptor R² ≈ 0.999** |
+| On one CPU core it is far faster than `morfeus`, computing the same numbers | **~14×** |
+| **Honest limit:** compact native descriptors *don't* model Ni-hDA — reported, not hidden | **LOO Q² ≈ 0.002** |
+| A **falsifiable prediction**, frozen before any measurement | **10 ligands · SHA-256** |
 
 ---
 
@@ -73,56 +80,14 @@ Full command set and the reproducible Python environment: see [Documentation](#d
 
 ---
 
-## Highlights
+## How it's validated
 
-- **Exact geometry kernel.** Sterimol L/B₁/B₅ reproduce `morfeus` to R² ≥ 0.9999; the
-  buried-volume voxel engine matches to R² = 1.000000 (worst mean relative error 8×10⁻⁶ %);
-  pyramidalization matches to machine precision (~10⁻¹⁴).
-- **Validated at library scale.** Kraken's published `vbur_max_delta_qvbur_min`
-  reproduced across 1,541 ligands / 31,611 DFT conformers (median abs. error 0.11 Å³);
-  the whole buried-volume family (8 descriptors) at mean R² = 0.9925.
-- **Two reaction models, both cliff directions.** The Newman-Stonebraker cross-coupling
-  classifier is reproduced for Ni (small-active) *and* Pd (bulky-active) — descriptor
-  R² = 0.999, including datasets from other groups.
-- **Failures stay visible.** Compact native descriptors *don't* model Ni-hDA (Q² ≈ 0.002);
-  a real kernel frame-bug was fixed at scale **without dropping a single ligand**; the
-  remaining residual is fully characterized and localized to one convention difference.
-- **Fast, portable core.** ~14× faster than `morfeus` single-core; 318 M SIMD evals/s over
-  a memory-mapped million-record matrix; ships as one 1.9 MB binary with zero runtime deps.
-- **Reproducible & falsifiable.** One-command bootstrap, checksum-pinned CREST/xTB,
-  content-addressed caches, a SHA-256-frozen **pre-registered** prediction, green CI,
-  Zenodo DOI, dual MIT/Apache licensing.
-
----
-
-## Validation
-
-Two independent references anchor every descriptor claim: `morfeus` for numerical fidelity
-on identical geometries, and Kraken's own *published* values for chemical accuracy at
-library scale.
-
-**Numerical fidelity vs `morfeus`** ([`scripts/validate_stericx.py`](scripts/validate_stericx.py), 11 structures):
-
-| Parameter | R² | RMSE (Å) | Status |
-|---|---:|---:|---|
-| Sterimol L | 1.000000 | 0.000000 | Validated |
-| Sterimol B₁ | 0.999959 | 0.010539 | Validated (1° angular scan) |
-| Sterimol B₅ | 1.000000 | 0.000001 | Validated |
-| Buried-volume voxel kernel | 1.000000 | — (rel. err 8×10⁻⁶ %) | Exact |
-
-**Reproducing Kraken's published values** (unchanged kernel on Kraken's own DFT geometries, 2.28 Å convention):
-
-| Target vs published Kraken | Scale | Result |
-|---|---|---:|
-| `vbur_max_delta_qvbur_min` | 11 ligands | R² = 0.9986 |
-| `vbur_max_delta_qvbur_min` | 1,541 ligands / 31,611 conformers | R² = 0.9852 · medAE 0.11 Å³ |
-| Buried-volume family (8 descriptors) | 1,541 ligands | mean R² = 0.9925 |
-| Sterimol L/B₁/B₅ (coordination axis) | 1,541 ligands | mean R² = 0.9887 |
-| Pyramidalization `pyr_P`, `pyr_alpha` | 1,541 ligands | mean R² = 0.99998 |
-
-The geometry engine is exact; the open question is always the *input geometry*, which the
-studies below isolate. Derivations, per-ligand tables, and parity plots are in each
-[study's docs](#scientific-studies).
+Two independent references anchor every claim: **`morfeus`** for numerical fidelity on
+identical geometries, and **Kraken's own published values** for chemical accuracy across the
+full library. The geometry engine itself is exact — so the open question is always the
+*input geometry*, which the studies isolate one variable at a time, keeping failed gates in
+view. The full per-parameter tables (R², RMSE, slope, intercept, median AE, trimmed
+summaries) live in each study's card under `docs/`, not here.
 
 ---
 
@@ -138,15 +103,15 @@ frozen prediction hashes, raw comparisons, plots, and machine-readable results u
 
 | # | Study | What it shows | Full results |
 |---|---|---|---|
-| **001** | Ni-hDA enantioselectivity model | The published Kraken descriptor reproduces the selectivity (LOO Q² = 0.75); StericX's *compact native* descriptors deliberately do **not** (Q² ≈ 0.002) — the project leads with this ablation. | [STUDY_001](docs/study_001/STUDY_001.md) |
-| **002** | Coordination-aware buried-volume fidelity | The Rust voxel kernel equals `morfeus` to R² = 1.000000 on identical geometries; cheap RDKit/MMFF conformers fall short (R² = 0.86) — a failed gate kept visible. | [STUDY_002](docs/study_002/STUDY_002.md) |
-| **003** | Quantum geometry & prospective validation | A checksum-pinned CREST/xTB backend, plus a **frozen, falsifiable 10-ligand prediction** committed by SHA-256 before any measurement. | [STUDY_003](docs/study_003/STUDY_003.md) · [PREREGISTRATION](docs/study_003/PREREGISTRATION.md) |
-| **004** | Reproducing Kraken's published descriptors on DFT geometries | On Kraken's own DFT geometries at the 2.28 Å convention: R² = 0.9986 (11 ligands) → **0.9852 across 1,541 ligands**. A genuine kernel frame-bug was found and fixed at scale *without dropping a ligand*; the residual is fully characterized. | [STUDY_004](docs/study_004/STUDY_004.md) · [scaled](docs/study_004/STUDY_004_SCALED.md) · [residual](docs/study_004/STUDY_004_RESIDUAL.md) |
-| **005** | Pyramidalization descriptors | `pyr_P` and `pyr_alpha` reduced to closed forms, verified vs `morfeus` to ~10⁻¹⁴; mean R² = 0.99998 across 1,541 ligands. | [STUDY_005](docs/study_005/STUDY_005.md) |
-| **006** | Localizing the residual to the coordination centre | A controlled test proving the buried-volume residual is a *coordination-centre artefact*: centre-coupled descriptors carry it (1.5σ/P–H), centre-free pyramidalization does not (0.04σ). | [STUDY_006](docs/study_006/STUDY_006.md) |
-| **007** | Independent second reaction model — Ni cross-coupling | Reproduces the Newman-Stonebraker classifier (descriptor R² = 0.9992); the ~32% %Vbur(min) ligation cliff transfers *out-of-sample* (LORO MCC 0.41–0.54) and off Kraken's own geometry (R² = 0.9735). | [STUDY_007](docs/study_007/STUDY_007.md) |
-| **008** | Head-to-head speed benchmark vs `morfeus` | ~14× faster single-core, same numbers (R² = 0.999999). Holds at **31,721 conformers** (~20× the set): 13.8× faster, R² = 0.99999983. | [STUDY_008](docs/study_008/STUDY_008.md) · [scale check](docs/study_008_all_conformers/STUDY_008.md) |
-| **009** | The other direction of the cliff — Pd cross-coupling | The *opposite* (bulky-active) regime reproduced for **6/6** reactions (mean MCC 0.64 vs 0.67), including **two datasets from other groups**. Honest about the failures the paper itself flags (VII, XII). | [STUDY_009](docs/study_009/STUDY_009.md) |
+| **001** | Ni-hDA enantioselectivity model | The published descriptor reproduces the selectivity; StericX's *compact native* descriptors deliberately do **not** — the ablation the project leads with. | [STUDY_001](docs/study_001/STUDY_001.md) |
+| **002** | Coordination-aware buried-volume fidelity | The Rust voxel kernel equals `morfeus` exactly on identical geometries; cheap RDKit/MMFF conformers fall short — a failed gate kept visible. | [STUDY_002](docs/study_002/STUDY_002.md) |
+| **003** | Quantum geometry & prospective validation | A checksum-pinned CREST/xTB backend, and a **frozen, falsifiable prediction** committed by SHA-256 before any measurement. | [STUDY_003](docs/study_003/STUDY_003.md) · [PREREGISTRATION](docs/study_003/PREREGISTRATION.md) |
+| **004** | Reproducing Kraken's published descriptors on DFT geometries | Reproduces the published values on Kraken's own DFT geometries at library scale; a real kernel frame-bug found and fixed *without dropping a ligand*, and the residual fully characterized. | [STUDY_004](docs/study_004/STUDY_004.md) · [scaled](docs/study_004/STUDY_004_SCALED.md) · [residual](docs/study_004/STUDY_004_RESIDUAL.md) |
+| **005** | Pyramidalization descriptors | Two more descriptors (`pyr_P`, `pyr_alpha`) reduced to closed forms and reproduced to machine precision. | [STUDY_005](docs/study_005/STUDY_005.md) |
+| **006** | Localizing the residual to the coordination centre | A controlled test proving the small buried-volume residual is a coordination-centre convention artefact, not a kernel error. | [STUDY_006](docs/study_006/STUDY_006.md) |
+| **007** | Independent second reaction model — Ni cross-coupling | Reproduces the Newman-Stonebraker classifier; the ligation cliff transfers *out-of-sample* and off Kraken's own geometry. | [STUDY_007](docs/study_007/STUDY_007.md) |
+| **008** | Head-to-head speed benchmark vs `morfeus` | The same numbers, ~14× faster single-core — and the speedup holds at ~20× the scale. | [STUDY_008](docs/study_008/STUDY_008.md) · [scale check](docs/study_008_all_conformers/STUDY_008.md) |
+| **009** | The other direction of the cliff — Pd cross-coupling | The *opposite* (bulky-active) regime reproduced, including datasets from other groups; honest about the reactions the paper itself flags as resistant. | [STUDY_009](docs/study_009/STUDY_009.md) |
 
 A manuscript-style narrative of all nine is in [`docs/REPRODUCTION_REPORT.md`](docs/REPRODUCTION_REPORT.md).
 

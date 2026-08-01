@@ -8,11 +8,13 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
-- README restructured as a scannable landing page (~1,030 → ~340 lines): a
-  one-minute overview, quick start, highlights, and a two-table validation stay
-  inline, while the nine-study detail, CLI reference, internal architecture,
+- README restructured as a scannable landing page (~1,030 → ~305 lines): a
+  one-minute overview, a curated six-number **Key Results** block, and a quick
+  start stay inline; the nine-study detail, CLI reference, internal architecture,
   benchmarks, and roadmap move into collapsed sections and links to the existing
-  per-study docs. No content was removed — depth now lives one click away.
+  per-study docs. Statistical density was deliberately cut — the reading path now
+  carries only the handful of numbers that matter, with every RMSE / Pearson /
+  slope / intercept / median-AE table left in `docs/`. No content was removed.
 
 ### Added
 

@@ -20,7 +20,7 @@ the full 1,541-ligand library — with every failure kept in view.
 
 ---
 
-## What is StericX? (the 1-minute version)
+## What is StericX?
 
 **What it is.** Point it at an `.xyz`/`.sdf`/`.mol` file and it auto-detects the donor
 atom and prints Sterimol, buried-volume, and pyramidalization descriptors — no Python
@@ -173,7 +173,7 @@ A manuscript-style narrative of the reproduction studies is in [`docs/REPRODUCTI
 
 ## Documentation
 
-- 📄 **[Manuscript write-up](docs/REPRODUCTION_REPORT.md)** — the full narrative, honesty led-with.
+- 📄 **[Manuscript write-up](docs/REPRODUCTION_REPORT.md)** — the full narrative.
 - 🖼️ **[One-page visual overview](docs/results.html)** — the whole scope at a glance.
 - 🔁 **[REPRODUCE.md](REPRODUCE.md)** — clone to results in one pass.
 - 📦 **[RELEASING.md](RELEASING.md)** · 📝 **[CHANGELOG.md](CHANGELOG.md)** — release runbook and history.

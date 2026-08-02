@@ -26,6 +26,17 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Study 010 — grid convergence of the buried-volume integrator
+  (`studies/study_010_grid_convergence.py`, `docs/study_010/`). Studies 002–004
+  validated the descriptor at a single grid resolution (Kraken's 0.01 Å³/point);
+  this sweeps the integration grid from 0.5 down to 0.001 Å³/point on 60 diverse
+  ligands and shows %Vbur **converges** — coarse grids (≥0.05) deviate by ~0.4
+  %Vbur, the default 0.01 sits within ~2× the ~0.03 %Vbur discretization floor, and
+  refining further costs ~10× the wall time for no meaningful gain. Reported
+  honestly: the default's grid uncertainty is comparable in size to the Study 004
+  reproduction residual, but that residual is not grid-limited (Kraken uses the same
+  grid, so discretization is largely common-mode, and Study 006 localizes the
+  residual to structure a finer grid would not touch).
 - Non-phosphorus donor validation (`scripts/validate_nonp_donor.py`,
   `docs/validation/NONP_DONOR.md`). The `descriptors` command advertises
   `--donor-element` for any trivalent donor, but every study validated only

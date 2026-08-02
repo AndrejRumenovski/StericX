@@ -1,0 +1,89 @@
+{
+  "default_density": 0.01,
+  "discretization_floor_rms_vbur": 0.031122416894151152,
+  "n_ligands": 60,
+  "reference_density": 0.001,
+  "sweep": [
+    {
+      "density": 0.5,
+      "is_default": false,
+      "is_reference": false,
+      "max_abs_vbur_error": 1.6929000000000016,
+      "mean_abs_vbur_error": 0.48561500000000024,
+      "seconds": 0.00534969699992871,
+      "signed_bias": 0.17213166666666685
+    },
+    {
+      "density": 0.2,
+      "is_default": false,
+      "is_reference": false,
+      "max_abs_vbur_error": 1.446000000000005,
+      "mean_abs_vbur_error": 0.45053166666666705,
+      "seconds": 0.006367710999711562,
+      "signed_bias": 0.3274150000000001
+    },
+    {
+      "density": 0.1,
+      "is_default": false,
+      "is_reference": false,
+      "max_abs_vbur_error": 0.8817999999999984,
+      "mean_abs_vbur_error": 0.46390166666666677,
+      "seconds": 0.008850529000028473,
+      "signed_bias": 0.45508833333333387
+    },
+    {
+      "density": 0.05,
+      "is_default": false,
+      "is_reference": false,
+      "max_abs_vbur_error": 0.7762000000000029,
+      "mean_abs_vbur_error": 0.3965233333333337,
+      "seconds": 0.014749950000350509,
+      "signed_bias": 0.38754666666666704
+    },
+    {
+      "density": 0.02,
+      "is_default": false,
+      "is_reference": false,
+      "max_abs_vbur_error": 0.23699999999999477,
+      "mean_abs_vbur_error": 0.07038999999999979,
+      "seconds": 0.0321649989996331,
+      "signed_bias": -0.018266666666666313
+    },
+    {
+      "density": 0.01,
+      "is_default": true,
+      "is_reference": false,
+      "max_abs_vbur_error": 0.16040000000000276,
+      "mean_abs_vbur_error": 0.05580166666666635,
+      "seconds": 0.05620813799987445,
+      "signed_bias": 0.029845000000000135
+    },
+    {
+      "density": 0.005,
+      "is_default": false,
+      "is_reference": false,
+      "max_abs_vbur_error": 0.11959999999999837,
+      "mean_abs_vbur_error": 0.05463833333333324,
+      "seconds": 0.11397943600013605,
+      "signed_bias": -0.05295499999999945
+    },
+    {
+      "density": 0.002,
+      "is_default": false,
+      "is_reference": false,
+      "max_abs_vbur_error": 0.07509999999999906,
+      "mean_abs_vbur_error": 0.027641666666666904,
+      "seconds": 0.2831393090000347,
+      "signed_bias": 0.026118333333333688
+    },
+    {
+      "density": 0.001,
+      "is_default": false,
+      "is_reference": true,
+      "max_abs_vbur_error": 0.0,
+      "mean_abs_vbur_error": 0.0,
+      "seconds": 0.5463869430000159,
+      "signed_bias": 0.0
+    }
+  ]
+}

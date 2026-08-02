@@ -143,13 +143,14 @@ decided whether an independent reproduction actually *matched the published trut
 
 ## Scientific studies
 
-Nine preregistered studies build from a small published reaction family up to the full
-Kraken library and two independent reaction models. Each writes a complete model card,
-frozen prediction hashes, raw comparisons, plots, and machine-readable results under
-`docs/study_00N/`. **Passed and failed gates are both retained.**
+Ten studies build from a small published reaction family up to the full Kraken library,
+two independent reaction models, and the numerical convergence of the descriptor itself.
+Each writes a complete model card, frozen prediction hashes, raw comparisons, plots, and
+machine-readable results under `docs/study_00N/`. **Passed and failed gates are both
+retained.**
 
 <details>
-<summary><b>Expand the nine studies</b></summary>
+<summary><b>Expand the ten studies</b></summary>
 
 | # | Study | What it shows | Full results |
 |---|---|---|---|
@@ -162,8 +163,9 @@ frozen prediction hashes, raw comparisons, plots, and machine-readable results u
 | **007** | Independent second reaction model — Ni cross-coupling | Reproduces the Newman-Stonebraker classifier; the ligation cliff transfers *out-of-sample* and off Kraken's own geometry. | [STUDY_007](docs/study_007/STUDY_007.md) |
 | **008** | Head-to-head speed benchmark vs `morfeus` | The same numbers, ~14× faster single-core — and the speedup holds at ~20× the scale. | [STUDY_008](docs/study_008/STUDY_008.md) · [scale check](docs/study_008_all_conformers/STUDY_008.md) |
 | **009** | The other direction of the cliff — Pd cross-coupling | The *opposite* (bulky-active) regime reproduced, including datasets from other groups; honest about the reactions the paper itself flags as resistant. | [STUDY_009](docs/study_009/STUDY_009.md) |
+| **010** | Grid convergence of the buried-volume integrator | Sweeps the integration grid coarse→fine to show the descriptor is *converged* at the default resolution — the earlier agreement isn't a grid-lucky artifact — and quantifies the voxel discretization floor. | [STUDY_010](docs/study_010/STUDY_010.md) |
 
-A manuscript-style narrative of all nine is in [`docs/REPRODUCTION_REPORT.md`](docs/REPRODUCTION_REPORT.md).
+A manuscript-style narrative of the reproduction studies is in [`docs/REPRODUCTION_REPORT.md`](docs/REPRODUCTION_REPORT.md).
 
 </details>
 
@@ -264,7 +266,7 @@ src/
 ├── kinetics/     Eyring rates and enantiomeric distributions
 └── main.rs       clap command-line interface (incl. `descriptors`)
 
-studies/          Reproduction study drivers (Python → docs/study_00N/), study_001 … study_009
+studies/          Study drivers (Python → docs/study_00N/), study_001 … study_010
 scripts/          Support utilities: prepare_data, prepare_quantum_data, validate_stericx,
                   stericx_quantum, freeze_prospective_deck, preregister_prediction,
                   validate_nonp_donor

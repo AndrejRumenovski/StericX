@@ -188,4 +188,46 @@ mod tests {
             "inference throughput was only {records_per_second:.0} records/s"
         );
     }
+
+    /// The unsafe AVX2 kernel must return the same value as the portable scalar
+    /// fallback: both evaluate the identical eight-lane inner product, so any
+    /// divergence would mean the SIMD path is silently producing different numbers.
+    /// The two sum their terms in different orders, so f32 non-associativity makes
+    /// the honest check "agree to tolerance," not "bit-for-bit identical." Runs only
+    /// where AVX2 is actually available (calling the kernel otherwise is undefined).
+    #[test]
+    #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+    fn avx2_matches_scalar_fallback() {
+        if !std::is_x86_feature_detected!("avx2") {
+            return; // No AVX2 on this host; the scalar fallback is the only path used.
+        }
+        // Deterministic xorshift so a failure is always reproducible.
+        let mut seed: u64 = 0x2545_F491_4F6C_DD1D;
+        let mut next = || {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            (seed >> 40) as f32 / (1u32 << 24) as f32 // uniform in [0, 1)
+        };
+        for _ in 0..5_000 {
+            // Spanning realistic descriptor and weight magnitudes, both signs.
+            let features: [f32; 8] = std::array::from_fn(|_| (next() - 0.5) * 200.0);
+            let weights: [f32; 8] = std::array::from_fn(|_| (next() - 0.5) * 4.0);
+            // SAFETY: AVX2 availability is checked at the top of this test.
+            let simd = unsafe { dot_avx2(&features, &weights) };
+            let scalar = dot_chunked(&features, &weights);
+            // Tolerance scaled to the magnitude of the summed terms, so it survives
+            // cancellation (a near-zero result from large opposite-sign products).
+            let magnitude: f32 = features
+                .iter()
+                .zip(&weights)
+                .map(|(feature, weight)| (feature * weight).abs())
+                .sum();
+            let tolerance = 1.0e-3 * magnitude + 1.0e-4;
+            assert!(
+                (simd - scalar).abs() <= tolerance,
+                "AVX2 {simd} vs scalar {scalar} diverged beyond tolerance {tolerance}"
+            );
+        }
+    }
 }

@@ -123,8 +123,10 @@ decided whether an independent reproduction actually *matched the published trut
   ([Study 004](docs/study_004/STUDY_004_SCALED.md)).
 - **Hand-written SIMD that must match its fallback.** The inference hot loop uses an explicit
   unsafe AVX2 kernel guarded by *runtime* CPU-feature detection, with a portable scalar
-  fallback for everything else. The engineering burden isn't speed — it's keeping two
-  numeric paths and a block of `unsafe` code correct and consistent.
+  fallback for everything else. The engineering burden isn't speed — it's keeping two numeric
+  paths and a block of `unsafe` code consistent, so a test asserts the AVX2 result agrees with
+  the scalar fallback across thousands of random inputs (to f32 tolerance, since the two sum
+  in different orders).
 - **Reproducibility, honestly scoped.** Toolchains are checksum-pinned (CREST 2.12 / xTB
   6.4.0), caches are content-addressed, predictions are frozen by SHA-256, and quantum jobs
   resume from checkpoints under PID/start-time locks. The `.sigpack` binary format is

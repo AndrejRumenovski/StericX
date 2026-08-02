@@ -26,6 +26,10 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Test asserting the unsafe AVX2 inference kernel agrees with the portable scalar
+  fallback across 5,000 random inputs (to f32 tolerance, since the two sum in
+  different orders), so the SIMD path cannot silently diverge from the reference
+  arithmetic. Runs only where AVX2 is present.
 - Study 009 — the opposite direction of the buried-volume ligation cliff
   (`studies/study_009_pd_crosscoupling.py`, `docs/study_009/`). Study 007
   reproduced the Newman-Stonebraker *Science* 2021 classifier for the **nickel**

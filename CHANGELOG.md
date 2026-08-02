@@ -17,7 +17,12 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   slope / intercept / median-AE table left in `docs/`. The opening now leads with a
   plain-language description before any chemistry, and the ordering puts validation
   ahead of speed (benchmarks collapsed low; speed is the last Key Results row). No
-  content was removed.
+  content was removed. Added a **Technical challenges** section documenting the
+  engineering decisions behind the reproduction — donor detection from raw geometry,
+  isolating the kernel from the input geometry, matching Kraken's coordinate
+  conventions, the phosphine frame bug found at scale, the unsafe-SIMD/scalar-fallback
+  discipline, and the honestly-scoped reproducibility story (machine-native format
+  guarded by an endian marker; not claimed as cross-platform).
 
 ### Added
 

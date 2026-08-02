@@ -97,6 +97,42 @@ summaries) live in each study's card under `docs/`, not here.
 
 ---
 
+## Technical challenges
+
+The hard parts weren't writing the code — they were the small, exacting decisions that
+decided whether an independent reproduction actually *matched the published truth*.
+
+- **Detecting the donor from raw geometry.** The tool takes no atom indices: it has to find
+  the phosphorus donor and its substituents from coordinates alone, using Cordero
+  covalent-radius bonding, and reject anything that isn't a valid trivalent donor (on
+  stderr, so a messy batch folder still completes).
+- **Telling the kernel apart from the input geometry.** When the native descriptor sat below
+  Kraken's published values (R² ≈ 0.86), the real question was whether *my kernel* was wrong
+  or *my geometries* were. Resolved by changing one variable at a time — RDKit/MMFF →
+  CREST/xTB → Kraken's own DFT structures — which localized the shortfall to geometry and
+  proved the kernel exact ([Studies 002–004](docs/study_004/STUDY_004.md)).
+- **Matching Kraken's coordinate conventions.** The reproduction lived or died on constants
+  that are easy to miss: a virtual metal placed 2.28 Å from phosphorus (not 2.1), and the
+  Sterimol coordination axis with a +0.40 Å Verloop *L* correction. These came from reading
+  Kraken's *own* source, not from guessing distances.
+- **The phosphine frame bug — found only at scale.** The buried-volume frame took a donor's
+  three *nearest heavy atoms* instead of its *covalently bonded* neighbors, silently
+  discarding bonded hydrogens on primary/secondary phosphines. Eleven test ligands could
+  never trigger it; the full 1,541-ligand set did. Switching to covalent-radius bonding
+  lifted R² from 0.9649 → 0.9852 **without discarding a single ligand**
+  ([Study 004](docs/study_004/STUDY_004_SCALED.md)).
+- **Hand-written SIMD that must match its fallback.** The inference hot loop uses an explicit
+  unsafe AVX2 kernel guarded by *runtime* CPU-feature detection, with a portable scalar
+  fallback for everything else. The engineering burden isn't speed — it's keeping two
+  numeric paths and a block of `unsafe` code correct and consistent.
+- **Reproducibility, honestly scoped.** Toolchains are checksum-pinned (CREST 2.12 / xTB
+  6.4.0), caches are content-addressed, predictions are frozen by SHA-256, and quantum jobs
+  resume from checkpoints under PID/start-time locks. The `.sigpack` binary format is
+  deliberately *machine-native* (fast, not portable) — so it carries an **endian marker**
+  that makes a mismatched file fail loudly instead of silently corrupting.
+
+---
+
 ## Scientific studies
 
 Nine preregistered studies build from a small published reaction family up to the full

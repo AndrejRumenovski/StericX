@@ -95,6 +95,11 @@ full library. The geometry engine itself is exact — so the open question is al
 view. The full per-parameter tables (R², RMSE, slope, intercept, median AE, trimmed
 summaries) live in each study's card under `docs/`, not here.
 
+The kernel is element-generic, not phosphorus-only: `--donor-element N` reproduces
+morfeus's pyramidalization, buried-volume, and Sterimol descriptors on nitrogen donors
+to the same fidelity as phosphorus
+([non-phosphorus validation](docs/validation/NONP_DONOR.md)).
+
 ---
 
 ## Technical challenges
@@ -105,7 +110,8 @@ decided whether an independent reproduction actually *matched the published trut
 - **Detecting the donor from raw geometry.** The tool takes no atom indices: it has to find
   the phosphorus donor and its substituents from coordinates alone, using Cordero
   covalent-radius bonding, and reject anything that isn't a valid trivalent donor (on
-  stderr, so a messy batch folder still completes).
+  stderr, so a messy batch folder still completes). It isn't phosphorus-only: the path
+  is [validated on nitrogen donors](docs/validation/NONP_DONOR.md) against morfeus.
 - **Telling the kernel apart from the input geometry.** When the native descriptor sat below
   Kraken's published values (R² ≈ 0.86), the real question was whether *my kernel* was wrong
   or *my geometries* were. Resolved by changing one variable at a time — RDKit/MMFF →
@@ -260,7 +266,8 @@ src/
 
 studies/          Reproduction study drivers (Python → docs/study_00N/), study_001 … study_009
 scripts/          Support utilities: prepare_data, prepare_quantum_data, validate_stericx,
-                  stericx_quantum, freeze_prospective_deck, preregister_prediction
+                  stericx_quantum, freeze_prospective_deck, preregister_prediction,
+                  validate_nonp_donor
 ```
 
 Reaction observations use an exact 64-byte `#[repr(C, align(64))]` layout; `bytemuck`

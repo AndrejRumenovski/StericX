@@ -26,6 +26,16 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Non-phosphorus donor validation (`scripts/validate_nonp_donor.py`,
+  `docs/validation/NONP_DONOR.md`). The `descriptors` command advertises
+  `--donor-element` for any trivalent donor, but every study validated only
+  phosphorus. This checks the nitrogen path the same way Studies 002/005 check
+  phosphorus: on ten tertiary amines, StericX's `--donor-element N` reproduces
+  morfeus's pyramidalization and buried volume to machine precision and Sterimol
+  L/B5 essentially exactly (B1 carries the same ~0.01 Å 1°-scan difference seen for
+  phosphorus), with donor detection finding the nitrogen and its three substituents
+  from geometry alone in every case. Scoped honestly to trivalent nitrogen — oxygen
+  and other donors remain unexercised.
 - Test asserting the unsafe AVX2 inference kernel agrees with the portable scalar
   fallback across 5,000 random inputs (to f32 tolerance, since the two sum in
   different orders), so the SIMD path cannot silently diverge from the reference

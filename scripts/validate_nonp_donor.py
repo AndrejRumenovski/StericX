@@ -305,10 +305,6 @@ def write_figure(rows: list[dict], metrics: dict, output: Path) -> None:
 
 
 def write_report(rows: list[dict], metrics: dict, output: Path) -> None:
-    worst_family = max(
-        (k for k in metrics if k != "sterimol_b1"),
-        key=lambda k: metrics[k]["max_abs_diff"],
-    )
     lines = [
         "# StericX Validation — The Non-Phosphorus Donor Path",
         "",
@@ -379,7 +375,6 @@ def write_report(rows: list[dict], metrics: dict, output: Path) -> None:
         "Only StericX's own values and the aggregate agreement are written out.",
         "",
     ]
-    _ = worst_family
     output.write_text("\n".join(lines), encoding="utf-8")
 
 

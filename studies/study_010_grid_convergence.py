@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import csv
 import io
+import json
 import subprocess
 import time
 from pathlib import Path
@@ -81,8 +82,15 @@ def sample_geometries(cache_dir: Path, count: int) -> list[Path]:
     return [sorted(d.glob("*.sdf"))[0] for d in chosen]
 
 
-def run_density(binary: Path, paths: list[Path], density: float) -> tuple[dict, float]:
-    """Return {file: (%Vbur, max_delta_qvbur_min)} and the wall time for the pass."""
+def run_density(
+    binary: Path, paths: list[Path], density: float
+) -> tuple[dict[str, float], float]:
+    """Return {file: %Vbur} and the wall time for the pass.
+
+    Passes all `paths` in one call. At the study's scale (tens to ~1.5k one-SDF
+    ligand paths) the argv stays well under the OS limit; the 31k-conformer case
+    that needs chunking is Study 008's, which owns the STERICX_BATCH logic.
+    """
     command = [
         str(binary),
         "descriptors",
@@ -95,12 +103,11 @@ def run_density(binary: Path, paths: list[Path], density: float) -> tuple[dict, 
     start = time.perf_counter()
     output = subprocess.run(command, capture_output=True, text=True, check=True).stdout
     elapsed = time.perf_counter() - start
-    values: dict[str, tuple[float, float]] = {}
+    values: dict[str, float] = {}
     for row in csv.DictReader(io.StringIO(output)):
         vbur = row.get("percent_buried_volume")
-        delta = row.get("max_delta_qvbur_min")
-        if vbur and delta:
-            values[Path(row["file"]).name] = (float(vbur), float(delta))
+        if vbur:
+            values[Path(row["file"]).name] = float(vbur)
     return values, elapsed
 
 
@@ -118,7 +125,7 @@ def main(argv: list[str] | None = None) -> int:
     for path in paths:
         path.read_bytes()
 
-    per_density: dict[float, dict[str, tuple[float, float]]] = {}
+    per_density: dict[float, dict[str, float]] = {}
     timing: dict[float, float] = {}
     for density in densities:
         values, elapsed = run_density(args.binary, paths, density)
@@ -128,13 +135,13 @@ def main(argv: list[str] | None = None) -> int:
     reference_density = min(densities)
     shared = sorted(set.intersection(*(set(v) for v in per_density.values())))
     reference = per_density[reference_density]
-    ref_vbur = np.array([reference[name][0] for name in shared])
+    ref_vbur = np.array([reference[name] for name in shared])
 
     # Irreducible discretization floor: the RMS %Vbur change between the two finest
     # grids. Refinement past this only shuffles which points land inside the sphere.
     two_finest = sorted(densities)[:2]
-    floor_a = np.array([per_density[two_finest[0]][name][0] for name in shared])
-    floor_b = np.array([per_density[two_finest[1]][name][0] for name in shared])
+    floor_a = np.array([per_density[two_finest[0]][name] for name in shared])
+    floor_b = np.array([per_density[two_finest[1]][name] for name in shared])
     floor_rms = float(np.sqrt(np.mean((floor_a - floor_b) ** 2)))
 
     rows: list[dict] = []
@@ -143,7 +150,7 @@ def main(argv: list[str] | None = None) -> int:
         f"{'bias':>8} {'time(s)':>9}"
     )
     for density in densities:
-        vbur = np.array([per_density[density][name][0] for name in shared])
+        vbur = np.array([per_density[density][name] for name in shared])
         diff = vbur - ref_vbur
         row = {
             "density": density,
@@ -190,8 +197,6 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def _write_metrics(rows, floor_rms, reference_density, n, output_dir: Path) -> None:
-    import json
-
     (output_dir / "grid_convergence_metrics.json").write_text(
         json.dumps(
             {

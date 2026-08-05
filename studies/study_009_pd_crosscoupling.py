@@ -332,11 +332,8 @@ def main(argv: list[str] | None = None) -> int:
         vbur, active = reaction_arrays(reactions, stericx, name)
         fit = fit_single_node(vbur, active)
         fit["bootstrap"] = bootstrap_ci(vbur, active, args.n_boot)
-        results[name] = {
-            "y_cut": PAPER[name]["y_cut"],
-            "stericx": fit,
-            "paper": PAPER[name],
-        }
+        # PAPER[name] already carries y_cut, so it is not duplicated at top level.
+        results[name] = {"stericx": fit, "paper": PAPER[name]}
         p = PAPER[name]
         print(
             f"   {name:>4} {fit['n']:>4} {fit['n_active']:>4} "

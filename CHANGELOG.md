@@ -35,6 +35,14 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Cross-platform CI: a `cargo test` matrix on `macos-latest` (Apple silicon,
+  aarch64) and `windows-latest` (x86_64) runs alongside the existing Linux
+  quality job, which keeps the `fmt` / `clippy` / Python / `ruff` gates. This
+  exercises the endian-guarded binary format on a second OS and both sides of
+  the SIMD split — the AVX2 inference kernel is `x86_64`-gated with a scalar
+  fallback, so the Apple-silicon runner builds and tests the scalar path while
+  the Windows x86_64 runner exercises the AVX2 path. All three jobs are green,
+  so the build and test suite are now demonstrated on Linux, macOS, and Windows.
 - Study 010 — grid convergence of the buried-volume integrator
   (`studies/study_010_grid_convergence.py`, `docs/study_010/`). Studies 002–004
   validated the descriptor at a single grid resolution (Kraken's 0.01 Å³/point);

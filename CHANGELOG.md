@@ -8,6 +8,15 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Internal refactor of the `stericx` CLI binary: the single 2,343-line
+  `src/main.rs` was split into focused modules — `cli` (argument types),
+  `reaction` (reaction-CSV ingestion and Sterimol ensemble aggregation),
+  `descriptors` (geometry-only featurization and the `descriptors` command),
+  `output` (atomic writes and run metrics), and a `commands/` module with one
+  file per subcommand — leaving `main.rs` a ~110-line dispatch shell. Purely
+  structural: no logic changed, each test moved alongside the code it exercises,
+  and the full 57-test suite plus `fmt` / `clippy` / `ruff` gates stay green.
+  User-facing behavior and command output are identical.
 - README restructured as a scannable landing page (~1,030 → ~305 lines): a
   one-minute overview, a curated six-number **Key Results** block, and a quick
   start stay inline; the nine-study detail, CLI reference, internal architecture,

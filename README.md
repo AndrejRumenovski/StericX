@@ -281,13 +281,44 @@ structures, while a model carrying an electronic term needs those values as CSV 
 reaction CSV supplies both at once: `screen` reads `NBO_Charge` / `IR_Frequency` from the
 row and featurizes the geometry named by `Ligand_XYZ_Path` to fill the Sterimol terms.
 
-**On the uncertainty band.** It propagates the model's bootstrap 95 % coefficient intervals
-by interval arithmetic. That ignores the correlation between coefficients, so it is
-*conservative* (wider than a joint region), and it is **not** an OLS prediction interval —
-`model.json` does not carry the training design matrix one would need. Residual scatter is
-reported separately as the fit's training RMSE. A band that spans zero is telling you the
-model cannot commit to a direction for that ligand, which is worth knowing before running
-the reaction.
+**Uncertainty and out-of-domain detection.** `stericx fit` records the training-set geometry
+— `(X'X)⁻¹` in the standardized design frame, `n`, `p`, and the residual standard error `s` —
+so `screen` can answer *how much a prediction is worth*, not just what it is. Two
+independent signals are reported:
+
+| Signal | What it measures |
+|---|---|
+| **Leverage** `h = x'(X'X)⁻¹x` vs `h* = 3p/n` | how far the ligand sits from the centre of the training design, in the metric the fit itself defines |
+| **Per-feature range check** | whether each selected descriptor lies inside its training min/max (a 1-D box) |
+
+They can disagree, and that is the point: a ligand can sit inside every 1-D range yet still
+be far from the training cloud. Both are reported and the worse one governs a graded verdict
+— `reliable`, `caution:high_leverage`, `caution:outside_range`, or
+`do_not_trust:extrapolation`. Ligands in the last grade get called out explicitly:
+
+```text
+1 ligand(s) are outside the training range AND above the warning leverage.
+For these the model is extrapolating and its prediction should not be trusted:
+  wild_extrap — leverage 3.396 = 5.7x h*
+```
+
+The 95 % band is a real Student-t **prediction interval**, `ŷ ± t(0.975, n−p)·s·√(1+h)`, so it
+widens automatically with leverage — a distant ligand is reported with an honestly wider
+error bar rather than a falsely precise one. On the Ni-hDA fit that is ±1.49 kcal/mol at the
+training centroid and ±2.97 kcal/mol for a ligand at 5.7× the warning leverage. `h* = 3p/n`
+is the same criterion the project's own [Study 003
+pre-registration](docs/study_003/PREREGISTRATION.md) applies, and the Rust implementation
+reproduces its `h* = 0.60` exactly.
+
+Models fitted before the geometry was recorded still load: leverage and the prediction
+interval report as unavailable, the verdict degrades to `range_only:inside` /
+`range_only:outside`, the weaker bootstrap band is printed marked `~[…]` so it can never be
+mistaken for a prediction interval, and the output says to refit to enable the leverage
+check. Scoping the claim down beats faking it.
+
+The `coefficient_band` remains available as the weaker signal: it propagates the bootstrap
+coefficient intervals by interval arithmetic, ignoring coefficient correlation. A band that
+spans zero tells you the model cannot commit to a direction for that ligand at all.
 
 ### `parse` — pack reaction structures
 

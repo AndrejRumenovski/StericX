@@ -1,3 +1,4 @@
+use super::domain::{TrainingGeometry, invert_matrix};
 use super::{MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, expand_features};
 use crate::storage::PackedReactionRecord;
 use serde::{Deserialize, Serialize};
@@ -90,6 +91,11 @@ pub struct ScientificFitReport {
     pub correlation_matrix: Vec<Vec<f64>>,
     pub variance_inflation_factors: Vec<Option<f64>>,
     pub applicability_domain: Vec<FeatureDomain>,
+    /// Training-set geometry enabling leverage-based domain checks and true
+    /// prediction intervals. Optional so model files written before this was
+    /// recorded still deserialize; consumers must degrade honestly when absent.
+    #[serde(default)]
+    pub training_geometry: Option<TrainingGeometry>,
     pub notes: Vec<String>,
 }
 
@@ -273,8 +279,12 @@ pub fn fit_scientific_model_grouped(
         correlation_matrix,
         variance_inflation_factors,
         applicability_domain,
+        training_geometry: training_geometry(&features, &targets, &selected, &ols.predictions),
         notes: vec![
             "Descriptors were standardized using training rows only.".into(),
+            "Leverage h = x'(X'X)^-1 x is reported against the warning leverage h* = 3p/n; \
+             beyond it a prediction is an extrapolation."
+                .into(),
             "Forward selection used BIC and rejected |r| > 0.95 descriptor pairs.".into(),
             "LOO, bootstrap, and permutation diagnostics keep the selected descriptor set fixed."
                 .into(),
@@ -603,6 +613,61 @@ fn predict(row: &[f64; MODEL_FEATURE_COUNT], weights: &[f32; MODEL_FEATURE_COUNT
         .zip(weights)
         .map(|(feature, weight)| feature * f64::from(*weight))
         .sum()
+}
+
+/// Recompute the standardized normal matrix for the final model and invert it,
+/// capturing everything needed to judge a new ligand's distance from the
+/// training set and to form a real prediction interval.
+fn training_geometry(
+    features: &[[f64; MODEL_FEATURE_COUNT]],
+    targets: &[f64],
+    selected: &[usize],
+    predictions: &[f64],
+) -> Option<TrainingGeometry> {
+    let (means, scales) = standardization(features, selected);
+    let columns = selected.len() + 1;
+    let observations = features.len();
+    if observations <= columns {
+        // A saturated fit has no residual degrees of freedom, so neither the
+        // residual standard error nor an interval derived from it is defined.
+        return None;
+    }
+    let mut normal = vec![vec![0.0; columns]; columns];
+    for row in features {
+        let mut design = Vec::with_capacity(columns);
+        design.push(1.0);
+        design.extend(
+            selected
+                .iter()
+                .map(|&column| (row[column] - means[column]) / scales[column]),
+        );
+        for left in 0..columns {
+            for right in 0..columns {
+                normal[left][right] += design[left] * design[right];
+            }
+        }
+    }
+    // Mirrors the ridge floor `fit_linear` applies, so leverage is the leverage
+    // of the model actually fitted rather than of an idealized one.
+    for (index, row) in normal.iter_mut().enumerate().skip(1) {
+        row[index] += EPSILON;
+    }
+    let xtx_inverse = invert_matrix(&normal).ok()?;
+    let rss = residual_sum_of_squares(targets, predictions);
+    let residual_standard_error = (rss / (observations - columns) as f64).sqrt();
+    if !residual_standard_error.is_finite() {
+        return None;
+    }
+    Some(TrainingGeometry {
+        feature_indices: selected.to_vec(),
+        means: selected.iter().map(|&column| means[column]).collect(),
+        scales: selected.iter().map(|&column| scales[column]).collect(),
+        xtx_inverse,
+        observations,
+        parameters: columns,
+        residual_standard_error,
+        warning_leverage: 3.0 * columns as f64 / observations as f64,
+    })
 }
 
 fn solve_linear_system(mut matrix: Vec<Vec<f64>>, mut rhs: Vec<f64>) -> Result<Vec<f64>, String> {

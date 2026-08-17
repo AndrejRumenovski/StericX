@@ -139,6 +139,16 @@ struct ScreenHit {
     /// OLS prediction interval — see the note emitted with the report.
     coefficient_band_low: Option<f64>,
     coefficient_band_high: Option<f64>,
+    /// True 95 % prediction interval `ŷ ± t·s·√(1+h)`, when the model carries
+    /// the training geometry needed to compute one.
+    prediction_interval_low: Option<f64>,
+    prediction_interval_high: Option<f64>,
+    /// Leverage of this ligand against the training design.
+    leverage: Option<f64>,
+    /// `leverage / warning_leverage`; above 1.0 the ligand is an extrapolation.
+    leverage_ratio: Option<f64>,
+    /// Graded verdict combining the range check and the leverage check.
+    trust: String,
     /// Signed by the ΔΔG‡ convention: positive favours R, negative the same
     /// excess of the opposite enantiomer.
     predicted_ee_percent: f64,
@@ -162,6 +172,12 @@ struct ScreenReport {
     screened: usize,
     skipped: usize,
     inside_domain: usize,
+    /// Warning leverage h* = 3p/n for this fit, when available.
+    warning_leverage: Option<f64>,
+    /// Count of ligands whose leverage exceeds h*.
+    high_leverage: usize,
+    /// How many ligands each trust grade covers.
+    trust_summary: Vec<(String, usize)>,
     uncertainty_note: String,
     hits: Vec<ScreenHit>,
 }
@@ -489,6 +505,28 @@ fn domain_exceedances(report: &ScientificFitReport, features: &[f32; 8]) -> Vec<
         .collect()
 }
 
+/// Grade how much a prediction deserves trust, from two independent signals:
+/// whether every selected feature lies inside the training range (a 1-D box
+/// check) and whether the ligand's leverage stays under `h* = 3p/n` (a check in
+/// the correlated geometry the fit actually defines). They can disagree — a
+/// ligand can sit inside every 1-D range yet still be far from the training
+/// cloud — so both are reported and the worse one governs.
+fn trust_grade(inside_range: bool, leverage_ratio: Option<f64>) -> String {
+    match (inside_range, leverage_ratio) {
+        (_, None) => {
+            if inside_range {
+                "range_only:inside".to_owned()
+            } else {
+                "range_only:outside".to_owned()
+            }
+        }
+        (true, Some(ratio)) if ratio <= 1.0 => "reliable".to_owned(),
+        (true, Some(_)) => "caution:high_leverage".to_owned(),
+        (false, Some(ratio)) if ratio <= 1.0 => "caution:outside_range".to_owned(),
+        (false, Some(_)) => "do_not_trust:extrapolation".to_owned(),
+    }
+}
+
 pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>> {
     if !args.temperature.is_finite() || args.temperature <= 0.0 {
         return Err("--temperature must be a positive finite temperature".into());
@@ -546,12 +584,27 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         }
         let outside = domain_exceedances(&report, &features);
         let band = coefficient_band(&report, &features);
+        let geometry = report.training_geometry.as_ref();
+        let leverage = geometry.and_then(|geometry| geometry.leverage(&features));
+        let warning = geometry.map(|geometry| geometry.warning_leverage);
+        let leverage_ratio = match (leverage, warning) {
+            (Some(leverage), Some(warning)) if warning > 0.0 => Some(leverage / warning),
+            _ => None,
+        };
+        let interval =
+            geometry.and_then(|geometry| geometry.prediction_interval(predicted, &features));
+        let trust = trust_grade(outside.is_empty(), leverage_ratio);
         hits.push(ScreenHit {
             rank: 0,
             ligand: candidate.label.clone(),
             predicted_ddg_kcal_mol: predicted,
             coefficient_band_low: band.map(|(low, _)| low),
             coefficient_band_high: band.map(|(_, high)| high),
+            prediction_interval_low: interval.map(|(low, _)| low),
+            prediction_interval_high: interval.map(|(_, high)| high),
+            leverage,
+            leverage_ratio,
+            trust,
             // `calculate_enantiomeric_excess` is an absolute value, so carry the
             // ΔΔG‡ sign through: under this project's convention a positive
             // ΔΔG‡ favours R, and a negative prediction means the same excess
@@ -619,12 +672,41 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         screened,
         skipped,
         inside_domain,
-        uncertainty_note:
-            "coefficient_band propagates the bootstrap 95% coefficient intervals by interval \
+        warning_leverage: report
+            .training_geometry
+            .as_ref()
+            .map(|g| g.warning_leverage),
+        high_leverage: hits
+            .iter()
+            .filter(|hit| hit.leverage_ratio.is_some_and(|ratio| ratio > 1.0))
+            .count(),
+        trust_summary: {
+            let mut counts: Vec<(String, usize)> = Vec::new();
+            for hit in &hits {
+                match counts.iter_mut().find(|(grade, _)| *grade == hit.trust) {
+                    Some((_, count)) => *count += 1,
+                    None => counts.push((hit.trust.clone(), 1)),
+                }
+            }
+            counts.sort_by(|left, right| right.1.cmp(&left.1).then_with(|| left.0.cmp(&right.0)));
+            counts
+        },
+        uncertainty_note: if report.training_geometry.is_some() {
+            "prediction_interval is a 95% Student-t interval y ± t(0.975, n−p)·s·√(1+h): it \
+             widens with leverage, so a ligand far from the training set is reported with a \
+             correspondingly wider band. Leverage h is compared against the conventional \
+             warning leverage h* = 3p/n. coefficient_band remains the conservative bootstrap \
+             propagation and is the weaker of the two signals."
+                .to_owned()
+        } else {
+            "this model predates the recorded training geometry, so no leverage or prediction \
+             interval can be computed — the domain check falls back to a per-feature range test \
+             only. Refit with `stericx fit` to enable leverage-based extrapolation detection. \
+             coefficient_band propagates the bootstrap 95% coefficient intervals by interval \
              arithmetic; it ignores coefficient correlation (so it is conservative) and is NOT \
-             an OLS prediction interval. Residual scatter is reported separately as \
-             training_rmse_kcal_mol."
-                .to_owned(),
+             an OLS prediction interval."
+                .to_owned()
+        },
         hits,
     };
 
@@ -669,24 +751,76 @@ fn print_screen_text(report: &ScreenReport) {
         report.library_size, report.screened, report.skipped, report.inside_domain
     );
     println!("temperature    {:.2} K", report.temperature_k);
+    if let Some(warning) = report.warning_leverage {
+        println!(
+            "leverage       warning h* = {warning:.3} (3p/n); {} ligand(s) above it",
+            report.high_leverage
+        );
+    } else {
+        println!("leverage       unavailable — model carries no training geometry");
+    }
+    if !report.trust_summary.is_empty() {
+        println!(
+            "trust          {}",
+            report
+                .trust_summary
+                .iter()
+                .map(|(grade, count)| format!("{grade} {count}"))
+                .collect::<Vec<_>>()
+                .join(", ")
+        );
+    }
     println!(
-        "\n{:>4}  {:>9}  {:>19}  {:>7}  {:<28}  ligand",
-        "rank", "pred ddG", "coef. band (95%)", "pred ee", "applicability"
+        "\n{:>4}  {:>9}  {:>19}  {:>7}  {:>7}  {:<26}  ligand",
+        "rank", "pred ddG", "95% pred interval", "leverage", "pred ee", "trust"
     );
     for hit in &report.hits {
-        let band = match (hit.coefficient_band_low, hit.coefficient_band_high) {
+        let interval = match (hit.prediction_interval_low, hit.prediction_interval_high) {
             (Some(low), Some(high)) => format!("[{low:>7.2}, {high:>7.2}]"),
-            _ => "unavailable".to_owned(),
+            _ => match (hit.coefficient_band_low, hit.coefficient_band_high) {
+                // Fall back to the weaker signal, marked so it is never mistaken
+                // for a real prediction interval.
+                (Some(low), Some(high)) => format!("~[{low:>6.2}, {high:>6.2}]"),
+                _ => "unavailable".to_owned(),
+            },
+        };
+        let leverage = match (hit.leverage, hit.leverage_ratio) {
+            (Some(leverage), Some(ratio)) => {
+                format!("{leverage:.3}{}", if ratio > 1.0 { "!" } else { " " })
+            }
+            (Some(leverage), None) => format!("{leverage:.3} "),
+            _ => "     — ".to_owned(),
         };
         println!(
-            "{:>4}  {:>9.3}  {:>19}  {:>6.1}%  {:<28}  {}",
+            "{:>4}  {:>9.3}  {:>19}  {:>7}  {:>6.1}%  {:<26}  {}",
             hit.rank,
             hit.predicted_ddg_kcal_mol,
-            band,
+            interval,
+            leverage,
             hit.predicted_ee_percent,
-            hit.applicability,
+            hit.trust,
             hit.ligand
         );
+    }
+    let untrusted = report
+        .hits
+        .iter()
+        .filter(|hit| hit.trust.starts_with("do_not_trust"))
+        .collect::<Vec<_>>();
+    if !untrusted.is_empty() {
+        println!(
+            "\n{} ligand(s) are outside the training range AND above the warning leverage.",
+            untrusted.len()
+        );
+        println!("For these the model is extrapolating and its prediction should not be trusted:");
+        for hit in untrusted {
+            println!(
+                "  {} — leverage {:.3} = {:.1}x h*",
+                hit.ligand,
+                hit.leverage.unwrap_or(f64::NAN),
+                hit.leverage_ratio.unwrap_or(f64::NAN)
+            );
+        }
     }
     let flagged = report
         .hits
@@ -714,17 +848,23 @@ fn print_screen_text(report: &ScreenReport) {
 
 fn print_screen_csv(report: &ScreenReport) {
     println!(
-        "rank,ligand,predicted_ddg_kcal_mol,coefficient_band_low,coefficient_band_high,\
+        "rank,ligand,predicted_ddg_kcal_mol,prediction_interval_low,prediction_interval_high,\
+         leverage,leverage_ratio,trust,coefficient_band_low,coefficient_band_high,\
          predicted_ee_percent,applicability,outside_features"
     );
     for hit in &report.hits {
         let format_bound =
             |value: Option<f64>| value.map_or_else(String::new, |value| format!("{value:.6}"));
         println!(
-            "{},{},{:.6},{},{},{:.4},{},{}",
+            "{},{},{:.6},{},{},{},{},{},{},{},{:.4},{},{}",
             hit.rank,
             crate::descriptors::csv_field(&hit.ligand),
             hit.predicted_ddg_kcal_mol,
+            format_bound(hit.prediction_interval_low),
+            format_bound(hit.prediction_interval_high),
+            format_bound(hit.leverage),
+            format_bound(hit.leverage_ratio),
+            hit.trust,
             format_bound(hit.coefficient_band_low),
             format_bound(hit.coefficient_band_high),
             hit.predicted_ee_percent,

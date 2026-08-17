@@ -35,6 +35,34 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Leverage-based applicability domain and true prediction intervals. `stericx
+  fit` now records the training-set geometry — `(X'X)⁻¹` in the standardized
+  design frame, the observation and parameter counts, and the residual standard
+  error — which lets `stericx screen` report how much a prediction is worth
+  rather than only what it is. Two independent signals are surfaced: the
+  **leverage** `h = x'(X'X)⁻¹x` against the conventional warning leverage
+  `h* = 3p/n`, measuring distance from the centre of the training design in the
+  metric the fit itself defines; and the existing per-feature range check, a 1-D
+  box. They can disagree — a ligand can sit inside every individual range and
+  still be far from the training cloud — so both are reported and the worse one
+  governs a graded verdict (`reliable`, `caution:high_leverage`,
+  `caution:outside_range`, `do_not_trust:extrapolation`), with extrapolating
+  ligands called out explicitly as ones whose predictions should not be trusted.
+  The 95 % band is now a real Student-t prediction interval
+  `ŷ ± t(0.975, n−p)·s·√(1+h)`, which widens with leverage: on the Ni-hDA fit,
+  ±1.49 kcal/mol at the training centroid versus ±2.97 kcal/mol for a ligand at
+  5.7× the warning leverage. The Student-t quantile is computed from the
+  regularized incomplete beta function (Lanczos log-gamma and a Lentz continued
+  fraction) and is tested against published critical values for df = 1…120 and
+  the normal limit. `h* = 3p/n` is the same criterion the Study 003
+  pre-registration uses, and the Rust path reproduces its `h* = 0.60` exactly.
+  Backward compatible and honest about its limits: the new field is optional, so
+  models fitted earlier still load — leverage and the prediction interval report
+  as unavailable, the verdict degrades to `range_only:*`, the weaker bootstrap
+  band is marked `~[…]` so it cannot be mistaken for a prediction interval, and
+  the output states that a refit enables the leverage check. Verified not to
+  perturb the fit itself: re-fitting the Ni-hDA model before and after the change
+  differs only by the new `training_geometry` field and one added note line.
 - `stericx screen <model.json> <library>` — reaction-specific ligand ranking,
   moving the tool from descriptor calculation toward catalyst design. Ranks a
   library through a model fitted by `stericx fit`, reporting for every ligand a

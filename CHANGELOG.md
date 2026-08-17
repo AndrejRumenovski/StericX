@@ -4,8 +4,6 @@ All notable changes to StericX are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project aims to
 follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
 ## [0.2.0] - 2026-08-17 — Ligand Search & Comparison
 
 The first release in which StericX is useful for **choosing between** ligands rather
@@ -44,52 +42,6 @@ model, or committed study result changed.
   in one spanning 0.6 Å, and only the library can say which. Without a database the raw
   differences still print and the output states that they are unscaled.
 
-### Changed
-
-- `search` gained `--similar-to` (with `--ligand` kept as an alias) and `--database`
-  (with `--library` kept as an alias); hits are now identified by their database ligand
-  label when one exists, falling back to the file stem.
-- Searching the full 1,541-ligand library now takes **~5 ms** against a prebuilt
-  database, against ~5 s to re-featurize it. `--database` still accepts a directory and
-  featurizes on the fly.
-
-### Notes
-
-- Ranking is **steric similarity, not reactivity**; `screen` is the command that brings a
-  fitted reaction model to bear.
-- The shipped database holds per-ligand **conformer-ensemble** values, so querying with a
-  single conformer compares an ensemble average against one geometry. The query's own
-  descriptors are printed so the discrepancy is visible rather than hidden.
-
-
-### Changed
-
-- Internal refactor of the `stericx` CLI binary: the single 2,343-line
-  `src/main.rs` was split into focused modules — `cli` (argument types),
-  `reaction` (reaction-CSV ingestion and Sterimol ensemble aggregation),
-  `descriptors` (geometry-only featurization and the `descriptors` command),
-  `output` (atomic writes and run metrics), and a `commands/` module with one
-  file per subcommand — leaving `main.rs` a ~110-line dispatch shell. Purely
-  structural: no logic changed, each test moved alongside the code it exercises,
-  and the full 57-test suite plus `fmt` / `clippy` / `ruff` gates stay green.
-  User-facing behavior and command output are identical.
-- README restructured as a scannable landing page (~1,030 → ~305 lines): a
-  one-minute overview, a curated six-number **Key Results** block, and a quick
-  start stay inline; the nine-study detail, CLI reference, internal architecture,
-  benchmarks, and roadmap move into collapsed sections and links to the existing
-  per-study docs. Statistical density was deliberately cut — the reading path now
-  carries only the handful of numbers that matter, with every RMSE / Pearson /
-  slope / intercept / median-AE table left in `docs/`. The opening now leads with a
-  plain-language description before any chemistry, and the ordering puts validation
-  ahead of speed (benchmarks collapsed low; speed is the last Key Results row). No
-  content was removed. Added a **Technical challenges** section documenting the
-  engineering decisions behind the reproduction — donor detection from raw geometry,
-  isolating the kernel from the input geometry, matching Kraken's coordinate
-  conventions, the phosphine frame bug found at scale, the unsafe-SIMD/scalar-fallback
-  discipline, and the honestly-scoped reproducibility story (machine-native format
-  guarded by an endian marker; not claimed as cross-platform).
-
-### Added
 
 - Leverage-based applicability domain and true prediction intervals. `stericx
   fit` now records the training-set geometry — `(X'X)⁻¹` in the standardized
@@ -213,6 +165,49 @@ model, or committed study result changed.
   independent fit also disagrees, and the weak Heck dataset (XII) is weak for
   everyone. The copyrighted SI (AAAS) is read locally and never redistributed;
   only StericX's own values and the aggregate comparison are committed.
+
+### Changed
+
+- `search` gained `--similar-to` (with `--ligand` kept as an alias) and `--database`
+  (with `--library` kept as an alias); hits are now identified by their database ligand
+  label when one exists, falling back to the file stem.
+- Searching the full 1,541-ligand library now takes **~5 ms** against a prebuilt
+  database, against ~5 s to re-featurize it. `--database` still accepts a directory and
+  featurizes on the fly.
+
+
+- Internal refactor of the `stericx` CLI binary: the single 2,343-line
+  `src/main.rs` was split into focused modules — `cli` (argument types),
+  `reaction` (reaction-CSV ingestion and Sterimol ensemble aggregation),
+  `descriptors` (geometry-only featurization and the `descriptors` command),
+  `output` (atomic writes and run metrics), and a `commands/` module with one
+  file per subcommand — leaving `main.rs` a ~110-line dispatch shell. Purely
+  structural: no logic changed, each test moved alongside the code it exercises,
+  and the full 57-test suite plus `fmt` / `clippy` / `ruff` gates stay green.
+  User-facing behavior and command output are identical.
+- README restructured as a scannable landing page (~1,030 → ~305 lines): a
+  one-minute overview, a curated six-number **Key Results** block, and a quick
+  start stay inline; the nine-study detail, CLI reference, internal architecture,
+  benchmarks, and roadmap move into collapsed sections and links to the existing
+  per-study docs. Statistical density was deliberately cut — the reading path now
+  carries only the handful of numbers that matter, with every RMSE / Pearson /
+  slope / intercept / median-AE table left in `docs/`. The opening now leads with a
+  plain-language description before any chemistry, and the ordering puts validation
+  ahead of speed (benchmarks collapsed low; speed is the last Key Results row). No
+  content was removed. Added a **Technical challenges** section documenting the
+  engineering decisions behind the reproduction — donor detection from raw geometry,
+  isolating the kernel from the input geometry, matching Kraken's coordinate
+  conventions, the phosphine frame bug found at scale, the unsafe-SIMD/scalar-fallback
+  discipline, and the honestly-scoped reproducibility story (machine-native format
+  guarded by an endian marker; not claimed as cross-platform).
+
+### Notes
+
+- Ranking is **steric similarity, not reactivity**; `screen` is the command that brings a
+  fitted reaction model to bear.
+- The shipped database holds per-ligand **conformer-ensemble** values, so querying with a
+  single conformer compares an ensemble average against one geometry. The query's own
+  descriptors are printed so the discrepancy is visible rather than hidden.
 
 ## [0.1.0] - 2026-07-31
 

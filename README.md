@@ -476,12 +476,19 @@ machine that generated them; the ratios are the portable quantity.
 <details>
 <summary><b>Roadmap</b></summary>
 
-Everything through v0.1.0 is shipped: the descriptor kernels, full-set Kraken reproduction,
-the frame-bug fix and residual characterization, two reaction models (Ni + Pd cross-coupling),
-pyramidalization, the speed benchmark, and the Zenodo release. The one open item is the
-**frozen prospective 10-candidate deck**, which stays target-free until experimental
-measurement exists; a measured outcome would seed a v0.2.0 under the existing concept DOI
-(never a refit — pre-registration integrity).
+**v0.1.0** shipped the science: the descriptor kernels, full-set Kraken reproduction, the
+frame-bug fix and residual characterization, two reaction models (Ni + Pd cross-coupling),
+pyramidalization, the speed benchmark, and the Zenodo release.
+
+**v0.2.0** makes it useful for *choosing* between ligands rather than only measuring them:
+a precomputed 1,541-ligand descriptor database, similarity search, constraint queries,
+side-by-side `compare`, and `screen` — reaction-model ranking with leverage-based
+applicability-domain warnings and Student-t prediction intervals.
+
+The one open scientific item remains the **frozen prospective 10-candidate deck**, which
+stays target-free until experimental measurement exists. A measured outcome would seed a
+future release under the existing concept DOI — and never a refit, for pre-registration
+integrity.
 
 </details>
 

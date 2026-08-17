@@ -35,6 +35,14 @@ pub(crate) fn atomic_write_json<T: Serialize>(
     Ok(())
 }
 
+pub(crate) fn write_atomic_text(path: &Path, contents: &str) -> Result<(), Box<dyn Error>> {
+    ensure_parent(path)?;
+    let temporary = temporary_sibling(path);
+    fs::write(&temporary, contents)?;
+    fs::rename(temporary, path)?;
+    Ok(())
+}
+
 pub(crate) fn atomic_write_csv_rows<T: Serialize>(
     rows: &[T],
     path: &Path,

@@ -26,7 +26,8 @@ the full 1,541-ligand library — with every failure kept in view.
 atom and prints Sterimol, buried-volume, and pyramidalization descriptors — no Python
 runtime, no reaction CSV, no atom indices to look up. It also **searches**: point it at a
 ligand and a library and it ranks the most sterically similar candidates, under constraints
-like `--filter 'vbur=30..35' --filter 'b5<7'` or `--less-bulky`. The same binary fits
+like `--vbur 30:35 --b5-max 8` or `--less-bulky`; `compare` puts ligands side by side and
+`db build` precomputes a reusable descriptor database. The same binary fits
 interpretable linear models, **screens** a whole library through a fitted model — predicted
 performance, an uncertainty band, and an applicability-domain warning per ligand — and
 converts predicted ΔΔG‡ into product ratios via the Eyring equation.
@@ -202,52 +203,95 @@ coordination` uses the metal-bound coordination axis (a virtual metal 2.28 Å fr
 with the +0.40 Å Verloop L correction). Non-phosphine donors: `--donor-element N`, or
 `--donor-index` to name the atom directly.
 
-### `search` — find sterically similar ligands
+### `db build` — precompute a ligand database
 
-Turns the descriptors into a discovery tool: featurize a query ligand, then rank a library
-by steric similarity, optionally under constraints.
+Featurizing is the expensive step; reading a table back is not. `db build` does the work once
+and writes a CSV plus a `.manifest.json` recording the exact settings, counts, and a SHA-256
+of the table, so a database is a reproducible artifact rather than an ad-hoc dump.
 
 ```bash
-# build a reusable library once, then search it
-./target/release/stericx descriptors --format csv ligands/*.sdf > library.csv
-./target/release/stericx search --ligand query.xyz --library library.csv --top 10
-
-# or point --library straight at a directory of geometries
-./target/release/stericx search --ligand query.xyz --library ligands/
+./target/release/stericx db build --source ligands/ --output my_ligands.csv
+# Kraken cache layout: each directory is one ligand, its files are conformers
+./target/release/stericx db build --source .stericx/kraken_dft_cache \
+    --output db.csv --group-by-parent --label-from parent --extension sdf
 ```
 
-Similarity is Euclidean distance in **standardized** descriptor space — every descriptor is
-z-scored against the library before the distance is taken, so an Å-scale `L` and a
-percent-scale `%Vbur` contribute comparably instead of whichever carries the biggest units
-dominating. The default space is the shape envelope (`L`, `B1`, `B5`), how much of the
-coordination sphere the ligand fills (`%Vbur`), how unevenly it fills it
-(`max_delta_qvbur`), and the donor pyramidalization (`pyr_P`); choose your own with
-`--features l,b5,vbur`. Note that `buried_volume` is deliberately *not* in the default set —
-it is `percent_buried_volume` rescaled by a constant, so including both would silently
-double-weight the same quantity.
+`--group-by-parent` aggregates a ligand's conformers into one row; `max_delta_qvbur_min`
+takes the **minimum** across them because that is Kraken's own `*_min` convention, so
+aggregating any other way would silently redefine the descriptor. `--label-from parent` makes
+the directory name the ligand label — for the Kraken cache that is the molecule id, so hits
+come back as `723` rather than an opaque path. `--extension` restricts which formats are read,
+which matters when a tree mirrors the same conformers in more than one format.
 
-Constraints narrow the field **before** ranking. `--filter` is repeatable and accepts
-`name=LOW..HIGH`, `name<V`, `name<=V`, `name>V`, `name>=V`, with short aliases
-(`vbur`, `l`, `b1`, `b5`, `pyr`):
+**A database ships with the repo**: [`data/ligand_db/kraken_phosphines.csv`](data/ligand_db/)
+— all **1,541** Kraken phosphines aggregated from **31,611** DFT conformers, built in 5.3 s,
+215 KB. These are StericX's *own* computed descriptors keyed by Kraken molecule id, not
+Kraken's published values; the manifest records the settings that produced them.
+
+### `search` — find sterically similar ligands, or filter by constraints
 
 ```bash
-# "%Vbur between 30 and 35, B5 under 7 Å"
-./target/release/stericx search --ligand query.xyz --library library.csv \
-    --filter 'vbur=30..35' --filter 'b5<7'
+# nearest neighbours to a query ligand
+./target/release/stericx search --similar-to query.sdf \
+    --database data/ligand_db/kraken_phosphines.csv
+
+# a pure constraint query — no query ligand needed
+./target/release/stericx search --database data/ligand_db/kraken_phosphines.csv \
+    --vbur 30:35 --b5-max 8
 
 # "find me a less bulky ligand of similar shape"
-./target/release/stericx search --ligand query.xyz --library library.csv --less-bulky
+./target/release/stericx search --similar-to query.sdf --database db.csv --less-bulky
 ```
 
-`--less-bulky` / `--more-bulky` are shorthand for a `%Vbur` bound relative to the query.
-`--format json|csv` emits the ranking machine-readably, including the query's own
-descriptors and the filters that were applied. Descriptors that are constant across the
-library are reported and excluded, so a ranking is never silently computed on fewer axes
-than requested.
+Searching all 1,541 ligands takes **~5 ms** against a prebuilt database, versus ~5 s to
+re-featurize them; `--database` also accepts a plain directory and will featurize on the fly.
 
-**This ranks steric similarity — it is not a prediction of reactivity.** Two ligands close
-in this space occupy space similarly; whether they behave alike in a given reaction is an
-experimental question.
+Similarity is Euclidean distance in **standardized** descriptor space — every descriptor is
+z-scored against the database first, so an Å-scale `L` and a percent-scale `%Vbur` contribute
+comparably instead of whichever carries the biggest units dominating. The default space is the
+shape envelope (`L`, `B1`, `B5`), `%Vbur`, the quadrant asymmetry `max_delta_qvbur`, and the
+donor pyramidalization `pyr_P`; choose your own with `--features l,b5,vbur`. `buried_volume`
+is deliberately *not* in the default set — it is `percent_buried_volume` rescaled by a
+constant, so including both would double-weight the same quantity.
+
+Constraints narrow the field **before** ranking. Ranges take `LOW:HIGH`
+(`--vbur 30:35`, `--l`, `--b1`, `--b5`) and each has `--…-min` / `--…-max` inclusive bounds
+(`--b5-max 8`). `--filter` remains available for anything else, accepting `name=LOW..HIGH`,
+`name<V`, `name<=V`, `name>V`, `name>=V` over any descriptor. `--less-bulky` /
+`--more-bulky` are shorthand for a `%Vbur` bound relative to the query. With no
+`--similar-to` the result is ordered by the first constrained descriptor (or `--sort-by`),
+and the distance column reads `—` rather than inventing a similarity to nothing.
+
+Descriptors that are constant across the database are reported and excluded, so a ranking is
+never silently computed on fewer axes than requested.
+
+> **Two honest caveats.** This ranks *steric similarity, not reactivity* — two ligands close
+> in this space occupy space alike; whether they behave alike in a given reaction is an
+> experimental question, and `screen` is the command that brings a reaction model to bear.
+> And compare like with like: the shipped database holds per-ligand **conformer-ensemble**
+> values, so querying with a single conformer compares an ensemble average against one
+> geometry. The query's own descriptors are printed so the difference is visible.
+
+### `compare` — put ligands side by side
+
+```bash
+./target/release/stericx compare ligand_a.sdf ligand_b.sdf ligand_c.sdf \
+    --database data/ligand_db/kraken_phosphines.csv
+```
+
+```text
+descriptor                   31676     46112     33790    spread        σ
+sterimol_l                   6.991     6.883     6.959     0.107     0.07
+sterimol_b1                  4.956     3.568     2.841     2.115     2.61
+percent_buried_volume       58.612    41.018    30.562    28.050     3.03
+```
+
+Every descriptor for every ligand, the spread across them, and — with `--database` — that
+spread in **library standard deviations** plus a standardized pairwise distance. The σ column
+is what makes a raw number mean something: above, these three ligands are the same *length*
+(0.07 σ) while differing enormously in minimum width (2.61 σ) and bulk (3.03 σ). Without a
+database the raw differences still print; they just cannot be placed on a scale, and the
+output says so.
 
 ### `screen` — rank a library with a fitted reaction model
 

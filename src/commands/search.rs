@@ -20,6 +20,11 @@ use steric_x::BuriedVolumeConfig;
 /// --format csv`, so a CSV produced by that command is a valid library as-is.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub(crate) struct LibraryEntry {
+    /// Ligand label from a `stericx db build` table (e.g. a Kraken molecule id).
+    /// Empty when the library is a plain descriptors CSV or a directory, in which
+    /// case the file name identifies the ligand instead.
+    #[serde(default)]
+    pub(crate) ligand: String,
     pub(crate) file: String,
     pub(crate) conformers: usize,
     pub(crate) donor_element: String,
@@ -41,6 +46,7 @@ pub(crate) struct LibraryEntry {
 impl From<&DescriptorResult> for LibraryEntry {
     fn from(result: &DescriptorResult) -> Self {
         Self {
+            ligand: String::new(),
             file: result.file.clone(),
             conformers: result.conformers,
             donor_element: result.donor_element.clone(),
@@ -61,15 +67,29 @@ impl From<&DescriptorResult> for LibraryEntry {
     }
 }
 
-/// A searchable descriptor: its canonical name, short aliases accepted on the
-/// command line, and how to read it off an entry.
-struct Feature {
-    name: &'static str,
-    aliases: &'static [&'static str],
-    get: fn(&LibraryEntry) -> f32,
+impl LibraryEntry {
+    /// How to name this ligand in output: its database label when it has one,
+    /// otherwise the file stem.
+    pub(crate) fn display_name(&self) -> &str {
+        if !self.ligand.is_empty() {
+            return &self.ligand;
+        }
+        std::path::Path::new(&self.file)
+            .file_stem()
+            .and_then(|stem| stem.to_str())
+            .unwrap_or(&self.file)
+    }
 }
 
-const FEATURES: &[Feature] = &[
+/// A searchable descriptor: its canonical name, short aliases accepted on the
+/// command line, and how to read it off an entry.
+pub(crate) struct Feature {
+    pub(crate) name: &'static str,
+    aliases: &'static [&'static str],
+    pub(crate) get: fn(&LibraryEntry) -> f32,
+}
+
+pub(crate) const FEATURES: &[Feature] = &[
     Feature {
         name: "sterimol_l",
         aliases: &["l"],
@@ -269,7 +289,7 @@ fn parse_filter(expression: &str) -> Result<Filter, String> {
 }
 
 /// Collect coordinate files below a directory, or read a precomputed CSV.
-fn load_library(
+pub(crate) fn load_library_entries(
     library: &Path,
     donor_element: &str,
     sterimol_axis: SterimolAxis,
@@ -355,6 +375,39 @@ fn collect_coordinate_files(
     Ok(())
 }
 
+/// Canonical names of the default similarity space, for reuse by `compare` so a
+/// distance means the same thing in both commands.
+pub(crate) fn default_feature_names() -> Vec<String> {
+    DEFAULT_FEATURES
+        .iter()
+        .map(|name| (*name).to_owned())
+        .collect()
+}
+
+/// Per-descriptor mean and population standard deviation across a library.
+pub(crate) fn library_statistics(
+    entries: &[LibraryEntry],
+) -> std::collections::HashMap<&'static str, (f64, f64)> {
+    let count = entries.len() as f64;
+    FEATURES
+        .iter()
+        .map(|feature| {
+            let read = feature.get;
+            let mean = entries
+                .iter()
+                .map(|entry| f64::from(read(entry)))
+                .sum::<f64>()
+                / count;
+            let variance = entries
+                .iter()
+                .map(|entry| (f64::from(read(entry)) - mean).powi(2))
+                .sum::<f64>()
+                / count;
+            (feature.name, (mean, variance.sqrt()))
+        })
+        .collect()
+}
+
 /// Mean and standard deviation of each selected feature across the library.
 struct Standardizer {
     features: Vec<usize>,
@@ -416,14 +469,15 @@ impl Standardizer {
 #[derive(Debug, Serialize)]
 struct SearchHit {
     rank: usize,
-    distance: f32,
+    /// Absent for a constraint-only query, where nothing is being matched.
+    distance: Option<f32>,
     #[serde(flatten)]
     entry: LibraryEntry,
 }
 
 #[derive(Debug, Serialize)]
 struct SearchReport {
-    query: LibraryEntry,
+    query: Option<LibraryEntry>,
     similarity_features: Vec<String>,
     filters: Vec<String>,
     library_size: usize,
@@ -431,20 +485,108 @@ struct SearchReport {
     hits: Vec<SearchHit>,
 }
 
-#[allow(clippy::too_many_arguments)]
-pub(crate) fn search_command(
-    ligand: &Path,
-    library: &Path,
-    top: usize,
-    feature_names: Option<&str>,
-    filter_expressions: &[String],
-    less_bulky: bool,
-    more_bulky: bool,
-    donor_element: &str,
-    sterimol_axis: SterimolAxis,
-    format: DescriptorFormat,
-    config: BuriedVolumeConfig,
-) -> Result<(), Box<dyn Error>> {
+/// Everything `search` needs, bundled so the ergonomic range flags can grow
+/// without turning the entry point into a twenty-argument function.
+pub(crate) struct SearchArgs<'a> {
+    pub(crate) ligand: Option<&'a Path>,
+    pub(crate) library: &'a Path,
+    pub(crate) top: usize,
+    pub(crate) sort_by: Option<&'a str>,
+    pub(crate) descending: bool,
+    pub(crate) feature_names: Option<&'a str>,
+    pub(crate) filter_expressions: &'a [String],
+    /// Convenience range flags, already normalized to filter expressions.
+    pub(crate) shorthand_filters: Vec<String>,
+    pub(crate) less_bulky: bool,
+    pub(crate) more_bulky: bool,
+    pub(crate) donor_element: &'a str,
+    pub(crate) sterimol_axis: SterimolAxis,
+    pub(crate) format: DescriptorFormat,
+    pub(crate) config: BuriedVolumeConfig,
+}
+
+/// Normalize a `LOW:HIGH` (or `LOW..HIGH`) range flag into a filter expression.
+pub(crate) fn range_flag_to_filter(descriptor: &str, value: &str) -> Result<String, String> {
+    let trimmed = value.trim();
+    let (low, high) = trimmed
+        .split_once(':')
+        .or_else(|| trimmed.split_once(".."))
+        .ok_or_else(|| {
+            format!("--{descriptor} expects a LOW:HIGH range, for example `30:35`, not `{trimmed}`")
+        })?;
+    Ok(format!("{descriptor}={}..{}", low.trim(), high.trim()))
+}
+
+/// The ergonomic range flags (`--vbur 30:35`, `--b5-max 8`), normalized into the
+/// same filter expressions `--filter` produces so there is one filtering path.
+#[derive(Debug, Default)]
+pub(crate) struct RangeFlags {
+    pub(crate) vbur: Option<String>,
+    pub(crate) l: Option<String>,
+    pub(crate) b1: Option<String>,
+    pub(crate) b5: Option<String>,
+    pub(crate) vbur_min: Option<f32>,
+    pub(crate) vbur_max: Option<f32>,
+    pub(crate) l_min: Option<f32>,
+    pub(crate) l_max: Option<f32>,
+    pub(crate) b1_min: Option<f32>,
+    pub(crate) b1_max: Option<f32>,
+    pub(crate) b5_min: Option<f32>,
+    pub(crate) b5_max: Option<f32>,
+}
+
+impl RangeFlags {
+    pub(crate) fn to_filters(&self) -> Result<Vec<String>, String> {
+        let mut filters = Vec::new();
+        for (descriptor, range) in [
+            ("vbur", &self.vbur),
+            ("l", &self.l),
+            ("b1", &self.b1),
+            ("b5", &self.b5),
+        ] {
+            if let Some(range) = range {
+                filters.push(range_flag_to_filter(descriptor, range)?);
+            }
+        }
+        // `--x-min`/`--x-max` are inclusive: `--b5-max 8` reads as "B5 at most 8".
+        for (descriptor, value, operator) in [
+            ("vbur", self.vbur_min, ">="),
+            ("vbur", self.vbur_max, "<="),
+            ("l", self.l_min, ">="),
+            ("l", self.l_max, "<="),
+            ("b1", self.b1_min, ">="),
+            ("b1", self.b1_max, "<="),
+            ("b5", self.b5_min, ">="),
+            ("b5", self.b5_max, "<="),
+        ] {
+            if let Some(value) = value {
+                if !value.is_finite() {
+                    return Err(format!("--{descriptor} bound must be finite"));
+                }
+                filters.push(format!("{descriptor}{operator}{value}"));
+            }
+        }
+        Ok(filters)
+    }
+}
+
+pub(crate) fn search_command(args: SearchArgs<'_>) -> Result<(), Box<dyn Error>> {
+    let SearchArgs {
+        ligand,
+        library,
+        top,
+        sort_by,
+        descending,
+        feature_names,
+        filter_expressions,
+        shorthand_filters,
+        less_bulky,
+        more_bulky,
+        donor_element,
+        sterimol_axis,
+        format,
+        config,
+    } = args;
     if less_bulky && more_bulky {
         return Err("--less-bulky and --more-bulky are mutually exclusive".into());
     }
@@ -470,30 +612,49 @@ pub(crate) fn search_command(
 
     let mut filters = filter_expressions
         .iter()
+        .chain(shorthand_filters.iter())
         .map(|expression| parse_filter(expression))
         .collect::<Result<Vec<_>, _>>()?;
 
-    let query_result = descriptors_for_file(ligand, donor_element, None, sterimol_axis, config)
-        .map_err(|message| format!("query ligand: {message}"))?;
-    let query = LibraryEntry::from(&query_result);
+    let query = match ligand {
+        Some(path) => Some(LibraryEntry::from(
+            &descriptors_for_file(path, donor_element, None, sterimol_axis, config)
+                .map_err(|message| format!("query ligand: {message}"))?,
+        )),
+        None => None,
+    };
+    if query.is_none() && (less_bulky || more_bulky) {
+        return Err(
+            "--less-bulky/--more-bulky are measured against --similar-to, so it is required".into(),
+        );
+    }
+    if query.is_none() && filters.is_empty() {
+        return Err(
+            "give --similar-to to rank by similarity, or at least one constraint to run a \
+             filter-only query"
+                .into(),
+        );
+    }
 
     // "Find me a less bulky alternative" is a constraint relative to the query,
     // so it can only be resolved once the query has been featurized.
     let vbur = resolve_feature("percent_buried_volume")?;
-    if less_bulky {
-        filters.push(Filter {
-            feature: vbur,
-            bound: Bound::Below(query.percent_buried_volume, false),
-        });
-    }
-    if more_bulky {
-        filters.push(Filter {
-            feature: vbur,
-            bound: Bound::Above(query.percent_buried_volume, false),
-        });
+    if let Some(query) = query.as_ref() {
+        if less_bulky {
+            filters.push(Filter {
+                feature: vbur,
+                bound: Bound::Below(query.percent_buried_volume, false),
+            });
+        }
+        if more_bulky {
+            filters.push(Filter {
+                feature: vbur,
+                bound: Bound::Above(query.percent_buried_volume, false),
+            });
+        }
     }
 
-    let entries = load_library(library, donor_element, sterimol_axis, config)?;
+    let entries = load_library_entries(library, donor_element, sterimol_axis, config)?;
     let library_size = entries.len();
     if library_size < 2 {
         return Err(
@@ -513,22 +674,52 @@ pub(crate) fn search_command(
         eprintln!("note: `{name}` is constant across the library and cannot affect the ranking");
     }
 
+    let query_file = query.as_ref().map(|entry| entry.file.as_str());
     let candidates = entries
         .iter()
-        .filter(|entry| entry.file != query.file)
+        .filter(|entry| Some(entry.file.as_str()) != query_file)
         .filter(|entry| filters.iter().all(|filter| filter.accepts(entry)))
         .collect::<Vec<_>>();
     let candidates_after_filters = candidates.len();
 
-    let mut ranked = candidates
-        .into_iter()
-        .map(|entry| (standardizer.distance(&query, entry), entry))
-        .collect::<Vec<_>>();
-    // Ties break on file name so repeated runs emit an identical ordering.
-    ranked.sort_by(|(left, left_entry), (right, right_entry)| {
-        left.total_cmp(right)
-            .then_with(|| left_entry.file.cmp(&right_entry.file))
-    });
+    let mut ranked = match query.as_ref() {
+        Some(query) => {
+            let mut ranked = candidates
+                .into_iter()
+                .map(|entry| (Some(standardizer.distance(query, entry)), entry))
+                .collect::<Vec<_>>();
+            // Ties break on file name so repeated runs emit an identical ordering.
+            ranked.sort_by(|(left, left_entry), (right, right_entry)| {
+                left.unwrap_or(f32::INFINITY)
+                    .total_cmp(&right.unwrap_or(f32::INFINITY))
+                    .then_with(|| left_entry.file.cmp(&right_entry.file))
+            });
+            ranked
+        }
+        None => {
+            // A constraint-only query has nothing to be similar to, so it is
+            // ordered by a descriptor rather than by an invented distance.
+            let sort_feature = match sort_by {
+                Some(name) => resolve_feature(name)?,
+                None => filters.first().map_or(vbur, |filter| filter.feature),
+            };
+            let read = FEATURES[sort_feature].get;
+            let mut ranked = candidates
+                .into_iter()
+                .map(|entry| (None, entry))
+                .collect::<Vec<_>>();
+            ranked.sort_by(|(_, left), (_, right)| {
+                let ordering = read(left).total_cmp(&read(right));
+                let ordering = if descending {
+                    ordering.reverse()
+                } else {
+                    ordering
+                };
+                ordering.then_with(|| left.file.cmp(&right.file))
+            });
+            ranked
+        }
+    };
     ranked.truncate(top);
 
     let report = SearchReport {
@@ -560,17 +751,22 @@ pub(crate) fn search_command(
 }
 
 fn print_search_text(report: &SearchReport) {
-    println!("query          {}", report.query.file);
-    println!(
-        "               L {:.2}   B1 {:.2}   B5 {:.2}   Vbur {:.1}%   max_delta_qvbur {:.2}   pyr_P {:.3}",
-        report.query.sterimol_l,
-        report.query.sterimol_b1,
-        report.query.sterimol_b5,
-        report.query.percent_buried_volume,
-        report.query.max_delta_qvbur,
-        report.query.pyr_p
-    );
-    println!("similarity     {}", report.similarity_features.join(", "));
+    match report.query.as_ref() {
+        Some(query) => {
+            println!("query          {}", query.file);
+            println!(
+                "               L {:.2}   B1 {:.2}   B5 {:.2}   Vbur {:.1}%   max_delta_qvbur {:.2}   pyr_P {:.3}",
+                query.sterimol_l,
+                query.sterimol_b1,
+                query.sterimol_b5,
+                query.percent_buried_volume,
+                query.max_delta_qvbur,
+                query.pyr_p
+            );
+            println!("similarity     {}", report.similarity_features.join(", "));
+        }
+        None => println!("query          none (constraint-only search)"),
+    }
     if report.filters.is_empty() {
         println!("filters        none");
     } else {
@@ -585,37 +781,42 @@ fn print_search_text(report: &SearchReport) {
         return;
     }
     println!(
-        "\n{:>4}  {:>8}  {:>6}  {:>6}  {:>6}  {:>7}  {:>7}  {:>6}  file",
+        "\n{:>4}  {:>8}  {:>6}  {:>6}  {:>6}  {:>7}  {:>7}  {:>6}  ligand",
         "rank", "distance", "L", "B1", "B5", "%Vbur", "dqvbur", "pyr_P"
     );
     for hit in &report.hits {
+        let distance = hit
+            .distance
+            .map_or_else(|| "       —".to_owned(), |value| format!("{value:>8.3}"));
         println!(
-            "{:>4}  {:>8.3}  {:>6.2}  {:>6.2}  {:>6.2}  {:>7.1}  {:>7.2}  {:>6.3}  {}",
+            "{:>4}  {}  {:>6.2}  {:>6.2}  {:>6.2}  {:>7.1}  {:>7.2}  {:>6.3}  {}",
             hit.rank,
-            hit.distance,
+            distance,
             hit.entry.sterimol_l,
             hit.entry.sterimol_b1,
             hit.entry.sterimol_b5,
             hit.entry.percent_buried_volume,
             hit.entry.max_delta_qvbur,
             hit.entry.pyr_p,
-            hit.entry.file
+            hit.entry.display_name()
         );
     }
 }
 
 fn print_search_csv(report: &SearchReport) {
     println!(
-        "rank,distance,file,donor_element,sterimol_l,sterimol_b1,sterimol_b5,\
+        "rank,distance,ligand,file,donor_element,sterimol_l,sterimol_b1,sterimol_b5,\
          percent_buried_volume,buried_volume,qvbur_min,qvbur_max,max_delta_qvbur,\
          max_delta_qvbur_min,pyr_p,pyr_alpha"
     );
     for hit in &report.hits {
         let entry = &hit.entry;
         println!(
-            "{},{:.6},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}",
+            "{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}",
             hit.rank,
-            hit.distance,
+            hit.distance
+                .map_or_else(String::new, |value| format!("{value:.6}")),
+            crate::descriptors::csv_field(entry.display_name()),
             crate::descriptors::csv_field(&entry.file),
             entry.donor_element,
             entry.sterimol_l,
@@ -639,6 +840,7 @@ mod tests {
 
     fn entry(file: &str, l: f32, b1: f32, b5: f32, vbur: f32) -> LibraryEntry {
         LibraryEntry {
+            ligand: String::new(),
             file: file.into(),
             conformers: 1,
             donor_element: "P".into(),

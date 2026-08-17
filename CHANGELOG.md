@@ -6,6 +6,62 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-08-17 — Ligand Search & Comparison
+
+The first release in which StericX is useful for **choosing between** ligands rather
+than only measuring them. Everything below is additive; no descriptor kernel, fitted
+model, or committed study result changed.
+
+### Added
+
+- **A precomputed ligand descriptor database** and `stericx db build` to make one.
+  Featurizing is the expensive step and reading a table back is not, so the work is
+  done once into a CSV plus a `.manifest.json` recording the exact settings, source,
+  counts, and a SHA-256 of the table — a reproducible artifact rather than an ad-hoc
+  dump. `--group-by-parent` aggregates a ligand's conformers into one row, taking the
+  **minimum** of `max_delta_qvbur_min` across them because that is Kraken's own
+  `*_min` convention (averaging it would silently redefine the descriptor);
+  `--label-from parent` turns the Kraken cache's directory names into ligand labels so
+  results come back as molecule ids rather than opaque paths; `--extension` restricts
+  which formats are read, which matters because the cache mirrors the same conformers
+  as both `.sdf` and `.xyz` and reading both would double-count them.
+  A database ships with the repo: `data/ligand_db/kraken_phosphines.csv`, all **1,541**
+  Kraken phosphines aggregated from **31,611** DFT conformers, built in 5.3 s at 215 KB.
+  These are StericX's *own* computed descriptors keyed by Kraken molecule id — not
+  Kraken's published values — with provenance in the manifest.
+- **Constraint-only search.** `search` no longer requires a query ligand: with only
+  constraints it returns every ligand satisfying them, ordered by the first constrained
+  descriptor or by `--sort-by`, and the distance column reads `—` instead of inventing a
+  similarity to nothing. `--less-bulky`/`--more-bulky` still require `--similar-to`,
+  since they are defined relative to it, and say so.
+- **Ergonomic range flags**: `--vbur 30:35`, `--l`, `--b1`, `--b5` for ranges and
+  `--vbur-min`/`--vbur-max`/`--b5-max`/… for inclusive bounds, all normalized into the
+  same filter path `--filter` uses so there is one filtering implementation.
+- **`stericx compare a.sdf b.sdf [c.sdf …]`** — side-by-side descriptors for two or more
+  ligands with the spread across them and, given `--database`, that spread in library
+  standard deviations plus a standardized pairwise distance. The σ view is what makes a
+  raw difference interpretable: 0.5 Å of `B5` is small in a library spanning 4 Å and large
+  in one spanning 0.6 Å, and only the library can say which. Without a database the raw
+  differences still print and the output states that they are unscaled.
+
+### Changed
+
+- `search` gained `--similar-to` (with `--ligand` kept as an alias) and `--database`
+  (with `--library` kept as an alias); hits are now identified by their database ligand
+  label when one exists, falling back to the file stem.
+- Searching the full 1,541-ligand library now takes **~5 ms** against a prebuilt
+  database, against ~5 s to re-featurize it. `--database` still accepts a directory and
+  featurizes on the fly.
+
+### Notes
+
+- Ranking is **steric similarity, not reactivity**; `screen` is the command that brings a
+  fitted reaction model to bear.
+- The shipped database holds per-ligand **conformer-ensemble** values, so querying with a
+  single conformer compares an ensemble average against one geometry. The query's own
+  descriptors are printed so the discrepancy is visible rather than hidden.
+
+
 ### Changed
 
 - Internal refactor of the `stericx` CLI binary: the single 2,343-line

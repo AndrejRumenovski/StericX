@@ -35,6 +35,30 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- `stericx screen <model.json> <library>` — reaction-specific ligand ranking,
+  moving the tool from descriptor calculation toward catalyst design. Ranks a
+  library through a model fitted by `stericx fit`, reporting for every ligand a
+  predicted ΔΔG‡, the corresponding ee at a chosen temperature (signed by the
+  ΔΔG‡ convention, so a negative value is the same excess of the opposite
+  enantiomer), a conservative uncertainty band, and an applicability-domain
+  verdict that names each out-of-range feature and how far outside it falls as a
+  fraction of the training range width. `--inside-domain-only` drops
+  extrapolations, `--top`/`--ascending` control the ranking.
+  **The model decides what the library must supply.** StericX's regression space
+  mixes geometry (`L`/`B1`/`B5`) with donor electronics (`nbo_charge`,
+  `ir_frequency`) and their interactions, so `screen` reads the fitted weights,
+  derives which inputs carry a nonzero coefficient, and refuses to run when the
+  library cannot provide one rather than inventing a donor charge to make a
+  number appear. A geometry-only model therefore screens a bare directory of
+  structures; a model with an electronic term needs those columns, and a
+  reaction CSV satisfies both at once (electronics from `NBO_Charge` /
+  `IR_Frequency`, Sterimol terms featurized from the `Ligand_XYZ_Path` geometry).
+  The uncertainty band propagates the bootstrap 95 % coefficient intervals by
+  interval arithmetic: it ignores coefficient correlation and so is conservative,
+  and it is explicitly **not** an OLS prediction interval, because `model.json`
+  does not carry the training design matrix one would require — residual scatter
+  is reported separately as the fit's training RMSE. A band spanning zero is
+  surfaced as exactly what it is: the model declining to commit to a direction.
 - `stericx search` — a ligand similarity and constraint search built on the
   validated descriptors, turning the featurizer into a discovery tool. Given a
   query geometry and a library (a directory of structures, or a CSV previously

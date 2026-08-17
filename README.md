@@ -27,8 +27,9 @@ atom and prints Sterimol, buried-volume, and pyramidalization descriptors — no
 runtime, no reaction CSV, no atom indices to look up. It also **searches**: point it at a
 ligand and a library and it ranks the most sterically similar candidates, under constraints
 like `--filter 'vbur=30..35' --filter 'b5<7'` or `--less-bulky`. The same binary fits
-interpretable linear models and converts predicted ΔΔG‡ into product ratios via the Eyring
-equation.
+interpretable linear models, **screens** a whole library through a fitted model — predicted
+performance, an uncertainty band, and an applicability-domain warning per ligand — and
+converts predicted ΔΔG‡ into product ratios via the Eyring equation.
 
 **Why it matters.** The standard steric-descriptor stack (Kraken, morfeus) is Python and
 tuned to one research workflow. StericX reimplements it from scratch in Rust — faster,
@@ -247,6 +248,46 @@ than requested.
 **This ranks steric similarity — it is not a prediction of reactivity.** Two ligands close
 in this space occupy space similarly; whether they behave alike in a given reaction is an
 experimental question.
+
+### `screen` — rank a library with a fitted reaction model
+
+Where `search` ranks by *shape*, `screen` ranks by *predicted performance* under a model
+fitted by `stericx fit`, and reports what the prediction is worth.
+
+```bash
+./target/release/stericx screen model.json ligand_library/
+./target/release/stericx screen model.json reactions.csv --top 20 --inside-domain-only
+```
+
+Each ligand gets a predicted ΔΔG‡, the corresponding ee at `--temperature` (signed by the
+ΔΔG‡ convention, so a negative value means the same excess of the opposite enantiomer), a
+conservative uncertainty band, and an applicability-domain verdict. Ligands outside the
+range the model was trained on are listed separately with **how far** outside they fall, as
+a fraction of the training range width — `--inside-domain-only` drops them entirely.
+
+**The model decides what the library must supply.** StericX's regression space mixes
+geometry (`L`, `B1`, `B5`) with donor electronics (`nbo_charge`, `ir_frequency`) and their
+interactions. `screen` reads the fitted weights, works out which inputs actually carry a
+nonzero coefficient, and refuses to run when the library cannot provide one — it will not
+invent a donor charge to make a number appear:
+
+```text
+error: model `mechanistically_constrained_ols` uses B5_x_nbo_charge but the library does
+not provide nbo_charge. StericX will not guess a missing input. …
+```
+
+So a model whose selected features are geometry-only screens a bare directory of
+structures, while a model carrying an electronic term needs those values as CSV columns. A
+reaction CSV supplies both at once: `screen` reads `NBO_Charge` / `IR_Frequency` from the
+row and featurizes the geometry named by `Ligand_XYZ_Path` to fill the Sterimol terms.
+
+**On the uncertainty band.** It propagates the model's bootstrap 95 % coefficient intervals
+by interval arithmetic. That ignores the correlation between coefficients, so it is
+*conservative* (wider than a joint region), and it is **not** an OLS prediction interval —
+`model.json` does not carry the training design matrix one would need. Residual scatter is
+reported separately as the fit's training RMSE. A band that spans zero is telling you the
+model cannot commit to a direction for that ligand, which is worth knowing before running
+the reaction.
 
 ### `parse` — pack reaction structures
 

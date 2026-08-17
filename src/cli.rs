@@ -213,6 +213,57 @@ pub(crate) enum Command {
         #[arg(long, default_value_t = 1.17)]
         radii_scale: f32,
     },
+    /// Rank a ligand library with a fitted reaction model.
+    ///
+    /// Reports predicted performance, a conservative uncertainty band from the
+    /// model's bootstrap coefficient intervals, and an applicability-domain
+    /// warning for every ligand that falls outside the range the model was
+    /// trained on. The model decides what the library must supply: a model that
+    /// selected an electronic term (`nbo_charge`, `ir_frequency`, or an
+    /// interaction) cannot be screened from geometry alone, and `screen` says so
+    /// rather than guessing the missing quantity.
+    Screen {
+        /// Fitted model JSON produced by `stericx fit`.
+        #[arg(value_name = "MODEL")]
+        model: PathBuf,
+        /// Library: a directory of geometries, a descriptors CSV, or a reaction
+        /// CSV carrying `NBO_Charge` / `IR_Frequency`.
+        #[arg(value_name = "LIBRARY")]
+        library: PathBuf,
+        /// Report only the best N ligands (default: all).
+        #[arg(long)]
+        top: Option<usize>,
+        /// Temperature used to convert predicted ΔΔG‡ into an ee.
+        #[arg(long, default_value_t = 298.15)]
+        temperature: f32,
+        /// Drop ligands that fall outside the training domain.
+        #[arg(long)]
+        inside_domain_only: bool,
+        /// Rank ascending (smallest predicted value first).
+        #[arg(long)]
+        ascending: bool,
+        /// Donor element to locate when featurizing a geometry library.
+        #[arg(long, default_value = "P")]
+        donor_element: String,
+        /// Sterimol axis used when featurizing a geometry library.
+        #[arg(long, value_enum, default_value_t = SterimolAxis::Bond)]
+        sterimol_axis: SterimolAxis,
+        /// Output format.
+        #[arg(long, value_enum, default_value_t = DescriptorFormat::Text)]
+        format: DescriptorFormat,
+        /// Metal-centred integration sphere radius in ångströms.
+        #[arg(long, default_value_t = 3.5)]
+        sphere_radius: f32,
+        /// Grid density in Å³ per point.
+        #[arg(long, default_value_t = 0.01)]
+        density: f32,
+        /// Donor-to-virtual-metal distance in ångströms.
+        #[arg(long, default_value_t = 2.28)]
+        center_distance: f32,
+        /// Bondi radius scale factor used by Morfeus.
+        #[arg(long, default_value_t = 1.17)]
+        radii_scale: f32,
+    },
 }
 
 /// Output format for the `descriptors` subcommand.

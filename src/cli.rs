@@ -158,6 +158,61 @@ pub(crate) enum Command {
         #[arg(long, default_value_t = 1.17)]
         radii_scale: f32,
     },
+    /// Rank a ligand library by steric similarity to a query ligand.
+    ///
+    /// Featurizes the query, then ranks every library member by Euclidean
+    /// distance in *standardized* descriptor space (each descriptor z-scored
+    /// against the library, so Å-scale and percent-scale features count
+    /// comparably). Constraints narrow the field before ranking, so questions
+    /// like "a less bulky ligand of similar shape" or "%Vbur between 30 and 35
+    /// with B5 under 7 Å" are one command. The ranking is steric similarity,
+    /// not a prediction of reactivity.
+    Search {
+        /// Query ligand geometry (`.xyz`, `.sdf`, `.mol`).
+        #[arg(long, value_name = "FILE")]
+        ligand: PathBuf,
+        /// Library to search: a directory of geometries, or a CSV previously
+        /// written by `stericx descriptors --format csv`.
+        #[arg(long, value_name = "DIR|CSV")]
+        library: PathBuf,
+        /// Number of hits to report.
+        #[arg(long, default_value_t = 10)]
+        top: usize,
+        /// Comma-separated descriptors defining similarity (default: shape
+        /// envelope, %Vbur, quadrant asymmetry, and pyramidalization).
+        #[arg(long)]
+        features: Option<String>,
+        /// Constraint such as `vbur=30..35`, `b5<7`, or `l>=8`. Repeatable.
+        #[arg(long = "filter", value_name = "EXPR")]
+        filters: Vec<String>,
+        /// Keep only candidates less buried than the query.
+        #[arg(long)]
+        less_bulky: bool,
+        /// Keep only candidates more buried than the query.
+        #[arg(long)]
+        more_bulky: bool,
+        /// Donor element to locate (defaults to phosphorus).
+        #[arg(long, default_value = "P")]
+        donor_element: String,
+        /// Sterimol axis used for both query and library.
+        #[arg(long, value_enum, default_value_t = SterimolAxis::Bond)]
+        sterimol_axis: SterimolAxis,
+        /// Output format.
+        #[arg(long, value_enum, default_value_t = DescriptorFormat::Text)]
+        format: DescriptorFormat,
+        /// Metal-centred integration sphere radius in ångströms.
+        #[arg(long, default_value_t = 3.5)]
+        sphere_radius: f32,
+        /// Grid density in Å³ per point.
+        #[arg(long, default_value_t = 0.01)]
+        density: f32,
+        /// Donor-to-virtual-metal distance in ångströms.
+        #[arg(long, default_value_t = 2.28)]
+        center_distance: f32,
+        /// Bondi radius scale factor used by Morfeus.
+        #[arg(long, default_value_t = 1.17)]
+        radii_scale: f32,
+    },
 }
 
 /// Output format for the `descriptors` subcommand.

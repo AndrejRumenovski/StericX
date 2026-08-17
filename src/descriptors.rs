@@ -98,30 +98,30 @@ fn detect_donor(
 
 /// One file's descriptors, ready for text, JSON, or CSV emission.
 #[derive(Debug, Serialize)]
-struct DescriptorResult {
-    file: String,
-    conformers: usize,
-    donor_element: String,
-    donor_index: usize,
-    substituents: Vec<String>,
-    sterimol_l: f32,
-    sterimol_b1: f32,
-    sterimol_b5: f32,
-    percent_buried_volume: f32,
-    buried_volume: f32,
-    qvbur_min: f32,
-    qvbur_max: f32,
-    max_delta_qvbur: f32,
+pub(crate) struct DescriptorResult {
+    pub(crate) file: String,
+    pub(crate) conformers: usize,
+    pub(crate) donor_element: String,
+    pub(crate) donor_index: usize,
+    pub(crate) substituents: Vec<String>,
+    pub(crate) sterimol_l: f32,
+    pub(crate) sterimol_b1: f32,
+    pub(crate) sterimol_b5: f32,
+    pub(crate) percent_buried_volume: f32,
+    pub(crate) buried_volume: f32,
+    pub(crate) qvbur_min: f32,
+    pub(crate) qvbur_max: f32,
+    pub(crate) max_delta_qvbur: f32,
     /// Kraken's headline `vbur_max_delta_qvbur_min`: the minimum over conformers.
-    max_delta_qvbur_min: f32,
+    pub(crate) max_delta_qvbur_min: f32,
     /// Radhakrishnan pyramidalization `P` (Kraken `pyr_P`), conformer mean.
-    pyr_p: f32,
+    pub(crate) pyr_p: f32,
     /// Mean pyramidalization angle in degrees (Kraken `pyr_alpha`), conformer mean.
-    pyr_alpha: f32,
+    pub(crate) pyr_alpha: f32,
 }
 
 /// Compute ensemble-averaged descriptors for a single ligand file.
-fn descriptors_for_file(
+pub(crate) fn descriptors_for_file(
     path: &Path,
     donor_element: &str,
     donor_index: Option<usize>,
@@ -304,7 +304,7 @@ fn print_descriptor_csv(results: &[DescriptorResult]) {
 }
 
 /// Quote a CSV field only when it contains a comma, quote, or newline.
-fn csv_field(value: &str) -> String {
+pub(crate) fn csv_field(value: &str) -> String {
     if value.contains([',', '"', '\n']) {
         format!("\"{}\"", value.replace('"', "\"\""))
     } else {

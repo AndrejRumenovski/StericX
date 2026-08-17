@@ -24,8 +24,11 @@ the full 1,541-ligand library — with every failure kept in view.
 
 **What it is.** Point it at an `.xyz`/`.sdf`/`.mol` file and it auto-detects the donor
 atom and prints Sterimol, buried-volume, and pyramidalization descriptors — no Python
-runtime, no reaction CSV, no atom indices to look up. The same binary fits interpretable
-linear models and converts predicted ΔΔG‡ into product ratios via the Eyring equation.
+runtime, no reaction CSV, no atom indices to look up. It also **searches**: point it at a
+ligand and a library and it ranks the most sterically similar candidates, under constraints
+like `--filter 'vbur=30..35' --filter 'b5<7'` or `--less-bulky`. The same binary fits
+interpretable linear models and converts predicted ΔΔG‡ into product ratios via the Eyring
+equation.
 
 **Why it matters.** The standard steric-descriptor stack (Kraken, morfeus) is Python and
 tuned to one research workflow. StericX reimplements it from scratch in Rust — faster,
@@ -197,6 +200,53 @@ Sterimol is measured along the donor→substituent bond by default; `--sterimol-
 coordination` uses the metal-bound coordination axis (a virtual metal 2.28 Å from the donor
 with the +0.40 Å Verloop L correction). Non-phosphine donors: `--donor-element N`, or
 `--donor-index` to name the atom directly.
+
+### `search` — find sterically similar ligands
+
+Turns the descriptors into a discovery tool: featurize a query ligand, then rank a library
+by steric similarity, optionally under constraints.
+
+```bash
+# build a reusable library once, then search it
+./target/release/stericx descriptors --format csv ligands/*.sdf > library.csv
+./target/release/stericx search --ligand query.xyz --library library.csv --top 10
+
+# or point --library straight at a directory of geometries
+./target/release/stericx search --ligand query.xyz --library ligands/
+```
+
+Similarity is Euclidean distance in **standardized** descriptor space — every descriptor is
+z-scored against the library before the distance is taken, so an Å-scale `L` and a
+percent-scale `%Vbur` contribute comparably instead of whichever carries the biggest units
+dominating. The default space is the shape envelope (`L`, `B1`, `B5`), how much of the
+coordination sphere the ligand fills (`%Vbur`), how unevenly it fills it
+(`max_delta_qvbur`), and the donor pyramidalization (`pyr_P`); choose your own with
+`--features l,b5,vbur`. Note that `buried_volume` is deliberately *not* in the default set —
+it is `percent_buried_volume` rescaled by a constant, so including both would silently
+double-weight the same quantity.
+
+Constraints narrow the field **before** ranking. `--filter` is repeatable and accepts
+`name=LOW..HIGH`, `name<V`, `name<=V`, `name>V`, `name>=V`, with short aliases
+(`vbur`, `l`, `b1`, `b5`, `pyr`):
+
+```bash
+# "%Vbur between 30 and 35, B5 under 7 Å"
+./target/release/stericx search --ligand query.xyz --library library.csv \
+    --filter 'vbur=30..35' --filter 'b5<7'
+
+# "find me a less bulky ligand of similar shape"
+./target/release/stericx search --ligand query.xyz --library library.csv --less-bulky
+```
+
+`--less-bulky` / `--more-bulky` are shorthand for a `%Vbur` bound relative to the query.
+`--format json|csv` emits the ranking machine-readably, including the query's own
+descriptors and the filters that were applied. Descriptors that are constant across the
+library are reported and excluded, so a ranking is never silently computed on fewer axes
+than requested.
+
+**This ranks steric similarity — it is not a prediction of reactivity.** Two ligands close
+in this space occupy space similarly; whether they behave alike in a given reaction is an
+experimental question.
 
 ### `parse` — pack reaction structures
 

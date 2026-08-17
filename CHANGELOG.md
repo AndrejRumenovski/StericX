@@ -35,6 +35,27 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- `stericx search` — a ligand similarity and constraint search built on the
+  validated descriptors, turning the featurizer into a discovery tool. Given a
+  query geometry and a library (a directory of structures, or a CSV previously
+  written by `stericx descriptors --format csv`), it ranks candidates by
+  Euclidean distance in **standardized** descriptor space: each descriptor is
+  z-scored against the library first, so an Å-scale Sterimol `L` and a
+  percent-scale `%Vbur` contribute comparably rather than the largest-unit
+  feature dominating the ranking. The default similarity space is the shape
+  envelope (`L`/`B1`/`B5`), `%Vbur`, the quadrant asymmetry
+  `max_delta_qvbur`, and the donor pyramidalization `pyr_P`; `buried_volume` is
+  deliberately excluded from it because it is `percent_buried_volume` rescaled
+  by a constant sphere volume and would otherwise double-weight the same
+  quantity. Repeatable `--filter` constraints (`vbur=30..35`, `b5<7`, `l>=8`,
+  with short aliases) narrow the candidate set before ranking, and
+  `--less-bulky` / `--more-bulky` express a `%Vbur` bound relative to the query.
+  Descriptors that are constant across a library are reported and dropped from
+  the distance so a ranking is never silently computed on fewer axes than
+  requested. Reported honestly as a **steric-similarity ranking, not a
+  prediction of reactivity**. Library featurization is parallelized; the
+  `descriptors` command it shares kernels with is untouched, so Study 008's
+  single-core benchmark still measures exactly what it claims.
 - Cross-platform CI: a `cargo test` matrix on `macos-latest` (Apple silicon,
   aarch64) and `windows-latest` (x86_64) runs alongside the existing Linux
   quality job, which keeps the `fmt` / `clippy` / Python / `ruff` gates. This

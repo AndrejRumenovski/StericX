@@ -6,6 +6,9 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.2.0] - 2026-08-17 — Ligand Search & Comparison
 
+Archived at Zenodo: version DOI [10.5281/zenodo.21985632](https://doi.org/10.5281/zenodo.21985632),
+under the constant concept DOI [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666).
+
 The first release in which StericX is useful for **choosing between** ligands rather
 than only measuring them. Everything below is additive; no descriptor kernel, fitted
 model, or committed study result changed.

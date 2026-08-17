@@ -515,11 +515,12 @@ please cite the original work:
 **To cite StericX** (machine-readable form in [`CITATION.cff`](CITATION.cff)):
 
 > Rumenovski, A. *StericX: physical-organic molecular featurization and reaction-selectivity
-> inference*, version 0.1.0, 2026. Zenodo.
+> inference*, version 0.2.0, 2026. Zenodo.
 > DOI: [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666).
 
 The concept DOI [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666) resolves
-to the latest version; the v0.1.0 version DOI is
+to the latest version. Version DOIs: v0.2.0 =
+[10.5281/zenodo.21985632](https://doi.org/10.5281/zenodo.21985632), v0.1.0 =
 [10.5281/zenodo.21726667](https://doi.org/10.5281/zenodo.21726667).
 
 ---

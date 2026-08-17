@@ -9,6 +9,16 @@ type: software
 version: 0.2.0
 date-released: "2026-08-17"
 doi: 10.5281/zenodo.21726666
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21726666
+    description: "Concept DOI — resolves to the latest version"
+  - type: doi
+    value: 10.5281/zenodo.21985632
+    description: "Version DOI — v0.2.0"
+  - type: doi
+    value: 10.5281/zenodo.21726667
+    description: "Version DOI — v0.1.0"
 authors:
   - given-names: Andrej
     family-names: Rumenovski

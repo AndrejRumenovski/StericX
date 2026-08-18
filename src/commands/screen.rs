@@ -17,8 +17,13 @@ use serde::Serialize;
 use std::collections::HashMap;
 use std::error::Error;
 use std::path::{Path, PathBuf};
-use steric_x::model::{MODEL_FEATURE_NAMES, expand_features};
+use steric_x::model::{
+    FeatureTransform, InferenceSpec, MODEL_FEATURE_NAMES, PortableModel, expand_features,
+};
 use steric_x::{BuriedVolumeConfig, EyringKineticLink, PackedReactionRecord, ScientificFitReport};
+
+/// The only feature construction this build knows how to build descriptors for.
+const KNOWN_FEATURE_SPACE: &str = "stericx.physical_organic.v1";
 
 /// Model feature positions, mirroring `MODEL_FEATURE_NAMES`.
 const F_L: usize = 1;
@@ -54,6 +59,66 @@ impl RequiredInputs {
         }
     }
 
+    /// Derives the required descriptors from the feature space the model
+    /// itself records, mapping each selected term through its stored
+    /// transformation rather than assuming this build's layout.
+    ///
+    /// An unrecognised feature space or descriptor name is refused: screening a
+    /// model against a feature construction StericX does not implement would
+    /// silently substitute the wrong quantity.
+    fn from_inference(spec: &InferenceSpec) -> Result<Self, String> {
+        if spec.feature_space.definition != KNOWN_FEATURE_SPACE {
+            return Err(format!(
+                "model declares feature space `{}`, but this build implements `{}`; \
+                 StericX will not guess how to build its descriptors",
+                spec.feature_space.definition, KNOWN_FEATURE_SPACE
+            ));
+        }
+        let mut required = Self::default();
+        for term in &spec.terms {
+            if term.coefficient == 0.0 {
+                continue;
+            }
+            let transform = spec
+                .feature_space
+                .transformations
+                .get(term.feature_index)
+                .ok_or_else(|| {
+                    format!(
+                        "model term `{}` refers to column {} but the feature space defines {} \
+                         columns",
+                        term.feature_name,
+                        term.feature_index,
+                        spec.feature_space.transformations.len()
+                    )
+                })?;
+            let descriptors: Vec<&str> = match transform {
+                FeatureTransform::Constant => Vec::new(),
+                FeatureTransform::Descriptor { descriptor } => vec![descriptor.as_str()],
+                FeatureTransform::Interaction { factors } => {
+                    factors.iter().map(String::as_str).collect()
+                }
+            };
+            for descriptor in descriptors {
+                match descriptor {
+                    "sterimol_l" => required.l = true,
+                    "sterimol_b1" => required.b1 = true,
+                    "sterimol_b5" => required.b5 = true,
+                    "nbo_charge" => required.nbo_charge = true,
+                    "ir_frequency" => required.ir_frequency = true,
+                    other => {
+                        return Err(format!(
+                            "model term `{}` needs descriptor `{other}`, which this build cannot \
+                             calculate",
+                            term.feature_name
+                        ));
+                    }
+                }
+            }
+        }
+        Ok(required)
+    }
+
     fn missing_from(&self, available: &Available) -> Vec<&'static str> {
         let mut missing = Vec::new();
         if self.l && !available.l {
@@ -75,6 +140,10 @@ impl RequiredInputs {
     }
 }
 
+/// A loaded library: its members, what the source can supply, and the members
+/// that could not be loaded at all.
+type LoadedLibrary = (Vec<Candidate>, Available, Vec<Exclusion>);
+
 /// Which inputs a library source actually carries.
 #[derive(Clone, Copy, Debug, Default)]
 struct Available {
@@ -89,6 +158,8 @@ struct Available {
 #[derive(Clone, Debug, Default)]
 struct Candidate {
     label: String,
+    /// Human-readable name when the library supplies one, e.g. a SMILES.
+    name: Option<String>,
     /// Geometry referenced by the row, used to fill Sterimol terms a CSV lacks.
     geometry: Option<PathBuf>,
     l: Option<f32>,
@@ -108,6 +179,45 @@ impl Candidate {
             ir_freq: self.ir_frequency.unwrap_or(0.0),
             ..PackedReactionRecord::default()
         }
+    }
+
+    /// Names the required descriptors this ligand does not carry.
+    fn missing_values(&self, required: RequiredInputs) -> Vec<String> {
+        [
+            (required.l, self.l.is_some(), "sterimol_l"),
+            (required.b1, self.b1.is_some(), "sterimol_b1"),
+            (required.b5, self.b5.is_some(), "sterimol_b5"),
+            (required.nbo_charge, self.nbo_charge.is_some(), "nbo_charge"),
+            (
+                required.ir_frequency,
+                self.ir_frequency.is_some(),
+                "ir_frequency",
+            ),
+        ]
+        .into_iter()
+        .filter(|(needed, present, _)| *needed && !*present)
+        .map(|(_, _, name)| name.to_owned())
+        .collect()
+    }
+
+    /// The descriptor values the model actually consumed, in model order.
+    fn descriptor_values(&self, required: RequiredInputs) -> Vec<DescriptorValue> {
+        [
+            (required.l, self.l, "sterimol_l"),
+            (required.b1, self.b1, "sterimol_b1"),
+            (required.b5, self.b5, "sterimol_b5"),
+            (required.nbo_charge, self.nbo_charge, "nbo_charge"),
+            (required.ir_frequency, self.ir_frequency, "ir_frequency"),
+        ]
+        .into_iter()
+        .filter(|(needed, _, _)| *needed)
+        .filter_map(|(_, value, name)| {
+            value.map(|value| DescriptorValue {
+                name: name.to_owned(),
+                value: f64::from(value),
+            })
+        })
+        .collect()
     }
 
     fn has(&self, required: RequiredInputs) -> bool {
@@ -130,11 +240,38 @@ struct DomainExceedance {
     exceedance_fraction: f64,
 }
 
+/// One descriptor the model actually consumed for a ligand.
+#[derive(Clone, Debug, Serialize)]
+struct DescriptorValue {
+    name: String,
+    value: f64,
+}
+
+/// A library member that could not be screened, and why.
+///
+/// Every exclusion is recorded rather than dropped: a screen that silently
+/// shrank its candidate set would misrepresent the search that was performed.
+#[derive(Clone, Debug, Serialize)]
+struct Exclusion {
+    ligand: String,
+    /// Stable slug, e.g. `missing_descriptors`.
+    reason: String,
+    /// Descriptors the model needs that this ligand does not supply.
+    missing_descriptors: Vec<String>,
+    detail: String,
+}
+
 #[derive(Clone, Debug, Serialize)]
 struct ScreenHit {
     rank: usize,
     ligand: String,
+    /// Present only when the library supplies a name distinct from the id.
+    ligand_name: Option<String>,
+    /// The raw model output, always retained even when a transformed value is
+    /// also reported.
     predicted_ddg_kcal_mol: f64,
+    /// The descriptor values this prediction consumed, in model order.
+    descriptors: Vec<DescriptorValue>,
     /// Conservative bounds from the bootstrap coefficient intervals. NOT an
     /// OLS prediction interval — see the note emitted with the report.
     coefficient_band_low: Option<f64>,
@@ -171,6 +308,10 @@ struct ScreenReport {
     library_size: usize,
     screened: usize,
     skipped: usize,
+    /// Why each excluded candidate was excluded.
+    excluded: Vec<Exclusion>,
+    /// Exclusion counts by reason, largest first.
+    exclusion_summary: Vec<(String, usize)>,
     inside_domain: usize,
     /// Warning leverage h* = 3p/n for this fit, when available.
     warning_leverage: Option<f64>,
@@ -195,12 +336,15 @@ pub(crate) struct ScreenArgs<'a> {
     pub(crate) config: BuriedVolumeConfig,
 }
 
-fn load_model(path: &Path) -> Result<ScientificFitReport, Box<dyn Error>> {
+/// Loads a model through the portable-format reader, so both the legacy
+/// artifact and a schema-2 document are accepted and validated first.
+fn load_model(path: &Path) -> Result<PortableModel, Box<dyn Error>> {
     let contents = std::fs::read_to_string(path)
         .map_err(|error| format!("could not read model {}: {error}", path.display()))?;
-    serde_json::from_str::<ScientificFitReport>(&contents).map_err(|error| {
+    PortableModel::from_json(&contents).map_err(|error| {
         format!(
-            "{} is not a StericX fit report produced by `stericx fit`: {error}",
+            "{} is not a usable StericX model: {error}. Run `stericx model validate` for the \
+             full list of problems.",
             path.display()
         )
         .into()
@@ -213,11 +357,27 @@ const COLUMN_ALIASES: &[(&str, &[&str])] = &[
     (
         "label",
         &[
-            "file",
+            "ligand",
+            "Ligand",
             "Reaction_ID",
             "reaction_id",
+            "Source_ID",
+            "source_id",
             "id",
+            "file",
             "Ligand_XYZ_Path",
+        ],
+    ),
+    (
+        "name",
+        &[
+            "name",
+            "ligand_name",
+            "Ligand_Name",
+            "Ligand_SMILES",
+            "ligand_smiles",
+            "smiles",
+            "SMILES",
         ],
     ),
     (
@@ -257,7 +417,8 @@ fn load_library(
     donor_element: &str,
     sterimol_axis: SterimolAxis,
     config: BuriedVolumeConfig,
-) -> Result<(Vec<Candidate>, Available), Box<dyn Error>> {
+) -> Result<LoadedLibrary, Box<dyn Error>> {
+    let mut excluded = Vec::new();
     if library.is_dir() {
         let mut paths = Vec::new();
         collect_coordinate_files(library, &mut paths)?;
@@ -269,24 +430,33 @@ fn load_library(
             )
             .into());
         }
-        let candidates = paths
+        let featurized = paths
             .par_iter()
-            .filter_map(|path| {
+            .map(|path| {
                 match descriptors_for_file(path, donor_element, None, sterimol_axis, config) {
-                    Ok(result) => Some(Candidate {
+                    Ok(result) => Ok(Candidate {
                         label: result.file.clone(),
                         l: Some(result.sterimol_l),
                         b1: Some(result.sterimol_b1),
                         b5: Some(result.sterimol_b5),
                         ..Candidate::default()
                     }),
-                    Err(message) => {
-                        eprintln!("skipped {}: {message}", path.display());
-                        None
-                    }
+                    Err(message) => Err(Exclusion {
+                        ligand: path.display().to_string(),
+                        reason: "featurization_failed".to_owned(),
+                        missing_descriptors: Vec::new(),
+                        detail: message,
+                    }),
                 }
             })
             .collect::<Vec<_>>();
+        let mut candidates = Vec::new();
+        for outcome in featurized {
+            match outcome {
+                Ok(candidate) => candidates.push(candidate),
+                Err(exclusion) => excluded.push(exclusion),
+            }
+        }
         if candidates.is_empty() {
             return Err("no library geometry could be featurized".into());
         }
@@ -300,6 +470,7 @@ fn load_library(
                 nbo_charge: false,
                 ir_frequency: false,
             },
+            excluded,
         ));
     }
 
@@ -312,6 +483,7 @@ fn load_library(
     let headers = reader.headers()?.clone();
     let columns = [
         "label",
+        "name",
         "geometry",
         "l",
         "b1",
@@ -353,8 +525,13 @@ fn load_library(
             .map(|value| value.trim().to_owned())
             .filter(|value| !value.is_empty())
             .unwrap_or_else(|| format!("row_{}", row + 2));
+        let name = columns["name"]
+            .and_then(|index| record.get(index))
+            .map(|value| value.trim().to_owned())
+            .filter(|value| !value.is_empty() && *value != label);
         candidates.push(Candidate {
             label,
+            name,
             geometry: columns["geometry"]
                 .and_then(|index| record.get(index))
                 .map(str::trim)
@@ -386,19 +563,13 @@ fn load_library(
                 } else if base.join(path).is_file() {
                     base.join(path)
                 } else {
-                    eprintln!(
-                        "skipped {}: geometry not found: {}",
-                        candidate.label,
-                        path.display()
-                    );
+                    // Left unfeaturized; the screening loop reports the ligand
+                    // as missing whichever descriptors the model needs.
                     return None;
                 };
                 match descriptors_for_file(&resolved, donor_element, None, sterimol_axis, config) {
                     Ok(result) => Some((result.sterimol_l, result.sterimol_b1, result.sterimol_b5)),
-                    Err(message) => {
-                        eprintln!("skipped {}: {message}", candidate.label);
-                        None
-                    }
+                    Err(_) => None,
                 }
             })
             .collect::<Vec<_>>();
@@ -415,7 +586,7 @@ fn load_library(
             available.b5 = true;
         }
     }
-    Ok((candidates, available))
+    Ok((candidates, available, excluded))
 }
 
 fn collect_coordinate_files(
@@ -531,10 +702,16 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
     if !args.temperature.is_finite() || args.temperature <= 0.0 {
         return Err("--temperature must be a positive finite temperature".into());
     }
-    let report = load_model(args.model)?;
-    let required = RequiredInputs::from_weights(&report.weights);
+    let model = load_model(args.model)?;
+    let report = &model.fit;
+    // A portable model states how its features are built; use that mapping in
+    // preference to inferring one from the weight vector.
+    let required = match model.inference.as_ref() {
+        Some(spec) => RequiredInputs::from_inference(spec)?,
+        None => RequiredInputs::from_weights(&report.weights),
+    };
 
-    let (candidates, available) = load_library(
+    let (candidates, available, mut excluded) = load_library(
         args.library,
         args.donor_element,
         args.sterimol_axis,
@@ -558,15 +735,20 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         .into());
     }
 
-    let mut skipped = 0_usize;
     let mut hits = Vec::new();
     for candidate in &candidates {
         if !candidate.has(required) {
-            skipped += 1;
-            eprintln!(
-                "skipped {}: missing a required input value",
-                candidate.label
-            );
+            let missing = candidate.missing_values(required);
+            excluded.push(Exclusion {
+                ligand: candidate.label.clone(),
+                reason: "missing_descriptors".to_owned(),
+                detail: format!(
+                    "the model needs {} but this ligand does not supply {}",
+                    required_input_names(required).join(", "),
+                    missing.join(", ")
+                ),
+                missing_descriptors: missing,
+            });
             continue;
         }
         let record = candidate.to_record();
@@ -578,12 +760,16 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             .map(|(weight, feature)| f64::from(*weight) * f64::from(*feature))
             .sum::<f64>();
         if !predicted.is_finite() {
-            skipped += 1;
-            eprintln!("skipped {}: prediction is not finite", candidate.label);
+            excluded.push(Exclusion {
+                ligand: candidate.label.clone(),
+                reason: "non_finite_prediction".to_owned(),
+                missing_descriptors: Vec::new(),
+                detail: "the model produced a non-finite prediction for this ligand".to_owned(),
+            });
             continue;
         }
-        let outside = domain_exceedances(&report, &features);
-        let band = coefficient_band(&report, &features);
+        let outside = domain_exceedances(report, &features);
+        let band = coefficient_band(report, &features);
         let geometry = report.training_geometry.as_ref();
         let leverage = geometry.and_then(|geometry| geometry.leverage(&features));
         let warning = geometry.map(|geometry| geometry.warning_leverage);
@@ -597,7 +783,9 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         hits.push(ScreenHit {
             rank: 0,
             ligand: candidate.label.clone(),
+            ligand_name: candidate.name.clone(),
             predicted_ddg_kcal_mol: predicted,
+            descriptors: candidate.descriptor_values(required),
             coefficient_band_low: band.map(|(low, _)| low),
             coefficient_band_high: band.map(|(_, high)| high),
             prediction_interval_low: interval.map(|(low, _)| low),
@@ -670,7 +858,22 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         temperature_k: args.temperature,
         library_size,
         screened,
-        skipped,
+        skipped: excluded.len(),
+        exclusion_summary: {
+            let mut counts: Vec<(String, usize)> = Vec::new();
+            for exclusion in &excluded {
+                match counts
+                    .iter_mut()
+                    .find(|(reason, _)| *reason == exclusion.reason)
+                {
+                    Some((_, count)) => *count += 1,
+                    None => counts.push((exclusion.reason.clone(), 1)),
+                }
+            }
+            counts.sort_by(|left, right| right.1.cmp(&left.1).then_with(|| left.0.cmp(&right.0)));
+            counts
+        },
+        excluded,
         inside_domain,
         warning_leverage: report
             .training_geometry
@@ -799,8 +1002,14 @@ fn print_screen_text(report: &ScreenReport) {
             leverage,
             hit.predicted_ee_percent,
             hit.trust,
-            hit.ligand
+            match hit.ligand_name.as_deref() {
+                Some(name) => format!("{} ({name})", hit.ligand),
+                None => hit.ligand.clone(),
+            }
         );
+        if !hit.descriptors.is_empty() {
+            println!("{:>60}{}", "", describe_descriptors(&hit.descriptors));
+        }
     }
     let untrusted = report
         .hits
@@ -843,23 +1052,59 @@ fn print_screen_text(report: &ScreenReport) {
             }
         }
     }
+    if !report.excluded.is_empty() {
+        println!(
+            "\n{} candidate(s) were excluded and not screened:",
+            report.excluded.len()
+        );
+        for (reason, count) in &report.exclusion_summary {
+            println!("  {reason}: {count}");
+        }
+        // Name a bounded sample so a large library stays readable while the
+        // machine-readable formats keep the complete list.
+        for exclusion in report.excluded.iter().take(EXCLUSION_PREVIEW) {
+            println!("    {} — {}", exclusion.ligand, exclusion.detail);
+        }
+        if report.excluded.len() > EXCLUSION_PREVIEW {
+            println!(
+                "    ... and {} more; use --format json or csv for the full list",
+                report.excluded.len() - EXCLUSION_PREVIEW
+            );
+        }
+    }
     println!("\nnote: {}", report.uncertainty_note);
+}
+
+/// How many excluded candidates the terminal report names individually.
+const EXCLUSION_PREVIEW: usize = 10;
+
+/// Renders the descriptors a prediction consumed as `name=value` pairs.
+fn describe_descriptors(descriptors: &[DescriptorValue]) -> String {
+    descriptors
+        .iter()
+        .map(|descriptor| format!("{}={:.4}", descriptor.name, descriptor.value))
+        .collect::<Vec<_>>()
+        .join(" ")
 }
 
 fn print_screen_csv(report: &ScreenReport) {
     println!(
-        "rank,ligand,predicted_ddg_kcal_mol,prediction_interval_low,prediction_interval_high,\
+        "rank,ligand,ligand_name,predicted_ddg_kcal_mol,predicted_ee_percent,descriptors,\
+         prediction_interval_low,prediction_interval_high,\
          leverage,leverage_ratio,trust,coefficient_band_low,coefficient_band_high,\
-         predicted_ee_percent,applicability,outside_features"
+         applicability,outside_features"
     );
     for hit in &report.hits {
         let format_bound =
             |value: Option<f64>| value.map_or_else(String::new, |value| format!("{value:.6}"));
         println!(
-            "{},{},{:.6},{},{},{},{},{},{},{},{:.4},{},{}",
+            "{},{},{},{:.6},{:.4},{},{},{},{},{},{},{},{},{},{}",
             hit.rank,
             crate::descriptors::csv_field(&hit.ligand),
+            crate::descriptors::csv_field(hit.ligand_name.as_deref().unwrap_or_default()),
             hit.predicted_ddg_kcal_mol,
+            hit.predicted_ee_percent,
+            crate::descriptors::csv_field(&describe_descriptors(&hit.descriptors)),
             format_bound(hit.prediction_interval_low),
             format_bound(hit.prediction_interval_high),
             format_bound(hit.leverage),
@@ -867,7 +1112,6 @@ fn print_screen_csv(report: &ScreenReport) {
             hit.trust,
             format_bound(hit.coefficient_band_low),
             format_bound(hit.coefficient_band_high),
-            hit.predicted_ee_percent,
             hit.applicability,
             crate::descriptors::csv_field(
                 &hit.outside_domain

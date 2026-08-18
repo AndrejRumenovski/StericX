@@ -204,6 +204,7 @@ fn run() -> Result<(), Box<dyn Error>> {
         Command::Screen {
             model,
             library,
+            library_flag,
             top,
             temperature,
             inside_domain_only,
@@ -215,24 +216,29 @@ fn run() -> Result<(), Box<dyn Error>> {
             density,
             center_distance,
             radii_scale,
-        } => commands::screen::screen_command(commands::screen::ScreenArgs {
-            model: &model,
-            library: &library,
-            top,
-            temperature,
-            inside_domain_only,
-            ascending,
-            donor_element: &donor_element,
-            sterimol_axis,
-            format,
-            config: BuriedVolumeConfig {
-                sphere_radius,
-                density,
-                center_distance,
-                radii_scale,
-                include_hydrogens: false,
-            },
-        }),
+        } => {
+            let library = library
+                .or(library_flag)
+                .ok_or("a library is required: pass it positionally or as --library <PATH>")?;
+            commands::screen::screen_command(commands::screen::ScreenArgs {
+                model: &model,
+                library: &library,
+                top,
+                temperature,
+                inside_domain_only,
+                ascending,
+                donor_element: &donor_element,
+                sterimol_axis,
+                format,
+                config: BuriedVolumeConfig {
+                    sphere_radius,
+                    density,
+                    center_distance,
+                    radii_scale,
+                    include_hydrogens: false,
+                },
+            })
+        }
         Command::Compare {
             inputs,
             database,

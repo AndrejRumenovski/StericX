@@ -302,9 +302,13 @@ pub(crate) enum Command {
         #[arg(value_name = "MODEL")]
         model: PathBuf,
         /// Library: a directory of geometries, a descriptors CSV, or a reaction
-        /// CSV carrying `NBO_Charge` / `IR_Frequency`.
+        /// CSV carrying `NBO_Charge` / `IR_Frequency`. May also be given as
+        /// `--library`.
         #[arg(value_name = "LIBRARY")]
-        library: PathBuf,
+        library: Option<PathBuf>,
+        /// The library, named explicitly. Equivalent to the positional form.
+        #[arg(long = "library", value_name = "PATH", conflicts_with = "library")]
+        library_flag: Option<PathBuf>,
         /// Report only the best N ligands (default: all).
         #[arg(long)]
         top: Option<usize>,

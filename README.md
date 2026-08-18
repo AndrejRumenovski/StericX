@@ -299,13 +299,31 @@ Where `search` ranks by *shape*, `screen` ranks by *predicted performance* under
 fitted by `stericx fit`, and reports what the prediction is worth.
 
 ```bash
-./target/release/stericx screen model.json ligand_library/
-./target/release/stericx screen model.json reactions.csv --top 20 --inside-domain-only
+./target/release/stericx screen model.json --library ligand_library/
+./target/release/stericx screen model.json --library reactions.csv --top 20 --inside-domain-only
+./target/release/stericx screen model.json ligand_library/ --format csv   # positional also works
 ```
 
-Each ligand gets a predicted ΔΔG‡, the corresponding ee at `--temperature` (signed by the
-ΔΔG‡ convention, so a negative value means the same excess of the opposite enantiomer), a
-conservative uncertainty band, and an applicability-domain verdict. Ligands outside the
+Each ligand gets its identifier, its name when the library carries one, the raw predicted
+ΔΔG‡, the descriptor values that prediction consumed, the corresponding ee at
+`--temperature` (signed by the ΔΔG‡ convention, so a negative value means the same excess of
+the opposite enantiomer), a conservative uncertainty band, and an applicability-domain
+verdict. The interpreted value never replaces the raw one — both are reported, in all three
+formats (`--format text|csv|json`).
+
+A portable schema-2 model is screened through the feature space it records: `screen` maps
+each stored transformation to the descriptor it names. A model declaring a feature space
+this build does not implement is refused rather than screened against an assumed layout.
+
+Candidates that cannot be screened are accounted for rather than dropped. Each is listed
+with a reason — `missing_descriptors` (naming which), `featurization_failed`, or
+`non_finite_prediction` — and the counts are summarized by reason:
+
+```text
+2 candidate(s) were excluded and not screened:
+  missing_descriptors: 2
+    SIG-NIHDA-401 — the model needs sterimol_b5, nbo_charge but this ligand does not supply nbo_charge
+``` Ligands outside the
 range the model was trained on are listed separately with **how far** outside they fall, as
 a fraction of the training range width — `--inside-domain-only` drops them entirely.
 

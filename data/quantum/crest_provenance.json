@@ -1,0 +1,57 @@
+{
+  "cache_hits": 11,
+  "cache_misses": 0,
+  "cache_stages": {
+    "crest_hits": 11,
+    "crest_misses": 0,
+    "lmo_hits": 322,
+    "lmo_misses": 0,
+    "resumed_jobs": 0
+  },
+  "calculation_manifests": [
+    ".stericx/cache/jobs/1306f3ef9cfb9a937980a8e54789f1f8a7b54ff7ecf6277c99c2f0fb935ee751/manifest.json",
+    ".stericx/cache/jobs/1af69e7d1b2df2c070f2c73ed9e956da86fd185f843149c398fc9c3288267140/manifest.json",
+    ".stericx/cache/jobs/2268620774921ba1a08363494912c920b682eaf00807e075099b8d83306d0da7/manifest.json",
+    ".stericx/cache/jobs/2d0f01d23bad8b8a84d91c371371b85d1cbb096196a9a7aaafd6ea5092548cbc/manifest.json",
+    ".stericx/cache/jobs/3bd76b7630442a1c5ca892e2a217405b9874411962479a1735bb073af754d2f5/manifest.json",
+    ".stericx/cache/jobs/5acd2e6e192585916a6e225118c1aaf5faf93b456de60e686fa04edd35604970/manifest.json",
+    ".stericx/cache/jobs/67a683cf2edebe85b368ea1a7b1a32707bd062384cbce2895b366aed93f229a0/manifest.json",
+    ".stericx/cache/jobs/9f7cfb5a738d481d4612c7dfc5ada783499c875c475047e9879792d3e9936dc6/manifest.json",
+    ".stericx/cache/jobs/b0f7e453859eca6bc64abe9b4a3e59709f3ac6d8a9f524a8072d9afd659ee3cb/manifest.json",
+    ".stericx/cache/jobs/b7e31143cc516aa3bb86fcd0f79fb498b5ccba2a751283623145b11eac5aad1f/manifest.json",
+    ".stericx/cache/jobs/c290faa96d60ec74a8989c5bc0bf080017da2094e0ecf1a7aef7b2d7951ce394/manifest.json"
+  ],
+  "conformers": 322,
+  "crest": {
+    "path": ".stericx/tools/crest-2.12/crest",
+    "sha256": "ac9cbe9ea270aa2288d5d83b3c40400ad9c39124459b57d257e48c02217a5a6d",
+    "version": "2.12"
+  },
+  "generated_at_utc": "2026-07-27T02:21:24.988421+00:00",
+  "input_csv": "data/reactions_raw.csv",
+  "input_csv_sha256": "88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f",
+  "mode": "crest",
+  "output_csv": "data/reactions_crest.csv",
+  "output_csv_sha256": "f2383540151baa4b6e9b7a9a4aa50f8a108cdd603069e452661180748d574f1d",
+  "production_profile": true,
+  "records": 11,
+  "schema_version": 2,
+  "settings": {
+    "center_distance_angstrom": 2.1,
+    "charge": 0,
+    "energy_window_kcal_mol": 6.0,
+    "lmo_workers_effective_max": 2,
+    "lmo_workers_requested": 6,
+    "quick": false,
+    "solvent": "toluene",
+    "stale_lock_seconds": 86400.0,
+    "temperature_k": 298.15,
+    "threads": 6,
+    "uhf": 0
+  },
+  "xtb": {
+    "path": ".stericx/tools/xtb-6.4.0/bin/xtb",
+    "sha256": "75e52241ed8a59fd1ac72f471e483ecb430754d52977a57fb855a0fb8a6d0863",
+    "version": "6.4.0"
+  }
+}

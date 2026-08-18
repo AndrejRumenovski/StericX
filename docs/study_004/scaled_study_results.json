@@ -1,0 +1,29 @@
+{
+  "abs_residual_p90": 0.7079781820000002,
+  "abs_residual_p95": 1.0780831119999998,
+  "abs_residual_p99": 1.8784335365999985,
+  "api_base": "https://descriptor-libraries.molssi.org/api/kraken",
+  "build_skips": {
+    "donor_has_no_bonded_heavy_neighbour": 1,
+    "donor_not_single_phosphorus": 3,
+    "donor_not_trivalent": 1
+  },
+  "conformers": 31611,
+  "download_reasons": {
+    "no_dft": 20,
+    "ok": 1546
+  },
+  "elapsed_seconds": 126.5,
+  "eligible": 1566,
+  "generated_at_utc": "2026-07-27T20:58:30.086052+00:00",
+  "ligands": 1541,
+  "mean_abs_err": 0.27045059079558725,
+  "median_abs_err": 0.11154294199999981,
+  "nihda_r2": 0.9986,
+  "official_feature": "vbur_max_delta_qvbur_min",
+  "pearson_r": 0.9926731334891226,
+  "r2": 0.985157517961313,
+  "rmse": 0.49060520011507736,
+  "robust_r2_drop_worst_1pct": 0.9897316430867208,
+  "robust_r2_drop_worst_5pct": 0.9936068968078327
+}

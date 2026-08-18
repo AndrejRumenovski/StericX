@@ -1,0 +1,260 @@
+{
+  "descriptor_fidelity": {
+    "mae": 0.14376617954071,
+    "n": 479,
+    "r2": 0.9991749203612923
+  },
+  "independent_geometry": {
+    "in_range_count": 16,
+    "mae_vs_published": 0.44606111111111146,
+    "mean_signed_offset": 0.12012777777777789,
+    "n": 18,
+    "n_skipped": 0,
+    "offset_vs_min": 2.336794444444445,
+    "pearson_vs_published": 0.9872431251451875,
+    "r2_vs_published": 0.9735131623122188,
+    "reference": "published_vbur_boltz"
+  },
+  "ligands": 103,
+  "reactions": {
+    "I": {
+      "paper": {
+        "acc": 0.79,
+        "dir": "Left",
+        "mcc": 0.62,
+        "thr": 32.42,
+        "y_cut": 10
+      },
+      "stericx": {
+        "accuracy": 0.7647058823529411,
+        "baseline_accuracy": 0.5294117647058824,
+        "bootstrap": {
+          "acc_ci": [
+            0.6176470588235294,
+            0.9411764705882353
+          ],
+          "mcc_ci": [
+            0.3872983346207417,
+            0.8488929466993194
+          ],
+          "n_boot_valid": 2000
+        },
+        "direction": "Left",
+        "f1": 0.8181818181818182,
+        "mcc": 0.588348405414552,
+        "n": 34,
+        "n_active": 18,
+        "threshold": 32.54155158996582
+      },
+      "y_cut": 10
+    },
+    "II": {
+      "paper": {
+        "acc": 0.7,
+        "dir": "Left",
+        "mcc": 0.53,
+        "thr": 32.74,
+        "y_cut": 10
+      },
+      "stericx": {
+        "accuracy": 0.7191011235955056,
+        "baseline_accuracy": 0.6067415730337079,
+        "bootstrap": {
+          "acc_ci": [
+            0.6179775280898876,
+            0.8202247191011236
+          ],
+          "mcc_ci": [
+            0.44371465011886485,
+            0.6925099779085574
+          ],
+          "n_boot_valid": 2000
+        },
+        "direction": "Left",
+        "f1": 0.7368421052631579,
+        "mcc": 0.5597067133224968,
+        "n": 89,
+        "n_active": 35,
+        "threshold": 31.950950622558594
+      },
+      "y_cut": 10
+    },
+    "III": {
+      "paper": {
+        "acc": 0.67,
+        "dir": "Left",
+        "mcc": 0.5,
+        "thr": 31.55,
+        "y_cut": 5
+      },
+      "stericx": {
+        "accuracy": 0.6404494382022472,
+        "baseline_accuracy": 0.6966292134831461,
+        "bootstrap": {
+          "acc_ci": [
+            0.550561797752809,
+            0.8202247191011236
+          ],
+          "mcc_ci": [
+            0.379207731907923,
+            0.6825441133118461
+          ],
+          "n_boot_valid": 2000
+        },
+        "direction": "Left",
+        "f1": 0.627906976744186,
+        "mcc": 0.4705661236885403,
+        "n": 89,
+        "n_active": 27,
+        "threshold": 31.75624942779541
+      },
+      "y_cut": 5
+    },
+    "IV": {
+      "paper": {
+        "acc": 0.64,
+        "dir": "Left",
+        "mcc": 0.45,
+        "thr": 31.89,
+        "y_cut": 5
+      },
+      "stericx": {
+        "accuracy": 0.6629213483146067,
+        "baseline_accuracy": 0.6629213483146067,
+        "bootstrap": {
+          "acc_ci": [
+            0.5617977528089888,
+            0.7752808988764045
+          ],
+          "mcc_ci": [
+            0.379777262656375,
+            0.6297699337786185
+          ],
+          "n_boot_valid": 2000
+        },
+        "direction": "Left",
+        "f1": 0.6666666666666666,
+        "mcc": 0.4957446034647344,
+        "n": 89,
+        "n_active": 30,
+        "threshold": 31.950950622558594
+      },
+      "y_cut": 5
+    },
+    "RS1": {
+      "paper": {
+        "acc": 0.7,
+        "dir": "Left",
+        "mcc": 0.54,
+        "thr": 31.89,
+        "y_cut": 10
+      },
+      "stericx": {
+        "accuracy": 0.7078651685393258,
+        "baseline_accuracy": 0.6179775280898876,
+        "bootstrap": {
+          "acc_ci": [
+            0.6067415730337079,
+            0.8089887640449438
+          ],
+          "mcc_ci": [
+            0.43343501670642104,
+            0.6791040687422923
+          ],
+          "n_boot_valid": 2000
+        },
+        "direction": "Left",
+        "f1": 0.723404255319149,
+        "mcc": 0.5466149273372242,
+        "n": 89,
+        "n_active": 34,
+        "threshold": 31.950950622558594
+      },
+      "y_cut": 10
+    },
+    "V": {
+      "paper": {
+        "acc": 0.66,
+        "dir": "Left",
+        "mcc": 0.36,
+        "thr": 51.53,
+        "y_cut": 20
+      },
+      "stericx": {
+        "accuracy": 0.651685393258427,
+        "baseline_accuracy": 0.5617977528089888,
+        "bootstrap": {
+          "acc_ci": [
+            0.5390449438202247,
+            0.797752808988764
+          ],
+          "mcc_ci": [
+            0.0,
+            0.6260968525721983
+          ],
+          "n_boot_valid": 2000
+        },
+        "direction": "Left",
+        "f1": 0.7633587786259542,
+        "mcc": 0.3558403417890825,
+        "n": 89,
+        "n_active": 50,
+        "threshold": 50.791799545288086
+      },
+      "y_cut": 20
+    }
+  },
+  "transferability": {
+    "leave_one_reaction_out": {
+      "I": {
+        "accuracy": 0.7352941176470589,
+        "mcc": 0.5400617248673217,
+        "n_test": 34,
+        "own_threshold": 32.54155158996582,
+        "transferred_threshold": 33.11590003967285
+      },
+      "II": {
+        "accuracy": 0.6741573033707865,
+        "mcc": 0.5031728036871332,
+        "n_test": 89,
+        "own_threshold": 31.950950622558594,
+        "transferred_threshold": 33.086700439453125
+      },
+      "III": {
+        "accuracy": 0.5842696629213483,
+        "mcc": 0.4124450109975561,
+        "n_test": 89,
+        "own_threshold": 31.75624942779541,
+        "transferred_threshold": 33.086700439453125
+      },
+      "IV": {
+        "accuracy": 0.6179775280898876,
+        "mcc": 0.44567127050768285,
+        "n_test": 89,
+        "own_threshold": 31.950950622558594,
+        "transferred_threshold": 33.086700439453125
+      },
+      "RS1": {
+        "accuracy": 0.6629213483146067,
+        "mcc": 0.4914033706918103,
+        "n_test": 89,
+        "own_threshold": 31.950950622558594,
+        "transferred_threshold": 33.086700439453125
+      },
+      "V": {
+        "accuracy": 0.7415730337078652,
+        "mcc": 0.4745223288542665,
+        "n_test": 89,
+        "own_threshold": 50.791799545288086,
+        "transferred_threshold": 32.40850067138672
+      }
+    },
+    "pooled": {
+      "accuracy": 0.6826722338204593,
+      "mcc": 0.49177405491152615,
+      "n": 479,
+      "n_active": 194,
+      "threshold": 32.768699645996094
+    }
+  }
+}

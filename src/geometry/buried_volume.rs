@@ -1,4 +1,4 @@
-use super::Molecule;
+use super::{Molecule, covalent_radius};
 use glam::Vec3;
 use std::error::Error;
 use std::f32::consts::PI;
@@ -94,9 +94,10 @@ impl BuriedVolumeCalculator {
     ///
     /// The virtual centre is placed 2.1 Å from the donor along a geometrically
     /// inferred lone-pair direction. This is a documented approximation to
-    /// Kraken's xTB localized-molecular-orbital centre. The three nearest heavy
-    /// donor substituents are each used to define the XZ plane, exactly matching
-    /// Kraken's three-orientation quadrant scan.
+    /// Kraken's xTB localized-molecular-orbital centre. The three covalently
+    /// bonded donor substituents (see [`donor_neighbor_indices`], hydrogens
+    /// included) are each used to define the XZ plane, matching Kraken's
+    /// three-orientation quadrant scan.
     pub fn compute(
         molecule: &Molecule,
         donor_idx: usize,
@@ -197,6 +198,17 @@ impl BuriedVolumeCalculator {
                 .fold(0.0_f32, f32::max);
             result.max_delta_qvbur = result.max_delta_qvbur.max(adjacent_delta);
         }
+        // A donor that occupies volume but yields perfectly equal quadrants in
+        // every orientation is unphysical: it signals a collapsed frame (e.g.
+        // only the donor atom fell inside the sphere) rather than a genuine
+        // symmetric ligand. Refuse to emit that spurious zero so the ensemble
+        // minimum is never poisoned by it.
+        if result.buried_volume > 0.0 && result.max_delta_qvbur == 0.0 {
+            return Err(BuriedVolumeError(
+                "degenerate coordination frame produced a symmetric zero max_delta_qvbur"
+                    .to_owned(),
+            ));
+        }
         Ok(result)
     }
 
@@ -255,6 +267,33 @@ impl BuriedVolumeCalculator {
     }
 }
 
+/// The virtual coordination centre for a donor: the point a fixed distance from
+/// the donor along its geometrically inferred lone-pair direction, where a
+/// coordinating metal (or a Sterimol dummy) sits.
+///
+/// This is the same centre [`BuriedVolumeCalculator::compute`] integrates
+/// around, exposed so callers can place a metal probe or Sterimol dummy there.
+pub fn coordination_center(
+    molecule: &Molecule,
+    donor_idx: usize,
+    reference_neighbor_idx: usize,
+    config: BuriedVolumeConfig,
+) -> Result<Vec3, BuriedVolumeError> {
+    validate_config(config)?;
+    let donor = molecule
+        .atoms
+        .get(donor_idx)
+        .ok_or_else(|| BuriedVolumeError(format!("donor index {donor_idx} is out of bounds")))?;
+    if !donor.position.is_finite() {
+        return Err(BuriedVolumeError(
+            "donor coordinate is not finite".to_owned(),
+        ));
+    }
+    let neighbor_indices = donor_neighbor_indices(molecule, donor_idx, reference_neighbor_idx)?;
+    let lone_pair_direction = infer_lone_pair_direction(molecule, donor_idx, &neighbor_indices)?;
+    Ok(donor.position + config.center_distance * lone_pair_direction)
+}
+
 #[derive(Clone, Copy)]
 struct Basis {
     x: Vec3,
@@ -300,6 +339,54 @@ fn validate_config(config: BuriedVolumeConfig) -> Result<(), BuriedVolumeError> 
     Ok(())
 }
 
+/// Tolerance applied to summed covalent radii when inferring bonds from
+/// Cartesian coordinates. Real P–X bonds sit near 1.0× the summed radii while
+/// the nearest non-bonded contact is ~1.5×, so 1.3 separates them with margin.
+const BOND_TOLERANCE_FACTOR: f32 = 1.3;
+
+/// Covalently bonded neighbours of `donor_idx` as `(distance_squared, index)`,
+/// sorted by ascending distance then index.
+///
+/// The bond cutoff is [`BOND_TOLERANCE_FACTOR`] × the summed covalent radii.
+/// `donor_idx` must be a valid atom index. This is the single source of the
+/// covalent-radius frame used by both the buried-volume quadrant frame and the
+/// `descriptors` command's donor detection, so the two never drift apart.
+pub fn bonded_neighbors(molecule: &Molecule, donor_idx: usize) -> Vec<(f32, usize)> {
+    let donor = &molecule.atoms[donor_idx];
+    let donor_covalent = covalent_radius(&donor.element);
+    let mut bonded = molecule
+        .atoms
+        .iter()
+        .enumerate()
+        .filter(|(index, _)| *index != donor_idx)
+        .filter_map(|(index, atom)| {
+            let distance_squared = atom.position.distance_squared(donor.position);
+            let bond_cutoff =
+                BOND_TOLERANCE_FACTOR * (donor_covalent + covalent_radius(&atom.element));
+            (distance_squared <= bond_cutoff * bond_cutoff).then_some((distance_squared, index))
+        })
+        .collect::<Vec<_>>();
+    bonded.sort_by(|left, right| {
+        left.0
+            .total_cmp(&right.0)
+            .then_with(|| left.1.cmp(&right.1))
+    });
+    bonded
+}
+
+/// Identify the three atoms covalently bonded to a trivalent donor.
+///
+/// Substituents are selected by covalent-radius bond detection, **including any
+/// bonded hydrogens**, rather than by taking the three nearest heavy atoms.
+/// The nearest-heavy heuristic silently misidentifies the frame of primary and
+/// secondary phosphines (R–PH2, R2P–H): it discards the bonded hydrogens and
+/// reaches for distant non-bonded heavy atoms, which places the lone-pair
+/// centre in empty space (spurious `max_delta_qvbur = 0`) or skews it (gross
+/// overestimates). For a genuinely trisubstituted donor the two rules coincide,
+/// because no non-bonded heavy atom can lie closer than a real P–X bond.
+///
+/// Hydrogens participate only in defining the geometric frame here; whether
+/// they contribute occupied volume remains governed by [`BuriedVolumeConfig`].
 fn donor_neighbor_indices(
     molecule: &Molecule,
     donor_idx: usize,
@@ -310,41 +397,35 @@ fn donor_neighbor_indices(
             "reference neighbor index is invalid".to_owned(),
         ));
     }
-    let donor = &molecule.atoms[donor_idx];
-    if molecule.atoms[reference_neighbor_idx]
-        .element
-        .eq_ignore_ascii_case("H")
+    // `bonded_neighbors` returns the covalent-radius frame already sorted by
+    // ascending distance then index.
+    let bonded = bonded_neighbors(molecule, donor_idx);
+    if bonded.len() != 3 {
+        return Err(BuriedVolumeError(format!(
+            "donor must be trivalent for the quadrant frame, found {} bonded substituents",
+            bonded.len()
+        )));
+    }
+    if !bonded
+        .iter()
+        .any(|(_, index)| *index == reference_neighbor_idx)
     {
         return Err(BuriedVolumeError(
-            "reference donor neighbor must be a heavy atom".to_owned(),
+            "reference neighbor is not bonded to the donor".to_owned(),
         ));
     }
-    let mut candidates = molecule
-        .atoms
-        .iter()
-        .enumerate()
-        .filter(|(index, atom)| *index != donor_idx && !atom.element.eq_ignore_ascii_case("H"))
-        .map(|(index, atom)| (atom.position.distance_squared(donor.position), index))
-        .collect::<Vec<_>>();
-    candidates.sort_by(|left, right| {
-        left.0
-            .total_cmp(&right.0)
-            .then_with(|| left.1.cmp(&right.1))
-    });
-    let mut neighbors = vec![reference_neighbor_idx];
-    neighbors.extend(
-        candidates
-            .into_iter()
-            .map(|(_, index)| index)
-            .filter(|index| *index != reference_neighbor_idx)
-            .take(2),
-    );
-    if neighbors.len() != 3 {
-        return Err(BuriedVolumeError(
-            "three heavy donor substituents are required".to_owned(),
-        ));
+    // Deterministic order: reference substituent first, then the remaining two
+    // by ascending distance and index. Order does not affect the min/max
+    // quadrant descriptors, but keeps the audit output reproducible.
+    let mut neighbors = [reference_neighbor_idx; 3];
+    let mut cursor = 1;
+    for (_, index) in bonded {
+        if index != reference_neighbor_idx {
+            neighbors[cursor] = index;
+            cursor += 1;
+        }
     }
-    Ok([neighbors[0], neighbors[1], neighbors[2]])
+    Ok(neighbors)
 }
 
 fn infer_lone_pair_direction(
@@ -628,6 +709,60 @@ mod tests {
         assert_eq!(ensemble.vbur_delta, 5.0);
         assert_eq!(ensemble.max_delta_qvbur_vburminconf, 7.0);
         assert_eq!(ensemble.conformer_count, 2);
+    }
+
+    fn primary_phosphine() -> Molecule {
+        // R–PH2: one heavy (C) substituent plus two bonded hydrogens. The two
+        // nearest *heavy* atoms after the bonded carbon are non-bonded ring
+        // carbons, so the legacy nearest-heavy rule mis-framed this donor.
+        Molecule {
+            atoms: vec![
+                atom("P", Vec3::ZERO),
+                atom("C", Vec3::new(1.5, 0.0, 0.6)),
+                atom("H", Vec3::new(-0.6, 1.1, 0.55)),
+                atom("H", Vec3::new(-0.6, -1.1, 0.55)),
+                // Distal ring carbons, closer than nothing but not bonded to P.
+                atom("C", Vec3::new(2.6, 0.9, 0.9)),
+                atom("C", Vec3::new(2.6, -0.9, 0.9)),
+                atom("C", Vec3::new(3.9, 0.0, 1.2)),
+            ],
+        }
+    }
+
+    #[test]
+    fn primary_phosphine_uses_bonded_hydrogens_not_distal_heavy_atoms() {
+        // The bonded set is {C, H, H}; the two distal ring carbons must be
+        // excluded. A correct frame yields a finite, strictly positive
+        // asymmetry instead of the spurious zero the nearest-heavy rule gave.
+        let neighbors = donor_neighbor_indices(&primary_phosphine(), 0, 1).unwrap();
+        let mut sorted = neighbors;
+        sorted.sort_unstable();
+        assert_eq!(sorted, [1, 2, 3]);
+        let params = BuriedVolumeCalculator::compute(
+            &primary_phosphine(),
+            0,
+            1,
+            BuriedVolumeConfig::default(),
+        )
+        .unwrap();
+        assert!(params.max_delta_qvbur > 0.0);
+        assert!(params.buried_volume.is_finite() && params.buried_volume > 0.0);
+    }
+
+    #[test]
+    fn non_trivalent_donor_is_rejected() {
+        // Only the bonded carbon and one hydrogen: a two-coordinate donor that
+        // cannot define the three-orientation frame.
+        let molecule = Molecule {
+            atoms: vec![
+                atom("P", Vec3::ZERO),
+                atom("C", Vec3::new(1.5, 0.0, 0.6)),
+                atom("H", Vec3::new(-0.7, 1.0, 0.5)),
+                atom("C", Vec3::new(3.9, 0.0, 1.2)),
+            ],
+        };
+        let error = donor_neighbor_indices(&molecule, 0, 1).unwrap_err();
+        assert!(error.to_string().contains("trivalent"));
     }
 
     #[test]

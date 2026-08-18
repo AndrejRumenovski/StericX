@@ -3,7 +3,9 @@
 //!
 //! `tests/data/golden_training_report.json` was produced by the previous
 //! CLI-coupled code path (`fit_scientific_model_grouped` called directly from
-//! `stericx fit`) on the fixture built below. Every field of that artifact is
+//! `stericx fit`) on the fixture built below. It was refreshed once, when the
+//! leverage-based domain work added `training_geometry` and one note; every
+//! numeric field was verified unchanged across that refresh. Every field is
 //! re-checked here through the new [`train_scientific_model`] entry point, so
 //! any change to descriptor selection, coefficients, validation statistics, or
 //! diagnostics fails the suite instead of silently rewriting a study result.

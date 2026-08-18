@@ -1,0 +1,35 @@
+{
+  "by_class": [
+    {
+      "bonded_h": 0,
+      "class": "tertiary (R3P)",
+      "ligands": 1517,
+      "mean_abs_residual": 0.25569362380487803,
+      "mean_residual": -0.010232093100856949,
+      "median_residual": -0.0009590900000002733
+    },
+    {
+      "bonded_h": 1,
+      "class": "secondary (R2PH)",
+      "ligands": 9,
+      "mean_abs_residual": 0.7808953822222222,
+      "mean_residual": 0.7808953822222222,
+      "median_residual": 0.7776736169999996
+    },
+    {
+      "bonded_h": 2,
+      "class": "primary (RPH2)",
+      "ligands": 15,
+      "mean_abs_residual": 1.4566049776,
+      "mean_residual": 1.4566049776,
+      "median_residual": 1.6575168069999995
+    }
+  ],
+  "totals": {
+    "has_ph_ligands": 24.0,
+    "has_ph_mean_residual": 1.2032138793333333,
+    "ligands": 1541.0,
+    "r2": 0.985157517961313,
+    "tertiary_r2": 0.9868662634797775
+  }
+}

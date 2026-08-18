@@ -8,7 +8,9 @@ pub mod storage;
 
 pub use geometry::{
     Atom, BuriedVolumeCalculator, BuriedVolumeConfig, BuriedVolumeEnsembleParams,
-    BuriedVolumeError, BuriedVolumeParams, Molecule, SterimolCalculator, SterimolParams,
+    BuriedVolumeError, BuriedVolumeParams, Molecule, PyramidalizationCalculator,
+    PyramidalizationParams, SterimolCalculator, SterimolParams, bonded_neighbors,
+    coordination_center, covalent_radius, parse_coordinate_file,
 };
 pub use kinetics::{EyringKineticLink, ProductRatio};
 pub use model::{

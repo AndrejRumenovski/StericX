@@ -1,6 +1,6 @@
 {
   "boundary_challenges": 2,
-  "deck_path": "/home/filip/Code/StericX/docs/study_003/prospective_ligand_deck.csv",
+  "deck_path": "docs/study_003/prospective_ligand_deck.csv",
   "deck_sha256": "564d7b87567a036582ecd7a2a0bd4f43ad2e1b33a61452ab6ae87b16e6ef457a",
   "deck_size": 10,
   "excluded_historical_source_ids": [
@@ -24,7 +24,7 @@
     "Predictions are historical-model extrapolations, not measured outcomes.",
     "The deck must not be refit after outcomes are known."
   ],
-  "model_path": "/home/filip/Code/StericX/docs/study_001/published_model.json",
+  "model_path": "docs/study_001/published_model.json",
   "model_sha256": "9681383632eae02098f411b5765d4bc4ced3f0c9b50f10f75bf83181c2ac06b7",
   "schema_version": 1,
   "selection": {
@@ -43,7 +43,7 @@
     "primary_feature": "vbur_max_delta_qvbur_min",
     "scaling": "complete-candidate median and interquartile range"
   },
-  "source_catalog": "/home/filip/Code/StericX/data/official/ni_hda_kraken.csv",
+  "source_catalog": "data/official/ni_hda_kraken.csv",
   "source_catalog_sha256": "4af1a776378a1f1aa369e076c9b35de2afa8c60e30841ec63cd13d95ccb8f00d",
   "status": "predictions_frozen_measurements_pending",
   "training_source_ids": [

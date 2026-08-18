@@ -1,0 +1,118 @@
+cff-version: 1.2.0
+message: >-
+  If you use StericX, please cite this software. StericX is an independent
+  reproduction and reimplementation; if you use the underlying descriptors,
+  datasets, or reaction models, please also cite the original scientific
+  works listed under `references` below.
+title: "StericX: physical-organic molecular featurization and reaction-selectivity inference"
+type: software
+version: 0.2.0
+date-released: "2026-08-17"
+doi: 10.5281/zenodo.21726666
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21726666
+    description: "Concept DOI — resolves to the latest version"
+  - type: doi
+    value: 10.5281/zenodo.21985632
+    description: "Version DOI — v0.2.0"
+  - type: doi
+    value: 10.5281/zenodo.21726667
+    description: "Version DOI — v0.1.0"
+authors:
+  - given-names: Andrej
+    family-names: Rumenovski
+    affiliation: "Dwight D. Eisenhower High School"
+repository-code: "https://github.com/AndrejRumenovski/StericX"
+license:
+  - MIT
+  - Apache-2.0
+keywords:
+  - cheminformatics
+  - physical-organic-chemistry
+  - Sterimol
+  - buried-volume
+  - reaction-selectivity
+  - Kraken
+references:
+  - type: article
+    title: "A Comprehensive Discovery Platform for Organophosphorus Ligands for Catalysis"
+    authors:
+      - given-names: Tobias
+        family-names: Gensch
+      - given-names: Gabriel
+        name-particle: "dos Passos"
+        family-names: Gomes
+      - given-names: Pascal
+        family-names: Friederich
+      - given-names: Ellyn
+        family-names: Peters
+      - given-names: "Théophile"
+        family-names: Gaudin
+      - given-names: Robert
+        family-names: Pollice
+      - given-names: Kjell
+        family-names: Jorner
+      - given-names: AkshatKumar
+        family-names: Nigam
+      - given-names: Michael
+        family-names: "Lindner-D'Addario"
+      - given-names: "Matthew S."
+        family-names: Sigman
+      - given-names: "Alán"
+        family-names: Aspuru-Guzik
+    journal: "Journal of the American Chemical Society"
+    year: 2022
+    volume: 144
+    issue: 3
+    start: 1205
+    end: 1217
+    doi: 10.1021/jacs.1c09718
+  - type: article
+    title: "A Data Science-Guided Approach for the Development of Nickel-Catalyzed Homo-Diels-Alder Reactions"
+    authors:
+      - given-names: "Jamie A."
+        family-names: Cadge
+      - given-names: Cedric
+        family-names: Lozano
+      - given-names: "Morgan T."
+        family-names: Merriman
+      - given-names: Paul
+        family-names: Oblad
+      - given-names: "Matthew S."
+        family-names: Sigman
+      - given-names: "Sarah E."
+        family-names: Reisman
+    journal: "Journal of the American Chemical Society"
+    year: 2025
+    volume: 147
+    issue: 34
+    start: 31175
+    end: 31186
+    doi: 10.1021/jacs.5c09948
+  - type: article
+    title: "Univariate Classification of Phosphine Ligation State and Reactivity in Cross-Coupling Catalysis"
+    authors:
+      - given-names: "S. H."
+        family-names: Newman-Stonebraker
+      - given-names: "S. R."
+        family-names: Smith
+      - given-names: "J. E."
+        family-names: Borowski
+      - given-names: Ellyn
+        family-names: Peters
+      - given-names: Tobias
+        family-names: Gensch
+      - given-names: "H. C."
+        family-names: Johnson
+      - given-names: "Matthew S."
+        family-names: Sigman
+      - given-names: "Abigail G."
+        family-names: Doyle
+    journal: "Science"
+    year: 2021
+    volume: 374
+    issue: 6565
+    start: 301
+    end: 308
+    doi: 10.1126/science.abj4213

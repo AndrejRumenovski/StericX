@@ -246,8 +246,44 @@
       "maximum": -1.540000081062317
     }
   ],
+  "training_geometry": {
+    "feature_indices": [
+      1,
+      6
+    ],
+    "means": [
+      2.23499995470047,
+      -2.0061700999736787
+    ],
+    "scales": [
+      0.7496165349557788,
+      0.2794603306972531
+    ],
+    "xtx_inverse": [
+      [
+        0.05,
+        2.6938307710461513e-18,
+        -1.5993906251664066e-17
+      ],
+      [
+        2.6938307710461513e-18,
+        0.05020761844837723,
+        -0.0032286263083691506
+      ],
+      [
+        -1.5993906251664066e-17,
+        -0.0032286263083691515,
+        0.050207618448377234
+      ]
+    ],
+    "observations": 20,
+    "parameters": 3,
+    "residual_standard_error": 0.03417773687182557,
+    "warning_leverage": 0.45
+  },
   "notes": [
     "Descriptors were standardized using training rows only.",
+    "Leverage h = x'(X'X)^-1 x is reported against the warning leverage h* = 3p/n; beyond it a prediction is an extrapolation.",
     "Forward selection used BIC and rejected |r| > 0.95 descriptor pairs.",
     "LOO, bootstrap, and permutation diagnostics keep the selected descriptor set fixed.",
     "Group LOO holds out every row sharing the same ligand-group label.",

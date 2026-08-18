@@ -1,9 +1,15 @@
 [package]
 name = "steric_x"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
+rust-version = "1.85"
 description = "High-performance steric featurization and reaction selectivity prediction"
 license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/AndrejRumenovski/StericX"
+authors = ["Andrej Rumenovski"]
+keywords = ["chemistry", "cheminformatics", "sterimol", "buried-volume", "descriptors"]
+categories = ["science", "command-line-utilities"]
 
 [[bin]]
 name = "stericx"

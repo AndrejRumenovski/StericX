@@ -9,16 +9,16 @@
     "resumed_jobs": 0
   },
   "calculation_manifests": [
-    "/home/filip/Code/StericX/.stericx/cache/jobs/a85a96389c9d409809b1f0680b1d818351ba5c0569ba789124982c5a14a707a4/manifest.json"
+    ".stericx/cache/jobs/a85a96389c9d409809b1f0680b1d818351ba5c0569ba789124982c5a14a707a4/manifest.json"
   ],
   "conformers": 59,
   "crest": {
-    "path": "/home/filip/Code/StericX/.stericx/tools/crest-2.12/crest",
+    "path": ".stericx/tools/crest-2.12/crest",
     "sha256": "ac9cbe9ea270aa2288d5d83b3c40400ad9c39124459b57d257e48c02217a5a6d",
     "version": "2.12"
   },
   "generated_at_utc": "2026-07-26T01:04:55.632650+00:00",
-  "input_csv": "/home/filip/Code/StericX/data/reactions_raw.csv",
+  "input_csv": "data/reactions_raw.csv",
   "input_csv_sha256": "88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f",
   "mode": "crest",
   "output_csv": "data/reactions_crest_quick.csv",
@@ -40,7 +40,7 @@
     "uhf": 0
   },
   "xtb": {
-    "path": "/home/filip/Code/StericX/.stericx/tools/xtb-6.4.0/bin/xtb",
+    "path": ".stericx/tools/xtb-6.4.0/bin/xtb",
     "sha256": "75e52241ed8a59fd1ac72f471e483ecb430754d52977a57fb855a0fb8a6d0863",
     "version": "6.4.0"
   }

@@ -46,14 +46,24 @@ jobs:
       - name: Check support-script syntax
         run: |
           uv run python -m py_compile \
-            prepare_data.py \
-            prepare_quantum_data.py \
-            freeze_prospective_deck.py \
-            stericx_quantum.py \
-            validate_stericx.py \
-            study_ni_hda.py \
-            study_buried_volume.py \
-            study_quantum_geometry.py
+            scripts/prepare_data.py \
+            scripts/prepare_quantum_data.py \
+            scripts/freeze_prospective_deck.py \
+            scripts/stericx_quantum.py \
+            scripts/validate_stericx.py \
+            scripts/preregister_prediction.py \
+            studies/study_001_ni_hda.py \
+            studies/study_002_buried_volume.py \
+            studies/study_003_quantum_geometry.py \
+            studies/study_004_reproduction.py \
+            studies/study_004_scaled.py \
+            studies/study_004_vbur_family.py \
+            studies/study_004_sterimol.py \
+            studies/study_004_frame_residual.py \
+            studies/study_005_pyramidalization.py \
+            studies/study_006_residual_localization.py \
+            studies/study_007_crosscoupling.py \
+            studies/study_008_speed_benchmark.py
           bash -n benchmark_linux.sh install_quantum_tools.sh
 
       - name: Lint and format-check Python
@@ -63,3 +73,30 @@ jobs:
 
       - name: Test quantum parsers without external executables
         run: uv run python -m unittest tests/test_quantum_backend.py
+
+  cross-platform:
+    name: Build and test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install stable Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust build artifacts
+        uses: Swatinem/rust-cache@v2
+
+      # Rust only: the format guards endianness and the AVX2 kernel is
+      # x86_64-gated with a scalar fallback, so Apple-silicon runners build and
+      # test the scalar path while Windows x86_64 exercises the AVX2 path. The
+      # Python and lint gates are OS-independent and stay on the Linux job.
+      - name: Run Rust tests
+        run: cargo test --all-targets

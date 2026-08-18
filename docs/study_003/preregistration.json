@@ -1,0 +1,61 @@
+{
+  "applicability_domain": {
+    "in_domain_count": 9,
+    "kind": "OLS leverage vs warning leverage h* = 3p/n",
+    "note": "Leverage and the deck's 1-D training-range label can disagree for a ligand just outside the feature min/max; both are reported.",
+    "warning_leverage": 0.6
+  },
+  "commits_to": {
+    "catalog_sha256": "4af1a776378a1f1aa369e076c9b35de2afa8c60e30841ec63cd13d95ccb8f00d",
+    "deck": "docs/study_003/prospective_ligand_deck.csv",
+    "deck_frozen_at_utc": "2026-07-26T00:36:48.240843+00:00",
+    "deck_sha256": "564d7b87567a036582ecd7a2a0bd4f43ad2e1b33a61452ab6ae87b16e6ef457a",
+    "intervals_csv_sha256": "ecfb50e3128aa0186d53fb8108d9b718844f1b0f8179bae5291e8e60631fca7c",
+    "model_sha256": "9681383632eae02098f411b5765d4bc4ced3f0c9b50f10f75bf83181c2ac06b7"
+  },
+  "experimental_protocol": {
+    "ee_to_ddG": "Convert measured ee (fraction) to ddG = 2 R T atanh(ee) at T = 298.15 K, then compare to the interval above.",
+    "measurement": "Run the asymmetric Ni-hDA reaction with each candidate ligand under the source conditions; determine product enantiomeric excess by chiral HPLC or SFC.",
+    "not_an_instruction": "Candidates are computational recommendations; synthetic accessibility, stability, and safety require expert review.",
+    "reaction": "Ni-catalyzed homo-Diels-Alder (hDA), asymmetric variant",
+    "source": "Sigman Group, Ni-Catalyzed-hDA repository (https://github.com/SigmanGroup/Ni-Catalyzed-hDA); the univariate enantioselectivity model reproduced in StericX Study 001."
+  },
+  "falsification_rule": {
+    "corroborated_if": "measured ddG within the 95% prediction interval for at least 6 of 8 primary candidates AND Spearman rho(predicted, measured) > 0",
+    "coverage_min_fraction": 0.75,
+    "coverage_needed": 6,
+    "falsified_otherwise": true,
+    "honest_power_caveat": "Near-racemate predictions have ee intervals spanning both signs and are not meaningfully falsifiable on ee; the ddG interval remains the test quantity.",
+    "primary_set": "8 interpolation_maximin candidates",
+    "secondary_set": "boundary-challenge ligands, scored as an extrapolation stress-test; reported but not gating the primary test"
+  },
+  "limitations": [
+    "Ten training points; a univariate steric model of one reaction family.",
+    "Candidates are DFT-characterized, not necessarily synthesizable.",
+    "Must not be refit after any outcome is known."
+  ],
+  "model": {
+    "feature": "vbur_max_delta_qvbur_min",
+    "intercept": -0.19793447033801925,
+    "kind": "published univariate OLS (Study 001)",
+    "residual_standard_error_kcal_mol": 0.32739203657727395,
+    "slope": 0.08920426624752129,
+    "training_feature_range": [
+      2.396167563,
+      27.06487474
+    ],
+    "training_n": 10
+  },
+  "prediction_target": "ddG_double_dagger_kcal_mol (enantiodetermining step)",
+  "preregistered_at_utc": "2026-07-31T15:50:35.736221+00:00",
+  "reaction": "Ni-catalyzed homo-Diels-Alder (hDA), asymmetric variant",
+  "reaction_source": "Sigman Group, Ni-Catalyzed-hDA repository (https://github.com/SigmanGroup/Ni-Catalyzed-hDA); the univariate enantioselectivity model reproduced in StericX Study 001.",
+  "schema_version": 1,
+  "status": "predictions_frozen_measurements_pending",
+  "supersedes": "adds an uncertainty/applicability-domain/protocol layer over the frozen deck; the point predictions are unchanged and verified byte-for-byte against it",
+  "uncertainty_method": {
+    "formula": "yhat +/- t(0.975, n-2) * s * sqrt(1 + 1/n + (x0-xbar)^2/Sxx)",
+    "kind": "OLS 95% prediction interval",
+    "t_value": 2.306004135204166
+  }
+}

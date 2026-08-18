@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 import tempfile
 import time
 import unittest
@@ -9,6 +10,9 @@ from pathlib import Path
 from unittest.mock import patch
 
 import numpy as np
+
+# The quantum backend (stericx_quantum) lives under scripts/; add it to the path.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 from stericx_quantum import (
     ANGSTROM_TO_BOHR,

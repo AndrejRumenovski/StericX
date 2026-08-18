@@ -495,11 +495,12 @@ fn json_floats_survive_a_round_trip_bit_for_bit() {
     let parsed: ScientificFitReport = serde_json::from_str(&original).unwrap();
     let rewritten = serde_json::to_string_pretty(&parsed).unwrap();
 
-    assert_eq!(
-        original.trim_end(),
-        rewritten.trim_end(),
-        "re-serializing a checked-in model must reproduce it exactly"
-    );
+    // Every value the checked-in document carries must come back unchanged.
+    // The rewritten document may gain keys the struct has since grown, so this
+    // compares what the original states rather than requiring byte equality.
+    let before: serde_json::Value = serde_json::from_str(&original).unwrap();
+    let after: serde_json::Value = serde_json::from_str(&rewritten).unwrap();
+    assert_values_preserved(&before, &after, "$");
 
     for value in [
         0.9996584928554385_f64,
@@ -514,5 +515,29 @@ fn json_floats_survive_a_round_trip_bit_for_bit() {
             value.to_bits(),
             "{value} did not survive a JSON round trip"
         );
+    }
+}
+
+/// Asserts every value reachable in `before` is present and equal in `after`.
+///
+/// Keys that only `after` carries are ignored, so adding an optional field to
+/// the report does not fail the check, but changing a recorded number does.
+fn assert_values_preserved(before: &serde_json::Value, after: &serde_json::Value, path: &str) {
+    match (before, after) {
+        (serde_json::Value::Object(before), serde_json::Value::Object(after)) => {
+            for (key, value) in before {
+                let found = after
+                    .get(key)
+                    .unwrap_or_else(|| panic!("{path}.{key} disappeared on re-serialization"));
+                assert_values_preserved(value, found, &format!("{path}.{key}"));
+            }
+        }
+        (serde_json::Value::Array(before), serde_json::Value::Array(after)) => {
+            assert_eq!(before.len(), after.len(), "{path} changed length");
+            for (index, (before, after)) in before.iter().zip(after).enumerate() {
+                assert_values_preserved(before, after, &format!("{path}[{index}]"));
+            }
+        }
+        (before, after) => assert_eq!(before, after, "{path} changed"),
     }
 }

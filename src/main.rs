@@ -6,7 +6,10 @@ use std::fs;
 use std::mem::size_of;
 use std::path::{Component, Path, PathBuf};
 use std::time::{Duration, Instant};
-use steric_x::model::{MODEL_FEATURE_COUNT, is_supported_split};
+use steric_x::model::{
+    CreationMetadata, DatasetDigest, MODEL_FEATURE_COUNT, ModelProvenance, PortableModel,
+    ReactionProvenance, ResponseSpec, TrainingProvenance, is_supported_split,
+};
 use steric_x::{
     BuriedVolumeCalculator, BuriedVolumeConfig, EyringKineticLink, FitOptions, FrozenPrediction,
     Molecule, PackedBuriedVolumeRecord, PackedReactionRecord, PackedReactionRecordV2,
@@ -105,6 +108,27 @@ enum Command {
         /// Deterministic resampling seed.
         #[arg(long, default_value_t = 20_260_725)]
         seed: u64,
+        /// Optional destination for a schema-2 portable model document.
+        #[arg(long)]
+        portable_model: Option<PathBuf>,
+        /// Model identifier recorded in the portable document.
+        #[arg(long)]
+        model_id: Option<String>,
+        /// Reaction family this model applies to, recorded verbatim.
+        #[arg(long)]
+        reaction_family: Option<String>,
+        /// Catalyst metal this model applies to.
+        #[arg(long)]
+        catalyst_metal: Option<String>,
+        /// Ligand class this model applies to.
+        #[arg(long)]
+        ligand_class: Option<String>,
+        /// Provenance URL for the training data.
+        #[arg(long)]
+        source_url: Option<String>,
+        /// Temperature the response refers to, in kelvin.
+        #[arg(long)]
+        response_temp_k: Option<f32>,
     },
     /// Reveal and score previously frozen non-training predictions.
     Evaluate {
@@ -256,6 +280,13 @@ fn run() -> Result<(), Box<dyn Error>> {
             bootstrap,
             permutations,
             seed,
+            portable_model,
+            model_id,
+            reaction_family,
+            catalyst_metal,
+            ligand_class,
+            source_url,
+            response_temp_k,
         } => fit_command(
             &data,
             &metadata,
@@ -266,6 +297,18 @@ fn run() -> Result<(), Box<dyn Error>> {
                 bootstrap_samples: bootstrap,
                 permutation_samples: permutations,
                 seed,
+            },
+            PortableModelRequest {
+                path: portable_model,
+                model_id,
+                reaction: ReactionProvenance {
+                    reaction_family,
+                    catalyst_metal,
+                    ligand_class,
+                    source_url,
+                    notes: Vec::new(),
+                },
+                response_temp_k,
             },
         ),
         Command::Evaluate {
@@ -684,12 +727,24 @@ fn predict_command(data: &Path, weights_path: &Path) -> Result<(), Box<dyn Error
     Ok(())
 }
 
+/// Optional portable-model output requested on the command line.
+///
+/// Chemistry context arrives here exactly as the operator typed it. Anything
+/// left unset stays `None` in the document rather than being guessed.
+struct PortableModelRequest {
+    path: Option<PathBuf>,
+    model_id: Option<String>,
+    reaction: ReactionProvenance,
+    response_temp_k: Option<f32>,
+}
+
 fn fit_command(
     data: &Path,
     metadata_path: &Path,
     output: &Path,
     predictions_path: &Path,
     options: FitOptions,
+    portable: PortableModelRequest,
 ) -> Result<(), Box<dyn Error>> {
     let total_started = Instant::now();
     let rss_start = resident_memory_bytes();
@@ -707,6 +762,17 @@ fn fit_command(
 
     atomic_write_json(report, output)?;
     atomic_write_csv_rows(&trained.frozen_predictions, predictions_path)?;
+
+    let portable_output = match portable.path.as_deref() {
+        Some(path) => {
+            let document =
+                build_portable_model(report.clone(), data, metadata_path, options, &portable)?;
+            let text = document.to_json()?;
+            atomic_write_text(&text, path)?;
+            Some((path.to_owned(), document))
+        }
+        None => None,
+    };
 
     let total_time = total_started.elapsed();
     println!("command=fit");
@@ -745,6 +811,22 @@ fn fit_command(
     );
     println!("model_output={}", output.display());
     println!("frozen_predictions_output={}", predictions_path.display());
+    if let Some((path, document)) = &portable_output {
+        println!("portable_model_output={}", path.display());
+        println!(
+            "portable_model_schema_version={}",
+            document.schema_version()
+        );
+        let missing = document.missing_provenance();
+        println!(
+            "portable_model_missing_provenance={}",
+            if missing.is_empty() {
+                "none".to_owned()
+            } else {
+                missing.join(",")
+            }
+        );
+    }
     println!("fit_ms={:.3}", millis(fit_time));
     println!("total_ms={:.3}", millis(total_time));
     print_memory_metrics(rss_start, resident_memory_bytes());
@@ -1222,6 +1304,74 @@ fn load_reaction_metadata(path: &Path) -> Result<Vec<ReactionLabel>, Box<dyn Err
         return Err(format!("metadata CSV contains no rows: {}", path.display()).into());
     }
     Ok(rows)
+}
+
+/// Assembles a portable model from the fit plus command-line provenance.
+fn build_portable_model(
+    report: ScientificFitReport,
+    data: &Path,
+    metadata_path: &Path,
+    options: FitOptions,
+    request: &PortableModelRequest,
+) -> Result<PortableModel, Box<dyn Error>> {
+    let dataset_digests = vec![file_digest(data)?, file_digest(metadata_path)?];
+    let model_id = match request.model_id.as_deref() {
+        Some(id) if !id.trim().is_empty() => id.trim().to_owned(),
+        _ => derive_model_id(&report, &dataset_digests),
+    };
+    let provenance = ModelProvenance {
+        model_id,
+        stericx_version: env!("CARGO_PKG_VERSION").to_owned(),
+        record_format: "sigpack_v1".to_owned(),
+        training: TrainingProvenance {
+            record_count: report.training_count,
+            group_count: report.training_group_count,
+            dataset_digests,
+            fit_options: options,
+        },
+        reaction: request.reaction.clone(),
+    };
+    Ok(PortableModel::from_fit_report(
+        report,
+        ResponseSpec::transition_state_energy_difference(request.response_temp_k),
+        provenance,
+        CreationMetadata::now("stericx fit"),
+    )?)
+}
+
+/// Digests one training input.
+///
+/// FNV-1a is not a cryptographic hash. The algorithm is recorded alongside the
+/// value so a consumer can see exactly what the digest does and does not prove.
+fn file_digest(path: &Path) -> Result<DatasetDigest, Box<dyn Error>> {
+    let bytes = fs::read(path)?;
+    Ok(DatasetDigest {
+        artifact: path.file_name().map_or_else(
+            || path.display().to_string(),
+            |name| name.to_string_lossy().into_owned(),
+        ),
+        algorithm: "fnv1a64".to_owned(),
+        digest: format!("{:016x}", fnv1a64(&bytes)),
+        byte_count: bytes.len() as u64,
+    })
+}
+
+/// Derives a deterministic identifier from the model and its training inputs.
+fn derive_model_id(report: &ScientificFitReport, digests: &[DatasetDigest]) -> String {
+    let mut seed = format!("{}|{}", report.model, report.selected_features.join(","));
+    for digest in digests {
+        seed.push_str(&format!("|{}:{}", digest.artifact, digest.digest));
+    }
+    format!("stericx-{:016x}", fnv1a64(seed.as_bytes()))
+}
+
+/// Writes text through a temporary sibling and renames it into place.
+fn atomic_write_text(text: &str, path: &Path) -> Result<(), Box<dyn Error>> {
+    ensure_parent(path)?;
+    let temporary = temporary_sibling(path);
+    fs::write(&temporary, text)?;
+    fs::rename(&temporary, path)?;
+    Ok(())
 }
 
 fn temporary_sibling(path: &Path) -> PathBuf {

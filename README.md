@@ -175,6 +175,32 @@ in a separate command:
   --output docs/study_001/stericx_evaluation.json
 ```
 
+### Export a portable model
+
+`stericx fit` optionally writes a schema-2 portable model alongside its usual
+artifact. The portable document adds the response definition, the feature
+transformations, training-data digests, and creation metadata, so it can be
+scored on another machine without the training data or the fitting code:
+
+```bash
+./target/release/stericx fit \
+  --data data/reactions.sigpack \
+  --metadata data/reactions_raw.csv \
+  --output docs/study_001/stericx_model.json \
+  --predictions docs/study_001/stericx_frozen_predictions.csv \
+  --portable-model docs/study_001/stericx_portable_model.json \
+  --reaction-family "Ni-catalyzed homo-Diels-Alder" \
+  --catalyst-metal Ni \
+  --source-url "https://github.com/SigmanGroup/Ni-Catalyzed-hDA" \
+  --response-temp-k 298.15
+```
+
+Schema version 2 is a strict superset of the existing artifact, so `--output`
+stays byte-identical and every existing reader keeps working. Chemistry context
+that is not supplied is recorded as `null` and reported on stdout as
+`portable_model_missing_provenance` rather than being guessed. The complete
+specification is in [`docs/MODEL_FORMAT.md`](docs/MODEL_FORMAT.md).
+
 ### Simulate selectivity
 
 ```bash

@@ -18,6 +18,7 @@ pub mod dataset;
 pub mod evaluation;
 mod features;
 mod fit;
+pub mod portable;
 mod regress;
 pub mod training;
 
@@ -27,6 +28,11 @@ pub use features::{MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, expand_features};
 pub use fit::{
     BaselineReport, CoefficientInterval, FeatureDomain, FitOptions, ModelMetrics,
     ScientificFitReport, fit_scientific_model, fit_scientific_model_grouped,
+};
+pub use portable::{
+    CreationMetadata, DatasetDigest, FeatureSpaceSpec, FeatureTransform, InferenceSpec,
+    LEGACY_SCHEMA_VERSION, ModelFormatError, ModelProvenance, ModelTerm, PORTABLE_SCHEMA_VERSION,
+    PortableModel, ReactionProvenance, ResponseSpec, TrainingProvenance,
 };
 pub use regress::RegressXPredictor;
 pub use training::{FrozenPrediction, TrainedModel, applicability_status, train_scientific_model};

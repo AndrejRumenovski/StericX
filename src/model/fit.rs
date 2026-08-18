@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 const EPSILON: f64 = 1.0e-12;
 
 /// Controls deterministic physical-organic model development.
-#[derive(Clone, Copy, Debug, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct FitOptions {
     /// Maximum non-intercept terms. The fitter additionally enforces `p < n/3`.
     pub max_terms: usize,

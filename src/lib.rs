@@ -12,8 +12,9 @@ pub use geometry::{
 };
 pub use kinetics::{EyringKineticLink, ProductRatio};
 pub use model::{
-    FitOptions, RegressXPredictor, ScientificFitReport, fit_scientific_model,
-    fit_scientific_model_grouped,
+    EvaluationSummary, FitOptions, FrozenPrediction, ReactionLabel, RegressXPredictor,
+    ScientificFitReport, ScoredPrediction, TrainedModel, TrainingSplit, fit_scientific_model,
+    fit_scientific_model_grouped, score_frozen_predictions, train_scientific_model,
 };
 pub use storage::{
     PackedBuriedVolumeRecord, PackedReactionRecord, PackedReactionRecordV2, SigPackHeaderV2,

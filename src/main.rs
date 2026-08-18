@@ -6,12 +6,13 @@ use std::fs;
 use std::mem::size_of;
 use std::path::{Component, Path, PathBuf};
 use std::time::{Duration, Instant};
-use steric_x::model::{MODEL_FEATURE_COUNT, expand_features};
+use steric_x::model::{MODEL_FEATURE_COUNT, is_supported_split};
 use steric_x::{
-    BuriedVolumeCalculator, BuriedVolumeConfig, EyringKineticLink, FitOptions, Molecule,
-    PackedBuriedVolumeRecord, PackedReactionRecord, PackedReactionRecordV2, RegressXPredictor,
-    ScientificFitReport, SigPackReader, SigPackV2Writer, SigPackWriter, SterimolCalculator,
-    SterimolParams, fit_scientific_model_grouped,
+    BuriedVolumeCalculator, BuriedVolumeConfig, EyringKineticLink, FitOptions, FrozenPrediction,
+    Molecule, PackedBuriedVolumeRecord, PackedReactionRecord, PackedReactionRecordV2,
+    ReactionLabel, RegressXPredictor, ScientificFitReport, ScoredPrediction, SigPackReader,
+    SigPackV2Writer, SigPackWriter, SterimolCalculator, SterimolParams, score_frozen_predictions,
+    train_scientific_model,
 };
 
 #[derive(Debug, Parser)]
@@ -186,30 +187,6 @@ struct ReactionCsvRow {
     coordination_center_method: Option<String>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
-struct ReactionMetadataRow {
-    #[serde(rename = "Reaction_ID", alias = "reaction_id")]
-    reaction_id: String,
-    #[serde(rename = "Dataset_Split", alias = "dataset_split")]
-    dataset_split: String,
-    #[serde(rename = "Ligand_Group", alias = "ligand_group", default)]
-    ligand_group: String,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-struct FrozenPredictionRow {
-    #[serde(rename = "Reaction_ID")]
-    reaction_id: String,
-    #[serde(rename = "Ligand_Group")]
-    ligand_group: String,
-    #[serde(rename = "Dataset_Split")]
-    dataset_split: String,
-    #[serde(rename = "Predicted_ddG_kcal_mol")]
-    predicted_ddg: f32,
-    #[serde(rename = "Applicability_Domain")]
-    applicability_domain: String,
-}
-
 #[derive(Debug, Serialize)]
 struct EvaluationReport {
     schema_version: u32,
@@ -222,17 +199,6 @@ struct EvaluationReport {
     r2: Option<f64>,
     applicability_warnings: usize,
     scored_predictions: Vec<ScoredPrediction>,
-}
-
-#[derive(Debug, Serialize)]
-struct ScoredPrediction {
-    reaction_id: String,
-    ligand_group: String,
-    dataset_split: String,
-    predicted_ddg_kcal_mol: f32,
-    experimental_ddg_kcal_mol: f32,
-    residual_kcal_mol: f32,
-    applicability_domain: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -732,73 +698,25 @@ fn fit_command(
     if records.is_empty() {
         return Err("sigpack matrix contains no records".into());
     }
-    let metadata = load_reaction_metadata(metadata_path)?;
-    if metadata.len() != records.len() {
-        return Err(format!(
-            "metadata has {} rows but sigpack contains {} records",
-            metadata.len(),
-            records.len()
-        )
-        .into());
-    }
-    let training_indices = metadata
-        .iter()
-        .enumerate()
-        .filter(|(_, row)| row.dataset_split.eq_ignore_ascii_case("train"))
-        .map(|(index, _)| index)
-        .collect::<Vec<_>>();
-    let frozen_indices = metadata
-        .iter()
-        .enumerate()
-        .filter(|(_, row)| !row.dataset_split.eq_ignore_ascii_case("train"))
-        .map(|(index, _)| index)
-        .collect::<Vec<_>>();
-    if frozen_indices.is_empty() {
-        return Err("metadata contains no non-training rows to freeze".into());
-    }
-    let training_groups = training_indices
-        .iter()
-        .map(|&index| {
-            let group = metadata[index].ligand_group.trim();
-            if group.is_empty() {
-                metadata[index].reaction_id.clone()
-            } else {
-                group.to_owned()
-            }
-        })
-        .collect::<Vec<_>>();
+    let labels = load_reaction_metadata(metadata_path)?;
 
     let fit_started = Instant::now();
-    let report =
-        fit_scientific_model_grouped(records, &training_indices, &training_groups, options)?;
+    let trained = train_scientific_model(records, &labels, options)?;
     let fit_time = fit_started.elapsed();
-    atomic_write_json(&report, output)?;
+    let report = &trained.report;
 
-    let predictor = RegressXPredictor::new(report.weights);
-    let frozen_records = frozen_indices
-        .iter()
-        .map(|&index| records[index])
-        .collect::<Vec<_>>();
-    let predicted = predictor.predict_batch(&frozen_records);
-    let frozen_rows = frozen_indices
-        .iter()
-        .zip(predicted)
-        .map(|(&index, predicted_ddg)| FrozenPredictionRow {
-            reaction_id: metadata[index].reaction_id.clone(),
-            ligand_group: metadata[index].ligand_group.clone(),
-            dataset_split: metadata[index].dataset_split.clone(),
-            predicted_ddg,
-            applicability_domain: applicability_status(&records[index], &report),
-        })
-        .collect::<Vec<_>>();
-    atomic_write_csv_rows(&frozen_rows, predictions_path)?;
+    atomic_write_json(report, output)?;
+    atomic_write_csv_rows(&trained.frozen_predictions, predictions_path)?;
 
     let total_time = total_started.elapsed();
     println!("command=fit");
     println!("records_total={}", records.len());
-    println!("training_records={}", training_indices.len());
+    println!("training_records={}", report.training_count);
     println!("training_groups={}", report.training_group_count);
-    println!("frozen_prediction_records={}", frozen_rows.len());
+    println!(
+        "frozen_prediction_records={}",
+        trained.frozen_predictions.len()
+    );
     println!("selected_features={}", report.selected_features.join(","));
     println!(
         "training_r2={}",
@@ -844,15 +762,7 @@ fn evaluate_command(
     let rss_start = resident_memory_bytes();
     let reader = SigPackReader::open(data)?;
     let records = reader.records();
-    let metadata = load_reaction_metadata(metadata_path)?;
-    if metadata.len() != records.len() {
-        return Err(format!(
-            "metadata has {} rows but sigpack contains {} records",
-            metadata.len(),
-            records.len()
-        )
-        .into());
-    }
+    let labels = load_reaction_metadata(metadata_path)?;
     let model_contents = fs::read_to_string(model_path)?;
     let model: ScientificFitReport = serde_json::from_str(&model_contents)?;
     let frozen_bytes = fs::read(predictions_path)?;
@@ -860,91 +770,22 @@ fn evaluate_command(
         .trim(csv::Trim::All)
         .from_reader(frozen_bytes.as_slice());
     let frozen = frozen_reader
-        .deserialize::<FrozenPredictionRow>()
+        .deserialize::<FrozenPrediction>()
         .collect::<Result<Vec<_>, _>>()?;
-    if frozen.is_empty() {
-        return Err("frozen prediction file contains no rows".into());
-    }
 
-    let predictor = RegressXPredictor::new(model.weights);
-    let mut scored = Vec::with_capacity(frozen.len());
-    let mut actual = Vec::with_capacity(frozen.len());
-    let mut predicted = Vec::with_capacity(frozen.len());
-    for frozen_row in &frozen {
-        let index = metadata
-            .iter()
-            .position(|row| row.reaction_id == frozen_row.reaction_id)
-            .ok_or_else(|| {
-                format!(
-                    "frozen reaction {} is absent from metadata",
-                    frozen_row.reaction_id
-                )
-            })?;
-        if metadata[index].dataset_split.eq_ignore_ascii_case("train") {
-            return Err(format!(
-                "frozen reaction {} is marked as training data",
-                frozen_row.reaction_id
-            )
-            .into());
-        }
-        let recomputed = predictor.predict(&records[index]);
-        if (recomputed - frozen_row.predicted_ddg).abs() > 1.0e-4 {
-            return Err(format!(
-                "frozen prediction for {} does not match the supplied model",
-                frozen_row.reaction_id
-            )
-            .into());
-        }
-        let experimental = records[index].exp_ddg;
-        if !experimental.is_finite() {
-            return Err(format!(
-                "reaction {} has no finite revealed target",
-                frozen_row.reaction_id
-            )
-            .into());
-        }
-        actual.push(f64::from(experimental));
-        predicted.push(f64::from(frozen_row.predicted_ddg));
-        scored.push(ScoredPrediction {
-            reaction_id: frozen_row.reaction_id.clone(),
-            ligand_group: frozen_row.ligand_group.clone(),
-            dataset_split: frozen_row.dataset_split.clone(),
-            predicted_ddg_kcal_mol: frozen_row.predicted_ddg,
-            experimental_ddg_kcal_mol: experimental,
-            residual_kcal_mol: frozen_row.predicted_ddg - experimental,
-            applicability_domain: frozen_row.applicability_domain.clone(),
-        });
-    }
+    let summary = score_frozen_predictions(records, &labels, &model, &frozen)?;
 
-    let residual_sum = actual
-        .iter()
-        .zip(&predicted)
-        .map(|(actual, predicted)| (actual - predicted).powi(2))
-        .sum::<f64>();
-    let mean = actual.iter().sum::<f64>() / actual.len() as f64;
-    let total_sum = actual
-        .iter()
-        .map(|actual| (actual - mean).powi(2))
-        .sum::<f64>();
     let evaluation = EvaluationReport {
         schema_version: 1,
         model_path: model_path.display().to_string(),
         frozen_predictions_path: predictions_path.display().to_string(),
         frozen_predictions_fnv1a64: format!("{:016x}", fnv1a64(&frozen_bytes)),
-        evaluated_records: actual.len(),
-        mae_kcal_mol: actual
-            .iter()
-            .zip(&predicted)
-            .map(|(actual, predicted)| (actual - predicted).abs())
-            .sum::<f64>()
-            / actual.len() as f64,
-        rmse_kcal_mol: (residual_sum / actual.len() as f64).sqrt(),
-        r2: (total_sum > f64::EPSILON).then_some(1.0 - residual_sum / total_sum),
-        applicability_warnings: frozen
-            .iter()
-            .filter(|row| row.applicability_domain != "inside_training_range")
-            .count(),
-        scored_predictions: scored,
+        evaluated_records: summary.evaluated_records,
+        mae_kcal_mol: summary.mae_kcal_mol,
+        rmse_kcal_mol: summary.rmse_kcal_mol,
+        r2: summary.r2,
+        applicability_warnings: summary.applicability_warnings,
+        scored_predictions: summary.scored_predictions,
     };
     atomic_write_json(&evaluation, output)?;
 
@@ -1343,12 +1184,13 @@ fn load_weights_json(path: &Path) -> Result<[f32; MODEL_FEATURE_COUNT], Box<dyn 
     Ok(weights)
 }
 
-fn load_reaction_metadata(path: &Path) -> Result<Vec<ReactionMetadataRow>, Box<dyn Error>> {
+/// Reads row-aligned split metadata, validating identifiers and split values.
+fn load_reaction_metadata(path: &Path) -> Result<Vec<ReactionLabel>, Box<dyn Error>> {
     let mut reader = csv::ReaderBuilder::new()
         .trim(csv::Trim::All)
         .from_path(path)?;
     let rows = reader
-        .deserialize::<ReactionMetadataRow>()
+        .deserialize::<ReactionLabel>()
         .enumerate()
         .map(|(index, row)| {
             let row = row.map_err(|error| {
@@ -1365,10 +1207,7 @@ fn load_reaction_metadata(path: &Path) -> Result<Vec<ReactionMetadataRow>, Box<d
                     index + 2
                 ));
             }
-            if !matches!(
-                row.dataset_split.to_ascii_lowercase().as_str(),
-                "train" | "external" | "blind" | "test"
-            ) {
+            if !is_supported_split(&row.dataset_split) {
                 return Err(format!(
                     "{} row {} has unsupported Dataset_Split `{}`",
                     path.display(),
@@ -1383,25 +1222,6 @@ fn load_reaction_metadata(path: &Path) -> Result<Vec<ReactionMetadataRow>, Box<d
         return Err(format!("metadata CSV contains no rows: {}", path.display()).into());
     }
     Ok(rows)
-}
-
-fn applicability_status(record: &PackedReactionRecord, report: &ScientificFitReport) -> String {
-    let features = expand_features(record);
-    let outside = report
-        .selected_feature_indices
-        .iter()
-        .zip(&report.applicability_domain)
-        .filter(|(column, domain)| {
-            let value = f64::from(features[**column]);
-            value < domain.minimum || value > domain.maximum
-        })
-        .map(|(_, domain)| domain.feature.as_str())
-        .collect::<Vec<_>>();
-    if outside.is_empty() {
-        "inside_training_range".into()
-    } else {
-        format!("outside:{}", outside.join("|"))
-    }
 }
 
 fn temporary_sibling(path: &Path) -> PathBuf {

@@ -427,6 +427,24 @@ readers keep working. Chemistry context that is not supplied is recorded as `nul
 reported as `portable_model_missing_provenance` rather than guessed. Spec:
 [`docs/MODEL_FORMAT.md`](docs/MODEL_FORMAT.md).
 
+### `model` — inspect and validate a saved model
+
+```bash
+./target/release/stericx model inspect docs/study_001/stericx_portable_model.json
+./target/release/stericx model validate docs/study_001/stericx_portable_model.json
+```
+
+`inspect` prints a scientific summary: schema version, model and reaction name, target with
+units and sign convention, training observations, selected descriptors with coefficients and
+scaling, LOO Q² and RMSE, training descriptor ranges, dataset digests, and the StericX
+version that wrote it. Anything the document does not record prints as `not_recorded`.
+
+`validate` lists every problem at once — unsupported schema versions, missing descriptors,
+dimension mismatches, non-finite or non-numeric values, zero or negative scaling, missing
+provenance, malformed hashes, and metadata that disagrees with the fit — each with its
+field path and a stable issue code. It exits non-zero when any error is found; `--strict`
+also fails on warnings. Both accept `--format json`.
+
 ### `simulate` — selectivity from kinetics
 
 ```bash

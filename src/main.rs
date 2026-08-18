@@ -98,6 +98,16 @@ fn run() -> Result<(), Box<dyn Error>> {
             predictions,
             output,
         } => commands::evaluate::evaluate_command(&data, &metadata, &model, &predictions, &output),
+        Command::Model { action } => match action {
+            cli::ModelCommand::Inspect { model, format } => {
+                commands::model::inspect_command(&model, format)
+            }
+            cli::ModelCommand::Validate {
+                model,
+                format,
+                strict,
+            } => commands::model::validate_command(&model, format, strict),
+        },
         Command::Simulate { ddg, temp } => commands::simulate::simulate_command(ddg, temp),
         Command::Descriptors {
             inputs,

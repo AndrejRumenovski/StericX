@@ -305,6 +305,89 @@ impl CreationMetadata {
     }
 }
 
+/// Whether a finding blocks use of the model or merely limits it.
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum Severity {
+    /// The model cannot be trusted for inference.
+    Error,
+    /// The model is usable but records less than it should.
+    Warning,
+}
+
+/// One problem found in a model document.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct ModelIssue {
+    pub severity: Severity,
+    /// Stable machine-readable slug, e.g. `invalid_scale`.
+    pub code: String,
+    /// Dotted path to the offending field, e.g. `inference.terms[0]`.
+    pub location: String,
+    /// What is wrong, in terms a reader can act on.
+    pub message: String,
+}
+
+impl ModelIssue {
+    fn error(code: &str, location: impl Into<String>, message: String) -> Self {
+        Self {
+            severity: Severity::Error,
+            code: code.to_owned(),
+            location: location.into(),
+            message,
+        }
+    }
+
+    fn warning(code: &str, location: impl Into<String>, message: String) -> Self {
+        Self {
+            severity: Severity::Warning,
+            code: code.to_owned(),
+            location: location.into(),
+            message,
+        }
+    }
+}
+
+/// One selected descriptor as reported by [`PortableModel::summary`].
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct DescriptorSummary {
+    pub name: String,
+    pub coefficient: f64,
+    pub training_mean: f64,
+    pub training_standard_deviation: f64,
+    pub training_minimum: f64,
+    pub training_maximum: f64,
+}
+
+/// A concise scientific description of a saved model.
+///
+/// Fields the document does not record are `None` or empty rather than filled
+/// with a plausible value; a legacy model reports most of the provenance as
+/// absent.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct ModelSummary {
+    pub schema_version: u32,
+    pub portable: bool,
+    pub model: String,
+    pub reaction_family: Option<String>,
+    pub target: Option<ResponseSpec>,
+    pub training_observations: usize,
+    pub training_groups: usize,
+    pub intercept: f64,
+    pub descriptors: Vec<DescriptorSummary>,
+    pub training_r2: Option<f64>,
+    pub training_rmse: f64,
+    /// Leave-one-out Q², the cross-validated coefficient of determination.
+    pub loo_q2: Option<f64>,
+    pub loo_rmse: f64,
+    pub group_loo_q2: Option<f64>,
+    pub group_loo_rmse: f64,
+    pub dataset_digests: Vec<DatasetDigest>,
+    pub model_id: Option<String>,
+    pub stericx_version: Option<String>,
+    pub created_utc: Option<String>,
+    pub missing_provenance: Vec<String>,
+}
+
 /// A fitted model plus the metadata that makes it portable.
 ///
 /// Serializes as a strict superset of the `schema_version: 1` artifact: the fit
@@ -495,8 +578,73 @@ impl PortableModel {
         .collect()
     }
 
+    /// Builds a concise scientific description of the model.
+    ///
+    /// Everything comes from the document. Values a legacy model cannot state —
+    /// its response, training data, and origin — are reported as absent.
+    #[must_use]
+    pub fn summary(&self) -> ModelSummary {
+        let fit = &self.fit;
+        let inference = self.inference.as_ref();
+        let provenance = self.provenance.as_ref();
+        let descriptors = fit
+            .selected_feature_indices
+            .iter()
+            .enumerate()
+            .filter(|(_, column)| **column < MODEL_FEATURE_COUNT)
+            .map(|(position, &column)| {
+                let domain = fit.applicability_domain.get(position);
+                DescriptorSummary {
+                    name: MODEL_FEATURE_NAMES[column].to_owned(),
+                    coefficient: f64::from(fit.weights[column]),
+                    training_mean: fit.standardized_means[column],
+                    training_standard_deviation: fit.standardized_scales[column],
+                    training_minimum: domain.map_or(f64::NAN, |domain| domain.minimum),
+                    training_maximum: domain.map_or(f64::NAN, |domain| domain.maximum),
+                }
+            })
+            .collect();
+        ModelSummary {
+            schema_version: fit.schema_version,
+            portable: self.is_portable(),
+            model: fit.model.clone(),
+            reaction_family: provenance
+                .and_then(|provenance| provenance.reaction.reaction_family.clone()),
+            target: inference.map(|inference| inference.response.clone()),
+            training_observations: fit.training_count,
+            training_groups: fit.training_group_count,
+            intercept: f64::from(fit.weights[0]),
+            descriptors,
+            training_r2: fit.training.r2,
+            training_rmse: fit.training.rmse,
+            loo_q2: fit.fixed_feature_loo.r2,
+            loo_rmse: fit.fixed_feature_loo.rmse,
+            group_loo_q2: fit.fixed_feature_group_loo.r2,
+            group_loo_rmse: fit.fixed_feature_group_loo.rmse,
+            dataset_digests: provenance
+                .map(|provenance| provenance.training.dataset_digests.clone())
+                .unwrap_or_default(),
+            model_id: provenance.map(|provenance| provenance.model_id.clone()),
+            stericx_version: provenance.map(|provenance| provenance.stericx_version.clone()),
+            created_utc: self
+                .created
+                .as_ref()
+                .map(|created| created.created_utc.clone()),
+            missing_provenance: self
+                .missing_provenance()
+                .into_iter()
+                .map(str::to_owned)
+                .collect(),
+        }
+    }
+
     /// Checks schema support, structural consistency, and numeric sanity.
+    ///
+    /// Returns the first error, preserving the typed variants callers match on.
+    /// [`PortableModel::issues`] reports every problem at once instead.
     pub fn validate(&self) -> Result<(), ModelFormatError> {
+        // Structural failures keep their typed variants so callers can branch
+        // on them; everything else is reported through the shared collector.
         let version = self.schema_version();
         if version > PORTABLE_SCHEMA_VERSION {
             return Err(ModelFormatError::UnsupportedSchemaVersion {
@@ -504,256 +652,675 @@ impl PortableModel {
                 maximum: PORTABLE_SCHEMA_VERSION,
             });
         }
-        if version < LEGACY_SCHEMA_VERSION {
-            return Err(ModelFormatError::Malformed(format!(
-                "schema version {version} is below the minimum supported version \
-                 {LEGACY_SCHEMA_VERSION}"
-            )));
-        }
-        self.validate_fit()?;
         if version >= PORTABLE_SCHEMA_VERSION {
-            self.validate_portable_sections()?;
+            for (section, present) in [
+                ("inference", self.inference.is_some()),
+                ("provenance", self.provenance.is_some()),
+                ("created", self.created.is_some()),
+            ] {
+                if !present {
+                    return Err(ModelFormatError::MissingSection { section });
+                }
+            }
         }
-        Ok(())
+        match self
+            .issues()
+            .into_iter()
+            .find(|issue| issue.severity == Severity::Error)
+        {
+            Some(issue) => Err(ModelFormatError::Malformed(issue.message)),
+            None => Ok(()),
+        }
     }
 
-    fn validate_fit(&self) -> Result<(), ModelFormatError> {
+    /// Reports every problem with the document, most structural first.
+    ///
+    /// Unlike [`PortableModel::validate`] this does not stop at the first
+    /// failure, so `stericx model validate` can show a complete list.
+    #[must_use]
+    pub fn issues(&self) -> Vec<ModelIssue> {
+        let mut issues = Vec::new();
+        let version = self.schema_version();
+        if version > PORTABLE_SCHEMA_VERSION {
+            issues.push(ModelIssue::error(
+                "unsupported_schema_version",
+                "schema_version",
+                format!(
+                    "model schema version {version} is newer than the supported maximum \
+                     {PORTABLE_SCHEMA_VERSION}"
+                ),
+            ));
+            // Nothing below can be trusted against an unknown schema.
+            return issues;
+        }
+        if version < LEGACY_SCHEMA_VERSION {
+            issues.push(ModelIssue::error(
+                "schema_version_too_old",
+                "schema_version",
+                format!(
+                    "schema version {version} is below the minimum supported version \
+                     {LEGACY_SCHEMA_VERSION}"
+                ),
+            ));
+        }
+        self.collect_fit_issues(&mut issues);
+        if version >= PORTABLE_SCHEMA_VERSION {
+            self.collect_section_issues(&mut issues);
+        } else {
+            issues.push(ModelIssue::warning(
+                "legacy_schema",
+                "schema_version",
+                format!(
+                    "schema version {version} predates the portable format: this model cannot \
+                     state its response, training data, or origin"
+                ),
+            ));
+        }
+        issues
+    }
+
+    /// Checks the fields every schema version carries.
+    fn collect_fit_issues(&self, issues: &mut Vec<ModelIssue>) {
         let fit = &self.fit;
         if fit.feature_names.len() != MODEL_FEATURE_COUNT {
-            return Err(ModelFormatError::Malformed(format!(
-                "expected {MODEL_FEATURE_COUNT} feature names, found {}",
-                fit.feature_names.len()
-            )));
+            issues.push(ModelIssue::error(
+                "feature_name_count",
+                "feature_names",
+                format!(
+                    "expected {MODEL_FEATURE_COUNT} feature names, found {}",
+                    fit.feature_names.len()
+                ),
+            ));
         }
         if fit.selected_feature_indices.is_empty() {
-            return Err(ModelFormatError::Malformed(
-                "model selects no descriptors".into(),
+            issues.push(ModelIssue::error(
+                "no_descriptors",
+                "selected_feature_indices",
+                "model selects no descriptors".to_owned(),
             ));
         }
-        if fit.selected_feature_indices.len() != fit.selected_features.len() {
-            return Err(ModelFormatError::Malformed(
-                "selected_feature_indices and selected_features have different lengths".into(),
+        let selection_aligned = fit.selected_feature_indices.len() == fit.selected_features.len();
+        if !selection_aligned {
+            issues.push(ModelIssue::error(
+                "selection_length_mismatch",
+                "selected_features",
+                "selected_feature_indices and selected_features have different lengths".to_owned(),
             ));
         }
-        if fit.applicability_domain.len() != fit.selected_feature_indices.len() {
-            return Err(ModelFormatError::Malformed(
-                "applicability_domain does not cover every selected descriptor".into(),
+        let domain_aligned = fit.applicability_domain.len() == fit.selected_feature_indices.len();
+        if !domain_aligned {
+            issues.push(ModelIssue::error(
+                "domain_length_mismatch",
+                "applicability_domain",
+                "applicability_domain does not cover every selected descriptor".to_owned(),
             ));
         }
         if let Some(weight) = fit.weights.iter().find(|weight| !weight.is_finite()) {
-            return Err(ModelFormatError::Malformed(format!(
-                "model weight {weight} is not finite"
-            )));
+            issues.push(ModelIssue::error(
+                "non_finite_weight",
+                "weights",
+                format!("model weight {weight} is not finite"),
+            ));
         }
 
-        let mut seen = Vec::with_capacity(fit.selected_feature_indices.len());
+        let mut seen: Vec<usize> = Vec::with_capacity(fit.selected_feature_indices.len());
         for (position, &column) in fit.selected_feature_indices.iter().enumerate() {
             if column == 0 || column >= MODEL_FEATURE_COUNT {
-                return Err(ModelFormatError::Malformed(format!(
-                    "selected feature index {column} is not a valid descriptor column"
-                )));
+                issues.push(ModelIssue::error(
+                    "invalid_feature_index",
+                    format!("selected_feature_indices[{position}]"),
+                    format!("selected feature index {column} is not a valid descriptor column"),
+                ));
+                // Every check below would index past the feature vector.
+                continue;
             }
             if seen.contains(&column) {
-                return Err(ModelFormatError::Malformed(format!(
-                    "selected feature index {column} appears more than once"
-                )));
+                issues.push(ModelIssue::error(
+                    "duplicate_feature_index",
+                    format!("selected_feature_indices[{position}]"),
+                    format!("selected feature index {column} appears more than once"),
+                ));
             }
             seen.push(column);
-            if fit.selected_features[position] != MODEL_FEATURE_NAMES[column] {
-                return Err(ModelFormatError::Malformed(format!(
-                    "selected feature {} does not match column {column} ({})",
-                    fit.selected_features[position], MODEL_FEATURE_NAMES[column]
-                )));
+            if selection_aligned && fit.selected_features[position] != MODEL_FEATURE_NAMES[column] {
+                issues.push(ModelIssue::error(
+                    "descriptor_name_mismatch",
+                    format!("selected_features[{position}]"),
+                    format!(
+                        "selected feature {} does not match column {column} ({})",
+                        fit.selected_features[position], MODEL_FEATURE_NAMES[column]
+                    ),
+                ));
             }
             let scale = fit.standardized_scales[column];
             if !scale.is_finite() || scale <= 0.0 {
-                return Err(ModelFormatError::Malformed(format!(
-                    "standardized scale {scale} for {} is not a positive finite number",
-                    MODEL_FEATURE_NAMES[column]
-                )));
+                issues.push(ModelIssue::error(
+                    "invalid_scale",
+                    format!("standardized_scales[{column}]"),
+                    format!(
+                        "standardized scale {scale} for {} is not a positive finite number",
+                        MODEL_FEATURE_NAMES[column]
+                    ),
+                ));
             }
             if !fit.standardized_means[column].is_finite() {
-                return Err(ModelFormatError::Malformed(format!(
-                    "standardized mean for {} is not finite",
-                    MODEL_FEATURE_NAMES[column]
-                )));
+                issues.push(ModelIssue::error(
+                    "non_finite_mean",
+                    format!("standardized_means[{column}]"),
+                    format!(
+                        "standardized mean for {} is not finite",
+                        MODEL_FEATURE_NAMES[column]
+                    ),
+                ));
+            }
+            if !domain_aligned {
+                continue;
             }
             let domain = &fit.applicability_domain[position];
             if !domain.minimum.is_finite() || !domain.maximum.is_finite() {
-                return Err(ModelFormatError::Malformed(format!(
-                    "applicability range for {} is not finite",
-                    domain.feature
-                )));
-            }
-            if domain.minimum > domain.maximum {
-                return Err(ModelFormatError::Malformed(format!(
-                    "applicability range for {} is inverted: [{}, {}]",
-                    domain.feature, domain.minimum, domain.maximum
-                )));
+                issues.push(ModelIssue::error(
+                    "non_finite_range",
+                    format!("applicability_domain[{position}]"),
+                    format!("applicability range for {} is not finite", domain.feature),
+                ));
+            } else if domain.minimum > domain.maximum {
+                issues.push(ModelIssue::error(
+                    "inverted_range",
+                    format!("applicability_domain[{position}]"),
+                    format!(
+                        "applicability range for {} is inverted: [{}, {}]",
+                        domain.feature, domain.minimum, domain.maximum
+                    ),
+                ));
             }
         }
         if fit.training_count == 0 {
-            return Err(ModelFormatError::Malformed("training_count is zero".into()));
+            issues.push(ModelIssue::error(
+                "empty_training_set",
+                "training_count",
+                "training_count is zero".to_owned(),
+            ));
         }
-        Ok(())
     }
 
-    fn validate_portable_sections(&self) -> Result<(), ModelFormatError> {
-        let inference = self.inference()?;
-        let provenance = self.provenance()?;
-        if self.created.is_none() {
-            return Err(ModelFormatError::MissingSection { section: "created" });
+    /// Checks the sections a schema version 2 document must carry.
+    fn collect_section_issues(&self, issues: &mut Vec<ModelIssue>) {
+        for (section, present) in [
+            ("inference", self.inference.is_some()),
+            ("provenance", self.provenance.is_some()),
+            ("created", self.created.is_some()),
+        ] {
+            if !present {
+                issues.push(ModelIssue::error(
+                    "missing_section",
+                    section,
+                    format!("portable model is missing the required `{section}` section"),
+                ));
+            }
         }
-        let created = self.created.as_ref().expect("checked above");
+        let (Some(inference), Some(provenance), Some(created)) = (
+            self.inference.as_ref(),
+            self.provenance.as_ref(),
+            self.created.as_ref(),
+        ) else {
+            return;
+        };
+
         if created.created_utc.trim().is_empty() {
-            return Err(ModelFormatError::Malformed(
-                "created.created_utc is empty".into(),
+            issues.push(ModelIssue::error(
+                "empty_field",
+                "created.created_utc",
+                "created.created_utc is empty".to_owned(),
             ));
         }
         if provenance.model_id.trim().is_empty() {
-            return Err(ModelFormatError::Malformed(
-                "provenance.model_id is empty".into(),
+            issues.push(ModelIssue::error(
+                "empty_field",
+                "provenance.model_id",
+                "provenance.model_id is empty".to_owned(),
             ));
         }
         if provenance.stericx_version.trim().is_empty() {
-            return Err(ModelFormatError::Malformed(
-                "provenance.stericx_version is empty".into(),
+            issues.push(ModelIssue::error(
+                "empty_field",
+                "provenance.stericx_version",
+                "provenance.stericx_version is empty".to_owned(),
             ));
         }
 
         let feature_space = &inference.feature_space;
         if feature_space.feature_names != self.fit.feature_names {
-            return Err(ModelFormatError::Malformed(
-                "inference.feature_space.feature_names disagrees with feature_names".into(),
+            issues.push(ModelIssue::error(
+                "feature_space_mismatch",
+                "inference.feature_space.feature_names",
+                "inference.feature_space.feature_names disagrees with feature_names".to_owned(),
             ));
         }
         if feature_space.transformations.len() != MODEL_FEATURE_COUNT {
-            return Err(ModelFormatError::Malformed(format!(
-                "expected {MODEL_FEATURE_COUNT} feature transformations, found {}",
-                feature_space.transformations.len()
-            )));
-        }
-        if !matches!(feature_space.transformations[0], FeatureTransform::Constant) {
-            return Err(ModelFormatError::Malformed(
-                "feature column 0 must be the constant intercept column".into(),
+            issues.push(ModelIssue::error(
+                "transformation_count",
+                "inference.feature_space.transformations",
+                format!(
+                    "expected {MODEL_FEATURE_COUNT} feature transformations, found {}",
+                    feature_space.transformations.len()
+                ),
+            ));
+        } else if !matches!(feature_space.transformations[0], FeatureTransform::Constant) {
+            issues.push(ModelIssue::error(
+                "missing_intercept_column",
+                "inference.feature_space.transformations[0]",
+                "feature column 0 must be the constant intercept column".to_owned(),
             ));
         }
 
-        cross_check(
+        push_cross_check(
+            issues,
+            "inference.intercept",
             inference.intercept,
             f64::from(self.fit.weights[0]),
             "inference.intercept",
-        )?;
+        );
         if inference.terms.len() != self.fit.selected_feature_indices.len() {
-            return Err(ModelFormatError::Malformed(
-                "inference.terms does not cover every selected descriptor".into(),
+            issues.push(ModelIssue::error(
+                "term_count_mismatch",
+                "inference.terms",
+                "inference.terms does not cover every selected descriptor".to_owned(),
             ));
         }
         for (position, term) in inference.terms.iter().enumerate() {
-            let column = self.fit.selected_feature_indices[position];
+            let Some(&column) = self.fit.selected_feature_indices.get(position) else {
+                break;
+            };
+            let location = format!("inference.terms[{position}]");
             if term.feature_index != column {
-                return Err(ModelFormatError::Malformed(format!(
-                    "inference term {position} refers to column {} but the model selected {column}",
-                    term.feature_index
-                )));
+                issues.push(ModelIssue::error(
+                    "term_index_mismatch",
+                    &location,
+                    format!(
+                        "inference term {position} refers to column {} but the model selected \
+                         {column}",
+                        term.feature_index
+                    ),
+                ));
+            }
+            if column >= MODEL_FEATURE_COUNT {
+                continue;
             }
             if term.feature_name != MODEL_FEATURE_NAMES[column] {
-                return Err(ModelFormatError::Malformed(format!(
-                    "inference term {position} is named {} but column {column} is {}",
-                    term.feature_name, MODEL_FEATURE_NAMES[column]
-                )));
+                issues.push(ModelIssue::error(
+                    "term_name_mismatch",
+                    &location,
+                    format!(
+                        "inference term {position} is named {} but column {column} is {}",
+                        term.feature_name, MODEL_FEATURE_NAMES[column]
+                    ),
+                ));
             }
             if !term.coefficient.is_finite() {
-                return Err(ModelFormatError::Malformed(format!(
-                    "coefficient for {} is not finite",
-                    term.feature_name
-                )));
+                issues.push(ModelIssue::error(
+                    "non_finite_coefficient",
+                    &location,
+                    format!("coefficient for {} is not finite", term.feature_name),
+                ));
             }
             if !term.training_standard_deviation.is_finite()
                 || term.training_standard_deviation <= 0.0
             {
-                return Err(ModelFormatError::Malformed(format!(
-                    "training standard deviation for {} is not a positive finite number",
-                    term.feature_name
-                )));
+                issues.push(ModelIssue::error(
+                    "invalid_scale",
+                    &location,
+                    format!(
+                        "training standard deviation for {} is not a positive finite number",
+                        term.feature_name
+                    ),
+                ));
             }
             if term.training_minimum > term.training_maximum {
-                return Err(ModelFormatError::Malformed(format!(
-                    "training range for {} is inverted",
-                    term.feature_name
-                )));
+                issues.push(ModelIssue::error(
+                    "inverted_range",
+                    &location,
+                    format!("training range for {} is inverted", term.feature_name),
+                ));
             }
-            cross_check(
+            push_cross_check(
+                issues,
+                &location,
                 term.coefficient,
                 f64::from(self.fit.weights[column]),
                 &format!("coefficient for {}", term.feature_name),
-            )?;
-            cross_check(
+            );
+            push_cross_check(
+                issues,
+                &location,
                 term.training_mean,
                 self.fit.standardized_means[column],
                 &format!("training mean for {}", term.feature_name),
-            )?;
-            cross_check(
+            );
+            push_cross_check(
+                issues,
+                &location,
                 term.training_standard_deviation,
                 self.fit.standardized_scales[column],
                 &format!("training standard deviation for {}", term.feature_name),
-            )?;
-            let domain = &self.fit.applicability_domain[position];
-            cross_check(
+            );
+            let Some(domain) = self.fit.applicability_domain.get(position) else {
+                continue;
+            };
+            push_cross_check(
+                issues,
+                &location,
                 term.training_minimum,
                 domain.minimum,
                 &format!("training minimum for {}", term.feature_name),
-            )?;
-            cross_check(
+            );
+            push_cross_check(
+                issues,
+                &location,
                 term.training_maximum,
                 domain.maximum,
                 &format!("training maximum for {}", term.feature_name),
-            )?;
+            );
         }
 
         if inference.response.name.trim().is_empty() || inference.response.units.trim().is_empty() {
-            return Err(ModelFormatError::Malformed(
-                "inference.response must name the predicted quantity and its units".into(),
+            issues.push(ModelIssue::error(
+                "incomplete_response",
+                "inference.response",
+                "inference.response must name the predicted quantity and its units".to_owned(),
             ));
         }
 
         let training = &provenance.training;
         if training.record_count != self.fit.training_count {
-            return Err(ModelFormatError::Malformed(format!(
-                "provenance records {} training rows but the fit reports {}",
-                training.record_count, self.fit.training_count
-            )));
-        }
-        if training.group_count != self.fit.training_group_count {
-            return Err(ModelFormatError::Malformed(format!(
-                "provenance records {} training groups but the fit reports {}",
-                training.group_count, self.fit.training_group_count
-            )));
-        }
-        if training.dataset_digests.is_empty() {
-            return Err(ModelFormatError::Malformed(
-                "provenance.training.dataset_digests is empty; a portable model must identify \
-                 its training data"
-                    .into(),
+            issues.push(ModelIssue::error(
+                "training_count_mismatch",
+                "provenance.training.record_count",
+                format!(
+                    "provenance records {} training rows but the fit reports {}",
+                    training.record_count, self.fit.training_count
+                ),
             ));
         }
-        for digest in &training.dataset_digests {
+        if training.group_count != self.fit.training_group_count {
+            issues.push(ModelIssue::error(
+                "training_group_mismatch",
+                "provenance.training.group_count",
+                format!(
+                    "provenance records {} training groups but the fit reports {}",
+                    training.group_count, self.fit.training_group_count
+                ),
+            ));
+        }
+        if training.dataset_digests.is_empty() {
+            issues.push(ModelIssue::error(
+                "missing_dataset_digest",
+                "provenance.training.dataset_digests",
+                "provenance.training.dataset_digests is empty; a portable model must identify \
+                 its training data"
+                    .to_owned(),
+            ));
+        }
+        for (position, digest) in training.dataset_digests.iter().enumerate() {
+            let location = format!("provenance.training.dataset_digests[{position}]");
             if digest.artifact.trim().is_empty()
                 || digest.algorithm.trim().is_empty()
                 || digest.digest.trim().is_empty()
             {
-                return Err(ModelFormatError::Malformed(
-                    "every dataset digest needs an artifact, algorithm, and digest".into(),
+                issues.push(ModelIssue::error(
+                    "incomplete_digest",
+                    &location,
+                    "every dataset digest needs an artifact, algorithm, and digest".to_owned(),
                 ));
+                continue;
             }
             if !digest.digest.chars().all(|c| c.is_ascii_hexdigit()) {
-                return Err(ModelFormatError::Malformed(format!(
-                    "dataset digest for {} is not hexadecimal",
-                    digest.artifact
-                )));
+                issues.push(ModelIssue::error(
+                    "malformed_digest",
+                    &location,
+                    format!("dataset digest for {} is not hexadecimal", digest.artifact),
+                ));
             }
         }
-        Ok(())
+
+        for missing in self.missing_provenance() {
+            issues.push(ModelIssue::warning(
+                "unrecorded_context",
+                format!("provenance.reaction.{missing}"),
+                format!("{missing} is not recorded; the model does not state it"),
+            ));
+        }
+    }
+}
+
+/// Outcome of inspecting a model document that may not even parse.
+#[derive(Debug)]
+pub struct Diagnosis {
+    /// The parsed model, absent when the document could not be read at all.
+    pub model: Option<PortableModel>,
+    /// Every problem found, most structural first.
+    pub issues: Vec<ModelIssue>,
+}
+
+impl Diagnosis {
+    /// Returns whether any finding blocks use of the model.
+    #[must_use]
+    pub fn has_errors(&self) -> bool {
+        self.issues
+            .iter()
+            .any(|issue| issue.severity == Severity::Error)
+    }
+
+    /// Counts findings at one severity.
+    #[must_use]
+    pub fn count(&self, severity: Severity) -> usize {
+        self.issues
+            .iter()
+            .filter(|issue| issue.severity == severity)
+            .count()
+    }
+}
+
+/// Diagnoses a model document, reporting specifics rather than a parse error.
+///
+/// The document is read in stages — JSON syntax, then `schema_version`, then
+/// the typed fields, then the semantic checks — so a reader is told which field
+/// is wrong instead of being handed a decoder message about the whole file.
+#[must_use]
+pub fn diagnose(text: &str) -> Diagnosis {
+    let value: serde_json::Value = match serde_json::from_str(text) {
+        Ok(value) => value,
+        Err(error) => {
+            return Diagnosis {
+                model: None,
+                issues: vec![ModelIssue::error(
+                    "invalid_json",
+                    format!("line {} column {}", error.line(), error.column()),
+                    format!("document is not valid JSON: {error}"),
+                )],
+            };
+        }
+    };
+    let Some(object) = value.as_object() else {
+        return Diagnosis {
+            model: None,
+            issues: vec![ModelIssue::error(
+                "not_an_object",
+                "$",
+                "a model document must be a JSON object".to_owned(),
+            )],
+        };
+    };
+    match object.get("schema_version") {
+        None => {
+            return Diagnosis {
+                model: None,
+                issues: vec![ModelIssue::error(
+                    "missing_schema_version",
+                    "schema_version",
+                    "document has no `schema_version`, so its format cannot be determined"
+                        .to_owned(),
+                )],
+            };
+        }
+        Some(version) if version.as_u64().is_none() => {
+            return Diagnosis {
+                model: None,
+                issues: vec![ModelIssue::error(
+                    "invalid_schema_version",
+                    "schema_version",
+                    format!("`schema_version` must be a non-negative integer, found {version}"),
+                )],
+            };
+        }
+        Some(version) => {
+            let version = version.as_u64().unwrap_or_default();
+            if version > u64::from(PORTABLE_SCHEMA_VERSION) {
+                return Diagnosis {
+                    model: None,
+                    issues: vec![ModelIssue::error(
+                        "unsupported_schema_version",
+                        "schema_version",
+                        format!(
+                            "model schema version {version} is newer than the supported maximum \
+                             {PORTABLE_SCHEMA_VERSION}; upgrade StericX to read it"
+                        ),
+                    )],
+                };
+            }
+        }
+    }
+
+    // Fixed-width numeric arrays are checked here, by name, because the
+    // decoder would only report a length or type mismatch against the whole
+    // document without saying which field carried it.
+    let mut issues = Vec::new();
+    check_fixed_width_arrays(object, &mut issues);
+    if !issues.is_empty() {
+        return Diagnosis {
+            model: None,
+            issues,
+        };
+    }
+
+    let fit: ScientificFitReport = match serde_json::from_str(text) {
+        Ok(fit) => fit,
+        Err(error) => {
+            return Diagnosis {
+                model: None,
+                issues: vec![field_issue(&error)],
+            };
+        }
+    };
+    let sections: PortableSections = match serde_json::from_str(text) {
+        Ok(sections) => sections,
+        Err(error) => {
+            return Diagnosis {
+                model: None,
+                issues: vec![field_issue(&error)],
+            };
+        }
+    };
+    let model = PortableModel {
+        fit,
+        inference: sections.inference,
+        provenance: sections.provenance,
+        created: sections.created,
+    };
+    let issues = model.issues();
+    Diagnosis {
+        model: Some(model),
+        issues,
+    }
+}
+
+/// Checks the arrays whose width is fixed by the feature space.
+///
+/// Reports the field, the expected width, and any element that is not a finite
+/// number, so a truncated or null-bearing array is named rather than surfacing
+/// as a decoder complaint about the document.
+fn check_fixed_width_arrays(
+    object: &serde_json::Map<String, serde_json::Value>,
+    issues: &mut Vec<ModelIssue>,
+) {
+    for field in ["weights", "standardized_means", "standardized_scales"] {
+        let Some(value) = object.get(field) else {
+            continue;
+        };
+        let Some(array) = value.as_array() else {
+            issues.push(ModelIssue::error(
+                "invalid_field",
+                field,
+                format!("`{field}` must be an array of {MODEL_FEATURE_COUNT} numbers"),
+            ));
+            continue;
+        };
+        if array.len() != MODEL_FEATURE_COUNT {
+            issues.push(ModelIssue::error(
+                "dimension_mismatch",
+                field,
+                format!(
+                    "`{field}` has {} entries but the feature space has {MODEL_FEATURE_COUNT} \
+                     columns",
+                    array.len()
+                ),
+            ));
+        }
+        for (index, entry) in array.iter().enumerate() {
+            match entry.as_f64() {
+                Some(number) if number.is_finite() => {}
+                Some(number) => issues.push(ModelIssue::error(
+                    "non_finite_value",
+                    format!("{field}[{index}]"),
+                    format!("`{field}[{index}]` is {number}, which cannot be used for inference"),
+                )),
+                None => issues.push(ModelIssue::error(
+                    "non_numeric_value",
+                    format!("{field}[{index}]"),
+                    format!("`{field}[{index}]` is {entry}, expected a number"),
+                )),
+            }
+        }
+    }
+    if let Some(names) = object
+        .get("feature_names")
+        .and_then(|value| value.as_array())
+        && names.len() != MODEL_FEATURE_COUNT
+    {
+        issues.push(ModelIssue::error(
+            "dimension_mismatch",
+            "feature_names",
+            format!(
+                "`feature_names` has {} entries but the feature space has \
+                 {MODEL_FEATURE_COUNT} columns",
+                names.len()
+            ),
+        ));
+    }
+}
+
+/// Turns a decoder failure into a finding that names the offending field.
+fn field_issue(error: &serde_json::Error) -> ModelIssue {
+    let text = error.to_string();
+    let field = text
+        .split_once('`')
+        .and_then(|(_, rest)| rest.split_once('`'))
+        .map(|(name, _)| name.to_owned());
+    match (field, text.starts_with("missing field")) {
+        (Some(field), true) => ModelIssue::error(
+            "missing_field",
+            field.clone(),
+            format!("required field `{field}` is absent"),
+        ),
+        (Some(field), false) => ModelIssue::error(
+            "invalid_field",
+            field.clone(),
+            format!("field `{field}` could not be read: {text}"),
+        ),
+        _ => ModelIssue::error(
+            "invalid_document",
+            "$",
+            format!("model is unreadable: {text}"),
+        ),
     }
 }
 
@@ -763,14 +1330,25 @@ struct SchemaProbe {
     schema_version: u32,
 }
 
-fn cross_check(actual: f64, expected: f64, label: &str) -> Result<(), ModelFormatError> {
+/// Records a disagreement between the `inference` section and the fit report.
+///
+/// The two copies are generated from one value, so this tolerates
+/// re-serialization only. Any real edit to either shows up here.
+fn push_cross_check(
+    issues: &mut Vec<ModelIssue>,
+    location: &str,
+    actual: f64,
+    expected: f64,
+    label: &str,
+) {
     let slack = CROSS_CHECK_TOLERANCE * expected.abs().max(1.0);
     if (actual - expected).abs() > slack {
-        return Err(ModelFormatError::Malformed(format!(
-            "{label} is {actual} but the fit report says {expected}"
-        )));
+        issues.push(ModelIssue::error(
+            "inference_disagrees_with_fit",
+            location,
+            format!("{label} is {actual} but the fit report says {expected}"),
+        ));
     }
-    Ok(())
 }
 
 /// Formats a system time as an RFC 3339 UTC timestamp.

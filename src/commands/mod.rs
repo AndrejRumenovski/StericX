@@ -5,6 +5,7 @@ pub(crate) mod compare;
 pub(crate) mod db;
 pub(crate) mod evaluate;
 pub(crate) mod fit;
+pub(crate) mod model;
 pub(crate) mod parse;
 pub(crate) mod predict;
 pub(crate) mod screen;

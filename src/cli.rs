@@ -138,6 +138,11 @@ pub(crate) enum Command {
         #[arg(long)]
         output: PathBuf,
     },
+    /// Inspect and validate saved model documents.
+    Model {
+        #[command(subcommand)]
+        action: ModelCommand,
+    },
     /// Calculate an Eyring rate and enantiomeric product distribution.
     Simulate {
         /// ΔΔG‡ in kcal/mol.
@@ -431,6 +436,40 @@ pub(crate) enum DbCommand {
     },
 }
 
+#[derive(Debug, Subcommand)]
+pub(crate) enum ModelCommand {
+    /// Print a scientific summary of a saved model.
+    Inspect {
+        /// Model JSON written by `stericx fit`.
+        #[arg(value_name = "MODEL")]
+        model: PathBuf,
+        /// Output format.
+        #[arg(long, value_enum, default_value_t = ReportFormat::Text)]
+        format: ReportFormat,
+    },
+    /// Check a saved model and report every problem found.
+    Validate {
+        /// Model JSON written by `stericx fit`.
+        #[arg(value_name = "MODEL")]
+        model: PathBuf,
+        /// Output format.
+        #[arg(long, value_enum, default_value_t = ReportFormat::Text)]
+        format: ReportFormat,
+        /// Treat warnings as failures.
+        #[arg(long)]
+        strict: bool,
+    },
+}
+
+/// Output format for the `model` subcommands.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
+pub(crate) enum ReportFormat {
+    /// Human-readable report.
+    Text,
+    /// One machine-readable JSON object.
+    Json,
+}
+
 /// Output format for the `descriptors` subcommand.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
 pub(crate) enum DescriptorFormat {
@@ -551,6 +590,22 @@ mod tests {
             ])
             .is_ok()
         );
+        assert!(Cli::try_parse_from(["stericx", "model", "inspect", "model.json"]).is_ok());
+        assert!(
+            Cli::try_parse_from([
+                "stericx",
+                "model",
+                "validate",
+                "model.json",
+                "--format",
+                "json",
+                "--strict",
+            ])
+            .is_ok()
+        );
+        // Both `model` subcommands require exactly one model path.
+        assert!(Cli::try_parse_from(["stericx", "model", "inspect"]).is_err());
+        assert!(Cli::try_parse_from(["stericx", "model"]).is_err());
         // `descriptors` requires at least one input file.
         assert!(Cli::try_parse_from(["stericx", "descriptors"]).is_err());
     }

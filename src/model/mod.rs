@@ -32,9 +32,10 @@ pub use fit::{
     ScientificFitReport, fit_scientific_model, fit_scientific_model_grouped,
 };
 pub use portable::{
-    CreationMetadata, DatasetDigest, FeatureSpaceSpec, FeatureTransform, InferenceSpec,
-    LEGACY_SCHEMA_VERSION, ModelFormatError, ModelProvenance, ModelTerm, PORTABLE_SCHEMA_VERSION,
-    PortableModel, ReactionProvenance, ResponseSpec, TrainingProvenance,
+    CreationMetadata, DatasetDigest, DescriptorSummary, Diagnosis, FeatureSpaceSpec,
+    FeatureTransform, InferenceSpec, LEGACY_SCHEMA_VERSION, ModelFormatError, ModelIssue,
+    ModelProvenance, ModelSummary, ModelTerm, PORTABLE_SCHEMA_VERSION, PortableModel,
+    ReactionProvenance, ResponseSpec, Severity, TrainingProvenance, diagnose,
 };
 pub use regress::RegressXPredictor;
 pub use training::{FrozenPrediction, TrainedModel, applicability_status, train_scientific_model};

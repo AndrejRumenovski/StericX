@@ -207,6 +207,36 @@ an additional version 2 document:
 `--output` is unchanged by this flag, so existing study artifacts stay
 byte-identical.
 
+## Inspecting and validating a document
+
+```bash
+stericx model inspect model.json     # scientific summary
+stericx model validate model.json    # every problem, with field paths
+```
+
+Both read the document in stages — JSON syntax, then `schema_version`, then the
+fixed-width numeric arrays, then the typed fields, then the semantic checks —
+so a reader is told which field is wrong instead of receiving a decoder message
+about the whole file. `validate` reports all findings rather than stopping at
+the first, exits non-zero on any error, and accepts `--strict` to fail on
+warnings too. Both support `--format json`.
+
+Findings carry a stable `code`, a `location` field path, and a `severity`:
+
+| Severity | Meaning |
+|---|---|
+| `error` | The model cannot be trusted for inference. |
+| `warning` | Usable, but records less than it should — a legacy document, or unrecorded chemistry context. |
+
+Issue codes include `unsupported_schema_version`, `missing_schema_version`,
+`invalid_json`, `missing_field`, `dimension_mismatch`, `non_numeric_value`,
+`non_finite_value`, `invalid_scale`, `inverted_range`, `no_descriptors`,
+`descriptor_name_mismatch`, `duplicate_feature_index`, `invalid_feature_index`,
+`missing_section`, `missing_dataset_digest`, `malformed_digest`,
+`incomplete_digest`, `training_count_mismatch`, `training_group_mismatch`,
+`term_count_mismatch`, `inference_disagrees_with_fit`, `legacy_schema`, and
+`unrecorded_context`.
+
 ## Compatibility policy
 
 - Adding an optional field to an existing section does not change the version.

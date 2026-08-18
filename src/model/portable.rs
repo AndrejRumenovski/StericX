@@ -113,6 +113,41 @@ impl From<serde_json::Error> for ModelFormatError {
     }
 }
 
+/// Which direction of the response counts as better.
+///
+/// A prediction is just a number; whether a larger one is preferable is a
+/// property of the chemistry, not of the arithmetic. For a selectivity model a
+/// positive and a negative prediction of equal size describe equal selectivity
+/// for *opposite* enantiomers, so neither "larger is better" nor "smaller is
+/// better" is universally right. The model has to say.
+#[derive(Clone, Copy, Debug, Default, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum Optimization {
+    /// Larger values are better.
+    Maximize,
+    /// Smaller values are better.
+    Minimize,
+    /// Larger absolute values are better, whatever the sign — the right choice
+    /// for a selectivity model when either enantiomer is an acceptable product.
+    MaximizeMagnitude,
+    /// The model does not say. Consumers must not guess a direction.
+    #[default]
+    Unspecified,
+}
+
+impl Optimization {
+    /// A short label for reports.
+    #[must_use]
+    pub fn label(self) -> &'static str {
+        match self {
+            Self::Maximize => "maximize",
+            Self::Minimize => "minimize",
+            Self::MaximizeMagnitude => "maximize_magnitude",
+            Self::Unspecified => "unspecified",
+        }
+    }
+}
+
 /// What the model predicts, in enough detail to interpret a number.
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct ResponseSpec {
@@ -126,13 +161,24 @@ pub struct ResponseSpec {
     pub sign_convention: String,
     /// Temperature the response refers to, when the study fixes one.
     pub temperature_k: Option<f32>,
+    /// Which direction of this response counts as better.
+    ///
+    /// Optional so documents written before this field existed still load;
+    /// they read back as [`Optimization::Unspecified`], which consumers must
+    /// treat as "no direction stated" rather than picking one.
+    #[serde(default)]
+    pub optimization: Optimization,
 }
 
 impl ResponseSpec {
     /// The response every current StericX model is fitted against.
     #[must_use]
-    pub fn transition_state_energy_difference(temperature_k: Option<f32>) -> Self {
+    pub fn transition_state_energy_difference(
+        temperature_k: Option<f32>,
+        optimization: Optimization,
+    ) -> Self {
         Self {
+            optimization,
             name: "ddg_double_dagger".into(),
             units: "kcal/mol".into(),
             description: "Transition-state free-energy difference between competing \

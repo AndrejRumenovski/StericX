@@ -67,6 +67,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             ligand_class,
             source_url,
             response_temp_k,
+            optimize,
         } => commands::fit::fit_command(
             &data,
             &metadata,
@@ -89,6 +90,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                     notes: Vec::new(),
                 },
                 response_temp_k,
+                optimization: optimize.into(),
             },
         ),
         Command::Evaluate {
@@ -209,6 +211,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             temperature,
             inside_domain_only,
             ascending,
+            descending,
             donor_element,
             sterimol_axis,
             format,
@@ -227,6 +230,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                 temperature,
                 inside_domain_only,
                 ascending,
+                descending,
                 donor_element: &donor_element,
                 sterimol_axis,
                 format,

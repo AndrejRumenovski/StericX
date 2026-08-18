@@ -34,7 +34,7 @@ pub use fit::{
 pub use portable::{
     CreationMetadata, DatasetDigest, DescriptorSummary, Diagnosis, FeatureSpaceSpec,
     FeatureTransform, InferenceSpec, LEGACY_SCHEMA_VERSION, ModelFormatError, ModelIssue,
-    ModelProvenance, ModelSummary, ModelTerm, PORTABLE_SCHEMA_VERSION, PortableModel,
+    ModelProvenance, ModelSummary, ModelTerm, Optimization, PORTABLE_SCHEMA_VERSION, PortableModel,
     ReactionProvenance, ResponseSpec, Severity, TrainingProvenance, diagnose,
 };
 pub use regress::RegressXPredictor;

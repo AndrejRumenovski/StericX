@@ -315,6 +315,26 @@ A portable schema-2 model is screened through the feature space it records: `scr
 each stored transformation to the descriptor it names. A model declaring a feature space
 this build does not implement is refused rather than screened against an assumed layout.
 
+**Ranking direction comes from the model, never from an assumption.** A prediction is only
+a number; whether a larger one is better is chemistry. `stericx fit --optimize
+maximize|minimize|maximize-magnitude` records that in the portable model, and `screen` ranks
+by it. A model that does not state a direction is *not* ranked on a guess — `screen` stops
+and asks for `--ascending` or `--descending`. Passing one of those against a model that does
+state a direction is allowed, reported as `ranking_overridden`, and called out in the
+terminal:
+
+```text
+ranking        ascending (model records: maximize_magnitude)
+               ⚠ this reverses the direction the model records as better; the top of this
+                 table is the model's worst
+```
+
+Ranking is deterministic: ties resolve by ligand identifier and then by library position, so
+repeated runs over the same library produce the same table. `--top N` narrows the *report*
+after every candidate has been predicted and ranked — `screened` and `returned` are both
+reported, so a limited view never hides how much was searched. CSV and JSON carry full
+round-trip `f64` precision; only the terminal table rounds.
+
 Candidates that cannot be screened are accounted for rather than dropped. Each is listed
 with a reason — `missing_descriptors` (naming which), `featurization_failed`, or
 `non_finite_prediction` — and the counts are summarized by reason:

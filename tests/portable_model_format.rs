@@ -90,7 +90,10 @@ fn portable_model() -> PortableModel {
     model_provenance.training.group_count = report.training_group_count;
     PortableModel::from_fit_report(
         report,
-        ResponseSpec::transition_state_energy_difference(Some(298.15)),
+        ResponseSpec::transition_state_energy_difference(
+            Some(298.15),
+            steric_x::model::Optimization::MaximizeMagnitude,
+        ),
         model_provenance,
         CreationMetadata {
             created_utc: "2026-08-18T12:00:00Z".into(),

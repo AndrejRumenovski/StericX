@@ -79,6 +79,7 @@ Everything required to turn a structure into a predicted number.
 | `response.description` | What the quantity is. |
 | `response.sign_convention` | Which enantiomer a positive value favors. Without this a consumer can invert the selectivity. |
 | `response.temperature_k` | Temperature the response refers to, or `null`. |
+| `response.optimization` | Which direction counts as better: `maximize`, `minimize`, `maximize_magnitude`, or `unspecified`. |
 | `feature_space.definition` | Stable identifier for the feature construction, e.g. `stericx.physical_organic.v1`. |
 | `feature_space.feature_names` | All eight column names, in model order. |
 | `feature_space.transformations` | How each column is built (see below). |
@@ -113,6 +114,17 @@ The coefficients are on the **raw descriptor scale**, so no standardization is
 applied at inference time. `training_mean` and `training_standard_deviation`
 are recorded because they are needed to interpret the fit and to re-derive the
 standardized coefficients, not because inference needs them.
+
+`optimization` exists because a prediction is only a number: whether a larger
+one is preferable is a property of the chemistry. For a signed selectivity
+response, `+1.5` and `−1.5` describe equal selectivity for *opposite*
+enantiomers, so neither "larger is better" nor "smaller is better" is
+universally correct — `maximize_magnitude` covers the case where either product
+is acceptable. The field is optional and defaults to `unspecified`; documents
+written before it existed read back that way. Consumers must treat
+`unspecified` as *no direction stated* rather than choosing one:
+`stericx screen` refuses to rank such a model until the caller says which way
+is better.
 
 ### `provenance`
 

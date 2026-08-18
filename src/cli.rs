@@ -119,6 +119,10 @@ pub(crate) enum Command {
         /// Temperature the response refers to, in kelvin.
         #[arg(long)]
         response_temp_k: Option<f32>,
+        /// Which direction of the response counts as better. Recorded in the
+        /// portable model; screening refuses to rank without it.
+        #[arg(long, value_enum, default_value_t = OptimizeDirection::Unspecified)]
+        optimize: OptimizeDirection,
     },
     /// Reveal and score previously frozen non-training predictions.
     Evaluate {
@@ -318,9 +322,14 @@ pub(crate) enum Command {
         /// Drop ligands that fall outside the training domain.
         #[arg(long)]
         inside_domain_only: bool,
-        /// Rank ascending (smallest predicted value first).
+        /// Rank ascending (smallest predicted value first), overriding the
+        /// direction the model records.
         #[arg(long)]
         ascending: bool,
+        /// Rank descending (largest predicted value first), overriding the
+        /// direction the model records.
+        #[arg(long, conflicts_with = "ascending")]
+        descending: bool,
         /// Donor element to locate when featurizing a geometry library.
         #[arg(long, default_value = "P")]
         donor_element: String,
@@ -463,6 +472,30 @@ pub(crate) enum ModelCommand {
         #[arg(long)]
         strict: bool,
     },
+}
+
+/// Optimization direction recorded in a portable model.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
+pub(crate) enum OptimizeDirection {
+    /// Larger predictions are better.
+    Maximize,
+    /// Smaller predictions are better.
+    Minimize,
+    /// Larger absolute predictions are better, whatever the sign.
+    MaximizeMagnitude,
+    /// Do not record a direction.
+    Unspecified,
+}
+
+impl From<OptimizeDirection> for steric_x::model::Optimization {
+    fn from(value: OptimizeDirection) -> Self {
+        match value {
+            OptimizeDirection::Maximize => Self::Maximize,
+            OptimizeDirection::Minimize => Self::Minimize,
+            OptimizeDirection::MaximizeMagnitude => Self::MaximizeMagnitude,
+            OptimizeDirection::Unspecified => Self::Unspecified,
+        }
+    }
 }
 
 /// Output format for the `model` subcommands.

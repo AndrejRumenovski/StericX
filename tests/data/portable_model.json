@@ -272,7 +272,8 @@
       "units": "kcal/mol",
       "description": "Transition-state free-energy difference between competing enantiomeric pathways.",
       "sign_convention": "ddG = G(S) - G(R); positive values favor the R product.",
-      "temperature_k": 298.15
+      "temperature_k": 298.15,
+      "optimization": "maximize_magnitude"
     },
     "feature_space": {
       "definition": "stericx.physical_organic.v1",

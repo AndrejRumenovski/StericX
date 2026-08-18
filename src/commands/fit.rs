@@ -13,8 +13,8 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 use steric_x::model::{
-    CreationMetadata, DatasetDigest, ModelProvenance, PortableModel, ReactionProvenance,
-    ResponseSpec, TrainingProvenance,
+    CreationMetadata, DatasetDigest, ModelProvenance, Optimization, PortableModel,
+    ReactionProvenance, ResponseSpec, TrainingProvenance,
 };
 use steric_x::{FitOptions, ScientificFitReport, SigPackReader, train_scientific_model};
 
@@ -27,6 +27,7 @@ pub(crate) struct PortableModelRequest {
     pub(crate) model_id: Option<String>,
     pub(crate) reaction: ReactionProvenance,
     pub(crate) response_temp_k: Option<f32>,
+    pub(crate) optimization: Optimization,
 }
 
 pub(crate) fn fit_command(
@@ -150,7 +151,10 @@ fn build_portable_model(
     };
     Ok(PortableModel::from_fit_report(
         report,
-        ResponseSpec::transition_state_energy_difference(request.response_temp_k),
+        ResponseSpec::transition_state_energy_difference(
+            request.response_temp_k,
+            request.optimization,
+        ),
         provenance,
         CreationMetadata::now("stericx fit"),
     )?)

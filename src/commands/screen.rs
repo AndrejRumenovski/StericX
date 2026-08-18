@@ -18,7 +18,8 @@ use std::collections::HashMap;
 use std::error::Error;
 use std::path::{Path, PathBuf};
 use steric_x::model::{
-    FeatureTransform, InferenceSpec, MODEL_FEATURE_NAMES, PortableModel, expand_features,
+    FeatureTransform, InferenceSpec, MODEL_FEATURE_NAMES, Optimization, PortableModel,
+    expand_features,
 };
 use steric_x::{BuriedVolumeConfig, EyringKineticLink, PackedReactionRecord, ScientificFitReport};
 
@@ -157,6 +158,9 @@ struct Available {
 /// One library member awaiting prediction.
 #[derive(Clone, Debug, Default)]
 struct Candidate {
+    /// Position in the library as read, the final tiebreak when a prediction
+    /// and an identifier are both shared.
+    library_index: usize,
     label: String,
     /// Human-readable name when the library supplies one, e.g. a SMILES.
     name: Option<String>,
@@ -240,6 +244,77 @@ struct DomainExceedance {
     exceedance_fraction: f64,
 }
 
+/// How the screened candidates were ordered.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum RankingOrder {
+    /// Best is the largest prediction.
+    Descending,
+    /// Best is the smallest prediction.
+    Ascending,
+    /// Best is the largest absolute prediction, whatever the sign.
+    Magnitude,
+}
+
+impl RankingOrder {
+    fn label(self) -> &'static str {
+        match self {
+            Self::Descending => "descending",
+            Self::Ascending => "ascending",
+            Self::Magnitude => "magnitude_descending",
+        }
+    }
+
+    /// Orders two predictions best-first.
+    ///
+    /// `total_cmp` gives a total order over every f64 including NaN, so the
+    /// comparison never depends on operand order.
+    fn compare(self, left: f64, right: f64) -> std::cmp::Ordering {
+        match self {
+            Self::Descending => right.total_cmp(&left),
+            Self::Ascending => left.total_cmp(&right),
+            Self::Magnitude => right.abs().total_cmp(&left.abs()),
+        }
+    }
+}
+
+/// Resolves the ranking direction from the model, honouring an explicit
+/// override.
+///
+/// A model that does not state a direction is not ranked on a guess: the caller
+/// is asked to say which way is better, because for a signed selectivity
+/// response neither direction is universally right.
+fn resolve_order(
+    optimization: Option<Optimization>,
+    ascending: bool,
+    descending: bool,
+) -> Result<(RankingOrder, bool), Box<dyn Error>> {
+    let from_model = match optimization {
+        Some(Optimization::Maximize) => Some(RankingOrder::Descending),
+        Some(Optimization::Minimize) => Some(RankingOrder::Ascending),
+        Some(Optimization::MaximizeMagnitude) => Some(RankingOrder::Magnitude),
+        Some(Optimization::Unspecified) | None => None,
+    };
+    let requested = match (ascending, descending) {
+        (true, false) => Some(RankingOrder::Ascending),
+        (false, true) => Some(RankingOrder::Descending),
+        _ => None,
+    };
+    match (from_model, requested) {
+        (_, Some(requested)) => {
+            let overridden = from_model.is_some_and(|model| model != requested);
+            Ok((requested, overridden))
+        }
+        (Some(model), None) => Ok((model, false)),
+        (None, None) => Err(
+            "this model does not record which direction of its response is \
+             better, so `screen` will not rank on a guess. Re-fit with \
+             `--optimize maximize|minimize|maximize-magnitude`, or state the \
+             order for this run with `--ascending` or `--descending`."
+                .into(),
+        ),
+    }
+}
+
 /// One descriptor the model actually consumed for a ligand.
 #[derive(Clone, Debug, Serialize)]
 struct DescriptorValue {
@@ -264,6 +339,8 @@ struct Exclusion {
 #[derive(Clone, Debug, Serialize)]
 struct ScreenHit {
     rank: usize,
+    #[serde(skip)]
+    library_index: usize,
     ligand: String,
     /// Present only when the library supplies a name distinct from the id.
     ligand_name: Option<String>,
@@ -306,7 +383,16 @@ struct ScreenReport {
     training_rmse_kcal_mol: f64,
     temperature_k: f32,
     library_size: usize,
+    /// Candidates that produced a prediction, before `--top` was applied.
     screened: usize,
+    /// Candidates actually listed after `--top`.
+    returned: usize,
+    /// The order the table is in.
+    ranking_order: String,
+    /// The direction the model records, when it records one.
+    model_optimization: String,
+    /// True when the caller asked for an order the model disagrees with.
+    ranking_overridden: bool,
     skipped: usize,
     /// Why each excluded candidate was excluded.
     excluded: Vec<Exclusion>,
@@ -330,6 +416,7 @@ pub(crate) struct ScreenArgs<'a> {
     pub(crate) temperature: f32,
     pub(crate) inside_domain_only: bool,
     pub(crate) ascending: bool,
+    pub(crate) descending: bool,
     pub(crate) donor_element: &'a str,
     pub(crate) sterimol_axis: SterimolAxis,
     pub(crate) format: DescriptorFormat,
@@ -435,6 +522,7 @@ fn load_library(
             .map(|path| {
                 match descriptors_for_file(path, donor_element, None, sterimol_axis, config) {
                     Ok(result) => Ok(Candidate {
+                        library_index: 0,
                         label: result.file.clone(),
                         l: Some(result.sterimol_l),
                         b1: Some(result.sterimol_b1),
@@ -450,10 +538,14 @@ fn load_library(
                 }
             })
             .collect::<Vec<_>>();
-        let mut candidates = Vec::new();
+        let mut candidates: Vec<Candidate> = Vec::new();
         for outcome in featurized {
             match outcome {
-                Ok(candidate) => candidates.push(candidate),
+                Ok(mut candidate) => {
+                    // `paths` is sorted, so this is a stable position.
+                    candidate.library_index = candidates.len();
+                    candidates.push(candidate);
+                }
                 Err(exclusion) => excluded.push(exclusion),
             }
         }
@@ -530,6 +622,7 @@ fn load_library(
             .map(|value| value.trim().to_owned())
             .filter(|value| !value.is_empty() && *value != label);
         candidates.push(Candidate {
+            library_index: row,
             label,
             name,
             geometry: columns["geometry"]
@@ -735,6 +828,13 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         .into());
     }
 
+    let model_optimization = model
+        .inference
+        .as_ref()
+        .map_or(Optimization::Unspecified, |spec| spec.response.optimization);
+    let (order, overridden) =
+        resolve_order(Some(model_optimization), args.ascending, args.descending)?;
+
     let mut hits = Vec::new();
     for candidate in &candidates {
         if !candidate.has(required) {
@@ -782,6 +882,7 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         let trust = trust_grade(outside.is_empty(), leverage_ratio);
         hits.push(ScreenHit {
             rank: 0,
+            library_index: candidate.library_index,
             ligand: candidate.label.clone(),
             ligand_name: candidate.name.clone(),
             predicted_ddg_kcal_mol: predicted,
@@ -828,21 +929,22 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         return Err("no library member could be screened with this model".into());
     }
 
+    // Ties resolve by ligand identifier, then by the order the library was
+    // read in, so a repeated run reproduces the same table even when several
+    // ligands share a prediction or an identifier.
     hits.sort_by(|left, right| {
-        let ordering = left
-            .predicted_ddg_kcal_mol
-            .total_cmp(&right.predicted_ddg_kcal_mol);
-        let ordering = if args.ascending {
-            ordering
-        } else {
-            ordering.reverse()
-        };
-        ordering.then_with(|| left.ligand.cmp(&right.ligand))
+        order
+            .compare(left.predicted_ddg_kcal_mol, right.predicted_ddg_kcal_mol)
+            .then_with(|| left.ligand.cmp(&right.ligand))
+            .then_with(|| left.library_index.cmp(&right.library_index))
     });
+    // Every candidate is predicted before anything is dropped; `--top` selects
+    // from the finished ranking rather than truncating the work.
     let screened = hits.len();
     if let Some(top) = args.top {
         hits.truncate(top);
     }
+    let returned = hits.len();
     for (index, hit) in hits.iter_mut().enumerate() {
         hit.rank = index + 1;
     }
@@ -858,6 +960,10 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         temperature_k: args.temperature,
         library_size,
         screened,
+        returned,
+        ranking_order: order.label().to_owned(),
+        model_optimization: model_optimization.label().to_owned(),
+        ranking_overridden: overridden,
         skipped: excluded.len(),
         exclusion_summary: {
             let mut counts: Vec<(String, usize)> = Vec::new();
@@ -950,9 +1056,20 @@ fn print_screen_text(report: &ScreenReport) {
         report.training_rmse_kcal_mol
     );
     println!(
-        "library        {} members, {} screened, {} skipped, {} inside the training domain",
-        report.library_size, report.screened, report.skipped, report.inside_domain
+        "library        {} members, {} screened, {} returned, {} skipped, {} inside the \
+         training domain",
+        report.library_size, report.screened, report.returned, report.skipped, report.inside_domain
     );
+    println!(
+        "ranking        {} (model records: {})",
+        report.ranking_order, report.model_optimization
+    );
+    if report.ranking_overridden {
+        println!(
+            "               ⚠ this reverses the direction the model records as better; \
+             the top of this table is the model\'s worst"
+        );
+    }
     println!("temperature    {:.2} K", report.temperature_k);
     if let Some(warning) = report.warning_leverage {
         println!(
@@ -1087,6 +1204,15 @@ fn describe_descriptors(descriptors: &[DescriptorValue]) -> String {
         .join(" ")
 }
 
+/// Descriptors at full precision, for the machine-readable formats.
+fn describe_descriptors_exact(descriptors: &[DescriptorValue]) -> String {
+    descriptors
+        .iter()
+        .map(|descriptor| format!("{}={}", descriptor.name, descriptor.value))
+        .collect::<Vec<_>>()
+        .join(" ")
+}
+
 fn print_screen_csv(report: &ScreenReport) {
     println!(
         "rank,ligand,ligand_name,predicted_ddg_kcal_mol,predicted_ee_percent,descriptors,\
@@ -1095,16 +1221,18 @@ fn print_screen_csv(report: &ScreenReport) {
          applicability,outside_features"
     );
     for hit in &report.hits {
+        // Full round-trip precision: a screened prediction must reproduce the
+        // engine value exactly when read back, not a rounded copy of it.
         let format_bound =
-            |value: Option<f64>| value.map_or_else(String::new, |value| format!("{value:.6}"));
+            |value: Option<f64>| value.map_or_else(String::new, |value| format!("{value}"));
         println!(
-            "{},{},{},{:.6},{:.4},{},{},{},{},{},{},{},{},{},{}",
+            "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
             hit.rank,
             crate::descriptors::csv_field(&hit.ligand),
             crate::descriptors::csv_field(hit.ligand_name.as_deref().unwrap_or_default()),
             hit.predicted_ddg_kcal_mol,
             hit.predicted_ee_percent,
-            crate::descriptors::csv_field(&describe_descriptors(&hit.descriptors)),
+            crate::descriptors::csv_field(&describe_descriptors_exact(&hit.descriptors)),
             format_bound(hit.prediction_interval_low),
             format_bound(hit.prediction_interval_high),
             format_bound(hit.leverage),

@@ -676,6 +676,8 @@ struct ScreenReport {
     /// How the neighbour boundary was derived, carried from the model.
     neighbor_rule: Option<String>,
     uncertainty_note: String,
+    /// What excluding already-tested ligands did, when a list was supplied.
+    exclusion: Option<ExclusionAccounting>,
     /// True when `--diverse` selected the returned set.
     diversity_applied: bool,
     /// The weight the objective gave separation over desirability.
@@ -721,6 +723,7 @@ pub(crate) struct ScreenArgs<'a> {
     pub(crate) ascending: bool,
     pub(crate) descending: bool,
     pub(crate) domain_rule: DomainRule,
+    pub(crate) exclude_tested: Option<&'a Path>,
     pub(crate) diverse: bool,
     pub(crate) diversity_weight: f64,
     pub(crate) donor_element: &'a str,
@@ -781,6 +784,127 @@ fn load_model(path: &Path) -> Result<PortableModel, Box<dyn Error>> {
         )
         .into()
     })
+}
+
+/// Identifiers of ligands already tested experimentally, read from a CSV.
+///
+/// Matching is by **stable identifier** first: the same `label` column aliases
+/// the library itself accepts, compared exactly after trimming. Identity of a
+/// ligand is an identifier question, so nothing here does fuzzy or approximate
+/// name matching.
+///
+/// A SMILES column is accepted as a *secondary* key, used only for entries no
+/// identifier resolved. That comparison is exact string equality on the SMILES
+/// text, which is a match between strings produced by the same generator - it
+/// is not structure perception, and two valid SMILES for one molecule written
+/// by different toolkits will not match. The report says which key resolved
+/// each entry so this is never invisible.
+#[derive(Debug, Default)]
+struct TestedLigands {
+    labels: std::collections::HashSet<String>,
+    smiles: std::collections::HashSet<String>,
+    entries_read: usize,
+    duplicate_entries: usize,
+}
+
+/// What excluding already-tested ligands did to this run.
+#[derive(Clone, Debug, Serialize)]
+struct ExclusionAccounting {
+    path: String,
+    /// SHA-256 of the exclusion file, so a run's candidate set is reproducible.
+    sha256: String,
+    /// Rows carrying a usable identifier.
+    entries_read: usize,
+    /// Rows naming an identifier an earlier row already named.
+    duplicate_entries: usize,
+    /// Distinct entries that matched at least one library member.
+    matched: usize,
+    /// Entries resolved by stable identifier.
+    matched_by_identifier: usize,
+    /// Entries resolved only by SMILES string equality.
+    matched_by_smiles: usize,
+    /// Library members actually removed. Exceeds `matched` when a library
+    /// repeats an identifier.
+    excluded: usize,
+    /// Entries that matched nothing, listed in full and never merely counted.
+    unresolved: Vec<String>,
+    /// Library members left to screen.
+    remaining: usize,
+}
+
+/// Reads an exclusion CSV into identifier sets.
+///
+/// Refuses a file with no recognizable identifier column rather than treating
+/// every row as unresolvable, which would silently exclude nothing.
+fn read_tested_ligands(path: &Path) -> Result<TestedLigands, Box<dyn Error>> {
+    let mut reader = csv::ReaderBuilder::new()
+        .flexible(true)
+        .from_path(path)
+        .map_err(|error| format!("could not read {}: {error}", path.display()))?;
+    let headers = reader
+        .headers()
+        .map_err(|error| format!("could not read the header of {}: {error}", path.display()))?
+        .clone();
+    let label_column = header_index(&headers, "label");
+    let smiles_column = header_index(&headers, "name");
+    if label_column.is_none() && smiles_column.is_none() {
+        return Err(format!(
+            "{} has no identifier column. Expected one of: {} (or a SMILES column: {}). \
+             Found: {}",
+            path.display(),
+            column_alias_list("label"),
+            column_alias_list("name"),
+            headers.iter().collect::<Vec<_>>().join(", ")
+        )
+        .into());
+    }
+
+    let mut tested = TestedLigands::default();
+    let mut seen = std::collections::HashSet::new();
+    for (row, record) in reader.records().enumerate() {
+        let record =
+            record.map_err(|error| format!("{} row {}: {error}", path.display(), row + 2))?;
+        let value = |column: Option<usize>| {
+            column
+                .and_then(|column| record.get(column))
+                .map(str::trim)
+                .filter(|value| !value.is_empty())
+                .map(str::to_owned)
+        };
+        let label = value(label_column);
+        let smiles = value(smiles_column);
+        if label.is_none() && smiles.is_none() {
+            // A blank row carries no claim; skipping it is not "ignoring an
+            // identifier" because there is no identifier to ignore.
+            continue;
+        }
+        tested.entries_read += 1;
+        let key = format!(
+            "{}|{}",
+            label.as_deref().unwrap_or(""),
+            smiles.as_deref().unwrap_or("")
+        );
+        if !seen.insert(key) {
+            tested.duplicate_entries += 1;
+            continue;
+        }
+        if let Some(label) = label {
+            tested.labels.insert(label);
+        }
+        if let Some(smiles) = smiles {
+            tested.smiles.insert(smiles);
+        }
+    }
+    Ok(tested)
+}
+
+/// Human-readable alias list for one logical column, for error messages.
+fn column_alias_list(key: &str) -> String {
+    COLUMN_ALIASES
+        .iter()
+        .find(|(name, _)| *name == key)
+        .map(|(_, aliases)| aliases.join(", "))
+        .unwrap_or_default()
 }
 
 /// Column aliases accepted for each input, so both a descriptors CSV and a raw
@@ -1227,6 +1351,84 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
     )?;
     let library_size = candidates.len();
 
+    // Applied before inference: a ligand already tested is not a candidate, so
+    // it is not predicted, ranked, or counted as screened. `library_size` still
+    // reports everything the library held.
+    let (candidates, exclusion) = match args.exclude_tested {
+        None => (candidates, None),
+        Some(path) => {
+            let tested = read_tested_ligands(path)?;
+            let (sha256, _) = crate::digest::sha256_file(path)?;
+            let mut matched_labels = std::collections::HashSet::new();
+            let mut matched_smiles = std::collections::HashSet::new();
+            let mut excluded_count = 0_usize;
+            let kept = candidates
+                .into_iter()
+                .filter(|candidate| {
+                    let label = candidate.label.trim();
+                    if tested.labels.contains(label) {
+                        matched_labels.insert(label.to_owned());
+                        excluded_count += 1;
+                        return false;
+                    }
+                    // Secondary key only, and only for a candidate no
+                    // identifier already claimed.
+                    if let Some(name) = candidate.name.as_deref().map(str::trim)
+                        && tested.smiles.contains(name)
+                    {
+                        matched_smiles.insert(name.to_owned());
+                        excluded_count += 1;
+                        return false;
+                    }
+                    true
+                })
+                .collect::<Vec<_>>();
+
+            // Anything named in the file that claimed no library member. Sorted
+            // so the report is deterministic regardless of file order.
+            let mut unresolved = tested
+                .labels
+                .iter()
+                .filter(|label| !matched_labels.contains(*label))
+                .cloned()
+                .collect::<Vec<_>>();
+            unresolved.extend(
+                tested
+                    .smiles
+                    .iter()
+                    .filter(|smiles| {
+                        !matched_smiles.contains(*smiles) && !tested.labels.contains(*smiles)
+                    })
+                    .cloned(),
+            );
+            unresolved.sort();
+            unresolved.dedup();
+            // A SMILES on a row whose identifier resolved is not unresolved.
+            unresolved.retain(|value| !matched_labels.contains(value));
+
+            let accounting = ExclusionAccounting {
+                path: path.display().to_string(),
+                sha256,
+                entries_read: tested.entries_read,
+                duplicate_entries: tested.duplicate_entries,
+                matched: matched_labels.len() + matched_smiles.len(),
+                matched_by_identifier: matched_labels.len(),
+                matched_by_smiles: matched_smiles.len(),
+                excluded: excluded_count,
+                unresolved,
+                remaining: kept.len(),
+            };
+            (kept, Some(accounting))
+        }
+    };
+    if candidates.is_empty() && exclusion.is_some() {
+        return Err(format!(
+            "--exclude-tested removed every one of the {library_size} library member(s); \
+             nothing is left to screen"
+        )
+        .into());
+    }
+
     let missing = required.missing_from(&available);
     if !missing.is_empty() {
         return Err(format!(
@@ -1569,6 +1771,7 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
                     calibration.standard_deviation
                 )
             }),
+        exclusion,
         diversity_applied: args.diverse,
         diversity_weight: args.diverse.then_some(args.diversity_weight),
         diversity_metric: args.diverse.then(|| {
@@ -1758,6 +1961,33 @@ fn print_screen_text(report: &ScreenReport) {
             "               ⚠ this reverses the direction the model records as better; \
              the top of this table is the model\'s worst"
         );
+    }
+    if let Some(exclusion) = &report.exclusion {
+        println!(
+            "tested list    {} ({} entries, {} duplicate)",
+            exclusion.path, exclusion.entries_read, exclusion.duplicate_entries
+        );
+        println!(
+            "               {} matched ({} by identifier, {} by SMILES), {} library member(s) \
+             excluded, {} remaining of {}",
+            exclusion.matched,
+            exclusion.matched_by_identifier,
+            exclusion.matched_by_smiles,
+            exclusion.excluded,
+            exclusion.remaining,
+            report.library_size
+        );
+        if exclusion.unresolved.is_empty() {
+            println!("               every identifier resolved to a library member");
+        } else {
+            println!(
+                "               ⚠ {} identifier(s) matched nothing in this library:",
+                exclusion.unresolved.len()
+            );
+            for identifier in &exclusion.unresolved {
+                println!("                 {identifier}");
+            }
+        }
     }
     if report.diversity_applied {
         println!(

@@ -339,6 +339,14 @@ pub(crate) enum Command {
         /// direction the model records.
         #[arg(long)]
         ascending: bool,
+        /// Exclude ligands already tested experimentally, named in a CSV.
+        ///
+        /// Matched by stable identifier first, using the same column names the
+        /// library accepts; a SMILES column is a secondary key applied only to
+        /// entries no identifier resolved. Identifiers that match nothing are
+        /// reported in full, never silently dropped.
+        #[arg(long, value_name = "CSV")]
+        exclude_tested: Option<PathBuf>,
         /// Select a diverse subset instead of the plain top of the ranking.
         ///
         /// Greedy maximal-marginal-relevance over the ranked pool, balancing

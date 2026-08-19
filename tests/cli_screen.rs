@@ -2109,3 +2109,289 @@ fn diverse_selection_needs_training_geometry_and_says_so() {
         output.stderr
     );
 }
+
+/// Writes an exclusion CSV with the given header and rows.
+fn tested_list(header: &str, rows: &[&str]) -> PathBuf {
+    let mut csv = String::from(header);
+    csv.push('\n');
+    for row in rows {
+        csv.push_str(row);
+        csv.push('\n');
+    }
+    let path = temp_path("csv");
+    std::fs::write(&path, csv).unwrap();
+    path
+}
+
+fn exclusion_of(report: &serde_json::Value) -> serde_json::Value {
+    report["exclusion"].clone()
+}
+
+#[test]
+fn tested_ligands_are_excluded_by_stable_identifier() {
+    let tested = tested_list("ligand", &["SIG-NIHDA-723", "SIG-NIHDA-1058"]);
+    let report = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--exclude-tested", tested.to_str().unwrap()],
+    );
+
+    let ligands = ranked_ligands(&report);
+    assert!(!ligands.contains(&"SIG-NIHDA-723".to_owned()));
+    assert!(!ligands.contains(&"SIG-NIHDA-1058".to_owned()));
+
+    let exclusion = exclusion_of(&report);
+    assert_eq!(exclusion["matched"], 2);
+    assert_eq!(exclusion["matched_by_identifier"], 2);
+    assert_eq!(exclusion["matched_by_smiles"], 0);
+    assert_eq!(exclusion["excluded"], 2);
+    assert!(exclusion["unresolved"].as_array().unwrap().is_empty());
+
+    // Every count in the requested accounting is present and consistent.
+    let library_size = report["library_size"].as_u64().unwrap();
+    let remaining = exclusion["remaining"].as_u64().unwrap();
+    assert_eq!(
+        remaining + exclusion["excluded"].as_u64().unwrap(),
+        library_size,
+        "excluded + remaining must account for the whole library"
+    );
+}
+
+#[test]
+fn an_unresolved_identifier_is_reported_and_never_silently_dropped() {
+    let tested = tested_list(
+        "ligand",
+        &["SIG-NIHDA-723", "NOT-A-REAL-LIGAND", "ALSO-MISSING"],
+    );
+    let report = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--exclude-tested", tested.to_str().unwrap()],
+    );
+    let exclusion = exclusion_of(&report);
+    let unresolved = exclusion["unresolved"].as_array().unwrap();
+    assert_eq!(unresolved.len(), 2);
+    // Sorted, so the report does not depend on file order.
+    assert_eq!(unresolved[0], "ALSO-MISSING");
+    assert_eq!(unresolved[1], "NOT-A-REAL-LIGAND");
+    assert_eq!(exclusion["matched"], 1);
+
+    // And it is visible without reading JSON.
+    let output = run(&[
+        "screen",
+        study_001_portable_model().to_str().unwrap(),
+        "--library",
+        study_001_library().to_str().unwrap(),
+        "--exclude-tested",
+        tested.to_str().unwrap(),
+    ]);
+    assert_eq!(output.status, 0, "{}", output.stderr);
+    assert!(
+        output.stdout.contains("matched nothing in this library"),
+        "unresolved identifiers must be surfaced in the terminal:\n{}",
+        output.stdout
+    );
+    assert!(
+        output.stdout.contains("NOT-A-REAL-LIGAND"),
+        "{}",
+        output.stdout
+    );
+}
+
+#[test]
+fn duplicate_entries_are_counted_once_and_reported() {
+    let tested = tested_list(
+        "ligand",
+        &["SIG-NIHDA-723", "SIG-NIHDA-723", "SIG-NIHDA-723"],
+    );
+    let report = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--exclude-tested", tested.to_str().unwrap()],
+    );
+    let exclusion = exclusion_of(&report);
+    assert_eq!(exclusion["entries_read"], 3);
+    assert_eq!(exclusion["duplicate_entries"], 2);
+    assert_eq!(exclusion["matched"], 1, "a repeat is not a second match");
+    assert_eq!(
+        exclusion["excluded"], 1,
+        "and removes one member, not three"
+    );
+}
+
+#[test]
+fn a_smiles_column_is_a_secondary_key_not_a_fuzzy_match() {
+    // Exact SMILES string equality resolves a ligand whose identifier was not
+    // given...
+    let exact = tested_list("smiles", &["COc1cccc(OC)c1-c1cccc2c1P(C(C)(C)C)CO2"]);
+    let report = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--exclude-tested", exact.to_str().unwrap()],
+    );
+    let exclusion = exclusion_of(&report);
+    assert_eq!(exclusion["matched_by_smiles"], 1);
+    assert_eq!(exclusion["matched_by_identifier"], 0);
+    assert!(!ranked_ligands(&report).contains(&"SIG-NIHDA-723".to_owned()));
+
+    // ...but a near-miss does not. Identity is not decided by resemblance.
+    let near = tested_list("smiles", &["COc1cccc(OC)c1-c1cccc2c1P(C(C)(C)C)CO"]);
+    let report = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--exclude-tested", near.to_str().unwrap()],
+    );
+    let exclusion = exclusion_of(&report);
+    assert_eq!(exclusion["matched"], 0, "a similar SMILES must not match");
+    assert_eq!(exclusion["unresolved"].as_array().unwrap().len(), 1);
+    assert!(ranked_ligands(&report).contains(&"SIG-NIHDA-723".to_owned()));
+}
+
+#[test]
+fn a_file_without_an_identifier_column_is_refused_with_the_accepted_names() {
+    let malformed = tested_list("compound,notes", &["1,tested last week"]);
+    let output = run(&[
+        "screen",
+        study_001_portable_model().to_str().unwrap(),
+        "--library",
+        study_001_library().to_str().unwrap(),
+        "--exclude-tested",
+        malformed.to_str().unwrap(),
+    ]);
+    assert_ne!(
+        output.status, 0,
+        "a file with no identifier must be refused"
+    );
+    assert!(
+        output.stderr.contains("no identifier column"),
+        "{}",
+        output.stderr
+    );
+    // The error must say what would have worked.
+    assert!(output.stderr.contains("ligand"), "{}", output.stderr);
+    assert!(
+        output.stderr.contains("Found: compound, notes"),
+        "{}",
+        output.stderr
+    );
+}
+
+#[test]
+fn blank_rows_and_an_empty_list_are_handled_without_excluding_anything() {
+    let blank = tested_list("ligand", &["", "  ", ""]);
+    let report = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--exclude-tested", blank.to_str().unwrap()],
+    );
+    let exclusion = exclusion_of(&report);
+    assert_eq!(exclusion["entries_read"], 0, "a blank row carries no claim");
+    assert_eq!(exclusion["excluded"], 0);
+    assert!(exclusion["unresolved"].as_array().unwrap().is_empty());
+
+    // The library is untouched, so this matches an ordinary run.
+    let plain = screen_json(&study_001_portable_model(), &study_001_library(), &[]);
+    assert_eq!(ranked_ligands(&report), ranked_ligands(&plain));
+}
+
+#[test]
+fn exclusion_is_deterministic_and_order_independent() {
+    let forward = tested_list("ligand", &["SIG-NIHDA-723", "SIG-NIHDA-1058", "MISSING-B"]);
+    let reversed = tested_list("ligand", &["MISSING-B", "SIG-NIHDA-1058", "SIG-NIHDA-723"]);
+
+    let first = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--exclude-tested", forward.to_str().unwrap()],
+    );
+    let repeat = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--exclude-tested", forward.to_str().unwrap()],
+    );
+    assert_eq!(first, repeat, "repeated runs must be identical");
+
+    let other_order = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--exclude-tested", reversed.to_str().unwrap()],
+    );
+    assert_eq!(
+        ranked_ligands(&first),
+        ranked_ligands(&other_order),
+        "the surviving set must not depend on the order of the exclusion file"
+    );
+    assert_eq!(
+        exclusion_of(&first)["unresolved"],
+        exclusion_of(&other_order)["unresolved"],
+        "unresolved identifiers are sorted, so file order cannot show through"
+    );
+}
+
+#[test]
+fn excluding_everything_says_so_rather_than_reporting_an_empty_screen() {
+    let library = descriptor_library(&[("only", 9.0, 1.0)]);
+    let tested = tested_list("ligand", &["only"]);
+    let output = run(&[
+        "screen",
+        study_001_portable_model().to_str().unwrap(),
+        "--library",
+        library.to_str().unwrap(),
+        "--exclude-tested",
+        tested.to_str().unwrap(),
+    ]);
+    assert_ne!(output.status, 0);
+    assert!(
+        output.stderr.contains("--exclude-tested removed every one"),
+        "{}",
+        output.stderr
+    );
+}
+
+#[test]
+fn exclusion_removes_candidates_before_they_are_screened() {
+    let tested = tested_list("ligand", &["SIG-NIHDA-723"]);
+    let plain = screen_json(&study_001_portable_model(), &study_001_library(), &[]);
+    let filtered = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--exclude-tested", tested.to_str().unwrap()],
+    );
+
+    // library_size still describes the library; screened drops by one, because
+    // an excluded ligand is not a candidate rather than a hidden one.
+    assert_eq!(plain["library_size"], filtered["library_size"]);
+    assert_eq!(
+        filtered["screened"].as_u64().unwrap(),
+        plain["screened"].as_u64().unwrap() - 1
+    );
+    // Nothing else moves: the remaining predictions are unchanged.
+    let plain_rest: Vec<f64> = predictions(&plain).into_iter().skip(1).collect();
+    assert_eq!(predictions(&filtered), plain_rest);
+}
+
+#[test]
+fn the_exclusion_list_is_recorded_for_provenance() {
+    let tested = tested_list("ligand", &["SIG-NIHDA-723"]);
+    let report = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--exclude-tested", tested.to_str().unwrap()],
+    );
+    let exclusion = exclusion_of(&report);
+    assert_eq!(
+        exclusion["sha256"].as_str().unwrap(),
+        sha256_hex_of(&tested),
+        "the exclusion list is a scientific input and must be hashed like one"
+    );
+    assert_eq!(exclusion["path"], tested.display().to_string());
+}
+
+#[test]
+fn no_exclusion_list_leaves_the_report_unchanged() {
+    let report = screen_json(&study_001_portable_model(), &study_001_library(), &[]);
+    assert!(
+        report["exclusion"].is_null(),
+        "the accounting must be absent when no list was supplied"
+    );
+}

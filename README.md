@@ -382,6 +382,48 @@ with a reason — `missing_descriptors` (naming which), `featurization_failed`, 
 range the model was trained on are listed separately with **how far** outside they fall, as
 a fraction of the training range width.
 
+### Excluding ligands you have already tested
+
+```bash
+./target/release/stericx screen model.json --library <library> --exclude-tested tested.csv
+```
+
+**Stable identifiers are the primary matching mechanism.** The exclusion CSV is read with the
+same `label` column aliases the library itself accepts (`ligand`, `Reaction_ID`, `Source_ID`,
+`id`, …), compared exactly after trimming.
+
+A SMILES column is accepted as a **secondary** key, applied only to entries no identifier
+resolved. Be clear about what that is: exact string equality on the SMILES text. It matches
+strings produced by the same generator; it is **not** structure perception, and two valid
+SMILES for the same molecule written by different toolkits will not match. The report says
+which key resolved each entry, so this is never invisible. Nothing does fuzzy or approximate
+name matching — identity of a ligand is an identifier question.
+
+Exclusion is applied **before inference**: a ligand already tested is not a candidate, so it
+is never predicted, ranked, or counted as screened. `library_size` still reports everything
+the library held.
+
+```text
+tested list    tested.csv (4 entries, 1 duplicate)
+               2 matched (2 by identifier, 0 by SMILES), 2 library member(s) excluded,
+               9 remaining of 11
+               ⚠ 1 identifier(s) matched nothing in this library:
+                 NOT-A-REAL-LIGAND
+```
+
+**Unresolved identifiers are never silently ignored.** They are listed in full — sorted, so
+the report does not depend on the order of the input file — in both the terminal and the JSON
+`exclusion` block, which also records `entries_read`, `duplicate_entries`, `matched`,
+`matched_by_identifier`, `matched_by_smiles`, `excluded`, and `remaining`.
+
+The exclusion list is a scientific input, so it is SHA-256 hashed alongside the model and the
+library: a run's candidate set is reproducible, not just its ranking.
+
+Failure modes are explicit rather than quiet. A file with no recognizable identifier column is
+refused, naming every column that would have worked and what was actually found. A list that
+removes every library member reports exactly that instead of an empty screen. Blank rows carry
+no claim and are skipped without being counted as unresolved.
+
 ### Diversity-aware selection
 
 Plain top-N tends to return near-duplicates: the highest-scoring ligands are often minor

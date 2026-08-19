@@ -1,0 +1,423 @@
+{
+  "schema_version": 2,
+  "model": "mechanistically_constrained_ols",
+  "training_count": 10,
+  "training_group_count": 9,
+  "feature_names": [
+    "intercept",
+    "L_boltz",
+    "B1_boltz",
+    "B5_boltz",
+    "nbo_charge",
+    "B1_x_nbo_charge",
+    "B5_x_nbo_charge",
+    "ir_frequency"
+  ],
+  "selected_feature_indices": [
+    6
+  ],
+  "selected_features": [
+    "B5_x_nbo_charge"
+  ],
+  "weights": [
+    1.863738,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    -0.11433673,
+    0.0
+  ],
+  "standardized_means": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    9.972000551223754,
+    0.0
+  ],
+  "standardized_scales": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    3.627745747731182,
+    1.0
+  ],
+  "training": {
+    "count": 10,
+    "r2": 0.36254551871085705,
+    "mae": 0.44844398752596815,
+    "rmse": 0.5500040833634215
+  },
+  "fixed_feature_loo": {
+    "count": 10,
+    "r2": 0.002041716065248389,
+    "mae": 0.5582741312774857,
+    "rmse": 0.6881728240191488
+  },
+  "fixed_feature_group_loo": {
+    "count": 10,
+    "r2": 0.0013155404705411655,
+    "mae": 0.554722568949261,
+    "rmse": 0.6884231568444389
+  },
+  "ridge_baseline": {
+    "model": "ridge",
+    "regularization": 1.0,
+    "weights": [
+      1.7600864,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.103942476,
+      0.0
+    ],
+    "training": {
+      "count": 10,
+      "r2": 0.3595492734352991,
+      "mae": 0.44407845555719627,
+      "rmse": 0.5512951678637537
+    },
+    "nested_loo": {
+      "count": 10,
+      "r2": -0.1296735986490194,
+      "mae": 0.6031503965358785,
+      "rmse": 0.7321799197869394
+    }
+  },
+  "lasso_baseline": {
+    "model": "lasso",
+    "regularization": 0.0001,
+    "weights": [
+      1.863463,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.11430916,
+      0.0
+    ],
+    "training": {
+      "count": 10,
+      "r2": 0.36254549763963606,
+      "mae": 0.44843240946752727,
+      "rmse": 0.5500040924536844
+    },
+    "nested_loo": {
+      "count": 10,
+      "r2": -0.35017783220438914,
+      "mae": 0.6462157411964178,
+      "rmse": 0.8004547961810861
+    }
+  },
+  "coefficient_intervals": [
+    {
+      "feature": "intercept",
+      "estimate": 1.863737940788269,
+      "lower_95": -0.3191237635910511,
+      "upper_95": 2.903146183490753
+    },
+    {
+      "feature": "B5_x_nbo_charge",
+      "estimate": -0.11433672904968262,
+      "lower_95": -0.20489567518234253,
+      "upper_95": 0.05352415107190602
+    }
+  ],
+  "response_permutation_p_value": 0.063968015992004,
+  "correlation_matrix": [
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0,
+      0.36989548170823755,
+      0.8749362004294347,
+      0.35903681353769773,
+      0.5924078759297855,
+      0.5565391935120708,
+      0.0
+    ],
+    [
+      0.0,
+      0.36989548170823755,
+      1.0,
+      0.1872546458783398,
+      -0.04170950927320936,
+      0.6214195515324802,
+      0.08723186976782601,
+      0.0
+    ],
+    [
+      0.0,
+      0.8749362004294347,
+      0.1872546458783398,
+      1.0,
+      0.5257778492038232,
+      0.6396207813131138,
+      0.7318221833059342,
+      0.0
+    ],
+    [
+      0.0,
+      0.35903681353769773,
+      -0.04170950927320936,
+      0.5257778492038232,
+      1.0,
+      0.7339095628201134,
+      0.9602625780917265,
+      0.0
+    ],
+    [
+      0.0,
+      0.5924078759297855,
+      0.6214195515324802,
+      0.6396207813131138,
+      0.7339095628201134,
+      1.0,
+      0.8232491118530227,
+      0.0
+    ],
+    [
+      0.0,
+      0.5565391935120708,
+      0.08723186976782601,
+      0.7318221833059342,
+      0.9602625780917265,
+      0.8232491118530227,
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "variance_inflation_factors": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    1.0,
+    null
+  ],
+  "applicability_domain": [
+    {
+      "feature": "B5_x_nbo_charge",
+      "minimum": 5.053457260131836,
+      "maximum": 14.475939750671387
+    }
+  ],
+  "training_geometry": {
+    "feature_indices": [
+      6
+    ],
+    "means": [
+      9.972000551223754
+    ],
+    "scales": [
+      3.627745747731182
+    ],
+    "xtx_inverse": [
+      [
+        0.1,
+        -1.1102230246250455e-17
+      ],
+      [
+        -1.1102230246250455e-17,
+        0.09999999999999
+      ]
+    ],
+    "observations": 10,
+    "parameters": 2,
+    "residual_standard_error": 0.6149232591515359,
+    "warning_leverage": 0.6,
+    "standardized_training_points": [
+      [
+        -0.8879197266581041
+      ],
+      [
+        0.14209811289455393
+      ],
+      [
+        -1.3558125715309597
+      ],
+      [
+        0.7677438983827187
+      ],
+      [
+        -1.2147047537351916
+      ],
+      [
+        -1.218066375846849
+      ],
+      [
+        1.2415255954098845
+      ],
+      [
+        0.646861938873384
+      ],
+      [
+        0.7381613609166824
+      ],
+      [
+        1.140112521293883
+      ]
+    ],
+    "neighbor_calibration": {
+      "mean": 0.13293089381707174,
+      "standard_deviation": 0.15314059709136776,
+      "median": 0.09635624807964999,
+      "maximum": 0.5047638259788301,
+      "threshold": 0.5047638259788301,
+      "rule": "threshold = max over training points of the distance to the nearest other training point, in standardized descriptor space"
+    }
+  },
+  "notes": [
+    "Descriptors were standardized using training rows only.",
+    "Leverage h = x'(X'X)^-1 x is reported against the warning leverage h* = 3p/n; beyond it a prediction is an extrapolation.",
+    "Forward selection used BIC and rejected |r| > 0.95 descriptor pairs.",
+    "LOO, bootstrap, and permutation diagnostics keep the selected descriptor set fixed.",
+    "Group LOO holds out every row sharing the same ligand-group label.",
+    "A prospective claim still requires an experimentally untouched test set."
+  ],
+  "inference": {
+    "response": {
+      "name": "ddg_double_dagger",
+      "units": "kcal/mol",
+      "description": "Transition-state free-energy difference between competing enantiomeric pathways.",
+      "sign_convention": "ddG = G(S) - G(R); positive values favor the R product.",
+      "temperature_k": 298.15,
+      "optimization": "maximize"
+    },
+    "feature_space": {
+      "definition": "stericx.physical_organic.v1",
+      "feature_names": [
+        "intercept",
+        "L_boltz",
+        "B1_boltz",
+        "B5_boltz",
+        "nbo_charge",
+        "B1_x_nbo_charge",
+        "B5_x_nbo_charge",
+        "ir_frequency"
+      ],
+      "transformations": [
+        {
+          "kind": "constant"
+        },
+        {
+          "kind": "descriptor",
+          "descriptor": "sterimol_l"
+        },
+        {
+          "kind": "descriptor",
+          "descriptor": "sterimol_b1"
+        },
+        {
+          "kind": "descriptor",
+          "descriptor": "sterimol_b5"
+        },
+        {
+          "kind": "descriptor",
+          "descriptor": "nbo_charge"
+        },
+        {
+          "kind": "interaction",
+          "factors": [
+            "sterimol_b1",
+            "nbo_charge"
+          ]
+        },
+        {
+          "kind": "interaction",
+          "factors": [
+            "sterimol_b5",
+            "nbo_charge"
+          ]
+        },
+        {
+          "kind": "descriptor",
+          "descriptor": "ir_frequency"
+        }
+      ]
+    },
+    "intercept": 1.863737940788269,
+    "terms": [
+      {
+        "feature_index": 6,
+        "feature_name": "B5_x_nbo_charge",
+        "coefficient": -0.11433672904968262,
+        "training_mean": 9.972000551223754,
+        "training_standard_deviation": 3.627745747731182,
+        "training_minimum": 5.053457260131836,
+        "training_maximum": 14.475939750671387
+      }
+    ]
+  },
+  "provenance": {
+    "model_id": "mechanistically_constrained_ols",
+    "stericx_version": "0.2.0",
+    "record_format": "sigpack_v1",
+    "training": {
+      "record_count": 10,
+      "group_count": 9,
+      "dataset_digests": [
+        {
+          "artifact": "reactions.sigpack",
+          "algorithm": "fnv1a64",
+          "digest": "c8ab632a6d20a15b",
+          "byte_count": 704
+        },
+        {
+          "artifact": "reactions_raw.csv",
+          "algorithm": "fnv1a64",
+          "digest": "77d01f2e91a906eb",
+          "byte_count": 7482
+        }
+      ],
+      "fit_options": {
+        "max_terms": 3,
+        "bootstrap_samples": 2000,
+        "permutation_samples": 2000,
+        "seed": 20260725
+      }
+    },
+    "reaction": {
+      "reaction_family": "Ni-catalyzed homo-Diels-Alder",
+      "catalyst_metal": "Ni",
+      "ligand_class": "monodentate phosphorus(III)",
+      "source_url": "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv",
+      "notes": []
+    }
+  },
+  "created": {
+    "created_utc": "2026-08-19T17:36:46Z",
+    "produced_by": "stericx fit"
+  }
+}

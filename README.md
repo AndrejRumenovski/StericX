@@ -461,8 +461,13 @@ packed experimental ΔΔG‡ labels.
 
 ```bash
 ./target/release/stericx fit --data data/reactions.sigpack --metadata data/reactions_raw.csv \
-  --output docs/study_001/stericx_model.json --predictions docs/study_001/stericx_frozen_predictions.csv
+  --output docs/study_001/stericx_model.json --predictions docs/study_001/stericx_frozen_predictions.csv \
+  --bootstrap 2000 --permutations 2000
 ```
+
+The replicate counts are not the defaults: the checked-in Study 001 artifact was fitted with
+2,000 bootstrap and 2,000 permutation replicates, and the defaults (1,000 and 500) reproduce
+every other field but shift the coefficient intervals and the permutation p-value.
 
 Learns scaling from training rows only, caps complexity below one term per three
 observations, rejects `|r| > 0.95` descriptor pairs, and does BIC-constrained forward
@@ -477,14 +482,33 @@ metadata, so it can be scored elsewhere without the training data or the fitting
 ```bash
 ./target/release/stericx fit --data data/reactions.sigpack --metadata data/reactions_raw.csv \
   --output docs/study_001/stericx_model.json --predictions docs/study_001/stericx_frozen_predictions.csv \
+  --bootstrap 2000 --permutations 2000 \
   --portable-model docs/study_001/stericx_portable_model.json \
-  --reaction-family "Ni-catalyzed homo-Diels-Alder" --catalyst-metal Ni --response-temp-k 298.15
+  --model-id mechanistically_constrained_ols \
+  --reaction-family "Ni-catalyzed homo-Diels-Alder" --catalyst-metal Ni \
+  --ligand-class "monodentate phosphorus(III)" \
+  --source-url "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv" \
+  --response-temp-k 298.15 --optimize maximize
 ```
 
 Schema 2 is a strict superset of schema 1, so `--output` stays byte-identical and existing
 readers keep working. Chemistry context that is not supplied is recorded as `null` and
 reported as `portable_model_missing_provenance` rather than guessed. Spec:
 [`docs/MODEL_FORMAT.md`](docs/MODEL_FORMAT.md).
+
+The checked-in `stericx_model.json` predates `training_geometry.neighbor_calibration`
+and `standardized_training_points`, which this build records. Re-running the command
+against that path re-emits it with those two fields added; every pre-existing value,
+including the bootstrap intervals and the permutation p-value, stays byte-identical.
+It was deliberately left as published, so the version 1 artifact still screens with
+applicability verdicts of `unknown` while the version 2 document reports
+`interpolation`.
+
+`--optimize maximize` records that a larger ΔΔG‡ is the better outcome, which is what lets
+`screen` rank this model without an explicit direction flag. Study 001's ten training labels
+are all positive (0.028–2.14 kcal/mol), so the model never observed a sign change and cannot
+support the claim that a large negative prediction is equally good; `maximize_magnitude`
+would assert exactly that.
 
 ### `model` — inspect and validate a saved model
 

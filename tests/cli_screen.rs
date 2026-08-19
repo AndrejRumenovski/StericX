@@ -912,3 +912,130 @@ fn applicability_does_not_depend_on_how_good_the_prediction_looks() {
         );
     }
 }
+
+/// The Study 001 schema-2 portable artifact, emitted alongside the legacy
+/// schema-1 model so the flagship model can be screened without direction flags.
+fn study_001_portable_model() -> PathBuf {
+    repo("docs/study_001/stericx_portable_model.json")
+}
+
+#[test]
+fn the_study_001_portable_artifact_is_a_strict_superset_of_the_legacy_model() {
+    let legacy: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(study_001_model()).unwrap()).unwrap();
+    let portable: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(study_001_portable_model()).unwrap())
+            .unwrap();
+
+    assert_eq!(legacy["schema_version"], 1, "legacy artifact must stay v1");
+    assert_eq!(portable["schema_version"], 2);
+
+    // Every key the legacy document publishes must survive unchanged. A moved
+    // validation statistic would silently republish a different scientific claim.
+    // Supersetting is recursive: a nested object may gain keys (`training_geometry`
+    // gains the applicability calibration) but never alter one it already had.
+    fn assert_superset(legacy: &serde_json::Value, portable: &serde_json::Value, path: &str) {
+        let Some(fields) = legacy.as_object() else {
+            assert_eq!(legacy, portable, "portable model changed `{path}`");
+            return;
+        };
+        let nested = portable
+            .as_object()
+            .unwrap_or_else(|| panic!("portable model replaced object `{path}`"));
+        for (key, value) in fields {
+            let child = nested
+                .get(key)
+                .unwrap_or_else(|| panic!("portable model dropped `{path}{key}`"));
+            assert_superset(value, child, &format!("{path}{key}."));
+        }
+    }
+
+    for (key, value) in legacy.as_object().unwrap() {
+        if key == "schema_version" {
+            continue;
+        }
+        let child = portable
+            .get(key)
+            .unwrap_or_else(|| panic!("portable model dropped legacy field `{key}`"));
+        assert_superset(value, child, &format!("{key}."));
+    }
+
+    for added in ["inference", "provenance", "created"] {
+        assert!(
+            portable.get(added).is_some(),
+            "portable model is missing `{added}`"
+        );
+    }
+}
+
+#[test]
+fn the_study_001_portable_artifact_validates_without_findings() {
+    let output = run(&[
+        "model",
+        "validate",
+        study_001_portable_model().to_str().unwrap(),
+    ]);
+    assert_eq!(output.status, 0, "validate failed: {}", output.stderr);
+    assert!(output.stdout.contains("errors=0"), "{}", output.stdout);
+    assert!(output.stdout.contains("warnings=0"), "{}", output.stdout);
+    assert!(output.stdout.contains("valid=true"), "{}", output.stdout);
+}
+
+#[test]
+fn the_study_001_portable_artifact_ranks_without_a_direction_flag() {
+    // The whole point of the artifact: the legacy model refuses to rank, this
+    // one carries its own direction.
+    let refused = run(&[
+        "screen",
+        study_001_model().to_str().unwrap(),
+        "--library",
+        study_001_library().to_str().unwrap(),
+    ]);
+    assert_ne!(
+        refused.status, 0,
+        "the legacy model must still refuse to rank on a guess"
+    );
+
+    let report = screen_json(&study_001_portable_model(), &study_001_library(), &[]);
+    assert_eq!(report["model_optimization"], "maximize");
+    assert_eq!(report["ranking_order"], "descending");
+    assert_eq!(report["ranking_overridden"], false);
+
+    // Recorded direction means descending raw value, ties aside.
+    let values = predictions(&report);
+    let mut sorted = values.clone();
+    sorted.sort_by(|left, right| right.total_cmp(left));
+    assert_eq!(values, sorted, "hits are not in the model's stated order");
+}
+
+#[test]
+fn the_study_001_portable_artifact_reports_applicability_not_unknown() {
+    // The legacy artifact predates `neighbor_calibration`, so it can only say
+    // `unknown`. The portable one carries the calibration and can say more.
+    let report = screen_json(&study_001_portable_model(), &study_001_library(), &[]);
+    for hit in report["hits"].as_array().unwrap() {
+        assert_ne!(
+            hit["domain_verdict"], "unknown",
+            "{} has no applicability verdict",
+            hit["ligand"]
+        );
+    }
+}
+
+#[test]
+fn the_study_001_portable_artifact_reproduces_the_frozen_blind_prediction() {
+    let report = screen_json(&study_001_portable_model(), &study_001_library(), &[]);
+    let blind = report["hits"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|hit| hit["ligand"] == "SIG-NIHDA-723")
+        .expect("the blind ligand is in the library");
+    let predicted = blind["predicted_ddg_kcal_mol"].as_f64().unwrap();
+    // `stericx evaluate`'s own tolerance for a frozen prediction: the screen
+    // loop accumulates in f64 while the engine kernel is f32.
+    assert!(
+        (predicted - 1.233_021_3_f64).abs() < 1e-4,
+        "blind prediction drifted: {predicted}"
+    );
+}

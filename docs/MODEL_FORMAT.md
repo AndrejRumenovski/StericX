@@ -293,15 +293,37 @@ an additional version 2 document:
   --metadata data/reactions_raw.csv \
   --output docs/study_001/stericx_model.json \
   --predictions docs/study_001/stericx_frozen_predictions.csv \
+  --bootstrap 2000 --permutations 2000 \
   --portable-model docs/study_001/stericx_portable_model.json \
+  --model-id mechanistically_constrained_ols \
   --reaction-family "Ni-catalyzed homo-Diels-Alder" \
   --catalyst-metal Ni \
-  --source-url "https://github.com/SigmanGroup/Ni-Catalyzed-hDA" \
-  --response-temp-k 298.15
+  --ligand-class "monodentate phosphorus(III)" \
+  --source-url "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv" \
+  --response-temp-k 298.15 \
+  --optimize maximize
 ```
 
+That is the exact command that produced the checked-in
+`docs/study_001/stericx_portable_model.json`. The replicate counts are not the
+defaults — the Study 001 artifact was fitted with 2,000 bootstrap and 2,000
+permutation replicates, and the defaults reproduce every other field but shift
+the coefficient intervals and the permutation p-value.
+
+The checked-in `stericx_model.json` predates `training_geometry.neighbor_calibration`
+and `standardized_training_points`, which this build records. Re-running the command
+against that path re-emits it with those two fields added; every pre-existing value,
+including the bootstrap intervals and the permutation p-value, stays byte-identical.
+It was deliberately left as published, so the version 1 artifact still screens with
+applicability verdicts of `unknown` while the version 2 document reports
+`interpolation`.
+
 `--output` is unchanged by this flag, so existing study artifacts stay
-byte-identical.
+byte-identical. Study 001 therefore publishes both documents side by side: the
+version 1 `stericx_model.json` that the released studies and the Python drivers
+already read, and the version 2 `stericx_portable_model.json` that carries the
+response definition, the provenance, the applicability calibration, and the
+optimization direction `screen` needs to rank without an explicit flag.
 
 ## Inspecting and validating a document
 

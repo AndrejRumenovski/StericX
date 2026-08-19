@@ -1,4 +1,4 @@
-use super::domain::{TrainingGeometry, invert_matrix};
+use super::domain::{NeighborCalibration, TrainingGeometry, invert_matrix};
 use super::{MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, expand_features};
 use crate::storage::PackedReactionRecord;
 use serde::{Deserialize, Serialize};
@@ -653,6 +653,18 @@ fn training_geometry(
         row[index] += EPSILON;
     }
     let xtx_inverse = invert_matrix(&normal).ok()?;
+    // The same standardized coordinates the fit solved in, kept so a screened
+    // ligand's distance to the training set can be measured in that frame.
+    let standardized_training_points = features
+        .iter()
+        .map(|row| {
+            selected
+                .iter()
+                .map(|&column| (row[column] - means[column]) / scales[column])
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>();
+    let neighbor_calibration = NeighborCalibration::from_points(&standardized_training_points);
     let rss = residual_sum_of_squares(targets, predictions);
     let residual_standard_error = (rss / (observations - columns) as f64).sqrt();
     if !residual_standard_error.is_finite() {
@@ -667,6 +679,8 @@ fn training_geometry(
         parameters: columns,
         residual_standard_error,
         warning_leverage: 3.0 * columns as f64 / observations as f64,
+        standardized_training_points,
+        neighbor_calibration,
     })
 }
 

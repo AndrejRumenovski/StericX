@@ -335,6 +335,27 @@ after every candidate has been predicted and ranked — `screened` and `returned
 reported, so a limited view never hides how much was searched. CSV and JSON carry full
 round-trip `f64` precision; only the terminal table rounds.
 
+**Applicability is measured, not asserted.** Every screened ligand is placed relative to the
+training set by two independent checks — whether each descriptor falls inside its training
+range, and how far the ligand sits, in standardized descriptor space, from the nearest
+training observation. A Mahalanobis distance is reported too when the training covariance
+supports one, and declined with a reason when it does not:
+
+```text
+domain: interpolation  nearest training point 0.010  mahalanobis 1.165
+```
+
+The verdicts are `interpolation`, `sparse_interpolation` (inside every range but in a gap the
+training set never sampled), `extrapolation`, and `unknown`. There are no invented HIGH /
+MEDIUM / LOW grades: each verdict is a stated combination of the two checks. The single
+boundary involved is measured from the training set itself — the largest distance from any
+training point to its nearest neighbour — and is serialized into the model along with the
+mean, median, and standard deviation of that distribution so a stricter rule can be applied
+without refitting. Full derivation in [`docs/MODEL_FORMAT.md`](docs/MODEL_FORMAT.md).
+
+Applicability never sees the prediction, so a ligand cannot look more in-domain because the
+model happens to like it.
+
 Candidates that cannot be screened are accounted for rather than dropped. Each is listed
 with a reason — `missing_descriptors` (naming which), `featurization_failed`, or
 `non_finite_prediction` — and the counts are summarized by reason:

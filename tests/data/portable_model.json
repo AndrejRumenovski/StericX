@@ -256,7 +256,47 @@
     "observations": 10,
     "parameters": 2,
     "residual_standard_error": 0.6149232591515359,
-    "warning_leverage": 0.6
+    "warning_leverage": 0.6,
+    "standardized_training_points": [
+      [
+        -0.8879197266581041
+      ],
+      [
+        0.14209811289455393
+      ],
+      [
+        -1.3558125715309597
+      ],
+      [
+        0.7677438983827187
+      ],
+      [
+        -1.2147047537351916
+      ],
+      [
+        -1.218066375846849
+      ],
+      [
+        1.2415255954098845
+      ],
+      [
+        0.646861938873384
+      ],
+      [
+        0.7381613609166824
+      ],
+      [
+        1.140112521293883
+      ]
+    ],
+    "neighbor_calibration": {
+      "mean": 0.13293089381707174,
+      "standard_deviation": 0.15314059709136776,
+      "median": 0.09635624807964999,
+      "maximum": 0.5047638259788301,
+      "threshold": 0.5047638259788301,
+      "rule": "threshold = max over training points of the distance to the nearest other training point, in standardized descriptor space"
+    }
   },
   "notes": [
     "Descriptors were standardized using training rows only.",

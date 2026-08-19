@@ -19,7 +19,7 @@ use std::error::Error;
 use std::path::{Path, PathBuf};
 use steric_x::model::{
     FeatureTransform, InferenceSpec, MODEL_FEATURE_NAMES, Optimization, PortableModel,
-    expand_features,
+    assess_applicability, expand_features,
 };
 use steric_x::{BuriedVolumeConfig, EyringKineticLink, PackedReactionRecord, ScientificFitReport};
 
@@ -363,6 +363,19 @@ struct ScreenHit {
     leverage_ratio: Option<f64>,
     /// Graded verdict combining the range check and the leverage check.
     trust: String,
+    /// Where the candidate sits relative to the training set: `interpolation`,
+    /// `sparse_interpolation`, `extrapolation`, or `unknown`.
+    domain_verdict: String,
+    /// Standardized distance to the closest training observation.
+    nearest_training_distance: Option<f64>,
+    /// The training set's own nearest-neighbour spacing, the boundary above.
+    nearest_training_threshold: Option<f64>,
+    /// `distance / threshold`; above one is outside the sampled region.
+    nearest_training_ratio: Option<f64>,
+    /// Mahalanobis distance, when the training covariance supports one.
+    mahalanobis_distance: Option<f64>,
+    /// Largest range overshoot as a fraction of the training range width.
+    maximum_extrapolation: f64,
     /// Signed by the ΔΔG‡ convention: positive favours R, negative the same
     /// excess of the opposite enantiomer.
     predicted_ee_percent: f64,
@@ -405,6 +418,10 @@ struct ScreenReport {
     high_leverage: usize,
     /// How many ligands each trust grade covers.
     trust_summary: Vec<(String, usize)>,
+    /// How many ligands each applicability verdict covers.
+    domain_summary: Vec<(String, usize)>,
+    /// How the neighbour boundary was derived, carried from the model.
+    neighbor_rule: Option<String>,
     uncertainty_note: String,
     hits: Vec<ScreenHit>,
 }
@@ -868,6 +885,12 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             });
             continue;
         }
+        let applicability = assess_applicability(
+            report.training_geometry.as_ref(),
+            &report.applicability_domain,
+            &report.selected_feature_indices,
+            &features,
+        );
         let outside = domain_exceedances(report, &features);
         let band = coefficient_band(report, &features);
         let geometry = report.training_geometry.as_ref();
@@ -902,6 +925,12 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
                 predicted as f32,
                 args.temperature,
             )) * if predicted < 0.0 { -1.0 } else { 1.0 },
+            domain_verdict: applicability.verdict.label().to_owned(),
+            nearest_training_distance: applicability.nearest_training_distance,
+            nearest_training_threshold: applicability.nearest_training_threshold,
+            nearest_training_ratio: applicability.nearest_training_ratio,
+            mahalanobis_distance: applicability.mahalanobis_distance,
+            maximum_extrapolation: applicability.maximum_extrapolation,
             applicability: if outside.is_empty() {
                 "inside_training_range".to_owned()
             } else {
@@ -1000,6 +1029,33 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             counts.sort_by(|left, right| right.1.cmp(&left.1).then_with(|| left.0.cmp(&right.0)));
             counts
         },
+        domain_summary: {
+            let mut counts: Vec<(String, usize)> = Vec::new();
+            for hit in &hits {
+                match counts
+                    .iter_mut()
+                    .find(|(verdict, _)| *verdict == hit.domain_verdict)
+                {
+                    Some((_, count)) => *count += 1,
+                    None => counts.push((hit.domain_verdict.clone(), 1)),
+                }
+            }
+            counts.sort_by(|left, right| right.1.cmp(&left.1).then_with(|| left.0.cmp(&right.0)));
+            counts
+        },
+        neighbor_rule: report
+            .training_geometry
+            .as_ref()
+            .and_then(|geometry| geometry.neighbor_calibration.as_ref())
+            .map(|calibration| {
+                format!(
+                    "{} (threshold {:.4}, mean {:.4}, sd {:.4})",
+                    calibration.rule,
+                    calibration.threshold,
+                    calibration.mean,
+                    calibration.standard_deviation
+                )
+            }),
         uncertainty_note: if report.training_geometry.is_some() {
             "prediction_interval is a 95% Student-t interval y ± t(0.975, n−p)·s·√(1+h): it \
              widens with leverage, so a ligand far from the training set is reported with a \
@@ -1127,6 +1183,19 @@ fn print_screen_text(report: &ScreenReport) {
         if !hit.descriptors.is_empty() {
             println!("{:>60}{}", "", describe_descriptors(&hit.descriptors));
         }
+        println!(
+            "{:>60}domain: {}{}{}",
+            "",
+            hit.domain_verdict,
+            match hit.nearest_training_distance {
+                Some(distance) => format!("  nearest training point {distance:.3}"),
+                None => String::new(),
+            },
+            match hit.mahalanobis_distance {
+                Some(distance) => format!("  mahalanobis {distance:.3}"),
+                None => String::new(),
+            }
+        );
     }
     let untrusted = report
         .hits
@@ -1167,6 +1236,20 @@ fn print_screen_text(report: &ScreenReport) {
                     exceedance.exceedance_fraction * 100.0
                 );
             }
+        }
+    }
+    if !report.domain_summary.is_empty() {
+        println!(
+            "\napplicability: {}",
+            report
+                .domain_summary
+                .iter()
+                .map(|(verdict, count)| format!("{verdict} {count}"))
+                .collect::<Vec<_>>()
+                .join(", ")
+        );
+        if let Some(rule) = report.neighbor_rule.as_deref() {
+            println!("  neighbour boundary: {rule}");
         }
     }
     if !report.excluded.is_empty() {
@@ -1216,6 +1299,8 @@ fn describe_descriptors_exact(descriptors: &[DescriptorValue]) -> String {
 fn print_screen_csv(report: &ScreenReport) {
     println!(
         "rank,ligand,ligand_name,predicted_ddg_kcal_mol,predicted_ee_percent,descriptors,\
+         domain_verdict,nearest_training_distance,nearest_training_threshold,\
+         nearest_training_ratio,mahalanobis_distance,maximum_extrapolation,\
          prediction_interval_low,prediction_interval_high,\
          leverage,leverage_ratio,trust,coefficient_band_low,coefficient_band_high,\
          applicability,outside_features"
@@ -1226,13 +1311,19 @@ fn print_screen_csv(report: &ScreenReport) {
         let format_bound =
             |value: Option<f64>| value.map_or_else(String::new, |value| format!("{value}"));
         println!(
-            "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
+            "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
             hit.rank,
             crate::descriptors::csv_field(&hit.ligand),
             crate::descriptors::csv_field(hit.ligand_name.as_deref().unwrap_or_default()),
             hit.predicted_ddg_kcal_mol,
             hit.predicted_ee_percent,
             crate::descriptors::csv_field(&describe_descriptors_exact(&hit.descriptors)),
+            hit.domain_verdict,
+            format_bound(hit.nearest_training_distance),
+            format_bound(hit.nearest_training_threshold),
+            format_bound(hit.nearest_training_ratio),
+            format_bound(hit.mahalanobis_distance),
+            hit.maximum_extrapolation,
             format_bound(hit.prediction_interval_low),
             format_bound(hit.prediction_interval_high),
             format_bound(hit.leverage),

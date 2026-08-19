@@ -159,6 +159,90 @@ refuse a model whose list is non-empty.
 | `created_utc` | RFC 3339 UTC timestamp. |
 | `produced_by` | Producing command, e.g. `stericx fit`. |
 
+## Applicability domain
+
+`training_geometry` records what the training set actually covers, so a screened
+ligand can be placed relative to it. It is optional — models written before it
+existed load without it and are reported as `unknown` rather than assumed to be
+in domain.
+
+| Field | Meaning |
+|---|---|
+| `feature_indices`, `means`, `scales` | The standardized frame the fit solved in. |
+| `xtx_inverse` | `(X'X)⁻¹` in that frame; the source of leverage. |
+| `observations`, `parameters` | `n` and `p`, counting the intercept. |
+| `residual_standard_error` | `s = √(RSS/(n−p))`. |
+| `warning_leverage` | `h* = 3p/n`. |
+| `standardized_training_points` | One row per training observation, one column per selected descriptor. |
+| `neighbor_calibration` | The training set's own nearest-neighbour spacing. |
+
+### The three measures
+
+**Per-descriptor range check.** Each selected descriptor is compared against the
+`training_minimum` / `training_maximum` the model records. A departure is
+reported as `normalized_exceedance = overshoot / (maximum − minimum)`, so "half a
+training range beyond the edge" is 0.5 regardless of units. When a training
+range has zero width — every training value identical — the exceedance is
+infinite rather than a fraction of a range that does not exist.
+
+**Nearest-neighbour distance.** Euclidean distance in the standardized
+descriptor space to the closest training observation. This is what
+`standardized_training_points` exists for; a range check alone cannot see a hole
+in the middle of the training box.
+
+**Mahalanobis distance.** Not a second covariance estimate. The standardized
+columns are centred on the training means by construction, so `Z'Z` is block
+diagonal and leverage decomposes exactly as
+
+```text
+h = 1/n + z'S⁻¹z ,  S = (n−1)·Cov   ⟹   Mahalanobis = √((n−1)(h − 1/n))
+```
+
+recovered from `xtx_inverse`, which guarantees it can never disagree with the
+leverage the same model reports. It is **declined**, with a stated reason, when
+it would be unreliable rather than merely inconvenient:
+
+- `n < k + 2`, where the sample covariance of `k` descriptors is not estimable;
+- `xtx_inverse[0][0] ≠ 1/n` or a non-zero intercept row, meaning the stored
+  matrix is not the centred one the decomposition assumes;
+- a negative squared distance from numerical error.
+
+### The one threshold, and where it comes from
+
+Only the nearest-neighbour measure needs a boundary, and it is **measured, not
+chosen**. For every training point, take the distance to the nearest *other*
+training point; the boundary is the maximum of those distances:
+
+```text
+threshold = max over training points of ( distance to nearest other training point )
+```
+
+A candidate is inside the sampled region when it is no farther from the training
+set than the training set's sparsest point is from its own neighbour. This has
+no free parameter — no `0.5σ`, no percentile, nothing to tune.
+
+Being set by the loosest part of the training set makes it **permissive**, and
+that is a real limitation: one isolated training observation widens the boundary
+for everything. `mean`, `standard_deviation`, and `median` of the same distance
+distribution are serialized alongside it so a consumer can impose a stricter
+rule without refitting. The `rule` field carries the derivation in words.
+
+### Verdicts
+
+No severity grades are invented. Each verdict is a stated combination of the two
+checks above:
+
+| Verdict | Definition |
+|---|---|
+| `interpolation` | Every descriptor inside its training range, and nearest-neighbour distance ≤ threshold. |
+| `sparse_interpolation` | Every descriptor inside its range, but distance > threshold — a gap the training set did not sample. |
+| `extrapolation` | At least one descriptor outside its training range. |
+| `unknown` | No training geometry, or no calibration to compare against. Not a claim of either state. |
+
+Applicability is computed from descriptors alone. `assess_applicability` takes
+no prediction and there is no way to pass one, so a favourable-looking number
+can never make a ligand appear more in-domain than it is.
+
 ## Validation
 
 `PortableModel::validate` runs on every read and every write. It rejects:

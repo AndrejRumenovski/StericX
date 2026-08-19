@@ -813,3 +813,102 @@ fn csv_and_json_keep_full_precision() {
             <= INFERENCE_TOLERANCE
     );
 }
+
+// ---------------------------------------------------------------------------
+// Applicability domain
+// ---------------------------------------------------------------------------
+
+#[test]
+fn screened_candidates_carry_structured_applicability_information() {
+    // The Study 001 training set spans B5 * NBO from about 5.05 to 14.48. The
+    // first row sits inside it; the second is far outside on both counts.
+    let library = descriptor_library(&[("inside", 8.0, 1.0), ("far_outside", 25.0, 2.0)]);
+    let model = model_with_direction("maximize_magnitude");
+
+    let report = screen_json(&model, &library, &[]);
+    let _ = std::fs::remove_file(&model);
+    let _ = std::fs::remove_file(&library);
+
+    let hits = report["hits"].as_array().unwrap();
+    let find = |name: &str| {
+        hits.iter()
+            .find(|hit| hit["ligand"] == name)
+            .unwrap_or_else(|| panic!("{name} was screened"))
+            .clone()
+    };
+
+    let inside = find("inside");
+    assert_eq!(inside["domain_verdict"], "interpolation");
+    assert_eq!(inside["maximum_extrapolation"], 0.0);
+    assert!(inside["nearest_training_distance"].as_f64().unwrap() >= 0.0);
+    assert!(inside["nearest_training_ratio"].as_f64().unwrap() <= 1.0);
+    assert!(inside["outside_domain"].as_array().unwrap().is_empty());
+
+    let outside = find("far_outside");
+    assert_eq!(outside["domain_verdict"], "extrapolation");
+    assert!(outside["maximum_extrapolation"].as_f64().unwrap() > 0.0);
+    assert!(!outside["outside_domain"].as_array().unwrap().is_empty());
+    assert!(
+        outside["nearest_training_distance"].as_f64().unwrap()
+            > inside["nearest_training_distance"].as_f64().unwrap(),
+        "the distant ligand must be farther from the training set"
+    );
+    assert!(
+        outside["nearest_training_ratio"].as_f64().unwrap() > 1.0,
+        "beyond the calibrated neighbour boundary"
+    );
+
+    // Mahalanobis is reported here because the covariance is estimable.
+    assert!(outside["mahalanobis_distance"].as_f64().unwrap() > 0.0);
+
+    // The report carries the derivation of the boundary, not just the verdict.
+    let rule = report["neighbor_rule"].as_str().expect("boundary recorded");
+    assert!(rule.contains("nearest other training point"), "{rule}");
+    assert!(report["domain_summary"].is_array());
+}
+
+#[test]
+fn applicability_does_not_depend_on_how_good_the_prediction_looks() {
+    // Same two ligands, screened under opposite optimization directions. The
+    // ranking flips; every applicability figure must be identical, because the
+    // assessment never sees a prediction.
+    let library = descriptor_library(&[("a", 7.0, 0.9), ("b", 13.0, 1.1)]);
+    let maximize = model_with_direction("maximize");
+    let minimize = model_with_direction("minimize");
+
+    let up = screen_json(&maximize, &library, &[]);
+    let down = screen_json(&minimize, &library, &[]);
+    let _ = std::fs::remove_file(&maximize);
+    let _ = std::fs::remove_file(&minimize);
+    let _ = std::fs::remove_file(&library);
+
+    assert_ne!(
+        ranked_ligands(&up),
+        ranked_ligands(&down),
+        "the fixture must actually reorder"
+    );
+
+    let domain_of = |report: &serde_json::Value, name: &str| {
+        let hit = report["hits"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|hit| hit["ligand"] == name)
+            .unwrap();
+        serde_json::json!({
+            "verdict": hit["domain_verdict"],
+            "distance": hit["nearest_training_distance"],
+            "threshold": hit["nearest_training_threshold"],
+            "ratio": hit["nearest_training_ratio"],
+            "mahalanobis": hit["mahalanobis_distance"],
+            "extrapolation": hit["maximum_extrapolation"],
+        })
+    };
+    for ligand in ["a", "b"] {
+        assert_eq!(
+            domain_of(&up, ligand),
+            domain_of(&down, ligand),
+            "{ligand}: applicability changed with the ranking direction"
+        );
+    }
+}

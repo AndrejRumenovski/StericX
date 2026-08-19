@@ -13,7 +13,7 @@
 //!   with leverage, so a distant ligand is reported with a correspondingly
 //!   honest error bar rather than a falsely precise one.
 
-use crate::model::MODEL_FEATURE_COUNT;
+use crate::model::{FeatureDomain, MODEL_FEATURE_COUNT};
 use serde::{Deserialize, Serialize};
 
 const EPSILON: f64 = 1.0e-12;
@@ -41,6 +41,178 @@ pub struct TrainingGeometry {
     pub residual_standard_error: f64,
     /// Conventional warning leverage `h* = 3p/n`.
     pub warning_leverage: f64,
+    /// Training observations in the standardized descriptor frame, one row per
+    /// observation and one column per selected descriptor (no intercept).
+    ///
+    /// Optional so models written before nearest-neighbour scoring existed
+    /// still load; without it a distance simply cannot be reported.
+    #[serde(default)]
+    pub standardized_training_points: Vec<Vec<f64>>,
+    /// Nearest-neighbour spacing of the training set, and the boundary derived
+    /// from it. Absent when there are too few points to measure a spacing.
+    #[serde(default)]
+    pub neighbor_calibration: Option<NeighborCalibration>,
+}
+
+/// How densely the training set samples its own descriptor space.
+///
+/// Every value here is measured from the training observations: for each
+/// point, the Euclidean distance in standardized descriptor space to the
+/// nearest *other* training point. No constant is chosen by hand.
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+pub struct NeighborCalibration {
+    pub mean: f64,
+    pub standard_deviation: f64,
+    pub median: f64,
+    pub maximum: f64,
+    /// Boundary a candidate is compared against.
+    ///
+    /// Set to [`Self::maximum`]: a candidate is treated as sitting inside the
+    /// sampled region when it is no farther from the training set than the
+    /// training set's own sparsest point is from its nearest neighbour. This
+    /// has no free parameter, but it is a *permissive* boundary — it is set by
+    /// the loosest part of the training set, so `mean` and `standard_deviation`
+    /// are recorded too for consumers who want a stricter rule.
+    pub threshold: f64,
+    /// Exact derivation, carried with the model so a reader need not guess.
+    pub rule: String,
+}
+
+impl NeighborCalibration {
+    /// Measures the training set's own nearest-neighbour spacing.
+    ///
+    /// Returns `None` for fewer than two points, where "distance to the nearest
+    /// other point" is undefined.
+    #[must_use]
+    pub fn from_points(points: &[Vec<f64>]) -> Option<Self> {
+        if points.len() < 2 {
+            return None;
+        }
+        let mut distances = Vec::with_capacity(points.len());
+        for (index, point) in points.iter().enumerate() {
+            let nearest = points
+                .iter()
+                .enumerate()
+                .filter(|(other, _)| *other != index)
+                .filter_map(|(_, other)| euclidean(point, other))
+                .fold(f64::INFINITY, f64::min);
+            if !nearest.is_finite() {
+                return None;
+            }
+            distances.push(nearest);
+        }
+        distances.sort_by(f64::total_cmp);
+        let count = distances.len() as f64;
+        let mean = distances.iter().sum::<f64>() / count;
+        let variance = distances
+            .iter()
+            .map(|distance| (distance - mean).powi(2))
+            .sum::<f64>()
+            / count;
+        let median = if distances.len() % 2 == 0 {
+            (distances[distances.len() / 2 - 1] + distances[distances.len() / 2]) / 2.0
+        } else {
+            distances[distances.len() / 2]
+        };
+        let maximum = *distances.last()?;
+        Some(Self {
+            mean,
+            standard_deviation: variance.sqrt(),
+            median,
+            maximum,
+            threshold: maximum,
+            rule: "threshold = max over training points of the distance to the nearest other \
+                   training point, in standardized descriptor space"
+                .to_owned(),
+        })
+    }
+}
+
+/// Where a candidate sits relative to the training set.
+///
+/// Each state is a stated combination of two measured quantities, so no
+/// severity grade is invented: the range check answers "is this inside the box
+/// the training set spans", and the neighbour distance answers "is this inside
+/// a part of that box the training set actually sampled".
+#[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum DomainVerdict {
+    /// Every descriptor inside its training range, and no farther from the
+    /// training set than the calibrated neighbour spacing allows.
+    Interpolation,
+    /// Every descriptor inside its training range, but farther from any
+    /// training point than that spacing — a gap the training set did not cover.
+    SparseInterpolation,
+    /// At least one descriptor outside the range the model was trained on.
+    Extrapolation,
+    /// The model carries no training geometry, so no verdict can be reached.
+    Unknown,
+}
+
+impl DomainVerdict {
+    #[must_use]
+    pub fn label(self) -> &'static str {
+        match self {
+            Self::Interpolation => "interpolation",
+            Self::SparseInterpolation => "sparse_interpolation",
+            Self::Extrapolation => "extrapolation",
+            Self::Unknown => "unknown",
+        }
+    }
+}
+
+/// One descriptor that falls outside the range the model was trained on.
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+pub struct DescriptorExceedance {
+    pub feature: String,
+    pub value: f64,
+    pub training_minimum: f64,
+    pub training_maximum: f64,
+    /// How far outside, as a fraction of the training range width. Zero at the
+    /// boundary; one means a full training range beyond it.
+    pub normalized_exceedance: f64,
+}
+
+/// Structured applicability information for one candidate.
+///
+/// Computed from the candidate's descriptors alone. The prediction is not an
+/// input, so a favourable-looking number can never make a ligand look more
+/// in-domain than it is.
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+pub struct ApplicabilityAssessment {
+    pub verdict: DomainVerdict,
+    /// Euclidean distance in standardized descriptor space to the closest
+    /// training observation.
+    pub nearest_training_distance: Option<f64>,
+    /// The calibrated boundary that distance is compared against.
+    pub nearest_training_threshold: Option<f64>,
+    /// `distance / threshold`; above one is outside the sampled region.
+    pub nearest_training_ratio: Option<f64>,
+    /// Leverage `h = x'(X'X)⁻¹x` against the training design.
+    pub leverage: Option<f64>,
+    /// `h / h*` for the conventional warning leverage `h* = 3p/n`.
+    pub leverage_ratio: Option<f64>,
+    /// Mahalanobis distance in the training descriptor covariance, when that
+    /// covariance is well enough determined to be worth reporting.
+    pub mahalanobis_distance: Option<f64>,
+    /// Why Mahalanobis was not reported, when it was not.
+    pub mahalanobis_unavailable: Option<String>,
+    /// Descriptors outside their training range, empty when all are inside.
+    pub outside_range: Vec<DescriptorExceedance>,
+    /// Largest `normalized_exceedance`, or zero when every descriptor is inside.
+    pub maximum_extrapolation: f64,
+}
+
+fn euclidean(left: &[f64], right: &[f64]) -> Option<f64> {
+    if left.len() != right.len() {
+        return None;
+    }
+    let squared = left
+        .iter()
+        .zip(right)
+        .map(|(left, right)| (left - right).powi(2))
+        .sum::<f64>();
+    squared.sqrt().is_finite().then_some(squared.sqrt())
 }
 
 impl TrainingGeometry {
@@ -112,6 +284,86 @@ impl TrainingGeometry {
         half_width
             .is_finite()
             .then_some((prediction - half_width, prediction + half_width))
+    }
+
+    /// Standardized descriptor coordinates of a candidate, without the
+    /// intercept column.
+    #[must_use]
+    pub fn standardized_point(&self, expanded: &[f32; MODEL_FEATURE_COUNT]) -> Vec<f64> {
+        self.design_vector(expanded).split_off(1)
+    }
+
+    /// Distance in standardized descriptor space to the closest training point.
+    #[must_use]
+    pub fn nearest_training_distance(&self, expanded: &[f32; MODEL_FEATURE_COUNT]) -> Option<f64> {
+        if self.standardized_training_points.is_empty() {
+            return None;
+        }
+        let point = self.standardized_point(expanded);
+        self.standardized_training_points
+            .iter()
+            .filter_map(|training| euclidean(&point, training))
+            .fold(None, |best: Option<f64>, distance| {
+                Some(best.map_or(distance, |best| best.min(distance)))
+            })
+    }
+
+    /// Mahalanobis distance of a candidate in the training covariance.
+    ///
+    /// The standardized descriptor columns are centred on the training means by
+    /// construction, so `Z'Z` is block diagonal and leverage decomposes as
+    /// `h = 1/n + z'S⁻¹z` with `S = (n−1)·Cov`. The Mahalanobis distance is
+    /// therefore `√((n−1)(h − 1/n))`, recovered exactly from the geometry
+    /// already stored — no second covariance estimate, and nothing that can
+    /// disagree with the leverage the same model reports.
+    ///
+    /// Returns the reason instead of a number when that decomposition cannot be
+    /// trusted: a covariance estimated from too few observations, or a stored
+    /// matrix whose block structure has been disturbed, gives a figure that
+    /// looks authoritative and is not.
+    pub fn mahalanobis_distance(
+        &self,
+        expanded: &[f32; MODEL_FEATURE_COUNT],
+    ) -> Result<f64, String> {
+        let descriptors = self.parameters.saturating_sub(1);
+        if descriptors == 0 {
+            return Err("model has no descriptor columns".into());
+        }
+        let observations = self.observations;
+        // The sample covariance of k descriptors is singular unless n − 1 ≥ k.
+        if observations < descriptors + 2 {
+            return Err(format!(
+                "covariance of {descriptors} descriptor(s) is not estimable from {observations} \
+                 observations"
+            ));
+        }
+        if self.xtx_inverse.len() != self.parameters {
+            return Err("stored (X'X)^-1 does not match the parameter count".into());
+        }
+        // Verify the block structure the decomposition relies on rather than
+        // assuming it: a hand-edited or differently-centred matrix must not be
+        // read as if it were centred.
+        let expected_intercept = 1.0 / observations as f64;
+        if (self.xtx_inverse[0][0] - expected_intercept).abs()
+            > 1.0e-6 * expected_intercept.max(1.0)
+        {
+            return Err("training design is not centred, so leverage does not decompose".into());
+        }
+        if self.xtx_inverse[0]
+            .iter()
+            .skip(1)
+            .any(|value| value.abs() > 1.0e-6)
+        {
+            return Err("training design is not centred, so leverage does not decompose".into());
+        }
+        let leverage = self
+            .leverage(expanded)
+            .ok_or_else(|| "leverage could not be computed".to_string())?;
+        let squared = (observations - 1) as f64 * (leverage - expected_intercept);
+        if !squared.is_finite() || squared < -1.0e-9 {
+            return Err("leverage decomposition produced a negative squared distance".into());
+        }
+        Ok(squared.max(0.0).sqrt())
     }
 
     /// 95 % confidence interval for the fitted mean response: `ŷ ± t·s·√h`.
@@ -303,6 +555,122 @@ pub fn student_t_two_sided_quantile(alpha: f64, df: f64) -> f64 {
     0.5 * (low + high)
 }
 
+/// Scores a candidate against a model's training distribution.
+///
+/// Takes only descriptors. There is deliberately no way to pass a prediction
+/// in, so applicability can never be influenced by whether the predicted value
+/// happens to look good.
+#[must_use]
+pub fn assess_applicability(
+    geometry: Option<&TrainingGeometry>,
+    ranges: &[FeatureDomain],
+    selected: &[usize],
+    expanded: &[f32; MODEL_FEATURE_COUNT],
+) -> ApplicabilityAssessment {
+    let outside_range = selected
+        .iter()
+        .zip(ranges)
+        .filter_map(|(column, range)| {
+            let value = f64::from(expanded[*column]);
+            let width = range.maximum - range.minimum;
+            let overshoot = if value > range.maximum {
+                value - range.maximum
+            } else if value < range.minimum {
+                range.minimum - value
+            } else {
+                return None;
+            };
+            // A zero-width training range means every training value was
+            // identical; any departure is unbounded rather than a fraction.
+            let normalized = if width > 0.0 {
+                overshoot / width
+            } else {
+                f64::INFINITY
+            };
+            Some(DescriptorExceedance {
+                feature: range.feature.clone(),
+                value,
+                training_minimum: range.minimum,
+                training_maximum: range.maximum,
+                normalized_exceedance: normalized,
+            })
+        })
+        .collect::<Vec<_>>();
+    let maximum_extrapolation = outside_range
+        .iter()
+        .map(|exceedance| exceedance.normalized_exceedance)
+        .fold(0.0_f64, f64::max);
+
+    let Some(geometry) = geometry else {
+        return ApplicabilityAssessment {
+            verdict: if outside_range.is_empty() {
+                DomainVerdict::Unknown
+            } else {
+                // A range violation is decidable without any geometry.
+                DomainVerdict::Extrapolation
+            },
+            nearest_training_distance: None,
+            nearest_training_threshold: None,
+            nearest_training_ratio: None,
+            leverage: None,
+            leverage_ratio: None,
+            mahalanobis_distance: None,
+            mahalanobis_unavailable: Some("model carries no training geometry".to_owned()),
+            outside_range,
+            maximum_extrapolation,
+        };
+    };
+
+    let distance = geometry.nearest_training_distance(expanded);
+    let threshold = geometry
+        .neighbor_calibration
+        .as_ref()
+        .map(|calibration| calibration.threshold);
+    let ratio = match (distance, threshold) {
+        (Some(distance), Some(threshold)) if threshold > 0.0 => Some(distance / threshold),
+        _ => None,
+    };
+    let leverage = geometry.leverage(expanded);
+    let leverage_ratio = match leverage {
+        Some(leverage) if geometry.warning_leverage > 0.0 => {
+            Some(leverage / geometry.warning_leverage)
+        }
+        _ => None,
+    };
+    let (mahalanobis_distance, mahalanobis_unavailable) =
+        match geometry.mahalanobis_distance(expanded) {
+            Ok(distance) => (Some(distance), None),
+            Err(reason) => (None, Some(reason)),
+        };
+
+    let verdict = if !outside_range.is_empty() {
+        DomainVerdict::Extrapolation
+    } else {
+        match (distance, threshold) {
+            (Some(distance), Some(threshold)) if distance > threshold => {
+                DomainVerdict::SparseInterpolation
+            }
+            (Some(_), Some(_)) => DomainVerdict::Interpolation,
+            // Inside every range, but the model records no neighbour spacing to
+            // check against; say so rather than implying a full verdict.
+            _ => DomainVerdict::Unknown,
+        }
+    };
+
+    ApplicabilityAssessment {
+        verdict,
+        nearest_training_distance: distance,
+        nearest_training_threshold: threshold,
+        nearest_training_ratio: ratio,
+        leverage,
+        leverage_ratio,
+        mahalanobis_distance,
+        mahalanobis_unavailable,
+        outside_range,
+        maximum_extrapolation,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -346,6 +714,288 @@ mod tests {
         assert!((student_t_two_sided_quantile(0.05, 1.0e6) - 1.959_964).abs() < 1e-3);
     }
 
+    /// A deliberately obvious 2-D descriptor space: nine training points on the
+    /// integer grid −1..1 in each of two standardized descriptors. Nearest
+    /// neighbours are all exactly 1.0 apart, so the calibrated boundary is 1.0
+    /// and every expectation below can be checked by eye.
+    fn grid_geometry() -> TrainingGeometry {
+        let mut points = Vec::new();
+        for x in [-1.0_f64, 0.0, 1.0] {
+            for y in [-1.0_f64, 0.0, 1.0] {
+                points.push(vec![x, y]);
+            }
+        }
+        let observations = points.len();
+        let calibration = NeighborCalibration::from_points(&points);
+        // Columns 2 and 3 are B1 and B5; centred already, so (X'X) is
+        // diag(n, Σx², Σy²) = diag(9, 6, 6).
+        TrainingGeometry {
+            feature_indices: vec![2, 3],
+            means: vec![0.0, 0.0],
+            scales: vec![1.0, 1.0],
+            xtx_inverse: vec![
+                vec![1.0 / observations as f64, 0.0, 0.0],
+                vec![0.0, 1.0 / 6.0, 0.0],
+                vec![0.0, 0.0, 1.0 / 6.0],
+            ],
+            observations,
+            parameters: 3,
+            residual_standard_error: 0.1,
+            warning_leverage: 3.0 * 3.0 / observations as f64,
+            standardized_training_points: points,
+            neighbor_calibration: calibration,
+        }
+    }
+
+    fn grid_ranges() -> Vec<FeatureDomain> {
+        vec![
+            FeatureDomain {
+                feature: "B1_boltz".into(),
+                minimum: -1.0,
+                maximum: 1.0,
+            },
+            FeatureDomain {
+                feature: "B5_boltz".into(),
+                minimum: -1.0,
+                maximum: 1.0,
+            },
+        ]
+    }
+
+    fn at(b1: f32, b5: f32) -> [f32; MODEL_FEATURE_COUNT] {
+        let mut expanded = [0.0_f32; MODEL_FEATURE_COUNT];
+        expanded[0] = 1.0;
+        expanded[2] = b1;
+        expanded[3] = b5;
+        expanded
+    }
+
+    fn assess(b1: f32, b5: f32) -> ApplicabilityAssessment {
+        assess_applicability(Some(&grid_geometry()), &grid_ranges(), &[2, 3], &at(b1, b5))
+    }
+
+    #[test]
+    fn calibration_measures_the_training_spacing() {
+        let calibration = grid_geometry().neighbor_calibration.unwrap();
+
+        // Every grid point has an orthogonal neighbour exactly 1.0 away.
+        assert!((calibration.mean - 1.0).abs() < 1.0e-12);
+        assert!((calibration.maximum - 1.0).abs() < 1.0e-12);
+        assert!((calibration.median - 1.0).abs() < 1.0e-12);
+        assert!(calibration.standard_deviation < 1.0e-12);
+        assert!((calibration.threshold - calibration.maximum).abs() < 1.0e-12);
+        assert!(calibration.rule.contains("nearest other"));
+    }
+
+    #[test]
+    fn a_training_point_is_zero_distance_and_interpolating() {
+        let assessment = assess(0.0, 0.0);
+
+        assert_eq!(assessment.verdict, DomainVerdict::Interpolation);
+        assert_eq!(assessment.nearest_training_distance, Some(0.0));
+        assert!(assessment.outside_range.is_empty());
+        assert_eq!(assessment.maximum_extrapolation, 0.0);
+    }
+
+    #[test]
+    fn a_point_between_training_points_interpolates() {
+        // Midway between (0,0) and (1,0): 0.5 away, inside the 1.0 boundary.
+        let assessment = assess(0.5, 0.0);
+
+        assert_eq!(assessment.verdict, DomainVerdict::Interpolation);
+        assert!((assessment.nearest_training_distance.unwrap() - 0.5).abs() < 1.0e-12);
+        assert!(assessment.nearest_training_ratio.unwrap() < 1.0);
+    }
+
+    #[test]
+    fn a_point_outside_a_descriptor_range_extrapolates() {
+        // Half a training range beyond the B1 maximum of 1.0.
+        let assessment = assess(2.0, 0.0);
+
+        assert_eq!(assessment.verdict, DomainVerdict::Extrapolation);
+        assert_eq!(assessment.outside_range.len(), 1);
+        let exceedance = &assessment.outside_range[0];
+        assert_eq!(exceedance.feature, "B1_boltz");
+        assert_eq!(exceedance.value, 2.0);
+        // One full training-range width past the boundary: (2 − 1) / (1 − −1).
+        assert!((exceedance.normalized_exceedance - 0.5).abs() < 1.0e-12);
+        assert!((assessment.maximum_extrapolation - 0.5).abs() < 1.0e-12);
+    }
+
+    #[test]
+    fn both_descriptors_outside_are_both_reported() {
+        let assessment = assess(3.0, -2.0);
+
+        assert_eq!(assessment.verdict, DomainVerdict::Extrapolation);
+        assert_eq!(assessment.outside_range.len(), 2);
+        // B1 is 2.0 past the maximum, B5 is 1.0 past the minimum, over a width
+        // of 2.0 each.
+        assert!((assessment.maximum_extrapolation - 1.0).abs() < 1.0e-12);
+    }
+
+    #[test]
+    fn a_gap_inside_the_range_is_sparse_interpolation() {
+        // A 5x5 grid with the middle 3x3 removed: the ring is still spaced 1.0
+        // apart, but the centre is now 2.0 from the nearest remaining point —
+        // unambiguously a gap rather than a rounding argument.
+        let mut points = Vec::new();
+        for x in [-2.0_f64, -1.0, 0.0, 1.0, 2.0] {
+            for y in [-2.0_f64, -1.0, 0.0, 1.0, 2.0] {
+                if x.abs() <= 1.0 && y.abs() <= 1.0 {
+                    continue;
+                }
+                points.push(vec![x, y]);
+            }
+        }
+        let mut geometry = grid_geometry();
+        geometry.observations = points.len();
+        geometry.neighbor_calibration = NeighborCalibration::from_points(&points);
+        geometry.standardized_training_points = points;
+        let threshold = geometry.neighbor_calibration.as_ref().unwrap().threshold;
+        let ranges = vec![
+            FeatureDomain {
+                feature: "B1_boltz".into(),
+                minimum: -2.0,
+                maximum: 2.0,
+            },
+            FeatureDomain {
+                feature: "B5_boltz".into(),
+                minimum: -2.0,
+                maximum: 2.0,
+            },
+        ];
+
+        let assessment = assess_applicability(Some(&geometry), &ranges, &[2, 3], &at(0.0, 0.0));
+
+        assert!(assessment.outside_range.is_empty(), "still inside the box");
+        let distance = assessment.nearest_training_distance.unwrap();
+        assert!(
+            distance > threshold,
+            "the hole must be wider than the training spacing: {distance} vs {threshold}"
+        );
+        assert_eq!(assessment.verdict, DomainVerdict::SparseInterpolation);
+        assert!(assessment.nearest_training_ratio.unwrap() > 1.0);
+    }
+
+    #[test]
+    fn mahalanobis_matches_a_hand_computed_value() {
+        // Columns have Σx² = 6 over n = 9, so the sample variance is
+        // 6/(9−1) = 0.75 and the Mahalanobis distance of (1, 0) is
+        // √(1²/0.75) = 1.1547.
+        let assessment = assess(1.0, 0.0);
+        let expected = (1.0_f64 / 0.75).sqrt();
+
+        let actual = assessment.mahalanobis_distance.expect("estimable here");
+        assert!(
+            (actual - expected).abs() < 1.0e-9,
+            "Mahalanobis {actual}, expected {expected}"
+        );
+        assert!(assessment.mahalanobis_unavailable.is_none());
+    }
+
+    #[test]
+    fn mahalanobis_is_declined_when_the_covariance_is_not_estimable() {
+        let mut geometry = grid_geometry();
+        // Two descriptors need at least four observations for a covariance.
+        geometry.observations = 3;
+        geometry.xtx_inverse[0][0] = 1.0 / 3.0;
+
+        let error = geometry.mahalanobis_distance(&at(1.0, 0.0)).unwrap_err();
+
+        assert!(error.contains("not estimable"), "{error}");
+    }
+
+    #[test]
+    fn mahalanobis_is_declined_when_the_design_is_not_centred() {
+        let mut geometry = grid_geometry();
+        // Break the block structure the decomposition depends on.
+        geometry.xtx_inverse[0][1] = 0.4;
+
+        let error = geometry.mahalanobis_distance(&at(1.0, 0.0)).unwrap_err();
+
+        assert!(error.contains("not centred"), "{error}");
+    }
+
+    #[test]
+    fn a_model_without_geometry_reports_unknown_but_still_checks_ranges() {
+        let inside = assess_applicability(None, &grid_ranges(), &[2, 3], &at(0.0, 0.0));
+        assert_eq!(inside.verdict, DomainVerdict::Unknown);
+        assert!(inside.nearest_training_distance.is_none());
+        assert!(inside.mahalanobis_unavailable.is_some());
+
+        // A range violation needs no geometry to be decidable.
+        let outside = assess_applicability(None, &grid_ranges(), &[2, 3], &at(5.0, 0.0));
+        assert_eq!(outside.verdict, DomainVerdict::Extrapolation);
+        assert_eq!(outside.outside_range.len(), 1);
+    }
+
+    #[test]
+    fn a_model_without_calibration_cannot_claim_interpolation() {
+        let mut geometry = grid_geometry();
+        geometry.neighbor_calibration = None;
+
+        let assessment =
+            assess_applicability(Some(&geometry), &grid_ranges(), &[2, 3], &at(0.0, 0.0));
+
+        assert_eq!(
+            assessment.verdict,
+            DomainVerdict::Unknown,
+            "no measured spacing means no interpolation claim"
+        );
+        assert!(assessment.nearest_training_distance.is_some());
+        assert!(assessment.nearest_training_threshold.is_none());
+    }
+
+    #[test]
+    fn calibration_needs_at_least_two_points() {
+        assert!(NeighborCalibration::from_points(&[]).is_none());
+        assert!(NeighborCalibration::from_points(&[vec![0.0, 0.0]]).is_none());
+        assert!(NeighborCalibration::from_points(&[vec![0.0], vec![3.0]]).is_some());
+    }
+
+    #[test]
+    fn a_zero_width_training_range_never_reports_a_finite_fraction() {
+        // Every training value identical: any departure is unbounded, not a
+        // fraction of a range that does not exist.
+        let ranges = vec![FeatureDomain {
+            feature: "B1_boltz".into(),
+            minimum: 2.0,
+            maximum: 2.0,
+        }];
+        let assessment = assess_applicability(None, &ranges, &[2], &at(2.5, 0.0));
+
+        assert_eq!(assessment.verdict, DomainVerdict::Extrapolation);
+        assert!(
+            assessment.outside_range[0]
+                .normalized_exceedance
+                .is_infinite()
+        );
+    }
+
+    #[test]
+    fn applicability_ignores_the_prediction_entirely() {
+        // Two candidates at the same descriptor point must score identically no
+        // matter what a model would predict for them; the assessment has no
+        // access to a prediction at all, and this pins that property.
+        let first = assess(0.25, 0.25);
+        let second = assess(0.25, 0.25);
+
+        assert_eq!(first, second);
+
+        // Distance tracks position in descriptor space and nothing else: a
+        // point sitting on a training observation scores zero, and one in the
+        // middle of a cell scores the half-diagonal, whatever a model would
+        // predict at either.
+        let on_a_point = assess(0.0, 0.0);
+        let mid_cell = assess(0.5, 0.5);
+        assert_eq!(on_a_point.nearest_training_distance, Some(0.0));
+        assert!(
+            (mid_cell.nearest_training_distance.unwrap() - 0.5_f64.hypot(0.5)).abs() < 1.0e-12,
+            "distance must track geometry, not desirability: got {:?}",
+            mid_cell.nearest_training_distance
+        );
+    }
+
     fn geometry() -> TrainingGeometry {
         // One selected feature standardized to mean 0, scale 1, with an
         // orthonormal design: (X'X)^-1 = diag(1/n, 1/n) for centred data.
@@ -358,6 +1008,8 @@ mod tests {
             parameters: 2,
             residual_standard_error: 0.5,
             warning_leverage: 0.6,
+            standardized_training_points: Vec::new(),
+            neighbor_calibration: None,
         }
     }
 

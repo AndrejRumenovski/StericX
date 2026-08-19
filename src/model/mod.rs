@@ -24,7 +24,10 @@ mod regress;
 pub mod training;
 
 pub use dataset::{ReactionLabel, TrainingSplit, is_supported_split};
-pub use domain::{TrainingGeometry, student_t_two_sided_quantile};
+pub use domain::{
+    ApplicabilityAssessment, DescriptorExceedance, DomainVerdict, NeighborCalibration,
+    TrainingGeometry, assess_applicability, student_t_two_sided_quantile,
+};
 pub use evaluation::{EvaluationSummary, ScoredPrediction, score_frozen_predictions};
 pub use features::{MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, expand_features};
 pub use fit::{

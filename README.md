@@ -300,7 +300,7 @@ fitted by `stericx fit`, and reports what the prediction is worth.
 
 ```bash
 ./target/release/stericx screen model.json --library ligand_library/
-./target/release/stericx screen model.json --library reactions.csv --top 20 --inside-domain-only
+./target/release/stericx screen model.json --library reactions.csv --top 20 --in-domain-only
 ./target/release/stericx screen model.json ligand_library/ --format csv   # positional also works
 ```
 
@@ -348,10 +348,24 @@ domain: interpolation  nearest training point 0.010  mahalanobis 1.165
 The verdicts are `interpolation`, `sparse_interpolation` (inside every range but in a gap the
 training set never sampled), `extrapolation`, and `unknown`. There are no invented HIGH /
 MEDIUM / LOW grades: each verdict is a stated combination of the two checks. The single
-boundary involved is measured from the training set itself — the largest distance from any
-training point to its nearest neighbour — and is serialized into the model along with the
-mean, median, and standard deviation of that distribution so a stricter rule can be applied
-without refitting. Full derivation in [`docs/MODEL_FORMAT.md`](docs/MODEL_FORMAT.md).
+boundary involved is measured from the training set itself — by default the largest distance
+from any training point to its nearest neighbour — and is serialized into the model along with
+the mean, median, and standard deviation of that distribution.
+
+Because the default is set by the sparsest training point, one isolated observation widens it
+for everything. `--domain-rule` picks a stricter statistic of the same distribution without
+refitting:
+
+```bash
+./target/release/stericx screen docs/study_001/stericx_portable_model.json \
+  --library data/reactions_raw.csv --domain-rule mean-plus-2sd
+```
+
+`max-neighbor` (default), `mean-plus-sd`, and `mean-plus-2sd` are all statistics of the
+training set's own neighbour spacing, so none is an invented cutoff. The applied rule and its
+boundary are reported in every screen, and changing the rule moves only the boundary — the
+measured distance to the nearest training point is unchanged. Full derivation in
+[`docs/MODEL_FORMAT.md`](docs/MODEL_FORMAT.md).
 
 Applicability never sees the prediction, so a ligand cannot look more in-domain because the
 model happens to like it.
@@ -366,7 +380,40 @@ with a reason — `missing_descriptors` (naming which), `featurization_failed`, 
     SIG-NIHDA-401 — the model needs sterimol_b5, nbo_charge but this ligand does not supply nbo_charge
 ``` Ligands outside the
 range the model was trained on are listed separately with **how far** outside they fall, as
-a fraction of the training range width — `--inside-domain-only` drops them entirely.
+a fraction of the training range width.
+
+### Out-of-domain candidates are flagged, never hidden
+
+Every row carries a `domain` column beside its prediction, so a warning is visible without
+the prediction being suppressed:
+
+```text
+rank   pred ddG    95% pred interval  leverage  pred ee  domain          trust                  ligand
+   1      1.521   [  -0.20,    3.24]   0.469     85.7%  extrapolation!  caution:outside_range  best_but_ood
+   2      0.720   [  -0.77,    2.21]   0.100     54.3%  interpolation   reliable               safe_mid
+```
+
+The values are the applicability domain's own verdicts, not a severity scale layered on top:
+`interpolation`, `sparse` (in range, but in a gap the training set never sampled),
+`extrapolation`, and `unknown`. `!` marks the two that mean the model is being asked about a
+region it was not fitted on. The `domain` column answers *is this prediction supported*; the
+separate `trust` column grades the prediction itself. They are independent.
+
+By design:
+
+- **An out-of-domain ligand is never dropped for being out of domain.** It keeps its rank and
+  its unmodified prediction. The top-ranked candidate in the example above is an
+  extrapolation, and it is still shown first because ranking is by prediction alone.
+- **Its predicted value is never adjusted** to look safer — the number is the raw model
+  output either way.
+- `--in-domain-only` is an explicit opt-in filter that keeps only `interpolation` candidates.
+  When set, the report names every candidate it removed and the verdict that removed it, and
+  the domain census still covers the whole library so nothing is silently lost. If the filter
+  removes everything, the error says so rather than claiming the model could not screen.
+
+`--inside-domain-only` remains as an alias. Note its meaning changed: it now filters on the
+calibrated applicability verdict, so a `sparse` candidate — inside every descriptor range but
+in an unsampled gap — is now removed where previously only range violations were.
 
 **The model decides what the library must supply.** StericX's regression space mixes
 geometry (`L`, `B1`, `B5`) with donor electronics (`nbo_charge`, `ir_frequency`) and their

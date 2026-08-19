@@ -122,9 +122,79 @@ impl NeighborCalibration {
             maximum,
             threshold: maximum,
             rule: "threshold = max over training points of the distance to the nearest other \
-                   training point, in standardized descriptor space"
+ training point, in standardized descriptor space"
                 .to_owned(),
         })
+    }
+}
+
+/// Which statistic of the training set's own nearest-neighbour spacing a
+/// candidate's distance is compared against.
+///
+/// Every variant is a statistic *of that distribution*, computed from the
+/// training data at fit time and serialized into the model, so none of them
+/// introduces a severity grade or a cutoff chosen to make results look a
+/// particular way. The distribution is the n nearest-neighbour distances
+/// `d_i = min_{j != i} ||z_i - z_j||` over the standardized training points.
+///
+/// [`Self::MaxNeighbor`] is the default because it is the only variant with no
+/// distributional assumption at all. The two `mean + kσ` variants are stricter
+/// and assume the neighbour distances are roughly symmetric; under approximate
+/// normality they sit near the 84th and 97.7th percentiles of that
+/// distribution. They exist because the maximum is set by the single sparsest
+/// training point, so one isolated observation widens the boundary for every
+/// candidate.
+#[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum DomainRule {
+    /// `threshold = maximum`. Permissive: the sparsest training point sets it.
+    #[default]
+    MaxNeighbor,
+    /// `threshold = mean + σ`.
+    MeanPlusSd,
+    /// `threshold = mean + 2σ`.
+    MeanPlusTwoSd,
+}
+
+impl DomainRule {
+    /// The boundary this rule derives from a training set's spacing.
+    ///
+    /// Never negative: a degenerate training set whose neighbour distances are
+    /// all identical has `σ = 0`, and every rule then collapses onto the mean.
+    #[must_use]
+    pub fn threshold(self, calibration: &NeighborCalibration) -> f64 {
+        let derived = match self {
+            Self::MaxNeighbor => calibration.threshold,
+            Self::MeanPlusSd => calibration.mean + calibration.standard_deviation,
+            Self::MeanPlusTwoSd => calibration.mean + 2.0 * calibration.standard_deviation,
+        };
+        derived.max(0.0)
+    }
+
+    /// A short label for reports.
+    #[must_use]
+    pub fn label(self) -> &'static str {
+        match self {
+            Self::MaxNeighbor => "max_neighbor",
+            Self::MeanPlusSd => "mean_plus_sd",
+            Self::MeanPlusTwoSd => "mean_plus_2sd",
+        }
+    }
+
+    /// The exact derivation, so a report never leaves a reader guessing.
+    #[must_use]
+    pub fn rule(self) -> &'static str {
+        match self {
+            Self::MaxNeighbor => {
+                "threshold = max over training points of the distance to the nearest other training point, in standardized descriptor space"
+            }
+            Self::MeanPlusSd => {
+                "threshold = mean + 1 standard deviation of the training nearest-neighbour distances, in standardized descriptor space"
+            }
+            Self::MeanPlusTwoSd => {
+                "threshold = mean + 2 standard deviations of the training nearest-neighbour distances, in standardized descriptor space"
+            }
+        }
     }
 }
 
@@ -186,6 +256,8 @@ pub struct ApplicabilityAssessment {
     pub nearest_training_distance: Option<f64>,
     /// The calibrated boundary that distance is compared against.
     pub nearest_training_threshold: Option<f64>,
+    /// Which statistic of the training spacing produced that boundary.
+    pub nearest_training_rule: DomainRule,
     /// `distance / threshold`; above one is outside the sampled region.
     pub nearest_training_ratio: Option<f64>,
     /// Leverage `h = x'(X'X)⁻¹x` against the training design.
@@ -566,6 +638,7 @@ pub fn assess_applicability(
     ranges: &[FeatureDomain],
     selected: &[usize],
     expanded: &[f32; MODEL_FEATURE_COUNT],
+    rule: DomainRule,
 ) -> ApplicabilityAssessment {
     let outside_range = selected
         .iter()
@@ -611,6 +684,7 @@ pub fn assess_applicability(
             },
             nearest_training_distance: None,
             nearest_training_threshold: None,
+            nearest_training_rule: rule,
             nearest_training_ratio: None,
             leverage: None,
             leverage_ratio: None,
@@ -625,7 +699,7 @@ pub fn assess_applicability(
     let threshold = geometry
         .neighbor_calibration
         .as_ref()
-        .map(|calibration| calibration.threshold);
+        .map(|calibration| rule.threshold(calibration));
     let ratio = match (distance, threshold) {
         (Some(distance), Some(threshold)) if threshold > 0.0 => Some(distance / threshold),
         _ => None,
@@ -661,6 +735,7 @@ pub fn assess_applicability(
         verdict,
         nearest_training_distance: distance,
         nearest_training_threshold: threshold,
+        nearest_training_rule: rule,
         nearest_training_ratio: ratio,
         leverage,
         leverage_ratio,
@@ -771,7 +846,146 @@ mod tests {
     }
 
     fn assess(b1: f32, b5: f32) -> ApplicabilityAssessment {
-        assess_applicability(Some(&grid_geometry()), &grid_ranges(), &[2, 3], &at(b1, b5))
+        assess_applicability(
+            Some(&grid_geometry()),
+            &grid_ranges(),
+            &[2, 3],
+            &at(b1, b5),
+            DomainRule::default(),
+        )
+    }
+
+    /// A one-dimensional training set with one isolated observation, so the
+    /// maximum neighbour distance is set by a single outlying point and the
+    /// permissive default is visibly looser than the mean-based rules.
+    ///
+    /// Points at 0..=8 and one isolated at 20. Nine neighbour distances of 1
+    /// and one of 12, so mean = 2.1, variance = (9·1.1² + 9.9²)/10 = 10.89 and
+    /// σ = 3.3 exactly. The three rules therefore land far apart: 12, 5.4, 8.7.
+    fn isolated_point_geometry() -> TrainingGeometry {
+        let points: Vec<Vec<f64>> = [0.0_f64, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 20.0]
+            .into_iter()
+            .map(|x| vec![x])
+            .collect();
+        let observations = points.len();
+        TrainingGeometry {
+            feature_indices: vec![2],
+            means: vec![0.0],
+            scales: vec![1.0],
+            xtx_inverse: vec![vec![1.0 / observations as f64, 0.0], vec![0.0, 1.0 / 50.0]],
+            observations,
+            parameters: 2,
+            residual_standard_error: 0.1,
+            warning_leverage: 3.0 * 2.0 / observations as f64,
+            neighbor_calibration: NeighborCalibration::from_points(&points),
+            standardized_training_points: points,
+        }
+    }
+
+    #[test]
+    fn each_rule_derives_its_threshold_from_the_calibration() {
+        let calibration = isolated_point_geometry().neighbor_calibration.unwrap();
+        assert!((calibration.mean - 2.1).abs() < 1.0e-12);
+        assert!((calibration.standard_deviation - 3.3).abs() < 1.0e-12);
+        assert!((calibration.maximum - 12.0).abs() < 1.0e-12);
+
+        // Each is exactly the documented statistic, nothing tuned.
+        assert!((DomainRule::MaxNeighbor.threshold(&calibration) - 12.0).abs() < 1.0e-12);
+        assert!((DomainRule::MeanPlusSd.threshold(&calibration) - 5.4).abs() < 1.0e-12);
+        assert!((DomainRule::MeanPlusTwoSd.threshold(&calibration) - 8.7).abs() < 1.0e-12);
+    }
+
+    #[test]
+    fn a_uniform_training_set_collapses_every_rule_onto_one_boundary() {
+        // The grid's neighbour distances are all exactly 1.0, so σ = 0 and the
+        // mean-based rules have nothing to widen by.
+        let calibration = grid_geometry().neighbor_calibration.unwrap();
+        assert!(calibration.standard_deviation.abs() < 1.0e-12);
+        for rule in [
+            DomainRule::MaxNeighbor,
+            DomainRule::MeanPlusSd,
+            DomainRule::MeanPlusTwoSd,
+        ] {
+            assert!(
+                (rule.threshold(&calibration) - 1.0).abs() < 1.0e-12,
+                "{} moved a boundary a uniform training set does not support",
+                rule.label()
+            );
+        }
+    }
+
+    #[test]
+    fn a_stricter_rule_reclassifies_a_point_the_default_accepts() {
+        let geometry = isolated_point_geometry();
+        let ranges = vec![FeatureDomain {
+            feature: "B1_boltz".to_owned(),
+            minimum: 0.0,
+            maximum: 20.0,
+        }];
+        // 14.0 sits in the 8 -> 20 gap, 6.0 from the nearest training point:
+        // inside the permissive maximum of 12.0, outside mean + σ = 5.4.
+        let point = at(14.0, 0.0);
+
+        let permissive = assess_applicability(
+            Some(&geometry),
+            &ranges,
+            &[2],
+            &point,
+            DomainRule::MaxNeighbor,
+        );
+        assert_eq!(permissive.verdict, DomainVerdict::Interpolation);
+        assert_eq!(permissive.nearest_training_rule, DomainRule::MaxNeighbor);
+
+        let strict = assess_applicability(
+            Some(&geometry),
+            &ranges,
+            &[2],
+            &point,
+            DomainRule::MeanPlusSd,
+        );
+        assert_eq!(strict.verdict, DomainVerdict::SparseInterpolation);
+        assert_eq!(strict.nearest_training_rule, DomainRule::MeanPlusSd);
+
+        // The measurement is identical either way; only the boundary moved, so
+        // a rule change can never be mistaken for a different distance.
+        assert_eq!(
+            permissive.nearest_training_distance,
+            strict.nearest_training_distance
+        );
+        assert!(strict.nearest_training_threshold < permissive.nearest_training_threshold);
+
+        // mean + 2σ = 8.7 still accepts it: the rules are ordered by the
+        // statistic they name, not by a severity grade layered on top.
+        let two_sd = assess_applicability(
+            Some(&geometry),
+            &ranges,
+            &[2],
+            &point,
+            DomainRule::MeanPlusTwoSd,
+        );
+        assert_eq!(two_sd.verdict, DomainVerdict::Interpolation);
+    }
+
+    #[test]
+    fn a_rule_never_yields_a_negative_boundary() {
+        // A degenerate calibration cannot push mean - nothing below zero, but
+        // guard the invariant explicitly: a negative boundary would make every
+        // candidate sparse, including the training points themselves.
+        let calibration = NeighborCalibration {
+            mean: 0.0,
+            standard_deviation: 0.0,
+            median: 0.0,
+            maximum: 0.0,
+            threshold: -1.0,
+            rule: "hand-built degenerate calibration".to_owned(),
+        };
+        for rule in [
+            DomainRule::MaxNeighbor,
+            DomainRule::MeanPlusSd,
+            DomainRule::MeanPlusTwoSd,
+        ] {
+            assert!(rule.threshold(&calibration) >= 0.0, "{}", rule.label());
+        }
     }
 
     #[test]
@@ -865,7 +1079,13 @@ mod tests {
             },
         ];
 
-        let assessment = assess_applicability(Some(&geometry), &ranges, &[2, 3], &at(0.0, 0.0));
+        let assessment = assess_applicability(
+            Some(&geometry),
+            &ranges,
+            &[2, 3],
+            &at(0.0, 0.0),
+            DomainRule::default(),
+        );
 
         assert!(assessment.outside_range.is_empty(), "still inside the box");
         let distance = assessment.nearest_training_distance.unwrap();
@@ -918,13 +1138,25 @@ mod tests {
 
     #[test]
     fn a_model_without_geometry_reports_unknown_but_still_checks_ranges() {
-        let inside = assess_applicability(None, &grid_ranges(), &[2, 3], &at(0.0, 0.0));
+        let inside = assess_applicability(
+            None,
+            &grid_ranges(),
+            &[2, 3],
+            &at(0.0, 0.0),
+            DomainRule::default(),
+        );
         assert_eq!(inside.verdict, DomainVerdict::Unknown);
         assert!(inside.nearest_training_distance.is_none());
         assert!(inside.mahalanobis_unavailable.is_some());
 
         // A range violation needs no geometry to be decidable.
-        let outside = assess_applicability(None, &grid_ranges(), &[2, 3], &at(5.0, 0.0));
+        let outside = assess_applicability(
+            None,
+            &grid_ranges(),
+            &[2, 3],
+            &at(5.0, 0.0),
+            DomainRule::default(),
+        );
         assert_eq!(outside.verdict, DomainVerdict::Extrapolation);
         assert_eq!(outside.outside_range.len(), 1);
     }
@@ -934,8 +1166,13 @@ mod tests {
         let mut geometry = grid_geometry();
         geometry.neighbor_calibration = None;
 
-        let assessment =
-            assess_applicability(Some(&geometry), &grid_ranges(), &[2, 3], &at(0.0, 0.0));
+        let assessment = assess_applicability(
+            Some(&geometry),
+            &grid_ranges(),
+            &[2, 3],
+            &at(0.0, 0.0),
+            DomainRule::default(),
+        );
 
         assert_eq!(
             assessment.verdict,
@@ -962,7 +1199,8 @@ mod tests {
             minimum: 2.0,
             maximum: 2.0,
         }];
-        let assessment = assess_applicability(None, &ranges, &[2], &at(2.5, 0.0));
+        let assessment =
+            assess_applicability(None, &ranges, &[2], &at(2.5, 0.0), DomainRule::default());
 
         assert_eq!(assessment.verdict, DomainVerdict::Extrapolation);
         assert!(

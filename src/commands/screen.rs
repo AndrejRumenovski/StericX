@@ -18,8 +18,8 @@ use std::collections::HashMap;
 use std::error::Error;
 use std::path::{Path, PathBuf};
 use steric_x::model::{
-    FeatureTransform, InferenceSpec, MODEL_FEATURE_NAMES, Optimization, PortableModel,
-    assess_applicability, expand_features,
+    DomainRule, DomainVerdict, FeatureTransform, InferenceSpec, MODEL_FEATURE_NAMES, Optimization,
+    PortableModel, assess_applicability, expand_features,
 };
 use steric_x::{BuriedVolumeConfig, EyringKineticLink, PackedReactionRecord, ScientificFitReport};
 
@@ -406,6 +406,17 @@ struct ScreenReport {
     model_optimization: String,
     /// True when the caller asked for an order the model disagrees with.
     ranking_overridden: bool,
+    /// Which training-spacing statistic bounded the applicability domain.
+    domain_rule: String,
+    /// Exactly how that boundary was derived.
+    domain_rule_description: String,
+    /// The boundary itself, when the model records the calibration to derive it.
+    domain_threshold: Option<f64>,
+    /// True when `--in-domain-only` was requested.
+    domain_filter_applied: bool,
+    /// Candidates removed by that filter, with the verdict that removed each.
+    /// Empty when the filter is off, which is the default.
+    domain_filtered: Vec<(String, String)>,
     skipped: usize,
     /// Why each excluded candidate was excluded.
     excluded: Vec<Exclusion>,
@@ -418,7 +429,9 @@ struct ScreenReport {
     high_leverage: usize,
     /// How many ligands each trust grade covers.
     trust_summary: Vec<(String, usize)>,
-    /// How many ligands each applicability verdict covers.
+    /// How many candidates each applicability verdict covers, across everything
+    /// screened — before `--top` and before any `--in-domain-only` filtering,
+    /// so the tally describes the library rather than the surviving rows.
     domain_summary: Vec<(String, usize)>,
     /// How the neighbour boundary was derived, carried from the model.
     neighbor_rule: Option<String>,
@@ -431,9 +444,10 @@ pub(crate) struct ScreenArgs<'a> {
     pub(crate) library: &'a Path,
     pub(crate) top: Option<usize>,
     pub(crate) temperature: f32,
-    pub(crate) inside_domain_only: bool,
+    pub(crate) in_domain_only: bool,
     pub(crate) ascending: bool,
     pub(crate) descending: bool,
+    pub(crate) domain_rule: DomainRule,
     pub(crate) donor_element: &'a str,
     pub(crate) sterimol_axis: SterimolAxis,
     pub(crate) format: DescriptorFormat,
@@ -890,6 +904,7 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             &report.applicability_domain,
             &report.selected_feature_indices,
             &features,
+            args.domain_rule,
         );
         let outside = domain_exceedances(report, &features);
         let band = coefficient_band(report, &features);
@@ -951,11 +966,47 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         .iter()
         .filter(|hit| hit.outside_domain.is_empty())
         .count();
-    if args.inside_domain_only {
-        hits.retain(|hit| hit.outside_domain.is_empty());
+    // Counted over every candidate that produced a prediction, so the tally
+    // describes the library rather than whatever survived a filter.
+    let domain_summary = {
+        let mut counts: Vec<(String, usize)> = Vec::new();
+        for hit in &hits {
+            match counts
+                .iter_mut()
+                .find(|(verdict, _)| *verdict == hit.domain_verdict)
+            {
+                Some((_, count)) => *count += 1,
+                None => counts.push((hit.domain_verdict.clone(), 1)),
+            }
+        }
+        counts.sort_by(|left, right| right.1.cmp(&left.1).then_with(|| left.0.cmp(&right.0)));
+        counts
+    };
+    // The filter is opt-in. Without it an out-of-domain ligand keeps its place
+    // and its unmodified prediction, carrying a warning instead of vanishing.
+    let mut domain_filtered = Vec::new();
+    if args.in_domain_only {
+        hits.retain(|hit| {
+            let keep = hit.domain_verdict == DomainVerdict::Interpolation.label();
+            if !keep {
+                domain_filtered.push((hit.ligand.clone(), hit.domain_verdict.clone()));
+            }
+            keep
+        });
+        domain_filtered.sort();
     }
     if hits.is_empty() {
-        return Err("no library member could be screened with this model".into());
+        return Err(if args.in_domain_only {
+            format!(
+                "--in-domain-only removed all {} screened candidate(s); every one is outside \
+                 the applicability domain. Re-run without the flag to see them with their \
+                 warnings.",
+                domain_filtered.len()
+            )
+            .into()
+        } else {
+            <Box<dyn Error>>::from("no library member could be screened with this model")
+        });
     }
 
     // Ties resolve by ligand identifier, then by the order the library was
@@ -1009,6 +1060,16 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             counts
         },
         excluded,
+        domain_rule: args.domain_rule.label().to_owned(),
+        domain_rule_description: args.domain_rule.rule().to_owned(),
+        domain_threshold: report
+            .training_geometry
+            .as_ref()
+            .and_then(|geometry| geometry.neighbor_calibration.as_ref())
+            .map(|calibration| args.domain_rule.threshold(calibration)),
+        domain_summary,
+        domain_filter_applied: args.in_domain_only,
+        domain_filtered,
         inside_domain,
         warning_leverage: report
             .training_geometry
@@ -1029,20 +1090,7 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             counts.sort_by(|left, right| right.1.cmp(&left.1).then_with(|| left.0.cmp(&right.0)));
             counts
         },
-        domain_summary: {
-            let mut counts: Vec<(String, usize)> = Vec::new();
-            for hit in &hits {
-                match counts
-                    .iter_mut()
-                    .find(|(verdict, _)| *verdict == hit.domain_verdict)
-                {
-                    Some((_, count)) => *count += 1,
-                    None => counts.push((hit.domain_verdict.clone(), 1)),
-                }
-            }
-            counts.sort_by(|left, right| right.1.cmp(&left.1).then_with(|| left.0.cmp(&right.0)));
-            counts
-        },
+
         neighbor_rule: report
             .training_geometry
             .as_ref()
@@ -1127,6 +1175,51 @@ fn print_screen_text(report: &ScreenReport) {
         );
     }
     println!("temperature    {:.2} K", report.temperature_k);
+    match report.domain_threshold {
+        Some(threshold) => println!(
+            "domain rule    {} (boundary {threshold:.3} in standardized descriptor space)",
+            report.domain_rule
+        ),
+        None => println!(
+            "domain rule    {} (model records no neighbour calibration to derive it)",
+            report.domain_rule
+        ),
+    }
+    println!("               {}", report.domain_rule_description);
+    if !report.domain_summary.is_empty() {
+        println!(
+            "domain census  {}",
+            report
+                .domain_summary
+                .iter()
+                .map(|(verdict, count)| format!("{verdict} {count}"))
+                .collect::<Vec<_>>()
+                .join(", ")
+        );
+    }
+    if report.domain_filter_applied {
+        println!(
+            "domain filter  --in-domain-only removed {} of {} screened candidate(s)",
+            report.domain_filtered.len(),
+            report.screened + report.domain_filtered.len()
+        );
+        for (ligand, verdict) in &report.domain_filtered {
+            println!("               {ligand} ({verdict})");
+        }
+    } else {
+        let flagged = report
+            .domain_summary
+            .iter()
+            .filter(|(verdict, _)| verdict != "interpolation")
+            .map(|(_, count)| count)
+            .sum::<usize>();
+        if flagged > 0 {
+            println!(
+                "               {flagged} candidate(s) are outside the sampled region and are \
+                 shown with their predictions; pass --in-domain-only to exclude them"
+            );
+        }
+    }
     if let Some(warning) = report.warning_leverage {
         println!(
             "leverage       warning h* = {warning:.3} (3p/n); {} ligand(s) above it",
@@ -1147,8 +1240,8 @@ fn print_screen_text(report: &ScreenReport) {
         );
     }
     println!(
-        "\n{:>4}  {:>9}  {:>19}  {:>7}  {:>7}  {:<26}  ligand",
-        "rank", "pred ddG", "95% pred interval", "leverage", "pred ee", "trust"
+        "\n{:>4}  {:>9}  {:>19}  {:>7}  {:>7}  {:<14}  {:<26}  ligand",
+        "rank", "pred ddG", "95% pred interval", "leverage", "pred ee", "domain", "trust"
     );
     for hit in &report.hits {
         let interval = match (hit.prediction_interval_low, hit.prediction_interval_high) {
@@ -1168,12 +1261,13 @@ fn print_screen_text(report: &ScreenReport) {
             _ => "     — ".to_owned(),
         };
         println!(
-            "{:>4}  {:>9.3}  {:>19}  {:>7}  {:>6.1}%  {:<26}  {}",
+            "{:>4}  {:>9.3}  {:>19}  {:>7}  {:>6.1}%  {:<14}  {:<26}  {}",
             hit.rank,
             hit.predicted_ddg_kcal_mol,
             interval,
             leverage,
             hit.predicted_ee_percent,
+            domain_column(&hit.domain_verdict),
             hit.trust,
             match hit.ligand_name.as_deref() {
                 Some(name) => format!("{} ({name})", hit.ligand),
@@ -1279,6 +1373,21 @@ fn print_screen_text(report: &ScreenReport) {
 const EXCLUSION_PREVIEW: usize = 10;
 
 /// Renders the descriptors a prediction consumed as `name=value` pairs.
+/// The applicability verdict, abbreviated to fit a column.
+///
+/// These are the four states the calibrated methodology produces, not a
+/// severity scale layered on top: `sparse` is the in-range-but-unsampled state
+/// the neighbour calibration detects, and `!` marks the two that mean the model
+/// is being asked about a region it was not fitted on.
+fn domain_column(verdict: &str) -> String {
+    match verdict {
+        "interpolation" => "interpolation".to_owned(),
+        "sparse_interpolation" => "sparse !".to_owned(),
+        "extrapolation" => "extrapolation!".to_owned(),
+        other => other.to_owned(),
+    }
+}
+
 fn describe_descriptors(descriptors: &[DescriptorValue]) -> String {
     descriptors
         .iter()

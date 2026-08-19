@@ -224,8 +224,30 @@ no free parameter — no `0.5σ`, no percentile, nothing to tune.
 Being set by the loosest part of the training set makes it **permissive**, and
 that is a real limitation: one isolated training observation widens the boundary
 for everything. `mean`, `standard_deviation`, and `median` of the same distance
-distribution are serialized alongside it so a consumer can impose a stricter
-rule without refitting. The `rule` field carries the derivation in words.
+distribution are serialized alongside it, and `stericx screen --domain-rule`
+selects which of them bounds the domain:
+
+| `--domain-rule` | Boundary | Notes |
+| --- | --- | --- |
+| `max-neighbor` (default) | `maximum` | No distributional assumption. Permissive, as above. |
+| `mean-plus-sd` | `mean + σ` | ~84th percentile if the distances are roughly normal. |
+| `mean-plus-2sd` | `mean + 2σ` | ~97.7th percentile under the same assumption. |
+
+Every option is a statistic **of the training set's own neighbour-distance
+distribution**, computed at fit time and serialized into the model. None is a
+severity grade, and none introduces a cutoff chosen to make results look a
+particular way; the two `mean + kσ` rules do add an assumption the maximum does
+not — that the distances are roughly symmetric — which is why the parameter-free
+maximum remains the default. `max-neighbor` is not always the loosest: a tight
+training set with one far outlier can put `mean + 2σ` above the maximum, so the
+rules are ordered by the statistic they name, not by severity.
+
+The applied rule and the boundary it produced are reported in every screen
+(`domain_rule`, `domain_rule_description`, `domain_threshold`), so a stricter run
+is never mistaken for a default one. Changing the rule moves only the boundary:
+the measured `nearest_training_distance` is a property of the candidate and the
+training set, and is identical under every rule. The `rule` field on the stored
+calibration carries the default derivation in words.
 
 ### Verdicts
 

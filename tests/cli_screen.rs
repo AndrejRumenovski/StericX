@@ -1039,3 +1039,349 @@ fn the_study_001_portable_artifact_reproduces_the_frozen_blind_prediction() {
         "blind prediction drifted: {predicted}"
     );
 }
+
+/// The Study 001 model's own training geometry: standardized 1-D points, the
+/// standardization constants, and the recorded neighbour calibration.
+fn study_001_geometry() -> (Vec<f64>, f64, f64, serde_json::Value) {
+    let document: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(study_001_portable_model()).unwrap())
+            .unwrap();
+    let geometry = &document["training_geometry"];
+    let mut points = geometry["standardized_training_points"]
+        .as_array()
+        .expect("the schema-2 artifact records its training points")
+        .iter()
+        .map(|row| row[0].as_f64().unwrap())
+        .collect::<Vec<_>>();
+    points.sort_by(f64::total_cmp);
+    (
+        points,
+        geometry["means"][0].as_f64().unwrap(),
+        geometry["scales"][0].as_f64().unwrap(),
+        geometry["neighbor_calibration"].clone(),
+    )
+}
+
+/// Turns a standardized coordinate back into a `B5 x NBO` pair the screen
+/// library can carry. `nbo_charge` is 1.0, so the product is `sterimol_b5`.
+fn at_standardized(z: f64, mean: f64, scale: f64) -> f64 {
+    z * scale + mean
+}
+
+#[test]
+fn a_real_gap_in_the_training_set_reports_sparse_interpolation() {
+    let (points, mean, scale, calibration) = study_001_geometry();
+    let threshold = calibration["threshold"].as_f64().unwrap();
+
+    // The widest gap the published training set actually leaves.
+    let (width, low, high) = points
+        .windows(2)
+        .map(|pair| (pair[1] - pair[0], pair[0], pair[1]))
+        .max_by(|left, right| left.0.total_cmp(&right.0))
+        .unwrap();
+    assert!(
+        width / 2.0 > threshold,
+        "the fixture assumes the widest training gap outruns the calibrated \
+         spacing: half-gap {} vs threshold {threshold}",
+        width / 2.0
+    );
+
+    let library = descriptor_library(&[
+        // Centre of that gap: in range, but farther from every training point
+        // than the training set's own sparsest spacing.
+        (
+            "in_gap",
+            at_standardized((low + high) / 2.0, mean, scale),
+            1.0,
+        ),
+        // An actual training coordinate: distance zero.
+        ("on_training_point", at_standardized(high, mean, scale), 1.0),
+    ]);
+
+    let report = screen_json(&study_001_portable_model(), &library, &[]);
+    let hit = |name: &str| {
+        report["hits"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|hit| hit["ligand"] == name)
+            .unwrap_or_else(|| panic!("{name} was screened"))
+            .clone()
+    };
+
+    let gap = hit("in_gap");
+    assert_eq!(gap["domain_verdict"], "sparse_interpolation");
+    // Sparse is emphatically not extrapolation: every descriptor is in range.
+    assert_eq!(gap["maximum_extrapolation"].as_f64().unwrap(), 0.0);
+    assert!(
+        gap["outside_domain"]
+            .as_array()
+            .is_none_or(std::vec::Vec::is_empty)
+    );
+    assert!(gap["nearest_training_ratio"].as_f64().unwrap() > 1.0);
+
+    let on_point = hit("on_training_point");
+    assert_eq!(on_point["domain_verdict"], "interpolation");
+    assert!(on_point["nearest_training_distance"].as_f64().unwrap() < 1e-9);
+}
+
+#[test]
+fn a_stricter_domain_rule_shrinks_the_boundary_without_moving_the_measurement() {
+    let (points, mean, scale, calibration) = study_001_geometry();
+    let permissive = calibration["threshold"].as_f64().unwrap();
+    let strict = calibration["mean"].as_f64().unwrap()
+        + 2.0 * calibration["standard_deviation"].as_f64().unwrap();
+    assert!(
+        strict < permissive,
+        "Study 001's spacing must actually be uneven for this test to mean anything"
+    );
+
+    // A coordinate between the two boundaries: accepted by the default rule,
+    // rejected by mean + 2σ. It has to sit *inside* the training range, so
+    // place it in the widest interior gap rather than past an end point --
+    // outside the range it would be extrapolation and the rule would not matter.
+    let (width, low, _high) = points
+        .windows(2)
+        .map(|pair| (pair[1] - pair[0], pair[0], pair[1]))
+        .max_by(|left, right| left.0.total_cmp(&right.0))
+        .unwrap();
+    let offset = f64::midpoint(strict, permissive);
+    assert!(
+        offset < width / 2.0,
+        "the gap must be wide enough to hold a point at {offset} from its edge"
+    );
+    let library = descriptor_library(&[(
+        "between_boundaries",
+        at_standardized(low + offset, mean, scale),
+        1.0,
+    )]);
+
+    let verdict_and_distance = |extra: &[&str]| {
+        let report = screen_json(&study_001_portable_model(), &library, extra);
+        let hit = report["hits"][0].clone();
+        (
+            report["domain_rule"].as_str().unwrap().to_owned(),
+            report["domain_threshold"].as_f64().unwrap(),
+            hit["domain_verdict"].as_str().unwrap().to_owned(),
+            hit["nearest_training_distance"].as_f64().unwrap(),
+        )
+    };
+
+    let (default_rule, default_threshold, default_verdict, default_distance) =
+        verdict_and_distance(&[]);
+    let (strict_rule, strict_threshold, strict_verdict, strict_distance) =
+        verdict_and_distance(&["--domain-rule", "mean-plus-2sd"]);
+
+    assert_eq!(
+        default_rule, "max_neighbor",
+        "the default must stay permissive"
+    );
+    assert_eq!(strict_rule, "mean_plus_2sd");
+    assert_eq!(default_verdict, "interpolation");
+    assert_eq!(strict_verdict, "sparse_interpolation");
+    assert!(strict_threshold < default_threshold);
+
+    // Only the boundary moved. The measured distance is a property of the
+    // candidate and the training set, so it must be identical under both rules.
+    assert_eq!(default_distance, strict_distance);
+}
+
+#[test]
+fn the_domain_rule_is_reported_so_a_stricter_run_is_never_ambiguous() {
+    let report = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--domain-rule", "mean-plus-sd"],
+    );
+    assert_eq!(report["domain_rule"], "mean_plus_sd");
+    assert!(
+        report["domain_rule_description"]
+            .as_str()
+            .unwrap()
+            .contains("mean + 1 standard deviation"),
+        "the report must carry the derivation, not just a name"
+    );
+
+    let text = run(&[
+        "screen",
+        study_001_portable_model().to_str().unwrap(),
+        "--library",
+        study_001_library().to_str().unwrap(),
+        "--domain-rule",
+        "mean-plus-sd",
+    ]);
+    assert_eq!(text.status, 0, "{}", text.stderr);
+    assert!(
+        text.stdout.contains("domain rule    mean_plus_sd"),
+        "{}",
+        text.stdout
+    );
+}
+
+#[test]
+fn the_domain_rule_cannot_change_a_prediction() {
+    // Applicability is scored from descriptors alone; changing the boundary
+    // must not perturb a single predicted value or the ranking.
+    let library = spread_library();
+    let default = screen_json(&study_001_portable_model(), &library, &[]);
+    let strict = screen_json(
+        &study_001_portable_model(),
+        &library,
+        &["--domain-rule", "mean-plus-2sd"],
+    );
+    assert_eq!(predictions(&default), predictions(&strict));
+    assert_eq!(ranked_ligands(&default), ranked_ligands(&strict));
+}
+
+/// A library whose best-predicted member is deliberately out of domain.
+///
+/// The Study 001 coefficient on `B5 x NBO` is negative, so the *smallest*
+/// product gives the largest predicted ddG. Putting that smallest product below
+/// the training minimum makes the top-ranked candidate an extrapolation.
+fn best_candidate_is_out_of_domain_library() -> PathBuf {
+    descriptor_library(&[
+        ("best_but_ood", 3.0, 1.0),
+        ("safe_mid", 10.0, 1.0),
+        ("safe_high", 12.0, 1.0),
+    ])
+}
+
+#[test]
+fn the_highest_predicted_candidate_can_still_be_flagged_out_of_domain() {
+    let report = screen_json(
+        &study_001_portable_model(),
+        &best_candidate_is_out_of_domain_library(),
+        &[],
+    );
+
+    let top = &report["hits"][0];
+    assert_eq!(top["ligand"], "best_but_ood");
+    assert_eq!(top["rank"], 1);
+    assert_eq!(
+        top["domain_verdict"], "extrapolation",
+        "the best-looking prediction must not buy its way into the domain"
+    );
+    assert!(
+        top["maximum_extrapolation"].as_f64().unwrap() > 0.0,
+        "an extrapolating hit must quantify how far outside it is"
+    );
+    assert!(
+        !top["outside_domain"].as_array().unwrap().is_empty(),
+        "the offending descriptor must be named"
+    );
+
+    // Ranking is by prediction alone: being out of domain neither promotes nor
+    // demotes it.
+    let values = predictions(&report);
+    assert!(
+        values[0] > values[1],
+        "the out-of-domain candidate really is the top prediction"
+    );
+}
+
+#[test]
+fn an_out_of_domain_candidate_is_never_dropped_or_altered_by_default() {
+    let library = best_candidate_is_out_of_domain_library();
+    let report = screen_json(&study_001_portable_model(), &library, &[]);
+
+    assert_eq!(report["screened"], 3, "nothing is dropped without the flag");
+    assert_eq!(report["returned"], 3);
+    assert_eq!(report["domain_filter_applied"], false);
+    assert!(report["domain_filtered"].as_array().unwrap().is_empty());
+    assert_eq!(ranked_ligands(&report).len(), 3);
+
+    // The prediction must be the raw model output, not softened toward the
+    // training mean because the candidate is outside the domain.
+    let top = &report["hits"][0];
+    let predicted = top["predicted_ddg_kcal_mol"].as_f64().unwrap();
+    let recomputed = predict_from_reported_descriptors(
+        model_weights(&study_001_portable_model()),
+        &serde_json::json!({ "descriptors": top["descriptors"].clone() }),
+    );
+    assert!(
+        (predicted - f64::from(recomputed)).abs() < 1e-4,
+        "an out-of-domain prediction was modified: {predicted} vs {recomputed}"
+    );
+}
+
+#[test]
+fn in_domain_only_is_opt_in_and_reports_what_it_removed() {
+    let library = best_candidate_is_out_of_domain_library();
+    let filtered = screen_json(&study_001_portable_model(), &library, &["--in-domain-only"]);
+
+    assert_eq!(filtered["domain_filter_applied"], true);
+    assert_eq!(
+        filtered["screened"], 2,
+        "the extrapolating candidate is gone"
+    );
+    let removed = filtered["domain_filtered"].as_array().unwrap();
+    assert_eq!(removed.len(), 1);
+    assert_eq!(removed[0][0], "best_but_ood");
+    assert_eq!(removed[0][1], "extrapolation");
+
+    // The census still describes the whole library, so filtering never hides
+    // how many candidates existed.
+    let census = filtered["domain_summary"].as_array().unwrap();
+    let total: u64 = census.iter().map(|entry| entry[1].as_u64().unwrap()).sum();
+    assert_eq!(total, 3, "the census must cover every screened candidate");
+
+    // Surviving predictions are untouched by the filter.
+    let unfiltered = screen_json(&study_001_portable_model(), &library, &[]);
+    assert_eq!(
+        predictions(&filtered),
+        predictions(&unfiltered)[1..].to_vec()
+    );
+}
+
+#[test]
+fn the_terminal_table_shows_the_domain_beside_the_prediction() {
+    let output = run(&[
+        "screen",
+        study_001_portable_model().to_str().unwrap(),
+        "--library",
+        best_candidate_is_out_of_domain_library().to_str().unwrap(),
+    ]);
+    assert_eq!(output.status, 0, "{}", output.stderr);
+
+    assert!(
+        output.stdout.contains("domain") && output.stdout.contains("pred ddG"),
+        "the table must carry a domain column beside the prediction:\n{}",
+        output.stdout
+    );
+    // The warning is visible, and the prediction it applies to is still printed.
+    assert!(
+        output.stdout.contains("extrapolation!"),
+        "an extrapolating row must be marked:\n{}",
+        output.stdout
+    );
+    assert!(
+        output.stdout.contains("best_but_ood"),
+        "a flagged ligand must still appear:\n{}",
+        output.stdout
+    );
+    assert!(
+        output.stdout.contains("--in-domain-only to exclude them"),
+        "the report must say the filter exists:\n{}",
+        output.stdout
+    );
+}
+
+#[test]
+fn filtering_every_candidate_explains_itself_rather_than_reporting_nothing() {
+    // A library that is entirely out of domain: the error must name the filter
+    // instead of implying the model could not screen anything.
+    let library = descriptor_library(&[("way_out", 2.0, 1.0), ("also_out", 2.5, 1.0)]);
+    let output = run(&[
+        "screen",
+        study_001_portable_model().to_str().unwrap(),
+        "--library",
+        library.to_str().unwrap(),
+        "--in-domain-only",
+    ]);
+    assert_ne!(output.status, 0);
+    assert!(
+        output.stderr.contains("--in-domain-only removed all"),
+        "{}",
+        output.stderr
+    );
+}

@@ -319,13 +319,22 @@ pub(crate) enum Command {
         /// Temperature used to convert predicted ΔΔG‡ into an ee.
         #[arg(long, default_value_t = 298.15)]
         temperature: f32,
-        /// Drop ligands that fall outside the training domain.
-        #[arg(long)]
-        inside_domain_only: bool,
+        /// Keep only candidates the applicability domain calls `interpolation`.
+        ///
+        /// Off by default: an out-of-domain ligand is reported with its
+        /// prediction and a warning, never silently dropped. When this is set
+        /// the report states how many candidates were removed and why.
+        #[arg(long, visible_alias = "inside-domain-only")]
+        in_domain_only: bool,
         /// Rank ascending (smallest predicted value first), overriding the
         /// direction the model records.
         #[arg(long)]
         ascending: bool,
+        /// Which statistic of the training set's nearest-neighbour spacing
+        /// bounds the applicability domain. Every choice is derived from the
+        /// training distribution recorded in the model; none is a free cutoff.
+        #[arg(long, value_enum, default_value_t = DomainRuleArg::MaxNeighbor)]
+        domain_rule: DomainRuleArg,
         /// Rank descending (largest predicted value first), overriding the
         /// direction the model records.
         #[arg(long, conflicts_with = "ascending")]
@@ -472,6 +481,29 @@ pub(crate) enum ModelCommand {
         #[arg(long)]
         strict: bool,
     },
+}
+
+/// Which training-spacing statistic bounds the applicability domain.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
+pub(crate) enum DomainRuleArg {
+    /// Largest nearest-neighbour distance in the training set. Permissive:
+    /// one isolated training point widens it for every candidate.
+    MaxNeighbor,
+    /// Mean + 1 standard deviation of the training nearest-neighbour distances.
+    MeanPlusSd,
+    /// Mean + 2 standard deviations of the training nearest-neighbour distances.
+    #[value(name = "mean-plus-2sd")]
+    MeanPlus2sd,
+}
+
+impl From<DomainRuleArg> for steric_x::model::DomainRule {
+    fn from(value: DomainRuleArg) -> Self {
+        match value {
+            DomainRuleArg::MaxNeighbor => Self::MaxNeighbor,
+            DomainRuleArg::MeanPlusSd => Self::MeanPlusSd,
+            DomainRuleArg::MeanPlus2sd => Self::MeanPlusTwoSd,
+        }
+    }
 }
 
 /// Optimization direction recorded in a portable model.

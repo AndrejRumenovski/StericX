@@ -721,6 +721,9 @@ fn training_geometry(
         warning_leverage: 3.0 * columns as f64 / observations as f64,
         standardized_training_points,
         neighbor_calibration,
+        // Filled in by the training API, which is where identifiers live; the
+        // fit itself works on indices.
+        training_labels: Vec::new(),
     })
 }
 

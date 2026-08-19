@@ -295,10 +295,39 @@ fn training_api_matches_the_previous_cli_composition_bit_for_bit() {
         trained.report.selected_feature_indices,
         legacy_report.selected_feature_indices
     );
+    // `train_scientific_model` additionally names the training observations,
+    // which the legacy composition could not: it receives indices, not
+    // identifiers. Strip that one field and everything the *fit* produces must
+    // still be byte-for-byte identical, so the addition cannot mask drift.
+    let mut stripped = trained.report.clone();
+    let recorded_labels = stripped
+        .training_geometry
+        .as_mut()
+        .map(|geometry| std::mem::take(&mut geometry.training_labels))
+        .unwrap_or_default();
     assert_eq!(
-        serde_json::to_string(&trained.report).unwrap(),
+        serde_json::to_string(&stripped).unwrap(),
         serde_json::to_string(&legacy_report).unwrap(),
         "serialized model artifacts must be identical"
+    );
+
+    // And the labels it added must line up with the training rows, in order.
+    let expected_labels = training_indices
+        .iter()
+        .map(|&index| labels[index].reaction_id.clone())
+        .collect::<Vec<_>>();
+    assert_eq!(
+        recorded_labels, expected_labels,
+        "training labels must be positionally aligned with the training rows"
+    );
+    assert_eq!(
+        recorded_labels.len(),
+        trained
+            .report
+            .training_geometry
+            .as_ref()
+            .map_or(0, |geometry| geometry.standardized_training_points.len()),
+        "one label per standardized training point"
     );
     assert_eq!(trained.frozen_predictions.len(), legacy_predictions.len());
     for (row, expected) in trained.frozen_predictions.iter().zip(&legacy_predictions) {

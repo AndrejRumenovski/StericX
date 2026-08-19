@@ -289,6 +289,18 @@
         1.140112521293883
       ]
     ],
+    "training_labels": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ],
     "neighbor_calibration": {
       "mean": 0.13293089381707174,
       "standard_deviation": 0.15314059709136776,
@@ -417,7 +429,7 @@
     }
   },
   "created": {
-    "created_utc": "2026-08-19T19:38:47Z",
+    "created_utc": "2026-08-19T20:38:33Z",
     "produced_by": "stericx fit"
   },
   "uncertainty": {

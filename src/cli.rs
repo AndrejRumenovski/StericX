@@ -339,6 +339,14 @@ pub(crate) enum Command {
         /// direction the model records.
         #[arg(long)]
         ascending: bool,
+        /// Write a candidate deck for experimental review to this CSV path.
+        ///
+        /// A sidecar `<path>.meta.json` is written alongside it carrying the
+        /// exact configuration and provenance needed to reproduce the deck.
+        /// The deck never contains an experimental response: it is built from
+        /// predictions and descriptors, so a blinded target cannot leak into it.
+        #[arg(long, value_name = "CSV")]
+        export_deck: Option<PathBuf>,
         /// Exclude ligands already tested experimentally, named in a CSV.
         ///
         /// Matched by stable identifier first, using the same column names the

@@ -382,6 +382,41 @@ with a reason — `missing_descriptors` (naming which), `featurization_failed`, 
 range the model was trained on are listed separately with **how far** outside they fall, as
 a fraction of the training range width.
 
+### Exporting a candidate deck for experimental review
+
+```bash
+./target/release/stericx screen model.json --library <library> --top 10 --export-deck candidates.csv
+```
+
+Writes the finished selection as a review-ready CSV plus a `candidates.meta.json` sidecar.
+Each row carries the stable ligand id and name, rank, the raw predicted ΔΔG‡ and the
+interpreted ee, the uncertainty interval with its method and level, the applicability verdict
+with how far outside the candidate falls, **the nearest training ligand by name** and the
+distance to it, the descriptors the model consumed, leverage and trust, the selection reason
+when `--diverse` was used, and the model and library hashes.
+
+Naming the nearest training ligand needs the model to record training identifiers, so
+`training_geometry` gained an optional `training_labels` array. **Identifiers only** — no
+experimental response is stored there, because a model document must never become a channel
+for a blinded target.
+
+**Blinded values cannot leak into a deck.** The columns are an explicit allow-list of model
+output and descriptor values, not a pass-through of whatever the library happened to contain.
+Study 001's library carries `Exp_ddG_kcal_mol` including the blind ligand's measured value;
+the deck contains neither the column nor the value, and there is a test asserting exactly
+that while confirming the blind ligand is still a legitimate candidate.
+
+The sidecar carries the full configuration (model, library, `--top`, ranking direction,
+temperature, domain rule and threshold, diversity settings, any exclusion list), the
+provenance block with SHA-256 of the model and library, the model context a reviewer would
+otherwise have to open the model for (target, selected descriptors, training N, LOO Q²), the
+uncertainty methodology, and a SHA-256 of the deck itself so a detached CSV can be checked
+against its metadata.
+
+**Identical inputs produce an identical deck**, byte for byte, sidecar included. The sidecar
+deliberately contains no timestamp — a clock is the one thing that would break that property,
+and a test walks every key to prove none crept in.
+
 ### Excluding ligands you have already tested
 
 ```bash

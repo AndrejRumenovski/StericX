@@ -177,6 +177,7 @@ in domain.
 | `warning_leverage` | `h* = 3p/n`. |
 | `standardized_training_points` | One row per training observation, one column per selected descriptor. |
 | `neighbor_calibration` | The training set's own nearest-neighbour spacing. |
+| `training_labels` | Optional. Identifier of each training observation, positionally aligned with `standardized_training_points`, so a screened ligand's nearest training neighbour can be named. **Identifiers only** — no experimental response is recorded, because a model document must never carry a blinded target. Absent from documents written before this field existed; consumers must degrade to reporting the distance without a name. |
 
 ### The three measures
 

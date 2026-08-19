@@ -61,12 +61,25 @@ pub fn train_scientific_model(
         ));
     }
     let split = TrainingSplit::from_labels(labels)?;
-    let report = fit_scientific_model_grouped(
+    let mut report = fit_scientific_model_grouped(
         records,
         split.training_indices(),
         split.training_groups(),
         options,
     )?;
+    // Name the training observations. `standardized_training_points` is built
+    // from the training rows in `training_indices` order, so the identifiers
+    // are positionally aligned by construction.
+    if let Some(geometry) = report.training_geometry.as_mut() {
+        let identifiers = split
+            .training_indices()
+            .iter()
+            .map(|&index| labels[index].reaction_id.clone())
+            .collect::<Vec<_>>();
+        if identifiers.len() == geometry.standardized_training_points.len() {
+            geometry.training_labels = identifiers;
+        }
+    }
 
     let predictor = RegressXPredictor::new(report.weights);
     let frozen_records = split

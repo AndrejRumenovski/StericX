@@ -12,6 +12,7 @@
 
 use crate::cli::{DescriptorFormat, SterimolAxis};
 use crate::descriptors::descriptors_for_file;
+use crate::output::write_atomic_text;
 use rayon::prelude::*;
 use serde::Serialize;
 use std::collections::HashMap;
@@ -597,6 +598,9 @@ struct ScreenHit {
     domain_verdict: String,
     /// Standardized distance to the closest training observation.
     nearest_training_distance: Option<f64>,
+    /// Identifier of that training ligand, when the model records training
+    /// labels. Identifier only - never its experimental response.
+    nearest_training_ligand: Option<String>,
     /// The training set's own nearest-neighbour spacing, the boundary above.
     nearest_training_threshold: Option<f64>,
     /// `distance / threshold`; above one is outside the sampled region.
@@ -724,6 +728,7 @@ pub(crate) struct ScreenArgs<'a> {
     pub(crate) descending: bool,
     pub(crate) domain_rule: DomainRule,
     pub(crate) exclude_tested: Option<&'a Path>,
+    pub(crate) export_deck: Option<&'a Path>,
     pub(crate) diverse: bool,
     pub(crate) diversity_weight: f64,
     pub(crate) donor_element: &'a str,
@@ -784,6 +789,146 @@ fn load_model(path: &Path) -> Result<PortableModel, Box<dyn Error>> {
         )
         .into()
     })
+}
+
+/// Writes a candidate deck for experimental review, plus a metadata sidecar.
+///
+/// The deck is built entirely from model output and descriptor values. It never
+/// reads an experimental response from the library, so a blinded target cannot
+/// reach it even when the library file happens to carry one - the columns are
+/// an explicit allow-list, not a pass-through of whatever was read.
+///
+/// Deterministic: the rows are the finished ranking in order, every float is
+/// written at full round-trip precision, and the sidecar carries no clock.
+fn write_candidate_deck(path: &Path, report: &ScreenReport) -> Result<PathBuf, Box<dyn Error>> {
+    let mut deck = String::new();
+    deck.push_str(
+        "rank,ligand_id,ligand_name,predicted_ddg_kcal_mol,predicted_ee_percent,\
+         uncertainty_lower,uncertainty_upper,uncertainty_method,uncertainty_level,\
+         uncertainty_replicates,prediction_interval_low,prediction_interval_high,\
+         domain_verdict,maximum_extrapolation,outside_features,\
+         nearest_training_ligand,nearest_training_distance,nearest_training_threshold,\
+         descriptors_used,leverage,trust,\
+         selection_step,selection_ranking_position,selection_separation,selection_objective,\
+         model_sha256,library_sha256\n",
+    );
+    let optional = |value: Option<f64>| value.map_or_else(String::new, |value| format!("{value}"));
+    for hit in &report.hits {
+        deck.push_str(&format!(
+            "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}\n",
+            hit.rank,
+            crate::descriptors::csv_field(&hit.ligand),
+            crate::descriptors::csv_field(hit.ligand_name.as_deref().unwrap_or_default()),
+            hit.predicted_ddg_kcal_mol,
+            hit.predicted_ee_percent,
+            optional(hit.uncertainty.as_ref().map(|u| u.lower)),
+            optional(hit.uncertainty.as_ref().map(|u| u.upper)),
+            hit.uncertainty.as_ref().map_or("", |u| u.method.as_str()),
+            hit.uncertainty
+                .as_ref()
+                .map_or_else(String::new, |u| u.level.to_string()),
+            hit.uncertainty
+                .as_ref()
+                .map_or_else(String::new, |u| u.replicates.to_string()),
+            optional(hit.prediction_interval_low),
+            optional(hit.prediction_interval_high),
+            hit.domain_verdict,
+            hit.maximum_extrapolation,
+            crate::descriptors::csv_field(
+                &hit.outside_domain
+                    .iter()
+                    .map(|exceedance| exceedance.feature.as_str())
+                    .collect::<Vec<_>>()
+                    .join("|")
+            ),
+            crate::descriptors::csv_field(
+                hit.nearest_training_ligand.as_deref().unwrap_or_default()
+            ),
+            optional(hit.nearest_training_distance),
+            optional(hit.nearest_training_threshold),
+            crate::descriptors::csv_field(&describe_descriptors_exact(&hit.descriptors)),
+            optional(hit.leverage),
+            crate::descriptors::csv_field(&hit.trust),
+            hit.selection
+                .as_ref()
+                .map_or_else(String::new, |s| s.step.to_string()),
+            hit.selection
+                .as_ref()
+                .map_or_else(String::new, |s| s.ranking_position.to_string()),
+            optional(hit.selection.as_ref().and_then(|s| s.separation)),
+            hit.selection
+                .as_ref()
+                .map_or_else(String::new, |s| s.objective.to_string()),
+            report.provenance.model_sha256,
+            report.provenance.library_sha256,
+        ));
+    }
+    write_atomic_text(path, &deck)?;
+
+    // Sidecar: everything needed to reproduce the deck, and nothing that would
+    // make two identical runs differ.
+    let sidecar_path = sidecar_path(path);
+    let sidecar = serde_json::json!({
+        "deck": path.file_name().map(|name| name.to_string_lossy().into_owned()),
+        "deck_sha256": crate::digest::sha256_hex(deck.as_bytes()),
+        "configuration": {
+            "model": report.model_path,
+            "library": report.provenance.library_path,
+            "top": report.returned,
+            "screened": report.screened,
+            "library_size": report.library_size,
+            "ranking_order": report.ranking_order,
+            "model_optimization": report.model_optimization,
+            "ranking_overridden": report.ranking_overridden,
+            "temperature_k": report.temperature_k,
+            "domain_rule": report.domain_rule,
+            "domain_rule_description": report.domain_rule_description,
+            "domain_threshold": report.domain_threshold,
+            "domain_filter_applied": report.domain_filter_applied,
+            "diversity_applied": report.diversity_applied,
+            "diversity_weight": report.diversity_weight,
+            "diversity_objective": report.diversity_objective,
+            "exclusion": report.exclusion,
+        },
+        "provenance": report.provenance,
+        "model_context": {
+            "model": report.model,
+            "model_id": report.provenance.model_id,
+            "target": report.target,
+            "target_units": report.target_units,
+            "reaction_family": report.reaction_family,
+            "selected_features": report.selected_features,
+            "training_count": report.training_count,
+            "training_r2": report.training_r2,
+            "training_rmse_kcal_mol": report.training_rmse_kcal_mol,
+            "loo_q2": report.loo_q2,
+            "loo_rmse_kcal_mol": report.loo_rmse_kcal_mol,
+            "group_loo_q2": report.group_loo_q2,
+        },
+        "uncertainty": {
+            "method": report.uncertainty_method,
+            "level": report.uncertainty_level,
+            "replicates": report.uncertainty_replicates,
+            "note": report.uncertainty_note,
+        },
+        "blinding": "This deck contains no experimental response. Columns are an \
+                     explicit allow-list of model output and descriptor values, so a \
+                     blinded target in the source library cannot appear here.",
+    });
+    write_atomic_text(
+        &sidecar_path,
+        &(serde_json::to_string_pretty(&sidecar)? + "\n"),
+    )?;
+    Ok(sidecar_path)
+}
+
+/// `candidates.csv` -> `candidates.meta.json`, beside the deck.
+fn sidecar_path(deck: &Path) -> PathBuf {
+    let stem = deck.file_stem().map_or_else(
+        || "deck".to_owned(),
+        |stem| stem.to_string_lossy().into_owned(),
+    );
+    deck.with_file_name(format!("{stem}.meta.json"))
 }
 
 /// Identifiers of ligands already tested experimentally, read from a CSV.
@@ -1532,6 +1677,7 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             )) * if predicted < 0.0 { -1.0 } else { 1.0 },
             domain_verdict: applicability.verdict.label().to_owned(),
             nearest_training_distance: applicability.nearest_training_distance,
+            nearest_training_ligand: applicability.nearest_training_label.clone(),
             nearest_training_threshold: applicability.nearest_training_threshold,
             nearest_training_ratio: applicability.nearest_training_ratio,
             mahalanobis_distance: applicability.mahalanobis_distance,
@@ -1865,10 +2011,23 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         hits,
     };
 
+    let deck_paths = match args.export_deck {
+        Some(path) => Some((path.to_path_buf(), write_candidate_deck(path, &report)?)),
+        None => None,
+    };
+
     match args.format {
         DescriptorFormat::Text => print_screen_text(&report),
         DescriptorFormat::Json => println!("{}", serde_json::to_string_pretty(&report)?),
         DescriptorFormat::Csv => print_screen_csv(&report),
+    }
+    if let Some((deck, sidecar)) = deck_paths {
+        println!(
+            "\ndeck           {} ({} candidate(s))",
+            deck.display(),
+            report.returned
+        );
+        println!("deck metadata  {}", sidecar.display());
     }
     Ok(())
 }

@@ -48,6 +48,14 @@ pub struct TrainingGeometry {
     /// still load; without it a distance simply cannot be reported.
     #[serde(default)]
     pub standardized_training_points: Vec<Vec<f64>>,
+    /// Identifier of each training observation, positionally aligned with
+    /// `standardized_training_points`, so a screened ligand's nearest training
+    /// neighbour can be named rather than only measured.
+    ///
+    /// Identifiers only. No experimental response is recorded here: a model
+    /// document must never become a channel for a blinded target value.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub training_labels: Vec<String>,
     /// Nearest-neighbour spacing of the training set, and the boundary derived
     /// from it. Absent when there are too few points to measure a spacing.
     #[serde(default)]
@@ -254,6 +262,8 @@ pub struct ApplicabilityAssessment {
     /// Euclidean distance in standardized descriptor space to the closest
     /// training observation.
     pub nearest_training_distance: Option<f64>,
+    /// Identifier of that nearest training observation, when recorded.
+    pub nearest_training_label: Option<String>,
     /// The calibrated boundary that distance is compared against.
     pub nearest_training_threshold: Option<f64>,
     /// Which statistic of the training spacing produced that boundary.
@@ -363,6 +373,31 @@ impl TrainingGeometry {
     #[must_use]
     pub fn standardized_point(&self, expanded: &[f32; MODEL_FEATURE_COUNT]) -> Vec<f64> {
         self.design_vector(expanded).split_off(1)
+    }
+
+    /// Nearest training observation as `(index, distance)`.
+    #[must_use]
+    pub fn nearest_training_neighbour(
+        &self,
+        expanded: &[f32; MODEL_FEATURE_COUNT],
+    ) -> Option<(usize, f64)> {
+        if self.standardized_training_points.is_empty() {
+            return None;
+        }
+        let point = self.standardized_point(expanded);
+        self.standardized_training_points
+            .iter()
+            .enumerate()
+            .filter_map(|(index, training)| Some((index, euclidean(&point, training)?)))
+            .min_by(|left, right| left.1.total_cmp(&right.1))
+    }
+
+    /// Identifier of the nearest training observation, when the model records
+    /// training labels.
+    #[must_use]
+    pub fn nearest_training_label(&self, expanded: &[f32; MODEL_FEATURE_COUNT]) -> Option<String> {
+        let (index, _) = self.nearest_training_neighbour(expanded)?;
+        self.training_labels.get(index).cloned()
     }
 
     /// Distance in standardized descriptor space to the closest training point.
@@ -683,6 +718,7 @@ pub fn assess_applicability(
                 DomainVerdict::Extrapolation
             },
             nearest_training_distance: None,
+            nearest_training_label: None,
             nearest_training_threshold: None,
             nearest_training_rule: rule,
             nearest_training_ratio: None,
@@ -734,6 +770,7 @@ pub fn assess_applicability(
     ApplicabilityAssessment {
         verdict,
         nearest_training_distance: distance,
+        nearest_training_label: geometry.nearest_training_label(expanded),
         nearest_training_threshold: threshold,
         nearest_training_rule: rule,
         nearest_training_ratio: ratio,
@@ -817,6 +854,7 @@ mod tests {
             parameters: 3,
             residual_standard_error: 0.1,
             warning_leverage: 3.0 * 3.0 / observations as f64,
+            training_labels: (0..points.len()).map(|i| format!("T{i}")).collect(),
             standardized_training_points: points,
             neighbor_calibration: calibration,
         }
@@ -878,6 +916,7 @@ mod tests {
             residual_standard_error: 0.1,
             warning_leverage: 3.0 * 2.0 / observations as f64,
             neighbor_calibration: NeighborCalibration::from_points(&points),
+            training_labels: (0..points.len()).map(|i| format!("T{i}")).collect(),
             standardized_training_points: points,
         }
     }
@@ -1247,6 +1286,7 @@ mod tests {
             residual_standard_error: 0.5,
             warning_leverage: 0.6,
             standardized_training_points: Vec::new(),
+            training_labels: Vec::new(),
             neighbor_calibration: None,
         }
     }

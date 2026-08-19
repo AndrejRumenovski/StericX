@@ -2395,3 +2395,312 @@ fn no_exclusion_list_leaves_the_report_unchanged() {
         "the accounting must be absent when no list was supplied"
     );
 }
+
+/// Runs a screen that exports a deck, returning (deck text, sidecar json).
+fn export_deck(model: &Path, library: &Path, extra: &[&str]) -> (String, serde_json::Value) {
+    let deck = temp_path("csv");
+    let mut args = vec![
+        "screen",
+        model.to_str().unwrap(),
+        "--library",
+        library.to_str().unwrap(),
+        "--export-deck",
+        deck.to_str().unwrap(),
+    ];
+    args.extend_from_slice(extra);
+    let output = run(&args);
+    assert_eq!(output.status, 0, "export failed: {}", output.stderr);
+
+    let sidecar = deck.with_file_name(format!(
+        "{}.meta.json",
+        deck.file_stem().unwrap().to_string_lossy()
+    ));
+    let text = std::fs::read_to_string(&deck).expect("the deck was written");
+    let meta: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&sidecar).expect("the sidecar was written"))
+            .unwrap();
+    (text, meta)
+}
+
+fn deck_column(deck: &str, name: &str) -> Vec<String> {
+    let mut lines = deck.lines();
+    let header = lines.next().expect("the deck has a header");
+    let index = header
+        .split(',')
+        .position(|column| column == name)
+        .unwrap_or_else(|| panic!("deck has no `{name}` column: {header}"));
+    lines
+        .map(|line| line.split(',').nth(index).unwrap_or_default().to_owned())
+        .collect()
+}
+
+#[test]
+fn the_deck_carries_every_field_an_experimental_review_needs() {
+    let (deck, _) = export_deck(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--top", "3"],
+    );
+    let header = deck.lines().next().unwrap();
+    for column in [
+        "rank",
+        "ligand_id",
+        "ligand_name",
+        "predicted_ddg_kcal_mol",
+        "predicted_ee_percent",
+        "uncertainty_lower",
+        "uncertainty_upper",
+        "uncertainty_method",
+        "uncertainty_level",
+        "domain_verdict",
+        "nearest_training_ligand",
+        "nearest_training_distance",
+        "descriptors_used",
+        "model_sha256",
+        "library_sha256",
+    ] {
+        assert!(header.contains(column), "deck lacks `{column}`: {header}");
+    }
+    assert_eq!(deck.lines().count(), 4, "header plus --top 3 rows");
+
+    // The nearest training ligand is named, not merely measured.
+    for ligand in deck_column(&deck, "nearest_training_ligand") {
+        assert!(
+            !ligand.is_empty(),
+            "a nearest training ligand must be named"
+        );
+        assert!(ligand.starts_with("SIG-NIHDA-"), "unexpected id: {ligand}");
+    }
+    // Raw and interpreted predictions are both present and distinct.
+    let raw = deck_column(&deck, "predicted_ddg_kcal_mol");
+    let interpreted = deck_column(&deck, "predicted_ee_percent");
+    assert_eq!(raw.len(), 3);
+    assert!(raw.iter().zip(&interpreted).all(|(a, b)| a != b));
+}
+
+#[test]
+fn the_deck_never_carries_a_blinded_experimental_value() {
+    // The source library holds Exp_ddG_kcal_mol, including for the blind
+    // ligand 723 whose measured value is 1.9307772 and must stay blinded.
+    let (deck, meta) = export_deck(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--top", "11"],
+    );
+    let lowered = deck.to_lowercase();
+    assert!(
+        !lowered.contains("exp_ddg") && !lowered.contains("experimental"),
+        "the deck must not carry an experimental response column"
+    );
+    assert!(
+        !deck.contains("1.9307772"),
+        "the blinded experimental value leaked into the deck"
+    );
+    assert!(
+        deck.contains("SIG-NIHDA-723"),
+        "the blind ligand is still a legitimate candidate"
+    );
+    // The sidecar states the guarantee rather than leaving it implicit.
+    assert!(
+        meta["blinding"]
+            .as_str()
+            .unwrap()
+            .contains("no experimental response"),
+        "the sidecar must record the blinding guarantee"
+    );
+}
+
+#[test]
+fn the_sidecar_carries_the_configuration_and_provenance_to_reproduce_the_deck() {
+    let (deck, meta) = export_deck(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--top", "4"],
+    );
+
+    // The deck's own digest, so a deck can be checked against its metadata.
+    assert_eq!(
+        meta["deck_sha256"].as_str().unwrap().len(),
+        64,
+        "the sidecar must hash the deck it describes"
+    );
+
+    let configuration = &meta["configuration"];
+    for key in [
+        "model",
+        "library",
+        "top",
+        "screened",
+        "library_size",
+        "ranking_order",
+        "model_optimization",
+        "temperature_k",
+        "domain_rule",
+        "domain_threshold",
+        "diversity_applied",
+    ] {
+        assert!(
+            configuration.get(key).is_some(),
+            "sidecar configuration lacks `{key}`"
+        );
+    }
+    assert_eq!(configuration["top"], 4);
+
+    // Provenance: the same cryptographic identity the screen reports.
+    let provenance = &meta["provenance"];
+    assert_eq!(
+        provenance["model_sha256"].as_str().unwrap(),
+        sha256_hex_of(&study_001_portable_model())
+    );
+    assert_eq!(
+        provenance["library_sha256"].as_str().unwrap(),
+        sha256_hex_of(&study_001_library())
+    );
+    assert_eq!(provenance["stericx_version"], env!("CARGO_PKG_VERSION"));
+
+    // Model context, so a reviewer need not open the model.
+    let context = &meta["model_context"];
+    assert_eq!(context["model_id"], "mechanistically_constrained_ols");
+    assert_eq!(context["target"], "ddg_double_dagger");
+    assert!(context["loo_q2"].as_f64().is_some());
+
+    // And the hashes in the deck agree with the sidecar, so a detached deck is
+    // still traceable.
+    for digest in deck_column(&deck, "model_sha256") {
+        assert_eq!(digest, provenance["model_sha256"].as_str().unwrap());
+    }
+}
+
+#[test]
+fn identical_inputs_produce_an_identical_deck() {
+    let (first_deck, first_meta) = export_deck(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--top", "5"],
+    );
+    let (second_deck, mut second_meta) = export_deck(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--top", "5"],
+    );
+    assert_eq!(
+        first_deck, second_deck,
+        "deck content must be deterministic"
+    );
+
+    // Only the file name differs, because the tests write to distinct paths.
+    let mut first_meta = first_meta;
+    first_meta["deck"] = serde_json::Value::Null;
+    second_meta["deck"] = serde_json::Value::Null;
+    assert_eq!(
+        first_meta, second_meta,
+        "the sidecar must contain nothing that varies between identical runs"
+    );
+
+    // No clock anywhere: a timestamp would break exactly this property.
+    fn keys(value: &serde_json::Value, prefix: &str, found: &mut Vec<String>) {
+        if let Some(object) = value.as_object() {
+            for (key, child) in object {
+                found.push(format!("{prefix}{key}"));
+                keys(child, &format!("{prefix}{key}."), found);
+            }
+        }
+    }
+    let mut found = Vec::new();
+    keys(&first_meta, "", &mut found);
+    for key in &found {
+        let lowered = key.to_lowercase();
+        assert!(
+            !["time", "date", "utc", "created"]
+                .iter()
+                .any(|token| lowered.contains(token)),
+            "sidecar carries a clock-like field `{key}`"
+        );
+    }
+}
+
+#[test]
+fn a_diverse_deck_records_why_each_candidate_was_selected() {
+    let (deck, meta) = export_deck(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--top", "3", "--diverse"],
+    );
+    assert_eq!(meta["configuration"]["diversity_applied"], true);
+    assert_eq!(meta["configuration"]["diversity_weight"], 0.5);
+    assert!(
+        meta["configuration"]["diversity_objective"]
+            .as_str()
+            .unwrap()
+            .contains("desirability"),
+        "the sidecar must state the objective the deck was selected under"
+    );
+
+    let steps = deck_column(&deck, "selection_step");
+    assert_eq!(steps, ["1", "2", "3"]);
+    let positions = deck_column(&deck, "selection_ranking_position");
+    assert!(
+        positions.iter().any(|position| position != "1"),
+        "a diverse deck should not be the plain ranking: {positions:?}"
+    );
+
+    // Ordinary mode leaves those columns empty rather than inventing a reason.
+    let (plain, _) = export_deck(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--top", "3"],
+    );
+    assert!(
+        deck_column(&plain, "selection_step")
+            .iter()
+            .all(String::is_empty)
+    );
+}
+
+#[test]
+fn the_deck_reflects_top_and_reports_where_it_was_written() {
+    let deck_path = temp_path("csv");
+    let output = run(&[
+        "screen",
+        study_001_portable_model().to_str().unwrap(),
+        "--library",
+        study_001_library().to_str().unwrap(),
+        "--top",
+        "2",
+        "--export-deck",
+        deck_path.to_str().unwrap(),
+    ]);
+    assert_eq!(output.status, 0, "{}", output.stderr);
+    assert!(
+        output.stdout.contains("deck           ") && output.stdout.contains("deck metadata  "),
+        "the run must say where the deck and sidecar went:\n{}",
+        output.stdout
+    );
+    let deck = std::fs::read_to_string(&deck_path).unwrap();
+    assert_eq!(deck.lines().count(), 3, "header plus --top 2 rows");
+}
+
+#[test]
+fn deck_numbers_keep_full_round_trip_precision() {
+    let (deck, _) = export_deck(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--top", "1"],
+    );
+    let report = screen_json(
+        &study_001_portable_model(),
+        &study_001_library(),
+        &["--top", "1"],
+    );
+    let expected = report["hits"][0]["predicted_ddg_kcal_mol"]
+        .as_f64()
+        .unwrap();
+    let written = deck_column(&deck, "predicted_ddg_kcal_mol")[0]
+        .parse::<f64>()
+        .expect("the deck writes a parseable f64");
+    assert_eq!(
+        written.to_bits(),
+        expected.to_bits(),
+        "a deck value must read back bit-identical"
+    );
+}

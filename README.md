@@ -382,6 +382,61 @@ with a reason — `missing_descriptors` (naming which), `featurization_failed`, 
 range the model was trained on are listed separately with **how far** outside they fall, as
 a fraction of the training range width.
 
+### Diversity-aware selection
+
+Plain top-N tends to return near-duplicates: the highest-scoring ligands are often minor
+variations on one scaffold. `--diverse` selects a set that balances predicted desirability
+against spread in descriptor space.
+
+```bash
+./target/release/stericx screen model.json --library <library> --top 20 --diverse
+```
+
+**The algorithm is greedy maximal marginal relevance**, stated in full rather than tuned:
+
+```text
+objective(c) = (1 - w) * desirability(c) + w * separation(c)
+```
+
+- `desirability` is the candidate's rank-normalized position in the ordinary ranking, 1 for
+  the best and 0 for the worst. Rank-based rather than value-based because the ranking may be
+  ascending, descending, or by magnitude, and rescaling the raw value would not respect that.
+- `separation` is the Euclidean distance to the nearest already-selected candidate, divided by
+  the pool's bounding-box diagonal.
+- Distances are measured in **the same standardized space the applicability domain uses** —
+  `(value - training_mean) / training_scale`. Diversity and domain checks therefore speak the
+  same units, and no new normalization is invented.
+
+Both normalizers come from the pool itself, so there is no tuned constant in the objective.
+The first pick has nothing to be far from, so it is simply the most desirable candidate.
+
+`--diversity-weight` controls the balance, and the ends of its range are exactly what you
+would expect: **0 reproduces the ordinary ranking**, 1 ignores desirability after the seed.
+
+```text
+--top 4              c0, c1, c2, c3     descriptor coverage 0.03
+--top 4 --diverse    c0, s3, c1, c2     descriptor coverage 8.00
+```
+
+**Every choice is explained**, with arithmetic you can redo by hand:
+
+```text
+selected at step 2 (ranking position 8): objective 0.5000 = 0.50x desirability 0.0000
+  + 0.50x separation 1.0000 (nearest selected 2.2052 in standardized descriptor space)
+```
+
+Selection is deterministic — ties resolve by ligand identifier then library position, the same
+order the ordinary ranking uses — and `step`, `ranking_position`, `separation`, and `objective`
+reach JSON and CSV alongside the metric and objective definitions.
+
+**Diversity cannot launder an applicability warning.** Selection changes which candidates are
+returned, never their verdicts: an out-of-domain candidate stays flagged, and the domain census
+still covers the whole library, so the number of flagged candidates cannot shrink by changing
+selection mode. There is a test for exactly that.
+
+`--diverse` needs the model's training geometry to have a space to measure in. A model without
+it is refused rather than silently ranked as usual.
+
 ### Scientific context and provenance
 
 Every screening run states what produced it before it lists a single candidate:

@@ -1840,3 +1840,272 @@ fn a_legacy_model_reports_the_context_it_has_without_inventing_the_rest() {
     );
     assert!(report["target"].is_null());
 }
+
+/// Five near-identical high-desirability candidates plus three spread out.
+///
+/// The Study 001 coefficient is negative, so the tight cluster at the bottom of
+/// the descriptor range holds the best predictions. Plain top-N therefore takes
+/// the whole cluster and covers almost no descriptor space.
+fn clustered_library() -> PathBuf {
+    descriptor_library(&[
+        ("c0", 6.00, 1.0),
+        ("c1", 6.01, 1.0),
+        ("c2", 6.02, 1.0),
+        ("c3", 6.03, 1.0),
+        ("c4", 6.04, 1.0),
+        ("s1", 9.00, 1.0),
+        ("s2", 12.00, 1.0),
+        ("s3", 14.00, 1.0),
+    ])
+}
+
+/// Range of the selected candidates' descriptor values: the coverage of the set.
+fn descriptor_coverage(report: &serde_json::Value) -> f64 {
+    let values = report["hits"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|hit| hit["descriptors"][0]["value"].as_f64().unwrap())
+        .collect::<Vec<_>>();
+    let high = values.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+    let low = values.iter().copied().fold(f64::INFINITY, f64::min);
+    high - low
+}
+
+#[test]
+fn diverse_selection_increases_descriptor_space_coverage() {
+    let library = clustered_library();
+    let plain = screen_json(&study_001_portable_model(), &library, &["--top", "4"]);
+    let diverse = screen_json(
+        &study_001_portable_model(),
+        &library,
+        &["--top", "4", "--diverse"],
+    );
+
+    assert_eq!(ranked_ligands(&plain), ["c0", "c1", "c2", "c3"]);
+    let plain_coverage = descriptor_coverage(&plain);
+    let diverse_coverage = descriptor_coverage(&diverse);
+    assert!(
+        diverse_coverage > plain_coverage * 10.0,
+        "diverse selection must actually spread out: {diverse_coverage} vs {plain_coverage}"
+    );
+
+    // Same number of candidates returned; diversity changes which, not how many.
+    assert_eq!(plain["returned"], diverse["returned"]);
+    assert_eq!(plain["screened"], diverse["screened"]);
+}
+
+#[test]
+fn ordinary_ranking_is_untouched_when_diverse_is_not_requested() {
+    let library = clustered_library();
+    let plain = screen_json(&study_001_portable_model(), &library, &["--top", "4"]);
+    assert_eq!(plain["diversity_applied"], false);
+    assert!(plain["diversity_weight"].is_null());
+    assert!(plain["diversity_metric"].is_null());
+    for hit in plain["hits"].as_array().unwrap() {
+        assert!(
+            hit["selection"].is_null(),
+            "ordinary mode must not annotate a selection"
+        );
+    }
+}
+
+#[test]
+fn a_zero_diversity_weight_reproduces_the_ordinary_ranking() {
+    let library = clustered_library();
+    let plain = screen_json(&study_001_portable_model(), &library, &["--top", "5"]);
+    let neutral = screen_json(
+        &study_001_portable_model(),
+        &library,
+        &["--top", "5", "--diverse", "--diversity-weight", "0"],
+    );
+    assert_eq!(
+        ranked_ligands(&plain),
+        ranked_ligands(&neutral),
+        "weight 0 must collapse onto the plain ranking"
+    );
+    assert_eq!(predictions(&plain), predictions(&neutral));
+}
+
+#[test]
+fn a_higher_diversity_weight_spreads_the_selection_further() {
+    let library = clustered_library();
+    let coverage = |weight: &str| {
+        descriptor_coverage(&screen_json(
+            &study_001_portable_model(),
+            &library,
+            &["--top", "3", "--diverse", "--diversity-weight", weight],
+        ))
+    };
+    // Monotone in the knob, which is what makes the knob meaningful.
+    assert!(coverage("0") <= coverage("0.5"));
+    assert!(coverage("0.5") <= coverage("1"));
+    assert!(coverage("1") > coverage("0"));
+}
+
+#[test]
+fn diverse_selection_is_deterministic() {
+    let library = clustered_library();
+    let args = ["--top", "4", "--diverse"];
+    let first = screen_json(&study_001_portable_model(), &library, &args);
+    let second = screen_json(&study_001_portable_model(), &library, &args);
+    assert_eq!(
+        first, second,
+        "the same inputs must give the same selection"
+    );
+}
+
+#[test]
+fn diverse_selection_explains_and_exposes_every_choice() {
+    let report = screen_json(
+        &study_001_portable_model(),
+        &clustered_library(),
+        &["--top", "4", "--diverse"],
+    );
+
+    assert_eq!(report["diversity_applied"], true);
+    assert_eq!(report["diversity_weight"], 0.5);
+    assert!(
+        report["diversity_metric"]
+            .as_str()
+            .unwrap()
+            .contains("standardized descriptor space"),
+        "the metric must name the space it measures in"
+    );
+    assert!(report["diversity_scale"].as_f64().unwrap() > 0.0);
+    assert!(
+        report["diversity_objective"]
+            .as_str()
+            .unwrap()
+            .contains("desirability"),
+        "the objective must be stated, not implied"
+    );
+
+    let hits = report["hits"].as_array().unwrap();
+    for (index, hit) in hits.iter().enumerate() {
+        let selection = &hit["selection"];
+        assert_eq!(selection["step"], index + 1, "steps must be in order");
+        assert!(selection["ranking_position"].as_u64().unwrap() >= 1);
+        assert!(!selection["reason"].as_str().unwrap().is_empty());
+        let desirability = selection["desirability"].as_f64().unwrap();
+        assert!((0.0..=1.0).contains(&desirability), "{desirability}");
+        if index == 0 {
+            // Nothing selected yet, so there is no separation to report.
+            assert!(selection["separation"].is_null());
+            assert!(
+                selection["reason"].as_str().unwrap().contains("seed"),
+                "the first pick must say why it had no separation term"
+            );
+        } else {
+            assert!(selection["separation"].as_f64().unwrap() >= 0.0);
+            assert!((0.0..=1.0).contains(&selection["separation_normalized"].as_f64().unwrap()));
+        }
+    }
+}
+
+#[test]
+fn diversity_never_hides_an_applicability_warning() {
+    // A library whose most desirable candidate is an extrapolation, plus a
+    // spread so diverse selection has something to reach for.
+    let library = descriptor_library(&[
+        ("best_but_ood", 3.0, 1.0),
+        ("near_ood", 3.1, 1.0),
+        ("mid", 9.0, 1.0),
+        ("high", 13.0, 1.0),
+    ]);
+    let plain = screen_json(&study_001_portable_model(), &library, &["--top", "3"]);
+    let diverse = screen_json(
+        &study_001_portable_model(),
+        &library,
+        &["--top", "3", "--diverse"],
+    );
+
+    let verdict = |report: &serde_json::Value, ligand: &str| {
+        report["hits"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|hit| hit["ligand"] == ligand)
+            .map(|hit| hit["domain_verdict"].as_str().unwrap().to_owned())
+    };
+    assert_eq!(
+        verdict(&plain, "best_but_ood").as_deref(),
+        Some("extrapolation")
+    );
+    assert_eq!(
+        verdict(&diverse, "best_but_ood").as_deref(),
+        Some("extrapolation"),
+        "selection mode must not launder an out-of-domain candidate"
+    );
+
+    // The census describes the whole library under both modes, so diversity
+    // cannot shrink the apparent number of flagged candidates.
+    assert_eq!(
+        plain["domain_summary"], diverse["domain_summary"],
+        "the domain census must not depend on how candidates were selected"
+    );
+
+    // And every applicability figure for a shared candidate is identical.
+    for report in [&plain, &diverse] {
+        let hit = report["hits"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|hit| hit["ligand"] == "best_but_ood")
+            .unwrap();
+        assert!(hit["maximum_extrapolation"].as_f64().unwrap() > 0.0);
+        assert!(!hit["outside_domain"].as_array().unwrap().is_empty());
+    }
+}
+
+#[test]
+fn an_out_of_range_diversity_weight_is_refused() {
+    // `=` form, because a bare `-0.1` is parsed as a flag rather than a value.
+    for weight in ["--diversity-weight=-0.1", "--diversity-weight=1.5"] {
+        let output = run(&[
+            "screen",
+            study_001_portable_model().to_str().unwrap(),
+            "--library",
+            study_001_library().to_str().unwrap(),
+            "--diverse",
+            weight,
+        ]);
+        assert_ne!(output.status, 0, "weight {weight} should be refused");
+        assert!(
+            output
+                .stderr
+                .contains("--diversity-weight must be between 0 and 1"),
+            "{}",
+            output.stderr
+        );
+    }
+}
+
+#[test]
+fn diverse_selection_needs_training_geometry_and_says_so() {
+    // A model with no training geometry has no standardized space to measure
+    // separation in; refusing beats silently ranking as usual.
+    let library = clustered_library();
+    let stripped = {
+        let mut document: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(study_001_portable_model()).unwrap())
+                .unwrap();
+        document["training_geometry"] = serde_json::Value::Null;
+        let path = temp_path("json");
+        std::fs::write(&path, serde_json::to_string_pretty(&document).unwrap()).unwrap();
+        path
+    };
+    let output = run(&[
+        "screen",
+        stripped.to_str().unwrap(),
+        "--library",
+        library.to_str().unwrap(),
+        "--diverse",
+    ]);
+    assert_ne!(output.status, 0);
+    assert!(
+        output.stderr.contains("training geometry"),
+        "{}",
+        output.stderr
+    );
+}

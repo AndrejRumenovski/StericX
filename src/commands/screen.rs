@@ -337,6 +337,179 @@ struct Exclusion {
     detail: String,
 }
 
+/// Why one candidate entered a diverse selection.
+///
+/// Every number that drove the choice is reported, so the selection can be
+/// recomputed by hand rather than taken on trust.
+#[derive(Clone, Debug, Serialize)]
+struct DiverseSelection {
+    /// 1-based greedy step at which this candidate was chosen.
+    step: usize,
+    /// Where it stood in the ordinary ranking, so the cost of diversity is visible.
+    ranking_position: usize,
+    /// Min-max normalized desirability over the screened pool, in [0, 1].
+    desirability: f64,
+    /// Euclidean distance in standardized descriptor space to the nearest
+    /// already-selected candidate. `null` for the first pick, which has none.
+    separation: Option<f64>,
+    /// `separation` as a fraction of the pool's bounding-box diagonal.
+    separation_normalized: f64,
+    /// The objective value this candidate won on.
+    objective: f64,
+    /// The same decision in words.
+    reason: String,
+}
+
+/// Greedy maximal-marginal-relevance selection over an already-ranked pool.
+///
+/// At each step the candidate maximizing
+///
+/// ```text
+/// objective(c) = (1 - w) * desirability(c) + w * separation(c)
+/// ```
+///
+/// is taken, where `desirability` is the predicted response min-max normalized
+/// over the pool and oriented so larger is always better, and `separation` is
+/// the distance from `c` to the nearest already-selected candidate divided by
+/// the pool's bounding-box diagonal. Both terms are therefore in [0, 1] and
+/// both normalizers are derived from the pool itself: there is no tuned
+/// constant anywhere in the objective.
+///
+/// Distances are measured in the standardized descriptor space the training
+/// geometry defines - the same `(value - training_mean) / training_scale`
+/// coordinates the applicability domain measures nearest-neighbour distance in
+/// - so diversity and domain checks speak the same units.
+///
+/// The first pick has no selected set to be far from, so it is simply the most
+/// desirable candidate. That makes `--diversity-weight 0` reproduce the
+/// ordinary ranking exactly.
+///
+/// Deterministic throughout: ties in the objective resolve by ligand identifier
+/// and then by library position, the same order the ordinary ranking uses.
+fn select_diverse(hits: &[ScreenHit], weight: f64, take: usize) -> Vec<usize> {
+    if hits.is_empty() || take == 0 {
+        return Vec::new();
+    }
+    let desirability = normalized_desirability(hits);
+    let scale = bounding_box_diagonal(hits);
+    let take = take.min(hits.len());
+
+    let mut chosen: Vec<usize> = Vec::with_capacity(take);
+    let mut remaining: Vec<usize> = (0..hits.len()).collect();
+    // Running distance from each candidate to the nearest chosen one, so each
+    // step costs one pass rather than a rescan of the chosen set.
+    let mut nearest: Vec<Option<f64>> = vec![None; hits.len()];
+
+    while chosen.len() < take && !remaining.is_empty() {
+        let mut best: Option<(usize, usize, f64)> = None;
+        for (slot, &index) in remaining.iter().enumerate() {
+            let separation = nearest[index];
+            let normalized = match (separation, scale > 0.0) {
+                (Some(distance), true) => (distance / scale).min(1.0),
+                // No selection yet, or a pool with no spread at all: the
+                // separation term cannot discriminate, so it contributes
+                // nothing and desirability decides.
+                _ => 0.0,
+            };
+            let objective = if chosen.is_empty() {
+                desirability[index]
+            } else {
+                (1.0 - weight) * desirability[index] + weight * normalized
+            };
+            let better = match best {
+                None => true,
+                Some((_, best_index, best_objective)) => {
+                    match objective.total_cmp(&best_objective) {
+                        std::cmp::Ordering::Greater => true,
+                        std::cmp::Ordering::Less => false,
+                        std::cmp::Ordering::Equal => {
+                            (&hits[index].ligand, hits[index].library_index)
+                                < (&hits[best_index].ligand, hits[best_index].library_index)
+                        }
+                    }
+                }
+            };
+            if better {
+                best = Some((slot, index, objective));
+            }
+        }
+        let Some((slot, index, _)) = best else { break };
+        remaining.remove(slot);
+        chosen.push(index);
+        for &other in &remaining {
+            let distance = standardized_distance(&hits[index], &hits[other]);
+            nearest[other] = match nearest[other] {
+                Some(current) if current <= distance => Some(current),
+                _ => Some(distance),
+            };
+        }
+    }
+    chosen
+}
+
+/// Predicted response min-max normalized over the pool, oriented so that larger
+/// is always more desirable.
+///
+/// The pool is already sorted best-first by the resolved ranking order, so
+/// orientation is read off that order rather than re-deriving it: the first
+/// element is by definition the most desirable.
+fn normalized_desirability(hits: &[ScreenHit]) -> Vec<f64> {
+    // Rank-based, not value-based: the ranking order may be by magnitude or
+    // ascending, and a linear rescale of the raw value would not respect that.
+    // Position 0 is the most desirable, the last position the least.
+    let count = hits.len();
+    if count <= 1 {
+        return vec![1.0; count];
+    }
+    (0..count)
+        .map(|position| 1.0 - (position as f64) / ((count - 1) as f64))
+        .collect()
+}
+
+/// Diagonal of the pool's bounding box in standardized descriptor space.
+///
+/// An upper bound on any pairwise distance in the pool, computed in one pass
+/// rather than the quadratic true diameter, so the separation term is a
+/// fraction of the space the pool actually spans.
+fn bounding_box_diagonal(hits: &[ScreenHit]) -> f64 {
+    let Some(first) = hits.first() else {
+        return 0.0;
+    };
+    let dimensions = first.standardized_point.len();
+    if dimensions == 0 {
+        return 0.0;
+    }
+    let mut low = vec![f64::INFINITY; dimensions];
+    let mut high = vec![f64::NEG_INFINITY; dimensions];
+    for hit in hits {
+        if hit.standardized_point.len() != dimensions {
+            return 0.0;
+        }
+        for (axis, value) in hit.standardized_point.iter().enumerate() {
+            low[axis] = low[axis].min(*value);
+            high[axis] = high[axis].max(*value);
+        }
+    }
+    low.iter()
+        .zip(&high)
+        .map(|(low, high)| (high - low).powi(2))
+        .sum::<f64>()
+        .sqrt()
+}
+
+/// Euclidean distance between two candidates in standardized descriptor space.
+fn standardized_distance(left: &ScreenHit, right: &ScreenHit) -> f64 {
+    if left.standardized_point.len() != right.standardized_point.len() {
+        return 0.0;
+    }
+    left.standardized_point
+        .iter()
+        .zip(&right.standardized_point)
+        .map(|(left, right)| (left - right).powi(2))
+        .sum::<f64>()
+        .sqrt()
+}
+
 /// Everything needed to prove two screening runs used identical inputs.
 ///
 /// Hashes are SHA-256 over exact file bytes, so equality of this block is a
@@ -435,6 +608,14 @@ struct ScreenHit {
     /// Percentile-bootstrap interval for the fitted mean response, when the
     /// model carries the bootstrap ensemble needed to compute one.
     uncertainty: Option<PredictionUncertainty>,
+    /// Standardized descriptor coordinates, the space diversity is measured in.
+    /// Not serialized: it is an implementation detail of the selection, and the
+    /// distances it produces are reported instead.
+    #[serde(skip)]
+    standardized_point: Vec<f64>,
+    /// Why this candidate entered a `--diverse` selection. `null` in ordinary
+    /// ranking mode, which is unchanged.
+    selection: Option<DiverseSelection>,
     /// Signed by the ΔΔG‡ convention: positive favours R, negative the same
     /// excess of the opposite enantiomer.
     predicted_ee_percent: f64,
@@ -495,6 +676,16 @@ struct ScreenReport {
     /// How the neighbour boundary was derived, carried from the model.
     neighbor_rule: Option<String>,
     uncertainty_note: String,
+    /// True when `--diverse` selected the returned set.
+    diversity_applied: bool,
+    /// The weight the objective gave separation over desirability.
+    diversity_weight: Option<f64>,
+    /// The metric separation is measured with.
+    diversity_metric: Option<String>,
+    /// The scale separation is normalized by.
+    diversity_scale: Option<f64>,
+    /// The objective, stated so a reader need not open the source.
+    diversity_objective: Option<String>,
     /// Cryptographic identity of every scientific input to this run.
     provenance: ScreenProvenance,
     /// Machine-readable target the model predicts, when it states one.
@@ -530,6 +721,8 @@ pub(crate) struct ScreenArgs<'a> {
     pub(crate) ascending: bool,
     pub(crate) descending: bool,
     pub(crate) domain_rule: DomainRule,
+    pub(crate) diverse: bool,
+    pub(crate) diversity_weight: f64,
     pub(crate) donor_element: &'a str,
     pub(crate) sterimol_axis: SterimolAxis,
     pub(crate) format: DescriptorFormat,
@@ -1142,6 +1335,12 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             mahalanobis_distance: applicability.mahalanobis_distance,
             maximum_extrapolation: applicability.maximum_extrapolation,
             uncertainty,
+            standardized_point: report
+                .training_geometry
+                .as_ref()
+                .map(|geometry| geometry.standardized_point(&features))
+                .unwrap_or_default(),
+            selection: None,
             applicability: if outside.is_empty() {
                 "inside_training_range".to_owned()
             } else {
@@ -1217,7 +1416,77 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
     // Every candidate is predicted before anything is dropped; `--top` selects
     // from the finished ranking rather than truncating the work.
     let screened = hits.len();
-    if let Some(top) = args.top {
+    let diversity_scale = if args.diverse {
+        bounding_box_diagonal(&hits)
+    } else {
+        0.0
+    };
+    if args.diverse {
+        if !(0.0..=1.0).contains(&args.diversity_weight) {
+            return Err(format!(
+                "--diversity-weight must be between 0 and 1, got {}",
+                args.diversity_weight
+            )
+            .into());
+        }
+        if hits.iter().any(|hit| hit.standardized_point.is_empty()) {
+            return Err(
+                "--diverse needs the model's training geometry to measure descriptor \
+                        distances, and this model records none. Re-fit to record it, or drop \
+                        --diverse."
+                    .into(),
+            );
+        }
+        // Selection runs over the whole ranked pool, so --top chooses how many
+        // diverse candidates to return rather than what may be considered.
+        let take = args.top.unwrap_or(hits.len());
+        let desirability = normalized_desirability(&hits);
+        let chosen = select_diverse(&hits, args.diversity_weight, take);
+        let mut selected = Vec::with_capacity(chosen.len());
+        let mut previous: Vec<usize> = Vec::with_capacity(chosen.len());
+        for (step, &index) in chosen.iter().enumerate() {
+            let separation = previous
+                .iter()
+                .map(|&other| standardized_distance(&hits[index], &hits[other]))
+                .fold(f64::INFINITY, f64::min);
+            let separation = separation.is_finite().then_some(separation);
+            let normalized = match (separation, diversity_scale > 0.0) {
+                (Some(distance), true) => (distance / diversity_scale).min(1.0),
+                _ => 0.0,
+            };
+            let objective = if step == 0 {
+                desirability[index]
+            } else {
+                (1.0 - args.diversity_weight) * desirability[index]
+                    + args.diversity_weight * normalized
+            };
+            let mut hit = hits[index].clone();
+            hit.selection = Some(DiverseSelection {
+                step: step + 1,
+                ranking_position: index + 1,
+                desirability: desirability[index],
+                separation,
+                separation_normalized: normalized,
+                objective,
+                reason: if step == 0 {
+                    "seed: the most desirable candidate; nothing selected yet to be far from"
+                        .to_owned()
+                } else {
+                    format!(
+                        "objective {objective:.4} = {:.2}x desirability {:.4} + {:.2}x separation \
+                         {normalized:.4} (nearest selected {:.4} in standardized descriptor space)",
+                        1.0 - args.diversity_weight,
+                        desirability[index],
+                        args.diversity_weight,
+                        separation.unwrap_or(f64::NAN)
+                    )
+                },
+            });
+            previous.push(index);
+            selected.push(hit);
+        }
+        hits = selected;
+    } else if let Some(top) = args.top {
         hits.truncate(top);
     }
     let returned = hits.len();
@@ -1300,6 +1569,22 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
                     calibration.standard_deviation
                 )
             }),
+        diversity_applied: args.diverse,
+        diversity_weight: args.diverse.then_some(args.diversity_weight),
+        diversity_metric: args.diverse.then(|| {
+            "euclidean distance in standardized descriptor space \
+             ((value - training_mean) / training_scale), the same space the applicability \
+             domain measures nearest-neighbour distance in"
+                .to_owned()
+        }),
+        diversity_scale: args.diverse.then_some(diversity_scale),
+        diversity_objective: args.diverse.then(|| {
+            "greedy maximal marginal relevance: at each step take the candidate maximizing \
+             (1 - w) * desirability + w * separation, with desirability the rank-normalized \
+             position in the ordinary ranking and separation the distance to the nearest \
+             already-selected candidate as a fraction of the pool's bounding-box diagonal"
+                .to_owned()
+        }),
         provenance: ScreenProvenance {
             stericx_version: env!("CARGO_PKG_VERSION").to_owned(),
             model_path: args.model.display().to_string(),
@@ -1474,6 +1759,21 @@ fn print_screen_text(report: &ScreenReport) {
              the top of this table is the model\'s worst"
         );
     }
+    if report.diversity_applied {
+        println!(
+            "selection      diverse: greedy max-marginal-relevance, weight {:.2}",
+            report.diversity_weight.unwrap_or_default()
+        );
+        println!(
+            "               separation in standardized descriptor space, scaled by the pool \
+             bounding-box diagonal {:.4}",
+            report.diversity_scale.unwrap_or_default()
+        );
+        println!(
+            "               applicability verdicts are unaffected by selection; the domain \
+             census below still covers the whole library"
+        );
+    }
     println!("temperature    {:.2} K", report.temperature_k);
     match (
         report.uncertainty_method.as_deref(),
@@ -1597,6 +1897,12 @@ fn print_screen_text(report: &ScreenReport) {
         );
         if !hit.descriptors.is_empty() {
             println!("{:>60}{}", "", describe_descriptors(&hit.descriptors));
+        }
+        if let Some(selection) = &hit.selection {
+            println!(
+                "{:>60}selected at step {} (ranking position {}): {}",
+                "", selection.step, selection.ranking_position, selection.reason
+            );
         }
         if let Some(uncertainty) = &hit.uncertainty {
             println!(
@@ -1744,7 +2050,8 @@ fn print_screen_csv(report: &ScreenReport) {
          leverage,leverage_ratio,trust,coefficient_band_low,coefficient_band_high,\
          bootstrap_lower,bootstrap_upper,bootstrap_method,bootstrap_level,bootstrap_replicates,\
          applicability,outside_features,\
-         stericx_version,model_id,model_sha256,library_sha256"
+         stericx_version,model_id,model_sha256,library_sha256,\
+         selection_step,selection_ranking_position,selection_separation,selection_objective"
     );
     for hit in &report.hits {
         // Full round-trip precision: a screened prediction must reproduce the
@@ -1752,7 +2059,8 @@ fn print_screen_csv(report: &ScreenReport) {
         let format_bound =
             |value: Option<f64>| value.map_or_else(String::new, |value| format!("{value}"));
         println!(
-            "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
+            "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},\
+             {},{},{},{}",
             hit.rank,
             crate::descriptors::csv_field(&hit.ligand),
             crate::descriptors::csv_field(hit.ligand_name.as_deref().unwrap_or_default()),
@@ -1796,7 +2104,17 @@ fn print_screen_csv(report: &ScreenReport) {
                 report.provenance.model_id.as_deref().unwrap_or_default()
             ),
             report.provenance.model_sha256,
-            report.provenance.library_sha256
+            report.provenance.library_sha256,
+            hit.selection
+                .as_ref()
+                .map_or_else(String::new, |s| s.step.to_string()),
+            hit.selection
+                .as_ref()
+                .map_or_else(String::new, |s| s.ranking_position.to_string()),
+            format_bound(hit.selection.as_ref().and_then(|s| s.separation)),
+            hit.selection
+                .as_ref()
+                .map_or_else(String::new, |s| s.objective.to_string())
         );
     }
 }

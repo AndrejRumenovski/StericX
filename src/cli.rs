@@ -339,6 +339,20 @@ pub(crate) enum Command {
         /// direction the model records.
         #[arg(long)]
         ascending: bool,
+        /// Select a diverse subset instead of the plain top of the ranking.
+        ///
+        /// Greedy maximal-marginal-relevance over the ranked pool, balancing
+        /// predicted desirability against separation in the same standardized
+        /// descriptor space the applicability domain uses. Off by default;
+        /// ordinary ranking is untouched.
+        #[arg(long)]
+        diverse: bool,
+        /// How strongly `--diverse` weights separation over desirability.
+        ///
+        /// 0 reproduces the ordinary ranking exactly, 1 ignores desirability
+        /// after the first pick. Only meaningful with `--diverse`.
+        #[arg(long, default_value_t = 0.5, value_name = "0..1")]
+        diversity_weight: f64,
         /// Which statistic of the training set's nearest-neighbour spacing
         /// bounds the applicability domain. Every choice is derived from the
         /// training distribution recorded in the model; none is a free cutoff.

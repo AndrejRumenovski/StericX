@@ -31,8 +31,8 @@ pub use domain::{
 pub use evaluation::{EvaluationSummary, ScoredPrediction, score_frozen_predictions};
 pub use features::{MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, expand_features};
 pub use fit::{
-    BaselineReport, CoefficientInterval, FeatureDomain, FitOptions, ModelMetrics,
-    ScientificFitReport, fit_scientific_model, fit_scientific_model_grouped,
+    BaselineReport, BootstrapEnsemble, CoefficientInterval, FeatureDomain, FitOptions,
+    ModelMetrics, ScientificFitReport, fit_scientific_model, fit_scientific_model_grouped,
 };
 pub use portable::{
     CreationMetadata, DatasetDigest, DescriptorSummary, Diagnosis, FeatureSpaceSpec,

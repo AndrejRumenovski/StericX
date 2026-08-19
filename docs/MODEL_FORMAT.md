@@ -140,10 +140,12 @@ is better.
 | `reaction.*` | Chemistry context: `reaction_family`, `catalyst_metal`, `ligand_class`, `source_url`, `notes`. |
 
 The digest carries its own `algorithm` because the strength of the guarantee
-varies. `stericx fit` currently records `fnv1a64`, which detects accidental
-substitution but is **not** a cryptographic hash and proves nothing against a
-deliberate one. A pipeline that computes SHA-256 can record `sha256` instead;
-consumers should read the algorithm rather than assume it.
+varies. `stericx fit` records **`sha256`**. Documents written before that change
+record `fnv1a64`, which detects accidental substitution but is **not** a
+cryptographic hash and proves nothing against a deliberate one; they still load
+unchanged. Consumers should read the algorithm rather than assume it — that is
+exactly what the field is for, and a screening report prints the tag alongside
+the digest so an FNV-1a value is never mistaken for a cryptographic guarantee.
 
 Every `reaction` field is optional and serializes as an explicit `null` when
 unknown. Nothing is ever defaulted to a plausible value.
@@ -206,6 +208,44 @@ it would be unreliable rather than merely inconvenient:
 - `xtx_inverse[0][0] ≠ 1/n` or a non-zero intercept row, meaning the stored
   matrix is not the centred one the decomposition assumes;
 - a negative squared distance from numerical error.
+
+### `uncertainty` — the bootstrap ensemble
+
+Schema 2 optionally carries the bootstrap replicates behind `coefficient_intervals`,
+so a saved model can produce an uncertainty estimate without the training data
+and without refitting.
+
+| Field | Meaning |
+| --- | --- |
+| `method` | How the replicates were generated. |
+| `replicate_count` | Replicates actually usable; a resample with a singular design is skipped, so this can be below `requested_samples`. |
+| `requested_samples` | What the fit was asked for. |
+| `seed` | Resampling seed, so the ensemble is reproducible. |
+| `columns` | Feature name per coefficient position, intercept first. |
+| `column_indices` | Index into the eight-feature model vector for each column. |
+| `replicates` | `[replicate][column]` coefficients on the raw feature scale. |
+
+A prediction under replicate `b` is `sum_j replicates[b][j] * x[column_indices[j]]`,
+with the intercept column contributing 1. The reported interval is the empirical
+2.5 and 97.5 percentiles of those predictions.
+
+Storing the replicates rather than only the marginal percentiles is what makes a
+**joint** interval possible: the per-coefficient intervals discard the
+correlation between the intercept and the slopes, and recombining them by
+interval arithmetic is conservative rather than correct.
+
+The resulting interval is a confidence interval for the **fitted mean response**.
+It is not a prediction interval and is not named like one: it excludes residual
+scatter, and it carries no information about extrapolation. A candidate outside
+the training range can have a narrower band than one inside it, because width
+tracks the coefficient spread rather than domain membership.
+
+The ensemble dominates the document size — one row per replicate per
+coefficient. `stericx fit --omit-bootstrap-ensemble` writes the document without
+it; screening then reports no bootstrap interval rather than inventing one.
+
+This section is absent from schema 1 entirely, and the ensemble is never written
+into the flattened fit report, so `--output` stays byte-identical.
 
 ### The one threshold, and where it comes from
 

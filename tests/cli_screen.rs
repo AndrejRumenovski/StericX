@@ -1385,3 +1385,458 @@ fn filtering_every_candidate_explains_itself_rather_than_reporting_nothing() {
         output.stderr
     );
 }
+
+/// A library spanning the training centre, an in-domain extreme, and a point
+/// just past the training maximum.
+fn uncertainty_probe_library() -> PathBuf {
+    descriptor_library(&[
+        ("centre", 9.97, 1.0),
+        ("in_domain_low", 5.10, 1.0),
+        ("ood_above_max", 14.70, 1.0),
+    ])
+}
+
+fn uncertainty_of(report: &serde_json::Value, ligand: &str) -> serde_json::Value {
+    report["hits"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|hit| hit["ligand"] == ligand)
+        .unwrap_or_else(|| panic!("{ligand} was screened"))["uncertainty"]
+        .clone()
+}
+
+#[test]
+fn every_bootstrap_interval_is_ordered_and_brackets_its_point_estimate() {
+    let report = screen_json(&study_001_portable_model(), &study_001_library(), &[]);
+    assert_eq!(
+        report["uncertainty_method"],
+        "percentile_bootstrap_mean_response"
+    );
+    assert_eq!(report["uncertainty_level"], 0.95);
+    assert!(report["uncertainty_replicates"].as_u64().unwrap() > 0);
+
+    for hit in report["hits"].as_array().unwrap() {
+        let uncertainty = &hit["uncertainty"];
+        let low = uncertainty["lower"].as_f64().unwrap();
+        let high = uncertainty["upper"].as_f64().unwrap();
+        let central = hit["predicted_ddg_kcal_mol"].as_f64().unwrap();
+        assert!(low <= high, "{}: inverted interval", hit["ligand"]);
+        assert!(
+            low <= central && central <= high,
+            "{}: point estimate {central} outside [{low}, {high}]",
+            hit["ligand"]
+        );
+        assert_eq!(uncertainty["level"], 0.95);
+        assert_eq!(
+            uncertainty["replicates"], report["uncertainty_replicates"],
+            "per-hit replicate count must match the ensemble"
+        );
+        // The name must not claim more than the interval delivers.
+        let method = uncertainty["method"].as_str().unwrap();
+        assert!(method.contains("mean_response"), "{method}");
+        assert!(
+            !method.contains("prediction_interval"),
+            "a coefficient-only interval must not be called predictive: {method}"
+        );
+    }
+}
+
+#[test]
+fn a_narrow_bootstrap_interval_does_not_make_a_candidate_in_domain() {
+    // The whole point of keeping the two axes separate. Just past the training
+    // maximum the coefficient band is *narrower* than it is at an in-domain
+    // point near the other end of the range, because interval width tracks the
+    // bootstrap coefficient spread rather than membership of the training set.
+    let report = screen_json(
+        &study_001_portable_model(),
+        &uncertainty_probe_library(),
+        &[],
+    );
+    let width = |ligand: &str| {
+        let uncertainty = uncertainty_of(&report, ligand);
+        uncertainty["upper"].as_f64().unwrap() - uncertainty["lower"].as_f64().unwrap()
+    };
+    let verdict = |ligand: &str| {
+        report["hits"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|hit| hit["ligand"] == ligand)
+            .unwrap()["domain_verdict"]
+            .as_str()
+            .unwrap()
+            .to_owned()
+    };
+
+    assert_eq!(verdict("ood_above_max"), "extrapolation");
+    assert_eq!(verdict("in_domain_low"), "interpolation");
+    assert!(
+        width("ood_above_max") < width("in_domain_low"),
+        "fixture assumes the out-of-domain candidate has the narrower band: {} vs {}",
+        width("ood_above_max"),
+        width("in_domain_low")
+    );
+
+    // Narrower band, and still unambiguously flagged. Nothing in the report
+    // presents the tighter interval as evidence of reliability.
+    let flagged = uncertainty_of(&report, "ood_above_max");
+    assert!(
+        flagged["covers"]
+            .as_str()
+            .unwrap()
+            .contains("extrapolation"),
+        "the interval must disclaim extrapolation risk: {flagged:?}"
+    );
+    assert!(
+        report["uncertainty_note"].as_str().is_some(),
+        "the report must explain what the intervals mean"
+    );
+}
+
+#[test]
+fn the_bootstrap_ensemble_survives_serialization() {
+    let document: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(study_001_portable_model()).unwrap())
+            .unwrap();
+    let ensemble = &document["uncertainty"];
+    assert!(
+        ensemble.is_object(),
+        "the schema-2 document must carry the bootstrap ensemble"
+    );
+
+    let replicates = ensemble["replicates"].as_array().unwrap();
+    let columns = ensemble["columns"].as_array().unwrap();
+    let indices = ensemble["column_indices"].as_array().unwrap();
+    assert_eq!(columns.len(), indices.len());
+    assert_eq!(columns[0], "intercept", "the intercept column comes first");
+    assert_eq!(
+        ensemble["replicate_count"].as_u64().unwrap() as usize,
+        replicates.len()
+    );
+    assert!(ensemble["seed"].as_u64().is_some(), "the seed is recorded");
+    for replicate in replicates {
+        assert_eq!(
+            replicate.as_array().unwrap().len(),
+            columns.len(),
+            "every replicate must carry one coefficient per column"
+        );
+    }
+
+    // Re-reading the document and screening from it reproduces the interval, so
+    // the stored ensemble really is sufficient without the training data.
+    let report = screen_json(&study_001_portable_model(), &study_001_library(), &[]);
+    assert_eq!(
+        report["uncertainty_replicates"].as_u64().unwrap() as usize,
+        replicates.len()
+    );
+}
+
+#[test]
+fn repeated_inference_reproduces_the_same_intervals() {
+    let library = uncertainty_probe_library();
+    let first = screen_json(&study_001_portable_model(), &library, &[]);
+    let second = screen_json(&study_001_portable_model(), &library, &[]);
+    assert_eq!(first, second, "a stored ensemble must be deterministic");
+
+    for ligand in ["centre", "in_domain_low", "ood_above_max"] {
+        assert_eq!(
+            uncertainty_of(&first, ligand),
+            uncertainty_of(&second, ligand)
+        );
+    }
+}
+
+#[test]
+fn a_model_without_an_ensemble_reports_no_interval_rather_than_inventing_one() {
+    // The legacy schema-1 artifact never carried an ensemble.
+    let report = screen_json(&study_001_model(), &study_001_library(), &["--descending"]);
+    assert!(report["uncertainty_method"].is_null());
+    assert!(
+        report["uncertainty_unavailable"]
+            .as_str()
+            .unwrap()
+            .contains("no bootstrap ensemble"),
+        "the absence must be explained"
+    );
+    for hit in report["hits"].as_array().unwrap() {
+        assert!(
+            hit["uncertainty"].is_null(),
+            "{} invented an interval",
+            hit["ligand"]
+        );
+    }
+}
+
+fn sha256_hex_of(path: &Path) -> String {
+    // Independent of StericX's own implementation: shelling out to sha256sum
+    // would couple the test to the environment, so hash with a second source
+    // of truth only where one is already in the repo. Here we simply assert
+    // internal consistency and the documented shape.
+    let bytes = std::fs::read(path).unwrap();
+    let mut hasher = Sha256::new();
+    hasher.update(&bytes);
+    hasher.finish()
+}
+
+/// Minimal SHA-256, written independently of `src/digest.rs` so the test does
+/// not confirm the implementation against itself.
+struct Sha256 {
+    state: [u32; 8],
+    buffer: Vec<u8>,
+}
+
+impl Sha256 {
+    fn new() -> Self {
+        Self {
+            state: [
+                0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab,
+                0x5be0cd19,
+            ],
+            buffer: Vec::new(),
+        }
+    }
+
+    fn update(&mut self, bytes: &[u8]) {
+        self.buffer.extend_from_slice(bytes);
+    }
+
+    fn finish(mut self) -> String {
+        const K: [u32; 64] = [
+            0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4,
+            0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe,
+            0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f,
+            0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
+            0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc,
+            0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b,
+            0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116,
+            0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+            0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7,
+            0xc67178f2,
+        ];
+        let bit_length = (self.buffer.len() as u64) * 8;
+        self.buffer.push(0x80);
+        while self.buffer.len() % 64 != 56 {
+            self.buffer.push(0);
+        }
+        self.buffer.extend_from_slice(&bit_length.to_be_bytes());
+
+        for chunk in self.buffer.chunks(64) {
+            let mut w = [0_u32; 64];
+            for (index, word) in chunk.chunks(4).enumerate() {
+                w[index] = u32::from_be_bytes([word[0], word[1], word[2], word[3]]);
+            }
+            for index in 16..64 {
+                let s0 = w[index - 15].rotate_right(7)
+                    ^ w[index - 15].rotate_right(18)
+                    ^ (w[index - 15] >> 3);
+                let s1 = w[index - 2].rotate_right(17)
+                    ^ w[index - 2].rotate_right(19)
+                    ^ (w[index - 2] >> 10);
+                w[index] = w[index - 16]
+                    .wrapping_add(s0)
+                    .wrapping_add(w[index - 7])
+                    .wrapping_add(s1);
+            }
+            let [mut a, mut b, mut c, mut d, mut e, mut f, mut g, mut h] = self.state;
+            for index in 0..64 {
+                let s1 = e.rotate_right(6) ^ e.rotate_right(11) ^ e.rotate_right(25);
+                let ch = (e & f) ^ ((!e) & g);
+                let temp1 = h
+                    .wrapping_add(s1)
+                    .wrapping_add(ch)
+                    .wrapping_add(K[index])
+                    .wrapping_add(w[index]);
+                let s0 = a.rotate_right(2) ^ a.rotate_right(13) ^ a.rotate_right(22);
+                let maj = (a & b) ^ (a & c) ^ (b & c);
+                let temp2 = s0.wrapping_add(maj);
+                h = g;
+                g = f;
+                f = e;
+                e = d.wrapping_add(temp1);
+                d = c;
+                c = b;
+                b = a;
+                a = temp1.wrapping_add(temp2);
+            }
+            for (slot, value) in self.state.iter_mut().zip([a, b, c, d, e, f, g, h]) {
+                *slot = slot.wrapping_add(value);
+            }
+        }
+        self.state
+            .iter()
+            .map(|word| format!("{word:08x}"))
+            .collect()
+    }
+}
+
+#[test]
+fn a_screening_run_reports_the_model_context_before_any_candidate() {
+    let output = run(&[
+        "screen",
+        study_001_portable_model().to_str().unwrap(),
+        "--library",
+        study_001_library().to_str().unwrap(),
+        "--top",
+        "1",
+    ]);
+    assert_eq!(output.status, 0, "{}", output.stderr);
+    let stdout = &output.stdout;
+    let table_start = stdout
+        .find("rank ")
+        .expect("the candidate table is printed");
+    let header = &stdout[..table_start];
+
+    // Everything a reader needs to know what produced these numbers, stated
+    // before the numbers themselves.
+    for required in [
+        "model id",
+        "reaction",
+        "target",
+        "selected",
+        "trained on",
+        "validation",
+        "LOO Q²",
+        "stericx",
+        "model sha256",
+        "training data",
+        "library sha256",
+        "ranking",
+        "uncertainty",
+        "domain rule",
+    ] {
+        assert!(
+            header.contains(required),
+            "context block is missing `{required}`:\n{header}"
+        );
+    }
+}
+
+#[test]
+fn the_report_carries_cryptographic_identity_for_every_scientific_input() {
+    let report = screen_json(&study_001_portable_model(), &study_001_library(), &[]);
+    let provenance = &report["provenance"];
+
+    // Model and library hashes must be real SHA-256 of the exact bytes,
+    // recomputed here by an independent implementation.
+    assert_eq!(
+        provenance["model_sha256"].as_str().unwrap(),
+        sha256_hex_of(&study_001_portable_model()),
+        "model digest does not match the file"
+    );
+    assert_eq!(
+        provenance["library_sha256"].as_str().unwrap(),
+        sha256_hex_of(&study_001_library()),
+        "library digest does not match the file"
+    );
+
+    assert_eq!(
+        provenance["stericx_version"],
+        env!("CARGO_PKG_VERSION"),
+        "the running binary must identify itself"
+    );
+    assert_eq!(provenance["model_schema_version"], 2);
+    assert_eq!(provenance["model_id"], "mechanistically_constrained_ols");
+    assert!(provenance["model_fitted_by"].as_str().is_some());
+
+    // Training inputs, each tagged with the algorithm actually used.
+    let datasets = provenance["training_datasets"].as_array().unwrap();
+    assert!(!datasets.is_empty());
+    for dataset in datasets {
+        assert_eq!(
+            dataset["algorithm"], "sha256",
+            "a freshly fitted model must record cryptographic digests"
+        );
+        assert_eq!(dataset["digest"].as_str().unwrap().len(), 64);
+    }
+}
+
+#[test]
+fn two_runs_over_identical_inputs_produce_identical_provenance() {
+    let first = screen_json(&study_001_portable_model(), &study_001_library(), &[]);
+    let second = screen_json(&study_001_portable_model(), &study_001_library(), &[]);
+    assert_eq!(
+        first["provenance"], second["provenance"],
+        "provenance must be a function of the inputs alone"
+    );
+    // No wall-clock field: a timestamp would make two identical runs differ.
+    assert!(
+        first["provenance"].get("timestamp").is_none()
+            && first["provenance"].get("created_utc").is_none(),
+        "provenance must not carry a clock: {:?}",
+        first["provenance"]
+    );
+}
+
+#[test]
+fn a_changed_library_changes_the_recorded_digest() {
+    let original = descriptor_library(&[("a", 8.0, 1.0), ("b", 9.0, 1.0)]);
+    let altered = descriptor_library(&[("a", 8.0, 1.0), ("b", 9.000001, 1.0)]);
+
+    let first = screen_json(&study_001_portable_model(), &original, &[]);
+    let second = screen_json(&study_001_portable_model(), &altered, &[]);
+    assert_ne!(
+        first["provenance"]["library_sha256"], second["provenance"]["library_sha256"],
+        "a different library must not hash the same"
+    );
+    // The model half is unchanged, so the difference is attributable.
+    assert_eq!(
+        first["provenance"]["model_sha256"],
+        second["provenance"]["model_sha256"]
+    );
+}
+
+#[test]
+fn the_model_context_reaches_the_csv_export() {
+    let output = run(&[
+        "screen",
+        study_001_portable_model().to_str().unwrap(),
+        "--library",
+        study_001_library().to_str().unwrap(),
+        "--format",
+        "csv",
+    ]);
+    assert_eq!(output.status, 0, "{}", output.stderr);
+    let mut lines = output.stdout.lines();
+    let header = lines.next().unwrap();
+    for column in [
+        "stericx_version",
+        "model_id",
+        "model_sha256",
+        "library_sha256",
+    ] {
+        assert!(header.contains(column), "CSV lacks `{column}`: {header}");
+    }
+    // Every row is self-describing, so a filtered export stays traceable.
+    let expected = sha256_hex_of(&study_001_portable_model());
+    for line in lines {
+        assert!(
+            line.contains(&expected),
+            "row lost its model digest: {line}"
+        );
+    }
+}
+
+#[test]
+fn a_legacy_model_reports_the_context_it_has_without_inventing_the_rest() {
+    let report = screen_json(&study_001_model(), &study_001_library(), &["--descending"]);
+    let provenance = &report["provenance"];
+
+    // The file itself can always be hashed, even when it records nothing.
+    assert_eq!(
+        provenance["model_sha256"].as_str().unwrap(),
+        sha256_hex_of(&study_001_model())
+    );
+    assert_eq!(provenance["model_schema_version"], 1);
+    // A schema-1 artifact records no identity or training digests; those must
+    // read as absent rather than being filled in with a plausible value.
+    assert!(provenance["model_id"].is_null());
+    assert!(provenance["model_fitted_by"].is_null());
+    assert!(
+        provenance["training_datasets"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
+    assert!(report["target"].is_null());
+}

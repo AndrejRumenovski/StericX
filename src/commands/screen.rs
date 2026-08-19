@@ -18,8 +18,9 @@ use std::collections::HashMap;
 use std::error::Error;
 use std::path::{Path, PathBuf};
 use steric_x::model::{
-    DomainRule, DomainVerdict, FeatureTransform, InferenceSpec, MODEL_FEATURE_NAMES, Optimization,
-    PortableModel, assess_applicability, expand_features,
+    BootstrapEnsemble, DatasetDigest, DomainRule, DomainVerdict, FeatureTransform, InferenceSpec,
+    MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, Optimization, PortableModel, assess_applicability,
+    expand_features,
 };
 use steric_x::{BuriedVolumeConfig, EyringKineticLink, PackedReactionRecord, ScientificFitReport};
 
@@ -336,6 +337,61 @@ struct Exclusion {
     detail: String,
 }
 
+/// Everything needed to prove two screening runs used identical inputs.
+///
+/// Hashes are SHA-256 over exact file bytes, so equality of this block is a
+/// cryptographic claim about the inputs rather than a description of them. It
+/// deliberately carries no timestamp: a run is identified by what went into it,
+/// not when it happened, and a clock would make two identical runs compare
+/// unequal.
+#[derive(Clone, Debug, Serialize)]
+struct ScreenProvenance {
+    /// Version of the binary that ran the screen.
+    stericx_version: String,
+    model_path: String,
+    /// SHA-256 of the model document exactly as read.
+    model_sha256: String,
+    model_byte_count: u64,
+    model_schema_version: u32,
+    /// Identifier the model records for itself, when it is a schema-2 document.
+    model_id: Option<String>,
+    /// Version of StericX that produced the fit, which need not be the version
+    /// running now.
+    model_fitted_by: Option<String>,
+    /// Training inputs as the model records them, each tagged with the digest
+    /// algorithm actually used so a legacy `fnv1a64` is never read as a
+    /// cryptographic guarantee.
+    training_datasets: Vec<DatasetDigest>,
+    library_path: String,
+    /// SHA-256 of the library. For a directory this is a manifest digest over
+    /// the sorted `name:sha256` list of the files read, so it still identifies
+    /// the exact content screened.
+    library_sha256: String,
+    /// How `library_sha256` was derived.
+    library_digest_scope: String,
+    library_byte_count: u64,
+    library_member_count: usize,
+}
+
+/// Structured uncertainty for one candidate.
+///
+/// Deliberately separate from the applicability-domain fields: this is what the
+/// fitted coefficients are uncertain about, not whether the model should be
+/// answering at all.
+#[derive(Clone, Debug, Serialize)]
+struct PredictionUncertainty {
+    lower: f64,
+    upper: f64,
+    /// How the interval was produced.
+    method: String,
+    /// Nominal coverage, as a fraction.
+    level: f64,
+    /// Bootstrap models the interval was computed from.
+    replicates: usize,
+    /// What the interval does and does not account for.
+    covers: String,
+}
+
 #[derive(Clone, Debug, Serialize)]
 struct ScreenHit {
     rank: usize,
@@ -376,6 +432,9 @@ struct ScreenHit {
     mahalanobis_distance: Option<f64>,
     /// Largest range overshoot as a fraction of the training range width.
     maximum_extrapolation: f64,
+    /// Percentile-bootstrap interval for the fitted mean response, when the
+    /// model carries the bootstrap ensemble needed to compute one.
+    uncertainty: Option<PredictionUncertainty>,
     /// Signed by the ΔΔG‡ convention: positive favours R, negative the same
     /// excess of the opposite enantiomer.
     predicted_ee_percent: f64,
@@ -436,6 +495,29 @@ struct ScreenReport {
     /// How the neighbour boundary was derived, carried from the model.
     neighbor_rule: Option<String>,
     uncertainty_note: String,
+    /// Cryptographic identity of every scientific input to this run.
+    provenance: ScreenProvenance,
+    /// Machine-readable target the model predicts, when it states one.
+    target: Option<String>,
+    /// Units of that target.
+    target_units: Option<String>,
+    /// Reaction family the model applies to, when recorded.
+    reaction_family: Option<String>,
+    /// Leave-one-out Q^2 with the descriptor set held fixed.
+    loo_q2: Option<f64>,
+    /// Leave-one-out RMSE with the descriptor set held fixed.
+    loo_rmse_kcal_mol: f64,
+    /// Leave-one-scaffold-group-out Q^2.
+    group_loo_q2: Option<f64>,
+    /// How the per-candidate bootstrap interval was produced, when the model
+    /// carries the ensemble to produce one.
+    uncertainty_method: Option<String>,
+    /// Nominal coverage of that interval.
+    uncertainty_level: Option<f64>,
+    /// Bootstrap models the intervals were computed from.
+    uncertainty_replicates: Option<usize>,
+    /// Why no bootstrap interval is reported, when none is.
+    uncertainty_unavailable: Option<String>,
     hits: Vec<ScreenHit>,
 }
 
@@ -452,6 +534,45 @@ pub(crate) struct ScreenArgs<'a> {
     pub(crate) sterimol_axis: SterimolAxis,
     pub(crate) format: DescriptorFormat,
     pub(crate) config: BuriedVolumeConfig,
+}
+
+/// SHA-256 identity of a screening library.
+///
+/// A single file hashes its bytes. A directory hashes a manifest: every
+/// coordinate file's name and digest, sorted, so the result is independent of
+/// filesystem order and still changes if any member changes.
+fn library_digest(library: &Path) -> Result<(String, String, u64), Box<dyn Error>> {
+    if library.is_dir() {
+        let mut paths = Vec::new();
+        collect_coordinate_files(library, &mut paths)?;
+        paths.sort();
+        let mut manifest = String::new();
+        let mut bytes_total = 0_u64;
+        for path in &paths {
+            let (digest, byte_count) = crate::digest::sha256_file(path)?;
+            bytes_total += byte_count;
+            let name = path.file_name().map_or_else(
+                || path.display().to_string(),
+                |n| n.to_string_lossy().into_owned(),
+            );
+            manifest.push_str(&format!("{name}:{digest}\n"));
+        }
+        Ok((
+            crate::digest::sha256_hex(manifest.as_bytes()),
+            format!(
+                "manifest of {} coordinate file(s), sorted by name",
+                paths.len()
+            ),
+            bytes_total,
+        ))
+    } else {
+        let (digest, byte_count) = crate::digest::sha256_file(library)?;
+        Ok((
+            digest,
+            "the library file's exact bytes".to_owned(),
+            byte_count,
+        ))
+    }
 }
 
 /// Loads a model through the portable-format reader, so both the legacy
@@ -737,6 +858,74 @@ fn collect_coordinate_files(
     Ok(())
 }
 
+/// A percentile-bootstrap interval for the *fitted mean response* at one
+/// candidate.
+///
+/// Propagates the stored bootstrap replicates through the candidate's feature
+/// vector: replicate `b` predicts `Σ_j coefficient[b][j] · x[column_indices[j]]`,
+/// and the interval is the empirical 2.5 and 97.5 percentiles of those
+/// predictions. Because the whole coefficient vector moves together, this keeps
+/// the correlation between the intercept and the slopes that the marginal
+/// per-coefficient intervals discard.
+///
+/// This is **not** a prediction interval. It covers uncertainty in the fitted
+/// coefficients only: it excludes the residual scatter a new observation would
+/// carry, and it says nothing about whether the candidate is inside the
+/// training domain. A candidate far outside the training range can have a
+/// narrow band here and still be an extrapolation.
+fn bootstrap_mean_response_interval(
+    ensemble: &BootstrapEnsemble,
+    features: &[f32; MODEL_FEATURE_COUNT],
+) -> Option<PredictionUncertainty> {
+    if ensemble.replicates.is_empty() || ensemble.column_indices.is_empty() {
+        return None;
+    }
+    let mut predictions = Vec::with_capacity(ensemble.replicates.len());
+    for replicate in &ensemble.replicates {
+        if replicate.len() != ensemble.column_indices.len() {
+            // A malformed ensemble must not silently produce a narrower band.
+            return None;
+        }
+        let value = replicate
+            .iter()
+            .zip(&ensemble.column_indices)
+            .map(|(coefficient, &column)| coefficient * f64::from(features[column]))
+            .sum::<f64>();
+        if !value.is_finite() {
+            return None;
+        }
+        predictions.push(value);
+    }
+    predictions.sort_by(f64::total_cmp);
+    let lower = empirical_percentile(&predictions, 0.025)?;
+    let upper = empirical_percentile(&predictions, 0.975)?;
+    Some(PredictionUncertainty {
+        lower,
+        upper,
+        method: "percentile_bootstrap_mean_response".to_owned(),
+        level: 0.95,
+        replicates: predictions.len(),
+        covers: "uncertainty in the fitted coefficients only; excludes residual scatter and \
+                 carries no information about extrapolation - read domain_verdict for that"
+            .to_owned(),
+    })
+}
+
+/// Linear-interpolated empirical percentile over an ascending slice.
+fn empirical_percentile(sorted: &[f64], probability: f64) -> Option<f64> {
+    if sorted.is_empty() {
+        return None;
+    }
+    if sorted.len() == 1 {
+        return Some(sorted[0]);
+    }
+    let position = probability * (sorted.len() - 1) as f64;
+    let lower = position.floor() as usize;
+    let upper = position.ceil() as usize;
+    let weight = position - lower as f64;
+    Some(sorted[lower] * (1.0 - weight) + sorted[upper] * weight)
+}
+
 /// Propagate the bootstrap coefficient intervals through one feature vector.
 ///
 /// This is deliberately interval arithmetic over each coefficient's 95 % band,
@@ -827,6 +1016,8 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         return Err("--temperature must be a positive finite temperature".into());
     }
     let model = load_model(args.model)?;
+    let (model_sha256, model_byte_count) = crate::digest::sha256_file(args.model)?;
+    let (library_sha256, library_digest_scope, library_byte_count) = library_digest(args.library)?;
     let report = &model.fit;
     // A portable model states how its features are built; use that mapping in
     // preference to inferring one from the weight vector.
@@ -908,6 +1099,10 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         );
         let outside = domain_exceedances(report, &features);
         let band = coefficient_band(report, &features);
+        let uncertainty = model
+            .uncertainty
+            .as_ref()
+            .and_then(|ensemble| bootstrap_mean_response_interval(ensemble, &features));
         let geometry = report.training_geometry.as_ref();
         let leverage = geometry.and_then(|geometry| geometry.leverage(&features));
         let warning = geometry.map(|geometry| geometry.warning_leverage);
@@ -946,6 +1141,7 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             nearest_training_ratio: applicability.nearest_training_ratio,
             mahalanobis_distance: applicability.mahalanobis_distance,
             maximum_extrapolation: applicability.maximum_extrapolation,
+            uncertainty,
             applicability: if outside.is_empty() {
                 "inside_training_range".to_owned()
             } else {
@@ -1104,6 +1300,64 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
                     calibration.standard_deviation
                 )
             }),
+        provenance: ScreenProvenance {
+            stericx_version: env!("CARGO_PKG_VERSION").to_owned(),
+            model_path: args.model.display().to_string(),
+            model_sha256,
+            model_byte_count,
+            model_schema_version: model.schema_version(),
+            model_id: model
+                .provenance
+                .as_ref()
+                .map(|provenance| provenance.model_id.clone()),
+            model_fitted_by: model
+                .provenance
+                .as_ref()
+                .map(|provenance| provenance.stericx_version.clone()),
+            training_datasets: model
+                .provenance
+                .as_ref()
+                .map(|provenance| provenance.training.dataset_digests.clone())
+                .unwrap_or_default(),
+            library_path: args.library.display().to_string(),
+            library_sha256,
+            library_digest_scope,
+            library_byte_count,
+            library_member_count: library_size,
+        },
+        target: model
+            .inference
+            .as_ref()
+            .map(|inference| inference.response.name.clone()),
+        target_units: model
+            .inference
+            .as_ref()
+            .map(|inference| inference.response.units.clone()),
+        reaction_family: model
+            .provenance
+            .as_ref()
+            .and_then(|provenance| provenance.reaction.reaction_family.clone()),
+        loo_q2: report.fixed_feature_loo.r2,
+        loo_rmse_kcal_mol: report.fixed_feature_loo.rmse,
+        group_loo_q2: report.fixed_feature_group_loo.r2,
+        uncertainty_method: model
+            .uncertainty
+            .as_ref()
+            .map(|_| "percentile_bootstrap_mean_response".to_owned()),
+        uncertainty_level: model.uncertainty.as_ref().map(|_| 0.95),
+        uncertainty_replicates: model
+            .uncertainty
+            .as_ref()
+            .map(|ensemble| ensemble.replicate_count),
+        uncertainty_unavailable: if model.uncertainty.is_some() {
+            None
+        } else {
+            Some(
+                "the model carries no bootstrap ensemble, so no bootstrap interval is \
+                 reported; refit with a schema-2 portable model to record one"
+                    .to_owned(),
+            )
+        },
         uncertainty_note: if report.training_geometry.is_some() {
             "prediction_interval is a 95% Student-t interval y ± t(0.975, n−p)·s·√(1+h): it \
              widens with leverage, so a ligand far from the training set is reported with a \
@@ -1148,16 +1402,62 @@ fn required_input_names(required: RequiredInputs) -> Vec<String> {
 }
 
 fn print_screen_text(report: &ScreenReport) {
+    let optional = |value: &Option<String>| value.clone().unwrap_or_else(|| "unrecorded".into());
+    let quality = |value: Option<f64>| {
+        value.map_or_else(|| "unavailable".to_owned(), |value| format!("{value:.4}"))
+    };
+
     println!("model          {} ({})", report.model, report.model_path);
+    println!(
+        "model id       {}   schema {}   fitted by stericx {}",
+        optional(&report.provenance.model_id),
+        report.provenance.model_schema_version,
+        optional(&report.provenance.model_fitted_by)
+    );
+    println!("reaction       {}", optional(&report.reaction_family));
+    println!(
+        "target         {}{}",
+        optional(&report.target),
+        report
+            .target_units
+            .as_deref()
+            .map_or_else(String::new, |units| format!(" [{units}]"))
+    );
     println!("selected       {}", report.selected_features.join(", "));
     println!("requires       {}", report.required_inputs.join(", "));
     println!(
         "trained on     {} ligands   training R² {}   RMSE {:.3} kcal/mol",
         report.training_count,
-        report
-            .training_r2
-            .map_or_else(|| "unavailable".to_owned(), |r2| format!("{r2:.4}")),
+        quality(report.training_r2),
         report.training_rmse_kcal_mol
+    );
+    println!(
+        "validation     LOO Q² {}   LOO RMSE {:.3} kcal/mol   group-LOO Q² {}",
+        quality(report.loo_q2),
+        report.loo_rmse_kcal_mol,
+        quality(report.group_loo_q2)
+    );
+    println!(
+        "stericx        {} (running)",
+        report.provenance.stericx_version
+    );
+    println!(
+        "model sha256   {} ({} bytes)",
+        report.provenance.model_sha256, report.provenance.model_byte_count
+    );
+    if report.provenance.training_datasets.is_empty() {
+        println!("training data  no digests recorded by this model");
+    } else {
+        for digest in &report.provenance.training_datasets {
+            println!(
+                "training data  {} {}:{} ({} bytes)",
+                digest.artifact, digest.algorithm, digest.digest, digest.byte_count
+            );
+        }
+    }
+    println!(
+        "library sha256 {} ({})",
+        report.provenance.library_sha256, report.provenance.library_digest_scope
     );
     println!(
         "library        {} members, {} screened, {} returned, {} skipped, {} inside the \
@@ -1175,6 +1475,27 @@ fn print_screen_text(report: &ScreenReport) {
         );
     }
     println!("temperature    {:.2} K", report.temperature_k);
+    match (
+        report.uncertainty_method.as_deref(),
+        report.uncertainty_level,
+        report.uncertainty_replicates,
+    ) {
+        (Some(method), Some(level), Some(replicates)) => {
+            println!(
+                "uncertainty    {method} at {:.0}% from {replicates} bootstrap model(s)",
+                level * 100.0
+            );
+            println!(
+                "               coefficient uncertainty only - it excludes residual scatter \
+                 and says nothing about extrapolation"
+            );
+        }
+        _ => {
+            if let Some(reason) = report.uncertainty_unavailable.as_deref() {
+                println!("uncertainty    none reported: {reason}");
+            }
+        }
+    }
     match report.domain_threshold {
         Some(threshold) => println!(
             "domain rule    {} (boundary {threshold:.3} in standardized descriptor space)",
@@ -1276,6 +1597,15 @@ fn print_screen_text(report: &ScreenReport) {
         );
         if !hit.descriptors.is_empty() {
             println!("{:>60}{}", "", describe_descriptors(&hit.descriptors));
+        }
+        if let Some(uncertainty) = &hit.uncertainty {
+            println!(
+                "{:>60}bootstrap {:.0}% mean-response [{:.3}, {:.3}] (coefficients only)",
+                "",
+                uncertainty.level * 100.0,
+                uncertainty.lower,
+                uncertainty.upper
+            );
         }
         println!(
             "{:>60}domain: {}{}{}",
@@ -1412,7 +1742,9 @@ fn print_screen_csv(report: &ScreenReport) {
          nearest_training_ratio,mahalanobis_distance,maximum_extrapolation,\
          prediction_interval_low,prediction_interval_high,\
          leverage,leverage_ratio,trust,coefficient_band_low,coefficient_band_high,\
-         applicability,outside_features"
+         bootstrap_lower,bootstrap_upper,bootstrap_method,bootstrap_level,bootstrap_replicates,\
+         applicability,outside_features,\
+         stericx_version,model_id,model_sha256,library_sha256"
     );
     for hit in &report.hits {
         // Full round-trip precision: a screened prediction must reproduce the
@@ -1420,7 +1752,7 @@ fn print_screen_csv(report: &ScreenReport) {
         let format_bound =
             |value: Option<f64>| value.map_or_else(String::new, |value| format!("{value}"));
         println!(
-            "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
+            "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
             hit.rank,
             crate::descriptors::csv_field(&hit.ligand),
             crate::descriptors::csv_field(hit.ligand_name.as_deref().unwrap_or_default()),
@@ -1440,6 +1772,15 @@ fn print_screen_csv(report: &ScreenReport) {
             hit.trust,
             format_bound(hit.coefficient_band_low),
             format_bound(hit.coefficient_band_high),
+            format_bound(hit.uncertainty.as_ref().map(|u| u.lower)),
+            format_bound(hit.uncertainty.as_ref().map(|u| u.upper)),
+            hit.uncertainty.as_ref().map_or("", |u| u.method.as_str()),
+            hit.uncertainty
+                .as_ref()
+                .map_or_else(String::new, |u| u.level.to_string()),
+            hit.uncertainty
+                .as_ref()
+                .map_or_else(String::new, |u| u.replicates.to_string()),
             hit.applicability,
             crate::descriptors::csv_field(
                 &hit.outside_domain
@@ -1447,7 +1788,15 @@ fn print_screen_csv(report: &ScreenReport) {
                     .map(|exceedance| exceedance.feature.as_str())
                     .collect::<Vec<_>>()
                     .join("|")
-            )
+            ),
+            // Repeated on every row so a concatenated or filtered export stays
+            // traceable to the exact inputs that produced each line.
+            crate::descriptors::csv_field(&report.provenance.stericx_version),
+            crate::descriptors::csv_field(
+                report.provenance.model_id.as_deref().unwrap_or_default()
+            ),
+            report.provenance.model_sha256,
+            report.provenance.library_sha256
         );
     }
 }

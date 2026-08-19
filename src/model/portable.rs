@@ -47,7 +47,8 @@
 //! silently scoring with one of the two.
 
 use super::{
-    FitOptions, MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, RegressXPredictor, ScientificFitReport,
+    BootstrapEnsemble, FitOptions, MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, RegressXPredictor,
+    ScientificFitReport,
 };
 use serde::{Deserialize, Serialize};
 use std::error::Error;
@@ -457,6 +458,11 @@ pub struct PortableModel {
     /// Present from schema version 2 onward.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub created: Option<CreationMetadata>,
+    /// The bootstrap ensemble behind `coefficient_intervals`, from schema
+    /// version 2 onward. Present only when the fit that produced the document
+    /// retained it; a document read back and rewritten keeps whatever it had.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub uncertainty: Option<BootstrapEnsemble>,
 }
 
 /// The sections a schema version 2 document adds, parsed on their own so the
@@ -469,6 +475,8 @@ struct PortableSections {
     provenance: Option<ModelProvenance>,
     #[serde(default)]
     created: Option<CreationMetadata>,
+    #[serde(default)]
+    uncertainty: Option<BootstrapEnsemble>,
 }
 
 impl PortableModel {
@@ -518,6 +526,9 @@ impl PortableModel {
             }),
             provenance: Some(provenance),
             created: Some(created),
+            // Moved, not copied: the report field is never serialized, so the
+            // portable document becomes the only place the ensemble lives.
+            uncertainty: fit.bootstrap_ensemble.take(),
             fit,
         };
         model.validate()?;
@@ -545,6 +556,7 @@ impl PortableModel {
             inference: sections.inference,
             provenance: sections.provenance,
             created: sections.created,
+            uncertainty: sections.uncertainty,
         };
         model.validate()?;
         Ok(model)
@@ -1271,6 +1283,7 @@ pub fn diagnose(text: &str) -> Diagnosis {
         inference: sections.inference,
         provenance: sections.provenance,
         created: sections.created,
+        uncertainty: sections.uncertainty,
     };
     let issues = model.issues();
     Diagnosis {

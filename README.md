@@ -382,6 +382,96 @@ with a reason — `missing_descriptors` (naming which), `featurization_failed`, 
 range the model was trained on are listed separately with **how far** outside they fall, as
 a fraction of the training range width.
 
+### Scientific context and provenance
+
+Every screening run states what produced it before it lists a single candidate:
+
+```text
+model          mechanistically_constrained_ols (docs/study_001/stericx_portable_model.json)
+model id       mechanistically_constrained_ols   schema 2   fitted by stericx 0.2.0
+reaction       Ni-catalyzed homo-Diels-Alder
+target         ddg_double_dagger [kcal/mol]
+selected       B5_x_nbo_charge
+trained on     10 ligands   training R² 0.3625   RMSE 0.550 kcal/mol
+validation     LOO Q² 0.0020   LOO RMSE 0.688 kcal/mol   group-LOO Q² 0.0013
+stericx        0.2.0 (running)
+model sha256   3be8fbd4adb0773c30c0fd1184dcd01c85f7f62cf0b01a50a93f4c59cebb62ca (156337 bytes)
+training data  reactions_raw.csv sha256:88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f (7482 bytes)
+library sha256 88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f (the library file's exact bytes)
+ranking        descending (model records: maximize)
+uncertainty    percentile_bootstrap_mean_response at 95% from 2000 bootstrap model(s)
+domain rule    max_neighbor (boundary 0.505 in standardized descriptor space)
+```
+
+**Two runs can prove they used identical scientific inputs.** The `provenance` block in the
+JSON export carries SHA-256 over the exact bytes of the model document and of the ligand
+library, the StericX version that ran the screen, the version that fitted the model, and the
+training-data digests the model itself recorded. Comparing that block is a cryptographic
+claim about the inputs, not a description of them.
+
+It deliberately carries **no timestamp**. A run is identified by what went into it, not when
+it happened; a clock would make two otherwise identical runs compare unequal.
+
+For a directory library the digest is a manifest hash — every coordinate file's
+`name:sha256`, sorted — so it is independent of filesystem order and still changes if any
+member changes.
+
+CSV exports repeat `stericx_version`, `model_id`, `model_sha256`, and `library_sha256` on
+every row, so a filtered or concatenated export stays traceable line by line.
+
+Training-data digests are now **SHA-256**. They were FNV-1a, which detects accidental
+substitution but proves nothing against a deliberate one. The field has always been
+algorithm-tagged, so a model written before this change still loads and still reports
+`fnv1a64` — read the tag, never assume the algorithm.
+
+A schema-1 model reports the context it has — its file hash and schema version — and leaves
+identity, target, and training digests explicitly absent rather than filling them in.
+
+### Prediction uncertainty
+
+A schema-2 model records the **bootstrap replicates** behind its coefficient intervals, not
+just the per-coefficient percentiles. Screening propagates each replicate's whole coefficient
+vector through the candidate and takes the empirical 2.5/97.5 percentiles of the resulting
+predictions:
+
+```text
+uncertainty    percentile_bootstrap_mean_response at 95% from 2000 bootstrap model(s)
+               coefficient uncertainty only - it excludes residual scatter and says nothing
+               about extrapolation
+```
+
+Keeping the replicates is what makes a *joint* interval possible. The marginal per-coefficient
+intervals discard the correlation between the intercept and the slopes, so recombining them by
+interval arithmetic (the older `coefficient_band`, still reported) is conservative rather than
+correct.
+
+**It is not a prediction interval, and is not named like one.** `percentile_bootstrap_mean_response`
+covers uncertainty in the fitted coefficients only. It excludes the residual scatter a new
+observation carries — that is the separately reported Student-t `prediction_interval`
+`ŷ ± t·s·√(1+h)` — and it carries no information at all about extrapolation.
+
+That last point matters more than it sounds:
+
+```text
+ligand          x       bootstrap width   domain
+in_domain_low    5.10   1.947             interpolation
+ood_above_max   14.70   0.977             extrapolation
+```
+
+The **out-of-domain** candidate has the **narrower** interval. Interval width tracks the
+bootstrap coefficient spread, not membership of the training set, so a tight band is never
+evidence that a prediction is safe. Reliability is the `domain` column's job; the interval
+answers a different question, and the two are reported separately and tested to stay
+independent.
+
+Every candidate reports `lower`, `upper`, `method`, `level`, and `replicates` in JSON and CSV
+alongside the central prediction. A model with no stored ensemble — any schema-1 artifact —
+reports no interval and says why, rather than inventing one.
+
+The ensemble is the bulk of the document (Study 001: 8.9 KB to 152.7 KB for 2,000 replicates
+of two coefficients). Pass `stericx fit --omit-bootstrap-ensemble` to leave it out when size
+matters more than self-sufficiency.
+
 ### Out-of-domain candidates are flagged, never hidden
 
 Every row carries a `domain` column beside its prediction, so a warning is visible without

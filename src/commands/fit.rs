@@ -27,6 +27,8 @@ pub(crate) struct PortableModelRequest {
     pub(crate) model_id: Option<String>,
     pub(crate) reaction: ReactionProvenance,
     pub(crate) response_temp_k: Option<f32>,
+    /// Drop the bootstrap replicates before writing the document.
+    pub(crate) omit_bootstrap_ensemble: bool,
     pub(crate) optimization: Optimization,
 }
 
@@ -126,12 +128,17 @@ pub(crate) fn fit_command(
 
 /// Assembles a portable model from the fit plus command-line provenance.
 fn build_portable_model(
-    report: ScientificFitReport,
+    mut report: ScientificFitReport,
     data: &Path,
     metadata_path: &Path,
     options: FitOptions,
     request: &PortableModelRequest,
 ) -> Result<PortableModel, Box<dyn Error>> {
+    if request.omit_bootstrap_ensemble {
+        // Dropped before the document is built, so the omission is a property
+        // of what was written rather than something stripped afterwards.
+        report.bootstrap_ensemble = None;
+    }
     let dataset_digests = vec![file_digest(data)?, file_digest(metadata_path)?];
     let model_id = match request.model_id.as_deref() {
         Some(id) if !id.trim().is_empty() => id.trim().to_owned(),
@@ -164,6 +171,11 @@ fn build_portable_model(
 ///
 /// FNV-1a is not a cryptographic hash. The algorithm is recorded alongside the
 /// value so a consumer can see exactly what the digest does and does not prove.
+/// SHA-256 digest of one training input.
+///
+/// Was FNV-1a, which detects accidental substitution but proves nothing against
+/// a deliberate one. The field has always been algorithm-tagged, so a model
+/// written before this change still reads and still reports `fnv1a64`.
 fn file_digest(path: &Path) -> Result<DatasetDigest, Box<dyn Error>> {
     let bytes = fs::read(path)?;
     Ok(DatasetDigest {
@@ -171,8 +183,8 @@ fn file_digest(path: &Path) -> Result<DatasetDigest, Box<dyn Error>> {
             || path.display().to_string(),
             |name| name.to_string_lossy().into_owned(),
         ),
-        algorithm: "fnv1a64".to_owned(),
-        digest: format!("{:016x}", fnv1a64(&bytes)),
+        algorithm: "sha256".to_owned(),
+        digest: crate::digest::sha256_hex(&bytes),
         byte_count: bytes.len() as u64,
     })
 }

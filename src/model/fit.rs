@@ -57,6 +57,37 @@ pub struct CoefficientInterval {
     pub upper_95: f64,
 }
 
+/// The bootstrap coefficient replicates behind [`CoefficientInterval`].
+///
+/// Kept so a saved model can reproduce an uncertainty estimate without
+/// refitting. Each replicate is one resample's fitted coefficient vector over
+/// `columns`, which is the intercept followed by the selected descriptors, so
+/// a prediction for candidate `x` under replicate `b` is `Σ replicates[b][j] ·
+/// x[columns[j]]` with the intercept column contributing 1.
+///
+/// Storing the replicates rather than only the per-coefficient percentiles is
+/// what makes a *joint* interval possible: the marginal intervals discard the
+/// correlation between the intercept and the slopes, and recombining them by
+/// interval arithmetic is conservative rather than correct.
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+pub struct BootstrapEnsemble {
+    /// How the replicates were generated.
+    pub method: String,
+    /// Replicates actually usable: a resample whose design is singular is
+    /// skipped, so this can be below `requested_samples`.
+    pub replicate_count: usize,
+    /// What the fit was asked for.
+    pub requested_samples: usize,
+    /// Seed the resampling used, so the ensemble is reproducible.
+    pub seed: u64,
+    /// Feature name for each coefficient position, intercept first.
+    pub columns: Vec<String>,
+    /// Index into the eight-feature model vector for each column.
+    pub column_indices: Vec<usize>,
+    /// `[replicate][column]` fitted coefficients on the raw feature scale.
+    pub replicates: Vec<Vec<f64>>,
+}
+
 /// Raw feature interval used for a simple applicability-domain check.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct FeatureDomain {
@@ -97,6 +128,14 @@ pub struct ScientificFitReport {
     #[serde(default)]
     pub training_geometry: Option<TrainingGeometry>,
     pub notes: Vec<String>,
+    /// The bootstrap replicates behind `coefficient_intervals`.
+    ///
+    /// Deliberately **not serialized**: writing it into `--output` would change
+    /// a published schema-1 artifact. The portable schema-2 document carries it
+    /// in its own `uncertainty` section instead, so this is `None` on any model
+    /// read back from disk.
+    #[serde(skip)]
+    pub bootstrap_ensemble: Option<BootstrapEnsemble>,
 }
 
 #[derive(Clone, Debug)]
@@ -210,7 +249,7 @@ pub fn fit_scientific_model_grouped(
         true,
     )?;
 
-    let coefficient_intervals = bootstrap_intervals(
+    let (coefficient_intervals, bootstrap_ensemble) = bootstrap_intervals(
         &features,
         &targets,
         &selected,
@@ -275,6 +314,7 @@ pub fn fit_scientific_model_grouped(
             nested_loo: metrics(&targets, &lasso_loo),
         },
         coefficient_intervals,
+        bootstrap_ensemble: Some(bootstrap_ensemble),
         response_permutation_p_value: permutation_p_value,
         correlation_matrix,
         variance_inflation_factors,
@@ -824,6 +864,12 @@ fn feature_bounds(features: &[[f64; MODEL_FEATURE_COUNT]], column: usize) -> (f6
     )
 }
 
+/// Resamples the training rows and refits, keeping every replicate.
+///
+/// The resampling sequence is unchanged from when this only produced marginal
+/// percentiles: the same seed draws the same indices in the same order, so the
+/// intervals derived from it are identical to those published before the
+/// replicates were retained.
 fn bootstrap_intervals(
     features: &[[f64; MODEL_FEATURE_COUNT]],
     targets: &[f64],
@@ -831,11 +877,17 @@ fn bootstrap_intervals(
     estimates: &[f32; MODEL_FEATURE_COUNT],
     samples: usize,
     seed: u64,
-) -> Vec<CoefficientInterval> {
+) -> (Vec<CoefficientInterval>, BootstrapEnsemble) {
     let mut rng = DeterministicRng::new(seed);
     let mut distributions = (0..MODEL_FEATURE_COUNT)
         .map(|_| Vec::with_capacity(samples))
         .collect::<Vec<_>>();
+    // Intercept first, then the selected descriptors: the columns a prediction
+    // actually consumes.
+    let reported = std::iter::once(0)
+        .chain(selected.iter().copied())
+        .collect::<Vec<_>>();
+    let mut replicates: Vec<Vec<f64>> = Vec::with_capacity(samples);
     for _ in 0..samples {
         let indices = (0..features.len())
             .map(|_| rng.index(features.len()))
@@ -852,12 +904,27 @@ fn bootstrap_intervals(
             for (column, values) in distributions.iter_mut().enumerate() {
                 values.push(f64::from(fit.weights[column]));
             }
+            replicates.push(
+                reported
+                    .iter()
+                    .map(|&column| f64::from(fit.weights[column]))
+                    .collect(),
+            );
         }
     }
-    let reported = std::iter::once(0)
-        .chain(selected.iter().copied())
-        .collect::<Vec<_>>();
-    reported
+    let ensemble = BootstrapEnsemble {
+        method: "resample_training_rows_refit_fixed_descriptors".to_owned(),
+        replicate_count: replicates.len(),
+        requested_samples: samples,
+        seed,
+        columns: reported
+            .iter()
+            .map(|&column| MODEL_FEATURE_NAMES[column].to_owned())
+            .collect(),
+        column_indices: reported.clone(),
+        replicates,
+    };
+    let intervals = reported
         .into_iter()
         .map(|column| {
             let values = &mut distributions[column];
@@ -869,7 +936,8 @@ fn bootstrap_intervals(
                 upper_95: percentile(values, 0.975).unwrap_or(f64::from(estimates[column])),
             }
         })
-        .collect()
+        .collect();
+    (intervals, ensemble)
 }
 
 fn permutation_test(

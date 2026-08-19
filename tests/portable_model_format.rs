@@ -544,3 +544,59 @@ fn assert_values_preserved(before: &serde_json::Value, after: &serde_json::Value
         (before, after) => assert_eq!(before, after, "{path} changed"),
     }
 }
+
+#[test]
+fn the_bootstrap_ensemble_round_trips_without_drift() {
+    let model = portable_model();
+    let ensemble = model
+        .uncertainty
+        .as_ref()
+        .expect("a freshly fitted model carries its bootstrap ensemble");
+    assert!(!ensemble.replicates.is_empty());
+    assert_eq!(ensemble.replicate_count, ensemble.replicates.len());
+    assert_eq!(ensemble.columns.len(), ensemble.column_indices.len());
+    assert_eq!(ensemble.columns[0], "intercept");
+
+    let text = model.to_json().unwrap();
+    let reloaded = PortableModel::from_json(&text).unwrap();
+    let restored = reloaded
+        .uncertainty
+        .as_ref()
+        .expect("the ensemble survives a write/read cycle");
+
+    // Every replicate coefficient must come back bit-identical: an interval
+    // recomputed from a rounded ensemble would silently differ from the one the
+    // fitting run would have produced.
+    assert_eq!(restored, ensemble);
+    assert_eq!(reloaded.to_json().unwrap(), text);
+}
+
+#[test]
+fn a_document_without_an_ensemble_still_loads() {
+    let mut model = portable_model();
+    model.uncertainty = None;
+    let text = model.to_json().unwrap();
+    assert!(
+        !text.contains("\"uncertainty\""),
+        "an absent ensemble must not be written as null"
+    );
+
+    let reloaded = PortableModel::from_json(&text).unwrap();
+    assert!(reloaded.uncertainty.is_none());
+}
+
+#[test]
+fn the_fit_report_never_serializes_the_ensemble_into_a_legacy_artifact() {
+    // The ensemble lives only in the schema-2 section. Writing it into the
+    // flattened fit report would change a published schema-1 document.
+    let report = fit_report();
+    assert!(
+        report.bootstrap_ensemble.is_some(),
+        "a fresh fit holds the ensemble in memory"
+    );
+    let text = serde_json::to_string(&report).unwrap();
+    assert!(
+        !text.contains("bootstrap_ensemble") && !text.contains("replicates"),
+        "the legacy artifact must not carry the ensemble"
+    );
+}

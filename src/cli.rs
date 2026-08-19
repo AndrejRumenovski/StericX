@@ -119,6 +119,15 @@ pub(crate) enum Command {
         /// Temperature the response refers to, in kelvin.
         #[arg(long)]
         response_temp_k: Option<f32>,
+        /// Omit the bootstrap replicate ensemble from the portable model.
+        ///
+        /// The ensemble is what lets `screen` report an uncertainty interval
+        /// without refitting, but it is the bulk of the document: one row per
+        /// replicate per coefficient. Omit it when size matters more than
+        /// self-sufficiency; screening then reports no bootstrap interval
+        /// rather than inventing one.
+        #[arg(long)]
+        omit_bootstrap_ensemble: bool,
         /// Which direction of the response counts as better. Recorded in the
         /// portable model; screening refuses to rank without it.
         #[arg(long, value_enum, default_value_t = OptimizeDirection::Unspecified)]

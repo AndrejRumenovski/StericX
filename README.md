@@ -179,6 +179,8 @@ A manuscript-style narrative of the reproduction studies is in [`docs/REPRODUCTI
 
 ## Documentation
 
+- 🧪 **[Reaction-screening tutorial](docs/REACTION_SCREENING.md)** — fit an experimental
+  model, read rankings and warnings, exclude tested ligands, diversify, and export a deck.
 - 📄 **[Manuscript write-up](docs/REPRODUCTION_REPORT.md)** — the full narrative.
 - 🖼️ **[One-page visual overview](docs/results.html)** — the whole scope at a glance.
 - 🔁 **[REPRODUCE.md](REPRODUCE.md)** — clone to results in one pass.
@@ -296,14 +298,20 @@ output says so.
 
 ### `screen` — rank a library with a fitted reaction model
 
-Where `search` ranks by *shape*, `screen` ranks by *predicted performance* under a model
-fitted by `stericx fit`, and reports what the prediction is worth.
+The v0.3 screening path ranks by *predicted reaction performance*, then keeps uncertainty
+and applicability evidence beside every candidate. Try it with the checked-in Ni-hDA model
+and reaction library:
 
 ```bash
-./target/release/stericx screen model.json --library ligand_library/
-./target/release/stericx screen model.json --library reactions.csv --top 20 --in-domain-only
-./target/release/stericx screen model.json ligand_library/ --format csv   # positional also works
+./target/release/stericx model inspect docs/study_001/stericx_portable_model.json
+./target/release/stericx screen docs/study_001/stericx_portable_model.json \
+  --library data/reactions_raw.csv --top 3
 ```
+
+For the complete data-to-deck workflow—including fitting, interpretation, tested-ligand
+exclusion, diversity selection, machine-readable output, and the limits of a ranking—follow
+the dedicated [reaction-screening tutorial](docs/REACTION_SCREENING.md). The reference below
+documents individual options.
 
 Each ligand gets its identifier, its name when the library carries one, the raw predicted
 ΔΔG‡, the descriptor values that prediction consumed, the corresponding ee at

@@ -1,0 +1,1539 @@
+[
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-724"
+    ],
+    "model_seed": 20260904,
+    "split_id": "S001",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-785"
+    ],
+    "model_seed": 20260905,
+    "split_id": "S002",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-2062"
+    ],
+    "model_seed": 20260906,
+    "split_id": "S003",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-2063"
+    ],
+    "model_seed": 20260907,
+    "split_id": "S004",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260908,
+    "split_id": "S005",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260909,
+    "split_id": "S006",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785"
+    ],
+    "model_seed": 20260910,
+    "split_id": "S007",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2062"
+    ],
+    "model_seed": 20260911,
+    "split_id": "S008",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2063"
+    ],
+    "model_seed": 20260912,
+    "split_id": "S009",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260913,
+    "split_id": "S010",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260914,
+    "split_id": "S011",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2062"
+    ],
+    "model_seed": 20260915,
+    "split_id": "S012",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2063"
+    ],
+    "model_seed": 20260916,
+    "split_id": "S013",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260917,
+    "split_id": "S014",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260918,
+    "split_id": "S015",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063"
+    ],
+    "model_seed": 20260919,
+    "split_id": "S016",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260920,
+    "split_id": "S017",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260921,
+    "split_id": "S018",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260922,
+    "split_id": "S019",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260923,
+    "split_id": "S020",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "O=S(=O)(c1ccccc1)N1CC2CC1CP2c1ccccc1",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260924,
+    "split_id": "S021",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785"
+    ],
+    "model_seed": 20260925,
+    "split_id": "S022",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2062"
+    ],
+    "model_seed": 20260926,
+    "split_id": "S023",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2063"
+    ],
+    "model_seed": 20260927,
+    "split_id": "S024",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260928,
+    "split_id": "S025",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260929,
+    "split_id": "S026",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2062"
+    ],
+    "model_seed": 20260930,
+    "split_id": "S027",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2063"
+    ],
+    "model_seed": 20260931,
+    "split_id": "S028",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260932,
+    "split_id": "S029",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260933,
+    "split_id": "S030",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063"
+    ],
+    "model_seed": 20260934,
+    "split_id": "S031",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260935,
+    "split_id": "S032",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260936,
+    "split_id": "S033",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260937,
+    "split_id": "S034",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260938,
+    "split_id": "S035",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c3c(c1)OPOc1cccc4c1C3(CC2)CC4",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260939,
+    "split_id": "S036",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1ccc(-c2cccc3c2PCO3)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058"
+    ],
+    "model_seed": 20260940,
+    "split_id": "S037",
+    "stratum": "one_three_member_scaffold",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2062"
+    ],
+    "model_seed": 20260941,
+    "split_id": "S038",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2063"
+    ],
+    "model_seed": 20260942,
+    "split_id": "S039",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260943,
+    "split_id": "S040",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260944,
+    "split_id": "S041",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063"
+    ],
+    "model_seed": 20260945,
+    "split_id": "S042",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260946,
+    "split_id": "S043",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260947,
+    "split_id": "S044",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260948,
+    "split_id": "S045",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260949,
+    "split_id": "S046",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1cc2c(c(-c3c4ccccc4cc4ccccc34)c1)PCO2",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260950,
+    "split_id": "S047",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063"
+    ],
+    "model_seed": 20260951,
+    "split_id": "S048",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260952,
+    "split_id": "S049",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260953,
+    "split_id": "S050",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260954,
+    "split_id": "S051",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260955,
+    "split_id": "S052",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1ccc2c(c1)ccc1o[pH]oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260956,
+    "split_id": "S053",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064"
+    ],
+    "model_seed": 20260957,
+    "split_id": "S054",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2067"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260958,
+    "split_id": "S055",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2064"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1ccc2c(CN(Cc3cccc4ccccc34)p3oc4ccc5ccccc5c4c4c(ccc5ccccc54)o3)cccc2c1",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-2062",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260959,
+    "split_id": "S056",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2063"
+    ]
+  },
+  {
+    "candidate_count": 3,
+    "held_out_groups": [
+      "c1ccc2c(c1)ccc1op(N3CCCCC3)oc3ccc4ccccc4c3c12",
+      "c1ccc2c(c1)CCCN2p1oc2ccc3ccccc3c2c2c(ccc3ccccc32)o1",
+      "c1ccc(CN(Cc2ccccc2)p2oc3ccc4ccccc4c3c3c(ccc4ccccc43)o2)cc1"
+    ],
+    "held_out_ids": [
+      "SIG-NIHDA-2063",
+      "SIG-NIHDA-2064",
+      "SIG-NIHDA-2067"
+    ],
+    "model_seed": 20260960,
+    "split_id": "S057",
+    "stratum": "three_singleton_scaffolds",
+    "training_count": 8,
+    "training_ids": [
+      "SIG-NIHDA-401",
+      "SIG-NIHDA-498",
+      "SIG-NIHDA-723",
+      "SIG-NIHDA-724",
+      "SIG-NIHDA-785",
+      "SIG-NIHDA-1057",
+      "SIG-NIHDA-1058",
+      "SIG-NIHDA-2062"
+    ]
+  }
+]

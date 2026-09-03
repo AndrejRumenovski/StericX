@@ -1,0 +1,70 @@
+{
+  "dataset": {
+    "catalog": "data/official/ni_hda_kraken.csv",
+    "eligible_labeled_ligands": 11,
+    "metadata": "data/reactions_raw.csv",
+    "name": "Sigman Group Ni-catalyzed homo-Diels-Alder",
+    "optimization": "maximize",
+    "response": "ddG_abs",
+    "response_units": "kcal/mol",
+    "sigpack": "data/reactions.sigpack",
+    "source_url": "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv"
+  },
+  "design_status": "fixed_before_study_011_outcome_revelation",
+  "failed_split_policy": {
+    "other_metrics": null,
+    "rank_of_best": 4,
+    "top1_recovery": 0.0,
+    "top2_recall": 0.0
+  },
+  "model": {
+    "bootstrap_samples": 1000,
+    "correlation_guard_absolute": 0.95,
+    "engine": "stericx fit",
+    "family": "mechanistically_constrained_ols",
+    "max_non_intercept_terms": 2,
+    "permutation_samples": 1000,
+    "selection": "training-only BIC forward selection"
+  },
+  "primary_metrics": [
+    "intention_to_screen_top1_recovery",
+    "intention_to_screen_top2_recall",
+    "intention_to_screen_rank_of_best"
+  ],
+  "random_baseline": {
+    "method": "exact enumeration of all 6 rankings per candidate panel",
+    "random_seed": null
+  },
+  "screen": {
+    "candidate_set": "three held-out ligands only",
+    "domain_rule": "max-neighbor",
+    "engine": "stericx screen",
+    "filter_out_of_domain": false,
+    "ranking": "predicted ddG descending; ligand identifier tie-break",
+    "sterimol_axis": "bond"
+  },
+  "secondary_metrics": [
+    "spearman_rho",
+    "ndcg",
+    "mae_kcal_mol",
+    "rmse_kcal_mol",
+    "selection_gain_over_panel_mean",
+    "selection_enrichment_ratio",
+    "prediction_interval_coverage",
+    "applicability_domain_error_strata"
+  ],
+  "splitting": {
+    "candidate_observations_per_split": 3,
+    "group_column": "Ligand_Group",
+    "planned_splits": 57,
+    "randomized": false,
+    "scheme": "exhaustive whole-group combinations totaling 3 observations",
+    "strata": {
+      "one_three_member_scaffold": 1,
+      "three_singleton_scaffolds": 56
+    },
+    "training_observations_per_split": 8
+  },
+  "study": "study_011",
+  "title": "Retrospective ligand ranking"
+}

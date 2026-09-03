@@ -155,7 +155,7 @@ machine-readable results under `docs/study_00N/`. **Passed and failed gates are 
 retained.**
 
 <details>
-<summary><b>Expand the ten studies</b></summary>
+<summary><b>Expand the eleven studies</b></summary>
 
 | # | Study | What it shows | Full results |
 |---|---|---|---|
@@ -169,6 +169,7 @@ retained.**
 | **008** | Head-to-head speed benchmark vs `morfeus` | The same numbers, ~14× faster single-core — and the speedup holds at ~20× the scale. | [STUDY_008](docs/study_008/STUDY_008.md) · [scale check](docs/study_008_all_conformers/STUDY_008.md) |
 | **009** | The other direction of the cliff — Pd cross-coupling | The *opposite* (bulky-active) regime reproduced, including datasets from other groups; honest about the reactions the paper itself flags as resistant. | [STUDY_009](docs/study_009/STUDY_009.md) |
 | **010** | Grid convergence of the buried-volume integrator | Sweeps the integration grid coarse→fine to show the descriptor is *converged* at the default resolution — the earlier agreement isn't a grid-lucky artifact — and quantifies the voxel discretization floor. | [STUDY_010](docs/study_010/STUDY_010.md) |
+| **011** | Retrospective ligand ranking | Exhaustive scaffold-disjoint three-ligand screens test candidate recovery without target leakage; the below-random ranking result and failed fits remain visible. | [STUDY_011](docs/study_011/STUDY_011.md) · [locked design](docs/study_011/DESIGN.md) |
 
 A manuscript-style narrative of the reproduction studies is in [`docs/REPRODUCTION_REPORT.md`](docs/REPRODUCTION_REPORT.md).
 

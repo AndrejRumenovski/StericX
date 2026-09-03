@@ -1,0 +1,38 @@
+{
+  "artifacts": {
+    "applicability_domain.png": "5dc3b2234994cf01ea91457e8dfcec05426f9dfcca2a7123432978701933a1a2",
+    "frozen_predictions.csv": "b7f5f34fdfbf9389ac4bf7d1cb4afcab419f3c5b7314f9c23aa818ec81051cd1",
+    "frozen_predictions.sha256": "b6aa8ee9f507e1d4f400e4ecea078401325d84cd52eb3672946961ad012cd8f0",
+    "metrics.json": "8c4fbf19c1a5044f81c2677a1eb1278e6554350d794c12b5c9cd091fbb0cac72",
+    "model_reports.jsonl": "894854e19666b788ef85bf261403302e6512042d1b797db053f1b20a1597bb8a",
+    "random_baseline_metrics.csv": "6cbee211e745b23d504eefaa8edc02bb59ea832f4c5edf749f26337757edab65",
+    "ranking_performance.png": "98ad8059aa817317ea01592463b0bacde533de0c3916257aedd7005a2cee7941",
+    "rankings.csv": "3184826f59e2addf2feb1bb9e27d83dda4a3aed839256c017544e2589a233db2",
+    "screen_reports.jsonl": "6c6304eca5724240eacfb108036c9cf45e6bd03344e1b486602c5b98c1ee941b",
+    "split_metrics.csv": "f3b05717cb51e4aa418612e62e4e6c7042ba6a824420259eec5cc961a3c4552c",
+    "split_status.csv": "67a42fc43beda63b854d04b4a89150ef23ec548fdc2cc313fd108ecc67d751a1"
+  },
+  "design_lock_sha256": "efae084de2df171b971dc0308674b5e93bffeb6e8d91f8dd5682357ed130f920",
+  "driver": "studies/study_011_ligand_ranking.py",
+  "frozen_predictions_sha256": "b7f5f34fdfbf9389ac4bf7d1cb4afcab419f3c5b7314f9c23aa818ec81051cd1",
+  "inputs": {
+    "data/official/ni_hda_kraken.csv": "4af1a776378a1f1aa369e076c9b35de2afa8c60e30841ec63cd13d95ccb8f00d",
+    "data/official/provenance.json": "608d856aedc675941c13672c2e911416b6d78eac1bb86032c5a879596154b835",
+    "data/reactions.sigpack": "6dd2d1190127ad88b3c883d025d24cbd365099060d943cdce498f4f226d406ae",
+    "data/reactions_raw.csv": "88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f",
+    "target/release/stericx": "4365dc2944dd31079b2afcd8eff5b6bb02c5d98f01f149398f08e4862ac62a3e"
+  },
+  "matplotlib": "3.11.1",
+  "note": "No timestamps are stored so identical inputs can reproduce stable artifacts.",
+  "numpy": "2.5.1",
+  "post_lock_implementation_amendment": {
+    "artifact": "implementation_amendments.json",
+    "sha256": "6d7d466a721e87a2c16abf4e0bd4f11e6ee2adf72eabf8552a469c8dd4a076c7"
+  },
+  "python": "3.12.13",
+  "scipy": "1.18.0",
+  "single_command": "uv run --extra science python studies/study_011_ligand_ranking.py",
+  "stericx_binary": "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/release/stericx",
+  "stericx_version": "stericx 0.2.0",
+  "study": "study_011"
+}

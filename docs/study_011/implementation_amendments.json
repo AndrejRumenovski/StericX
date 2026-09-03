@@ -1,0 +1,21 @@
+{
+  "amended_driver_sha256": "d8b9abe6084d00297a6dd7f6152e3ba2b411f5ac758ab08d0535a8a899ba91ea",
+  "changes": [
+    "Removed captured fit stdout from model_reports.jsonl because it contains nondeterministic elapsed-time and memory measurements.",
+    "Changed plot unit labels from a missing Unicode superscript-minus glyph to Matplotlib math text.",
+    "Expanded the report limitation explaining that fit uses ensemble-averaged Sterimol values while the locked screen path featurizes the representative Ligand_XYZ_Path.",
+    "Added a report section and artifact-list entry disclosing this non-analytic amendment."
+  ],
+  "changes_analysis_design": false,
+  "expected_unchanged_analytical_artifacts": {
+    "frozen_predictions.csv": "b7f5f34fdfbf9389ac4bf7d1cb4afcab419f3c5b7314f9c23aa818ec81051cd1",
+    "metrics.json": "8c4fbf19c1a5044f81c2677a1eb1278e6554350d794c12b5c9cd091fbb0cac72",
+    "random_baseline_metrics.csv": "6cbee211e745b23d504eefaa8edc02bb59ea832f4c5edf749f26337757edab65",
+    "rankings.csv": "3184826f59e2addf2feb1bb9e27d83dda4a3aed839256c017544e2589a233db2",
+    "split_metrics.csv": "f3b05717cb51e4aa418612e62e4e6c7042ba6a824420259eec5cc961a3c4552c"
+  },
+  "original_design_lock_sha256": "efae084de2df171b971dc0308674b5e93bffeb6e8d91f8dd5682357ed130f920",
+  "original_driver_sha256": "576c27436b8e66d41a4e1fc4458ef5576ebcd1767ca1cc2629eb539293f799d6",
+  "reason": "Post-outcome quality assurance found presentation and audit-determinism issues. The original locked splits, seeds, model, screening protocol, outcome reveal boundary, metrics, baselines, predictions, and numerical results were not changed.",
+  "status": "post_outcome_nonanalytic_implementation_amendment"
+}

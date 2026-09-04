@@ -4,6 +4,74 @@ All notable changes to StericX are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project aims to
 follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-09-04 — Auditable Reaction Screening
+
+StericX v0.3.0 turns reaction-model screening into a reviewable workflow from
+experimental observations to a deterministic candidate deck. The release does
+not change the validated descriptor kernels or hide the unfavorable retrospective
+ranking result.
+
+### Added
+
+- Portable model schema 2, a strict superset of the original fit artifact, with
+  response meaning and optimization direction, feature transformations, reaction
+  context, SHA-256 training-input provenance, training geometry, and optional
+  bootstrap replicates. `stericx model inspect` and `model validate` expose this
+  information and reject malformed or unsupported documents before inference.
+- Model-directed ligand screening with explicit ranking direction, Student-t
+  prediction intervals, joint bootstrap mean-response intervals, per-feature range
+  checks, leverage, nearest-neighbour and Mahalanobis distances, and training-derived
+  applicability verdicts. Unsupported predictions remain visible by default.
+- Campaign controls for stable-identifier tested-ligand exclusion and deterministic
+  diversity-aware top-k selection, plus candidate-deck CSV export with a provenance
+  sidecar and target-value allow-list.
+- Study 011, an outcome-hidden retrospective ligand-ranking experiment over all 57
+  predefined three-ligand splits, with exact random baselines, raw rankings, seeds,
+  failed fits, applicability behavior, plots, and machine-readable results.
+- The 704-byte `data/reactions.sigpack` derived from the already-committed reaction CSV
+  is now tracked because it is a checksum-locked Study 011 input. This makes the study's
+  `--verify-only` command work from a clean clone without downloading or rebuilding data.
+- A complete reaction-screening tutorial and a named regression suite pinning model
+  loading, feature mapping, predictions, rankings, uncertainty, applicability,
+  filtering, deck export, and byte-level determinism to published artifacts.
+
+### Changed
+
+- Model training and frozen evaluation now use reusable library APIs while preserving
+  the published schema-1 fit report and frozen-prediction formats.
+- Screening and deck provenance use SHA-256 for model, library, and exclusion inputs;
+  older algorithm-tagged `fnv1a64` model digests remain readable and are never
+  presented as cryptographic hashes.
+
+### Compatibility
+
+- Model schema 1 remains readable. Missing context, training geometry, direction, or
+  uncertainty is reported as unavailable instead of inferred; legacy ranking requires
+  an explicit direction override.
+- Model schema 2 retains every schema-1 root field, and existing study drivers still
+  deserialize it as the original fit report. Sigpack v1/v2 readers and all v0.2 CLI
+  aliases remain covered by tests.
+
+### Known limitations
+
+- Study 011 did **not** validate useful ranking performance: intention-to-screen top-1
+  recovery was 0.158 versus 0.333 at random, mean Spearman rho among successful fits
+  was -0.340, and 10 of 57 predefined fits failed. No threshold was weakened and no
+  failed split was removed for this release.
+- The Ni-hDA dataset has only 11 measured ligands; repeated three-candidate panels are
+  not independent and do not establish prospective performance.
+- The retrospective fit uses conformer-ensemble Sterimol values while the practical
+  screening CSV path featurizes one representative geometry. Study 011 preserves and
+  quantifies that mismatch rather than silently reconciling it.
+- Applicability and uncertainty diagnose support under the fitted model; neither is
+  experimental evidence or a calibrated probability of success. Models selecting
+  electronic terms still require those electronic descriptors in the candidate
+  library.
+- No new third-party raw dataset is added in v0.3.0. Study 011 and the tutorial derive
+  from the already-pinned public Ni-hDA repository; that upstream repository declares
+  no license, so public availability is not presented as a grant of redistribution
+  rights. Copyrighted AAAS supporting information remains uncommitted.
+
 ## [0.2.0] - 2026-08-17 — Ligand Search & Comparison
 
 Archived at Zenodo: version DOI [10.5281/zenodo.21985632](https://doi.org/10.5281/zenodo.21985632),

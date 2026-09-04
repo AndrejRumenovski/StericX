@@ -1,7 +1,7 @@
 # Releasing StericX and minting a Zenodo DOI
 
 A reusable runbook: substitute the version being cut for `X.Y.Z` throughout.
-v0.1.0 and v0.2.0 were both cut this way.
+v0.1.0 through v0.3.0 were cut this way.
 
 This is the runbook for cutting a tagged GitHub release and archiving it to Zenodo
 for a citable, immutable DOI. Steps marked **(you)** require account access and a
@@ -15,10 +15,18 @@ in order.
 
 ```bash
 cargo test --all-targets
+cargo test --test screening_regression -- --nocapture
 cargo fmt --check && cargo clippy --all-targets -- -D warnings
 uv run ruff check . && uv run ruff format --check .
 uv run python -m unittest tests/test_quantum_backend.py
+uv run --extra science python studies/study_011_ligand_ranking.py --verify-only
 ```
+
+Run those exact commands from a clean checkout or clean worktree of the release
+commit, so ignored caches and unrelated untracked files cannot either contaminate
+the audit or be mistaken for release content. For a screening release, also run
+the documented data-to-deck smoke test and retain its commands and results in the
+release audit.
 
 Confirm the metadata is consistent:
 

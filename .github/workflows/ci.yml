@@ -37,6 +37,12 @@ jobs:
       - name: Run Rust tests
         run: cargo test --all-targets
 
+      # Named separately from the suite above so a regression against the
+      # published studies is identifiable from the job list alone, and so this
+      # gate cannot be lost if the broad test step is ever narrowed.
+      - name: Guard published screening results
+        run: cargo test --test screening_regression -- --nocapture
+
       - name: Install locked Python environment
         uses: astral-sh/setup-uv@v6
 
@@ -63,7 +69,10 @@ jobs:
             studies/study_005_pyramidalization.py \
             studies/study_006_residual_localization.py \
             studies/study_007_crosscoupling.py \
-            studies/study_008_speed_benchmark.py
+            studies/study_008_speed_benchmark.py \
+            studies/study_009_pd_crosscoupling.py \
+            studies/study_010_grid_convergence.py \
+            studies/study_011_ligand_ranking.py
           bash -n benchmark_linux.sh install_quantum_tools.sh
 
       - name: Lint and format-check Python
@@ -73,6 +82,9 @@ jobs:
 
       - name: Test quantum parsers without external executables
         run: uv run python -m unittest tests/test_quantum_backend.py
+
+      - name: Verify retrospective screening study
+        run: uv run --extra science python studies/study_011_ligand_ranking.py --verify-only
 
   cross-platform:
     name: Build and test (${{ matrix.os }})
@@ -100,3 +112,6 @@ jobs:
       # Python and lint gates are OS-independent and stay on the Linux job.
       - name: Run Rust tests
         run: cargo test --all-targets
+
+      - name: Guard published screening results
+        run: cargo test --test screening_regression

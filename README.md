@@ -148,7 +148,7 @@ decided whether an independent reproduction actually *matched the published trut
 
 ## Scientific studies
 
-Ten studies build from a small published reaction family up to the full Kraken library,
+Eleven studies build from a small published reaction family up to the full Kraken library,
 two independent reaction models, and the numerical convergence of the descriptor itself.
 Each writes a complete model card, frozen prediction hashes, raw comparisons, plots, and
 machine-readable results under `docs/study_00N/`. **Passed and failed gates are both
@@ -426,6 +426,27 @@ against its metadata.
 deliberately contains no timestamp — a clock is the one thing that would break that property,
 and a test walks every key to prove none crept in.
 
+### Screening regression coverage
+
+`stericx screen` is pinned against the published studies by
+`tests/screening_regression.rs`, which CI runs as its own named step on Linux,
+macOS and Windows so a change cannot silently move an already-published screening
+result. It covers model loading, descriptor mapping, feature scaling, prediction,
+ranking, applicability scoring, uncertainty serialization, candidate filtering and
+determinism — every assertion anchored to a committed artifact, with no network
+access and no third-party supporting information.
+
+Study 001 carries the end-to-end cases, including agreement with the
+`RegressXPredictor` engine kernel and with the frozen blind prediction at the
+documented 1e-4 tolerance. Studies 007 and 009 are `%Vbur(min)` threshold
+classifiers and **cannot** be expressed in the screening feature space, which has
+no buried-volume term; they are pinned at the level their committed artifacts
+support, and a test fails if the feature space ever gains a buried-volume
+descriptor so they can be promoted.
+
+Exactly what is and is not covered:
+[`docs/validation/SCREENING_REGRESSION.md`](docs/validation/SCREENING_REGRESSION.md).
+
 ### Excluding ligands you have already tested
 
 ```bash
@@ -535,7 +556,7 @@ target         ddg_double_dagger [kcal/mol]
 selected       B5_x_nbo_charge
 trained on     10 ligands   training R² 0.3625   RMSE 0.550 kcal/mol
 validation     LOO Q² 0.0020   LOO RMSE 0.688 kcal/mol   group-LOO Q² 0.0013
-stericx        0.2.0 (running)
+stericx        0.3.0 (running)
 model sha256   3be8fbd4adb0773c30c0fd1184dcd01c85f7f62cf0b01a50a93f4c59cebb62ca (156337 bytes)
 training data  reactions_raw.csv sha256:88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f (7482 bytes)
 library sha256 88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f (the library file's exact bytes)
@@ -827,7 +848,7 @@ src/
 ├── kinetics/     Eyring rates and enantiomeric distributions
 └── main.rs       clap command-line interface (incl. `descriptors`)
 
-studies/          Study drivers (Python → docs/study_00N/), study_001 … study_010
+studies/          Study drivers (Python → docs/study_00N/), study_001 … study_011
 scripts/          Support utilities: prepare_data, prepare_quantum_data, validate_stericx,
                   stericx_quantum, freeze_prospective_deck, preregister_prediction,
                   validate_nonp_donor
@@ -880,6 +901,11 @@ a precomputed 1,541-ligand descriptor database, similarity search, constraint qu
 side-by-side `compare`, and `screen` — reaction-model ranking with leverage-based
 applicability-domain warnings and Student-t prediction intervals.
 
+**v0.3.0** makes reaction screening auditable end to end: portable validated models,
+explicit ranking direction, bootstrap and prediction intervals, training-derived domain
+diagnostics, tested-ligand exclusion, diversity-aware selection, reproducible candidate
+decks, and a retrospective ranking study whose below-random result remains visible.
+
 The one open scientific item remains the **frozen prospective 10-candidate deck**, which
 stays target-free until experimental measurement exists. A measured outcome would seed a
 future release under the existing concept DOI — and never a refit, for pre-registration
@@ -910,7 +936,7 @@ please cite the original work:
 **To cite StericX** (machine-readable form in [`CITATION.cff`](CITATION.cff)):
 
 > Rumenovski, A. *StericX: physical-organic molecular featurization and reaction-selectivity
-> inference*, version 0.2.0, 2026. Zenodo.
+> inference*, version 0.3.0, 2026. Zenodo.
 > DOI: [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666).
 
 The concept DOI [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666) resolves

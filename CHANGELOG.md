@@ -6,6 +6,9 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [0.3.0] - 2026-09-04 — Auditable Reaction Screening
 
+Archived at Zenodo: version DOI [10.5281/zenodo.22309199](https://doi.org/10.5281/zenodo.22309199),
+under the constant concept DOI [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666).
+
 StericX v0.3.0 turns reaction-model screening into a reviewable workflow from
 experimental observations to a deterministic candidate deck. The release does
 not change the validated descriptor kernels or hide the unfavorable retrospective

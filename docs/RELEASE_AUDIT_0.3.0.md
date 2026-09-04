@@ -352,3 +352,30 @@ The annotated `v0.3.0` tag and GitHub release may be created only when:
 
 If any condition fails, the release stops. A scientific failure must be fixed in the method
 or reported as a limitation; its threshold must not be loosened to force a pass.
+
+## Published release
+
+All four conditions passed for release commit
+`f04ed98f670446628ff5a6d1cd57d005a3a20742`. GitHub Actions run
+[`33904960578`](https://github.com/AndrejRumenovski/StericX/actions/runs/33904960578)
+completed successfully on Ubuntu, macOS, and Windows before the annotated tag and release
+were created. The published release is
+[`v0.3.0`](https://github.com/AndrejRumenovski/StericX/releases/tag/v0.3.0), and Zenodo
+archived that exact tag as version DOI
+[`10.5281/zenodo.22309199`](https://doi.org/10.5281/zenodo.22309199) under concept DOI
+[`10.5281/zenodo.21726666`](https://doi.org/10.5281/zenodo.21726666).
+
+The final publication checks were:
+
+```bash
+git rev-parse HEAD
+git rev-parse v0.3.0^{}
+gh release view v0.3.0 \
+  --json url,isDraft,isPrerelease,tagName,targetCommitish,publishedAt
+curl -fsSL \
+  "https://zenodo.org/api/records?q=conceptrecid:21726666&all_versions=true&size=10"
+```
+
+The two Git revisions both printed the release commit above; the GitHub release reported
+`isDraft=false` and `isPrerelease=false`; and the Zenodo record reported version `0.3.0`,
+status `published`, record `22309199`, and archive file `StericX-v0.3.0.zip`.

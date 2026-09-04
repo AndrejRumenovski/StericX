@@ -940,7 +940,8 @@ please cite the original work:
 > DOI: [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666).
 
 The concept DOI [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666) resolves
-to the latest version. Version DOIs: v0.2.0 =
+to the latest version. Version DOIs: v0.3.0 =
+[10.5281/zenodo.22309199](https://doi.org/10.5281/zenodo.22309199), v0.2.0 =
 [10.5281/zenodo.21985632](https://doi.org/10.5281/zenodo.21985632), v0.1.0 =
 [10.5281/zenodo.21726667](https://doi.org/10.5281/zenodo.21726667).
 

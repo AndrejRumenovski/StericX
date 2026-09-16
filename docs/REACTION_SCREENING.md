@@ -53,6 +53,7 @@ mkdir -p .stericx/reaction-screening-tutorial
   --ligand-class "monodentate phosphorus(III)" \
   --source-url "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv" \
   --response-temp-k 298.15 \
+  --response-sign-convention "Magnitude |ddG| from ddG_abs; larger values mean greater enantioselectivity; no R/S assignment." \
   --optimize maximize \
   --bootstrap 1000 \
   --permutations 500 \
@@ -68,7 +69,9 @@ The important outputs are:
 
 The explicit Study 011 seed makes bootstrap and permutation results repeatable. This is the
 first predefined split, not a split selected after comparing its performance. `--optimize maximize`
-records the chemical objective: a larger predicted ΔΔG‡ ranks higher. Change the optimization
+records the chemical objective: a larger predicted |ΔΔG‡| ranks higher. The explicit
+response convention records that `ddG_abs` predicts magnitude, not the favored enantiomer.
+When the flag is omitted, new models state that the convention is unspecified. Change the optimization
 direction only when the response definition for your reaction requires it.
 
 ## 2. Inspect and validate the fitted model

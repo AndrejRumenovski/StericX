@@ -68,6 +68,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             ligand_class,
             source_url,
             response_temp_k,
+            response_sign_convention,
             omit_bootstrap_ensemble,
             optimize,
         } => commands::fit::fit_command(
@@ -92,6 +93,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                     notes: Vec::new(),
                 },
                 response_temp_k,
+                response_sign_convention,
                 omit_bootstrap_ensemble,
                 optimization: optimize.into(),
             },

@@ -119,6 +119,10 @@ pub(crate) enum Command {
         /// Temperature the response refers to, in kelvin.
         #[arg(long)]
         response_temp_k: Option<f32>,
+        /// Definition of the target's sign or magnitude, recorded in
+        /// the portable model. No R/S assignment is inferred from numeric data.
+        #[arg(long, requires = "portable_model")]
+        response_sign_convention: Option<String>,
         /// Omit the bootstrap replicate ensemble from the portable model.
         ///
         /// The ensemble is what lets `screen` report an uncertainty interval

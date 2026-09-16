@@ -14,47 +14,40 @@ reproducibility · organophosphorus ligands
 
 ## Abstract
 
-StericX is a from-scratch Rust engine for physical-organic molecular
-featurization. It computes Sterimol (\(L, B_1, B_5\)) and coordination-aware
-buried-volume descriptors from Cartesian coordinates. This report evaluates
-whether an independent implementation can reproduce two published results: (i)
-the Kraken buried-volume descriptor `vbur_max_delta_qvbur_min`, and (ii) the
-ten-ligand nickel-catalyzed homo-Diels–Alder (Ni-hDA) enantioselectivity
-relationship. Against `morfeus`, StericX reproduces Sterimol parameters to
-\(R^2 \ge 0.9999\) and buried-volume geometry to numerical precision
-(\(R^2 = 1.000000\)). A two-step controlled experiment then isolates the source
-of a residual descriptor gap. Changing only the conformer geometry source, the
-native descriptor rises from \(R^2 = 0.8626\) (RDKit/MMFF) to \(0.9254\)
-(CREST/GFN2-xTB) to \(0.9937\) on Kraken's own DFT geometries, localizing the
-gap to geometry rather than the kernel. Adopting Kraken's documented 2.28 Å
-reference-metal distance (from the 2.1 Å used to isolate geometry) then resolves
-the remaining offset, reaching \(R^2 = 0.9986\) (Pearson \(r = 0.9998\)). The
-result generalizes: across all 1,541 Kraken ligands with a published value and
-DFT geometry (31,611 conformers), the kernel reproduces the descriptor with
-\(R^2 = 0.9852\) and a median absolute error of 0.11 Å³, reproduces Kraken's
-entire published buried-volume descriptor family (eight descriptors) over the
-same set at a mean \(R^2 = 0.9925\), and — once the coordination-axis convention
-is matched — reproduces Kraken's published Sterimol (\(L\), \(B_1\), \(B_5\)) at
-a mean \(R^2 = 0.9887\). A third descriptor class, pyramidalization
-(`pyr_P`, `pyr_alpha`), is reproduced across the same set at a mean
-\(R^2 = 0.99998\). Scaling to the full set also exposed and
-fixed a genuine frame-construction bug affecting primary and secondary
-phosphines (§3.5), which the eleven trisubstituted ligands could not trigger.
-Beyond the descriptors, a StericX buried-volume quantity reproduces a *second,
-independent* published reaction model — the %Vbur(min) cross-coupling reactivity
-classifier of Newman-Stonebraker et al. (§3.7) — and, computing the same
-descriptor as the reference Python tool `morfeus` on identical geometries, StericX
-is ≈14× faster on a single core as a dependency-free binary (§3.8). A frozen,
-hash-anchored prospective prediction with pre-registered uncertainty and an
-explicit falsification protocol is placed on the record (§4).
+StericX is an independent Rust implementation of molecular geometric descriptors:
+Sterimol, coordination-aware buried volume, and donor pyramidalization. This report
+separates numerical agreement with reference software, reproduction of published
+descriptors, and reaction-prediction performance. On eleven matched structures,
+Sterimol agrees with `morfeus` at \(R^2 \ge 0.9999\), with a \(B_1\) RMSE of
+0.0105 Å; the buried-volume reference check on 56 conformers from eleven ligands
+gives \(R^2 = 1.000000\) to the reported precision. Changing the geometry/conformer pipeline from RDKit/MMFF to
+CREST/GFN2-xTB to Kraken's published DFT structures raises agreement with
+`vbur_max_delta_qvbur_min` from \(R^2 = 0.8626\) to 0.9254 to 0.9937 at a fixed
+2.1 Å virtual-metal distance. Adopting Kraken's documented 2.28 Å distance gives
+\(R^2 = 0.9986\), while a residual remains.
 
-**The reproduction is deliberately honest, and the honesty is the point.** The
-compact StericX native descriptor set does **not** substitute for the published
-coordination-aware descriptor on the small Ni-hDA family — a leave-one-out
-\(Q^2 \approx 0.002\), no better than guessing the mean, reported here rather than
-hidden — and every failed validation gate is retained alongside the passed ones. A
-suspiciously perfect reproduction would be less trustworthy than one that shows
-exactly where an independent implementation stops working.
+Across the 1,541 ligands with matched published values and available DFT geometry
+(31,611 conformers), that descriptor gives \(R^2 = 0.9852\), median absolute
+error 0.11 Å³, and 90th-percentile absolute error 0.71 Å³. Unweighted means of
+per-descriptor \(R^2\) are 0.9925 for eight buried-volume comparisons, 0.9887 for
+six Sterimol extrema, and 0.99998 for four pyramidalization extrema. These
+summaries describe agreement with published values; they are not reaction-model
+scores or proof of universal geometric accuracy. Scaling also exposed a donor-frame
+bug affecting phosphines with bonded hydrogens, which was fixed without removing
+previously validated ligands.
+
+The published-descriptor Ni-hDA model is reproduced on ten training ligands, but
+compact native features give fixed-feature leave-one-out \(Q^2 \approx 0.002\).
+A separate retrospective ligand-ranking experiment gives top-1 recovery 0.158
+versus 0.333 for exact random selection, including ten failed screens among 57
+planned splits. Ni and Pd cross-coupling datasets from Newman-Stonebraker et al.
+provide further retrospective descriptor and classifier comparisons. In the
+recorded single-core, warm-cache benchmark, StericX runs about 14× faster than
+`morfeus` for the buried-volume workload; the full paired agreement is
+\(R^2 = 0.9985\). A ten-candidate forecast is frozen, but no experimental
+outcomes are recorded and its absolute-selectivity target needs clearer treatment
+before experimental use. The evidence supports a fast descriptor implementation
+with documented limitations, not a validated method for choosing new catalysts.
 
 ---
 
@@ -75,26 +68,40 @@ reference tools, and where do differences from published values originate?
 
 ## 2. Methods
 
-**Descriptor kernels.** Sterimol \(L, B_1, B_5\) are computed by aligning the
-attachment vector to the \(z\)-axis and scanning the van der Waals envelope.
-Buried volume uses a deterministic voxel grid with a virtual metal centre placed
-2.1 Å from the donor; quadrant/octant occupancies yield `qvbur` and the anisotropy
-descriptor `max_delta_qvbur`. All studies use identical geometric settings
-(sphere radius 3.5 Å, grid density 0.01 Å³, centre distance 2.1 Å, radii scale
-1.17) so that only the input geometry varies between them.
+**Descriptor kernels and conventions.** Sterimol \(L, B_1, B_5\) are computed by
+aligning an attachment vector to the \(z\)-axis and scanning the van der Waals
+envelope. Buried volume uses a deterministic voxel grid around a virtual metal;
+quadrant/octant occupancies yield `qvbur` and the anisotropy descriptor
+`max_delta_qvbur`. The geometry-source comparison in §3.3 holds the sphere radius
+at 3.5 Å, grid density at 0.01 Å³, centre distance at 2.1 Å, and Bondi radii scale
+at 1.17. The subsequent convention comparison and full-library studies use
+2.28 Å; the grid study explicitly varies density. These settings are therefore
+not identical across every study. Coordination-axis Sterimol uses the same
+virtual-metal distance and a +0.40 Å correction on \(L\).
 
-**Reference tools and data.** Sterimol and buried-volume references are computed
-with `morfeus`. Published descriptors and the Ni-hDA dataset are the public
-Kraken table and the Ni-Catalyzed-hDA repository. Kraken's DFT geometries were
-retrieved from the public MolSSI descriptor-library REST API; the API's
-per-conformer `vbur_max_delta_qvbur` minimum matches the published
-`vbur_max_delta_qvbur_min`, confirming provenance.
+**Reference tools and data.** `morfeus` supplies the matched-geometry reference
+calculations. Published descriptors and Ni-hDA responses come from the public
+Kraken table and the Ni-Catalyzed-hDA repository. Kraken DFT geometries are
+retrieved through the MolSSI descriptor-library API. Matching API per-conformer
+`vbur_max_delta_qvbur` minima to the published `vbur_max_delta_qvbur_min` supports
+the data mapping. The matched set is 1,541 ligands; this is an availability-defined
+subset of the published organophosphorus collection, not all possible phosphines.
+The Ni-hDA response is `ddG_abs`, the magnitude of the enantioselectivity-derived
+free-energy difference. It contains no label for which enantiomer is favored.
 
-**Quantum geometries.** CREST 2.12 / GFN2-xTB 6.4.0 (checksum-pinned) generate
-conformer ensembles for the xTB-geometry study. Kraken's reference geometries
-were optimized at PBE/6-31+G(d,p) with GD3BJ dispersion (Gaussian), with
-PBE0/def2-TZVP single points — a level StericX does not recompute and instead
-consumes directly.
+**Geometry sources.** CREST 2.12 / GFN2-xTB 6.4.0 generate the semi-empirical
+conformer ensembles. The Kraken study consumes the authors' published DFT
+geometries directly; it does not reproduce the complete conformer-search,
+optimization, energy, or electronic-property pipeline. The reported reference
+workflow uses PBE/6-31+G(d,p) with GD3BJ dispersion for geometry optimization and
+PBE0/def2-TZVP single points.
+
+**Metrics.** Descriptor \(R^2\) measures reproduced-versus-reference agreement;
+RMSE, absolute errors, and slopes expose differences a rounded \(R^2\) can hide.
+A mean across descriptor \(R^2\) values is a descriptive summary, not a pooled
+accuracy or an equivalence test. Reaction fit, leave-one-out, reaction-held-out,
+and scaffold-held-out results are labeled separately. Repeated ligand–reaction
+rows and overlapping ranking splits are not independent observations.
 
 ## 3. Results
 
@@ -106,16 +113,21 @@ consumes directly.
 | \(B_1\) | 0.999959 | 0.0105 Å |
 | \(B_5\) | 1.000000 | 0.000001 Å |
 
-The \(B_1\) residual is a known angular-discretization difference (1° scan vs a
-denser search).
+The \(B_1\) residual is attributed to the angular search resolution (1° scan
+versus a denser search). Values printed as zero are rounded, not proofs of exact
+equality.
 
 ### 3.2 Buried-volume geometry kernel
 
-On identical structures the StericX voxel kernel matches `morfeus` buried volumes
-to \(R^2 = 1.000000\) (worst mean relative error \(8\times10^{-6}\)%). The kernel
-is therefore not the source of any disagreement with published values.
+On 56 matched conformers from eleven ligands, the StericX voxel kernel agrees
+with `morfeus` at \(R^2 = 1.000000\) to the reported precision. The largest
+mean relative error among the six per-conformer quantities is
+\(8.09\times10^{-6}\)%; ensemble difference quantities have larger relative
+errors, up to \(4.47\times10^{-5}\)%. This supports fidelity of the tested integration path
+under matched inputs and conventions; it does not exclude errors in other
+structures, frames, or derived descriptors.
 
-### 3.3 Localizing and resolving the descriptor gap
+### 3.3 Geometry and convention contributions to descriptor agreement
 
 **Step 1 — isolate the geometry.** Holding the descriptor kernel and a fixed
 2.1 Å geometric coordination centre, varying only the conformer geometry source
@@ -127,34 +139,36 @@ is therefore not the source of any disagreement with published values.
 | CREST / GFN2-xTB | 0.9254 | semi-empirical ensemble (322 conformers) |
 | Kraken's own DFT | 0.9937 | \(r = 0.9993\), RMSE 0.5682 Å³ (135 conformers) |
 
-Agreement rises monotonically with geometry quality and reaches \(R^2 = 0.9937\)
-on the reference DFT structures, with a near-constant offset — localizing the
-earlier shortfall to conformer geometry generation, not the kernel.
+Agreement increases across these three geometry/conformer pipelines and reaches
+\(R^2 = 0.9937\) on the reference DFT structures, with a remaining offset. This
+shows that the input pipeline explains much of the earlier shortfall. Because
+the ensembles differ in size and generation method, this is not a comparison of
+electronic-structure accuracy alone.
 
-**Step 2 — resolve the residual.** Kraken's descriptor code
+**Step 2 — test the reference-metal distance.** Kraken's descriptor code
 (`PL_dft_library_201027.py`) places the reference metal 2.28 Å from phosphorus,
-not the 2.1 Å used above. Adopting that documented value closes the offset:
+rather than the 2.1 Å used above. Adopting that documented value reduces the
+offset:
 
 | Reference-metal distance | \(R^2\) | RMSE (Å³) | Slope |
 |---|---:|---:|---:|
 | 2.1 Å (geometry-isolating baseline) | 0.9937 | 0.5682 | 0.93 |
 | 2.28 Å (Kraken's convention) | **0.9986** | **0.2725** | 0.98 |
 
-At Kraken's convention the kernel reproduces the published descriptor on
-identical DFT geometries to \(R^2 = 0.9986\) (Pearson \(r = 0.9998\); Fig. 1),
-confirming the residual was a coordination-centre convention difference.
+At Kraken's distance, agreement on the published DFT geometries is
+\(R^2 = 0.9986\) (Pearson \(r = 0.9998\); Fig. 1). RMSE remains 0.2725 Å³,
+so matching the distance improves agreement without fully reproducing the
+reference coordination centre or descriptor.
 
-**Generalization to the full library.** Repeating the experiment at Kraken's
-2.28 Å convention across every Kraken ligand with a published value and DFT
-geometry — 1,541 ligands, 31,611 conformers spanning the full organophosphorus
-chemical space — gives \(R^2 = 0.9852\), Pearson \(r = 0.9927\), and a median
-absolute error of 0.11 Å³ (Fig. 2). This value follows the frame fix of §3.5; the
-wider spread than the eleven Ni-hDA ligands is expected across such diverse
-chemistry, and the large-sample agreement confirms the conclusion is not specific
-to the Ni-hDA chemotype. The error distribution is heavy-tailed — median 0.11 Å³,
-90th/95th/99th percentiles 0.71/1.08/1.88 Å³ — so, as the correct summary for
-such a distribution (not outlier removal), the full-set \(R^2\) of 0.9852 rises to
-0.9897 when the largest-residual 1% of ligands is excluded and to 0.9936 at 5%.
+**Matched-library comparison.** At 2.28 Å, all 1,541 Kraken ligands with matched
+published values and available DFT geometry (31,611 conformers) give
+\(R^2 = 0.9852\), Pearson \(r = 0.9927\), and median absolute error 0.11 Å³
+(Fig. 2), after the frame fix in §3.5. This broadens the structural scope beyond
+the eleven Ni-hDA ligands without establishing coverage of all organophosphorus
+chemical space. The absolute-error distribution has 90th/95th/99th percentiles
+0.71/1.08/1.88 Å³. Removing the largest-residual 1% or 5% raises \(R^2\) to
+0.9897 or 0.9936; these residual-trimmed sensitivity summaries are secondary.
+The untrimmed 0.9852 value remains the headline result.
 
 ![Figure 1. Buried-volume descriptor on Kraken's DFT geometries, 11 Ni-hDA ligands, at Kraken's 2.28 Å convention.](study_004/kraken_dft_parity.png)
 
@@ -166,14 +180,12 @@ Ni-hDA ligands, Kraken DFT geometries, 2.28 Å convention (\(R^2 = 0.9986\)).*
 *Figure 2. The same kernel across 1,541 ligands / 31,611 DFT conformers
 (\(R^2 = 0.9852\), median absolute error 0.11 Å³).*
 
-**The whole buried-volume family, not one descriptor.** `max_delta_qvbur` is a
-derived quantity, so reproducing it alone leaves open whether the underlying
-buried-volume computation is right or merely right on that one contrast. The
-same kernel run produces Kraken's entire `vbur` family, so each member was
-compared against Kraken's *published* value across the 1,541 ligands, at the
-published minimum over the conformer ensemble (`studies/study_004_vbur_family.py`,
-`study_004/STUDY_004_FAMILY.md`). Every descriptor reproduces, mean
-\(R^2 = 0.9925\) (Fig. 3):
+**Eight buried-volume quantities.** Beyond the derived `max_delta_qvbur`, the
+study compares eight buried-volume quantities against published values across
+1,541 ligands, using the minimum of each quantity over its conformer ensemble
+(`studies/study_004_vbur_family.py`, `study_004/STUDY_004_FAMILY.md`). The
+unweighted mean \(R^2 = 0.9925\) summarizes the eight comparisons below (Fig. 3);
+it does not cover all published aggregation conventions.
 
 | Descriptor | Kraken property | \(R^2\) |
 |---|---|---:|
@@ -186,10 +198,9 @@ published minimum over the conformer ensemble (`studies/study_004_vbur_family.py
 | Far hemisphere | `vbur_far_vbur` | 0.9940 |
 | Max Δ quadrant | `vbur_max_delta_qvbur` | 0.9852 |
 
-The `max_delta_qvbur` value here (0.9852) is computed by an independent path
-from the §3.3 scaled study yet lands on the same number — an internal
-consistency check. The near and far hemispheres correlate in the correct sense
-(no axis swap), confirming the octant partitioning is oriented as Kraken's.
+The repeated `max_delta_qvbur` result (0.9852) is an internal consistency check
+between study drivers sharing the descriptor implementation. Near/far hemisphere
+agreement also supports the orientation convention used in these comparisons.
 
 ![Figure 3. Buried-volume descriptor family vs published Kraken values.](study_004/kraken_vbur_family_parity.png)
 
@@ -203,9 +214,9 @@ completely separate kernel. It also repeated the §3.2 lesson about conventions.
 StericX's default Sterimol axis runs along a P–substituent bond, but Kraken
 measures Sterimol along the **coordination axis** — a virtual metal 2.28 Å from
 phosphorus on the lone pair, the *same* centre the buried volume uses, with the
-historical +0.40 Å Verloop correction on \(L\). That distance was not assumed:
-sweeping it, 2.28 Å is the one value at which the published \(L\) falls on the
-diagonal, exactly mirroring §3.2. With the axis matched (exposed as
+historical +0.40 Å Verloop correction on \(L\). The 2.28 Å distance follows the
+reference convention; agreement is not exact, with median absolute errors for
+\(L\) of about 0.11 Å. With the axis matched (exposed as
 `stericx descriptors --sterimol-axis coordination`), StericX reproduces Kraken's
 published Sterimol across the 1,541 ligands at each conformer-ensemble extreme,
 mean \(R^2 = 0.9887\) (`studies/study_004_sterimol.py`,
@@ -229,10 +240,11 @@ both defined by `morfeus`' `Pyramidalization` class. Reading that definition,
 `pyr_P` reduces to the absolute scalar triple product of the donor's three unit
 bond vectors, \(|\det[\hat{a}, \hat{b}, \hat{c}]|\) (with `morfeus`' \(2 - P\)
 acute correction), and `pyr_alpha` to the mean signed out-of-plane angle. StericX
-reimplements both natively in Rust; on identical coordinates they match `morfeus`
-to machine precision (\(4.4 \times 10^{-16}\) and \(2.8 \times 10^{-14}\)),
-confirming the definitions before any scale test. Run on Kraken's DFT conformers,
-the native kernel reproduces the published values across the 1,541 ligands at
+implements these definitions in Rust using `f32` coordinates and arithmetic.
+The study narrative reports double-precision checks of the closed forms against
+`morfeus`; those are not the numerical precision of the native Rust path. Run on
+Kraken's DFT conformers, the native kernel agrees with published values across
+1,541 ligands at
 each conformer-ensemble extreme (mean \(R^2 = 0.99998\);
 `studies/study_005_pyramidalization.py`, `study_005/STUDY_005.md`, Fig. 5):
 
@@ -241,13 +253,12 @@ each conformer-ensemble extreme (mean \(R^2 = 0.99998\);
 | `pyr_P` | 0.999983 | 0.999977 |
 | `pyr_alpha` | 0.999979 | 0.999968 |
 
-The agreement is higher than the buried-volume family or Sterimol, and is
-expected rather than tuned: pyramidalization depends only on the three bond
-directions, so it is insensitive to the virtual-metal centre, sphere radius, and
-lone-pair conventions that bound the buried-volume agreement (§3.2–3.3). The
-residual (RMSE \(\sim 2 \times 10^{-4}\) for `pyr_P`, \(\sim 0.03^\circ\) for
-`pyr_alpha`) tracks the 4-decimal coordinate precision of the cached DFT SDFs,
-not a method difference.
+Pyramidalization depends on the three donor bond directions and does not use the
+virtual-metal centre or integration sphere. Its small residuals (RMSE
+\(\sim 2 \times 10^{-4}\) for `pyr_P`, \(\sim 0.03^\circ\) for `pyr_alpha`)
+are consistent with the finite precision of the cached DFT SDF coordinates.
+That explanation is plausible, but a high \(R^2\) alone does not isolate the
+source of the remaining difference.
 
 ![Figure 5. Pyramidalization vs published Kraken values.](study_005/kraken_pyramidalization_parity.png)
 
@@ -257,207 +268,226 @@ not a method difference.
 
 ### 3.4 Ni-hDA enantioselectivity reproduction
 
-Using the preregistered Kraken descriptor `vbur_max_delta_qvbur_min`, an ordinary
-least-squares model over ten training ligands reproduces the published
-relationship (training \(R^2 = 0.8193\), leave-one-out \(Q^2 = 0.7521\),
-LOO RMSE 0.3430 kcal/mol; historical-blind ligand 723 MAE 0.3730 kcal/mol). The
-CREST-geometry buried-volume model gives fixed-feature LOO \(Q^2 = 0.5941\) and a
-historical ligand-723 error of 0.1107 kcal/mol.
+Using the published Kraken descriptor `vbur_max_delta_qvbur_min`, an ordinary
+least-squares model over ten training ligands reproduces the reported
+relationship: training \(R^2 = 0.8193\), fixed-feature leave-one-out
+\(Q^2 = 0.7521\), and LOO RMSE 0.3430 kcal/mol. The one historical holdout,
+ligand 723, has absolute error 0.3730 kcal/mol. This known historical outcome is
+not a new prospective test and cannot support a holdout \(R^2\). The
+CREST-geometry buried-volume model gives fixed-feature LOO \(Q^2 = 0.5941\) and
+ligand-723 absolute error 0.1107 kcal/mol.
 
-**The honest negative result — stated here, not just in the limitations.**
-Reproducing the *published* descriptor's relationship is not the same as claiming
-StericX's own features solve this reaction. Substituting StericX's compact native
-descriptor set — Sterimol \(L/B_1/B_5\) with donor NBO charge, in place of the
-coordination-aware `vbur_max_delta_qvbur_min` — collapses the model to a
-leave-one-out \(Q^2 \approx 0.002\): no better than predicting the training mean.
-StericX reproduces the coordination-aware descriptor faithfully, but its compact
-steric–electronic features do **not** capture Ni-hDA enantioselectivity on ten
-ligands. That ablation is exactly the kind of negative result a reproduction
-exists to surface, and it is reported in full rather than quietly dropped.
+Substituting the compact StericX feature workflow (geometric Sterimol with
+externally supplied donor NBO charge) selects `B5_x_nbo_charge` and gives
+fixed-feature LOO \(Q^2 \approx 0.002\), with RMSE 0.6882 kcal/mol. This result
+does not support using those features to predict Ni-hDA selectivity on this
+small dataset. Because the feature is held fixed during this LOO calculation,
+it is not an unbiased evaluation of the full feature-selection procedure.
+Separately reported nested ridge and lasso baselines are also unfavorable
+(\(Q^2 = -0.130\) and \(-0.350\)). The feature-ablation result and the
+published-descriptor reproduction answer different questions; neither is
+prospective validation.
 
 ### 3.5 A frame-construction bug surfaced and fixed at scale
 
-Scaling from eleven trisubstituted ligands to the full library exposed a genuine
-kernel bug that the Ni-hDA subset could never trigger. The quadrant scan needs a
-donor's three substituents to build its coordinate frame, and the kernel had
-identified them as the donor's **three nearest heavy atoms**. For a
-trisubstituted phosphine this rule is exact — no non-bonded atom can lie closer
-to phosphorus than a real P–X bond — but it silently mis-framed **primary and
-secondary phosphines** (R–PH₂, R₂P–H). Discarding the bonded hydrogens, the rule
-reached instead for distant non-bonded carbons, which either placed the
-coordination centre in empty space (a spurious `max_delta_qvbur = 0`, since only
-the donor atom then fell inside the integration sphere) or skewed it into a gross
-overestimate. Six ligands returned an unphysical exact zero and, because the
-descriptor is a minimum over the conformer ensemble, a single such conformer
-poisoned the whole ligand.
+The original quadrant-frame heuristic used the donor's three nearest heavy
+atoms. In primary and secondary phosphines (R–PH₂, R₂P–H), this discards bonded
+hydrogens and can substitute distant non-bonded carbons. Six ligands returned
+spurious zero `max_delta_qvbur` values in the initial study. Because the published
+quantity takes the minimum over conformers, one invalid conformer can affect the
+whole ligand's result. A nearest-heavy-atom rule also has no general guarantee
+of identifying all bonded substituents in other geometries.
 
-The fix replaces the nearest-heavy heuristic with covalent-radius bond detection:
-the frame is now built from the donor's covalently bonded atoms, **hydrogens
-included** (hydrogens still contribute no occupied volume — they participate only
-in defining the geometric frame). Two atoms are treated as bonded when their
-separation is within 1.3× their summed Cordero covalent radii; real P–X bonds sit
-near 1.0× that sum while the nearest non-bonded contact is ~1.5×, so the two
-populations separate cleanly. A defensive guard additionally refuses to emit any
-symmetric zero `max_delta_qvbur` from a collapsed frame. The change is identical
-to the previous behaviour for every trisubstituted donor — so the Study 002
-morfeus parity, the 11-ligand \(R^2 = 0.9986\), and all descriptor fidelity
-metrics are unchanged — and correct for the rest. It removed every spurious zero,
-tightened the residual tail (the top five ligands' share of squared error fell
-from 50% to 18%), and raised the full-set \(R^2\) from 0.9649 to 0.9852
-**without discarding a single ligand**. The validated count in fact *rose* from
-1,535 to 1,541 as small phosphines that the old heavy-atom count had wrongly
-rejected became admissible.
+The fix uses covalent-radius bond detection, including hydrogens in the frame:
+two atoms are treated as bonded when their separation lies within 1.3 times the
+sum of their Cordero covalent radii. Hydrogens define the donor frame but are
+excluded from occupied volume in these buried-volume comparisons. Frame guards
+reject degenerate constructions. This remains a geometry-based bonding heuristic,
+not a general electronic bonding assignment.
 
-### 3.6 Localizing the residual with an internal control
+The recorded full-set \(R^2\) rose from 0.9649 to 0.9852 and the validated count
+from 1,535 to 1,541, without discarding a previously validated ligand. Every
+spurious zero in that comparison was removed, and the top five ligands' share of
+squared error fell from 50% to 18%. The eleven-ligand Ni-hDA comparison remained
+unchanged. Residuals after the fix are evaluated separately below.
 
-The residual that remains after the frame fix is confined to the 24 primary and
-secondary phosphines and grows ~0.7 Å³ per P–H bond (§3.5). That was attributed
-to the geometric lone-pair centre standing in for Kraken's xTB
-localized-molecular-orbital centre. A controlled test settles the attribution
-rather than asserting it. StericX computes six descriptors from the *same* DFT
-geometries, split by their dependence on the coordination centre: buried volume
-and Sterimol \(L\), \(B_1\), \(B_5\) are anchored on the centre / lone-pair axis,
-whereas pyramidalization (`pyr_P`, `pyr_alpha`, §3.3) is computed purely from the
-three donor→substituent bond vectors and never references the centre at all. If
-the residual is a centre artefact it must appear in the former and vanish in the
-latter — on the same ligands, which no kernel or geometry error could fake.
+### 3.6 Evidence for a coordination-centre contribution to residual bias
 
-Measuring each descriptor's signed residual against P–H count and standardizing
-by its own residual spread, the four centre-coupled descriptors shift by a mean
-of 1.54 residual-σ per P–H bond (the signs differ — a mis-placed axis lengthens
-some measures and shortens others), while the two centre-free pyramidalization
-descriptors are flat at 0.04 σ — an order-of-magnitude separation. Because
-pyramidalization shares the donor, geometries, covalent-radius frame, and `f32`
-kernel with the buried volume and differs only in never placing the coordination
-centre, the kernel, the frame, and the geometries are ruled out: the residual is
-specifically the geometric lone-pair centre diverging from Kraken's xTB centre,
-exactly where a P–H bond replaces a bulky substituent with a short, light one
-(`studies/study_006_residual_localization.py`, `study_006/STUDY_006.md`).
+Residual error remains across the library. The 1,517 tertiary phosphines have
+mean signed residual −0.010 Å³ but mean absolute residual 0.256 Å³; a small
+average bias does not imply negligible individual error. The nine secondary and
+fifteen primary phosphines show larger positive mean residuals, +0.781 and
++1.457 Å³, respectively, for `max_delta_qvbur`.
 
-### 3.7 An independent second reaction model
+Study 006 compares four centre-coupled descriptors (buried volume and Sterimol
+\(L, B_1, B_5\)) with two centre-free pyramidalization descriptors on the same
+geometries. The mean absolute standardized residual slope is 1.54 residual
+standard deviations per P–H bond for centre-coupled descriptors versus 0.04 for
+pyramidalization. This pattern supports the hypothesis that the geometric
+lone-pair centre contributes to the P–H-dependent bias relative to Kraken's
+xTB localized-molecular-orbital centre.
 
-The Ni-hDA study (§3.4) is one reaction. To test whether a StericX descriptor
-supports reactivity modeling beyond it, we reproduce a separate published study:
-Newman-Stonebraker et al. (*Science* **2021**, *374*, 301) classify monodentate
-phosphines as catalytically active or inactive across a family of Ni
-cross-coupling reactions using a single-node decision-tree threshold on one
-descriptor — the minimum percent buried volume, %Vbur(min) — which StericX
-already reproduces at library scale (§3.3). On the authors' own high-throughput
-datasets (Reactions I–V and RS1; the experimental yields are read locally from
-the copyrighted supplementary information and not redistributed), StericX's
-independently-computed %Vbur(min) matches the published values across 479
-ligand–reaction data points at \(R^2 = 0.9992\) (mean absolute error 0.144%). A
-single-node tree fit on StericX's descriptor, with the paper's per-reaction yield
-cutoffs and class weighting, then recovers the paper's own classifier (its Table
-S11): the same decision thresholds (near 32% %Vbur(min) for the Ni datasets), the
-same direction, and matching mean accuracy and Matthews correlation (0.69 / 0.50
-for both). The per-reaction scores are intentionally modest — accuracy sits near
-the majority-class baseline for two reactions because the model's 20:1 active
-weighting trades accuracy to catch active ligands, and the honest metric, MCC, is
-a moderate 0.36–0.59 throughout (bootstrap 95% CIs are wide at these sample
-sizes, n = 34–89). This is expected of a deliberately univariate model that
-cannot see electronics or substrate; the result is that StericX reproduces the
-published model exactly — its successes and documented limitations alike — rather
-than papering over them.
+The comparison does not uniquely isolate that cause: these descriptors also
+differ in their mathematical definitions and sensitivity to geometry. It cannot
+rule out every frame, conformer, numerical, or descriptor-specific effect. A
+stronger test would substitute the reference centre on identical geometries and
+recompute each affected descriptor. The present result is a mechanistic
+hypothesis supported by an internal comparison, with a small P–H subgroup
+(`study_006/STUDY_006.md`).
 
-Two further tests move past reproduction. First, **out-of-sample
-transferability**: the paper's real claim is that ~32% %Vbur(min) is a single
-transferable ligation cliff, not six independent thresholds. A universal
-threshold pooled across all 479 points sits at 32.8% (accuracy 0.68, MCC 0.49),
-and leave-one-reaction-out cross-validation — fitting the threshold on five
-reactions and predicting the sixth out-of-sample — holds the trained threshold
-near 33% with out-of-sample MCC positive throughout (0.41–0.54). The honest
-exception is Reaction V, whose own best-fit threshold jumps to 51% (matching the
-paper's reported 51.5); it is an outlier in threshold space, yet the shared ~32%
-cliff still predicts it out-of-sample at MCC 0.47, so it is not a transfer
-failure. Second, an **independent-geometry** check that removes the residual
-circularity of §3.3/§3.7 (which used Kraken's own cached coordinates): running
-StericX on the authors' *own* DFT free-ligand geometries — supplied in the
-supplementary information, optimized by a different group with a different DFT
-stack, and matched to Kraken IDs by molecular formula — for the 18 ligands also
-present in the reaction tables reproduces the published %Vbur(boltz) at \(R^2 =
-0.9735\) (offset +0.12%), with 16 of 18 falling inside the per-ligand %Vbur range
-StericX itself spans across Kraken's conformers. This is a fully independent path
-— their structures through StericX's kernel, with no shared coordinates
-(`studies/study_007_crosscoupling.py`, `study_007/STUDY_007.md`).
+### 3.7 A second published study: Ni cross-coupling
 
-### 3.8 Throughput: how much faster than the reference
+Newman-Stonebraker et al. (*Science* **2021**, *374*, 301) classify phosphines as
+active or inactive using a single-node decision tree on minimum percent buried
+volume, %Vbur(min). In Study 007, StericX descriptors agree with published values
+at \(R^2 = 0.9992\) and mean absolute error 0.144 percentage points across 479
+ligand–reaction rows from six Ni reaction datasets. Those rows span 103 ligands;
+they are not 479 independent ligand structures. Experimental yields are read
+locally from the supplementary information and are not redistributed.
 
-Reproducing a descriptor faithfully is necessary but not sufficient to be useful;
-speed is the other half. We benchmark StericX against morfeus, the reference
-Python implementation, computing the flagship buried-volume descriptor on the same
-1,546-ligand library, on the same single CPU core, both timed end-to-end from a
-warm file cache. StericX completes the library in 1.4 s (≈1,110 structures/s)
-against morfeus's 19.2 s (≈81 structures/s) — a **≈14× single-core speedup**. The
-comparison is conservative: StericX computes Sterimol and pyramidalization in the
-same timed pass, whereas morfeus is timed for buried volume alone. The speedup is
-not an artifact of computing a cheaper quantity — of the 1,534 phosphines morfeus
-can frame, 1,518 agree to \(R^2 = 0.999999\) (maximum absolute difference
-0.42 %Vbur); the 16 that differ are frame-topology cases (morfeus's nearest-three-
-heavy rule versus StericX's covalent bonding, §3.5–3.6), reported separately
-rather than averaged away. Combined with a single 1.9 MB dependency-free binary,
-the practical advantage at library scale is both the constant-factor speed and the
-absence of any interpreter or scientific-Python stack to deploy
-(`studies/study_008_speed_benchmark.py`, `study_008/STUDY_008.md`).
+Fitting the paper's per-reaction yield cutoffs and class weighting approximately
+recovers its classifiers. The unweighted mean accuracy/MCC round to 0.69/0.50
+for both StericX and the paper, but individual thresholds and scores differ. For
+Reaction I, for example, StericX accuracy/MCC are 0.765/0.588 versus the paper's
+0.79/0.62. Reaction V's threshold is 50.79% versus the paper's 51.53%, whereas
+the other five StericX thresholds lie near 32%. These are retrospective fitted
+scores, not held-out predictive performance. Per-reaction MCC ranges from 0.36
+to 0.59, with wide bootstrap intervals at n = 34–89.
 
-## 4. Limitations (reported, not hidden)
+Pooling all 479 rows gives a threshold of 32.77% (accuracy 0.683, MCC 0.492).
+Leave-one-reaction-out evaluation gives MCC 0.41–0.54, with training thresholds
+32.41–33.12%. This tests transfer to a held-out reaction within the studied
+family; ligands recur across training and test reactions, so it does not test
+transfer to entirely unseen ligands or scaffolds.
 
-- **Compact native descriptors underperform.** StericX's own Sterimol/NBO feature
-  set does not replace the published coordination-aware descriptor for this
-  reaction family (native-descriptor LOO \(Q^2 \approx 0.002\)). This is an
-  intentional ablation.
-- **Small sample.** The Ni-hDA model has ten training ligands; leave-one-out
-  metrics are correspondingly unstable, and improved descriptor fidelity in §3.3
-  did not raise held-out kinetic \(Q^2\).
-- **Residual tail on the full set.** After matching Kraken's 2.28 Å convention
-  and the §3.5 frame fix, the median absolute error is 0.11 Å³ (90th percentile
-  0.71 Å³), but a thin minority of the 1,541 ligands scatter further. A residual
-  analysis (`studies/study_004_frame_residual.py`, `study_004/STUDY_004_RESIDUAL.md`)
-  localizes this precisely: the 1,517 **tertiary** phosphines (98.4% of the set)
-  are unbiased (mean residual −0.010 Å³, class \(R^2 = 0.9869\)), and the entire
-  systematic bias lives in the 24 primary and secondary phosphines, growing
-  monotonically by ~0.7 Å³ per P–H bond (+0.78 Å³ for R₂PH, +1.46 Å³ for RPH₂).
-  This is the signature of the one documented approximation — the geometrically
-  inferred lone-pair centre standing in for Kraken's exact xTB
-  localized-molecular-orbital centre, which the geometric construction cannot
-  reproduce for short P–H bonds. It is a genuine limit of that approximation, not
-  a fitted cut: the headline \(R^2\) is the full-set value over every ligand.
-- **No prospective validation *yet*, but a pre-registered one is on the record.**
-  A frozen ten-candidate Ni-hDA deck is elevated to a full pre-registration
-  (`study_003/PREREGISTRATION.md`, `scripts/preregister_prediction.py`): each
-  ΔΔG‡ prediction carries a 95% OLS prediction interval and a leverage-based
-  applicability-domain judgement (h\* = 3p/n = 0.60; 9 of 10 in domain), and the
-  document commits — by the deck's SHA-256, dated, before any measurement — to an
-  exact experimental protocol and a falsification rule (measured ΔΔG‡ within the
-  95% interval for ≥6 of 8 primary candidates *and* positive predicted-vs-measured
-  rank correlation, else falsified). Its experimental outcomes are unmeasured, so
-  no predictive-success claim is made; the honest limit is stated explicitly
-  (7 of 10 ee intervals span both enantiomers, so those near-racemate predictions
-  are not falsifiable on ee and the test runs on ΔΔG‡). The rigor of the open,
-  falsifiable prediction is the contribution — a lab measurement is required to
-  close it.
-- **DFT not recomputed.** §3.3 consumes Kraken's published DFT geometries rather
-  than regenerating them (Gaussian + NBO7 are proprietary; full re-optimization
-  is out of scope).
+A separate geometry comparison uses eighteen matched free-ligand structures
+from the reaction authors' supplementary information. These give
+\(R^2 = 0.9735\) against published %Vbur(boltz), mean signed offset +0.12
+percentage points, and sixteen values within the ranges of the Kraken conformer
+ensembles. This checks descriptor agreement using a different geometry source;
+it compares a representative structure to an ensemble-derived reference and
+does not validate a reaction prediction. The study driver and detailed results
+are in `studies/study_007_crosscoupling.py` and `study_007/STUDY_007.md`.
+
+Study 009 evaluates six Pd reaction datasets from the **same** published paper,
+including two datasets the paper assembled from other groups. It recovers the
+bulky-active direction for all six, with descriptor \(R^2 = 0.9994\) across 267
+ligand–reaction rows and mean fitted classifier MCC 0.64 versus the paper's
+0.67. These extend the retrospective comparison; Ni and Pd here are not two
+independent prospective validation studies.
+
+### 3.8 Throughput and agreement in the recorded benchmark
+
+Study 008 compares StericX and `morfeus-ml` 0.8.0 on 1,546 input structures
+(one geometry per ligand) on an AMD Ryzen 5 5600G. Both run with one software
+thread, read from a warm OS file cache, and are timed end-to-end; the fastest of
+three repetitions is reported. StericX takes 1.398 s (1,106 structures/s) versus
+19.237 s (80 structures/s), a 13.76× speedup. StericX also computes Sterimol and
+pyramidalization in its timed pass, while this `morfeus` benchmark computes
+buried volume. This is a specific workflow comparison, not a speed claim for
+all Python tools or all descriptors.
+
+Among all 1,534 paired outputs, agreement is \(R^2 = 0.998549\), mean absolute
+error 0.037 percentage points, and maximum absolute difference 8.55 percentage
+points. The benchmark labels sixteen differences greater than 0.5 percentage
+points as frame outliers; excluding these yields \(R^2 = 0.999999\) on 1,518
+pairs, with maximum absolute difference 0.422 percentage points. Frame
+conventions are a plausible contributor, but the cutoff is residual-based and
+does not independently establish the cause of each discrepancy. The full paired
+result is the primary agreement statistic.
+
+A larger recorded run over 31,721 conformers gives a 13.80× speedup and
+\(R^2 = 0.999800\) across 31,599 paired results. Absolute timings and ratios
+can change with hardware, builds, workload, and software versions; these are
+archived results, not measurements of the current checkout. The native binary
+avoids a Python runtime for descriptor calculations. Quantum geometry generation
+still uses external programs.
+
+### 3.9 Retrospective ligand ranking: a negative result
+
+Study 011 evaluates all 57 predefined, scaffold-disjoint three-candidate panels
+from the eleven labeled Ni-hDA ligands, training on the other eight. Top-1
+recovery is **0.158 versus 0.333** for exact random selection; top-2 recovery is
+0.465 versus 0.667. Ten screens fail during fitting, and the primary metrics
+include their predefined penalties. Among the 47 successful rankings, mean
+Spearman correlation is −0.340 and pooled RMSE is 1.219 kcal/mol.
+
+This experiment also exposed a descriptor mismatch: `fit` uses ensemble-averaged
+Sterimol values while the tested CSV screening path uses a representative
+conformer. Their predictions differ by as much as 1.209761 kcal/mol. The frozen
+experiment therefore evaluates that complete workflow, with model and descriptor
+aggregation effects confounded. Repeated ligands and overlapping splits prevent
+treating 57 panels as independent experiments. These findings do not support a
+claim of improved ligand selection; they identify a concrete priority for the
+next validation cycle. See `study_011/STUDY_011.md` and the locked design.
+
+### 3.10 Grid sensitivity
+
+Study 010 sweeps grid density for sixty ligands against a finer 0.001 Å³
+numerical reference. At the default 0.01 Å³ density, mean/max absolute %Vbur
+differences are 0.056/0.160 percentage points. This bounds observed grid
+sensitivity for that sample; it is not an analytic error bound, proof of exact
+integration, or an assessment of every derived quadrant descriptor.
+
+## 4. Limitations and prospective status
+
+- **Descriptor agreement and reactivity are separate.** Good agreement with
+  `morfeus` or Kraken does not validate a new reaction model. The compact-feature
+  Ni-hDA test and retrospective ranking study are unfavorable; the latter also
+  contains a fit/screen conformer-aggregation mismatch.
+- **Small and overlapping samples.** Ni-hDA has ten training ligands and one
+  historical holdout. Cross-coupling reaction splits reuse ligands; the 57
+  ranking panels overlap. These cannot be counted as independent experiments.
+- **Geometry and conventions remain material.** The library comparison consumes
+  published DFT structures, uses a geometric approximation to the coordination
+  centre, and has finite grid and angular-scan errors. P–H-dependent bias supports
+  a centre-related hypothesis but does not explain away all residuals. Direct
+  substitution of the published centre remains an open check.
+- **The ten-candidate forecast is unmeasured.** The repository retains a frozen
+  deck from the published-descriptor OLS model, with nominal 95% prediction
+  intervals and nine of ten candidates below the leverage warning threshold.
+  These intervals depend on linear-model assumptions and have no measured
+  prospective coverage. SHA-256 verifies artifact identity; a locally recorded
+  date and hash alone do not establish independent public preregistration.
+- **The frozen protocol needs a target-interpretation amendment.** The forecast
+  fits `ddG_abs`, a nonnegative magnitude. It cannot predict which enantiomer is
+  favored, and its negative OLS interval limits are not evidence for the opposite
+  enantiomer. The original protocol labels the feature as %Vbur even though
+  `vbur_max_delta_qvbur_min` is a volume contrast in Å³. It also claims that
+  changing from ee to ΔΔG makes an otherwise uninformative interval falsifiable;
+  a monotonic unit transformation cannot add information. Before adopting an
+  experimental protocol, document the magnitude response, response-domain
+  handling, source conditions, and scoring interpretation in a dated amendment
+  while preserving the original frozen deck and rule. The original criterion
+  (at least six of eight intervals covering and positive rank correlation) is
+  a proposed decision rule, not proof of predictive utility or calibrated 95%
+  coverage. No experimental execution or outcomes are documented here.
+- **Applicability labels are diagnostics.** Range, distance, and leverage can flag
+  extrapolation; labels such as `reliable` do not certify predictions. In Study
+  011, the interpolation stratum has descriptive RMSE 1.144 kcal/mol and nominal
+  95% interval coverage 0.648 across repeated predictions.
+- **Full quantum reproduction is out of scope.** The published DFT geometry and
+  electronic-property workflow is not recomputed. Geometry files, conformer
+  choice, atom assignment, and descriptor settings must accompany any use of the
+  reproduced descriptors.
 
 ## 5. Conclusion
 
-An independent reimplementation reproduces published Sterimol and buried-volume
-descriptors to reference precision. A two-step controlled experiment first
-localizes the descriptor-value gap to conformer geometry generation
-(\(R^2\): 0.86 → 0.93 → 0.99 as geometry quality increases) and then resolves the
-remaining offset by adopting Kraken's documented 2.28 Å coordination-centre
-distance (\(R^2 = 0.9986\), Pearson \(r = 0.9998\)). The conclusion holds across
-the full 1,541-ligand library (\(R^2 = 0.9852\), median error 0.11 Å³), and
-generalizes to three independent classical descriptor classes over that same
-library — the buried-volume family (mean \(R^2 = 0.9925\)), Sterimol
-(\(0.9887\)), and pyramidalization (\(0.99998\)). A StericX descriptor also
-reproduces a *separate* published reaction study — the %Vbur(min) cross-coupling
-reactivity classifier of Newman-Stonebraker et al. — recovering that model's own
-thresholds and accuracy (§3.7). Finally,
-the compact native descriptors are shown, honestly, not to substitute for the
-published coordination-aware descriptor on a small reaction family. All passed
-and failed gates are retained.
+StericX provides a native implementation of geometric ligand descriptors with
+strong measured agreement against `morfeus` and published Kraken values. The
+full matched-library result for `vbur_max_delta_qvbur_min` is
+\(R^2 = 0.9852\) over 1,541 ligands, median absolute error 0.11 Å³, with
+additional Sterimol, buried-volume-family, and pyramidalization comparisons.
+The recorded buried-volume benchmark is about 14× faster than the tested
+`morfeus` workflow on one CPU thread.
+
+The scientific contribution is the independently implemented, auditable descriptor
+workflow and its measured boundaries. Published reaction relationships can be
+approximately reproduced, but the current retrospective ligand-ranking result
+is below random and prospective experimental validation is absent. Matching
+fit/screen descriptor aggregation, testing the coordination-centre hypothesis
+directly, and designing a clearly specified prospective experiment are the next
+steps supported by the evidence.
 
 ## References
 
@@ -470,8 +500,9 @@ and failed gates are retained.
    S. E. A Data Science-Guided Approach for the Development of Nickel-Catalyzed
    Homo-Diels–Alder Reactions. *J. Am. Chem. Soc.* **2025**, *147* (34),
    31175–31186. DOI: 10.1021/jacs.5c09948.
-3. Luchini, G.; Paton, R. S. et al. `morfeus`: molecular featurizer.
-   https://github.com/digital-chemistry-laboratory/morfeus.
+3. Jorner, K. and contributors. `morfeus`: molecular featurizer.
+   [Official documentation and project attribution](https://digital-chemistry-laboratory.github.io/morfeus/#about);
+   [source repository](https://github.com/digital-chemistry-laboratory/morfeus).
 4. Newman-Stonebraker, S. H.; Smith, S. R.; Borowski, J. E.; Peters, E.; Gensch,
    T.; Johnson, H. C.; Sigman, M. S.; Doyle, A. G. Univariate Classification of
    Phosphine Ligation State and Reactivity in Cross-Coupling Catalysis. *Science*

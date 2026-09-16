@@ -2422,6 +2422,44 @@ fn export_deck(model: &Path, library: &Path, extra: &[&str]) -> (String, serde_j
     (text, meta)
 }
 
+#[test]
+fn deck_export_preserves_machine_readable_stdout() {
+    for format in ["json", "csv"] {
+        let deck = temp_path("csv");
+        let output = run(&[
+            "screen",
+            study_001_portable_model().to_str().unwrap(),
+            "--library",
+            study_001_library().to_str().unwrap(),
+            "--format",
+            format,
+            "--top",
+            "3",
+            "--export-deck",
+            deck.to_str().unwrap(),
+        ]);
+        assert_eq!(output.status, 0, "export failed: {}", output.stderr);
+        assert!(output.stderr.contains("deck metadata"));
+        if format == "json" {
+            let report: serde_json::Value = serde_json::from_str(&output.stdout)
+                .expect("exporting a deck must leave stdout as one complete JSON document");
+            assert_eq!(report["returned"], 3);
+        } else {
+            let mut reader = csv::Reader::from_reader(output.stdout.as_bytes());
+            assert_eq!(reader.headers().unwrap().get(0), Some("rank"));
+            let rows = reader
+                .records()
+                .collect::<Result<Vec<_>, _>>()
+                .expect("exporting a deck must leave stdout as a valid CSV table");
+            assert_eq!(rows.len(), 3);
+        }
+        let sidecar = deck.with_extension("meta.json");
+        assert!(deck.is_file() && sidecar.is_file());
+        std::fs::remove_file(deck).unwrap();
+        std::fs::remove_file(sidecar).unwrap();
+    }
+}
+
 fn deck_column(deck: &str, name: &str) -> Vec<String> {
     let mut lines = deck.lines();
     let header = lines.next().expect("the deck has a header");

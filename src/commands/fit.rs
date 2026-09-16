@@ -27,6 +27,7 @@ pub(crate) struct PortableModelRequest {
     pub(crate) model_id: Option<String>,
     pub(crate) reaction: ReactionProvenance,
     pub(crate) response_temp_k: Option<f32>,
+    pub(crate) response_sign_convention: Option<String>,
     /// Drop the bootstrap replicates before writing the document.
     pub(crate) omit_bootstrap_ensemble: bool,
     pub(crate) optimization: Optimization,
@@ -40,6 +41,13 @@ pub(crate) fn fit_command(
     options: FitOptions,
     portable: PortableModelRequest,
 ) -> Result<(), Box<dyn Error>> {
+    if portable
+        .response_sign_convention
+        .as_ref()
+        .is_some_and(|value| value.trim().is_empty())
+    {
+        return Err("--response-sign-convention must contain a target definition".into());
+    }
     let total_started = Instant::now();
     let rss_start = resident_memory_bytes();
     let reader = SigPackReader::open(data)?;
@@ -156,12 +164,16 @@ fn build_portable_model(
         },
         reaction: request.reaction.clone(),
     };
+    let mut response = ResponseSpec::transition_state_energy_difference(
+        request.response_temp_k,
+        request.optimization,
+    );
+    if let Some(convention) = &request.response_sign_convention {
+        response.sign_convention = convention.trim().to_owned();
+    }
     Ok(PortableModel::from_fit_report(
         report,
-        ResponseSpec::transition_state_energy_difference(
-            request.response_temp_k,
-            request.optimization,
-        ),
+        response,
         provenance,
         CreationMetadata::now("stericx fit"),
     )?)

@@ -185,7 +185,8 @@ impl ResponseSpec {
             description: "Transition-state free-energy difference between competing \
                           enantiomeric pathways."
                 .into(),
-            sign_convention: "ddG = G(S) - G(R); positive values favor the R product.".into(),
+            sign_convention:
+                "Not specified; follows the training target. No R/S assignment is inferred.".into(),
             temperature_k,
         }
     }

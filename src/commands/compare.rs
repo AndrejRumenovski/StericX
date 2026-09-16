@@ -208,7 +208,7 @@ fn print_compare_text(report: &CompareReport) {
 
     print!("\n{:<24}", "descriptor");
     for label in &labels {
-        print!("{label:>width$}");
+        print!("  {label:>width$}");
     }
     print!("{:>10}", "spread");
     if report.database.is_some() {
@@ -219,7 +219,7 @@ fn print_compare_text(report: &CompareReport) {
     for row in &report.descriptors {
         print!("{:<24}", row.descriptor);
         for value in &row.values {
-            print!("{value:>width$.3}");
+            print!("  {value:>width$.3}");
         }
         print!("{:>10.3}", row.spread);
         if report.database.is_some() {

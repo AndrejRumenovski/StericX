@@ -2022,12 +2022,16 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         DescriptorFormat::Csv => print_screen_csv(&report),
     }
     if let Some((deck, sidecar)) = deck_paths {
-        println!(
-            "\ndeck           {} ({} candidate(s))",
+        let notice = format!(
+            "deck           {} ({} candidate(s))\ndeck metadata  {}",
             deck.display(),
-            report.returned
+            report.returned,
+            sidecar.display()
         );
-        println!("deck metadata  {}", sidecar.display());
+        match args.format {
+            DescriptorFormat::Text => println!("\n{notice}"),
+            DescriptorFormat::Json | DescriptorFormat::Csv => eprintln!("{notice}"),
+        }
     }
     Ok(())
 }

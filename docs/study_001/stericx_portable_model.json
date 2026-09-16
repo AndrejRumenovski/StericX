@@ -323,7 +323,7 @@
       "name": "ddg_double_dagger",
       "units": "kcal/mol",
       "description": "Transition-state free-energy difference between competing enantiomeric pathways.",
-      "sign_convention": "ddG = G(S) - G(R); positive values favor the R product.",
+      "sign_convention": "Magnitude |ddG| from ddG_abs; larger values mean greater enantioselectivity; no R/S assignment.",
       "temperature_k": 298.15,
       "optimization": "maximize"
     },

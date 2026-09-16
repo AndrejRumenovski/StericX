@@ -1,20 +1,25 @@
 # StericX
 
-**StericX is a native-Rust engine that reproduces the published molecular steric
-descriptors used in modern catalysis research — with an order-of-magnitude speed
-improvement over the existing Python implementations.**
+**StericX is a native-Rust engine for molecular steric descriptors, evaluated
+against morfeus and published Kraken values across 1,541 ligands. Its recorded
+buried-volume benchmark is about 14× faster than morfeus on one CPU core.**
 
 [![CI](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml/badge.svg)](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21726666.svg)](https://doi.org/10.5281/zenodo.21726666)
 
 Chemists use *steric descriptors* — numbers that capture how big and what shape a ligand
-is — to predict how catalysts behave. The reference tools (Kraken, morfeus) are Python and
-tuned to specific research workflows. StericX is an **independent, from-scratch
-reproduction** of that toolchain as a single, dependency-free binary: it computes the same
-**Sterimol** and **buried-volume** descriptors straight from atomic coordinates, and is
-validated against both `morfeus` (numerically) and Kraken's *own published values* across
-the full 1,541-ligand library — with every failure kept in view.
+is — as inputs to models of catalyst behavior. StericX independently implements
+**Sterimol**, **buried volume**, and **pyramidalization** in a native binary. It checks
+numerical agreement against `morfeus` and agreement with Kraken's published descriptors
+using the authors' DFT geometries. Descriptor agreement supports implementation fidelity;
+reaction prediction is a separate validation task.
+
+**Current scientific scope:** the descriptor reproduction is the strongest result.
+The retrospective ligand-ranking experiment did not beat random selection (top-1 recovery
+0.158 versus 0.333), and the ten-candidate forecast has no recorded experimental outcomes.
+
+🎓 [Five-minute research demo](docs/DEMO.md) · 🔬 [Scientific scope and corrections](docs/SCIENTIFIC_NOTES.md)
 
 📄 [Manuscript write-up](docs/REPRODUCTION_REPORT.md) · 🖼️ [One-page visual overview](docs/results.html) · 🔁 [Clone-to-results walkthrough](REPRODUCE.md)
 
@@ -32,30 +37,28 @@ interpretable linear models, **screens** a whole library through a fitted model 
 performance, an uncertainty band, and an applicability-domain warning per ligand — and
 converts predicted ΔΔG‡ into product ratios via the Eyring equation.
 
-**Why it matters.** The standard steric-descriptor stack (Kraken, morfeus) is Python and
-tuned to one research workflow. StericX reimplements it from scratch in Rust — faster,
-portable, and, above all, *checked*. The project's entire purpose is an **honest,
-defensible reproduction**: every number below is a generated measurement, and every
-failed gate is kept in view rather than hidden.
+**Why it matters.** A native descriptor engine can simplify deployment and reduce the
+cost of processing large conformer libraries. StericX measures that benefit alongside
+agreement with reference implementations, with study artifacts for both favorable and
+unfavorable results.
 
 ---
 
 ## Key Results
 
-Six numbers carry the project. Everything else — RMSE, Pearson, slope, intercept, median
-AE, trimmed summaries, per-parameter tables — lives in the [study docs](#scientific-studies).
-These are the ones that matter:
-
-Correctness first — speed is the last row on purpose:
+These results have different scopes: descriptor agreement, retrospective reaction-model
+reproduction, ligand ranking, and compute throughput. Full error distributions and
+per-parameter results are in the [study docs](#scientific-studies).
 
 | What it means | Number |
 |---|---|
-| The geometry kernel **equals** the reference tool (`morfeus`) on identical structures | **R² = 1.000000** |
-| It reproduces Kraken's **published** descriptors across the full public library | **R² = 0.9852** · 1,541 ligands |
-| It reproduces two independent **published reaction models** (Ni + Pd cross-coupling) | **descriptor R² ≈ 0.999** |
-| **Honest limit:** compact native descriptors *don't* model Ni-hDA — reported, not hidden | **LOO Q² ≈ 0.002** |
-| A **falsifiable prediction**, frozen before any measurement | **10 ligands · SHA-256** |
-| Only then — on one CPU core it is far faster than `morfeus`, computing the same numbers | **~14×** |
+| Buried-volume geometry agrees with `morfeus` on 56 conformers from 11 ligands; the separate 11-structure Sterimol check has a small B₁ scan residual | **R² = 1.000000**; B₁ RMSE **0.0105 Å** |
+| Kraken `vbur_max_delta_qvbur_min` on all matched published/DFT ligands | **R² = 0.9852** · **1,541 ligands** · median absolute error **0.11 Å³** |
+| Ni and Pd cross-coupling datasets from the same published study: descriptor agreement, separate from classifier performance | **descriptor R² ≈ 0.999** |
+| Compact native features fail to reproduce Ni-hDA selectivity in the reported fixed-feature check | **LOO Q² ≈ 0.002** · **10 training ligands** |
+| Retrospective top-1 ligand recovery, including failed screens | **0.158 vs 0.333 random** · **10/57 screens failed** |
+| Frozen forecast from the published-descriptor model; experimental outcomes pending | **10 ligands · SHA-256** |
+| Recorded single-core, warm-cache buried-volume benchmark against `morfeus` | **13.8×** · **1,546 input structures** · **one machine** |
 
 ---
 
@@ -93,12 +96,12 @@ Full command set and the reproducible Python environment: see [Documentation](#d
 
 ## How it's validated
 
-Two independent references anchor every claim: **`morfeus`** for numerical fidelity on
-identical geometries, and **Kraken's own published values** for chemical accuracy across the
-full library. The geometry engine itself is exact — so the open question is always the
-*input geometry*, which the studies isolate one variable at a time, keeping failed gates in
-view. The full per-parameter tables (R², RMSE, slope, intercept, median AE, trimmed
-summaries) live in each study's card under `docs/`, not here.
+Two comparisons assess different questions: **`morfeus`** checks numerical fidelity on
+matched geometries and conventions; **Kraken's published values** check descriptor
+reproduction on the available DFT library. Neither establishes predictive accuracy for
+a new reaction. Finite grids, angular scans, conformer selection, and coordination-frame
+conventions all affect agreement. Full per-parameter tables (R², RMSE, slope, intercept,
+median absolute error, and residual summaries) live in the study cards under `docs/`.
 
 The kernel is element-generic, not phosphorus-only: `--donor-element N` reproduces
 morfeus's pyramidalization, buried-volume, and Sterimol descriptors on nitrogen donors
@@ -109,8 +112,8 @@ to the same fidelity as phosphorus
 
 ## Technical challenges
 
-The hard parts weren't writing the code — they were the small, exacting decisions that
-decided whether an independent reproduction actually *matched the published truth*.
+Small implementation and geometry choices determine how closely an independent
+reproduction matches a published descriptor definition.
 
 - **Detecting the donor from raw geometry.** The tool takes no atom indices: it has to find
   the phosphorus donor and its substituents from coordinates alone, using Cordero
@@ -120,8 +123,8 @@ decided whether an independent reproduction actually *matched the published trut
 - **Telling the kernel apart from the input geometry.** When the native descriptor sat below
   Kraken's published values (R² ≈ 0.86), the real question was whether *my kernel* was wrong
   or *my geometries* were. Resolved by changing one variable at a time — RDKit/MMFF →
-  CREST/xTB → Kraken's own DFT structures — which localized the shortfall to geometry and
-  proved the kernel exact ([Studies 002–004](docs/study_004/STUDY_004.md)).
+  CREST/xTB → Kraken's own DFT structures — which showed that geometry and conformer
+  generation explain much of the shortfall ([Studies 002–004](docs/study_004/STUDY_004.md)).
 - **Matching Kraken's coordinate conventions.** The reproduction lived or died on constants
   that are easy to miss: a virtual metal placed 2.28 Å from phosphorus (not 2.1), and the
   Sterimol coordination axis with a +0.40 Å Verloop *L* correction. These came from reading
@@ -148,27 +151,26 @@ decided whether an independent reproduction actually *matched the published trut
 
 ## Scientific studies
 
-Eleven studies build from a small published reaction family up to the full Kraken library,
-two independent reaction models, and the numerical convergence of the descriptor itself.
-Each writes a complete model card, frozen prediction hashes, raw comparisons, plots, and
-machine-readable results under `docs/study_00N/`. **Passed and failed gates are both
-retained.**
+Eleven studies cover a small published reaction family, the matched Kraken library,
+Ni and Pd cross-coupling datasets, numerical grid sensitivity, and retrospective ligand
+ranking. Study reports, comparisons, plots, and machine-readable results are under
+`docs/study_00N/`; prediction studies also retain frozen prediction artifacts.
 
 <details>
 <summary><b>Expand the eleven studies</b></summary>
 
 | # | Study | What it shows | Full results |
 |---|---|---|---|
-| **001** | Ni-hDA enantioselectivity model | The published descriptor reproduces the selectivity; StericX's *compact native* descriptors deliberately do **not** — the ablation the project leads with. | [STUDY_001](docs/study_001/STUDY_001.md) |
-| **002** | Coordination-aware buried-volume fidelity | The Rust voxel kernel equals `morfeus` exactly on identical geometries; cheap RDKit/MMFF conformers fall short — a failed gate kept visible. | [STUDY_002](docs/study_002/STUDY_002.md) |
-| **003** | Quantum geometry & prospective validation | A checksum-pinned CREST/xTB backend, and a **frozen, falsifiable prediction** committed by SHA-256 before any measurement. | [STUDY_003](docs/study_003/STUDY_003.md) · [PREREGISTRATION](docs/study_003/PREREGISTRATION.md) |
-| **004** | Reproducing Kraken's published descriptors on DFT geometries | Reproduces the published values on Kraken's own DFT geometries at library scale; a real kernel frame-bug found and fixed *without dropping a ligand*, and the residual fully characterized. | [STUDY_004](docs/study_004/STUDY_004.md) · [scaled](docs/study_004/STUDY_004_SCALED.md) · [residual](docs/study_004/STUDY_004_RESIDUAL.md) |
-| **005** | Pyramidalization descriptors | Two more descriptors (`pyr_P`, `pyr_alpha`) reduced to closed forms and reproduced to machine precision. | [STUDY_005](docs/study_005/STUDY_005.md) |
-| **006** | Localizing the residual to the coordination centre | A controlled test proving the small buried-volume residual is a coordination-centre convention artefact, not a kernel error. | [STUDY_006](docs/study_006/STUDY_006.md) |
-| **007** | Independent second reaction model — Ni cross-coupling | Reproduces the Newman-Stonebraker classifier; the ligation cliff transfers *out-of-sample* and off Kraken's own geometry. | [STUDY_007](docs/study_007/STUDY_007.md) |
-| **008** | Head-to-head speed benchmark vs `morfeus` | The same numbers, ~14× faster single-core — and the speedup holds at ~20× the scale. | [STUDY_008](docs/study_008/STUDY_008.md) · [scale check](docs/study_008_all_conformers/STUDY_008.md) |
-| **009** | The other direction of the cliff — Pd cross-coupling | The *opposite* (bulky-active) regime reproduced, including datasets from other groups; honest about the reactions the paper itself flags as resistant. | [STUDY_009](docs/study_009/STUDY_009.md) |
-| **010** | Grid convergence of the buried-volume integrator | Sweeps the integration grid coarse→fine to show the descriptor is *converged* at the default resolution — the earlier agreement isn't a grid-lucky artifact — and quantifies the voxel discretization floor. | [STUDY_010](docs/study_010/STUDY_010.md) |
+| **001** | Ni-hDA enantioselectivity model | Reproduces the published-descriptor relationship; compact native features give fixed-feature LOO Q² ≈ 0.002 on ten training ligands. | [STUDY_001](docs/study_001/STUDY_001.md) |
+| **002** | Coordination-aware buried-volume fidelity | Buried-volume geometry agrees with `morfeus` to reported numerical precision on matched structures; RDKit/MMFF conformers fall short against published descriptors. | [STUDY_002](docs/study_002/STUDY_002.md) |
+| **003** | Quantum geometry & frozen forecast | A checksum-pinned CREST/xTB backend and a hashed ten-candidate forecast; no prospective measurements are recorded. | [STUDY_003](docs/study_003/STUDY_003.md) · [PREREGISTRATION](docs/study_003/PREREGISTRATION.md) |
+| **004** | Reproducing Kraken's published descriptors on DFT geometries | Reproduces the published values on Kraken's own DFT geometries at library scale; a real kernel frame-bug found and fixed *without dropping a ligand*, and the remaining error distribution characterized. | [STUDY_004](docs/study_004/STUDY_004.md) · [scaled](docs/study_004/STUDY_004_SCALED.md) · [residual](docs/study_004/STUDY_004_RESIDUAL.md) |
+| **005** | Pyramidalization descriptors | Two donor-geometry descriptors (`pyr_P`, `pyr_alpha`) reproduced across 1,541 ligands, mean R² ≈ 0.99998. | [STUDY_005](docs/study_005/STUDY_005.md) |
+| **006** | Coordination-centre residual hypothesis | A descriptor comparison supports the coordination-centre explanation for P–H-dependent bias; it does not uniquely establish causality. | [STUDY_006](docs/study_006/STUDY_006.md) |
+| **007** | Second published study — Ni cross-coupling | Approximately reproduces the Newman-Stonebraker classifier; reaction-held-out checks reuse ligands, and a separate geometry check tests descriptor agreement. | [STUDY_007](docs/study_007/STUDY_007.md) |
+| **008** | Head-to-head speed benchmark vs `morfeus` | About 14× faster in the recorded single-core, warm-cache benchmark, with full-set agreement and large discrepancies reported separately; similar speedup at conformer scale. | [STUDY_008](docs/study_008/STUDY_008.md) · [scale check](docs/study_008_all_conformers/STUDY_008.md) |
+| **009** | The other direction of the cliff — Pd cross-coupling | Recovers the bulky-active direction in six retrospective datasets from the same paper; mean classifier MCC is 0.64 versus the paper's 0.67. | [STUDY_009](docs/study_009/STUDY_009.md) |
+| **010** | Grid sensitivity of the buried-volume integrator | A 60-ligand grid sweep measures default-grid mean/max errors of 0.056/0.160 %Vbur points against a finer numerical reference. | [STUDY_010](docs/study_010/STUDY_010.md) |
 | **011** | Retrospective ligand ranking | Exhaustive scaffold-disjoint three-ligand screens test candidate recovery without target leakage; the below-random ranking result and failed fits remain visible. | [STUDY_011](docs/study_011/STUDY_011.md) · [locked design](docs/study_011/DESIGN.md) |
 
 A manuscript-style narrative of the reproduction studies is in [`docs/REPRODUCTION_REPORT.md`](docs/REPRODUCTION_REPORT.md).
@@ -298,9 +300,11 @@ output says so.
 
 ### `screen` — rank a library with a fitted reaction model
 
-The v0.3 screening path ranks by *predicted reaction performance*, then keeps uncertainty
-and applicability evidence beside every candidate. Try it with the checked-in Ni-hDA model
-and reaction library:
+The v0.3 screening path orders candidates by model output and reports uncertainty
+and applicability diagnostics. Its Ni-hDA retrospective ranking test did not beat random
+selection; treat this command as a workflow demonstration. The source response is
+`ddG_abs`, an enantioselectivity magnitude, so this example cannot identify the favored
+enantiomer. Try it with the checked-in Ni-hDA model and reaction library:
 
 ```bash
 ./target/release/stericx model inspect docs/study_001/stericx_portable_model.json
@@ -622,9 +626,8 @@ ood_above_max   14.70   0.977             extrapolation
 
 The **out-of-domain** candidate has the **narrower** interval. Interval width tracks the
 bootstrap coefficient spread, not membership of the training set, so a tight band is never
-evidence that a prediction is safe. Reliability is the `domain` column's job; the interval
-answers a different question, and the two are reported separately and tested to stay
-independent.
+evidence that a prediction is safe. The `domain` column reports proximity to the training data, not calibrated predictive
+reliability. Interval width and domain diagnostics answer different questions.
 
 Every candidate reports `lower`, `upper`, `method`, `level`, and `replicates` in JSON and CSV
 alongside the central prediction. A model with no stored ensemble — any schema-1 artifact —
@@ -648,8 +651,9 @@ rank   pred ddG    95% pred interval  leverage  pred ee  domain          trust  
 The values are the applicability domain's own verdicts, not a severity scale layered on top:
 `interpolation`, `sparse` (in range, but in a gap the training set never sampled),
 `extrapolation`, and `unknown`. `!` marks the two that mean the model is being asked about a
-region it was not fitted on. The `domain` column answers *is this prediction supported*; the
-separate `trust` column grades the prediction itself. They are independent.
+region it was not fitted on. The `domain` and `trust` columns summarize training-data diagnostics. Their labels,
+including `reliable`, are heuristics and do not establish predictive accuracy. Study 011
+records substantial errors even for candidates labeled as interpolation.
 
 By design:
 
@@ -664,7 +668,7 @@ By design:
   removes everything, the error says so rather than claiming the model could not screen.
 
 `--inside-domain-only` remains as an alias. Note its meaning changed: it now filters on the
-calibrated applicability verdict, so a `sparse` candidate — inside every descriptor range but
+training-derived applicability verdict, so a `sparse` candidate — inside every descriptor range but
 in an unsampled gap — is now removed where previously only range violations were.
 
 **The model decides what the library must supply.** StericX's regression space mixes
@@ -685,8 +689,8 @@ row and featurizes the geometry named by `Ligand_XYZ_Path` to fill the Sterimol 
 
 **Uncertainty and out-of-domain detection.** `stericx fit` records the training-set geometry
 — `(X'X)⁻¹` in the standardized design frame, `n`, `p`, and the residual standard error `s` —
-so `screen` can answer *how much a prediction is worth*, not just what it is. Two
-independent signals are reported:
+so `screen` can report the fitted model's uncertainty calculation and extrapolation
+diagnostics. Two signals are reported:
 
 | Signal | What it measures |
 |---|---|
@@ -704,9 +708,10 @@ For these the model is extrapolating and its prediction should not be trusted:
   wild_extrap — leverage 3.396 = 5.7x h*
 ```
 
-The 95 % band is a real Student-t **prediction interval**, `ŷ ± t(0.975, n−p)·s·√(1+h)`, so it
-widens automatically with leverage — a distant ligand is reported with an honestly wider
-error bar rather than a falsely precise one. On the Ni-hDA fit that is ±1.49 kcal/mol at the
+The nominal 95% Student-t **prediction interval**, `ŷ ± t(0.975, n−p)·s·√(1+h)`,
+widens with leverage. Its coverage assumes the fitted linear model and residual
+assumptions are adequate; it does not account for model-selection uncertainty or a
+change in descriptor conventions between fitting and screening. On the Ni-hDA fit that is ±1.49 kcal/mol at the
 training centroid and ±2.97 kcal/mol for a ligand at 5.7× the warning leverage. `h* = 3p/n`
 is the same criterion the project's own [Study 003
 pre-registration](docs/study_003/PREREGISTRATION.md) applies, and the Rust implementation
@@ -787,6 +792,7 @@ metadata, so it can be scored elsewhere without the training data or the fitting
   --reaction-family "Ni-catalyzed homo-Diels-Alder" --catalyst-metal Ni \
   --ligand-class "monodentate phosphorus(III)" \
   --source-url "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv" \
+  --response-sign-convention "ddG_abs: enantioselectivity magnitude; no favored-enantiomer assignment" \
   --response-temp-k 298.15 --optimize maximize
 ```
 
@@ -794,6 +800,10 @@ Schema 2 is a strict superset of schema 1, so `--output` stays byte-identical an
 readers keep working. Chemistry context that is not supplied is recorded as `null` and
 reported as `portable_model_missing_provenance` rather than guessed. Spec:
 [`docs/MODEL_FORMAT.md`](docs/MODEL_FORMAT.md).
+
+The portable Ni-hDA wrapper's response annotation was corrected to `ddG_abs` magnitude
+semantics; model coefficients and frozen predictions were retained. The annotation
+change and original digest are recorded in [scientific notes](docs/SCIENTIFIC_NOTES.md).
 
 The checked-in `stericx_model.json` predates `training_geometry.neighbor_calibration`
 and `standardized_training_points`, which this build records. Re-running the command
@@ -906,10 +916,13 @@ explicit ranking direction, bootstrap and prediction intervals, training-derived
 diagnostics, tested-ligand exclusion, diversity-aware selection, reproducible candidate
 decks, and a retrospective ranking study whose below-random result remains visible.
 
-The one open scientific item remains the **frozen prospective 10-candidate deck**, which
-stays target-free until experimental measurement exists. A measured outcome would seed a
-future release under the existing concept DOI — and never a refit, for pre-registration
-integrity.
+Open scientific work includes resolving the fit/screen conformer-aggregation mismatch,
+improving and independently validating ligand ranking, testing the coordination-centre
+hypothesis directly, and obtaining prospective measurements. The **frozen ten-candidate
+deck** remains a record of the original published-descriptor forecast. Its `ddG_abs`
+target and magnitude interpretation need explicit treatment before an experimental
+protocol is adopted; hashes preserve artifact identity, not independent evidence of
+when predictions became public.
 
 </details>
 

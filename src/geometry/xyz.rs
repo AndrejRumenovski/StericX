@@ -206,11 +206,17 @@ fn parse_atom_fields(line: &str, line_number: usize, format: &str) -> Result<Ato
         )));
     }
     let parse_coordinate = |field: &str, axis: &str| {
-        field.parse::<f32>().map_err(|_| {
+        let value = field.parse::<f32>().map_err(|_| {
             GeometryError::Format(format!(
                 "{format} atom line {line_number} has invalid {axis} coordinate `{field}`"
             ))
-        })
+        })?;
+        if !value.is_finite() {
+            return Err(GeometryError::Format(format!(
+                "{format} atom line {line_number} has non-finite {axis} coordinate `{field}`"
+            )));
+        }
+        Ok(value)
     };
     // XYZ uses element,x,y,z while V2000 uses x,y,z,element.
     if fields[0].parse::<f32>().is_ok() {
@@ -364,5 +370,34 @@ O  0.000000  -1.400000  0.250000
     fn rejects_truncated_xyz() {
         let error = parse_xyz("2\nname\nC 0 0 0\n").unwrap_err();
         assert!(error.to_string().contains("ends at atom 1"));
+    }
+
+    #[test]
+    fn rejects_non_finite_xyz_coordinates() {
+        for value in ["NaN", "inf", "-inf", "1e100"] {
+            for (axis_index, axis) in ["x", "y", "z"].iter().enumerate() {
+                let mut coordinates = ["0", "0", "0"];
+                coordinates[axis_index] = value;
+                let input = format!("1\ninvalid geometry\nH {}\n", coordinates.join(" "));
+                let error = parse_xyz(&input).unwrap_err().to_string();
+                assert!(error.contains(&format!("XYZ atom line 3 has non-finite {axis}")));
+            }
+        }
+    }
+
+    #[test]
+    fn rejects_non_finite_sdf_coordinates() {
+        for value in ["NaN", "inf", "-inf", "1e100"] {
+            for (axis_index, axis) in ["x", "y", "z"].iter().enumerate() {
+                let mut coordinates = ["0.0000", "0.0000", "0.0000"];
+                coordinates[axis_index] = value;
+                let input = format!(
+                    "invalid geometry\n  stericx\n\n  1  0  0  0  0  0            999 V2000\n{} H   0  0\nM  END\n$$$$\n",
+                    coordinates.join(" ")
+                );
+                let error = parse_sdf(&input).unwrap_err().to_string();
+                assert!(error.contains(&format!("SDF atom line 5 has non-finite {axis}")));
+            }
+        }
     }
 }

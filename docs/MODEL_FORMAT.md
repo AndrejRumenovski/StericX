@@ -77,7 +77,7 @@ Everything required to turn a structure into a predicted number.
 | `response.name` | Machine-readable response identifier, e.g. `ddg_double_dagger`. |
 | `response.units` | Physical units, e.g. `kcal/mol`. |
 | `response.description` | What the quantity is. |
-| `response.sign_convention` | Which enantiomer a positive value favors. Without this a consumer can invert the selectivity. |
+| `response.sign_convention` | Whether the target is signed or a magnitude, and any known stereochemical assignment. New fits default to unspecified; use `--response-sign-convention` to record the dataset's definition. |
 | `response.temperature_k` | Temperature the response refers to, or `null`. |
 | `response.optimization` | Which direction counts as better: `maximize`, `minimize`, `maximize_magnitude`, or `unspecified`. |
 | `feature_space.definition` | Stable identifier for the feature construction, e.g. `stericx.physical_organic.v1`. |
@@ -364,11 +364,14 @@ an additional version 2 document:
   --ligand-class "monodentate phosphorus(III)" \
   --source-url "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv" \
   --response-temp-k 298.15 \
+  --response-sign-convention "Magnitude |ddG| from ddG_abs; larger values mean greater enantioselectivity; no R/S assignment." \
   --optimize maximize
 ```
 
-That is the exact command that produced the checked-in
-`docs/study_001/stericx_portable_model.json`. The replicate counts are not the
+This reproduces the fit and corrected response annotation of the checked-in
+`docs/study_001/stericx_portable_model.json`; creation metadata depends on the run.
+The magnitude annotation corrects an earlier hardcoded R/S label without changing
+the fitted numbers (see [scientific notes](SCIENTIFIC_NOTES.md)). The replicate counts are not the
 defaults — the Study 001 artifact was fitted with 2,000 bootstrap and 2,000
 permutation replicates, and the defaults reproduce every other field but shift
 the coefficient intervals and the permutation p-value.

@@ -4,6 +4,27 @@ All notable changes to StericX are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project aims to
 follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- Reject non-finite XYZ/SDF coordinates instead of producing plausible descriptors
+  from malformed geometry.
+- Keep JSON/CSV screening output parseable when exporting a candidate deck; export
+  notices go to stderr for those formats.
+- Stop assigning R/S meaning to every fitted target. New portable fits default to an
+  unspecified convention and accept `--response-sign-convention`. Correct the shipped
+  Ni-hDA portable example's magnitude annotation without changing its fitted numbers.
+- Separate long ligand names in the text comparison table.
+
+### Documentation
+
+- Add an offline, logged demonstration (`scripts/demo.sh`) and a short walkthrough.
+- Scope headline claims to their measured descriptor, dataset, and benchmark; surface
+  the unsuccessful retrospective ranking result and unresolved prospective validation.
+- Record scientific interpretation corrections in `docs/SCIENTIFIC_NOTES.md` while
+  preserving historical predictions and preregistration rules.
+
 ## [0.3.0] - 2026-09-04 — Auditable Reaction Screening
 
 Archived at Zenodo: version DOI [10.5281/zenodo.22309199](https://doi.org/10.5281/zenodo.22309199),

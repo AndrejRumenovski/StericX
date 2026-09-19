@@ -15,6 +15,10 @@ categories = ["science", "command-line-utilities"]
 name = "stericx"
 path = "src/main.rs"
 
+[features]
+# Diagnostic probes only; disabled in production and baseline builds.
+profiling = []
+
 [dependencies]
 bytemuck = { version = "1.23", features = ["derive"] }
 clap = { version = "4.5", features = ["derive"] }

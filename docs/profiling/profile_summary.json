@@ -1,0 +1,3558 @@
+{
+  "schema_version": 1,
+  "baseline": "baseline_final_t1",
+  "diagnostic": "instrumented_final_t1",
+  "manifest_sha256": "5f2a35784d64c12122a886db1d6bdce1e2d7b012cece31256d22b175f7d1b20c",
+  "baseline_binary_sha256": "d69d2af29d8803611eef3403642b6941fdababa744d805807ba014aa42dfb01a",
+  "diagnostic_binary_sha256": "6d8d7fe451adae1c05862e78a18a5855cb1a37c45ac38422b3570079ca1f6636",
+  "timing_method": "Native timing is authoritative. Function and stage times are measured in a separate diagnostic build. Its main-thread exclusive times partition the CLI root; worker totals are shown separately and never added to wall shares. Missing scope samples count as zero.",
+  "amdahl_method": "Per-run diagnostic fraction f = exclusive stage/function ns divided by external process wall ns. Report the median f; infinite local optimization has ceiling 1/(1-f), and 2x local improvement gives 1/(1-f+f/2). These are diagnostic-workload bounds, not measured native speedups. Instrumentation overhead is reported per workload. Function self-work and inclusive ceilings are separate; nested inclusive ceilings must never be added. Outside-CLI residual includes loading, exit, launcher wait and diagnostic report writing, and is not a single optimizable function.",
+  "allocation_method": "Requested System heap counters include process startup and diagnostic session metadata and exclude report construction. Requested bytes include new sizes of reallocations. Heap highwater excludes mappings, stacks, static arrays and allocator metadata; native RSS is measured separately.",
+  "results": {
+    "conformers_56": {
+      "native": {
+        "exactness_scope": "all emitted values byte-for-byte",
+        "fingerprints": {
+          "stdout_sha256": "d91e7b56bd8ab611958df7c6338c41010b49601522712529ef074da9cc589d28"
+        },
+        "measured_runs": 7,
+        "summary": {
+          "cpu_percent_one_core": {
+            "mad": 0.015060684544650371,
+            "maximum": 99.63826754030744,
+            "median": 99.61898406232802,
+            "minimum": 99.55358627729579,
+            "p90_nearest_rank": 99.63826754030744
+          },
+          "cpu_system_s": {
+            "mad": 6.999999999999845e-06,
+            "maximum": 0.00301,
+            "median": 0.001006,
+            "minimum": 0.0,
+            "p90_nearest_rank": 0.00301
+          },
+          "cpu_user_s": {
+            "mad": 0.0006359999999999977,
+            "maximum": 0.07047,
+            "median": 0.069533,
+            "minimum": 0.066241,
+            "p90_nearest_rank": 0.07047
+          },
+          "involuntary_context_switches": {
+            "mad": 0,
+            "maximum": 2,
+            "median": 1,
+            "minimum": 1,
+            "p90_nearest_rank": 2
+          },
+          "major_faults": {
+            "mad": 0,
+            "maximum": 0,
+            "median": 0,
+            "minimum": 0,
+            "p90_nearest_rank": 0
+          },
+          "minor_faults": {
+            "mad": 0,
+            "maximum": 301,
+            "median": 299,
+            "minimum": 296,
+            "p90_nearest_rank": 301
+          },
+          "peak_rss_bytes": {
+            "mad": 77824,
+            "maximum": 5390336,
+            "median": 5251072,
+            "minimum": 5136384,
+            "p90_nearest_rank": 5390336
+          },
+          "voluntary_context_switches": {
+            "mad": 0,
+            "maximum": 2,
+            "median": 2,
+            "minimum": 2,
+            "p90_nearest_rank": 2
+          },
+          "wall_ns": {
+            "mad": 636407,
+            "maximum": 71790749,
+            "median": 70799093,
+            "minimum": 68307936,
+            "p90_nearest_rank": 71790749
+          }
+        }
+      },
+      "diagnostic_process_wall_ns": 82468949,
+      "diagnostic_to_native_wall_ratio": 1.1648305861771422,
+      "main_thread_stage_wall": {
+        "outside_cli_scope": {
+          "median_exclusive_ns": 3392448,
+          "median_diagnostic_wall_fraction": 0.047022373976730945,
+          "maximum_end_to_end_speedup": 1.0493425791882995,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0240772722381257
+        },
+        "output": {
+          "median_exclusive_ns": 309482,
+          "median_diagnostic_wall_fraction": 0.004374723118342648,
+          "maximum_end_to_end_speedup": 1.0043939454129214,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.002192156598246
+        },
+        "buried_volume": {
+          "median_exclusive_ns": 76042849,
+          "median_diagnostic_wall_fraction": 0.9126320091169161,
+          "maximum_end_to_end_speedup": 11.4458394875785,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.8393037286077736
+        },
+        "conformer_processing": {
+          "median_exclusive_ns": 97239,
+          "median_diagnostic_wall_fraction": 0.001251257717700721,
+          "maximum_end_to_end_speedup": 1.0012528253250577,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.000626020515351
+        },
+        "file_parsing": {
+          "median_exclusive_ns": 1272221,
+          "median_diagnostic_wall_fraction": 0.015331165304604455,
+          "maximum_end_to_end_speedup": 1.0155698695484223,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0077247977277566
+        },
+        "sterimol": {
+          "median_exclusive_ns": 913478,
+          "median_diagnostic_wall_fraction": 0.011076629580910506,
+          "maximum_end_to_end_speedup": 1.011200695536416,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0055691585435875
+        },
+        "orchestration": {
+          "median_exclusive_ns": 279666,
+          "median_diagnostic_wall_fraction": 0.0033911672622383,
+          "maximum_end_to_end_speedup": 1.003402706408815,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0016984635180586
+        },
+        "donor_bond_detection": {
+          "median_exclusive_ns": 212007,
+          "median_diagnostic_wall_fraction": 0.0025860808664860254,
+          "maximum_end_to_end_speedup": 1.0025927860208053,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0012947145515076
+        },
+        "pyramidalization": {
+          "median_exclusive_ns": 14982,
+          "median_diagnostic_wall_fraction": 0.00017302705873183038,
+          "maximum_end_to_end_speedup": 1.000173057002276,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0000865210146042
+        }
+      },
+      "main_thread_functions": [
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::occupied_volumes",
+          "median_calls": 168,
+          "median_exclusive_ns": 72791904,
+          "median_inclusive_ns": 72791904,
+          "median_diagnostic_wall_fraction": 0.8765828725353468,
+          "maximum_end_to_end_speedup_removing_self_work": 8.102603103336701,
+          "median_inclusive_diagnostic_wall_fraction": 0.8765828725353468,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 8.102603103336701
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::integration_grid",
+          "median_calls": 56,
+          "median_exclusive_ns": 3010931,
+          "median_inclusive_ns": 3010931,
+          "median_diagnostic_wall_fraction": 0.03477323020788205,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0360259695401643,
+          "median_inclusive_diagnostic_wall_fraction": 0.03477323020788205,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0360259695401643
+        },
+        {
+          "stage": "sterimol",
+          "function": "sterimol::params_from_projection",
+          "median_calls": 56,
+          "median_exclusive_ns": 882798,
+          "median_inclusive_ns": 882798,
+          "median_diagnostic_wall_fraction": 0.010704610774171501,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0108204393659899,
+          "median_inclusive_diagnostic_wall_fraction": 0.010704610774171501,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0108204393659899
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_xyz",
+          "median_calls": 56,
+          "median_exclusive_ns": 760933,
+          "median_inclusive_ns": 760933,
+          "median_diagnostic_wall_fraction": 0.009126457630851409,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0092105170242314,
+          "median_inclusive_diagnostic_wall_fraction": 0.009126457630851409,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0092105170242314
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_coordinate_file",
+          "median_calls": 56,
+          "median_exclusive_ns": 511288,
+          "median_inclusive_ns": 1272221,
+          "median_diagnostic_wall_fraction": 0.006204707673753047,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0062434464337513,
+          "median_inclusive_diagnostic_wall_fraction": 0.015331165304604455,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0155698695484223
+        },
+        {
+          "stage": "output",
+          "function": "descriptors::print_descriptor_json",
+          "median_calls": 1,
+          "median_exclusive_ns": 309482,
+          "median_inclusive_ns": 309482,
+          "median_diagnostic_wall_fraction": 0.004374723118342648,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0043939454129214,
+          "median_inclusive_diagnostic_wall_fraction": 0.004374723118342648,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0043939454129214
+        },
+        {
+          "stage": "orchestration",
+          "function": "cli::run",
+          "median_calls": 1,
+          "median_exclusive_ns": 263686,
+          "median_inclusive_ns": 79182279,
+          "median_diagnostic_wall_fraction": 0.0031973973622484264,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0032076535051047,
+          "median_inclusive_diagnostic_wall_fraction": 0.9529776260232691,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 21.266472009576784
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "bonded_neighbors",
+          "median_calls": 168,
+          "median_exclusive_ns": 183094,
+          "median_inclusive_ns": 183094,
+          "median_diagnostic_wall_fraction": 0.0022241248993489938,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0022290826575904,
+          "median_inclusive_diagnostic_wall_fraction": 0.0022241248993489938,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0022290826575904
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::aligned_atoms",
+          "median_calls": 168,
+          "median_exclusive_ns": 109424,
+          "median_inclusive_ns": 109424,
+          "median_diagnostic_wall_fraction": 0.0012637373431232017,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0012653363959785,
+          "median_inclusive_diagnostic_wall_fraction": 0.0012637373431232017,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0012653363959785
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "descriptors::descriptors_for_file",
+          "median_calls": 56,
+          "median_exclusive_ns": 97239,
+          "median_inclusive_ns": 78621244,
+          "median_diagnostic_wall_fraction": 0.001251257717700721,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0012528253250577,
+          "median_inclusive_diagnostic_wall_fraction": 0.945692437505745,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 18.413641748435815
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute_from_center",
+          "median_calls": 56,
+          "median_exclusive_ns": 63407,
+          "median_inclusive_ns": 76029659,
+          "median_diagnostic_wall_fraction": 0.0007322871921645421,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000732823829669,
+          "median_inclusive_diagnostic_wall_fraction": 0.9124815070617368,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 11.426156534772764
+        },
+        {
+          "stage": "sterimol",
+          "function": "SterimolCalculator::compute",
+          "median_calls": 56,
+          "median_exclusive_ns": 25800,
+          "median_inclusive_ns": 913478,
+          "median_diagnostic_wall_fraction": 0.0003374713330383889,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0003375852583856,
+          "median_inclusive_diagnostic_wall_fraction": 0.011076629580910506,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.011200695536416
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "descriptors::detect_donor",
+          "median_calls": 112,
+          "median_exclusive_ns": 21647,
+          "median_inclusive_ns": 146628,
+          "median_diagnostic_wall_fraction": 0.0002601238677006786,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000260191549733,
+          "median_inclusive_diagnostic_wall_fraction": 0.0017743019658635994,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0017774557090224
+        },
+        {
+          "stage": "orchestration",
+          "function": "descriptors::descriptors_command",
+          "median_calls": 1,
+          "median_exclusive_ns": 17923,
+          "median_inclusive_ns": 78918593,
+          "median_diagnostic_wall_fraction": 0.00021902670997524785,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0002190746931845,
+          "median_inclusive_diagnostic_wall_fraction": 0.9492919450753624,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 19.72073276102193
+        },
+        {
+          "stage": "pyramidalization",
+          "function": "PyramidalizationCalculator::compute",
+          "median_calls": 56,
+          "median_exclusive_ns": 14982,
+          "median_inclusive_ns": 14982,
+          "median_diagnostic_wall_fraction": 0.00017302705873183038,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000173057002276,
+          "median_inclusive_diagnostic_wall_fraction": 0.00017302705873183038,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.000173057002276
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute",
+          "median_calls": 56,
+          "median_exclusive_ns": 11197,
+          "median_inclusive_ns": 76112488,
+          "median_diagnostic_wall_fraction": 0.00015050205517928077,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0001505247094575,
+          "median_inclusive_diagnostic_wall_fraction": 0.9134204663005161,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 11.550073756125588
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::coordinate_basis",
+          "median_calls": 168,
+          "median_exclusive_ns": 10579,
+          "median_inclusive_ns": 10579,
+          "median_diagnostic_wall_fraction": 0.0001316123589178974,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000131629683011,
+          "median_inclusive_diagnostic_wall_fraction": 0.0001316123589178974,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.000131629683011
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "donor_neighbor_indices",
+          "median_calls": 56,
+          "median_exclusive_ns": 4212,
+          "median_inclusive_ns": 62325,
+          "median_diagnostic_wall_fraction": 5.197107580454311e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000519737769378,
+          "median_inclusive_diagnostic_wall_fraction": 0.0007487784695126968,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0007493395588407
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "infer_lone_pair_direction",
+          "median_calls": 56,
+          "median_exclusive_ns": 3054,
+          "median_inclusive_ns": 3054,
+          "median_diagnostic_wall_fraction": 4.0694104153067356e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000406957602306,
+          "median_inclusive_diagnostic_wall_fraction": 4.0694104153067356e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000406957602306
+        }
+      ],
+      "worker_summed_elapsed_ns_by_stage": {},
+      "worker_functions_summed_elapsed": [],
+      "observed_threads": [
+        1
+      ],
+      "requested_heap": {
+        "allocation_calls": 20710,
+        "reallocation_calls": 656,
+        "deallocation_calls": 20661,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 23275814,
+        "live_requested_bytes": 2005,
+        "peak_live_requested_bytes": 425530
+      },
+      "outside_cli_scope_median_ns": 3392448
+    },
+    "db_build_ensembles": {
+      "native": {
+        "exactness_scope": "all emitted values byte-for-byte",
+        "fingerprints": {
+          "manifest_sha256": "116bb8eccd988dc924b195ba19c4dfbe7d31ade3dc258b988a35600e175ed49b",
+          "stdout_sha256": "7e55f6db2b81d21aa6782d4133285e38f71b7693c9acc43fe95f233eeb43414b",
+          "table_sha256": "6722dce3e31c4e5b4e4d3f50000720e278fbc352030a7f4c58e1790be39a77a9"
+        },
+        "measured_runs": 7,
+        "summary": {
+          "cpu_percent_one_core": {
+            "mad": 0.2064117821341256,
+            "maximum": 99.52791890844597,
+            "median": 99.25905158465179,
+            "minimum": 98.91847705825299,
+            "p90_nearest_rank": 99.52791890844597
+          },
+          "cpu_system_s": {
+            "mad": 0.00101,
+            "maximum": 0.003954,
+            "median": 0.001997,
+            "minimum": 0.0,
+            "p90_nearest_rank": 0.003954
+          },
+          "cpu_user_s": {
+            "mad": 0.0015190000000000065,
+            "maximum": 0.070113,
+            "median": 0.068431,
+            "minimum": 0.065254,
+            "p90_nearest_rank": 0.070113
+          },
+          "involuntary_context_switches": {
+            "mad": 0,
+            "maximum": 5,
+            "median": 5,
+            "minimum": 4,
+            "p90_nearest_rank": 5
+          },
+          "major_faults": {
+            "mad": 0,
+            "maximum": 0,
+            "median": 0,
+            "minimum": 0,
+            "p90_nearest_rank": 0
+          },
+          "minor_faults": {
+            "mad": 1,
+            "maximum": 363,
+            "median": 362,
+            "minimum": 359,
+            "p90_nearest_rank": 363
+          },
+          "peak_rss_bytes": {
+            "mad": 24576,
+            "maximum": 5685248,
+            "median": 5648384,
+            "minimum": 5505024,
+            "p90_nearest_rank": 5685248
+          },
+          "voluntary_context_switches": {
+            "mad": 1,
+            "maximum": 7,
+            "median": 6,
+            "minimum": 5,
+            "p90_nearest_rank": 7
+          },
+          "wall_ns": {
+            "mad": 201328,
+            "maximum": 71482098,
+            "median": 69863743,
+            "minimum": 69620666,
+            "p90_nearest_rank": 71482098
+          }
+        }
+      },
+      "diagnostic_process_wall_ns": 74160065,
+      "diagnostic_to_native_wall_ratio": 1.0614957317703404,
+      "main_thread_stage_wall": {
+        "outside_cli_scope": {
+          "median_exclusive_ns": 3860008,
+          "median_diagnostic_wall_fraction": 0.05204968469215878,
+          "maximum_end_to_end_speedup": 1.0549076083963915,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0267202321759081
+        },
+        "parallel_geometry": {
+          "median_exclusive_ns": 69225938,
+          "median_diagnostic_wall_fraction": 0.9334665227167749,
+          "maximum_end_to_end_speedup": 15.03002760164058,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.8752341512003814
+        },
+        "output": {
+          "median_exclusive_ns": 494620,
+          "median_diagnostic_wall_fraction": 0.006575123800347646,
+          "maximum_end_to_end_speedup": 1.0066186421921512,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0032984056127978
+        },
+        "conformer_processing": {
+          "median_exclusive_ns": 15379,
+          "median_diagnostic_wall_fraction": 0.00020510206848805917,
+          "maximum_end_to_end_speedup": 1.0002051441439763,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0001025615520371
+        },
+        "file_parsing": {
+          "median_exclusive_ns": 259217,
+          "median_diagnostic_wall_fraction": 0.0035102172717200964,
+          "maximum_end_to_end_speedup": 1.003522582300954,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.001758194458137
+        },
+        "orchestration": {
+          "median_exclusive_ns": 256563,
+          "median_diagnostic_wall_fraction": 0.0034105646508200095,
+          "maximum_end_to_end_speedup": 1.0034222364093446,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0017081952806304
+        }
+      },
+      "main_thread_functions": [
+        {
+          "stage": "parallel_geometry",
+          "function": "commands::db::featurize_wall",
+          "median_calls": 1,
+          "median_exclusive_ns": 69225938,
+          "median_inclusive_ns": 69225938,
+          "median_diagnostic_wall_fraction": 0.9334665227167749,
+          "maximum_end_to_end_speedup_removing_self_work": 15.03002760164058,
+          "median_inclusive_diagnostic_wall_fraction": 0.9334665227167749,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 15.03002760164058
+        },
+        {
+          "stage": "output",
+          "function": "commands::db::write_database_and_report",
+          "median_calls": 1,
+          "median_exclusive_ns": 494620,
+          "median_inclusive_ns": 494620,
+          "median_diagnostic_wall_fraction": 0.006575123800347646,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0066186421921512,
+          "median_inclusive_diagnostic_wall_fraction": 0.006575123800347646,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0066186421921512
+        },
+        {
+          "stage": "file_parsing",
+          "function": "commands::db::collect_coordinate_files",
+          "median_calls": 12,
+          "median_exclusive_ns": 259217,
+          "median_inclusive_ns": 469201,
+          "median_diagnostic_wall_fraction": 0.0035102172717200964,
+          "maximum_end_to_end_speedup_removing_self_work": 1.003522582300954,
+          "median_inclusive_diagnostic_wall_fraction": 0.006377654620685367,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0064185901719538
+        },
+        {
+          "stage": "orchestration",
+          "function": "cli::run",
+          "median_calls": 1,
+          "median_exclusive_ns": 245743,
+          "median_inclusive_ns": 70300057,
+          "median_diagnostic_wall_fraction": 0.0032667313251967807,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0032774378340354,
+          "median_inclusive_diagnostic_wall_fraction": 0.9479503153078412,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 19.212412254067875
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "commands::db::group_conformers",
+          "median_calls": 1,
+          "median_exclusive_ns": 12752,
+          "median_inclusive_ns": 15379,
+          "median_diagnostic_wall_fraction": 0.00017348611394124998,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0001735162165954,
+          "median_inclusive_diagnostic_wall_fraction": 0.00020510206848805917,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0002051441439763
+        },
+        {
+          "stage": "orchestration",
+          "function": "commands::db::db_build_command",
+          "median_calls": 1,
+          "median_exclusive_ns": 10820,
+          "median_inclusive_ns": 70042283,
+          "median_diagnostic_wall_fraction": 0.000143833325623229,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0001438540166248,
+          "median_inclusive_diagnostic_wall_fraction": 0.9444744014180678,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 18.009711296032677
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "commands::db::aggregate",
+          "median_calls": 11,
+          "median_exclusive_ns": 2373,
+          "median_inclusive_ns": 2373,
+          "median_diagnostic_wall_fraction": 3.1512917363273614e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000315139104585,
+          "median_inclusive_diagnostic_wall_fraction": 3.1512917363273614e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000315139104585
+        }
+      ],
+      "worker_summed_elapsed_ns_by_stage": {
+        "buried_volume": 66781166,
+        "conformer_processing": 89644,
+        "file_parsing": 1155502,
+        "sterimol": 846421,
+        "donor_bond_detection": 182998,
+        "pyramidalization": 13352
+      },
+      "worker_functions_summed_elapsed": [
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::occupied_volumes",
+          "median_exclusive_ns": 63953269,
+          "median_inclusive_ns": 63953269,
+          "median_calls": 168
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::integration_grid",
+          "median_exclusive_ns": 2630405,
+          "median_inclusive_ns": 2630405,
+          "median_calls": 56
+        },
+        {
+          "stage": "sterimol",
+          "function": "sterimol::params_from_projection",
+          "median_exclusive_ns": 822258,
+          "median_inclusive_ns": 822258,
+          "median_calls": 56
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_xyz",
+          "median_exclusive_ns": 677603,
+          "median_inclusive_ns": 677603,
+          "median_calls": 56
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_coordinate_file",
+          "median_exclusive_ns": 485307,
+          "median_inclusive_ns": 1155502,
+          "median_calls": 56
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "bonded_neighbors",
+          "median_exclusive_ns": 156278,
+          "median_inclusive_ns": 156278,
+          "median_calls": 168
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "descriptors::descriptors_for_file",
+          "median_exclusive_ns": 89644,
+          "median_inclusive_ns": 69067637,
+          "median_calls": 56
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::aligned_atoms",
+          "median_exclusive_ns": 84067,
+          "median_inclusive_ns": 84067,
+          "median_calls": 168
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute_from_center",
+          "median_exclusive_ns": 54390,
+          "median_inclusive_ns": 66767618,
+          "median_calls": 56
+        },
+        {
+          "stage": "sterimol",
+          "function": "SterimolCalculator::compute",
+          "median_exclusive_ns": 24163,
+          "median_inclusive_ns": 846421,
+          "median_calls": 56
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "descriptors::detect_donor",
+          "median_exclusive_ns": 19988,
+          "median_inclusive_ns": 126924,
+          "median_calls": 112
+        },
+        {
+          "stage": "pyramidalization",
+          "function": "PyramidalizationCalculator::compute",
+          "median_exclusive_ns": 13352,
+          "median_inclusive_ns": 13352,
+          "median_calls": 56
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute",
+          "median_exclusive_ns": 11536,
+          "median_inclusive_ns": 66838489,
+          "median_calls": 56
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::coordinate_basis",
+          "median_exclusive_ns": 10184,
+          "median_inclusive_ns": 10184,
+          "median_calls": 168
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "donor_neighbor_indices",
+          "median_exclusive_ns": 3911,
+          "median_inclusive_ns": 53021,
+          "median_calls": 56
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "infer_lone_pair_direction",
+          "median_exclusive_ns": 2865,
+          "median_inclusive_ns": 2865,
+          "median_calls": 56
+        }
+      ],
+      "observed_threads": [
+        2
+      ],
+      "requested_heap": {
+        "allocation_calls": 21111,
+        "reallocation_calls": 773,
+        "deallocation_calls": 21045,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 23237028,
+        "live_requested_bytes": 14050,
+        "peak_live_requested_bytes": 444675
+      },
+      "outside_cli_scope_median_ns": 3860008
+    },
+    "descriptors_10000": {
+      "native": {
+        "exactness_scope": "all emitted values byte-for-byte",
+        "fingerprints": {
+          "stdout_sha256": "b59ac7d6457aed2b2a028a908a845e1ee9c0bb15f39c05acee4457e4b8c49495"
+        },
+        "measured_runs": 7,
+        "summary": {
+          "cpu_percent_one_core": {
+            "mad": 0.016159609528173746,
+            "maximum": 99.93677998177618,
+            "median": 99.88422828543277,
+            "minimum": 99.8680686759046,
+            "p90_nearest_rank": 99.93677998177618
+          },
+          "cpu_system_s": {
+            "mad": 0.0039990000000000026,
+            "maximum": 0.079994,
+            "median": 0.065993,
+            "minimum": 0.056992,
+            "p90_nearest_rank": 0.079994
+          },
+          "cpu_user_s": {
+            "mad": 0.011341999999999075,
+            "maximum": 12.284161,
+            "median": 12.069702,
+            "minimum": 12.05836,
+            "p90_nearest_rank": 12.284161
+          },
+          "involuntary_context_switches": {
+            "mad": 1,
+            "maximum": 126,
+            "median": 114,
+            "minimum": 107,
+            "p90_nearest_rank": 126
+          },
+          "major_faults": {
+            "mad": 0,
+            "maximum": 0,
+            "median": 0,
+            "minimum": 0,
+            "p90_nearest_rank": 0
+          },
+          "minor_faults": {
+            "mad": 2,
+            "maximum": 3981,
+            "median": 3977,
+            "minimum": 3974,
+            "p90_nearest_rank": 3981
+          },
+          "peak_rss_bytes": {
+            "mad": 40960,
+            "maximum": 19353600,
+            "median": 19226624,
+            "minimum": 19054592,
+            "p90_nearest_rank": 19353600
+          },
+          "voluntary_context_switches": {
+            "mad": 0,
+            "maximum": 2,
+            "median": 2,
+            "minimum": 2,
+            "p90_nearest_rank": 2
+          },
+          "wall_ns": {
+            "mad": 30415833,
+            "maximum": 12380137010,
+            "median": 12161772893,
+            "minimum": 12131357060,
+            "p90_nearest_rank": 12380137010
+          }
+        }
+      },
+      "diagnostic_process_wall_ns": 12186238830,
+      "diagnostic_to_native_wall_ratio": 1.002011708096776,
+      "main_thread_stage_wall": {
+        "outside_cli_scope": {
+          "median_exclusive_ns": 6929640,
+          "median_diagnostic_wall_fraction": 0.0005706815317424164,
+          "maximum_end_to_end_speedup": 1.0005710073951173,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0002854222084627
+        },
+        "output": {
+          "median_exclusive_ns": 22995108,
+          "median_diagnostic_wall_fraction": 0.00186872213213727,
+          "maximum_end_to_end_speedup": 1.0018722207925685,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0009352349131593
+        },
+        "buried_volume": {
+          "median_exclusive_ns": 11716730843,
+          "median_diagnostic_wall_fraction": 0.9612737450671701,
+          "maximum_end_to_end_speedup": 25.822274881330127,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.92543510910806
+        },
+        "conformer_processing": {
+          "median_exclusive_ns": 21097081,
+          "median_diagnostic_wall_fraction": 0.0017312216914757447,
+          "maximum_end_to_end_speedup": 1.0017342240177132,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0008663607770227
+        },
+        "file_parsing": {
+          "median_exclusive_ns": 222714199,
+          "median_diagnostic_wall_fraction": 0.01828973677032274,
+          "maximum_end_to_end_speedup": 1.0186304834077544,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.009229268833939
+        },
+        "sterimol": {
+          "median_exclusive_ns": 150587629,
+          "median_diagnostic_wall_fraction": 0.012353715703436612,
+          "maximum_end_to_end_speedup": 1.0125082389311426,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0062152485585778
+        },
+        "orchestration": {
+          "median_exclusive_ns": 9227484,
+          "median_diagnostic_wall_fraction": 0.0007547191305538693,
+          "maximum_end_to_end_speedup": 1.0007552891617333,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.000377502019275
+        },
+        "donor_bond_detection": {
+          "median_exclusive_ns": 34914212,
+          "median_diagnostic_wall_fraction": 0.0028672251248033067,
+          "maximum_end_to_end_speedup": 1.0028754697438986,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0014356707580359
+        },
+        "pyramidalization": {
+          "median_exclusive_ns": 1447972,
+          "median_diagnostic_wall_fraction": 0.00011882025456742177,
+          "maximum_end_to_end_speedup": 1.000118834374498,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0000594136570566
+        }
+      },
+      "main_thread_functions": [
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::occupied_volumes",
+          "median_calls": 30000,
+          "median_exclusive_ns": 11275444063,
+          "median_inclusive_ns": 11275444063,
+          "median_diagnostic_wall_fraction": 0.9250668573214441,
+          "maximum_end_to_end_speedup_removing_self_work": 13.345229684143177,
+          "median_inclusive_diagnostic_wall_fraction": 0.9250668573214441,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 13.345229684143177
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::integration_grid",
+          "median_calls": 10000,
+          "median_exclusive_ns": 416568101,
+          "median_inclusive_ns": 416568101,
+          "median_diagnostic_wall_fraction": 0.03418348407668619,
+          "maximum_end_to_end_speedup_removing_self_work": 1.035393352166904,
+          "median_inclusive_diagnostic_wall_fraction": 0.03418348407668619,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.035393352166904
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_xyz",
+          "median_calls": 10000,
+          "median_exclusive_ns": 148298822,
+          "median_inclusive_ns": 148298822,
+          "median_diagnostic_wall_fraction": 0.012173912974568947,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0123239435913536,
+          "median_inclusive_diagnostic_wall_fraction": 0.012173912974568947,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0123239435913536
+        },
+        {
+          "stage": "sterimol",
+          "function": "sterimol::params_from_projection",
+          "median_calls": 10000,
+          "median_exclusive_ns": 146340138,
+          "median_inclusive_ns": 146340138,
+          "median_diagnostic_wall_fraction": 0.012005730319335946,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0121516193846107,
+          "median_inclusive_diagnostic_wall_fraction": 0.012005730319335946,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0121516193846107
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_coordinate_file",
+          "median_calls": 10000,
+          "median_exclusive_ns": 74693814,
+          "median_inclusive_ns": 222714199,
+          "median_diagnostic_wall_fraction": 0.006129357469682875,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0061671581867817,
+          "median_inclusive_diagnostic_wall_fraction": 0.01828973677032274,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0186304834077544
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "bonded_neighbors",
+          "median_calls": 30000,
+          "median_exclusive_ns": 30089177,
+          "median_inclusive_ns": 30089177,
+          "median_diagnostic_wall_fraction": 0.002470983571934941,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0024771044563525,
+          "median_inclusive_diagnostic_wall_fraction": 0.002470983571934941,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0024771044563525
+        },
+        {
+          "stage": "output",
+          "function": "descriptors::print_descriptor_json",
+          "median_calls": 1,
+          "median_exclusive_ns": 22995108,
+          "median_inclusive_ns": 22995108,
+          "median_diagnostic_wall_fraction": 0.00186872213213727,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0018722207925685,
+          "median_inclusive_diagnostic_wall_fraction": 0.00186872213213727,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0018722207925685
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "descriptors::descriptors_for_file",
+          "median_calls": 10000,
+          "median_exclusive_ns": 21097081,
+          "median_inclusive_ns": 12146862286,
+          "median_diagnostic_wall_fraction": 0.0017312216914757447,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0017342240177132,
+          "median_inclusive_diagnostic_wall_fraction": 0.9967687697123526,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 309.4796442775634
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::aligned_atoms",
+          "median_calls": 30000,
+          "median_exclusive_ns": 14659571,
+          "median_inclusive_ns": 14659571,
+          "median_diagnostic_wall_fraction": 0.0012038733765504413,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0012053244345474,
+          "median_inclusive_diagnostic_wall_fraction": 0.0012038733765504413,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0012053244345474
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute_from_center",
+          "median_calls": 10000,
+          "median_exclusive_ns": 6507224,
+          "median_inclusive_ns": 11714875555,
+          "median_diagnostic_wall_fraction": 0.0005339813285113501,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0005342666169093,
+          "median_inclusive_diagnostic_wall_fraction": 0.9611357371392711,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 25.730579364994703
+        },
+        {
+          "stage": "orchestration",
+          "function": "descriptors::descriptors_command",
+          "median_calls": 1,
+          "median_exclusive_ns": 4810423,
+          "median_inclusive_ns": 12174890069,
+          "median_diagnostic_wall_fraction": 0.00038978056062373336,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0003899325487513,
+          "median_inclusive_diagnostic_wall_fraction": 0.9990687232411644,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1073.794648596494
+        },
+        {
+          "stage": "orchestration",
+          "function": "cli::run",
+          "median_calls": 1,
+          "median_exclusive_ns": 4503839,
+          "median_inclusive_ns": 12179533481,
+          "median_diagnostic_wall_fraction": 0.000364938569930136,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0003650717987103,
+          "median_inclusive_diagnostic_wall_fraction": 0.9994293184682576,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1752.2908038511941
+        },
+        {
+          "stage": "sterimol",
+          "function": "SterimolCalculator::compute",
+          "median_calls": 10000,
+          "median_exclusive_ns": 4247491,
+          "median_inclusive_ns": 150587629,
+          "median_diagnostic_wall_fraction": 0.0003488124810772164,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000348934193679,
+          "median_inclusive_diagnostic_wall_fraction": 0.012353715703436612,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0125082389311426
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "descriptors::detect_donor",
+          "median_calls": 20000,
+          "median_exclusive_ns": 3624759,
+          "median_inclusive_ns": 24602750,
+          "median_diagnostic_wall_fraction": 0.00029594715716207867,
+          "maximum_end_to_end_speedup_removing_self_work": 1.00029603476781,
+          "median_inclusive_diagnostic_wall_fraction": 0.0020204271813224527,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0020245175716533
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute",
+          "median_calls": 10000,
+          "median_exclusive_ns": 1855288,
+          "median_inclusive_ns": 11727031761,
+          "median_diagnostic_wall_fraction": 0.00015224451333028732,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0001522676952515,
+          "median_inclusive_diagnostic_wall_fraction": 0.9621195511196539,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 26.398842399115264
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::coordinate_basis",
+          "median_calls": 30000,
+          "median_exclusive_ns": 1805557,
+          "median_inclusive_ns": 1805557,
+          "median_diagnostic_wall_fraction": 0.0001475412574037005,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0001475630290386,
+          "median_inclusive_diagnostic_wall_fraction": 0.0001475412574037005,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0001475630290386
+        },
+        {
+          "stage": "pyramidalization",
+          "function": "PyramidalizationCalculator::compute",
+          "median_calls": 10000,
+          "median_exclusive_ns": 1447972,
+          "median_inclusive_ns": 1447972,
+          "median_diagnostic_wall_fraction": 0.00011882025456742177,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000118834374498,
+          "median_inclusive_diagnostic_wall_fraction": 0.00011882025456742177,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.000118834374498
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "donor_neighbor_indices",
+          "median_calls": 10000,
+          "median_exclusive_ns": 713663,
+          "median_inclusive_ns": 9824849,
+          "median_diagnostic_wall_fraction": 5.8404250672105034e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000584076619279,
+          "median_inclusive_diagnostic_wall_fraction": 0.0008045786625749315,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.00080522653066
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "infer_lone_pair_direction",
+          "median_calls": 10000,
+          "median_exclusive_ns": 499378,
+          "median_inclusive_ns": 499378,
+          "median_diagnostic_wall_fraction": 4.097884564437016e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000040980524979,
+          "median_inclusive_diagnostic_wall_fraction": 4.097884564437016e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.000040980524979
+        }
+      ],
+      "worker_summed_elapsed_ns_by_stage": {},
+      "worker_functions_summed_elapsed": [],
+      "observed_threads": [
+        1
+      ],
+      "requested_heap": {
+        "allocation_calls": 3589984,
+        "reallocation_calls": 104600,
+        "deallocation_calls": 3589935,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 4102719006,
+        "live_requested_bytes": 2009,
+        "peak_live_requested_bytes": 13030618
+      },
+      "outside_cli_scope_median_ns": 6929640
+    },
+    "ensemble_sdf": {
+      "native": {
+        "exactness_scope": "all emitted values byte-for-byte",
+        "fingerprints": {
+          "stdout_sha256": "125d4e020b90e23656dcc03db6e1a0aa58bdb44c88c080ee31588ee037805301"
+        },
+        "measured_runs": 7,
+        "summary": {
+          "cpu_percent_one_core": {
+            "mad": 0.024639708179549302,
+            "maximum": 98.51865308780614,
+            "median": 98.45323392747022,
+            "minimum": 98.21736657335624,
+            "p90_nearest_rank": 98.51865308780614
+          },
+          "cpu_system_s": {
+            "mad": 2.600000000000009e-05,
+            "maximum": 0.001988,
+            "median": 0.000981,
+            "minimum": 0.0,
+            "p90_nearest_rank": 0.001988
+          },
+          "cpu_user_s": {
+            "mad": 0.00036500000000000074,
+            "maximum": 0.016838,
+            "median": 0.015819,
+            "minimum": 0.014913,
+            "p90_nearest_rank": 0.016838
+          },
+          "involuntary_context_switches": {
+            "mad": 0,
+            "maximum": 2,
+            "median": 1,
+            "minimum": 1,
+            "p90_nearest_rank": 2
+          },
+          "major_faults": {
+            "mad": 0,
+            "maximum": 0,
+            "median": 0,
+            "minimum": 0,
+            "p90_nearest_rank": 0
+          },
+          "minor_faults": {
+            "mad": 1,
+            "maximum": 287,
+            "median": 285,
+            "minimum": 283,
+            "p90_nearest_rank": 287
+          },
+          "peak_rss_bytes": {
+            "mad": 36864,
+            "maximum": 5222400,
+            "median": 5160960,
+            "minimum": 5021696,
+            "p90_nearest_rank": 5222400
+          },
+          "voluntary_context_switches": {
+            "mad": 0,
+            "maximum": 2,
+            "median": 2,
+            "minimum": 2,
+            "p90_nearest_rank": 2
+          },
+          "wall_ns": {
+            "mad": 115257,
+            "maximum": 17469517,
+            "median": 17097997,
+            "minimum": 16904413,
+            "p90_nearest_rank": 17469517
+          }
+        }
+      },
+      "diagnostic_process_wall_ns": 20423012,
+      "diagnostic_to_native_wall_ratio": 1.1944681005617208,
+      "main_thread_stage_wall": {
+        "outside_cli_scope": {
+          "median_exclusive_ns": 3745393,
+          "median_diagnostic_wall_fraction": 0.18339082403712048,
+          "maximum_end_to_end_speedup": 1.2245760021259628,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.1009522722133755
+        },
+        "output": {
+          "median_exclusive_ns": 215665,
+          "median_diagnostic_wall_fraction": 0.010660876435247778,
+          "maximum_end_to_end_speedup": 1.0107757554324093,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0053590040576612
+        },
+        "buried_volume": {
+          "median_exclusive_ns": 15744235,
+          "median_diagnostic_wall_fraction": 0.770906612599552,
+          "maximum_end_to_end_speedup": 4.365032144083807,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.627215653832482
+        },
+        "conformer_processing": {
+          "median_exclusive_ns": 17413,
+          "median_diagnostic_wall_fraction": 0.0008526166463595086,
+          "maximum_end_to_end_speedup": 1.0008533442218481,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.000426490139476
+        },
+        "file_parsing": {
+          "median_exclusive_ns": 229291,
+          "median_diagnostic_wall_fraction": 0.01120274958414328,
+          "maximum_end_to_end_speedup": 1.0113296730744668,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.005632926926966
+        },
+        "sterimol": {
+          "median_exclusive_ns": 190077,
+          "median_diagnostic_wall_fraction": 0.009351167202957134,
+          "maximum_end_to_end_speedup": 1.0094394369562367,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0046975473769615
+        },
+        "orchestration": {
+          "median_exclusive_ns": 228479,
+          "median_diagnostic_wall_fraction": 0.01118733123204354,
+          "maximum_end_to_end_speedup": 1.0113139036193608,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0056251307162951
+        },
+        "donor_bond_detection": {
+          "median_exclusive_ns": 31303,
+          "median_diagnostic_wall_fraction": 0.0015491146495283372,
+          "maximum_end_to_end_speedup": 1.001551518128991,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0007751577288608
+        },
+        "pyramidalization": {
+          "median_exclusive_ns": 6562,
+          "median_diagnostic_wall_fraction": 0.0003211827356007764,
+          "maximum_end_to_end_speedup": 1.0003212859270938,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.00016061716153
+        }
+      },
+      "main_thread_functions": [
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::occupied_volumes",
+          "median_calls": 36,
+          "median_exclusive_ns": 15058925,
+          "median_inclusive_ns": 15058925,
+          "median_diagnostic_wall_fraction": 0.7377943340957304,
+          "maximum_end_to_end_speedup_removing_self_work": 3.8138001196552955,
+          "median_inclusive_diagnostic_wall_fraction": 0.7377943340957304,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 3.8138001196552955
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::integration_grid",
+          "median_calls": 12,
+          "median_exclusive_ns": 650543,
+          "median_inclusive_ns": 650543,
+          "median_diagnostic_wall_fraction": 0.03216696523186102,
+          "maximum_end_to_end_speedup_removing_self_work": 1.033236068698117,
+          "median_inclusive_diagnostic_wall_fraction": 0.03216696523186102,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.033236068698117
+        },
+        {
+          "stage": "orchestration",
+          "function": "cli::run",
+          "median_calls": 1,
+          "median_exclusive_ns": 223721,
+          "median_inclusive_ns": 16677619,
+          "median_diagnostic_wall_fraction": 0.01104477775777399,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0111681272411228,
+          "median_inclusive_diagnostic_wall_fraction": 0.8166091759628795,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 5.45283552353518
+        },
+        {
+          "stage": "output",
+          "function": "descriptors::print_descriptor_json",
+          "median_calls": 1,
+          "median_exclusive_ns": 215665,
+          "median_inclusive_ns": 215665,
+          "median_diagnostic_wall_fraction": 0.010660876435247778,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0107757554324093,
+          "median_inclusive_diagnostic_wall_fraction": 0.010660876435247778,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0107757554324093
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_mol_block",
+          "median_calls": 12,
+          "median_exclusive_ns": 197591,
+          "median_inclusive_ns": 197591,
+          "median_diagnostic_wall_fraction": 0.009671261491937368,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0097657082096874,
+          "median_inclusive_diagnostic_wall_fraction": 0.009671261491937368,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0097657082096874
+        },
+        {
+          "stage": "sterimol",
+          "function": "sterimol::params_from_projection",
+          "median_calls": 12,
+          "median_exclusive_ns": 182092,
+          "median_inclusive_ns": 182092,
+          "median_diagnostic_wall_fraction": 0.009011321111775676,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0090932634284837,
+          "median_inclusive_diagnostic_wall_fraction": 0.009011321111775676,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0090932634284837
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_coordinate_file",
+          "median_calls": 1,
+          "median_exclusive_ns": 27382,
+          "median_inclusive_ns": 229291,
+          "median_diagnostic_wall_fraction": 0.0013407424918518386,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0013425424956228,
+          "median_inclusive_diagnostic_wall_fraction": 0.01120274958414328,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0113296730744668
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "bonded_neighbors",
+          "median_calls": 25,
+          "median_exclusive_ns": 25448,
+          "median_inclusive_ns": 25448,
+          "median_diagnostic_wall_fraction": 0.001259363945985916,
+          "maximum_end_to_end_speedup_removing_self_work": 1.001260951943401,
+          "median_inclusive_diagnostic_wall_fraction": 0.001259363945985916,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.001260951943401
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute_from_center",
+          "median_calls": 12,
+          "median_exclusive_ns": 25123,
+          "median_inclusive_ns": 15741349,
+          "median_diagnostic_wall_fraction": 0.0012296668495120856,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0012311807917174,
+          "median_inclusive_diagnostic_wall_fraction": 0.7707653014158734,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 4.362341330420408
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::aligned_atoms",
+          "median_calls": 36,
+          "median_exclusive_ns": 23287,
+          "median_inclusive_ns": 23287,
+          "median_diagnostic_wall_fraction": 0.0011514567359180677,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0011527841169545,
+          "median_inclusive_diagnostic_wall_fraction": 0.0011514567359180677,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0011527841169545
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "descriptors::descriptors_for_file",
+          "median_calls": 1,
+          "median_exclusive_ns": 17413,
+          "median_inclusive_ns": 16217815,
+          "median_diagnostic_wall_fraction": 0.0008526166463595086,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0008533442218481,
+          "median_inclusive_diagnostic_wall_fraction": 0.7940951608900783,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 4.856612425054045
+        },
+        {
+          "stage": "pyramidalization",
+          "function": "PyramidalizationCalculator::compute",
+          "median_calls": 12,
+          "median_exclusive_ns": 6562,
+          "median_inclusive_ns": 6562,
+          "median_diagnostic_wall_fraction": 0.0003211827356007764,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0003212859270938,
+          "median_inclusive_diagnostic_wall_fraction": 0.0003211827356007764,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0003212859270938
+        },
+        {
+          "stage": "sterimol",
+          "function": "SterimolCalculator::compute",
+          "median_calls": 12,
+          "median_exclusive_ns": 5528,
+          "median_inclusive_ns": 190077,
+          "median_diagnostic_wall_fraction": 0.0002706750600743906,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000270748344899,
+          "median_inclusive_diagnostic_wall_fraction": 0.009351167202957134,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0094394369562367
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_sdf",
+          "median_calls": 1,
+          "median_exclusive_ns": 5411,
+          "median_inclusive_ns": 202951,
+          "median_diagnostic_wall_fraction": 0.00026494622830364103,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0002650164434108,
+          "median_inclusive_diagnostic_wall_fraction": 0.009933611303400362,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0100332779870222
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "descriptors::detect_donor",
+          "median_calls": 13,
+          "median_exclusive_ns": 5009,
+          "median_inclusive_ns": 18988,
+          "median_diagnostic_wall_fraction": 0.0002447308122297591,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0002447907200616,
+          "median_inclusive_diagnostic_wall_fraction": 0.0009396731612064042,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0009405569773546
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute",
+          "median_calls": 12,
+          "median_exclusive_ns": 2854,
+          "median_inclusive_ns": 15755957,
+          "median_diagnostic_wall_fraction": 0.00014118851532135407,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0001412084523331,
+          "median_inclusive_diagnostic_wall_fraction": 0.7714805729928573,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 4.375995568940157
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::coordinate_basis",
+          "median_calls": 36,
+          "median_exclusive_ns": 2287,
+          "median_inclusive_ns": 2287,
+          "median_diagnostic_wall_fraction": 0.00011178566609078034,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000111798163523,
+          "median_inclusive_diagnostic_wall_fraction": 0.00011178566609078034,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.000111798163523
+        },
+        {
+          "stage": "orchestration",
+          "function": "descriptors::descriptors_command",
+          "median_calls": 1,
+          "median_exclusive_ns": 1954,
+          "median_inclusive_ns": 16453898,
+          "median_diagnostic_wall_fraction": 9.546895729625659e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000954780724882,
+          "median_inclusive_diagnostic_wall_fraction": 0.8056548172228465,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 5.145483853575383
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "donor_neighbor_indices",
+          "median_calls": 12,
+          "median_exclusive_ns": 832,
+          "median_inclusive_ns": 11693,
+          "median_diagnostic_wall_fraction": 4.073835925866371e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000407400189402,
+          "median_inclusive_diagnostic_wall_fraction": 0.0005786601155459493,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0005789951569504
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "infer_lone_pair_direction",
+          "median_calls": 12,
+          "median_exclusive_ns": 720,
+          "median_inclusive_ns": 720,
+          "median_diagnostic_wall_fraction": 3.5254349358458976e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000352555922714,
+          "median_inclusive_diagnostic_wall_fraction": 3.5254349358458976e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000352555922714
+        }
+      ],
+      "worker_summed_elapsed_ns_by_stage": {},
+      "worker_functions_summed_elapsed": [],
+      "observed_threads": [
+        1
+      ],
+      "requested_heap": {
+        "allocation_calls": 4109,
+        "reallocation_calls": 951,
+        "deallocation_calls": 4060,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 5317403,
+        "live_requested_bytes": 2004,
+        "peak_live_requested_bytes": 428068
+      },
+      "outside_cli_scope_median_ns": 3745393
+    },
+    "parse_ensembles_1000": {
+      "native": {
+        "exactness_scope": "all emitted values byte-for-byte",
+        "fingerprints": {
+          "sigpack_sha256": "824dd86ee57695a95e32e41ddf65abba98cc8022481ae701128aac17ab0a2608",
+          "stdout_sha256": "6038db53ef8a44e1f42afce7bbe00e371f29bdc2842596afb40dedfe2d2b4559"
+        },
+        "measured_runs": 7,
+        "summary": {
+          "cpu_percent_one_core": {
+            "mad": 0.024787182732183055,
+            "maximum": 99.85650043805812,
+            "median": 99.82546371025609,
+            "minimum": 96.28773331571176,
+            "p90_nearest_rank": 99.85650043805812
+          },
+          "cpu_system_s": {
+            "mad": 0.002131000000000001,
+            "maximum": 0.040102,
+            "median": 0.03592,
+            "minimum": 0.030043,
+            "p90_nearest_rank": 0.040102
+          },
+          "cpu_user_s": {
+            "mad": 0.0015249999999999986,
+            "maximum": 0.153219,
+            "median": 0.148199,
+            "minimum": 0.14325,
+            "p90_nearest_rank": 0.153219
+          },
+          "involuntary_context_switches": {
+            "mad": 1,
+            "maximum": 4,
+            "median": 3,
+            "minimum": 1,
+            "p90_nearest_rank": 4
+          },
+          "major_faults": {
+            "mad": 0,
+            "maximum": 0,
+            "median": 0,
+            "minimum": 0,
+            "p90_nearest_rank": 0
+          },
+          "minor_faults": {
+            "mad": 1,
+            "maximum": 220,
+            "median": 219,
+            "minimum": 217,
+            "p90_nearest_rank": 220
+          },
+          "peak_rss_bytes": {
+            "mad": 73728,
+            "maximum": 5050368,
+            "median": 4968448,
+            "minimum": 4882432,
+            "p90_nearest_rank": 5050368
+          },
+          "voluntary_context_switches": {
+            "mad": 0,
+            "maximum": 3,
+            "median": 2,
+            "minimum": 2,
+            "p90_nearest_rank": 3
+          },
+          "wall_ns": {
+            "mad": 2811692,
+            "maximum": 190327463,
+            "median": 186529326,
+            "minimum": 181593507,
+            "p90_nearest_rank": 190327463
+          }
+        }
+      },
+      "diagnostic_process_wall_ns": 194656568,
+      "diagnostic_to_native_wall_ratio": 1.0435708538398942,
+      "main_thread_stage_wall": {
+        "outside_cli_scope": {
+          "median_exclusive_ns": 3099027,
+          "median_diagnostic_wall_fraction": 0.01592048514900355,
+          "maximum_end_to_end_speedup": 1.016178047514193,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0080241164881938
+        },
+        "output": {
+          "median_exclusive_ns": 540726,
+          "median_diagnostic_wall_fraction": 0.0027273425250293392,
+          "maximum_end_to_end_speedup": 1.0027348012648165,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.001365533401172
+        },
+        "conformer_processing": {
+          "median_exclusive_ns": 14037061,
+          "median_diagnostic_wall_fraction": 0.07536543189879881,
+          "maximum_end_to_end_speedup": 1.0815083434026989,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0391583073212451
+        },
+        "file_parsing": {
+          "median_exclusive_ns": 93864079,
+          "median_diagnostic_wall_fraction": 0.4989300163194954,
+          "maximum_end_to_end_speedup": 1.995729204640656,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.3323829146834036
+        },
+        "sterimol": {
+          "median_exclusive_ns": 75570539,
+          "median_diagnostic_wall_fraction": 0.3931461531192958,
+          "maximum_end_to_end_speedup": 1.647843224756851,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.2446682714065678
+        },
+        "orchestration": {
+          "median_exclusive_ns": 295485,
+          "median_diagnostic_wall_fraction": 0.0015314752121401752,
+          "maximum_end_to_end_speedup": 1.001533824225922,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0007663244094889
+        }
+      },
+      "main_thread_functions": [
+        {
+          "stage": "sterimol",
+          "function": "sterimol::params_from_projection",
+          "median_calls": 5085,
+          "median_exclusive_ns": 73416225,
+          "median_inclusive_ns": 73416225,
+          "median_diagnostic_wall_fraction": 0.3815753018572083,
+          "maximum_end_to_end_speedup_removing_self_work": 1.6170117445230239,
+          "median_inclusive_diagnostic_wall_fraction": 0.3815753018572083,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.6170117445230239
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_xyz",
+          "median_calls": 5085,
+          "median_exclusive_ns": 54392471,
+          "median_inclusive_ns": 54392471,
+          "median_diagnostic_wall_fraction": 0.29203492589779934,
+          "maximum_end_to_end_speedup_removing_self_work": 1.41249905762391,
+          "median_inclusive_diagnostic_wall_fraction": 0.29203492589779934,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.41249905762391
+        },
+        {
+          "stage": "file_parsing",
+          "function": "Molecule::from_xyz_file",
+          "median_calls": 5085,
+          "median_exclusive_ns": 26677641,
+          "median_inclusive_ns": 81046142,
+          "median_diagnostic_wall_fraction": 0.14012678939222756,
+          "maximum_end_to_end_speedup_removing_self_work": 1.1629621526331582,
+          "median_inclusive_diagnostic_wall_fraction": 0.43182278523499007,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.7600142596594373
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "commands::parse::conformer_row",
+          "median_calls": 1000,
+          "median_exclusive_ns": 12695056,
+          "median_inclusive_ns": 180727869,
+          "median_diagnostic_wall_fraction": 0.0677134558390433,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0726315919318394,
+          "median_inclusive_diagnostic_wall_fraction": 0.9655083014105347,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 28.9924834349975
+        },
+        {
+          "stage": "file_parsing",
+          "function": "reaction::resolve_xyz_path",
+          "median_calls": 5085,
+          "median_exclusive_ns": 10457991,
+          "median_inclusive_ns": 10457991,
+          "median_diagnostic_wall_fraction": 0.054286686816859116,
+          "maximum_end_to_end_speedup_removing_self_work": 1.057402900075645,
+          "median_inclusive_diagnostic_wall_fraction": 0.054286686816859116,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.057402900075645
+        },
+        {
+          "stage": "file_parsing",
+          "function": "commands::parse::csv_ingestion",
+          "median_calls": 1,
+          "median_exclusive_ns": 2455027,
+          "median_inclusive_ns": 183087815,
+          "median_diagnostic_wall_fraction": 0.013181118909308178,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0133571815070457,
+          "median_inclusive_diagnostic_wall_fraction": 0.9799371664234363,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 49.84340802029807
+        },
+        {
+          "stage": "sterimol",
+          "function": "SterimolCalculator::compute",
+          "median_calls": 5085,
+          "median_exclusive_ns": 1856341,
+          "median_inclusive_ns": 75272566,
+          "median_diagnostic_wall_fraction": 0.009929763033828427,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0100293521238006,
+          "median_inclusive_diagnostic_wall_fraction": 0.3915050648910367,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.6433990528136935
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "reaction::conformer_paths",
+          "median_calls": 1000,
+          "median_exclusive_ns": 746767,
+          "median_inclusive_ns": 746767,
+          "median_diagnostic_wall_fraction": 0.004009769516744499,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0040259124979558,
+          "median_inclusive_diagnostic_wall_fraction": 0.004009769516744499,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0040259124979558
+        },
+        {
+          "stage": "output",
+          "function": "storage::SigPackWriter::export",
+          "median_calls": 1,
+          "median_exclusive_ns": 420380,
+          "median_inclusive_ns": 420380,
+          "median_diagnostic_wall_fraction": 0.0021203349768123478,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0021248403501268,
+          "median_inclusive_diagnostic_wall_fraction": 0.0021203349768123478,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0021248403501268
+        },
+        {
+          "stage": "sterimol",
+          "function": "reaction::sterimol_from_molecule",
+          "median_calls": 5085,
+          "median_exclusive_ns": 314593,
+          "median_inclusive_ns": 75570539,
+          "median_diagnostic_wall_fraction": 0.0016194490029274075,
+          "maximum_end_to_end_speedup_removing_self_work": 1.001622075872081,
+          "median_inclusive_diagnostic_wall_fraction": 0.3931461531192958,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.647843224756851
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "reaction::conformer_weights",
+          "median_calls": 1000,
+          "median_exclusive_ns": 294425,
+          "median_inclusive_ns": 294425,
+          "median_diagnostic_wall_fraction": 0.0015807772928253172,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0015832801060651,
+          "median_inclusive_diagnostic_wall_fraction": 0.0015807772928253172,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0015832801060651
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "reaction::conformer_energy_span",
+          "median_calls": 1000,
+          "median_exclusive_ns": 243437,
+          "median_inclusive_ns": 243437,
+          "median_diagnostic_wall_fraction": 0.0013070210812040986,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0013087316210223,
+          "median_inclusive_diagnostic_wall_fraction": 0.0013070210812040986,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0013087316210223
+        },
+        {
+          "stage": "orchestration",
+          "function": "cli::run",
+          "median_calls": 1,
+          "median_exclusive_ns": 220023,
+          "median_inclusive_ns": 191557541,
+          "median_diagnostic_wall_fraction": 0.0011126621733102784,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0011139015694515,
+          "median_inclusive_diagnostic_wall_fraction": 0.9840795148509964,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 62.812156202575764
+        },
+        {
+          "stage": "output",
+          "function": "commands::parse::print_report",
+          "median_calls": 1,
+          "median_exclusive_ns": 83587,
+          "median_inclusive_ns": 83587,
+          "median_diagnostic_wall_fraction": 0.0004529435039205946,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0004531487547053,
+          "median_inclusive_diagnostic_wall_fraction": 0.0004529435039205946,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0004531487547053
+        },
+        {
+          "stage": "orchestration",
+          "function": "commands::parse::parse_command",
+          "median_calls": 1,
+          "median_exclusive_ns": 73028,
+          "median_inclusive_ns": 191340954,
+          "median_diagnostic_wall_fraction": 0.00037840211782070226,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0003785453601868,
+          "median_inclusive_diagnostic_wall_fraction": 0.9829668526776861,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 58.70905599988405
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "reaction::record_from_ensemble",
+          "median_calls": 1000,
+          "median_exclusive_ns": 60500,
+          "median_inclusive_ns": 60500,
+          "median_diagnostic_wall_fraction": 0.00032783904180310304,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0003279465554877,
+          "median_inclusive_diagnostic_wall_fraction": 0.00032783904180310304,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0003279465554877
+        }
+      ],
+      "worker_summed_elapsed_ns_by_stage": {},
+      "worker_functions_summed_elapsed": [],
+      "observed_threads": [
+        1
+      ],
+      "requested_heap": {
+        "allocation_calls": 884204,
+        "reallocation_calls": 2897,
+        "deallocation_calls": 884155,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 55200592,
+        "live_requested_bytes": 2012,
+        "peak_live_requested_bytes": 164676
+      },
+      "outside_cli_scope_median_ns": 3099027
+    },
+    "predict_1000000": {
+      "native": {
+        "exactness_scope": "CLI preview and aggregate only; complete f32 prediction audit is required separately",
+        "fingerprints": {
+          "stdout_sha256": "a8912478259dac7cf324240111e50090c6e9554dd587853cf260acebbca1601e"
+        },
+        "measured_runs": 7,
+        "summary": {
+          "cpu_percent_one_core": {
+            "mad": 0.014827060655832724,
+            "maximum": 99.35457011612117,
+            "median": 99.31056542774076,
+            "minimum": 99.28894116184746,
+            "p90_nearest_rank": 99.35457011612117
+          },
+          "cpu_system_s": {
+            "mad": 0.0015709999999999995,
+            "maximum": 0.012838,
+            "median": 0.009729,
+            "minimum": 0.008128,
+            "p90_nearest_rank": 0.012838
+          },
+          "cpu_user_s": {
+            "mad": 0.0010629999999999997,
+            "maximum": 0.013257,
+            "median": 0.012145,
+            "minimum": 0.008888,
+            "p90_nearest_rank": 0.013257
+          },
+          "involuntary_context_switches": {
+            "mad": 1,
+            "maximum": 7,
+            "median": 5,
+            "minimum": 4,
+            "p90_nearest_rank": 7
+          },
+          "major_faults": {
+            "mad": 0,
+            "maximum": 0,
+            "median": 0,
+            "minimum": 0,
+            "p90_nearest_rank": 0
+          },
+          "minor_faults": {
+            "mad": 1,
+            "maximum": 2155,
+            "median": 2153,
+            "minimum": 2152,
+            "p90_nearest_rank": 2155
+          },
+          "peak_rss_bytes": {
+            "mad": 36864,
+            "maximum": 72925184,
+            "median": 72888320,
+            "minimum": 72740864,
+            "p90_nearest_rank": 72925184
+          },
+          "voluntary_context_switches": {
+            "mad": 0,
+            "maximum": 2,
+            "median": 2,
+            "minimum": 2,
+            "p90_nearest_rank": 2
+          },
+          "wall_ns": {
+            "mad": 322057,
+            "maximum": 22410645,
+            "median": 21876180,
+            "minimum": 21487327,
+            "p90_nearest_rank": 22410645
+          }
+        }
+      },
+      "diagnostic_process_wall_ns": 22750238,
+      "diagnostic_to_native_wall_ratio": 1.0399547818677666,
+      "main_thread_stage_wall": {
+        "model_loading": {
+          "median_exclusive_ns": 11932,
+          "median_diagnostic_wall_fraction": 0.0005248489959469799,
+          "maximum_end_to_end_speedup": 1.0005251246070697,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0002624933826676
+        },
+        "model_inference": {
+          "median_exclusive_ns": 15451224,
+          "median_diagnostic_wall_fraction": 0.676583033187436,
+          "maximum_end_to_end_speedup": 3.0919837318848797,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.5112395036138753
+        },
+        "output": {
+          "median_exclusive_ns": 134994,
+          "median_diagnostic_wall_fraction": 0.005933740121751694,
+          "maximum_end_to_end_speedup": 1.005969159563346,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.002975698571879
+        },
+        "outside_cli_scope": {
+          "median_exclusive_ns": 2169429,
+          "median_diagnostic_wall_fraction": 0.09542596651259308,
+          "maximum_end_to_end_speedup": 1.105492710358595,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0501035742558462
+        },
+        "validation": {
+          "median_exclusive_ns": 2310404,
+          "median_diagnostic_wall_fraction": 0.10084221258884347,
+          "maximum_end_to_end_speedup": 1.1121518536576178,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0530983856408829
+        },
+        "file_parsing": {
+          "median_exclusive_ns": 7655,
+          "median_diagnostic_wall_fraction": 0.0003396224941804987,
+          "maximum_end_to_end_speedup": 1.0003397378768055,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0001698400878474
+        },
+        "orchestration": {
+          "median_exclusive_ns": 2689888,
+          "median_diagnostic_wall_fraction": 0.11823559823857667,
+          "maximum_end_to_end_speedup": 1.134089784076549,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0628323068115766
+        }
+      },
+      "main_thread_functions": [
+        {
+          "stage": "model_inference",
+          "function": "model::RegressXPredictor::predict_batch",
+          "median_calls": 1,
+          "median_exclusive_ns": 15451224,
+          "median_inclusive_ns": 15451224,
+          "median_diagnostic_wall_fraction": 0.676583033187436,
+          "maximum_end_to_end_speedup_removing_self_work": 3.0919837318848797,
+          "median_inclusive_diagnostic_wall_fraction": 0.676583033187436,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 3.0919837318848797
+        },
+        {
+          "stage": "orchestration",
+          "function": "commands::predict::predict_command",
+          "median_calls": 1,
+          "median_exclusive_ns": 2466987,
+          "median_inclusive_ns": 20427190,
+          "median_diagnostic_wall_fraction": 0.10879332339292451,
+          "maximum_end_to_end_speedup_removing_self_work": 1.1220741790300686,
+          "median_inclusive_diagnostic_wall_fraction": 0.8956168950704047,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 9.580094409669872
+        },
+        {
+          "stage": "validation",
+          "function": "commands::predict::mean_squared_error",
+          "median_calls": 1,
+          "median_exclusive_ns": 2310404,
+          "median_inclusive_ns": 2310404,
+          "median_diagnostic_wall_fraction": 0.10084221258884347,
+          "maximum_end_to_end_speedup_removing_self_work": 1.1121518536576178,
+          "median_inclusive_diagnostic_wall_fraction": 0.10084221258884347,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.1121518536576178
+        },
+        {
+          "stage": "orchestration",
+          "function": "cli::run",
+          "median_calls": 1,
+          "median_exclusive_ns": 214814,
+          "median_inclusive_ns": 20647884,
+          "median_diagnostic_wall_fraction": 0.009442274845652163,
+          "maximum_end_to_end_speedup_removing_self_work": 1.009532281265265,
+          "median_inclusive_diagnostic_wall_fraction": 0.904574033487407,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 10.479327970631907
+        },
+        {
+          "stage": "output",
+          "function": "commands::predict::print_report",
+          "median_calls": 1,
+          "median_exclusive_ns": 134994,
+          "median_inclusive_ns": 134994,
+          "median_diagnostic_wall_fraction": 0.005933740121751694,
+          "maximum_end_to_end_speedup_removing_self_work": 1.005969159563346,
+          "median_inclusive_diagnostic_wall_fraction": 0.005933740121751694,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.005969159563346
+        },
+        {
+          "stage": "model_loading",
+          "function": "commands::predict::load_weights_json",
+          "median_calls": 1,
+          "median_exclusive_ns": 11932,
+          "median_inclusive_ns": 11932,
+          "median_diagnostic_wall_fraction": 0.0005248489959469799,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0005251246070697,
+          "median_inclusive_diagnostic_wall_fraction": 0.0005248489959469799,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0005251246070697
+        },
+        {
+          "stage": "file_parsing",
+          "function": "storage::SigPackReader::open",
+          "median_calls": 1,
+          "median_exclusive_ns": 7655,
+          "median_inclusive_ns": 7655,
+          "median_diagnostic_wall_fraction": 0.0003396224941804987,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0003397378768055,
+          "median_inclusive_diagnostic_wall_fraction": 0.0003396224941804987,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0003397378768055
+        }
+      ],
+      "worker_summed_elapsed_ns_by_stage": {},
+      "worker_functions_summed_elapsed": [],
+      "observed_threads": [
+        1
+      ],
+      "requested_heap": {
+        "allocation_calls": 593,
+        "reallocation_calls": 54,
+        "deallocation_calls": 527,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 4279540,
+        "live_requested_bytes": 14047,
+        "peak_live_requested_bytes": 4016308
+      },
+      "outside_cli_scope_median_ns": 2169429
+    },
+    "screen_1000": {
+      "native": {
+        "exactness_scope": "all emitted values byte-for-byte",
+        "fingerprints": {
+          "stdout_sha256": "23d33c7586d8820877585341e4e1e6d7c931bc8fe06f087a7900473cc5c712c4"
+        },
+        "measured_runs": 7,
+        "summary": {
+          "cpu_percent_one_core": {
+            "mad": 0.7062281072011558,
+            "maximum": 99.96134244111622,
+            "median": 99.15323271549246,
+            "minimum": 98.44700460829131,
+            "p90_nearest_rank": 99.96134244111622
+          },
+          "cpu_system_s": {
+            "mad": 0.002993000000000001,
+            "maximum": 0.019998,
+            "median": 0.01399,
+            "minimum": 0.008008,
+            "p90_nearest_rank": 0.019998
+          },
+          "cpu_user_s": {
+            "mad": 0.0015719999999999068,
+            "maximum": 1.268891,
+            "median": 1.24662,
+            "minimum": 1.240383,
+            "p90_nearest_rank": 1.268891
+          },
+          "involuntary_context_switches": {
+            "mad": 1,
+            "maximum": 76,
+            "median": 73,
+            "minimum": 71,
+            "p90_nearest_rank": 76
+          },
+          "major_faults": {
+            "mad": 0,
+            "maximum": 0,
+            "median": 0,
+            "minimum": 0,
+            "p90_nearest_rank": 0
+          },
+          "minor_faults": {
+            "mad": 0,
+            "maximum": 1804,
+            "median": 1803,
+            "minimum": 1802,
+            "p90_nearest_rank": 1804
+          },
+          "peak_rss_bytes": {
+            "mad": 45056,
+            "maximum": 9428992,
+            "median": 9371648,
+            "minimum": 9232384,
+            "p90_nearest_rank": 9428992
+          },
+          "voluntary_context_switches": {
+            "mad": 0,
+            "maximum": 4,
+            "median": 4,
+            "minimum": 4,
+            "p90_nearest_rank": 4
+          },
+          "wall_ns": {
+            "mad": 7837951,
+            "maximum": 1302943835,
+            "median": 1262674040,
+            "minimum": 1254836089,
+            "p90_nearest_rank": 1302943835
+          }
+        }
+      },
+      "diagnostic_process_wall_ns": 1266038064,
+      "diagnostic_to_native_wall_ratio": 1.0026642061952902,
+      "main_thread_stage_wall": {
+        "applicability": {
+          "median_exclusive_ns": 419977,
+          "median_diagnostic_wall_fraction": 0.00032461425267226406,
+          "maximum_end_to_end_speedup": 1.0003247196613025,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0001623334742158
+        },
+        "model_inference": {
+          "median_exclusive_ns": 1151733,
+          "median_diagnostic_wall_fraction": 0.0008880978701614366,
+          "maximum_end_to_end_speedup": 1.0008888872890696,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0004442462021337
+        },
+        "model_loading": {
+          "median_exclusive_ns": 745623,
+          "median_diagnostic_wall_fraction": 0.0005749476642966563,
+          "maximum_end_to_end_speedup": 1.00057527841928,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0002875564971165
+        },
+        "output": {
+          "median_exclusive_ns": 3826679,
+          "median_diagnostic_wall_fraction": 0.003022562361126608,
+          "maximum_end_to_end_speedup": 1.0030317259418478,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0015135686083165
+        },
+        "outside_cli_scope": {
+          "median_exclusive_ns": 5720870,
+          "median_diagnostic_wall_fraction": 0.004512207146403775,
+          "maximum_end_to_end_speedup": 1.0045326594447426,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0022612050860762
+        },
+        "file_parsing": {
+          "median_exclusive_ns": 1863814,
+          "median_diagnostic_wall_fraction": 0.0014722236222731824,
+          "maximum_end_to_end_speedup": 1.0014743942603317,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0007366540708988
+        },
+        "uncertainty": {
+          "median_exclusive_ns": 83765545,
+          "median_diagnostic_wall_fraction": 0.06577451355966354,
+          "maximum_end_to_end_speedup": 1.0704053941091707,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0340056079401125
+        },
+        "orchestration": {
+          "median_exclusive_ns": 1154630284,
+          "median_diagnostic_wall_fraction": 0.9135857870069559,
+          "maximum_end_to_end_speedup": 11.572170426183192,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.840918478496383
+        },
+        "provenance_hashing": {
+          "median_exclusive_ns": 6464675,
+          "median_diagnostic_wall_fraction": 0.0051064361815711685,
+          "maximum_end_to_end_speedup": 1.0051326457093284,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.002559753700241
+        },
+        "ranking": {
+          "median_exclusive_ns": 573368,
+          "median_diagnostic_wall_fraction": 0.00045606586003744194,
+          "maximum_end_to_end_speedup": 1.0004562739510092,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.000228084940896
+        }
+      },
+      "main_thread_functions": [
+        {
+          "stage": "orchestration",
+          "function": "commands::screen::load_library",
+          "median_calls": 1,
+          "median_exclusive_ns": 1153989349,
+          "median_inclusive_ns": 1155814521,
+          "median_diagnostic_wall_fraction": 0.913101120959863,
+          "maximum_end_to_end_speedup_removing_self_work": 11.507628303676022,
+          "median_inclusive_diagnostic_wall_fraction": 0.914523574178926,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 11.699132133733334
+        },
+        {
+          "stage": "uncertainty",
+          "function": "model::student_t_two_sided_quantile",
+          "median_calls": 1000,
+          "median_exclusive_ns": 51375739,
+          "median_inclusive_ns": 51375739,
+          "median_diagnostic_wall_fraction": 0.040564720842005776,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0422797886665223,
+          "median_inclusive_diagnostic_wall_fraction": 0.040564720842005776,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0422797886665223
+        },
+        {
+          "stage": "uncertainty",
+          "function": "commands::screen::bootstrap_mean_response_interval",
+          "median_calls": 1000,
+          "median_exclusive_ns": 32177879,
+          "median_inclusive_ns": 32177879,
+          "median_diagnostic_wall_fraction": 0.02501556415583841,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0256573984529092,
+          "median_inclusive_diagnostic_wall_fraction": 0.02501556415583841,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0256573984529092
+        },
+        {
+          "stage": "provenance_hashing",
+          "function": "commands::screen::library_digest",
+          "median_calls": 1,
+          "median_exclusive_ns": 5672936,
+          "median_inclusive_ns": 5672936,
+          "median_diagnostic_wall_fraction": 0.004490498966100092,
+          "maximum_end_to_end_speedup_removing_self_work": 1.004510754504539,
+          "median_inclusive_diagnostic_wall_fraction": 0.004490498966100092,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.004510754504539
+        },
+        {
+          "stage": "output",
+          "function": "commands::screen::write_and_print_report",
+          "median_calls": 1,
+          "median_exclusive_ns": 3826679,
+          "median_inclusive_ns": 3826679,
+          "median_diagnostic_wall_fraction": 0.003022562361126608,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0030317259418478,
+          "median_inclusive_diagnostic_wall_fraction": 0.003022562361126608,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0030317259418478
+        },
+        {
+          "stage": "file_parsing",
+          "function": "commands::screen::load_csv_library",
+          "median_calls": 1,
+          "median_exclusive_ns": 1863814,
+          "median_inclusive_ns": 1863814,
+          "median_diagnostic_wall_fraction": 0.0014722236222731824,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0014743942603317,
+          "median_inclusive_diagnostic_wall_fraction": 0.0014722236222731824,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0014743942603317
+        },
+        {
+          "stage": "model_inference",
+          "function": "commands::screen::evaluate_candidates",
+          "median_calls": 1,
+          "median_exclusive_ns": 1151733,
+          "median_inclusive_ns": 85291438,
+          "median_diagnostic_wall_fraction": 0.0008880978701614366,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0008888872890696,
+          "median_inclusive_diagnostic_wall_fraction": 0.06711721966016335,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.071946037674437
+        },
+        {
+          "stage": "provenance_hashing",
+          "function": "commands::screen::model_digest",
+          "median_calls": 1,
+          "median_exclusive_ns": 757785,
+          "median_inclusive_ns": 757785,
+          "median_diagnostic_wall_fraction": 0.0005985483545461553,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0005989068292434,
+          "median_inclusive_diagnostic_wall_fraction": 0.0005985483545461553,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0005989068292434
+        },
+        {
+          "stage": "model_loading",
+          "function": "model::PortableModel::from_json",
+          "median_calls": 1,
+          "median_exclusive_ns": 587214,
+          "median_inclusive_ns": 595600,
+          "median_diagnostic_wall_fraction": 0.00045279895837748666,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0004530040781523,
+          "median_inclusive_diagnostic_wall_fraction": 0.00045926537788545756,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0004594763994876
+        },
+        {
+          "stage": "ranking",
+          "function": "commands::screen::rank_and_build_report",
+          "median_calls": 1,
+          "median_exclusive_ns": 573368,
+          "median_inclusive_ns": 573368,
+          "median_diagnostic_wall_fraction": 0.00045606586003744194,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0004562739510092,
+          "median_inclusive_diagnostic_wall_fraction": 0.00045606586003744194,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0004562739510092
+        },
+        {
+          "stage": "orchestration",
+          "function": "commands::screen::screen_command",
+          "median_calls": 1,
+          "median_exclusive_ns": 383521,
+          "median_inclusive_ns": 1260052745,
+          "median_diagnostic_wall_fraction": 0.00030505859187715355,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0003051516810193,
+          "median_inclusive_diagnostic_wall_fraction": 0.9952724020152367,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 211.5239077482744
+        },
+        {
+          "stage": "orchestration",
+          "function": "cli::run",
+          "median_calls": 1,
+          "median_exclusive_ns": 269187,
+          "median_inclusive_ns": 1260325438,
+          "median_diagnostic_wall_fraction": 0.00021197441215511033,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0002120193548332,
+          "median_inclusive_diagnostic_wall_fraction": 0.9954877928535962,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 221.62103102846254
+        },
+        {
+          "stage": "applicability",
+          "function": "model::assess_applicability",
+          "median_calls": 1000,
+          "median_exclusive_ns": 187669,
+          "median_inclusive_ns": 395452,
+          "median_diagnostic_wall_fraction": 0.00014927485295197272,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0001492971392605,
+          "median_inclusive_diagnostic_wall_fraction": 0.0003050469105011048,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0003051399925131
+        },
+        {
+          "stage": "uncertainty",
+          "function": "commands::screen::coefficient_band",
+          "median_calls": 1000,
+          "median_exclusive_ns": 155790,
+          "median_inclusive_ns": 155790,
+          "median_diagnostic_wall_fraction": 0.00012321067409701937,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000123225856838,
+          "median_inclusive_diagnostic_wall_fraction": 0.00012321067409701937,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.000123225856838
+        },
+        {
+          "stage": "model_loading",
+          "function": "commands::screen::load_model",
+          "median_calls": 1,
+          "median_exclusive_ns": 150023,
+          "median_inclusive_ns": 745623,
+          "median_diagnostic_wall_fraction": 0.00011568228641119879,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000115695670351,
+          "median_inclusive_diagnostic_wall_fraction": 0.0005749476642966563,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.00057527841928
+        },
+        {
+          "stage": "applicability",
+          "function": "model::TrainingGeometry::nearest_training_neighbour",
+          "median_calls": 1000,
+          "median_exclusive_ns": 100387,
+          "median_inclusive_ns": 100387,
+          "median_diagnostic_wall_fraction": 7.909215162482566e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000790984076882,
+          "median_inclusive_diagnostic_wall_fraction": 7.909215162482566e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000790984076882
+        },
+        {
+          "stage": "applicability",
+          "function": "model::TrainingGeometry::nearest_training_distance",
+          "median_calls": 1000,
+          "median_exclusive_ns": 99382,
+          "median_inclusive_ns": 99382,
+          "median_diagnostic_wall_fraction": 7.849842972809703e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000785045922154,
+          "median_inclusive_diagnostic_wall_fraction": 7.849842972809703e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000785045922154
+        },
+        {
+          "stage": "uncertainty",
+          "function": "model::TrainingGeometry::prediction_interval",
+          "median_calls": 1000,
+          "median_exclusive_ns": 92000,
+          "median_inclusive_ns": 51466601,
+          "median_diagnostic_wall_fraction": 7.177174480231713e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000717768963554,
+          "median_inclusive_diagnostic_wall_fraction": 0.04063573872972812,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0423569444581178
+        },
+        {
+          "stage": "applicability",
+          "function": "commands::screen::domain_exceedances",
+          "median_calls": 1000,
+          "median_exclusive_ns": 24773,
+          "median_inclusive_ns": 24773,
+          "median_diagnostic_wall_fraction": 1.956734217115924e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000195677250594,
+          "median_inclusive_diagnostic_wall_fraction": 1.956734217115924e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000195677250594
+        },
+        {
+          "stage": "model_loading",
+          "function": "model::PortableModel::validate",
+          "median_calls": 1,
+          "median_exclusive_ns": 8386,
+          "median_inclusive_ns": 8386,
+          "median_diagnostic_wall_fraction": 6.58790332404482e-06,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000065879467248,
+          "median_inclusive_diagnostic_wall_fraction": 6.58790332404482e-06,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000065879467248
+        }
+      ],
+      "worker_summed_elapsed_ns_by_stage": {
+        "buried_volume": 1112829719,
+        "conformer_processing": 1393307,
+        "file_parsing": 18093633,
+        "sterimol": 14621823,
+        "donor_bond_detection": 3082753,
+        "pyramidalization": 142442
+      },
+      "worker_functions_summed_elapsed": [
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::occupied_volumes",
+          "median_exclusive_ns": 1069484836,
+          "median_inclusive_ns": 1069484836,
+          "median_calls": 3000
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::integration_grid",
+          "median_exclusive_ns": 41066075,
+          "median_inclusive_ns": 41066075,
+          "median_calls": 1000
+        },
+        {
+          "stage": "sterimol",
+          "function": "sterimol::params_from_projection",
+          "median_exclusive_ns": 14188145,
+          "median_inclusive_ns": 14188145,
+          "median_calls": 1000
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_xyz",
+          "median_exclusive_ns": 11337730,
+          "median_inclusive_ns": 11337730,
+          "median_calls": 1000
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_coordinate_file",
+          "median_exclusive_ns": 6743053,
+          "median_inclusive_ns": 18093633,
+          "median_calls": 1000
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "bonded_neighbors",
+          "median_exclusive_ns": 2624501,
+          "median_inclusive_ns": 2624501,
+          "median_calls": 3000
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::aligned_atoms",
+          "median_exclusive_ns": 1462999,
+          "median_inclusive_ns": 1462999,
+          "median_calls": 3000
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "descriptors::descriptors_for_file",
+          "median_exclusive_ns": 1393307,
+          "median_inclusive_ns": 1150742791,
+          "median_calls": 1000
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute_from_center",
+          "median_exclusive_ns": 642463,
+          "median_inclusive_ns": 1112654994,
+          "median_calls": 1000
+        },
+        {
+          "stage": "sterimol",
+          "function": "SterimolCalculator::compute",
+          "median_exclusive_ns": 419929,
+          "median_inclusive_ns": 14621823,
+          "median_calls": 1000
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "descriptors::detect_donor",
+          "median_exclusive_ns": 342743,
+          "median_inclusive_ns": 2134113,
+          "median_calls": 2000
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::coordinate_basis",
+          "median_exclusive_ns": 184990,
+          "median_inclusive_ns": 184990,
+          "median_calls": 3000
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute",
+          "median_exclusive_ns": 176188,
+          "median_inclusive_ns": 1113773552,
+          "median_calls": 1000
+        },
+        {
+          "stage": "pyramidalization",
+          "function": "PyramidalizationCalculator::compute",
+          "median_exclusive_ns": 142442,
+          "median_inclusive_ns": 142442,
+          "median_calls": 1000
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "donor_neighbor_indices",
+          "median_exclusive_ns": 69835,
+          "median_inclusive_ns": 902164,
+          "median_calls": 1000
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "infer_lone_pair_direction",
+          "median_exclusive_ns": 48672,
+          "median_inclusive_ns": 48672,
+          "median_calls": 1000
+        }
+      ],
+      "observed_threads": [
+        2
+      ],
+      "requested_heap": {
+        "allocation_calls": 384584,
+        "reallocation_calls": 10590,
+        "deallocation_calls": 384518,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 457779655,
+        "live_requested_bytes": 14043,
+        "peak_live_requested_bytes": 3858635
+      },
+      "outside_cli_scope_median_ns": 5720870
+    },
+    "search_database": {
+      "native": {
+        "exactness_scope": "all emitted values byte-for-byte",
+        "fingerprints": {
+          "stdout_sha256": "e93ebfcfa28c3baf756f6092ca709144e60fcca9813bf961204eab531e701a0a"
+        },
+        "measured_runs": 7,
+        "summary": {
+          "cpu_percent_one_core": {
+            "mad": 0.06397884153280131,
+            "maximum": 96.27913509486335,
+            "median": 96.05100441248712,
+            "minimum": 31.279496319992827,
+            "p90_nearest_rank": 96.27913509486335
+          },
+          "cpu_system_s": {
+            "mad": 0.0006379999999999999,
+            "maximum": 0.00367,
+            "median": 0.001818,
+            "minimum": 0.00118,
+            "p90_nearest_rank": 0.00367
+          },
+          "cpu_user_s": {
+            "mad": 0.0006950000000000003,
+            "maximum": 0.005982,
+            "median": 0.005287,
+            "minimum": 0.00367,
+            "p90_nearest_rank": 0.005982
+          },
+          "involuntary_context_switches": {
+            "mad": 0,
+            "maximum": 1,
+            "median": 1,
+            "minimum": 1,
+            "p90_nearest_rank": 1
+          },
+          "major_faults": {
+            "mad": 0,
+            "maximum": 0,
+            "median": 0,
+            "minimum": 0,
+            "p90_nearest_rank": 0
+          },
+          "minor_faults": {
+            "mad": 1,
+            "maximum": 737,
+            "median": 734,
+            "minimum": 733,
+            "p90_nearest_rank": 737
+          },
+          "peak_rss_bytes": {
+            "mad": 12288,
+            "maximum": 7114752,
+            "median": 7077888,
+            "minimum": 6979584,
+            "p90_nearest_rank": 7114752
+          },
+          "voluntary_context_switches": {
+            "mad": 0,
+            "maximum": 2,
+            "median": 2,
+            "minimum": 2,
+            "p90_nearest_rank": 2
+          },
+          "wall_ns": {
+            "mad": 75983,
+            "maximum": 23465851,
+            "median": 7478094,
+            "minimum": 7336126,
+            "p90_nearest_rank": 23465851
+          }
+        }
+      },
+      "diagnostic_process_wall_ns": 10826325,
+      "diagnostic_to_native_wall_ratio": 1.4477385547707744,
+      "main_thread_stage_wall": {
+        "outside_cli_scope": {
+          "median_exclusive_ns": 4202053,
+          "median_diagnostic_wall_fraction": 0.3586724509955372,
+          "maximum_end_to_end_speedup": 1.55926562261719,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.2185258214992418
+        },
+        "output": {
+          "median_exclusive_ns": 2155614,
+          "median_diagnostic_wall_fraction": 0.19910856176957556,
+          "maximum_end_to_end_speedup": 1.2486086781118642,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.110561112981481
+        },
+        "buried_volume": {
+          "median_exclusive_ns": 1875207,
+          "median_diagnostic_wall_fraction": 0.17320808307528177,
+          "maximum_end_to_end_speedup": 1.2094941659801604,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0948154420164427
+        },
+        "conformer_processing": {
+          "median_exclusive_ns": 4068,
+          "median_diagnostic_wall_fraction": 0.0003757507741546647,
+          "maximum_end_to_end_speedup": 1.0003758920158705,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.000187910690871
+        },
+        "file_parsing": {
+          "median_exclusive_ns": 1745995,
+          "median_diagnostic_wall_fraction": 0.158629502878432,
+          "maximum_end_to_end_speedup": 1.1885370397715669,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0861475206246662
+        },
+        "sterimol": {
+          "median_exclusive_ns": 23715,
+          "median_diagnostic_wall_fraction": 0.0019953929842170034,
+          "maximum_end_to_end_speedup": 1.0019993825381064,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.000998692884496
+        },
+        "orchestration": {
+          "median_exclusive_ns": 424999,
+          "median_diagnostic_wall_fraction": 0.03682108978622034,
+          "maximum_end_to_end_speedup": 1.0382287126470073,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.018755850317387
+        },
+        "donor_bond_detection": {
+          "median_exclusive_ns": 8686,
+          "median_diagnostic_wall_fraction": 0.0005002534523811643,
+          "maximum_end_to_end_speedup": 1.0005005038311505,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0002501893052222
+        },
+        "pyramidalization": {
+          "median_exclusive_ns": 5491,
+          "median_diagnostic_wall_fraction": 0.0005007707204119953,
+          "maximum_end_to_end_speedup": 1.0005010216173682,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0002504480687358
+        },
+        "ranking": {
+          "median_exclusive_ns": 406735,
+          "median_diagnostic_wall_fraction": 0.035699741140229946,
+          "maximum_end_to_end_speedup": 1.0370213953716478,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0181742790997508
+        }
+      },
+      "main_thread_functions": [
+        {
+          "stage": "output",
+          "function": "commands::search::print_report",
+          "median_calls": 1,
+          "median_exclusive_ns": 2155614,
+          "median_inclusive_ns": 2155614,
+          "median_diagnostic_wall_fraction": 0.19910856176957556,
+          "maximum_end_to_end_speedup_removing_self_work": 1.2486086781118642,
+          "median_inclusive_diagnostic_wall_fraction": 0.19910856176957556,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.2486086781118642
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::occupied_volumes",
+          "median_calls": 3,
+          "median_exclusive_ns": 1734653,
+          "median_inclusive_ns": 1734653,
+          "median_diagnostic_wall_fraction": 0.16022546893798217,
+          "maximum_end_to_end_speedup_removing_self_work": 1.1907958184149185,
+          "median_inclusive_diagnostic_wall_fraction": 0.16022546893798217,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.1907958184149185
+        },
+        {
+          "stage": "file_parsing",
+          "function": "commands::search::load_csv_library",
+          "median_calls": 1,
+          "median_exclusive_ns": 1707673,
+          "median_inclusive_ns": 1707673,
+          "median_diagnostic_wall_fraction": 0.15541704918663315,
+          "maximum_end_to_end_speedup_removing_self_work": 1.1840163231296112,
+          "median_inclusive_diagnostic_wall_fraction": 0.15541704918663315,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.1840163231296112
+        },
+        {
+          "stage": "ranking",
+          "function": "commands::search::rank_candidates",
+          "median_calls": 1,
+          "median_exclusive_ns": 406735,
+          "median_inclusive_ns": 406735,
+          "median_diagnostic_wall_fraction": 0.035699741140229946,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0370213953716478,
+          "median_inclusive_diagnostic_wall_fraction": 0.035699741140229946,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0370213953716478
+        },
+        {
+          "stage": "orchestration",
+          "function": "cli::run",
+          "median_calls": 1,
+          "median_exclusive_ns": 260761,
+          "median_inclusive_ns": 6845908,
+          "median_diagnostic_wall_fraction": 0.02442820046748404,
+          "maximum_end_to_end_speedup_removing_self_work": 1.025039879667688,
+          "median_inclusive_diagnostic_wall_fraction": 0.6413275490044629,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 2.788059125322794
+        },
+        {
+          "stage": "orchestration",
+          "function": "commands::search::search_command",
+          "median_calls": 1,
+          "median_exclusive_ns": 142399,
+          "median_inclusive_ns": 6585147,
+          "median_diagnostic_wall_fraction": 0.011808478238703693,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0119495846489928,
+          "median_inclusive_diagnostic_wall_fraction": 0.6168993485369788,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 2.6102800822214864
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::integration_grid",
+          "median_calls": 1,
+          "median_exclusive_ns": 117371,
+          "median_inclusive_ns": 117371,
+          "median_diagnostic_wall_fraction": 0.01034306800945685,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0104511651210824,
+          "median_inclusive_diagnostic_wall_fraction": 0.01034306800945685,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0104511651210824
+        },
+        {
+          "stage": "sterimol",
+          "function": "sterimol::params_from_projection",
+          "median_calls": 1,
+          "median_exclusive_ns": 20599,
+          "median_inclusive_ns": 20599,
+          "median_diagnostic_wall_fraction": 0.001917450873284208,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0019211345544132,
+          "median_inclusive_diagnostic_wall_fraction": 0.001917450873284208,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0019211345544132
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_xyz",
+          "median_calls": 1,
+          "median_exclusive_ns": 18224,
+          "median_inclusive_ns": 18224,
+          "median_diagnostic_wall_fraction": 0.0016161746367939786,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0016187908855656,
+          "median_inclusive_diagnostic_wall_fraction": 0.0016161746367939786,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0016187908855656
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_coordinate_file",
+          "median_calls": 1,
+          "median_exclusive_ns": 18124,
+          "median_inclusive_ns": 38322,
+          "median_diagnostic_wall_fraction": 0.0015327773001203658,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0015351303130169,
+          "median_inclusive_diagnostic_wall_fraction": 0.0032124536917988514,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0032228068094318
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute_from_center",
+          "median_calls": 1,
+          "median_exclusive_ns": 17094,
+          "median_inclusive_ns": 1874516,
+          "median_diagnostic_wall_fraction": 0.0015518654760502755,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0015542775056514,
+          "median_inclusive_diagnostic_wall_fraction": 0.17314425716944576,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.2094008037928423
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "bonded_neighbors",
+          "median_calls": 3,
+          "median_exclusive_ns": 7625,
+          "median_inclusive_ns": 7625,
+          "median_diagnostic_wall_fraction": 0.00040544886552540806,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0004056133209862,
+          "median_inclusive_diagnostic_wall_fraction": 0.00040544886552540806,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0004056133209862
+        },
+        {
+          "stage": "pyramidalization",
+          "function": "PyramidalizationCalculator::compute",
+          "median_calls": 1,
+          "median_exclusive_ns": 5491,
+          "median_inclusive_ns": 5491,
+          "median_diagnostic_wall_fraction": 0.0005007707204119953,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0005010216173682,
+          "median_inclusive_diagnostic_wall_fraction": 0.0005007707204119953,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0005010216173682
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::aligned_atoms",
+          "median_calls": 3,
+          "median_exclusive_ns": 5159,
+          "median_inclusive_ns": 5159,
+          "median_diagnostic_wall_fraction": 0.00028864827168960844,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000288731613571,
+          "median_inclusive_diagnostic_wall_fraction": 0.00028864827168960844,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.000288731613571
+        },
+        {
+          "stage": "orchestration",
+          "function": "commands::search::load_library_entries",
+          "median_calls": 1,
+          "median_exclusive_ns": 4450,
+          "median_inclusive_ns": 1712011,
+          "median_diagnostic_wall_fraction": 0.0004099267295227143,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0004100948383585,
+          "median_inclusive_diagnostic_wall_fraction": 0.15594352486797886,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.1847548469355529
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "descriptors::descriptors_for_file",
+          "median_calls": 1,
+          "median_exclusive_ns": 4068,
+          "median_inclusive_ns": 1962491,
+          "median_diagnostic_wall_fraction": 0.0003757507741546647,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0003758920158705,
+          "median_inclusive_diagnostic_wall_fraction": 0.18127028331405162,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.221404304277359
+        },
+        {
+          "stage": "sterimol",
+          "function": "SterimolCalculator::compute",
+          "median_calls": 1,
+          "median_exclusive_ns": 3547,
+          "median_inclusive_ns": 23715,
+          "median_diagnostic_wall_fraction": 0.00012659726433555192,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000126613293232,
+          "median_inclusive_diagnostic_wall_fraction": 0.0019953929842170034,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0019993825381064
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "descriptors::detect_donor",
+          "median_calls": 2,
+          "median_exclusive_ns": 770,
+          "median_inclusive_ns": 7113,
+          "median_diagnostic_wall_fraction": 6.75435841136366e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000675481465575,
+          "median_inclusive_diagnostic_wall_fraction": 0.00034821012780913627,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0003483314203376
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute",
+          "median_calls": 1,
+          "median_exclusive_ns": 691,
+          "median_inclusive_ns": 1877281,
+          "median_diagnostic_wall_fraction": 5.817554193421405e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000581789265248,
+          "median_inclusive_diagnostic_wall_fraction": 0.17339965316023673,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.2097744742343428
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::coordinate_basis",
+          "median_calls": 3,
+          "median_exclusive_ns": 241,
+          "median_inclusive_ns": 241,
+          "median_diagnostic_wall_fraction": 2.0505573220829782e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000020505993708,
+          "median_inclusive_diagnostic_wall_fraction": 2.0505573220829782e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.000020505993708
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "infer_lone_pair_direction",
+          "median_calls": 1,
+          "median_exclusive_ns": 230,
+          "median_inclusive_ns": 230,
+          "median_diagnostic_wall_fraction": 1.7892960562697075e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000178932807264,
+          "median_inclusive_diagnostic_wall_fraction": 1.7892960562697075e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000178932807264
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "donor_neighbor_indices",
+          "median_calls": 1,
+          "median_exclusive_ns": 90,
+          "median_inclusive_ns": 1443,
+          "median_diagnostic_wall_fraction": 8.313070224660723e-06,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000083131393322,
+          "median_inclusive_diagnostic_wall_fraction": 0.00013415036400933093,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.000134168362744
+        }
+      ],
+      "worker_summed_elapsed_ns_by_stage": {},
+      "worker_functions_summed_elapsed": [],
+      "observed_threads": [
+        1
+      ],
+      "requested_heap": {
+        "allocation_calls": 22821,
+        "reallocation_calls": 1084,
+        "deallocation_calls": 22772,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 5295308,
+        "live_requested_bytes": 2007,
+        "peak_live_requested_bytes": 1800731
+      },
+      "outside_cli_scope_median_ns": 4202053
+    },
+    "single_large": {
+      "native": {
+        "exactness_scope": "all emitted values byte-for-byte",
+        "fingerprints": {
+          "stdout_sha256": "82bf53e538c101b11f057ac07132aa0f78850cd6f55d081326a21206e7b122d8"
+        },
+        "measured_runs": 7,
+        "summary": {
+          "cpu_percent_one_core": {
+            "mad": 0.12033672065743417,
+            "maximum": 93.36594631458087,
+            "median": 93.13427711161589,
+            "minimum": 91.71612365832348,
+            "p90_nearest_rank": 93.36594631458087
+          },
+          "cpu_system_s": {
+            "mad": 6.599999999999998e-05,
+            "maximum": 0.001701,
+            "median": 0.001006,
+            "minimum": 0.0,
+            "p90_nearest_rank": 0.001701
+          },
+          "cpu_user_s": {
+            "mad": 0.00013099999999999982,
+            "maximum": 0.002941,
+            "median": 0.002012,
+            "minimum": 0.001701,
+            "p90_nearest_rank": 0.002941
+          },
+          "involuntary_context_switches": {
+            "mad": 0,
+            "maximum": 1,
+            "median": 1,
+            "minimum": 1,
+            "p90_nearest_rank": 1
+          },
+          "major_faults": {
+            "mad": 0,
+            "maximum": 0,
+            "median": 0,
+            "minimum": 0,
+            "p90_nearest_rank": 0
+          },
+          "minor_faults": {
+            "mad": 1,
+            "maximum": 243,
+            "median": 242,
+            "minimum": 241,
+            "p90_nearest_rank": 243
+          },
+          "peak_rss_bytes": {
+            "mad": 45056,
+            "maximum": 5226496,
+            "median": 5025792,
+            "minimum": 4972544,
+            "p90_nearest_rank": 5226496
+          },
+          "voluntary_context_switches": {
+            "mad": 0,
+            "maximum": 2,
+            "median": 2,
+            "minimum": 2,
+            "p90_nearest_rank": 2
+          },
+          "wall_ns": {
+            "mad": 77184,
+            "maximum": 3691908,
+            "median": 3236301,
+            "minimum": 3028960,
+            "p90_nearest_rank": 3691908
+          }
+        }
+      },
+      "diagnostic_process_wall_ns": 5950603,
+      "diagnostic_to_native_wall_ratio": 1.8387050524657627,
+      "main_thread_stage_wall": {
+        "outside_cli_scope": {
+          "median_exclusive_ns": 3545639,
+          "median_diagnostic_wall_fraction": 0.5958453286162764,
+          "maximum_end_to_end_speedup": 2.4743002390056565,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.4243445118685543
+        },
+        "output": {
+          "median_exclusive_ns": 159220,
+          "median_diagnostic_wall_fraction": 0.027103919962601787,
+          "maximum_end_to_end_speedup": 1.0278590082936299,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0137381386870048
+        },
+        "buried_volume": {
+          "median_exclusive_ns": 1948785,
+          "median_diagnostic_wall_fraction": 0.32437579563831526,
+          "maximum_end_to_end_speedup": 1.4801127513552872,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.1935850501526286
+        },
+        "conformer_processing": {
+          "median_exclusive_ns": 3889,
+          "median_diagnostic_wall_fraction": 0.0006807465140842235,
+          "maximum_end_to_end_speedup": 1.0006812102455842,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0003404891504433
+        },
+        "file_parsing": {
+          "median_exclusive_ns": 32731,
+          "median_diagnostic_wall_fraction": 0.005500450962700755,
+          "maximum_end_to_end_speedup": 1.0055308732598476,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0027578100809076
+        },
+        "sterimol": {
+          "median_exclusive_ns": 23615,
+          "median_diagnostic_wall_fraction": 0.003972938156409395,
+          "maximum_end_to_end_speedup": 1.0039887853539398,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0019904229919308
+        },
+        "orchestration": {
+          "median_exclusive_ns": 230203,
+          "median_diagnostic_wall_fraction": 0.03881645109411051,
+          "maximum_end_to_end_speedup": 1.0403840152469266,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0197923601366967
+        },
+        "donor_bond_detection": {
+          "median_exclusive_ns": 7785,
+          "median_diagnostic_wall_fraction": 0.0013082707752474832,
+          "maximum_end_to_end_speedup": 1.0013099845898024,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0006545635608124
+        },
+        "pyramidalization": {
+          "median_exclusive_ns": 4819,
+          "median_diagnostic_wall_fraction": 0.0008435375292805022,
+          "maximum_end_to_end_speedup": 1.0008442496855743,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0004219467285906
+        }
+      },
+      "main_thread_functions": [
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::occupied_volumes",
+          "median_calls": 3,
+          "median_exclusive_ns": 1772705,
+          "median_inclusive_ns": 1772705,
+          "median_diagnostic_wall_fraction": 0.30197936555175825,
+          "maximum_end_to_end_speedup_removing_self_work": 1.4326224049099368,
+          "median_inclusive_diagnostic_wall_fraction": 0.30197936555175825,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.4326224049099368
+        },
+        {
+          "stage": "orchestration",
+          "function": "cli::run",
+          "median_calls": 1,
+          "median_exclusive_ns": 229101,
+          "median_inclusive_ns": 2404964,
+          "median_diagnostic_wall_fraction": 0.0385968389238468,
+          "maximum_end_to_end_speedup_removing_self_work": 1.040146361574933,
+          "median_inclusive_diagnostic_wall_fraction": 0.40415467138372363,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.6782878911248438
+        },
+        {
+          "stage": "output",
+          "function": "descriptors::print_descriptor_json",
+          "median_calls": 1,
+          "median_exclusive_ns": 159220,
+          "median_inclusive_ns": 159220,
+          "median_diagnostic_wall_fraction": 0.027103919962601787,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0278590082936299,
+          "median_inclusive_diagnostic_wall_fraction": 0.027103919962601787,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0278590082936299
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::integration_grid",
+          "median_calls": 1,
+          "median_exclusive_ns": 109746,
+          "median_inclusive_ns": 109746,
+          "median_diagnostic_wall_fraction": 0.01825107697004838,
+          "maximum_end_to_end_speedup_removing_self_work": 1.018590371266943,
+          "median_inclusive_diagnostic_wall_fraction": 0.01825107697004838,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.018590371266943
+        },
+        {
+          "stage": "sterimol",
+          "function": "sterimol::params_from_projection",
+          "median_calls": 1,
+          "median_exclusive_ns": 20128,
+          "median_inclusive_ns": 20128,
+          "median_diagnostic_wall_fraction": 0.0033775414417538977,
+          "maximum_end_to_end_speedup_removing_self_work": 1.003388987888794,
+          "median_inclusive_diagnostic_wall_fraction": 0.0033775414417538977,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.003388987888794
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_xyz",
+          "median_calls": 1,
+          "median_exclusive_ns": 17904,
+          "median_inclusive_ns": 17904,
+          "median_diagnostic_wall_fraction": 0.00303062193416273,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0030398345233453,
+          "median_inclusive_diagnostic_wall_fraction": 0.00303062193416273,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0030398345233453
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute_from_center",
+          "median_calls": 1,
+          "median_exclusive_ns": 17442,
+          "median_inclusive_ns": 1948435,
+          "median_diagnostic_wall_fraction": 0.0029943979932966825,
+          "maximum_end_to_end_speedup_removing_self_work": 1.003003391342305,
+          "median_inclusive_diagnostic_wall_fraction": 0.3243066829465452,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.479961359334991
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_coordinate_file",
+          "median_calls": 1,
+          "median_exclusive_ns": 11993,
+          "median_inclusive_ns": 32731,
+          "median_diagnostic_wall_fraction": 0.002058927596239371,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0020631755252642,
+          "median_inclusive_diagnostic_wall_fraction": 0.005500450962700755,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0055308732598476
+        },
+        {
+          "stage": "pyramidalization",
+          "function": "PyramidalizationCalculator::compute",
+          "median_calls": 1,
+          "median_exclusive_ns": 4819,
+          "median_inclusive_ns": 4819,
+          "median_diagnostic_wall_fraction": 0.0008435375292805022,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0008442496855743,
+          "median_inclusive_diagnostic_wall_fraction": 0.0008435375292805022,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0008442496855743
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "bonded_neighbors",
+          "median_calls": 3,
+          "median_exclusive_ns": 4177,
+          "median_inclusive_ns": 4177,
+          "median_diagnostic_wall_fraction": 0.0007170966871918497,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0007176112838663,
+          "median_inclusive_diagnostic_wall_fraction": 0.0007170966871918497,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0007176112838663
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "descriptors::descriptors_for_file",
+          "median_calls": 1,
+          "median_exclusive_ns": 3889,
+          "median_inclusive_ns": 2018166,
+          "median_diagnostic_wall_fraction": 0.0006807465140842235,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0006812102455842,
+          "median_inclusive_diagnostic_wall_fraction": 0.33451404766393616,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.5026613206329709
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::aligned_atoms",
+          "median_calls": 3,
+          "median_exclusive_ns": 3577,
+          "median_inclusive_ns": 3577,
+          "median_diagnostic_wall_fraction": 0.0005987444611534192,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0005991031708585,
+          "median_inclusive_diagnostic_wall_fraction": 0.0005987444611534192,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0005991031708585
+        },
+        {
+          "stage": "sterimol",
+          "function": "SterimolCalculator::compute",
+          "median_calls": 1,
+          "median_exclusive_ns": 3528,
+          "median_inclusive_ns": 23615,
+          "median_diagnostic_wall_fraction": 0.0005928810912104201,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000593232807725,
+          "median_inclusive_diagnostic_wall_fraction": 0.003972938156409395,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0039887853539398
+        },
+        {
+          "stage": "orchestration",
+          "function": "descriptors::descriptors_command",
+          "median_calls": 1,
+          "median_exclusive_ns": 1102,
+          "median_inclusive_ns": 2177145,
+          "median_diagnostic_wall_fraction": 0.00018383035702112074,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0001838641568346,
+          "median_inclusive_diagnostic_wall_fraction": 0.36748931158741394,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.5810009511613201
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "descriptors::detect_donor",
+          "median_calls": 2,
+          "median_exclusive_ns": 783,
+          "median_inclusive_ns": 6282,
+          "median_diagnostic_wall_fraction": 0.0001310642753936615,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0001310814554896,
+          "median_inclusive_diagnostic_wall_fraction": 0.001055691330777738,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0010568069927583
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute",
+          "median_calls": 1,
+          "median_exclusive_ns": 500,
+          "median_inclusive_ns": 1950288,
+          "median_diagnostic_wall_fraction": 8.7522051180795e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000875297119607,
+          "median_inclusive_diagnostic_wall_fraction": 0.32461275343866985,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.4806320449363009
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::coordinate_basis",
+          "median_calls": 3,
+          "median_exclusive_ns": 220,
+          "median_inclusive_ns": 220,
+          "median_diagnostic_wall_fraction": 3.69710431026906e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000369724100113,
+          "median_inclusive_diagnostic_wall_fraction": 3.69710431026906e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000369724100113
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "infer_lone_pair_direction",
+          "median_calls": 1,
+          "median_exclusive_ns": 130,
+          "median_inclusive_ns": 130,
+          "median_diagnostic_wall_fraction": 2.184652546977172e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000218470027509,
+          "median_inclusive_diagnostic_wall_fraction": 2.184652546977172e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000218470027509
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "donor_neighbor_indices",
+          "median_calls": 1,
+          "median_exclusive_ns": 81,
+          "median_inclusive_ns": 1392,
+          "median_diagnostic_wall_fraction": 1.3734195589022738e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000137343842197,
+          "median_inclusive_diagnostic_wall_fraction": 0.00023300315625539823,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.000233057459379
+        }
+      ],
+      "worker_summed_elapsed_ns_by_stage": {},
+      "worker_functions_summed_elapsed": [],
+      "observed_threads": [
+        1
+      ],
+      "requested_heap": {
+        "allocation_calls": 1135,
+        "reallocation_calls": 61,
+        "deallocation_calls": 1086,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 681274,
+        "live_requested_bytes": 2004,
+        "peak_live_requested_bytes": 399096
+      },
+      "outside_cli_scope_median_ns": 3545639
+    },
+    "single_small": {
+      "native": {
+        "exactness_scope": "all emitted values byte-for-byte",
+        "fingerprints": {
+          "stdout_sha256": "8b5cbc992df5208bc887b5e1afc29d8b90312a17f7e0906abaceea362d237989"
+        },
+        "measured_runs": 7,
+        "summary": {
+          "cpu_percent_one_core": {
+            "mad": 0.603172485382359,
+            "maximum": 92.52107256892941,
+            "median": 91.65460004528069,
+            "minimum": 90.49182444349888,
+            "p90_nearest_rank": 92.52107256892941
+          },
+          "cpu_system_s": {
+            "mad": 0.000295,
+            "maximum": 0.001733,
+            "median": 0.001116,
+            "minimum": 0.000821,
+            "p90_nearest_rank": 0.001733
+          },
+          "cpu_user_s": {
+            "mad": 0.00021799999999999988,
+            "maximum": 0.001642,
+            "median": 0.001084,
+            "minimum": 0.000766,
+            "p90_nearest_rank": 0.001642
+          },
+          "involuntary_context_switches": {
+            "mad": 0,
+            "maximum": 1,
+            "median": 0,
+            "minimum": 0,
+            "p90_nearest_rank": 1
+          },
+          "major_faults": {
+            "mad": 0,
+            "maximum": 0,
+            "median": 0,
+            "minimum": 0,
+            "p90_nearest_rank": 0
+          },
+          "minor_faults": {
+            "mad": 1,
+            "maximum": 246,
+            "median": 243,
+            "minimum": 241,
+            "p90_nearest_rank": 246
+          },
+          "peak_rss_bytes": {
+            "mad": 98304,
+            "maximum": 5279744,
+            "median": 5160960,
+            "minimum": 5062656,
+            "p90_nearest_rank": 5279744
+          },
+          "voluntary_context_switches": {
+            "mad": 0,
+            "maximum": 2,
+            "median": 2,
+            "minimum": 2,
+            "p90_nearest_rank": 2
+          },
+          "wall_ns": {
+            "mad": 76364,
+            "maximum": 2835646,
+            "median": 2487001,
+            "minimum": 2374980,
+            "p90_nearest_rank": 2835646
+          }
+        }
+      },
+      "diagnostic_process_wall_ns": 4926457,
+      "diagnostic_to_native_wall_ratio": 1.9808825971521524,
+      "main_thread_stage_wall": {
+        "outside_cli_scope": {
+          "median_exclusive_ns": 3301832,
+          "median_diagnostic_wall_fraction": 0.6766927553041614,
+          "maximum_end_to_end_speedup": 3.0930330711914027,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.5113648081475584
+        },
+        "output": {
+          "median_exclusive_ns": 178266,
+          "median_diagnostic_wall_fraction": 0.03560714571772869,
+          "maximum_end_to_end_speedup": 1.036921826576814,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0181262855034863
+        },
+        "buried_volume": {
+          "median_exclusive_ns": 1121760,
+          "median_diagnostic_wall_fraction": 0.2254054093223699,
+          "maximum_end_to_end_speedup": 1.2909979130181906,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.127017973855256
+        },
+        "conformer_processing": {
+          "median_exclusive_ns": 3068,
+          "median_diagnostic_wall_fraction": 0.0006351973449247877,
+          "maximum_end_to_end_speedup": 1.0006356010770414,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.000317699573425
+        },
+        "file_parsing": {
+          "median_exclusive_ns": 28974,
+          "median_diagnostic_wall_fraction": 0.005746552866689555,
+          "maximum_end_to_end_speedup": 1.0057797666010195,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.002881555940119
+        },
+        "sterimol": {
+          "median_exclusive_ns": 17633,
+          "median_diagnostic_wall_fraction": 0.0033050526986606317,
+          "maximum_end_to_end_speedup": 1.0033160122940419,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.001655261712926
+        },
+        "orchestration": {
+          "median_exclusive_ns": 241183,
+          "median_diagnostic_wall_fraction": 0.04785429384502468,
+          "maximum_end_to_end_speedup": 1.0502594230438462,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0245136895745761
+        },
+        "donor_bond_detection": {
+          "median_exclusive_ns": 7073,
+          "median_diagnostic_wall_fraction": 0.0013999385950459412,
+          "maximum_end_to_end_speedup": 1.001401901170601,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0007004595977356
+        },
+        "pyramidalization": {
+          "median_exclusive_ns": 6492,
+          "median_diagnostic_wall_fraction": 0.0012967228187062852,
+          "maximum_end_to_end_speedup": 1.0012984064920325,
+          "end_to_end_speedup_if_stage_twice_as_fast": 1.0006487820546004
+        }
+      },
+      "main_thread_functions": [
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::occupied_volumes",
+          "median_calls": 3,
+          "median_exclusive_ns": 986746,
+          "median_inclusive_ns": 986746,
+          "median_diagnostic_wall_fraction": 0.19767573329067928,
+          "maximum_end_to_end_speedup_removing_self_work": 1.2463788539033391,
+          "median_inclusive_diagnostic_wall_fraction": 0.19767573329067928,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.2463788539033391
+        },
+        {
+          "stage": "orchestration",
+          "function": "cli::run",
+          "median_calls": 1,
+          "median_exclusive_ns": 236785,
+          "median_inclusive_ns": 1622281,
+          "median_diagnostic_wall_fraction": 0.04691640467536716,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0492259072609331,
+          "median_inclusive_diagnostic_wall_fraction": 0.3233072446958386,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.4777755372163217
+        },
+        {
+          "stage": "output",
+          "function": "descriptors::print_descriptor_json",
+          "median_calls": 1,
+          "median_exclusive_ns": 178266,
+          "median_inclusive_ns": 178266,
+          "median_diagnostic_wall_fraction": 0.03560714571772869,
+          "maximum_end_to_end_speedup_removing_self_work": 1.036921826576814,
+          "median_inclusive_diagnostic_wall_fraction": 0.03560714571772869,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.036921826576814
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::integration_grid",
+          "median_calls": 1,
+          "median_exclusive_ns": 113183,
+          "median_inclusive_ns": 113183,
+          "median_diagnostic_wall_fraction": 0.022639610423237647,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0231640351549764,
+          "median_inclusive_diagnostic_wall_fraction": 0.022639610423237647,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0231640351549764
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_coordinate_file",
+          "median_calls": 1,
+          "median_exclusive_ns": 18885,
+          "median_inclusive_ns": 28974,
+          "median_diagnostic_wall_fraction": 0.0038650281366790083,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0038800245406998,
+          "median_inclusive_diagnostic_wall_fraction": 0.005746552866689555,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0057797666010195
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute_from_center",
+          "median_calls": 1,
+          "median_exclusive_ns": 16601,
+          "median_inclusive_ns": 1121270,
+          "median_diagnostic_wall_fraction": 0.0034081288033164605,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0034197838672154,
+          "median_inclusive_diagnostic_wall_fraction": 0.22528946717336146,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.290804703985838
+        },
+        {
+          "stage": "sterimol",
+          "function": "sterimol::params_from_projection",
+          "median_calls": 1,
+          "median_exclusive_ns": 14468,
+          "median_inclusive_ns": 14468,
+          "median_diagnostic_wall_fraction": 0.002938194147859726,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0029468525728438,
+          "median_inclusive_diagnostic_wall_fraction": 0.002938194147859726,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0029468525728438
+        },
+        {
+          "stage": "file_parsing",
+          "function": "parse_xyz",
+          "median_calls": 1,
+          "median_exclusive_ns": 10279,
+          "median_inclusive_ns": 10279,
+          "median_diagnostic_wall_fraction": 0.0020531444629516182,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0020573685377732,
+          "median_inclusive_diagnostic_wall_fraction": 0.0020531444629516182,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0020573685377732
+        },
+        {
+          "stage": "pyramidalization",
+          "function": "PyramidalizationCalculator::compute",
+          "median_calls": 1,
+          "median_exclusive_ns": 6492,
+          "median_inclusive_ns": 6492,
+          "median_diagnostic_wall_fraction": 0.0012967228187062852,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0012984064920325,
+          "median_inclusive_diagnostic_wall_fraction": 0.0012967228187062852,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0012984064920325
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "bonded_neighbors",
+          "median_calls": 3,
+          "median_exclusive_ns": 5600,
+          "median_inclusive_ns": 5600,
+          "median_diagnostic_wall_fraction": 0.001118553263209365,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0011198058256698,
+          "median_inclusive_diagnostic_wall_fraction": 0.001118553263209365,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0011198058256698
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::aligned_atoms",
+          "median_calls": 3,
+          "median_exclusive_ns": 3808,
+          "median_inclusive_ns": 3808,
+          "median_diagnostic_wall_fraction": 0.0006909871898813926,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0006914649833272,
+          "median_inclusive_diagnostic_wall_fraction": 0.0006909871898813926,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0006914649833272
+        },
+        {
+          "stage": "sterimol",
+          "function": "SterimolCalculator::compute",
+          "median_calls": 1,
+          "median_exclusive_ns": 3517,
+          "median_inclusive_ns": 17633,
+          "median_diagnostic_wall_fraction": 0.0006599580907559415,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0006603939230685,
+          "median_inclusive_diagnostic_wall_fraction": 0.0033050526986606317,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0033160122940419
+        },
+        {
+          "stage": "conformer_processing",
+          "function": "descriptors::descriptors_for_file",
+          "median_calls": 1,
+          "median_exclusive_ns": 3068,
+          "median_inclusive_ns": 1184428,
+          "median_diagnostic_wall_fraction": 0.0006351973449247877,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0006356010770414,
+          "median_inclusive_diagnostic_wall_fraction": 0.23719033780260337,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.3109430170553138
+        },
+        {
+          "stage": "orchestration",
+          "function": "descriptors::descriptors_command",
+          "median_calls": 1,
+          "median_exclusive_ns": 1522,
+          "median_inclusive_ns": 1385496,
+          "median_diagnostic_wall_fraction": 0.0002761771278885188,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0002762534227654,
+          "median_inclusive_diagnostic_wall_fraction": 0.2774774467442672,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.3840398413778727
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "descriptors::detect_donor",
+          "median_calls": 2,
+          "median_exclusive_ns": 722,
+          "median_inclusive_ns": 6081,
+          "median_diagnostic_wall_fraction": 0.00014655562811164292,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000146577109812,
+          "median_inclusive_diagnostic_wall_fraction": 0.0011762024592466352,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.001177587540608
+        },
+        {
+          "stage": "buried_volume",
+          "function": "BuriedVolumeCalculator::compute",
+          "median_calls": 1,
+          "median_exclusive_ns": 560,
+          "median_inclusive_ns": 1122752,
+          "median_diagnostic_wall_fraction": 0.00011387494095655356,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0001138879099356,
+          "median_inclusive_diagnostic_wall_fraction": 0.22561079255775626,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.291340311034207
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "infer_lone_pair_direction",
+          "median_calls": 1,
+          "median_exclusive_ns": 200,
+          "median_inclusive_ns": 200,
+          "median_diagnostic_wall_fraction": 4.081953440142418e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000408212007037,
+          "median_inclusive_diagnostic_wall_fraction": 4.081953440142418e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000408212007037
+        },
+        {
+          "stage": "buried_volume",
+          "function": "buried_volume::coordinate_basis",
+          "median_calls": 3,
+          "median_exclusive_ns": 171,
+          "median_inclusive_ns": 171,
+          "median_diagnostic_wall_fraction": 3.452398431961249e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.0000345251762661,
+          "median_inclusive_diagnostic_wall_fraction": 3.452398431961249e-05,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0000345251762661
+        },
+        {
+          "stage": "donor_bond_detection",
+          "function": "donor_neighbor_indices",
+          "median_calls": 1,
+          "median_exclusive_ns": 80,
+          "median_inclusive_ns": 792,
+          "median_diagnostic_wall_fraction": 1.6238850760292844e-05,
+          "maximum_end_to_end_speedup_removing_self_work": 1.000016239114465,
+          "median_inclusive_diagnostic_wall_fraction": 0.00015819539008246733,
+          "maximum_end_to_end_speedup_removing_function_and_callees": 1.0001582204198234
+        }
+      ],
+      "worker_summed_elapsed_ns_by_stage": {},
+      "worker_functions_summed_elapsed": [],
+      "observed_threads": [
+        1
+      ],
+      "requested_heap": {
+        "allocation_calls": 901,
+        "reallocation_calls": 58,
+        "deallocation_calls": 852,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 671530,
+        "live_requested_bytes": 2004,
+        "peak_live_requested_bytes": 396984
+      },
+      "outside_cli_scope_median_ns": 3301832
+    }
+  }
+}

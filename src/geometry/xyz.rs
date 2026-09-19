@@ -43,6 +43,7 @@ impl Molecule {
     /// as a comment, and each following atom line must contain
     /// `Element X Y Z`. Coordinates are interpreted in ångströms.
     pub fn from_xyz_file(path: &Path) -> Result<Molecule, Box<dyn Error>> {
+        crate::profile_scope!("file_parsing", "Molecule::from_xyz_file");
         let contents = fs::read_to_string(path)?;
         Ok(parse_xyz(&contents)?)
     }
@@ -83,6 +84,7 @@ impl From<io::Error> for GeometryError {
 
 /// Parses all molecular frames supported by a `.xyz` or `.sdf` file.
 pub fn parse_coordinate_file(path: impl AsRef<Path>) -> Result<Vec<Molecule>, GeometryError> {
+    crate::profile_scope!("file_parsing", "parse_coordinate_file");
     let path = path.as_ref();
     let contents = fs::read_to_string(path)?;
     match path
@@ -103,6 +105,7 @@ pub fn parse_coordinate_file(path: impl AsRef<Path>) -> Result<Vec<Molecule>, Ge
 
 /// Parses one standard XYZ frame.
 pub fn parse_xyz(input: &str) -> Result<Molecule, GeometryError> {
+    crate::profile_scope!("file_parsing", "parse_xyz");
     let mut lines = input.lines();
     let count_line = lines
         .next()
@@ -129,6 +132,7 @@ pub fn parse_xyz(input: &str) -> Result<Molecule, GeometryError> {
 
 /// Parses one or more V2000 mol blocks from an SDF file.
 pub fn parse_sdf(input: &str) -> Result<Vec<Molecule>, GeometryError> {
+    crate::profile_scope!("file_parsing", "parse_sdf");
     let mut molecules = Vec::new();
     for (block_index, block) in input.split("$$$$").enumerate() {
         if block.trim().is_empty() {
@@ -159,6 +163,7 @@ pub fn parse_sdf(input: &str) -> Result<Vec<Molecule>, GeometryError> {
 }
 
 fn parse_mol_block(block: &str, block_number: usize) -> Result<Molecule, GeometryError> {
+    crate::profile_scope!("file_parsing", "parse_mol_block");
     // The record separator has already been stripped by `parse_sdf`; keep the
     // header intact here (line 0 is the title, which may be blank).
     let lines: Vec<&str> = block.lines().collect();

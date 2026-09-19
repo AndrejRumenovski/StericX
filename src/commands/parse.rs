@@ -17,6 +17,7 @@ pub(crate) fn parse_command(
     xyz_dir: &Path,
     output: &Path,
 ) -> Result<(), Box<dyn Error>> {
+    steric_x::profile_scope!("orchestration", "commands::parse::parse_command");
     let total_started = Instant::now();
     let rss_start = resident_memory_bytes();
     if !reactions_csv.is_file() {
@@ -28,6 +29,11 @@ pub(crate) fn parse_command(
 
     let input_bytes = fs::metadata(reactions_csv)?.len();
     let ingest_started = Instant::now();
+    steric_x::profile_scope!(
+        ingest_profile,
+        "file_parsing",
+        "commands::parse::csv_ingestion"
+    );
     let mut csv_reader = csv::ReaderBuilder::new()
         .trim(csv::Trim::All)
         .from_path(reactions_csv)?;
@@ -44,6 +50,7 @@ pub(crate) fn parse_command(
             )
         })?;
         validate_reaction_row(&row, row_index + 2)?;
+        steric_x::profile_scope!("conformer_processing", "commands::parse::conformer_row");
         let geometry_started = Instant::now();
         let coordinate_paths = conformer_paths(&row)?;
         let weights = conformer_weights(&row, coordinate_paths.len())?;
@@ -78,6 +85,7 @@ pub(crate) fn parse_command(
         geometry_time += geometry_started.elapsed();
         records.push(record);
     }
+    steric_x::profile_end!(ingest_profile);
     let ingest_time = ingest_started.elapsed();
     if records.is_empty() {
         return Err("reaction CSV contains no data rows".into());
@@ -96,6 +104,7 @@ pub(crate) fn parse_command(
     let total_time = total_started.elapsed();
     let throughput = records.len() as f64 / total_time.as_secs_f64().max(f64::EPSILON);
 
+    steric_x::profile_scope!("output", "commands::parse::print_report");
     println!("command=parse");
     println!("records_processed={}", records.len());
     println!("csv_input={}", reactions_csv.display());

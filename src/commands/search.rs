@@ -295,6 +295,7 @@ pub(crate) fn load_library_entries(
     sterimol_axis: SterimolAxis,
     config: BuriedVolumeConfig,
 ) -> Result<Vec<LibraryEntry>, Box<dyn Error>> {
+    steric_x::profile_scope!("orchestration", "commands::search::load_library_entries");
     if library.is_dir() {
         let mut paths = Vec::new();
         collect_coordinate_files(library, &mut paths)?;
@@ -326,6 +327,7 @@ pub(crate) fn load_library_entries(
         return Ok(entries);
     }
 
+    steric_x::profile_scope!("file_parsing", "commands::search::load_csv_library");
     if !library.is_file() {
         return Err(format!("library does not exist: {}", library.display()).into());
     }
@@ -355,6 +357,7 @@ fn collect_coordinate_files(
     directory: &Path,
     found: &mut Vec<PathBuf>,
 ) -> Result<(), Box<dyn Error>> {
+    steric_x::profile_scope!("file_parsing", "commands::search::collect_coordinate_files");
     for entry in std::fs::read_dir(directory)? {
         let path = entry?.path();
         if path.is_dir() {
@@ -388,6 +391,7 @@ pub(crate) fn default_feature_names() -> Vec<String> {
 pub(crate) fn library_statistics(
     entries: &[LibraryEntry],
 ) -> std::collections::HashMap<&'static str, (f64, f64)> {
+    steric_x::profile_scope!("ranking", "commands::search::library_statistics");
     let count = entries.len() as f64;
     FEATURES
         .iter()
@@ -571,6 +575,7 @@ impl RangeFlags {
 }
 
 pub(crate) fn search_command(args: SearchArgs<'_>) -> Result<(), Box<dyn Error>> {
+    steric_x::profile_scope!("orchestration", "commands::search::search_command");
     let SearchArgs {
         ligand,
         library,
@@ -662,6 +667,11 @@ pub(crate) fn search_command(args: SearchArgs<'_>) -> Result<(), Box<dyn Error>>
         );
     }
 
+    steric_x::profile_scope!(
+        ranking_profile,
+        "ranking",
+        "commands::search::rank_candidates"
+    );
     let standardizer = Standardizer::fit(&entries, &features);
     let degenerate = standardizer.degenerate();
     if degenerate.len() == features.len() {
@@ -742,6 +752,8 @@ pub(crate) fn search_command(args: SearchArgs<'_>) -> Result<(), Box<dyn Error>>
             .collect(),
     };
 
+    steric_x::profile_end!(ranking_profile);
+    steric_x::profile_scope!("output", "commands::search::print_report");
     match format {
         DescriptorFormat::Text => print_search_text(&report),
         DescriptorFormat::Json => println!("{}", serde_json::to_string_pretty(&report)?),

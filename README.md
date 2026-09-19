@@ -895,7 +895,23 @@ block) per record; dedicated v1/v2 mmap readers preserve backward compatibility.
 
 Machine-readable results (CPU utilization, page faults) in
 [`docs/benchmark_results.json`](docs/benchmark_results.json). Numbers are specific to the
-machine that generated them; the ratios are the portable quantity.
+machine that generated them; throughput and ratios can change with hardware,
+build settings, and workload.
+
+For end-to-end CLI latency, CPU/RSS, function and stage attribution, allocation
+counts, and optimization limits on fixed scientific workloads, see the
+[September 2026 profiling report](docs/profiling/PROFILING.md). Its native timings
+include startup and output; they are a different measurement from the kernel
+throughput figures above. Numerical outputs are checked against a frozen baseline.
+
+The [exact-output optimization report](docs/profiling/OPTIMIZATION.md) records
+**2.37× faster end-to-end descriptor batches** (12.24 → 5.16 seconds for 10,000
+molecules) and **3.41× faster screening** (1.32 → 0.388 seconds for 1,000 entries).
+These compare the original September 16 executable with the optimized build on
+the same fixed workloads and machine, using fresh timing controls. Scientific
+outputs, packed records, predictions, validation and exclusions remain exact;
+peak memory is essentially unchanged. The report includes corpus limits and
+paired regression checks.
 
 </details>
 

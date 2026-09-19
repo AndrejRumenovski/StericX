@@ -31,6 +31,7 @@ impl SterimolCalculator {
     /// coordinates, or fewer than two atoms produce zero-valued parameters.
     #[must_use]
     pub fn compute(molecule: &Molecule, attach_idx: usize, neighbor_idx: usize) -> SterimolParams {
+        crate::profile_scope!("sterimol", "SterimolCalculator::compute");
         if attach_idx == neighbor_idx || molecule.atoms.len() < 2 {
             return SterimolParams::default();
         }
@@ -77,6 +78,7 @@ impl SterimolCalculator {
     /// add the historical +0.40 Å correction.
     #[must_use]
     pub fn compute_with_dummy(molecule: &Molecule, base_idx: usize, dummy: Vec3) -> SterimolParams {
+        crate::profile_scope!("sterimol", "SterimolCalculator::compute_with_dummy");
         let Some(base) = molecule.atoms.get(base_idx) else {
             return SterimolParams::default();
         };
@@ -105,6 +107,7 @@ impl SterimolCalculator {
 /// Reduces axis-aligned atom projections `(perpendicular, axial, radius)` to the
 /// `L`, `B1`, and `B5` Sterimol dimensions.
 fn params_from_projection(projected: &[(Vec2, f32, f32)]) -> SterimolParams {
+    crate::profile_scope!("sterimol", "sterimol::params_from_projection");
     if projected.is_empty() {
         return SterimolParams::default();
     }

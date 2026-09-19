@@ -69,6 +69,7 @@ pub(crate) fn sterimol_from_molecule(
     molecule: &Molecule,
     row: &ReactionCsvRow,
 ) -> Result<SterimolParams, String> {
+    steric_x::profile_scope!("sterimol", "reaction::sterimol_from_molecule");
     if molecule.atoms.len() < 2 {
         return Err("at least two atoms are required to establish the primary axis".into());
     }
@@ -109,6 +110,7 @@ pub(crate) fn record_from_ensemble(
     energy_span: f32,
     row: &ReactionCsvRow,
 ) -> Result<PackedReactionRecord, String> {
+    steric_x::profile_scope!("conformer_processing", "reaction::record_from_ensemble");
     if conformers.is_empty() || conformers.len() != weights.len() {
         return Err("conformer parameters and weights must have equal non-zero lengths".into());
     }
@@ -181,6 +183,7 @@ pub(crate) fn record_from_ensemble(
 }
 
 pub(crate) fn conformer_paths(row: &ReactionCsvRow) -> Result<Vec<PathBuf>, String> {
+    steric_x::profile_scope!("conformer_processing", "reaction::conformer_paths");
     let paths = row
         .conformer_xyz_paths
         .as_deref()
@@ -226,6 +229,7 @@ pub(crate) fn conformer_weights(
     row: &ReactionCsvRow,
     conformer_count: usize,
 ) -> Result<Vec<f32>, String> {
+    steric_x::profile_scope!("conformer_processing", "reaction::conformer_weights");
     let mut weights = match row.conformer_boltzmann_weights.as_deref() {
         Some(value) if !value.trim().is_empty() => {
             parse_semicolon_floats(value, "Conformer_Boltzmann_Weights")?
@@ -256,6 +260,10 @@ pub(crate) fn conformer_coordination_centers(
     row: &ReactionCsvRow,
     conformer_count: usize,
 ) -> Result<Option<Vec<Vec3>>, String> {
+    steric_x::profile_scope!(
+        "conformer_processing",
+        "reaction::conformer_coordination_centers"
+    );
     let Some(value) = row.conformer_coordination_centers.as_deref() else {
         return Ok(None);
     };
@@ -303,6 +311,7 @@ pub(crate) fn conformer_energy_span(
     row: &ReactionCsvRow,
     conformer_count: usize,
 ) -> Result<f32, String> {
+    steric_x::profile_scope!("conformer_processing", "reaction::conformer_energy_span");
     let Some(value) = row.conformer_relative_energies.as_deref() else {
         return Ok(0.0);
     };
@@ -356,6 +365,7 @@ pub(crate) fn validate_reaction_row(
 }
 
 pub(crate) fn resolve_xyz_path(xyz_dir: &Path, csv_path: &Path) -> Result<PathBuf, String> {
+    steric_x::profile_scope!("file_parsing", "reaction::resolve_xyz_path");
     if csv_path.is_absolute() {
         return csv_path
             .is_file()
@@ -402,6 +412,7 @@ pub(crate) fn resolve_xyz_path(xyz_dir: &Path, csv_path: &Path) -> Result<PathBu
 pub(crate) fn load_reaction_metadata(
     path: &Path,
 ) -> Result<Vec<ReactionMetadataRow>, Box<dyn Error>> {
+    steric_x::profile_scope!("file_parsing", "reaction::load_reaction_metadata");
     let mut reader = csv::ReaderBuilder::new()
         .trim(csv::Trim::All)
         .from_path(path)?;

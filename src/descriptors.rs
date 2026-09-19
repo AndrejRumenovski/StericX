@@ -8,7 +8,8 @@ use std::error::Error;
 use std::path::{Path, PathBuf};
 use steric_x::{
     BuriedVolumeCalculator, BuriedVolumeConfig, Molecule, PyramidalizationCalculator,
-    SterimolCalculator, bonded_neighbors, coordination_center, parse_coordinate_file,
+    SterimolCalculator, SterimolParams, bonded_neighbors, coordination_center,
+    parse_coordinate_file,
 };
 
 /// The donor atom, its bonded substituents, and the substituent chosen as the
@@ -32,6 +33,7 @@ fn detect_donor(
     donor_element: &str,
     explicit_index: Option<usize>,
 ) -> Result<DonorTopology, String> {
+    steric_x::profile_scope!("donor_bond_detection", "descriptors::detect_donor");
     let donor_idx = match explicit_index {
         Some(index) => {
             if index >= molecule.atoms.len() {
@@ -120,6 +122,79 @@ pub(crate) struct DescriptorResult {
     pub(crate) pyr_alpha: f32,
 }
 
+/// Only the values screening consumes; validation still matches full descriptors.
+pub(crate) struct ScreeningDescriptors {
+    pub(crate) file: String,
+    pub(crate) sterimol_l: f32,
+    pub(crate) sterimol_b1: f32,
+    pub(crate) sterimol_b5: f32,
+}
+
+fn sterimol_for_conformer(
+    molecule: &Molecule,
+    topology: DonorTopology,
+    axis: SterimolAxis,
+    config: BuriedVolumeConfig,
+) -> Result<SterimolParams, steric_x::BuriedVolumeError> {
+    Ok(match axis {
+        SterimolAxis::Bond => {
+            SterimolCalculator::compute(molecule, topology.donor_idx, topology.reference_idx)
+        }
+        SterimolAxis::Coordination => {
+            let center =
+                coordination_center(molecule, topology.donor_idx, topology.reference_idx, config)?;
+            let mut params =
+                SterimolCalculator::compute_with_dummy(molecule, topology.donor_idx, center);
+            params.l += STERIMOL_L_CORRECTION;
+            params
+        }
+    })
+}
+
+/// Preserve full descriptor acceptance/errors while avoiding unused calculations.
+pub(crate) fn screening_descriptors_for_file(
+    path: &Path,
+    donor_element: &str,
+    donor_index: Option<usize>,
+    sterimol_axis: SterimolAxis,
+    config: BuriedVolumeConfig,
+) -> Result<ScreeningDescriptors, String> {
+    steric_x::profile_scope!(
+        "conformer_processing",
+        "descriptors::screening_descriptors_for_file"
+    );
+    let conformers = parse_coordinate_file(path)
+        .map_err(|error| format!("failed to read {}: {error}", path.display()))?;
+    if conformers.is_empty() {
+        return Err(format!("{} contains no geometries", path.display()));
+    }
+    // Full descriptors report the first donor error without a conformer prefix.
+    detect_donor(&conformers[0], donor_element, donor_index)?;
+    let mut sterimol = Vec::with_capacity(conformers.len());
+    for (conformer_index, molecule) in conformers.iter().enumerate() {
+        let contextualize =
+            |error: String| format!("{} (conformer {conformer_index}): {error}", path.display());
+        let topology = detect_donor(molecule, donor_element, donor_index).map_err(contextualize)?;
+        sterimol.push(
+            sterimol_for_conformer(molecule, topology, sterimol_axis, config)
+                .map_err(|error| contextualize(error.to_string()))?,
+        );
+        BuriedVolumeCalculator::validate_for_sterimol(
+            molecule,
+            topology.donor_idx,
+            topology.reference_idx,
+            config,
+        )
+        .map_err(|error| contextualize(error.to_string()))?;
+    }
+    Ok(ScreeningDescriptors {
+        file: path.display().to_string(),
+        sterimol_l: conformer_mean(&sterimol, |params| params.l),
+        sterimol_b1: conformer_mean(&sterimol, |params| params.b1),
+        sterimol_b5: conformer_mean(&sterimol, |params| params.b5),
+    })
+}
+
 /// Compute ensemble-averaged descriptors for a single ligand file.
 pub(crate) fn descriptors_for_file(
     path: &Path,
@@ -128,6 +203,7 @@ pub(crate) fn descriptors_for_file(
     sterimol_axis: SterimolAxis,
     config: BuriedVolumeConfig,
 ) -> Result<DescriptorResult, String> {
+    steric_x::profile_scope!("conformer_processing", "descriptors::descriptors_for_file");
     let conformers = parse_coordinate_file(path)
         .map_err(|error| format!("failed to read {}: {error}", path.display()))?;
     if conformers.is_empty() {
@@ -157,26 +233,11 @@ pub(crate) fn descriptors_for_file(
             topology.donor_idx,
             topology.substituents,
         ));
-        sterimol.push(match sterimol_axis {
-            SterimolAxis::Bond => {
-                SterimolCalculator::compute(molecule, topology.donor_idx, topology.reference_idx)
-            }
-            SterimolAxis::Coordination => {
-                let center = coordination_center(
-                    molecule,
-                    topology.donor_idx,
-                    topology.reference_idx,
-                    config,
-                )
-                .map_err(|error| {
-                    format!("{} (conformer {conformer_index}): {error}", path.display())
-                })?;
-                let mut params =
-                    SterimolCalculator::compute_with_dummy(molecule, topology.donor_idx, center);
-                params.l += STERIMOL_L_CORRECTION;
-                params
-            }
-        });
+        sterimol.push(
+            sterimol_for_conformer(molecule, topology, sterimol_axis, config).map_err(|error| {
+                format!("{} (conformer {conformer_index}): {error}", path.display())
+            })?,
+        );
         buried.push(
             BuriedVolumeCalculator::compute(
                 molecule,
@@ -221,6 +282,7 @@ fn conformer_mean<T>(items: &[T], select: impl Fn(&T) -> f32) -> f32 {
 }
 
 fn print_descriptor_text(result: &DescriptorResult) {
+    steric_x::profile_scope!("output", "descriptors::print_descriptor_text");
     let ensemble = result.conformers > 1;
     let qualifier = if ensemble { " (conformer mean)" } else { "" };
     println!("{}", result.file);
@@ -258,6 +320,7 @@ fn print_descriptor_text(result: &DescriptorResult) {
 type CsvColumn = (&'static str, fn(&DescriptorResult) -> String);
 
 fn print_descriptor_csv(results: &[DescriptorResult]) {
+    steric_x::profile_scope!("output", "descriptors::print_descriptor_csv");
     // Single source of truth: each column pairs its header with its value
     // formatter, so the header row and every data row derive from one list and
     // adding a descriptor cannot desynchronise column names, order, or count.
@@ -320,6 +383,7 @@ pub(crate) fn descriptors_command(
     format: DescriptorFormat,
     config: BuriedVolumeConfig,
 ) -> Result<(), Box<dyn Error>> {
+    steric_x::profile_scope!("orchestration", "descriptors::descriptors_command");
     if inputs.len() > 1 && donor_index.is_some() {
         return Err("--donor-index applies to a single file; omit it for batch runs".into());
     }
@@ -348,6 +412,7 @@ pub(crate) fn descriptors_command(
             }
         }
         DescriptorFormat::Json => {
+            steric_x::profile_scope!("output", "descriptors::print_descriptor_json");
             println!("{}", serde_json::to_string_pretty(&results)?);
         }
         DescriptorFormat::Csv => print_descriptor_csv(&results),
@@ -515,5 +580,105 @@ mod tests {
         assert_eq!(csv_field("plain"), "plain");
         assert_eq!(csv_field("a,b"), "\"a,b\"");
         assert_eq!(csv_field("say \"hi\""), "\"say \"\"hi\"\"\"");
+    }
+
+    fn compare_screening_and_full(path: &Path, axis: SterimolAxis, config: BuriedVolumeConfig) {
+        let full = descriptors_for_file(path, "P", None, axis, config).map(|result| {
+            (
+                result.file,
+                [
+                    result.sterimol_l.to_bits(),
+                    result.sterimol_b1.to_bits(),
+                    result.sterimol_b5.to_bits(),
+                ],
+            )
+        });
+        let screening =
+            screening_descriptors_for_file(path, "P", None, axis, config).map(|result| {
+                (
+                    result.file,
+                    [
+                        result.sterimol_l.to_bits(),
+                        result.sterimol_b1.to_bits(),
+                        result.sterimol_b5.to_bits(),
+                    ],
+                )
+            });
+        assert_eq!(screening, full, "{} {axis:?} {config:?}", path.display());
+    }
+
+    #[test]
+    fn screening_preserves_full_precision_sterimol_for_real_conformers() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("data/conformers");
+        let mut checked = 0;
+        for directory in std::fs::read_dir(root).unwrap() {
+            let directory = directory.unwrap().path();
+            if !directory.is_dir() {
+                continue;
+            }
+            for file in std::fs::read_dir(directory).unwrap() {
+                let path = file.unwrap().path();
+                if path.extension().and_then(|s| s.to_str()) != Some("xyz") {
+                    continue;
+                }
+                for axis in [SterimolAxis::Bond, SterimolAxis::Coordination] {
+                    compare_screening_and_full(&path, axis, BuriedVolumeConfig::default());
+                }
+                checked += 1;
+            }
+        }
+        assert!(checked >= 56);
+    }
+
+    #[test]
+    fn screening_preserves_file_conformer_and_configuration_errors() {
+        let directory = temporary_directory("screening_descriptor_equivalence");
+        std::fs::create_dir_all(&directory).unwrap();
+        let block = "phosphine\n  test\n\n  4  0  0  0  0  0            999 V2000\n0 0 0 P\n1.4 0 0.45 C\n-0.7 1.212 0.45 C\n-0.7 -1.212 0.45 C\nM  END\n$$$$\n";
+        let fixtures = [
+            ("ensemble.sdf", format!("{block}{block}")),
+            (
+                "bad_second.sdf",
+                format!("{block}{}", block.replace("0 0 0 P", "0 0 0 N")),
+            ),
+            ("empty.sdf", String::new()),
+            ("invalid.xyz", "1\ninvalid\nP NaN 0 0\n".into()),
+            ("donor.xyz", "1\nmissing\nC 0 0 0\n".into()),
+            ("multiple.xyz", "2\nambiguous\nP 0 0 0\nP 10 0 0\n".into()),
+        ];
+        let configs = [
+            BuriedVolumeConfig::default(),
+            BuriedVolumeConfig {
+                sphere_radius: 0.0,
+                ..BuriedVolumeConfig::default()
+            },
+            BuriedVolumeConfig {
+                density: 1000.0,
+                ..BuriedVolumeConfig::default()
+            },
+            BuriedVolumeConfig {
+                radii_scale: 10.0,
+                ..BuriedVolumeConfig::default()
+            },
+            BuriedVolumeConfig {
+                center_distance: 500.0,
+                ..BuriedVolumeConfig::default()
+            },
+        ];
+        for (name, contents) in fixtures {
+            let path = directory.join(name);
+            std::fs::write(&path, contents).unwrap();
+            for axis in [SterimolAxis::Bond, SterimolAxis::Coordination] {
+                for config in configs {
+                    compare_screening_and_full(&path, axis, config);
+                }
+            }
+        }
+        compare_screening_and_full(
+            &directory.join("missing.xyz"),
+            SterimolAxis::Bond,
+            BuriedVolumeConfig::default(),
+        );
+        std::fs::remove_dir_all(directory).unwrap();
     }
 }

@@ -18,6 +18,7 @@ enum WeightDocument {
 }
 
 pub(crate) fn load_weights_json(path: &Path) -> Result<[f32; MODEL_FEATURE_COUNT], Box<dyn Error>> {
+    steric_x::profile_scope!("model_loading", "commands::predict::load_weights_json");
     let contents = fs::read_to_string(path)?;
     let document: WeightDocument = serde_json::from_str(&contents).map_err(|error| {
         format!(
@@ -35,6 +36,7 @@ pub(crate) fn load_weights_json(path: &Path) -> Result<[f32; MODEL_FEATURE_COUNT
 }
 
 pub(crate) fn predict_command(data: &Path, weights_path: &Path) -> Result<(), Box<dyn Error>> {
+    steric_x::profile_scope!("orchestration", "commands::predict::predict_command");
     let total_started = Instant::now();
     let rss_start = resident_memory_bytes();
     if !data.is_file() {
@@ -60,19 +62,23 @@ pub(crate) fn predict_command(data: &Path, weights_path: &Path) -> Result<(), Bo
     let inference_started = Instant::now();
     let predictions = predictor.predict_batch(records);
     let inference_time = inference_started.elapsed();
-    let mse = predictions
-        .iter()
-        .zip(records)
-        .map(|(prediction, record)| {
-            let residual = f64::from(*prediction) - f64::from(record.exp_ddg);
-            residual * residual
-        })
-        .sum::<f64>()
-        / records.len() as f64;
+    let mse = {
+        steric_x::profile_scope!("validation", "commands::predict::mean_squared_error");
+        predictions
+            .iter()
+            .zip(records)
+            .map(|(prediction, record)| {
+                let residual = f64::from(*prediction) - f64::from(record.exp_ddg);
+                residual * residual
+            })
+            .sum::<f64>()
+            / records.len() as f64
+    };
     let total_time = total_started.elapsed();
     let inference_throughput =
         records.len() as f64 / inference_time.as_secs_f64().max(f64::EPSILON);
 
+    steric_x::profile_scope!("output", "commands::predict::print_report");
     println!("command=predict");
     println!("records_predicted={}", records.len());
     println!("rayon_threads={}", rayon::current_num_threads());

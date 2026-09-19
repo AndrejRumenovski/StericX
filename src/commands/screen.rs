@@ -11,7 +11,7 @@
 //! library cannot supply one.
 
 use crate::cli::{DescriptorFormat, SterimolAxis};
-use crate::descriptors::descriptors_for_file;
+use crate::descriptors::screening_descriptors_for_file;
 use crate::output::write_atomic_text;
 use rayon::prelude::*;
 use serde::Serialize;
@@ -388,6 +388,7 @@ struct DiverseSelection {
 /// Deterministic throughout: ties in the objective resolve by ligand identifier
 /// and then by library position, the same order the ordinary ranking uses.
 fn select_diverse(hits: &[ScreenHit], weight: f64, take: usize) -> Vec<usize> {
+    steric_x::profile_scope!("ranking", "commands::screen::select_diverse");
     if hits.is_empty() || take == 0 {
         return Vec::new();
     }
@@ -743,6 +744,7 @@ pub(crate) struct ScreenArgs<'a> {
 /// coordinate file's name and digest, sorted, so the result is independent of
 /// filesystem order and still changes if any member changes.
 fn library_digest(library: &Path) -> Result<(String, String, u64), Box<dyn Error>> {
+    steric_x::profile_scope!("provenance_hashing", "commands::screen::library_digest");
     if library.is_dir() {
         let mut paths = Vec::new();
         collect_coordinate_files(library, &mut paths)?;
@@ -779,6 +781,7 @@ fn library_digest(library: &Path) -> Result<(String, String, u64), Box<dyn Error
 /// Loads a model through the portable-format reader, so both the legacy
 /// artifact and a schema-2 document are accepted and validated first.
 fn load_model(path: &Path) -> Result<PortableModel, Box<dyn Error>> {
+    steric_x::profile_scope!("model_loading", "commands::screen::load_model");
     let contents = std::fs::read_to_string(path)
         .map_err(|error| format!("could not read model {}: {error}", path.display()))?;
     PortableModel::from_json(&contents).map_err(|error| {
@@ -801,6 +804,7 @@ fn load_model(path: &Path) -> Result<PortableModel, Box<dyn Error>> {
 /// Deterministic: the rows are the finished ranking in order, every float is
 /// written at full round-trip precision, and the sidecar carries no clock.
 fn write_candidate_deck(path: &Path, report: &ScreenReport) -> Result<PathBuf, Box<dyn Error>> {
+    steric_x::profile_scope!("output", "commands::screen::write_candidate_deck");
     let mut deck = String::new();
     deck.push_str(
         "rank,ligand_id,ligand_name,predicted_ddg_kcal_mol,predicted_ee_percent,\
@@ -982,6 +986,7 @@ struct ExclusionAccounting {
 /// Refuses a file with no recognizable identifier column rather than treating
 /// every row as unresolvable, which would silently exclude nothing.
 fn read_tested_ligands(path: &Path) -> Result<TestedLigands, Box<dyn Error>> {
+    steric_x::profile_scope!("file_parsing", "commands::screen::read_tested_ligands");
     let mut reader = csv::ReaderBuilder::new()
         .flexible(true)
         .from_path(path)
@@ -1119,6 +1124,7 @@ fn load_library(
     sterimol_axis: SterimolAxis,
     config: BuriedVolumeConfig,
 ) -> Result<LoadedLibrary, Box<dyn Error>> {
+    steric_x::profile_scope!("orchestration", "commands::screen::load_library");
     let mut excluded = Vec::new();
     if library.is_dir() {
         let mut paths = Vec::new();
@@ -1134,7 +1140,13 @@ fn load_library(
         let featurized = paths
             .par_iter()
             .map(|path| {
-                match descriptors_for_file(path, donor_element, None, sterimol_axis, config) {
+                match screening_descriptors_for_file(
+                    path,
+                    donor_element,
+                    None,
+                    sterimol_axis,
+                    config,
+                ) {
                     Ok(result) => Ok(Candidate {
                         library_index: 0,
                         label: result.file.clone(),
@@ -1180,6 +1192,11 @@ fn load_library(
         ));
     }
 
+    steric_x::profile_scope!(
+        csv_profile,
+        "file_parsing",
+        "commands::screen::load_csv_library"
+    );
     if !library.is_file() {
         return Err(format!("library does not exist: {}", library.display()).into());
     }
@@ -1255,6 +1272,8 @@ fn load_library(
         return Err(format!("library CSV contains no rows: {}", library.display()).into());
     }
 
+    steric_x::profile_end!(csv_profile);
+
     // A reaction CSV carries the electronics but not the Sterimol terms. When
     // the rows point at geometries, featurize them so a model mixing steric and
     // electronic terms can be screened from the CSV the user already has.
@@ -1274,7 +1293,13 @@ fn load_library(
                     // as missing whichever descriptors the model needs.
                     return None;
                 };
-                match descriptors_for_file(&resolved, donor_element, None, sterimol_axis, config) {
+                match screening_descriptors_for_file(
+                    &resolved,
+                    donor_element,
+                    None,
+                    sterimol_axis,
+                    config,
+                ) {
                     Ok(result) => Some((result.sterimol_l, result.sterimol_b1, result.sterimol_b5)),
                     Err(_) => None,
                 }
@@ -1300,6 +1325,7 @@ fn collect_coordinate_files(
     directory: &Path,
     found: &mut Vec<PathBuf>,
 ) -> Result<(), Box<dyn Error>> {
+    steric_x::profile_scope!("file_parsing", "commands::screen::collect_coordinate_files");
     for entry in std::fs::read_dir(directory)? {
         let path = entry?.path();
         if path.is_dir() {
@@ -1339,6 +1365,10 @@ fn bootstrap_mean_response_interval(
     ensemble: &BootstrapEnsemble,
     features: &[f32; MODEL_FEATURE_COUNT],
 ) -> Option<PredictionUncertainty> {
+    steric_x::profile_scope!(
+        "uncertainty",
+        "commands::screen::bootstrap_mean_response_interval"
+    );
     if ensemble.replicates.is_empty() || ensemble.column_indices.is_empty() {
         return None;
     }
@@ -1396,6 +1426,7 @@ fn empirical_percentile(sorted: &[f64], probability: f64) -> Option<f64> {
 /// prediction interval: `model.json` does not carry the training design matrix
 /// an OLS prediction interval would need.
 fn coefficient_band(report: &ScientificFitReport, features: &[f32; 8]) -> Option<(f64, f64)> {
+    steric_x::profile_scope!("uncertainty", "commands::screen::coefficient_band");
     if report.coefficient_intervals.is_empty() {
         return None;
     }
@@ -1421,6 +1452,7 @@ fn coefficient_band(report: &ScientificFitReport, features: &[f32; 8]) -> Option
 }
 
 fn domain_exceedances(report: &ScientificFitReport, features: &[f32; 8]) -> Vec<DomainExceedance> {
+    steric_x::profile_scope!("applicability", "commands::screen::domain_exceedances");
     report
         .selected_feature_indices
         .iter()
@@ -1474,11 +1506,15 @@ fn trust_grade(inside_range: bool, leverage_ratio: Option<f64>) -> String {
 }
 
 pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>> {
+    steric_x::profile_scope!("orchestration", "commands::screen::screen_command");
     if !args.temperature.is_finite() || args.temperature <= 0.0 {
         return Err("--temperature must be a positive finite temperature".into());
     }
     let model = load_model(args.model)?;
-    let (model_sha256, model_byte_count) = crate::digest::sha256_file(args.model)?;
+    let (model_sha256, model_byte_count) = {
+        steric_x::profile_scope!("provenance_hashing", "commands::screen::model_digest");
+        crate::digest::sha256_file(args.model)?
+    };
     let (library_sha256, library_digest_scope, library_byte_count) = library_digest(args.library)?;
     let report = &model.fit;
     // A portable model states how its features are built; use that mapping in
@@ -1597,6 +1633,11 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
     let (order, overridden) =
         resolve_order(Some(model_optimization), args.ascending, args.descending)?;
 
+    steric_x::profile_scope!(
+        inference_profile,
+        "model_inference",
+        "commands::screen::evaluate_candidates"
+    );
     let mut hits = Vec::new();
     for candidate in &candidates {
         if !candidate.has(required) {
@@ -1705,6 +1746,12 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         });
     }
 
+    steric_x::profile_end!(inference_profile);
+    steric_x::profile_scope!(
+        ranking_profile,
+        "ranking",
+        "commands::screen::rank_and_build_report"
+    );
     let inside_domain = hits
         .iter()
         .filter(|hit| hit.outside_domain.is_empty())
@@ -2011,6 +2058,8 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         hits,
     };
 
+    steric_x::profile_end!(ranking_profile);
+    steric_x::profile_scope!("output", "commands::screen::write_and_print_report");
     let deck_paths = match args.export_deck {
         Some(path) => Some((path.to_path_buf(), write_candidate_deck(path, &report)?)),
         None => None,

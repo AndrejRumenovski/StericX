@@ -38,6 +38,7 @@ impl RegressXPredictor {
     /// explicitly unrolled four-lane chunk kernel suitable for auto-vectorizing.
     #[must_use]
     pub fn predict_batch(&self, records: &[PackedReactionRecord]) -> Vec<f32> {
+        crate::profile_scope!("model_inference", "model::RegressXPredictor::predict_batch");
         #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
         if std::is_x86_feature_detected!("avx2") {
             return records

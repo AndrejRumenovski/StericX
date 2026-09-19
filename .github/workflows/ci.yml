@@ -34,8 +34,13 @@ jobs:
       - name: Lint all Rust targets
         run: cargo clippy --all-targets --all-features -- -D warnings
 
+      - name: Check public documentation
+        run: cargo doc --no-deps --all-features
+        env:
+          RUSTDOCFLAGS: -D warnings
+
       - name: Run Rust tests
-        run: cargo test --all-targets
+        run: cargo test --all-targets --all-features
 
       # Named separately from the suite above so a regression against the
       # published studies is identifiable from the job list alone, and so this
@@ -83,6 +88,11 @@ jobs:
       - name: Test quantum parsers without external executables
         run: uv run python -m unittest tests/test_quantum_backend.py
 
+      - name: Test profiling and optimization contracts
+        run: |
+          uv run python -m unittest discover -s tests -p 'test_profile*.py'
+          uv run python -m unittest tests/test_screening_exactness.py
+
       - name: Verify retrospective screening study
         run: uv run --extra science python studies/study_011_ligand_ranking.py --verify-only
 
@@ -109,9 +119,10 @@ jobs:
       # Rust only: the format guards endianness and the AVX2 kernel is
       # x86_64-gated with a scalar fallback, so Apple-silicon runners build and
       # test the scalar path while Windows x86_64 exercises the AVX2 path. The
-      # Python and lint gates are OS-independent and stay on the Linux job.
+      # profiling feature uses portable Rust primitives on all three platforms;
+      # Python measurement tests exercise Linux wait4/affinity on the Linux job.
       - name: Run Rust tests
-        run: cargo test --all-targets
+        run: cargo test --all-targets --all-features
 
       - name: Guard published screening results
         run: cargo test --test screening_regression

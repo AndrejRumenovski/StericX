@@ -95,7 +95,7 @@ impl BuriedVolumeCalculator {
     /// The virtual centre is placed 2.1 Å from the donor along a geometrically
     /// inferred lone-pair direction. This is a documented approximation to
     /// Kraken's xTB localized-molecular-orbital centre. The three covalently
-    /// bonded donor substituents (see [`donor_neighbor_indices`], hydrogens
+    /// bonded donor substituents (see [`bonded_neighbors`], hydrogens
     /// included) are each used to define the XZ plane, matching Kraken's
     /// three-orientation quadrant scan.
     pub fn compute(
@@ -104,21 +104,71 @@ impl BuriedVolumeCalculator {
         reference_neighbor_idx: usize,
         config: BuriedVolumeConfig,
     ) -> Result<BuriedVolumeParams, BuriedVolumeError> {
-        validate_config(config)?;
-        let donor = molecule.atoms.get(donor_idx).ok_or_else(|| {
-            BuriedVolumeError(format!("donor index {donor_idx} is out of bounds"))
-        })?;
-        if !donor.position.is_finite() {
+        crate::profile_scope!("buried_volume", "BuriedVolumeCalculator::compute");
+        let (neighbor_indices, center) =
+            donor_geometry(molecule, donor_idx, reference_neighbor_idx, config)?;
+        Self::compute_from_center(molecule, donor_idx, neighbor_indices, center, config)
+    }
+
+    /// Preserve every buried-volume acceptance check when only Sterimol is used.
+    ///
+    /// Screening discards the buried-volume values, but its accepted geometries
+    /// still depend on this calculation's validation. One complete orientation
+    /// can prove the final symmetry rejection impossible: a non-positive (or
+    /// NaN) first volume never rejects, and a positive quadrant difference cannot
+    /// return to zero under the remaining non-negative `max` operations.
+    /// All later frame and atom checks still run, in their original order. When
+    /// neither condition is established, subsequent complete voxel scans run
+    /// until a witness is found or the original rejection is established.
+    pub fn validate_for_sterimol(
+        molecule: &Molecule,
+        donor_idx: usize,
+        reference_neighbor_idx: usize,
+        config: BuriedVolumeConfig,
+    ) -> Result<(), BuriedVolumeError> {
+        crate::profile_scope!(
+            "buried_volume",
+            "BuriedVolumeCalculator::validate_for_sterimol"
+        );
+        let (neighbor_indices, center) =
+            donor_geometry(molecule, donor_idx, reference_neighbor_idx, config)?;
+        let sphere = integration_grid(config);
+        if sphere.is_empty() {
             return Err(BuriedVolumeError(
-                "donor coordinate is not finite".to_owned(),
+                "integration grid contains no points".to_owned(),
             ));
         }
 
-        let neighbor_indices = donor_neighbor_indices(molecule, donor_idx, reference_neighbor_idx)?;
-        let lone_pair_direction =
-            infer_lone_pair_direction(molecule, donor_idx, &neighbor_indices)?;
-        let center = donor.position + config.center_distance * lone_pair_direction;
-        Self::compute_from_center(molecule, donor_idx, neighbor_indices, center, config)
+        let mut first_volume = 0.0;
+        let mut max_delta_qvbur = 0.0_f32;
+        let mut needs_occupancy = true;
+        for (orientation_index, &plane_idx) in neighbor_indices.iter().enumerate() {
+            let basis = coordinate_basis(molecule, donor_idx, plane_idx, center)?;
+            let atoms = aligned_atoms(molecule, center, basis, config)?;
+            if !needs_occupancy {
+                continue;
+            }
+            // Reuse the exact voxel predicate, point order, quadrant totals,
+            // f32 conversions and volume arithmetic of the full calculation.
+            let volumes = occupied_volumes(&sphere, &atoms, config.sphere_radius);
+            if orientation_index == 0 {
+                first_volume = volumes.buried_volume;
+            }
+            let q = volumes.quadrants;
+            let adjacent_delta = (0..4)
+                .map(|index| (q[index] - q[(index + 3) % 4]).abs())
+                .fold(0.0_f32, f32::max);
+            max_delta_qvbur = max_delta_qvbur.max(adjacent_delta);
+            // Keep the original comparisons, including IEEE NaN behavior.
+            needs_occupancy = first_volume > 0.0 && max_delta_qvbur == 0.0;
+        }
+        if needs_occupancy {
+            return Err(BuriedVolumeError(
+                "degenerate coordination frame produced a symmetric zero max_delta_qvbur"
+                    .to_owned(),
+            ));
+        }
+        Ok(())
     }
 
     /// Calculate buried volume around an explicitly supplied coordination center.
@@ -132,6 +182,10 @@ impl BuriedVolumeCalculator {
         center: Vec3,
         config: BuriedVolumeConfig,
     ) -> Result<BuriedVolumeParams, BuriedVolumeError> {
+        crate::profile_scope!(
+            "buried_volume",
+            "BuriedVolumeCalculator::compute_with_center"
+        );
         validate_config(config)?;
         let donor = molecule.atoms.get(donor_idx).ok_or_else(|| {
             BuriedVolumeError(format!("donor index {donor_idx} is out of bounds"))
@@ -157,6 +211,10 @@ impl BuriedVolumeCalculator {
         center: Vec3,
         config: BuriedVolumeConfig,
     ) -> Result<BuriedVolumeParams, BuriedVolumeError> {
+        crate::profile_scope!(
+            "buried_volume",
+            "BuriedVolumeCalculator::compute_from_center"
+        );
         let sphere = integration_grid(config);
         if sphere.is_empty() {
             return Err(BuriedVolumeError(
@@ -217,6 +275,7 @@ impl BuriedVolumeCalculator {
         conformers: &[BuriedVolumeParams],
         weights: &[f32],
     ) -> Result<BuriedVolumeEnsembleParams, BuriedVolumeError> {
+        crate::profile_scope!("conformer_processing", "BuriedVolumeCalculator::aggregate");
         if conformers.is_empty() || conformers.len() != weights.len() {
             return Err(BuriedVolumeError(
                 "conformers and weights must have equal non-zero lengths".to_owned(),
@@ -279,6 +338,17 @@ pub fn coordination_center(
     reference_neighbor_idx: usize,
     config: BuriedVolumeConfig,
 ) -> Result<Vec3, BuriedVolumeError> {
+    crate::profile_scope!("donor_bond_detection", "coordination_center");
+    donor_geometry(molecule, donor_idx, reference_neighbor_idx, config).map(|(_, center)| center)
+}
+
+/// Shared preconditions in the same order as the full buried-volume calculation.
+fn donor_geometry(
+    molecule: &Molecule,
+    donor_idx: usize,
+    reference_neighbor_idx: usize,
+    config: BuriedVolumeConfig,
+) -> Result<([usize; 3], Vec3), BuriedVolumeError> {
     validate_config(config)?;
     let donor = molecule
         .atoms
@@ -291,7 +361,8 @@ pub fn coordination_center(
     }
     let neighbor_indices = donor_neighbor_indices(molecule, donor_idx, reference_neighbor_idx)?;
     let lone_pair_direction = infer_lone_pair_direction(molecule, donor_idx, &neighbor_indices)?;
-    Ok(donor.position + config.center_distance * lone_pair_direction)
+    let center = donor.position + config.center_distance * lone_pair_direction;
+    Ok((neighbor_indices, center))
 }
 
 #[derive(Clone, Copy)]
@@ -347,11 +418,12 @@ const BOND_TOLERANCE_FACTOR: f32 = 1.3;
 /// Covalently bonded neighbours of `donor_idx` as `(distance_squared, index)`,
 /// sorted by ascending distance then index.
 ///
-/// The bond cutoff is [`BOND_TOLERANCE_FACTOR`] × the summed covalent radii.
+/// The bond cutoff is `BOND_TOLERANCE_FACTOR` × the summed covalent radii.
 /// `donor_idx` must be a valid atom index. This is the single source of the
 /// covalent-radius frame used by both the buried-volume quadrant frame and the
 /// `descriptors` command's donor detection, so the two never drift apart.
 pub fn bonded_neighbors(molecule: &Molecule, donor_idx: usize) -> Vec<(f32, usize)> {
+    crate::profile_scope!("donor_bond_detection", "bonded_neighbors");
     let donor = &molecule.atoms[donor_idx];
     let donor_covalent = covalent_radius(&donor.element);
     let mut bonded = molecule
@@ -392,6 +464,7 @@ fn donor_neighbor_indices(
     donor_idx: usize,
     reference_neighbor_idx: usize,
 ) -> Result<[usize; 3], BuriedVolumeError> {
+    crate::profile_scope!("donor_bond_detection", "donor_neighbor_indices");
     if reference_neighbor_idx == donor_idx || reference_neighbor_idx >= molecule.atoms.len() {
         return Err(BuriedVolumeError(
             "reference neighbor index is invalid".to_owned(),
@@ -433,6 +506,7 @@ fn infer_lone_pair_direction(
     donor_idx: usize,
     neighbors: &[usize; 3],
 ) -> Result<Vec3, BuriedVolumeError> {
+    crate::profile_scope!("donor_bond_detection", "infer_lone_pair_direction");
     let donor = molecule.atoms[donor_idx].position;
     let vectors = neighbors.map(|index| (molecule.atoms[index].position - donor).normalize());
     if vectors.iter().any(|vector| !vector.is_finite()) {
@@ -462,6 +536,7 @@ fn infer_lone_pair_direction(
 }
 
 fn center_clearance(molecule: &Molecule, donor_idx: usize, point: Vec3) -> f32 {
+    crate::profile_scope!("donor_bond_detection", "center_clearance");
     molecule
         .atoms
         .iter()
@@ -477,6 +552,7 @@ fn coordinate_basis(
     plane_idx: usize,
     center: Vec3,
 ) -> Result<Basis, BuriedVolumeError> {
+    crate::profile_scope!("buried_volume", "buried_volume::coordinate_basis");
     // Morfeus maps the centre->donor vector onto negative Z.
     let z = -(molecule.atoms[donor_idx].position - center).normalize();
     let plane_vector = molecule.atoms[plane_idx].position - center;
@@ -497,6 +573,7 @@ fn aligned_atoms(
     basis: Basis,
     config: BuriedVolumeConfig,
 ) -> Result<Vec<AlignedAtom>, BuriedVolumeError> {
+    crate::profile_scope!("buried_volume", "buried_volume::aligned_atoms");
     molecule
         .atoms
         .iter()
@@ -524,6 +601,7 @@ fn aligned_atoms(
 }
 
 fn integration_grid(config: BuriedVolumeConfig) -> Vec<Vec3> {
+    crate::profile_scope!("buried_volume", "buried_volume::integration_grid");
     let volume = sphere_volume(config.sphere_radius);
     let side_points = ((volume / config.density * 6.0 / PI).cbrt().round() as usize).max(2);
     let step = 2.0 * config.sphere_radius / (side_points - 1) as f32;
@@ -546,19 +624,61 @@ fn integration_grid(config: BuriedVolumeConfig) -> Vec<Vec3> {
 }
 
 fn occupied_volumes(sphere: &[Vec3], atoms: &[AlignedAtom], sphere_radius: f32) -> OccupiedVolumes {
+    crate::profile_scope!("buried_volume", "buried_volume::occupied_volumes");
+    struct RowCandidate {
+        z: f32,
+        radius_squared: f32,
+        xy_squared: f32,
+    }
+
     let mut occupied_total = 0_usize;
     let mut quadrant_total = [0_usize; 4];
     let mut quadrant_occupied = [0_usize; 4];
     let mut octant_total = [0_usize; 8];
     let mut octant_occupied = [0_usize; 8];
+    let mut row_xy = None;
+    let mut next_atom = 0;
+    let mut candidates: Vec<RowCandidate> = Vec::with_capacity(atoms.len().min(64));
     for point in sphere {
+        let xy = (point.x.to_bits(), point.y.to_bits());
+        if row_xy != Some(xy) {
+            row_xy = Some(xy);
+            next_atom = 0;
+            candidates.clear();
+        }
         let quadrant = quadrant_index(*point);
         let octant = octant_index(*point);
         quadrant_total[quadrant] += 1;
         octant_total[octant] += 1;
-        let occupied = atoms
-            .iter()
-            .any(|atom| point.distance_squared(atom.position) <= atom.radius_squared);
+        // glam::Vec3 uses (dx*dx + dy*dy) + dz*dz. A row reuses the
+        // bit-identical first sum without changing that f32 operation order.
+        let mut occupied = candidates.iter().any(|candidate| {
+            let dz = point.z - candidate.z;
+            candidate.xy_squared + dz * dz <= candidate.radius_squared
+        });
+        // The cache covers retained atoms from [0, next_atom), in original
+        // order. Extend it only after all cached candidates miss this point;
+        // a dense first-atom hit therefore never prepares the unused suffix.
+        while !occupied && next_atom < atoms.len() {
+            let atom = &atoms[next_atom];
+            next_atom += 1;
+            let dx = point.x - atom.position.x;
+            let dy = point.y - atom.position.y;
+            let xy_squared = dx * dx + dy * dy;
+            // Adding a non-negative z square cannot turn this miss into a hit.
+            // A NaN comparison is false and retains the candidate; inf <= inf
+            // behavior is preserved by the final test.
+            if xy_squared > atom.radius_squared {
+                continue;
+            }
+            candidates.push(RowCandidate {
+                z: atom.position.z,
+                radius_squared: atom.radius_squared,
+                xy_squared,
+            });
+            let dz = point.z - atom.position.z;
+            occupied = xy_squared + dz * dz <= atom.radius_squared;
+        }
         if occupied {
             occupied_total += 1;
             quadrant_occupied[quadrant] += 1;
@@ -771,5 +891,469 @@ mod tests {
             BuriedVolumeCalculator::compute(&phosphine(), 8, 1, BuriedVolumeConfig::default())
                 .unwrap_err();
         assert!(error.to_string().contains("out of bounds"));
+    }
+
+    fn assert_sterimol_validation_matches_full(
+        molecule: &Molecule,
+        donor: usize,
+        reference: usize,
+        config: BuriedVolumeConfig,
+    ) -> Result<(), BuriedVolumeError> {
+        let expected =
+            BuriedVolumeCalculator::compute(molecule, donor, reference, config).map(|_| ());
+        let actual =
+            BuriedVolumeCalculator::validate_for_sterimol(molecule, donor, reference, config);
+        assert_eq!(actual, expected, "configuration: {config:?}");
+        actual
+    }
+
+    #[test]
+    fn sterimol_validation_keeps_symmetric_rejection_and_accepts_empty_occupancy() {
+        let molecule = phosphine();
+        // The donor covers every voxel, so every orientation has exactly equal
+        // quadrants. A valid atom/bond frame alone is insufficient for admission.
+        let symmetric = BuriedVolumeConfig {
+            sphere_radius: 0.5,
+            density: 0.001,
+            center_distance: 0.1,
+            ..BuriedVolumeConfig::default()
+        };
+        let error =
+            assert_sterimol_validation_matches_full(&molecule, 0, 1, symmetric).unwrap_err();
+        assert!(error.to_string().contains("symmetric zero"));
+
+        // Zero occupied volume is accepted even though quadrant differences
+        // are also zero. It must not be mistaken for the positive-volume case.
+        let empty = BuriedVolumeConfig {
+            center_distance: 1000.0,
+            ..BuriedVolumeConfig::default()
+        };
+        let full = BuriedVolumeCalculator::compute(&molecule, 0, 1, empty).unwrap();
+        assert_eq!(full.buried_volume, 0.0);
+        assert_eq!(full.max_delta_qvbur, 0.0);
+        assert_sterimol_validation_matches_full(&molecule, 0, 1, empty).unwrap();
+    }
+
+    #[test]
+    fn sterimol_validation_checks_later_frames_after_an_occupancy_witness() {
+        let molecule = Molecule {
+            atoms: vec![
+                atom("P", Vec3::ZERO),
+                atom("C", Vec3::new(1.5, 0.0, 0.0)),
+                atom("C", Vec3::new(-1.5, 0.0, 0.0)),
+                atom("C", Vec3::new(0.0, 0.0, 1.5)),
+                atom("C", Vec3::new(2.7, 0.8, 0.4)),
+            ],
+        };
+        let config = BuriedVolumeConfig::default();
+        let (neighbors, center) = donor_geometry(&molecule, 0, 1, config).unwrap();
+        assert_eq!(neighbors, [1, 2, 3]);
+        let basis = coordinate_basis(&molecule, 0, neighbors[0], center).unwrap();
+        let atoms = aligned_atoms(&molecule, center, basis, config).unwrap();
+        let sphere = integration_grid(config);
+        let volumes = occupied_volumes(&sphere, &atoms, config.sphere_radius);
+        let q = volumes.quadrants;
+        let first_delta = (0..4)
+            .map(|index| (q[index] - q[(index + 3) % 4]).abs())
+            .fold(0.0_f32, f32::max);
+        assert!(first_delta > 0.0, "fixture must prove a first-scan witness");
+        let error = assert_sterimol_validation_matches_full(&molecule, 0, 1, config).unwrap_err();
+        assert!(error.to_string().contains("collinear"));
+    }
+
+    #[test]
+    fn sterimol_validation_preserves_configuration_and_atom_error_order() {
+        let molecule = phosphine();
+        let default = BuriedVolumeConfig::default();
+        for invalid in [0.0, -1.0, f32::NAN, f32::INFINITY] {
+            for config in [
+                BuriedVolumeConfig {
+                    sphere_radius: invalid,
+                    ..default
+                },
+                BuriedVolumeConfig {
+                    density: invalid,
+                    ..default
+                },
+                BuriedVolumeConfig {
+                    center_distance: invalid,
+                    ..default
+                },
+                BuriedVolumeConfig {
+                    radii_scale: invalid,
+                    ..default
+                },
+            ] {
+                assert!(
+                    assert_sterimol_validation_matches_full(&molecule, 99, 99, config).is_err()
+                );
+            }
+        }
+        for (donor, reference) in [(99, 1), (0, 99), (0, 0), (0, 4)] {
+            assert!(
+                assert_sterimol_validation_matches_full(&molecule, donor, reference, default)
+                    .is_err()
+            );
+        }
+        let mut invalid_donor = molecule.clone();
+        invalid_donor.atoms[0].position.x = f32::NAN;
+        assert!(
+            assert_sterimol_validation_matches_full(&invalid_donor, 0, 1, default)
+                .unwrap_err()
+                .to_string()
+                .contains("donor coordinate")
+        );
+        let mut invalid_radius = molecule.clone();
+        invalid_radius.atoms[4].vdw_radius = 0.0;
+        assert!(
+            assert_sterimol_validation_matches_full(&invalid_radius, 0, 1, default)
+                .unwrap_err()
+                .to_string()
+                .contains("coordinates or radius")
+        );
+
+        let mut invalid_hydrogen = molecule;
+        invalid_hydrogen
+            .atoms
+            .push(atom("H", Vec3::splat(f32::NAN)));
+        assert_sterimol_validation_matches_full(&invalid_hydrogen, 0, 1, default).unwrap();
+        assert!(
+            assert_sterimol_validation_matches_full(
+                &invalid_hydrogen,
+                0,
+                1,
+                BuriedVolumeConfig {
+                    include_hydrogens: true,
+                    ..default
+                },
+            )
+            .unwrap_err()
+            .to_string()
+            .contains("coordinates or radius")
+        );
+    }
+
+    #[test]
+    fn sterimol_validation_matches_extreme_but_bounded_grid_configurations() {
+        let molecule = phosphine();
+        let default = BuriedVolumeConfig::default();
+        // Keep grid allocations bounded while exercising underflow, overflow
+        // in scaled radii/coordinates, an empty grid, and adjacent f32 settings.
+        for config in [
+            BuriedVolumeConfig {
+                sphere_radius: f32::MIN_POSITIVE,
+                ..default
+            },
+            BuriedVolumeConfig {
+                sphere_radius: f32::from_bits(1),
+                ..default
+            },
+            BuriedVolumeConfig {
+                radii_scale: f32::MAX,
+                ..default
+            },
+            BuriedVolumeConfig {
+                center_distance: f32::MAX,
+                ..default
+            },
+            BuriedVolumeConfig {
+                density: f32::MAX,
+                ..default
+            },
+            BuriedVolumeConfig {
+                radii_scale: f32::from_bits(default.radii_scale.to_bits() - 1),
+                ..default
+            },
+            BuriedVolumeConfig {
+                radii_scale: f32::from_bits(default.radii_scale.to_bits() + 1),
+                ..default
+            },
+        ] {
+            let _ = assert_sterimol_validation_matches_full(&molecule, 0, 1, config);
+        }
+    }
+
+    #[test]
+    fn sterimol_validation_matches_deterministic_perturbed_geometries() {
+        let mut state = 0x4d595df4d0f33173_u64;
+        let mut next = || {
+            state = state.wrapping_mul(6364136223846793005).wrapping_add(1);
+            ((state >> 40) as f32 / (1_u32 << 24) as f32 - 0.5) * 0.3
+        };
+        for index in 0..32 {
+            let mut molecule = if index % 2 == 0 {
+                phosphine()
+            } else {
+                primary_phosphine()
+            };
+            for atom in &mut molecule.atoms {
+                atom.position += Vec3::new(next(), next(), next());
+            }
+            let config = BuriedVolumeConfig {
+                density: 0.04,
+                center_distance: 2.1 + next(),
+                radii_scale: 1.17 + next(),
+                include_hydrogens: index % 3 == 0,
+                ..BuriedVolumeConfig::default()
+            };
+            let _ = assert_sterimol_validation_matches_full(&molecule, 0, 1, config);
+        }
+    }
+
+    // Frozen pre-optimization loop: keep the original glam distance predicate
+    // independent of the row cache and its scalar prefix implementation.
+    fn occupied_volumes_reference(
+        sphere: &[Vec3],
+        atoms: &[AlignedAtom],
+        sphere_radius: f32,
+    ) -> OccupiedVolumes {
+        let mut occupied_total = 0_usize;
+        let mut quadrant_total = [0_usize; 4];
+        let mut quadrant_occupied = [0_usize; 4];
+        let mut octant_total = [0_usize; 8];
+        let mut octant_occupied = [0_usize; 8];
+        for point in sphere {
+            let quadrant = quadrant_index(*point);
+            let octant = octant_index(*point);
+            quadrant_total[quadrant] += 1;
+            octant_total[octant] += 1;
+            let occupied = atoms
+                .iter()
+                .any(|atom| point.distance_squared(atom.position) <= atom.radius_squared);
+            if occupied {
+                occupied_total += 1;
+                quadrant_occupied[quadrant] += 1;
+                octant_occupied[octant] += 1;
+            }
+        }
+        let volume = sphere_volume(sphere_radius);
+        let quadrants = std::array::from_fn(|index| {
+            occupied_fraction(quadrant_occupied[index], quadrant_total[index]) * volume / 4.0
+        });
+        let octants = std::array::from_fn(|index| {
+            occupied_fraction(octant_occupied[index], octant_total[index]) * volume / 8.0
+        });
+        let near_vbur = octants[4..].iter().sum();
+        let far_vbur = octants[..4].iter().sum();
+        OccupiedVolumes {
+            buried_volume: occupied_fraction(occupied_total, sphere.len()) * volume,
+            quadrants,
+            octants,
+            near_vbur,
+            far_vbur,
+        }
+    }
+
+    fn assert_occupancy_bits_match(sphere: &[Vec3], atoms: &[AlignedAtom], radius: f32) {
+        let actual = occupied_volumes(sphere, atoms, radius);
+        let expected = occupied_volumes_reference(sphere, atoms, radius);
+        let all_bits = |result: OccupiedVolumes| {
+            let mut fields = vec![result.buried_volume, result.near_vbur, result.far_vbur];
+            fields.extend(result.quadrants);
+            fields.extend(result.octants);
+            fields.into_iter().map(f32::to_bits).collect::<Vec<_>>()
+        };
+        assert_eq!(all_bits(actual), all_bits(expected));
+    }
+
+    #[test]
+    fn row_occupancy_preserves_adjacent_float_boundary_decisions() {
+        let points = [
+            Vec3::new(0.5, 0.75, -0.25),
+            Vec3::new(0.5, 0.75, 0.0),
+            Vec3::new(0.5, 0.75, 0.25),
+            Vec3::new(0.5, 0.75, f32::from_bits(0.25_f32.to_bits() + 1)),
+            Vec3::new(-0.5, -0.75, -0.25),
+        ];
+        for point in points {
+            let distance_squared = point.distance_squared(Vec3::ZERO);
+            for radius_squared in [
+                f32::from_bits(distance_squared.to_bits() - 1),
+                distance_squared,
+                f32::from_bits(distance_squared.to_bits() + 1),
+            ] {
+                let atoms = [AlignedAtom {
+                    position: Vec3::ZERO,
+                    radius_squared,
+                }];
+                // Compare the individual predicate, and the same atom across
+                // repeated XY rows with boundaries on either side of equality.
+                assert_occupancy_bits_match(&[point], &atoms, 3.5);
+                assert_occupancy_bits_match(&points, &atoms, 3.5);
+            }
+        }
+    }
+
+    #[test]
+    fn row_occupancy_preserves_signed_zero_subnormal_and_nonfinite_arithmetic() {
+        let values = [
+            0.0,
+            -0.0,
+            f32::from_bits(1),
+            -f32::from_bits(1),
+            f32::MIN_POSITIVE,
+            -f32::MIN_POSITIVE,
+            1.0,
+            -1.0,
+            1.0e20,
+            -1.0e20,
+            f32::MAX,
+            -f32::MAX,
+            f32::INFINITY,
+            f32::NEG_INFINITY,
+            f32::NAN,
+            f32::from_bits(0x7fc00001),
+        ];
+        let mut points = Vec::new();
+        for (index, &x) in values.iter().enumerate() {
+            for &z in &values {
+                points.push(Vec3::new(x, values[(index + 1) % values.len()], z));
+            }
+        }
+        for (index, &x) in values.iter().enumerate() {
+            for radius_squared in [
+                0.0,
+                -0.0,
+                -1.0,
+                f32::from_bits(1),
+                f32::MIN_POSITIVE,
+                1.0,
+                f32::MAX,
+                f32::INFINITY,
+                f32::NAN,
+            ] {
+                let atom = AlignedAtom {
+                    position: Vec3::new(x, values[(index + 2) % values.len()], 0.0),
+                    radius_squared,
+                };
+                assert_occupancy_bits_match(&points, &[atom], 3.5);
+            }
+        }
+        // Cover an underflowed XY prefix followed by a nonzero subnormal sum.
+        let atom = AlignedAtom {
+            position: Vec3::ZERO,
+            radius_squared: 1.0e-40,
+        };
+        let tiny = [Vec3::new(1.0e-22, -1.0e-22, 1.0e-20), Vec3::ZERO];
+        assert_occupancy_bits_match(&tiny, &[atom], 3.5);
+    }
+
+    #[test]
+    fn row_occupancy_handles_lazy_extension_row_resets_and_dense_first_hits() {
+        let atoms = [
+            AlignedAtom {
+                position: Vec3::new(0.0, 0.0, 1.0),
+                radius_squared: 0.01,
+            },
+            AlignedAtom {
+                position: Vec3::new(20.0, 20.0, 0.0),
+                radius_squared: 0.01,
+            },
+            AlignedAtom {
+                position: Vec3::new(0.0, 0.0, -1.0),
+                radius_squared: 0.01,
+            },
+            AlignedAtom {
+                position: Vec3::new(0.0, 0.0, 2.0),
+                radius_squared: 0.01,
+            },
+        ];
+        let points = [
+            Vec3::new(0.0, 0.0, 1.0),
+            Vec3::new(0.0, 0.0, -1.0),
+            Vec3::new(0.0, 0.0, 2.0),
+            Vec3::new(0.0, 0.0, 1.0),
+            Vec3::new(0.0, 0.0, 10.0),
+            Vec3::new(20.0, 20.0, 0.0),
+            Vec3::new(-0.0, 0.0, -1.0),
+            Vec3::new(0.0, 0.0, 2.0),
+        ];
+        assert_occupancy_bits_match(&points, &atoms, 3.5);
+        let reversed: Vec<_> = points.into_iter().rev().collect();
+        assert_occupancy_bits_match(&reversed, &atoms, 3.5);
+        assert_occupancy_bits_match(&points, &[], 3.5);
+        assert_occupancy_bits_match(&[], &atoms, 3.5);
+        let mut dense = vec![AlignedAtom {
+            position: Vec3::ZERO,
+            radius_squared: 1000.0,
+        }];
+        dense.extend((0..2000).map(|index| AlignedAtom {
+            position: Vec3::splat(index as f32),
+            radius_squared: 1.0,
+        }));
+        assert_occupancy_bits_match(&points, &dense, 3.5);
+    }
+
+    #[test]
+    fn row_occupancy_matches_random_atoms_and_non_grid_point_order() {
+        let mut state = 0xfedcba9876543210_u64;
+        let mut next = || {
+            state = state.wrapping_mul(6364136223846793005).wrapping_add(1);
+            (state >> 40) as f32 / (1_u32 << 24) as f32
+        };
+        for case in 0..48 {
+            let atoms = (0..case % 31 + 1)
+                .map(|_| AlignedAtom {
+                    position: Vec3::new(next() * 6.0 - 3.0, next() * 6.0 - 3.0, next() * 6.0 - 3.0),
+                    radius_squared: next() * 5.0,
+                })
+                .collect::<Vec<_>>();
+            let mut points = Vec::new();
+            for _ in 0..12 {
+                let x = next() * 7.0 - 3.5;
+                let y = next() * 7.0 - 3.5;
+                for _ in 0..16 {
+                    points.push(Vec3::new(x, y, next() * 7.0 - 3.5));
+                }
+            }
+            assert_occupancy_bits_match(&points, &atoms, 3.5);
+            // Rotate and swap arbitrary rows/points without restoring grid order.
+            points.rotate_left(case + 1);
+            points.swap(0, 100);
+            points.swap(55, 140);
+            assert_occupancy_bits_match(&points, &atoms, 3.5);
+        }
+    }
+
+    #[test]
+    fn row_occupancy_matches_all_real_conformer_orientations_bitwise() {
+        let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("data/conformers");
+        let config = BuriedVolumeConfig::default();
+        let sphere = integration_grid(config);
+        let mut geometries = 0;
+        for directory in std::fs::read_dir(root).unwrap() {
+            let directory = directory.unwrap().path();
+            if !directory.is_dir() {
+                continue;
+            }
+            for entry in std::fs::read_dir(directory).unwrap() {
+                let path = entry.unwrap().path();
+                if path.extension().and_then(|value| value.to_str()) != Some("xyz") {
+                    continue;
+                }
+                let molecule = super::super::parse_coordinate_file(&path)
+                    .unwrap()
+                    .remove(0);
+                let donor = molecule
+                    .atoms
+                    .iter()
+                    .position(|atom| atom.element == "P")
+                    .unwrap();
+                let reference = bonded_neighbors(&molecule, donor)
+                    .into_iter()
+                    .find(|(_, index)| molecule.atoms[*index].element != "H")
+                    .unwrap()
+                    .1;
+                let (neighbors, center) =
+                    donor_geometry(&molecule, donor, reference, config).unwrap();
+                for plane in neighbors {
+                    let basis = coordinate_basis(&molecule, donor, plane, center).unwrap();
+                    let atoms = aligned_atoms(&molecule, center, basis, config).unwrap();
+                    assert_occupancy_bits_match(&sphere, &atoms, config.sphere_radius);
+                }
+                geometries += 1;
+            }
+        }
+        assert!(geometries >= 56);
     }
 }

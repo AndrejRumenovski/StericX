@@ -1,0 +1,1083 @@
+{
+  "schema_version": 1,
+  "native_hardware_counters": false,
+  "method": "Cachegrind simulation of the frozen optimized symbol build on each unchanged full manifest workload. Counts and instruction attribution are not native time or hardware events.",
+  "configuration": {
+    "D1": {
+      "line_bytes": 64,
+      "size_bytes": 32768,
+      "ways": 8
+    },
+    "I1": {
+      "line_bytes": 64,
+      "size_bytes": 32768,
+      "ways": 8
+    },
+    "LL": {
+      "line_bytes": 64,
+      "size_bytes": 16777216,
+      "ways": 16
+    }
+  },
+  "binary_sha256": "12e93dd29489328ac81b675672daf148eefd4cf4034eae5abdbf1cb3203698d6",
+  "manifest_sha256": "5f2a35784d64c12122a886db1d6bdce1e2d7b012cece31256d22b175f7d1b20c",
+  "results": {
+    "conformers_56": {
+      "artifacts": {
+        "annotation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events.out": "28026e38fb9016de9a90c9103eb418ac48829ea5e346982ab2cf1449e1d81f7b",
+        "functions.txt": "101dc393b7c4af7c3cdc4e4122880424d568b1de1eb6d44e909fc1d13bc6fca6",
+        "profiler.log": "ceb560ff6d650a3f676e2be44d64d2fb4aecc0f8552863139e7dc4343a0b2fb6",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "d91e7b56bd8ab611958df7c6338c41010b49601522712529ef074da9cc589d28"
+      },
+      "cache_configuration": [
+        "I1 cache:         32768 B, 64 B, 8-way associative",
+        "D1 cache:         32768 B, 64 B, 8-way associative",
+        "LL cache:         16777216 B, 64 B, 16-way associative"
+      ],
+      "counts": {
+        "Bc": 140934951,
+        "Bcm": 2739163,
+        "Bi": 129860,
+        "Bim": 2860,
+        "D1mr": 533163,
+        "D1mw": 173385,
+        "DLmr": 3041,
+        "DLmw": 10321,
+        "Dr": 281849552,
+        "Dw": 7143761,
+        "I1mr": 38703,
+        "ILmr": 7815,
+        "Ir": 1337290690
+      },
+      "derived_counts": {
+        "D1_misses": 706548,
+        "LL_misses": 21177,
+        "LL_requests_after_L1_misses": 745251,
+        "branch_mispredictions": 2742023,
+        "branches": 141064811,
+        "data_references": 288993313
+      },
+      "events_in_file_order": [
+        "Ir",
+        "I1mr",
+        "ILmr",
+        "Dr",
+        "D1mr",
+        "DLmr",
+        "Dw",
+        "D1mw",
+        "DLmw",
+        "Bc",
+        "Bcm",
+        "Bi",
+        "Bim"
+      ],
+      "exact_scientific_output_match": true,
+      "exactness_scope": "all emitted scientific values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "d91e7b56bd8ab611958df7c6338c41010b49601522712529ef074da9cc589d28"
+      },
+      "simulated_rates": {
+        "D1_misses_per_data_reference": {
+          "denominator": 288993313,
+          "fraction": 0.002444859338319707,
+          "numerator": 706548
+        },
+        "I1_misses_per_instruction": {
+          "denominator": 1337290690,
+          "fraction": 2.8941351562090064e-05,
+          "numerator": 38703
+        },
+        "LL_data_misses_per_data_reference": {
+          "denominator": 288993313,
+          "fraction": 4.623636395351473e-05,
+          "numerator": 13362
+        },
+        "LL_instruction_misses_per_instruction": {
+          "denominator": 1337290690,
+          "fraction": 5.843905187136239e-06,
+          "numerator": 7815
+        },
+        "LL_misses_per_LL_request_local": {
+          "denominator": 745251,
+          "fraction": 0.02841592966664922,
+          "numerator": 21177
+        },
+        "LL_misses_per_all_reference_global": {
+          "denominator": 1626284003,
+          "fraction": 1.3021710821071145e-05,
+          "numerator": 21177
+        },
+        "branch_mispredictions_per_branch": {
+          "denominator": 141064811,
+          "fraction": 0.01943803688929906,
+          "numerator": 2742023
+        },
+        "conditional_mispredictions_per_conditional_branch": {
+          "denominator": 140934951,
+          "fraction": 0.019435654396332106,
+          "numerator": 2739163
+        },
+        "indirect_mispredictions_per_indirect_branch": {
+          "denominator": 129860,
+          "fraction": 0.0220237178499923,
+          "numerator": 2860
+        }
+      }
+    },
+    "db_build_ensembles": {
+      "artifacts": {
+        "annotation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "database.csv": "6722dce3e31c4e5b4e4d3f50000720e278fbc352030a7f4c58e1790be39a77a9",
+        "database.manifest.json": "ee61b31ec5305e9ae1472492e7dd0993c24f12b019465b2ef9174abec96e351c",
+        "events.out": "39d001f02528c193a5ee9fa32c84519b90190b7141ddaab13c52c3f9757a14e2",
+        "functions.txt": "54bb185bdec39d876e55749d0a3497d19c12deddaec8cafe1f747a20010e496e",
+        "profiler.log": "11e12d5f16ae5b5441c13571dc6d87361b19d3a2ec81546035e47d8f701d3090",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "0ccf4a859b390ed689e962bf3d80110d7ebeb1dc82dddbccf0eb6962c41a62d5"
+      },
+      "cache_configuration": [
+        "I1 cache:         32768 B, 64 B, 8-way associative",
+        "D1 cache:         32768 B, 64 B, 8-way associative",
+        "LL cache:         16777216 B, 64 B, 16-way associative"
+      ],
+      "counts": {
+        "Bc": 140967242,
+        "Bcm": 2745610,
+        "Bi": 130734,
+        "Bim": 3761,
+        "D1mr": 524135,
+        "D1mw": 172887,
+        "DLmr": 3035,
+        "DLmw": 13526,
+        "Dr": 281838452,
+        "Dw": 7124082,
+        "I1mr": 43918,
+        "ILmr": 9086,
+        "Ir": 1337610619
+      },
+      "derived_counts": {
+        "D1_misses": 697022,
+        "LL_misses": 25647,
+        "LL_requests_after_L1_misses": 740940,
+        "branch_mispredictions": 2749371,
+        "branches": 141097976,
+        "data_references": 288962534
+      },
+      "events_in_file_order": [
+        "Ir",
+        "I1mr",
+        "ILmr",
+        "Dr",
+        "D1mr",
+        "DLmr",
+        "Dw",
+        "D1mw",
+        "DLmw",
+        "Bc",
+        "Bcm",
+        "Bi",
+        "Bim"
+      ],
+      "exact_scientific_output_match": true,
+      "exactness_scope": "all emitted scientific values byte-for-byte",
+      "fingerprints": {
+        "manifest_sha256": "116bb8eccd988dc924b195ba19c4dfbe7d31ade3dc258b988a35600e175ed49b",
+        "stdout_sha256": "7e55f6db2b81d21aa6782d4133285e38f71b7693c9acc43fe95f233eeb43414b",
+        "table_sha256": "6722dce3e31c4e5b4e4d3f50000720e278fbc352030a7f4c58e1790be39a77a9"
+      },
+      "simulated_rates": {
+        "D1_misses_per_data_reference": {
+          "denominator": 288962534,
+          "fraction": 0.0024121535423689217,
+          "numerator": 697022
+        },
+        "I1_misses_per_instruction": {
+          "denominator": 1337610619,
+          "fraction": 3.283317235686509e-05,
+          "numerator": 43918
+        },
+        "LL_data_misses_per_data_reference": {
+          "denominator": 288962534,
+          "fraction": 5.7311928196199996e-05,
+          "numerator": 16561
+        },
+        "LL_instruction_misses_per_instruction": {
+          "denominator": 1337610619,
+          "fraction": 6.792709231624304e-06,
+          "numerator": 9086
+        },
+        "LL_misses_per_LL_request_local": {
+          "denominator": 740940,
+          "fraction": 0.034614138796663696,
+          "numerator": 25647
+        },
+        "LL_misses_per_all_reference_global": {
+          "denominator": 1626573153,
+          "fraction": 1.576750480155011e-05,
+          "numerator": 25647
+        },
+        "branch_mispredictions_per_branch": {
+          "denominator": 141097976,
+          "fraction": 0.019485545278126456,
+          "numerator": 2749371
+        },
+        "conditional_mispredictions_per_conditional_branch": {
+          "denominator": 140967242,
+          "fraction": 0.019476936350928963,
+          "numerator": 2745610
+        },
+        "indirect_mispredictions_per_indirect_branch": {
+          "denominator": 130734,
+          "fraction": 0.02876833876420824,
+          "numerator": 3761
+        }
+      }
+    },
+    "descriptors_10000": {
+      "artifacts": {
+        "annotation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events.out": "dd7869c16cf963fa6efdce401051fef906e21e0f767950816e16cf3e00ca48d7",
+        "functions.txt": "6670432d94e6e40e36c9ddb672eaad7532c16a017768dd24964d7a6878c0e9e6",
+        "profiler.log": "dbf8a67cf81533e0553741c4e921dacfe7c141f297371e9a6bd876b4555b539d",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "b59ac7d6457aed2b2a028a908a845e1ee9c0bb15f39c05acee4457e4b8c49495"
+      },
+      "cache_configuration": [
+        "I1 cache:         32768 B, 64 B, 8-way associative",
+        "D1 cache:         32768 B, 64 B, 8-way associative",
+        "LL cache:         16777216 B, 64 B, 16-way associative"
+      ],
+      "counts": {
+        "Bc": 25164808354,
+        "Bcm": 486513204,
+        "Bi": 22402745,
+        "Bim": 201740,
+        "D1mr": 94790990,
+        "D1mw": 30067600,
+        "DLmr": 22251,
+        "DLmw": 206916,
+        "Dr": 50332670456,
+        "Dw": 1264305814,
+        "I1mr": 5391752,
+        "ILmr": 7833,
+        "Ir": 238829039500
+      },
+      "derived_counts": {
+        "D1_misses": 124858590,
+        "LL_misses": 237000,
+        "LL_requests_after_L1_misses": 130250342,
+        "branch_mispredictions": 486714944,
+        "branches": 25187211099,
+        "data_references": 51596976270
+      },
+      "events_in_file_order": [
+        "Ir",
+        "I1mr",
+        "ILmr",
+        "Dr",
+        "D1mr",
+        "DLmr",
+        "Dw",
+        "D1mw",
+        "DLmw",
+        "Bc",
+        "Bcm",
+        "Bi",
+        "Bim"
+      ],
+      "exact_scientific_output_match": true,
+      "exactness_scope": "all emitted scientific values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "b59ac7d6457aed2b2a028a908a845e1ee9c0bb15f39c05acee4457e4b8c49495"
+      },
+      "simulated_rates": {
+        "D1_misses_per_data_reference": {
+          "denominator": 51596976270,
+          "fraction": 0.002419881919952671,
+          "numerator": 124858590
+        },
+        "I1_misses_per_instruction": {
+          "denominator": 238829039500,
+          "fraction": 2.2575780613981827e-05,
+          "numerator": 5391752
+        },
+        "LL_data_misses_per_data_reference": {
+          "denominator": 51596976270,
+          "fraction": 4.4414811984485306e-06,
+          "numerator": 229167
+        },
+        "LL_instruction_misses_per_instruction": {
+          "denominator": 238829039500,
+          "fraction": 3.279751916433093e-08,
+          "numerator": 7833
+        },
+        "LL_misses_per_LL_request_local": {
+          "denominator": 130250342,
+          "fraction": 0.0018195729574360733,
+          "numerator": 237000
+        },
+        "LL_misses_per_all_reference_global": {
+          "denominator": 290426015770,
+          "fraction": 8.160425964996531e-07,
+          "numerator": 237000
+        },
+        "branch_mispredictions_per_branch": {
+          "denominator": 25187211099,
+          "fraction": 0.019323891878578168,
+          "numerator": 486714944
+        },
+        "conditional_mispredictions_per_conditional_branch": {
+          "denominator": 25164808354,
+          "fraction": 0.019333078049158587,
+          "numerator": 486513204
+        },
+        "indirect_mispredictions_per_indirect_branch": {
+          "denominator": 22402745,
+          "fraction": 0.009005146467542259,
+          "numerator": 201740
+        }
+      }
+    },
+    "ensemble_sdf": {
+      "artifacts": {
+        "annotation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events.out": "e338079b24b7bbc198166c31a15a3af7cd48fecefd4bd3a4df3cfb31b8d032d7",
+        "functions.txt": "d3a46e49a3355fbf74704c78c851ef672cb1b9de4227b52969ad4d9635005e3b",
+        "profiler.log": "d563858a928cbf5b0b4fec4b1c105cf24ac4cd2e5b35836285896e3260249a67",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "125d4e020b90e23656dcc03db6e1a0aa58bdb44c88c080ee31588ee037805301"
+      },
+      "cache_configuration": [
+        "I1 cache:         32768 B, 64 B, 8-way associative",
+        "D1 cache:         32768 B, 64 B, 8-way associative",
+        "LL cache:         16777216 B, 64 B, 16-way associative"
+      ],
+      "counts": {
+        "Bc": 32956022,
+        "Bcm": 617893,
+        "Bi": 27902,
+        "Bim": 1765,
+        "D1mr": 118219,
+        "D1mw": 40865,
+        "DLmr": 3390,
+        "DLmw": 9293,
+        "Dr": 65718988,
+        "Dw": 1719972,
+        "I1mr": 9399,
+        "ILmr": 7880,
+        "Ir": 312065580
+      },
+      "derived_counts": {
+        "D1_misses": 159084,
+        "LL_misses": 20563,
+        "LL_requests_after_L1_misses": 168483,
+        "branch_mispredictions": 619658,
+        "branches": 32983924,
+        "data_references": 67438960
+      },
+      "events_in_file_order": [
+        "Ir",
+        "I1mr",
+        "ILmr",
+        "Dr",
+        "D1mr",
+        "DLmr",
+        "Dw",
+        "D1mw",
+        "DLmw",
+        "Bc",
+        "Bcm",
+        "Bi",
+        "Bim"
+      ],
+      "exact_scientific_output_match": true,
+      "exactness_scope": "all emitted scientific values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "125d4e020b90e23656dcc03db6e1a0aa58bdb44c88c080ee31588ee037805301"
+      },
+      "simulated_rates": {
+        "D1_misses_per_data_reference": {
+          "denominator": 67438960,
+          "fraction": 0.0023589331745329407,
+          "numerator": 159084
+        },
+        "I1_misses_per_instruction": {
+          "denominator": 312065580,
+          "fraction": 3.011866928739786e-05,
+          "numerator": 9399
+        },
+        "LL_data_misses_per_data_reference": {
+          "denominator": 67438960,
+          "fraction": 0.00018806636401273093,
+          "numerator": 12683
+        },
+        "LL_instruction_misses_per_instruction": {
+          "denominator": 312065580,
+          "fraction": 2.5251102668868513e-05,
+          "numerator": 7880
+        },
+        "LL_misses_per_LL_request_local": {
+          "denominator": 168483,
+          "fraction": 0.12204792174878178,
+          "numerator": 20563
+        },
+        "LL_misses_per_all_reference_global": {
+          "denominator": 379504540,
+          "fraction": 5.418380502114678e-05,
+          "numerator": 20563
+        },
+        "branch_mispredictions_per_branch": {
+          "denominator": 32983924,
+          "fraction": 0.01878666710485993,
+          "numerator": 619658
+        },
+        "conditional_mispredictions_per_conditional_branch": {
+          "denominator": 32956022,
+          "fraction": 0.01874901649234243,
+          "numerator": 617893
+        },
+        "indirect_mispredictions_per_indirect_branch": {
+          "denominator": 27902,
+          "fraction": 0.06325711418536306,
+          "numerator": 1765
+        }
+      }
+    },
+    "parse_ensembles_1000": {
+      "artifacts": {
+        "annotation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events.out": "c63623af758a40d4d6b2d53e3b4013050c0b8c3715c62a56201b087dd2e1893b",
+        "functions.txt": "6692fd523b50df9330d30975cd2e9a48a51e415f003ec77dc6dfd79f9382647b",
+        "parsed.sigpack": "824dd86ee57695a95e32e41ddf65abba98cc8022481ae701128aac17ab0a2608",
+        "profiler.log": "a9153dbf36c15d5a83b4837dc2aeee2203125a0b9c78e66300eee24f27c71070",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "2463a215e1b6dbf404c8902353406fa31cbdf9ac8795ab148340bc583245bf5a"
+      },
+      "cache_configuration": [
+        "I1 cache:         32768 B, 64 B, 8-way associative",
+        "D1 cache:         32768 B, 64 B, 8-way associative",
+        "LL cache:         16777216 B, 64 B, 16-way associative"
+      ],
+      "counts": {
+        "Bc": 173503580,
+        "Bcm": 5588125,
+        "Bi": 7319860,
+        "Bim": 39040,
+        "D1mr": 121618,
+        "D1mw": 91992,
+        "DLmr": 2972,
+        "DLmw": 5576,
+        "Dr": 477627722,
+        "Dw": 106916197,
+        "I1mr": 702105,
+        "ILmr": 7968,
+        "Ir": 2060459500
+      },
+      "derived_counts": {
+        "D1_misses": 213610,
+        "LL_misses": 16516,
+        "LL_requests_after_L1_misses": 915715,
+        "branch_mispredictions": 5627165,
+        "branches": 180823440,
+        "data_references": 584543919
+      },
+      "events_in_file_order": [
+        "Ir",
+        "I1mr",
+        "ILmr",
+        "Dr",
+        "D1mr",
+        "DLmr",
+        "Dw",
+        "D1mw",
+        "DLmw",
+        "Bc",
+        "Bcm",
+        "Bi",
+        "Bim"
+      ],
+      "exact_scientific_output_match": true,
+      "exactness_scope": "all emitted scientific values byte-for-byte",
+      "fingerprints": {
+        "sigpack_sha256": "824dd86ee57695a95e32e41ddf65abba98cc8022481ae701128aac17ab0a2608",
+        "stdout_sha256": "6038db53ef8a44e1f42afce7bbe00e371f29bdc2842596afb40dedfe2d2b4559"
+      },
+      "simulated_rates": {
+        "D1_misses_per_data_reference": {
+          "denominator": 584543919,
+          "fraction": 0.0003654301978975852,
+          "numerator": 213610
+        },
+        "I1_misses_per_instruction": {
+          "denominator": 2060459500,
+          "fraction": 0.00034075166243257877,
+          "numerator": 702105
+        },
+        "LL_data_misses_per_data_reference": {
+          "denominator": 584543919,
+          "fraction": 1.4623366563496832e-05,
+          "numerator": 8548
+        },
+        "LL_instruction_misses_per_instruction": {
+          "denominator": 2060459500,
+          "fraction": 3.867098576798039e-06,
+          "numerator": 7968
+        },
+        "LL_misses_per_LL_request_local": {
+          "denominator": 915715,
+          "fraction": 0.01803617937895524,
+          "numerator": 16516
+        },
+        "LL_misses_per_all_reference_global": {
+          "denominator": 2645003419,
+          "fraction": 6.244226333077568e-06,
+          "numerator": 16516
+        },
+        "branch_mispredictions_per_branch": {
+          "denominator": 180823440,
+          "fraction": 0.031119665680511333,
+          "numerator": 5627165
+        },
+        "conditional_mispredictions_per_conditional_branch": {
+          "denominator": 173503580,
+          "fraction": 0.03220754868573893,
+          "numerator": 5588125
+        },
+        "indirect_mispredictions_per_indirect_branch": {
+          "denominator": 7319860,
+          "fraction": 0.0053334353389272475,
+          "numerator": 39040
+        }
+      }
+    },
+    "predict_1000000": {
+      "artifacts": {
+        "annotation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events.out": "ba70caf3532a176ed5048970878b3e5d43d3f794b9c738ed7f77ac9a73ffb485",
+        "functions.txt": "906b20123427c4edaa6487835cc8b69ebe1fdfcf7e4a148fe9cb7af2e98453fc",
+        "profiler.log": "a6d8de61ed039b080a4fb328089cb0a769f182170a89980c3bd94ab78fba31a4",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "f715bc490dfc63ed97d2e180061fef28363b8ce3db13eda75f6710f64f09603c"
+      },
+      "cache_configuration": [
+        "I1 cache:         32768 B, 64 B, 8-way associative",
+        "D1 cache:         32768 B, 64 B, 8-way associative",
+        "LL cache:         16777216 B, 64 B, 16-way associative"
+      ],
+      "counts": {
+        "Bc": 2632262,
+        "Bcm": 12336,
+        "Bi": 1004905,
+        "Bim": 1835,
+        "D1mr": 2068871,
+        "D1mw": 67011,
+        "DLmr": 2065726,
+        "DLmw": 66572,
+        "Dr": 11213193,
+        "Dw": 8131013,
+        "I1mr": 9079,
+        "ILmr": 8146,
+        "Ir": 41865468
+      },
+      "derived_counts": {
+        "D1_misses": 2135882,
+        "LL_misses": 2140444,
+        "LL_requests_after_L1_misses": 2144961,
+        "branch_mispredictions": 14171,
+        "branches": 3637167,
+        "data_references": 19344206
+      },
+      "events_in_file_order": [
+        "Ir",
+        "I1mr",
+        "ILmr",
+        "Dr",
+        "D1mr",
+        "DLmr",
+        "Dw",
+        "D1mw",
+        "DLmw",
+        "Bc",
+        "Bcm",
+        "Bi",
+        "Bim"
+      ],
+      "exact_scientific_output_match": true,
+      "exactness_scope": "CLI preview and aggregate only; complete f32 prediction audit is required separately",
+      "fingerprints": {
+        "stdout_sha256": "a8912478259dac7cf324240111e50090c6e9554dd587853cf260acebbca1601e"
+      },
+      "simulated_rates": {
+        "D1_misses_per_data_reference": {
+          "denominator": 19344206,
+          "fraction": 0.11041456030813568,
+          "numerator": 2135882
+        },
+        "I1_misses_per_instruction": {
+          "denominator": 41865468,
+          "fraction": 0.00021686130440486177,
+          "numerator": 9079
+        },
+        "LL_data_misses_per_data_reference": {
+          "denominator": 19344206,
+          "fraction": 0.1102292851926825,
+          "numerator": 2132298
+        },
+        "LL_instruction_misses_per_instruction": {
+          "denominator": 41865468,
+          "fraction": 0.0001945756345062236,
+          "numerator": 8146
+        },
+        "LL_misses_per_LL_request_local": {
+          "denominator": 2144961,
+          "fraction": 0.9978941342057035,
+          "numerator": 2140444
+        },
+        "LL_misses_per_all_reference_global": {
+          "denominator": 61209674,
+          "fraction": 0.03496904753977288,
+          "numerator": 2140444
+        },
+        "branch_mispredictions_per_branch": {
+          "denominator": 3637167,
+          "fraction": 0.0038961642399152965,
+          "numerator": 14171
+        },
+        "conditional_mispredictions_per_conditional_branch": {
+          "denominator": 2632262,
+          "fraction": 0.0046864635815127825,
+          "numerator": 12336
+        },
+        "indirect_mispredictions_per_indirect_branch": {
+          "denominator": 1004905,
+          "fraction": 0.001826043257820391,
+          "numerator": 1835
+        }
+      }
+    },
+    "screen_1000": {
+      "artifacts": {
+        "annotation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events.out": "f36de22fb4b3385ef3f10bfe6c62a0db6fddc7b3b4bccc037e215fb7b25fbcac",
+        "functions.txt": "7aa8876b3e2b2e31024a16945a4a2cbf2ea7483c7ea18a1910cf8f8053552ce3",
+        "profiler.log": "07bea33c703da647b5333c8aa15abbdc516dfb44ce88e3c099cb1fe029929197",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "23d33c7586d8820877585341e4e1e6d7c931bc8fe06f087a7900473cc5c712c4"
+      },
+      "cache_configuration": [
+        "I1 cache:         32768 B, 64 B, 8-way associative",
+        "D1 cache:         32768 B, 64 B, 8-way associative",
+        "LL cache:         16777216 B, 64 B, 16-way associative"
+      ],
+      "counts": {
+        "Bc": 2444183474,
+        "Bcm": 51632561,
+        "Bi": 5577158,
+        "Bim": 41642,
+        "D1mr": 12232907,
+        "D1mw": 3763771,
+        "DLmr": 25103,
+        "DLmw": 78759,
+        "Dr": 4907513248,
+        "Dw": 187675126,
+        "I1mr": 713535,
+        "ILmr": 11505,
+        "Ir": 23537238010
+      },
+      "derived_counts": {
+        "D1_misses": 15996678,
+        "LL_misses": 115367,
+        "LL_requests_after_L1_misses": 16710213,
+        "branch_mispredictions": 51674203,
+        "branches": 2449760632,
+        "data_references": 5095188374
+      },
+      "events_in_file_order": [
+        "Ir",
+        "I1mr",
+        "ILmr",
+        "Dr",
+        "D1mr",
+        "DLmr",
+        "Dw",
+        "D1mw",
+        "DLmw",
+        "Bc",
+        "Bcm",
+        "Bi",
+        "Bim"
+      ],
+      "exact_scientific_output_match": true,
+      "exactness_scope": "all emitted scientific values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "23d33c7586d8820877585341e4e1e6d7c931bc8fe06f087a7900473cc5c712c4"
+      },
+      "simulated_rates": {
+        "D1_misses_per_data_reference": {
+          "denominator": 5095188374,
+          "fraction": 0.0031395655716339567,
+          "numerator": 15996678
+        },
+        "I1_misses_per_instruction": {
+          "denominator": 23537238010,
+          "fraction": 3.0315154212097804e-05,
+          "numerator": 713535
+        },
+        "LL_data_misses_per_data_reference": {
+          "denominator": 5095188374,
+          "fraction": 2.0384329759031594e-05,
+          "numerator": 103862
+        },
+        "LL_instruction_misses_per_instruction": {
+          "denominator": 23537238010,
+          "fraction": 4.887999176076649e-07,
+          "numerator": 11505
+        },
+        "LL_misses_per_LL_request_local": {
+          "denominator": 16710213,
+          "fraction": 0.006903981415437374,
+          "numerator": 115367
+        },
+        "LL_misses_per_all_reference_global": {
+          "denominator": 28632426384,
+          "fraction": 4.029242874940836e-06,
+          "numerator": 115367
+        },
+        "branch_mispredictions_per_branch": {
+          "denominator": 2449760632,
+          "fraction": 0.021093572296413652,
+          "numerator": 51674203
+        },
+        "conditional_mispredictions_per_conditional_branch": {
+          "denominator": 2444183474,
+          "fraction": 0.021124666601031114,
+          "numerator": 51632561
+        },
+        "indirect_mispredictions_per_indirect_branch": {
+          "denominator": 5577158,
+          "fraction": 0.0074665268583031,
+          "numerator": 41642
+        }
+      }
+    },
+    "search_database": {
+      "artifacts": {
+        "annotation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events.out": "85e85ae2ea965eb31a202b8ae0d19f30b5c9be4c816b262bcdffdf707b393ee7",
+        "functions.txt": "5a739d2b56d020d2d48abb245f13a2c72a25df3e403cabbb1be3f184887f7883",
+        "profiler.log": "e4fb49884e7b3a8829bffc993ed7b8eec09b0dd217e9e62f2c415448183371b4",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e93ebfcfa28c3baf756f6092ca709144e60fcca9813bf961204eab531e701a0a"
+      },
+      "cache_configuration": [
+        "I1 cache:         32768 B, 64 B, 8-way associative",
+        "D1 cache:         32768 B, 64 B, 8-way associative",
+        "LL cache:         16777216 B, 64 B, 16-way associative"
+      ],
+      "counts": {
+        "Bc": 11470681,
+        "Bcm": 331385,
+        "Bi": 432779,
+        "Bim": 48104,
+        "D1mr": 81250,
+        "D1mw": 45862,
+        "DLmr": 2954,
+        "DLmw": 35768,
+        "Dr": 18107864,
+        "Dw": 5979551,
+        "I1mr": 9606,
+        "ILmr": 8536,
+        "Ir": 77049356
+      },
+      "derived_counts": {
+        "D1_misses": 127112,
+        "LL_misses": 47258,
+        "LL_requests_after_L1_misses": 136718,
+        "branch_mispredictions": 379489,
+        "branches": 11903460,
+        "data_references": 24087415
+      },
+      "events_in_file_order": [
+        "Ir",
+        "I1mr",
+        "ILmr",
+        "Dr",
+        "D1mr",
+        "DLmr",
+        "Dw",
+        "D1mw",
+        "DLmw",
+        "Bc",
+        "Bcm",
+        "Bi",
+        "Bim"
+      ],
+      "exact_scientific_output_match": true,
+      "exactness_scope": "all emitted scientific values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "e93ebfcfa28c3baf756f6092ca709144e60fcca9813bf961204eab531e701a0a"
+      },
+      "simulated_rates": {
+        "D1_misses_per_data_reference": {
+          "denominator": 24087415,
+          "fraction": 0.005277112550267432,
+          "numerator": 127112
+        },
+        "I1_misses_per_instruction": {
+          "denominator": 77049356,
+          "fraction": 0.00012467333276607788,
+          "numerator": 9606
+        },
+        "LL_data_misses_per_data_reference": {
+          "denominator": 24087415,
+          "fraction": 0.0016075614589610384,
+          "numerator": 38722
+        },
+        "LL_instruction_misses_per_instruction": {
+          "denominator": 77049356,
+          "fraction": 0.00011078613038634612,
+          "numerator": 8536
+        },
+        "LL_misses_per_LL_request_local": {
+          "denominator": 136718,
+          "fraction": 0.34566041047996604,
+          "numerator": 47258
+        },
+        "LL_misses_per_all_reference_global": {
+          "denominator": 101136771,
+          "fraction": 0.0004672682302661215,
+          "numerator": 47258
+        },
+        "branch_mispredictions_per_branch": {
+          "denominator": 11903460,
+          "fraction": 0.03188056245831044,
+          "numerator": 379489
+        },
+        "conditional_mispredictions_per_conditional_branch": {
+          "denominator": 11470681,
+          "fraction": 0.028889740722455797,
+          "numerator": 331385
+        },
+        "indirect_mispredictions_per_indirect_branch": {
+          "denominator": 432779,
+          "fraction": 0.11115141908456741,
+          "numerator": 48104
+        }
+      }
+    },
+    "single_large": {
+      "artifacts": {
+        "annotation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events.out": "9c32eb97332b3e0d5201e58c39734c0f413c027da3bd3f5413815763c4d05750",
+        "functions.txt": "58aaad400ab098f3f3e8223f22455a70736d7d79872449a51d679f6ea89caa0d",
+        "profiler.log": "a07eafef785f3853f8600790c3a02366ea115acb70d683c040abe1e2830ef97d",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "82bf53e538c101b11f057ac07132aa0f78850cd6f55d081326a21206e7b122d8"
+      },
+      "cache_configuration": [
+        "I1 cache:         32768 B, 64 B, 8-way associative",
+        "D1 cache:         32768 B, 64 B, 8-way associative",
+        "LL cache:         16777216 B, 64 B, 16-way associative"
+      ],
+      "counts": {
+        "Bc": 3747251,
+        "Bcm": 61532,
+        "Bi": 7253,
+        "Bim": 1757,
+        "D1mr": 15564,
+        "D1mw": 7235,
+        "DLmr": 2882,
+        "DLmw": 6698,
+        "Dr": 7471967,
+        "Dw": 258490,
+        "I1mr": 8696,
+        "ILmr": 7809,
+        "Ir": 35256880
+      },
+      "derived_counts": {
+        "D1_misses": 22799,
+        "LL_misses": 17389,
+        "LL_requests_after_L1_misses": 31495,
+        "branch_mispredictions": 63289,
+        "branches": 3754504,
+        "data_references": 7730457
+      },
+      "events_in_file_order": [
+        "Ir",
+        "I1mr",
+        "ILmr",
+        "Dr",
+        "D1mr",
+        "DLmr",
+        "Dw",
+        "D1mw",
+        "DLmw",
+        "Bc",
+        "Bcm",
+        "Bi",
+        "Bim"
+      ],
+      "exact_scientific_output_match": true,
+      "exactness_scope": "all emitted scientific values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "82bf53e538c101b11f057ac07132aa0f78850cd6f55d081326a21206e7b122d8"
+      },
+      "simulated_rates": {
+        "D1_misses_per_data_reference": {
+          "denominator": 7730457,
+          "fraction": 0.002949243492331695,
+          "numerator": 22799
+        },
+        "I1_misses_per_instruction": {
+          "denominator": 35256880,
+          "fraction": 0.0002466468955846348,
+          "numerator": 8696
+        },
+        "LL_data_misses_per_data_reference": {
+          "denominator": 7730457,
+          "fraction": 0.0012392540311652986,
+          "numerator": 9580
+        },
+        "LL_instruction_misses_per_instruction": {
+          "denominator": 35256880,
+          "fraction": 0.00022148868532893438,
+          "numerator": 7809
+        },
+        "LL_misses_per_LL_request_local": {
+          "denominator": 31495,
+          "fraction": 0.552119384029211,
+          "numerator": 17389
+        },
+        "LL_misses_per_all_reference_global": {
+          "denominator": 42987337,
+          "fraction": 0.0004045144736460414,
+          "numerator": 17389
+        },
+        "branch_mispredictions_per_branch": {
+          "denominator": 3754504,
+          "fraction": 0.016856820501456385,
+          "numerator": 63289
+        },
+        "conditional_mispredictions_per_conditional_branch": {
+          "denominator": 3747251,
+          "fraction": 0.016420570706365812,
+          "numerator": 61532
+        },
+        "indirect_mispredictions_per_indirect_branch": {
+          "denominator": 7253,
+          "fraction": 0.2422445884461602,
+          "numerator": 1757
+        }
+      }
+    },
+    "single_small": {
+      "artifacts": {
+        "annotation.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "events.out": "a922e741798c4cef85614fdd3c6a1b8e84dd097880558903e661dffdea07981b",
+        "functions.txt": "639b8891dbb4815ebd4addda064643c8bf9b2605e45a22f3409ef4867b76045b",
+        "profiler.log": "09aad8acee8f9ffd53f58624d90f69d47ecd8984ffb2adca61a6facbf8a3bdb1",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "8b5cbc992df5208bc887b5e1afc29d8b90312a17f7e0906abaceea362d237989"
+      },
+      "cache_configuration": [
+        "I1 cache:         32768 B, 64 B, 8-way associative",
+        "D1 cache:         32768 B, 64 B, 8-way associative",
+        "LL cache:         16777216 B, 64 B, 16-way associative"
+      ],
+      "counts": {
+        "Bc": 2327594,
+        "Bcm": 62309,
+        "Bi": 6076,
+        "Bim": 1757,
+        "D1mr": 15267,
+        "D1mw": 7144,
+        "DLmr": 2883,
+        "DLmw": 6676,
+        "Dr": 4590985,
+        "Dw": 241423,
+        "I1mr": 8695,
+        "ILmr": 7809,
+        "Ir": 21676177
+      },
+      "derived_counts": {
+        "D1_misses": 22411,
+        "LL_misses": 17368,
+        "LL_requests_after_L1_misses": 31106,
+        "branch_mispredictions": 64066,
+        "branches": 2333670,
+        "data_references": 4832408
+      },
+      "events_in_file_order": [
+        "Ir",
+        "I1mr",
+        "ILmr",
+        "Dr",
+        "D1mr",
+        "DLmr",
+        "Dw",
+        "D1mw",
+        "DLmw",
+        "Bc",
+        "Bcm",
+        "Bi",
+        "Bim"
+      ],
+      "exact_scientific_output_match": true,
+      "exactness_scope": "all emitted scientific values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "8b5cbc992df5208bc887b5e1afc29d8b90312a17f7e0906abaceea362d237989"
+      },
+      "simulated_rates": {
+        "D1_misses_per_data_reference": {
+          "denominator": 4832408,
+          "fraction": 0.004637646490114246,
+          "numerator": 22411
+        },
+        "I1_misses_per_instruction": {
+          "denominator": 21676177,
+          "fraction": 0.00040113162021144225,
+          "numerator": 8695
+        },
+        "LL_data_misses_per_data_reference": {
+          "denominator": 4832408,
+          "fraction": 0.0019781028423096723,
+          "numerator": 9559
+        },
+        "LL_instruction_misses_per_instruction": {
+          "denominator": 21676177,
+          "fraction": 0.00036025725385062135,
+          "numerator": 7809
+        },
+        "LL_misses_per_LL_request_local": {
+          "denominator": 31106,
+          "fraction": 0.5583488716003343,
+          "numerator": 17368
+        },
+        "LL_misses_per_all_reference_global": {
+          "denominator": 26508585,
+          "fraction": 0.0006551839715322413,
+          "numerator": 17368
+        },
+        "branch_mispredictions_per_branch": {
+          "denominator": 2333670,
+          "fraction": 0.027452896082136722,
+          "numerator": 64066
+        },
+        "conditional_mispredictions_per_conditional_branch": {
+          "denominator": 2327594,
+          "fraction": 0.02676970296366119,
+          "numerator": 62309
+        },
+        "indirect_mispredictions_per_indirect_branch": {
+          "denominator": 6076,
+          "fraction": 0.2891705069124424,
+          "numerator": 1757
+        }
+      }
+    }
+  },
+  "tool_version": "valgrind-3.26.0"
+}

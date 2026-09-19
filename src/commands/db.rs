@@ -68,6 +68,7 @@ fn collect_coordinate_files(
     allowed: &[String],
     found: &mut Vec<PathBuf>,
 ) -> std::io::Result<()> {
+    steric_x::profile_scope!("file_parsing", "commands::db::collect_coordinate_files");
     let mut entries = std::fs::read_dir(directory)?
         .collect::<Result<Vec<_>, _>>()?
         .into_iter()
@@ -120,6 +121,7 @@ fn label_for(path: &Path, source: &Path, label_from: DbLabel) -> String {
 /// quadrant-asymmetry descriptor, so aggregating any other way would silently
 /// redefine it.
 fn aggregate(label: String, group: &[LibraryEntry]) -> DatabaseRow {
+    steric_x::profile_scope!("conformer_processing", "commands::db::aggregate");
     let count = group.len() as f32;
     let mean = |read: fn(&LibraryEntry) -> f32| group.iter().map(read).sum::<f32>() / count;
     let representative = &group[0];
@@ -152,6 +154,7 @@ fn aggregate(label: String, group: &[LibraryEntry]) -> DatabaseRow {
 }
 
 pub(crate) fn db_build_command(args: DbBuildArgs<'_>) -> Result<(), Box<dyn Error>> {
+    steric_x::profile_scope!("orchestration", "commands::db::db_build_command");
     let started = Instant::now();
     if !args.source.is_dir() {
         return Err(format!("source directory does not exist: {}", args.source.display()).into());
@@ -174,6 +177,11 @@ pub(crate) fn db_build_command(args: DbBuildArgs<'_>) -> Result<(), Box<dyn Erro
         .into());
     }
 
+    steric_x::profile_scope!(
+        geometry_profile,
+        "parallel_geometry",
+        "commands::db::featurize_wall"
+    );
     let featurized = paths
         .par_iter()
         .map(|path| {
@@ -193,10 +201,16 @@ pub(crate) fn db_build_command(args: DbBuildArgs<'_>) -> Result<(), Box<dyn Erro
             }
         })
         .collect::<Vec<_>>();
+    steric_x::profile_end!(geometry_profile);
     let skipped = featurized.iter().filter(|slot| slot.is_none()).count();
 
     // BTreeMap keeps the emitted order deterministic regardless of how rayon
     // scheduled the work, so rebuilding an unchanged source is reproducible.
+    steric_x::profile_scope!(
+        grouping_profile,
+        "conformer_processing",
+        "commands::db::group_conformers"
+    );
     let mut grouped: BTreeMap<String, Vec<LibraryEntry>> = BTreeMap::new();
     for (label, entry) in featurized.into_iter().flatten() {
         grouped.entry(label).or_default().push(entry);
@@ -233,6 +247,8 @@ pub(crate) fn db_build_command(args: DbBuildArgs<'_>) -> Result<(), Box<dyn Erro
             .collect::<Vec<_>>()
     };
 
+    steric_x::profile_end!(grouping_profile);
+    steric_x::profile_scope!("output", "commands::db::write_database_and_report");
     let descriptor_columns = FEATURES
         .iter()
         .map(|feature| feature.name.to_owned())

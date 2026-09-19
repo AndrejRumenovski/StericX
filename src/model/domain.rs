@@ -359,6 +359,10 @@ impl TrainingGeometry {
         prediction: f64,
         expanded: &[f32; MODEL_FEATURE_COUNT],
     ) -> Option<(f64, f64)> {
+        crate::profile_scope!(
+            "uncertainty",
+            "model::TrainingGeometry::prediction_interval"
+        );
         let leverage = self.leverage(expanded)?;
         let multiplier = self.t_multiplier()?;
         let half_width =
@@ -381,6 +385,10 @@ impl TrainingGeometry {
         &self,
         expanded: &[f32; MODEL_FEATURE_COUNT],
     ) -> Option<(usize, f64)> {
+        crate::profile_scope!(
+            "applicability",
+            "model::TrainingGeometry::nearest_training_neighbour"
+        );
         if self.standardized_training_points.is_empty() {
             return None;
         }
@@ -403,6 +411,10 @@ impl TrainingGeometry {
     /// Distance in standardized descriptor space to the closest training point.
     #[must_use]
     pub fn nearest_training_distance(&self, expanded: &[f32; MODEL_FEATURE_COUNT]) -> Option<f64> {
+        crate::profile_scope!(
+            "applicability",
+            "model::TrainingGeometry::nearest_training_distance"
+        );
         if self.standardized_training_points.is_empty() {
             return None;
         }
@@ -480,6 +492,10 @@ impl TrainingGeometry {
         prediction: f64,
         expanded: &[f32; MODEL_FEATURE_COUNT],
     ) -> Option<(f64, f64)> {
+        crate::profile_scope!(
+            "uncertainty",
+            "model::TrainingGeometry::confidence_interval"
+        );
         let leverage = self.leverage(expanded)?;
         let multiplier = self.t_multiplier()?;
         let half_width = multiplier * self.residual_standard_error * leverage.max(0.0).sqrt();
@@ -644,6 +660,7 @@ fn student_t_two_sided_tail(t: f64, df: f64) -> f64 {
 /// obviously correct, and this is called once per fit — never in a hot loop.
 #[must_use]
 pub fn student_t_two_sided_quantile(alpha: f64, df: f64) -> f64 {
+    crate::profile_scope!("uncertainty", "model::student_t_two_sided_quantile");
     if !(0.0..1.0).contains(&alpha) || alpha <= 0.0 || df <= 0.0 {
         return f64::NAN;
     }
@@ -675,6 +692,7 @@ pub fn assess_applicability(
     expanded: &[f32; MODEL_FEATURE_COUNT],
     rule: DomainRule,
 ) -> ApplicabilityAssessment {
+    crate::profile_scope!("applicability", "model::assess_applicability");
     let outside_range = selected
         .iter()
         .zip(ranges)

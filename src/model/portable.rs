@@ -541,6 +541,7 @@ impl PortableModel {
     /// Rejects schema versions above [`PORTABLE_SCHEMA_VERSION`] before looking
     /// at anything else, so a future document is never partially interpreted.
     pub fn from_json(text: &str) -> Result<Self, ModelFormatError> {
+        crate::profile_scope!("model_loading", "model::PortableModel::from_json");
         let probe: SchemaProbe = serde_json::from_str(text)?;
         if probe.schema_version > PORTABLE_SCHEMA_VERSION {
             return Err(ModelFormatError::UnsupportedSchemaVersion {
@@ -568,6 +569,7 @@ impl PortableModel {
     /// Field order follows the Rust declarations, so the same model always
     /// produces byte-identical output.
     pub fn to_json(&self) -> Result<String, ModelFormatError> {
+        crate::profile_scope!("output", "model::PortableModel::to_json");
         self.validate()?;
         Ok(serde_json::to_string_pretty(self)?)
     }
@@ -702,6 +704,7 @@ impl PortableModel {
     /// Returns the first error, preserving the typed variants callers match on.
     /// [`PortableModel::issues`] reports every problem at once instead.
     pub fn validate(&self) -> Result<(), ModelFormatError> {
+        crate::profile_scope!("model_loading", "model::PortableModel::validate");
         // Structural failures keep their typed variants so callers can branch
         // on them; everything else is reported through the shared collector.
         let version = self.schema_version();

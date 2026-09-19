@@ -13,14 +13,29 @@ use std::error::Error;
 use steric_x::model::ReactionProvenance;
 use steric_x::{BuriedVolumeConfig, FitOptions};
 
+#[cfg(feature = "profiling")]
+#[global_allocator]
+static PROFILE_ALLOCATOR: steric_x::profiling::TrackingAllocator =
+    steric_x::profiling::TrackingAllocator;
+
 fn main() {
-    if let Err(error) = run() {
+    #[cfg(feature = "profiling")]
+    let profile = steric_x::profiling::Session::from_env();
+    let result = run();
+    #[cfg(feature = "profiling")]
+    if let Some(profile) = profile {
+        if let Err(error) = profile.finish() {
+            eprintln!("profiling report error: {error}");
+        }
+    }
+    if let Err(error) = result {
         eprintln!("error: {error}");
         std::process::exit(2);
     }
 }
 
 fn run() -> Result<(), Box<dyn Error>> {
+    steric_x::profile_scope!("orchestration", "cli::run");
     match Cli::parse().command {
         Command::Parse {
             csv,

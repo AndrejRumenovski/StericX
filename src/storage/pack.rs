@@ -14,6 +14,7 @@ impl SigPackWriter {
     /// `PackedReactionRecord` is `Pod`, so the cast cannot expose padding or
     /// invalid bit patterns and requires no per-record serialization.
     pub fn export(records: &[PackedReactionRecord], output_path: &Path) -> io::Result<()> {
+        crate::profile_scope!("output", "storage::SigPackWriter::export");
         let file = File::create(output_path)?;
         let mut writer = BufWriter::new(file);
         let bytes: &[u8] = bytemuck::cast_slice(records);
@@ -33,6 +34,7 @@ pub struct SigPackV2Writer;
 
 impl SigPackV2Writer {
     pub fn export(records: &[PackedReactionRecordV2], output_path: &Path) -> io::Result<()> {
+        crate::profile_scope!("output", "storage::SigPackV2Writer::export");
         let file = File::create(output_path)?;
         let mut writer = BufWriter::new(file);
         let header = SigPackHeaderV2::new(records.len());
@@ -49,6 +51,7 @@ pub struct SigPackV2Reader {
 
 impl SigPackV2Reader {
     pub fn open(input_path: &Path) -> io::Result<Self> {
+        crate::profile_scope!("file_parsing", "storage::SigPackV2Reader::open");
         let file = File::open(input_path)?;
         let byte_len = usize::try_from(file.metadata()?.len()).map_err(|_| {
             io::Error::new(
@@ -149,6 +152,7 @@ impl SigPackReader {
     ///
     /// A non-empty file must contain an integral number of 64-byte records.
     pub fn open(input_path: &Path) -> io::Result<SigPackReader> {
+        crate::profile_scope!("file_parsing", "storage::SigPackReader::open");
         let file = File::open(input_path)?;
         let byte_len = usize::try_from(file.metadata()?.len()).map_err(|_| {
             io::Error::new(

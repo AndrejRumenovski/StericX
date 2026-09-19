@@ -2,13 +2,13 @@
 //!
 //! The layering is deliberate:
 //!
-//! * [`fit`] owns the scientific methodology — descriptor selection,
+//! * `fit` owns the scientific methodology — descriptor selection,
 //!   regularized baselines, and validation statistics;
 //! * [`dataset`] turns row provenance into a train/frozen partition;
 //! * [`training`] composes those two into one reusable entry point,
 //!   [`training::train_scientific_model`];
 //! * [`evaluation`] scores frozen predictions once targets are revealed;
-//! * [`regress`] evaluates a fitted model at high throughput.
+//! * `regress` evaluates a fitted model at high throughput.
 //!
 //! Front ends such as the `stericx` command line are expected to handle only
 //! I/O and presentation, and to call [`training::train_scientific_model`] and

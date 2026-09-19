@@ -1,0 +1,43 @@
+{
+  "method": "Conditional single-worker wall attribution: buried-volume scopes execute within the screen load_library parallel wait. This substitutes for part of that overlapping main-thread span; never sum both. Not valid for multiple worker elapsed sums.",
+  "samples": [
+    {
+      "sample": "measured_00",
+      "wall_ns": 1257204387,
+      "worker_buried_volume_exclusive_ns": 1111051706,
+      "parent_load_library_exclusive_ns": 1153989349,
+      "fraction": 0.8837478754359454
+    },
+    {
+      "sample": "measured_01",
+      "wall_ns": 1265985664,
+      "worker_buried_volume_exclusive_ns": 1107108519,
+      "parent_load_library_exclusive_ns": 1147059124,
+      "fraction": 0.874503203695046
+    },
+    {
+      "sample": "measured_02",
+      "wall_ns": 1269903274,
+      "worker_buried_volume_exclusive_ns": 1119020873,
+      "parent_load_library_exclusive_ns": 1159550103,
+      "fraction": 0.8811859106995262
+    },
+    {
+      "sample": "measured_03",
+      "wall_ns": 1296853690,
+      "worker_buried_volume_exclusive_ns": 1112829719,
+      "parent_load_library_exclusive_ns": 1153340272,
+      "fraction": 0.8580996665861359
+    },
+    {
+      "sample": "measured_04",
+      "wall_ns": 1266038064,
+      "worker_buried_volume_exclusive_ns": 1119794542,
+      "parent_load_library_exclusive_ns": 1160856862,
+      "fraction": 0.8844872629358796
+    }
+  ],
+  "median_fraction": 0.8811859106995262,
+  "infinite_local_speedup_ceiling": 8.416510246281142,
+  "end_to_end_if_twice_as_fast": 1.7876070914073654
+}

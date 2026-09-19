@@ -42,6 +42,7 @@ impl PyramidalizationCalculator {
         donor_idx: usize,
         neighbor_indices: [usize; 3],
     ) -> PyramidalizationParams {
+        crate::profile_scope!("pyramidalization", "PyramidalizationCalculator::compute");
         let Some(donor) = molecule.atoms.get(donor_idx) else {
             return PyramidalizationParams::default();
         };

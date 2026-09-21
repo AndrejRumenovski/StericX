@@ -1,0 +1,173 @@
+{
+  "buried_volume": {
+    "MAE": 1.2549108858810553e-05,
+    "N": 2372,
+    "R2_one_to_one": 0.999999999809459,
+    "RMSE": 0.0003385746280735426,
+    "intercept": 7.722515644507697e-06,
+    "maximum_absolute_error": 0.01166136723496436,
+    "maximum_case": {
+      "descriptor": "buried_volume",
+      "id": "KRAKEN:1769:61173",
+      "reference": 70.78638823491075,
+      "residual": -0.01166136723496436,
+      "sut": 70.77472686767578
+    },
+    "mean_signed_error": -1.942844196840734e-06,
+    "median_absolute_error": 2.1909243947959567e-06,
+    "pearson_r": 0.9999999999047411,
+    "slope": 0.9999998695660722
+  },
+  "far_vbur": {
+    "MAE": 4.528489951268872e-07,
+    "N": 2372,
+    "R2_one_to_one": 0.9999999999999966,
+    "RMSE": 9.83064644655509e-07,
+    "intercept": -1.4834374130151591e-08,
+    "maximum_absolute_error": 7.130359684026644e-06,
+    "maximum_case": {
+      "descriptor": "far_vbur",
+      "id": "KRAKEN:51:32718",
+      "reference": 52.999457813953434,
+      "residual": -7.130359684026644e-06,
+      "sut": 52.99945068359375
+    },
+    "mean_signed_error": -2.8833621166384753e-07,
+    "median_absolute_error": 7.82541302868367e-08,
+    "pearson_r": 1.0,
+    "slope": 0.9999999763585141
+  },
+  "max_delta_qvbur": {
+    "MAE": 1.0694605020507985e-05,
+    "N": 2372,
+    "R2_one_to_one": 0.9999999979057955,
+    "RMSE": 0.00033847641014859607,
+    "intercept": 7.771670721069712e-06,
+    "maximum_absolute_error": 0.011656810711858867,
+    "maximum_case": {
+      "descriptor": "max_delta_qvbur",
+      "id": "KRAKEN:1675:58993",
+      "reference": 1.608516643572809,
+      "residual": 0.011656810711858867,
+      "sut": 1.620173454284668
+    },
+    "mean_signed_error": -3.012793331890538e-07,
+    "median_absolute_error": 6.740955313944141e-07,
+    "pearson_r": 0.9999999989531356,
+    "slope": 0.999999310187422
+  },
+  "near_vbur": {
+    "MAE": 1.220433552253248e-05,
+    "N": 2372,
+    "R2_one_to_one": 0.9999999988569402,
+    "RMSE": 0.0003384621903627371,
+    "intercept": 3.440096909730191e-05,
+    "maximum_absolute_error": 0.011655667877072062,
+    "maximum_case": {
+      "descriptor": "near_vbur",
+      "id": "KRAKEN:591:42889",
+      "reference": 56.49623312606824,
+      "residual": 0.011655667877072062,
+      "sut": 56.50788879394531
+    },
+    "mean_signed_error": -1.486521264905092e-06,
+    "median_absolute_error": 1.9895605873898603e-06,
+    "pearson_r": 0.9999999994286453,
+    "slope": 0.9999994261018277
+  },
+  "ovbur_max": {
+    "MAE": 1.0469760126950162e-05,
+    "N": 2372,
+    "R2_one_to_one": 0.9999999848821601,
+    "RMSE": 0.000338459893293736,
+    "intercept": 2.140212979452316e-05,
+    "maximum_absolute_error": 0.011656053236984931,
+    "maximum_case": {
+      "descriptor": "ovbur_max",
+      "id": "KRAKEN:1675:58993",
+      "reference": 15.60727380973909,
+      "residual": 0.011656053236984931,
+      "sut": 15.618929862976074
+    },
+    "mean_signed_error": 9.387182752201523e-06,
+    "median_absolute_error": 5.413560337785839e-07,
+    "pearson_r": 0.9999999924470778,
+    "slope": 0.9999993796266771
+  },
+  "ovbur_min": {
+    "MAE": 1.32448480604429e-08,
+    "N": 2372,
+    "R2_one_to_one": 0.9999999999999983,
+    "RMSE": 6.475004158347893e-08,
+    "intercept": 1.503780398250577e-09,
+    "maximum_absolute_error": 1.0496953315453084e-06,
+    "maximum_case": {
+      "descriptor": "ovbur_min",
+      "id": "KRAKEN:1233:52788",
+      "reference": 18.87093076771291,
+      "residual": -1.0496953315453084e-06,
+      "sut": 18.870929718017578
+    },
+    "mean_signed_error": -9.689601135246582e-09,
+    "median_absolute_error": 0.0,
+    "pearson_r": 0.9999999999999952,
+    "slope": 0.9999999722822431
+  },
+  "percent_buried_volume": {
+    "MAE": 7.201095382431539e-06,
+    "N": 2372,
+    "R2_one_to_one": 0.9999999998093412,
+    "RMSE": 0.00018858008277515957,
+    "intercept": 4.258568276236387e-06,
+    "maximum_absolute_error": 0.006494365624803322,
+    "maximum_case": {
+      "descriptor": "percent_buried_volume",
+      "id": "KRAKEN:591:42889",
+      "reference": 32.37279335410176,
+      "residual": 0.006494365624803322,
+      "sut": 32.37928771972656
+    },
+    "mean_signed_error": -9.020559732415205e-08,
+    "median_absolute_error": 1.4181325127538003e-06,
+    "pearson_r": 0.9999999999046759,
+    "slope": 0.9999998946020633
+  },
+  "qvbur_max": {
+    "MAE": 1.071210729871445e-05,
+    "N": 2372,
+    "R2_one_to_one": 0.9999999988380736,
+    "RMSE": 0.0003384082702167423,
+    "intercept": 2.2512203542925136e-06,
+    "maximum_absolute_error": 0.011656053236984931,
+    "maximum_case": {
+      "descriptor": "qvbur_max",
+      "id": "KRAKEN:1675:58993",
+      "reference": 15.60727380973909,
+      "residual": 0.011656053236984931,
+      "sut": 15.618929862976074
+    },
+    "mean_signed_error": 9.196696468437221e-06,
+    "median_absolute_error": 6.960936360655978e-07,
+    "pearson_r": 0.9999999994195025,
+    "slope": 1.0000002704545845
+  },
+  "qvbur_min": {
+    "MAE": 5.370030327084714e-06,
+    "N": 2372,
+    "R2_one_to_one": 0.9999999955619909,
+    "RMSE": 0.0002393114813887955,
+    "intercept": 9.940895467371834e-06,
+    "maximum_absolute_error": 0.011655196130472945,
+    "maximum_case": {
+      "descriptor": "qvbur_min",
+      "id": "KRAKEN:591:42889",
+      "reference": 11.562670365392965,
+      "residual": 0.011655196130472945,
+      "sut": 11.574325561523438
+    },
+    "mean_signed_error": 4.575626169752934e-06,
+    "median_absolute_error": 3.82877523463776e-07,
+    "pearson_r": 0.9999999977818954,
+    "slope": 0.9999995742397005
+  }
+}

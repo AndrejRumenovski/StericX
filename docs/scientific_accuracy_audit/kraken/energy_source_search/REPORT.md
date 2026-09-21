@@ -1,0 +1,21 @@
+# Availability of historical Kraken conformer energies
+
+Full-library Boltzmann reproduction remains **UNCERTAIN** because source energies or populations for the frozen 31,721 historical geometries were not recovered. No aggregate Boltzmann descriptor was used as its own input. This finding describes the checked public sources; it does not prove that the original authors lack the data.
+
+The following checks were performed and frozen with URL, HTTP status, date, raw bytes and SHA-256:
+
+| Source | Evidence | Result |
+|---|---|---|
+| Full current OpenAPI schema | `../raw_sources/api_openapi.body` | Conformer data, coordinate export and other-conformer-ID routes exist; no separate energy/weight route is exposed. Both current and v2 paths were inspected. |
+| Current and v2 conformer data | IDs 31676, 38989, 54241, 54318, 63296; ten `api*_data_*.body` responses | Every response is HTTP200 with only conformer ID, molecule ID and `data:null`. These span large/small, ordinary/symmetric and failed-eligibility cases. |
+| Official API endpoint source | `framework_conformer_v2.body` at the frozen framework tree commit | Endpoint selects every conformer table column and omits only coordinates/elements. Thus the metadata route does not hide a requested energy column behind a query option. The source is generalized framework code; live responses establish the actual Kraken fields. |
+| Alternative coordinate export | `export_xyz_31676.body`, `export_xyz_54318.body` | Blank comment line, then elements and coordinates; no energy/population. Unsupported JSON export returns `Not implemented yet`, also preserved. SDF exports for the full corpus contain geometry/connectivity, not energies. |
+| Original Kraken repository | Complete immutable tree in `../raw_sources/official_tree_master.body`; `official_DFT_readme.body`, `official_readme_lower.body` | Scripts for obtaining and processing Gaussian/xTB energies are present; no full historical conformer-output/energy archive is in the tree. The README refers to locally generated calculation results rather than providing them. Initial incorrect uppercase README request returned404 and is retained. |
+| Original GitHub releases | `official_releases.body` | Successful API response `[]`; no release archive to retrieve. |
+| Official ACS supporting archive | `../raw_sources/kraken_si_zip.body`, full listing in `../raw_sources/kraken_si_zip_listing.json` | Six files: bag-of-substituents workbook, descriptor-model predictions workbook, descriptor-model scores workbook, model train/validation/test IDs, descriptors workbook, PCA loadings. These are aggregate/ML tables; no historical per-conformer energy records. Original SI PDF describes the free-energy weighting convention but does not enumerate its numerical inputs. |
+| Updated Sigman Kraken repository | Frozen tree `../raw_sources/sigman_tree.body`; data README and sample `sigman_confdata_sample.body` acquired | Contains 33 **new** DFT validation YAML ensembles and current aggregate tables. Its own README describes workflow/version changes and conformer-search differences. These regenerated ensembles are not the original full corpus and their weights cannot be attached to different historical geometries. |
+| Primary-source web search | Original DOI, original/updated author repositories, publication SI | No additional full historical energy archive was identified. Search results alone are not treated as proof of absence. |
+
+Primary links: [original workflow](https://github.com/the-matter-lab/kraken), [updated workflow](https://github.com/SigmanGroup/kraken), [MolSSI API documentation](https://descriptor-libraries.molssi.org/api/kraken/docs), [original publication](https://doi.org/10.1021/jacs.1c09718). Source hashes pin the actual acquired versions instead of relying on moving branch names.
+
+A complete Boltzmann reproduction requires original per-conformer corrected free energies/populations, temperature, degeneracies (if applied), ensemble selection records and an unambiguous map to the frozen conformer geometries. A newly computed energy model would test a different ensemble definition. Manual/synthetic Boltzmann arithmetic is audited elsewhere and cannot establish the unavailable historical weights.

@@ -1,0 +1,16 @@
+# Historical audit programs and frozen source snapshots retain their exact
+# recorded bytes. Production code and the new publication helpers still use
+# the repository's lint and formatting rules.
+extend = "../../pyproject.toml"
+extend-exclude = [
+    "frozen",
+    "geometry",
+    "kinetics",
+    "kraken",
+    "models",
+    "observer",
+    "rechecks",
+    "reproducibility",
+    "scripts",
+    "visuals",
+]

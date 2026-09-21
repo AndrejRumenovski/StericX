@@ -1,0 +1,42 @@
+{
+  "utc": "2026-09-19T21:22:46.056343+00:00",
+  "purpose": "Frozen-source SUT observation adapter, not independent reference",
+  "original_bv_prefix_verified": true,
+  "files": [
+    {
+      "path": "frozen/bin/stericx-audit-observer",
+      "bytes": 882144,
+      "sha256": "9a8e778c661cc26f83e1252827a4452e8eb88b74f743fb5a853a24ee2101d957"
+    },
+    {
+      "path": "observer/src/main.rs",
+      "bytes": 7701,
+      "sha256": "4bb40a08cb2a309ad580056ab551949e9abf25352171fc2c5c13b855b4cbc99e"
+    },
+    {
+      "path": "observer/src/model_observation.rs",
+      "bytes": 1858,
+      "sha256": "282d02152c9b5a4d6f5303c6d9b26147e49827f61136f3ed0d9735d5cd36026f"
+    },
+    {
+      "path": "observer/Cargo.toml",
+      "bytes": 276,
+      "sha256": "b350323dfb98d6a921884c5df2d7a398fa28d7c4c165551d00950f2d5cb08b13"
+    },
+    {
+      "path": "observer/Cargo.lock",
+      "bytes": 10053,
+      "sha256": "5ed03046ea37c8ad08dde01c03a815d3d19f078a33f6279d8067e9e381147f8d"
+    },
+    {
+      "path": "geometry/frozen_buried_volume.rs",
+      "bytes": 55668,
+      "sha256": "d50b5f430afdac158d4aaf26bbc3193db3d50ad3cb9b0bbd32459f14487d7bbc"
+    },
+    {
+      "path": "geometry/observer_append.rs",
+      "bytes": 2354,
+      "sha256": "f9a2ee3698f96692212be26cad9c284afa2b75df2e306fedf3813b7245acbebd"
+    }
+  ]
+}

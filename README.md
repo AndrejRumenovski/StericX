@@ -66,9 +66,42 @@ per-parameter results are in the [study docs](#scientific-studies).
 | Compact native features fail to reproduce Ni-hDA selectivity in the reported fixed-feature check | **LOO Q² ≈ 0.002** · **10 training ligands** |
 | Retrospective top-1 ligand recovery, including failed screens | **0.158 vs 0.333 random** · **10/57 screens failed** |
 | Frozen forecast from the published-descriptor model; experimental outcomes pending | **10 ligands · SHA-256** |
-| Historical, pre-remediation single-core buried-volume benchmark against `morfeus`; not a current-build comparison | **13.8×** · **1,546 input structures** · **one machine** |
+| Earlier exploratory buried-volume API-driver measurements vs `morfeus`; scientific admission withdrawn | 25.22× wall-time ratio at 1 core · 20.25× at equal 6 cores · [status and evidence](docs/benchmarks/morfeus_current/BENCHMARK.md) |
 
 ---
+
+## Performance vs morfeus
+
+**Earlier measurements — pre-policy, exploratory.** On a Ryzen 5 5600G
+(six physical cores, Linux), end-to-end API drivers processed the same
+**10,000 XYZ files repeating 56 conformers from 11 ligands**, calculating nine
+buried-volume outputs over three donor-plane grids.
+
+| Configuration | morfeus structures/s | StericX structures/s | Measured wall-time ratio |
+|---|---:|---:|---:|
+| 1 core: 1 process / 1 thread | 71.45 | 1,802.61 | 25.22× |
+| Equal 6 cores: 6 processes / 6 threads | 336.64 | 6,829.24 | 20.25× |
+
+The first row measures single-core runtime; the second measures equal-core batch
+throughput. Both include startup, parsing and JSON output. They are not timings
+of the full `stericx descriptors` command or universal speedups.
+
+**Scientific admission:** these measurements preceded a prospectively frozen
+acceptance policy. The earlier “scientific equivalence passed” publication claim
+was withdrawn: regional-count agreement and observed f32 rounding agreement alone
+do not establish that prospective gate. The figures above are preserved measurements,
+not admitted equivalent-work performance claims under the
+[new policy](docs/benchmarks/morfeus_current/EQUIVALENCE_POLICY.md).
+Sterimol, pyramidalization and combined-descriptor speedup claims remain excluded.
+
+The earlier exploratory pyramidalization ratios were 7.34× at one core and 4.51×
+at six cores. Sampled simultaneous summed RSS at 1 / 6 workers was 16.71 / 18.92 MiB
+for StericX and 97.36 / 551.99 MiB for morfeus; shared pages are counted per process
+and sampling can miss brief peaks.
+
+[Full earlier report, all raw measurements and reproduction evidence](docs/benchmarks/morfeus_current/BENCHMARK.md).
+The approximately 14× historical study and the separate native 5.46× optimization
+result are not combined with these measurements.
 
 ## Quick Start
 
@@ -179,7 +212,7 @@ ranking. Study reports, comparisons, plots, and machine-readable results are und
 | **005** | Pyramidalization descriptors | Two donor-geometry descriptors (`pyr_P`, `pyr_alpha`) reproduced across 1,541 ligands, mean R² ≈ 0.99998. | [STUDY_005](docs/study_005/STUDY_005.md) |
 | **006** | Coordination-centre residual hypothesis | A descriptor comparison supports the coordination-centre explanation for P–H-dependent bias; it does not uniquely establish causality. | [STUDY_006](docs/study_006/STUDY_006.md) |
 | **007** | Second published study — Ni cross-coupling | Approximately reproduces the Newman-Stonebraker classifier; reaction-held-out checks reuse ligands, and a separate geometry check tests descriptor agreement. | [STUDY_007](docs/study_007/STUDY_007.md) |
-| **008** | Head-to-head speed benchmark vs `morfeus` | About 14× faster in the recorded single-core, warm-cache benchmark, with full-set agreement and large discrepancies reported separately; similar speedup at conformer scale. | [STUDY_008](docs/study_008/STUDY_008.md) · [scale check](docs/study_008_all_conformers/STUDY_008.md) |
+| **008** | Historical pre-remediation speed benchmark vs `morfeus` | About 14× faster in the recorded single-core, warm-cache benchmark, with full-set agreement and large discrepancies reported separately; similar speedup at conformer scale. | [STUDY_008](docs/study_008/STUDY_008.md) · [scale check](docs/study_008_all_conformers/STUDY_008.md) |
 | **009** | The other direction of the cliff — Pd cross-coupling | Recovers the bulky-active direction in six retrospective datasets from the same paper; mean classifier MCC is 0.64 versus the paper's 0.67. | [STUDY_009](docs/study_009/STUDY_009.md) |
 | **010** | Grid sensitivity of the buried-volume integrator | A 60-ligand grid sweep measures default-grid mean/max errors of 0.056/0.160 %Vbur points against a finer numerical reference. | [STUDY_010](docs/study_010/STUDY_010.md) |
 | **011** | Retrospective ligand ranking | Exhaustive scaffold-disjoint three-ligand screens test candidate recovery without target leakage; the below-random ranking result and failed fits remain visible. | [STUDY_011](docs/study_011/STUDY_011.md) · [locked design](docs/study_011/DESIGN.md) |
@@ -896,7 +929,7 @@ block) per record; dedicated v1/v2 mmap readers preserve backward compatibility.
 <details>
 <summary><b>Performance benchmarks</b> (<a href="benchmark_linux.sh">benchmark_linux.sh</a>)</summary>
 
-**Current corrected build:** the 10,000-file descriptor batch is **5.46× faster**
+**StericX-only optimization comparison (not morfeus):** the 10,000-file descriptor batch is **5.46× faster**
 at six threads (4.970 → 0.912 seconds), and 1,000-entry screening takes
 **16.7–18.6% less time** across 1/2/4/6 threads. These compare the same independently
 checked scientific baseline and final build on fixed native end-to-end workloads.

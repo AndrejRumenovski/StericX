@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "failures": [],
+  "numerical_tolerance": null,
+  "descriptors": [
+    "pyr_p",
+    "pyr_alpha"
+  ],
+  "scope": "All 56 conformers, identical f32-represented XYZ coordinates and donor neighbors; morfeus P and alpha rounded to f32 exactly equal every native output; zero tolerance.",
+  "checks": [
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "passed": true
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "passed": true
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "passed": true
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "passed": true
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "passed": true
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "passed": true
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "passed": true
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "passed": true
+    }
+  ],
+  "identities": {
+    "adapter/target/release/pyramid-batch": "e60c7dc0f6ec00a85b979eb96958296b70d2b2190e25fde33d46f5f702d57fae",
+    "morfeus_pyramid.py": "ee5af8d60bca078800575c8dc5c6795e67ad80cf275ac0f3f130bbf4856442fa",
+    "pyramid_benchmark.py": "a55c9edf0d43059e5c35cee9486b6cbd4b00a63fbf6dad3ed5c37ca9dc75e4ca",
+    "build/measure-child": "263dd817e87f3045fff1556e1db6281a084bf426a0c543ff33982f9bc2d2b8b1"
+  }
+}

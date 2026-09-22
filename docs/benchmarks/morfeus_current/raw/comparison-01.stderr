@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/benchmarks/morfeus_current/compare.py", line 135, in <module>
+    main()
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/benchmarks/morfeus_current/compare.py", line 115, in main
+    references["source_float64"].append(reference(path,obs))
+                                        ^^^^^^^^^^^^^^^^^^^
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/benchmarks/morfeus_current/compare.py", line 58, in reference
+    sterimol = Sterimol([1,*elements], np.vstack([center,xyz]),1,donor+2,radii=np.r_[0.,radii],n_rot_vectors=rotations)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/benchmarks/morfeus_current/environment/venv/lib/python3.12/site-packages/morfeus/sterimol.py", line 95, in __init__
+    elements = convert_elements(elements, output="numbers")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/benchmarks/morfeus_current/environment/venv/lib/python3.12/site-packages/morfeus/utils.py", line 300, in convert_elements
+    raise TypeError("elements must be all integers or all strings.")
+TypeError: elements must be all integers or all strings.

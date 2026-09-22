@@ -1,0 +1,1897 @@
+{
+  "status": "complete",
+  "scientific_gate": {
+    "passed": true,
+    "scope": "56 unique conformers; three planes each; all 8 octant populations and occupied counts exactly equal; each native f32 plane and aggregate output exactly reconstructed from independent morfeus counts",
+    "numerical_tolerance": null,
+    "reason": "Exact integer equality and bitwise reconstruction; stricter than a residual tolerance, no historical maximum promoted to a bound",
+    "scientific_definition": "Independent audit geometry/METHODS.md buried-volume equations and finite region normalization; corrected three-plane means in remediation geometry/RESULTS.md",
+    "descriptors": [
+      "buried_volume",
+      "near_vbur",
+      "far_vbur",
+      "percent_buried_volume",
+      "qvbur_min",
+      "qvbur_max",
+      "ovbur_min",
+      "ovbur_max",
+      "max_delta_qvbur"
+    ],
+    "excluded": {
+      "Sterimol": "Angular grids and transverse phase differ; no existing authorized error threshold for the observed scan residual. Excluded from headline and combined timing.",
+      "pyramidalization": "Compared and retained, not part of volume-only timing.",
+      "combined": "Not timed because Sterimol equivalence at matching convergence is not established."
+    },
+    "structures": 56,
+    "planes": 168,
+    "failures": [],
+    "source_sha256": "2215d2731a11d5328ddeaa949e3d557198a3b296436ffe50d1e06403ca0fd603"
+  },
+  "freeze": {
+    "created_utc": "2026-09-22T18:34:04.459820+00:00",
+    "stericx_commit": "0143f153f974cb66c723e3ad21e42cc51e211d58",
+    "source_sha256": {
+      "Cargo.lock": "6fc56998d9bf2a41e27fa9b91af0ce674cc77f1252e382ee6ab39b8985494463",
+      "Cargo.toml": "e14bfb53cf5980eac5118dd3e10230cb4736fb8842e46da66253e3c61d38c7a7",
+      "src/cli.rs": "b01560e0b7c71c109822285f431a71d4edf8edd5d085f2a4aaed2e896611c548",
+      "src/commands/buried_volume.rs": "6b2820a90f31d9f5ed3cfd01b53ead0634d8240fab17e72143ea286039b0d6af",
+      "src/commands/compare.rs": "f0abefdebd8d65195d152990551f281b2630b8d1a46b004e0183d40ae9f03d15",
+      "src/commands/db.rs": "89970a785131d7abf2c262a74c3c25a8eb3c86268186e8d30eef8e96bb8e2a2f",
+      "src/commands/evaluate.rs": "56b0cf34cf83936cfd2ab97cb69b66c6b035dbdb1ccc9145f8ee245be8c8c8d5",
+      "src/commands/fit.rs": "aeb75584d77a86278bdd729280d11149bf2d33986db564e0ada851baa825d3c0",
+      "src/commands/mod.rs": "b19f2005232ae1e0afc7490ad5e0b459d2cc8d5cdcf2a5ad55ca53ae24aebc93",
+      "src/commands/model.rs": "05b88f69b108a451d7058eb97fa0bf9f1c0e16faf4d78d92187713b3e394574f",
+      "src/commands/parse.rs": "0ce1d9d13f8a31f45fc43b78559084ac1b26791ff125c9037afc995cc8a391b9",
+      "src/commands/predict.rs": "756cde61b3e517063b8da117d92254362365d561f44085a515a90f97559f4ca8",
+      "src/commands/screen.rs": "0d41e6a5c3e846aff3ebb2383483196fc807c5596c78edafa7c9a6d233bbcef3",
+      "src/commands/search.rs": "fa4a370e823aa4f10a14cdc343cbeb1441decfabc0f3ce7e5315c27c50cd245b",
+      "src/commands/simulate.rs": "76c55051f322942ebb24a25896b644bd70bcb977431c44cf81279a86f46a1c8a",
+      "src/descriptors.rs": "2f4e0d958fba01d66b980e4d518eae39e5fd3ac0d2055d54f06c5f1d1d1fa35a",
+      "src/digest.rs": "7518ebda69a0404b286aba9d0573db123f609ee14ea8ff44e227aa52d790487d",
+      "src/geometry/buried_volume.rs": "2215d2731a11d5328ddeaa949e3d557198a3b296436ffe50d1e06403ca0fd603",
+      "src/geometry/buried_volume/aggregation_remediation_tests.rs": "37467d6b38843c76ca007444a187d7b3b7314148b9a4b1052d0628cf47eca880",
+      "src/geometry/mod.rs": "1892ea06b3bdb6e7a82645d777ecaf2c29c86439fb727fa2c4976a0de9e48948",
+      "src/geometry/pyramidalization.rs": "734f4834a1d51a507625eea2f9994603aa7d25b78166b8d395df74fd376142ac",
+      "src/geometry/sterimol.rs": "fd59bc1fc068e4802baf34361dd286cabbcbd60df265ddb3f4425d4ea160627d",
+      "src/geometry/xyz.rs": "eb6cc172f5467667d10ff8164e1ee06aa4635c2f80626ab97af63b5d962c59f3",
+      "src/kinetics/eyring.rs": "b86300a11dc8fe07430bbd480b51df448d47295080219e47bb1b3e9f08d4b454",
+      "src/kinetics/mod.rs": "273fad2c13d5cae69bf98a80be34594344c7872cf973c2c9184a40adbc82a3d2",
+      "src/lib.rs": "69e76c06fec62e98eee99b6654ab8e62b0a9d4844e0c4f2cdca9288403e0b080",
+      "src/main.rs": "f66dcf928f8c0cc681ad08aab50056ea25db6b130f92930be857c9a27543ecaa",
+      "src/model/dataset.rs": "09f0f42066d9df30cefeae885eb0beba69ae31cd2e6cce6880c85c5b83c14d37",
+      "src/model/domain.rs": "d906d970bf4f589552ba9683ec77ae7e2926e3b17ba78b785d689fd1b20441b4",
+      "src/model/domain_interval_cache_tests.rs": "9098b9cb5ead279d49a574b3214c9c4adffddf52faa05729b1b3f9d6bce30bde",
+      "src/model/evaluation.rs": "31c73c059c4f2f1457ddc43c808b5d5ad6a3fd6e34501ba30d14b9f7fb20616a",
+      "src/model/features.rs": "12a50e2f690a5975bd0eda62ce0910816414022bec8456b8cc6e1eea37d6ea4a",
+      "src/model/fit.rs": "0aa6ed82bfb7dc42da3c1a624c792dc5b387e73cc82bf78cb2a842881f9dafe2",
+      "src/model/mod.rs": "1928c62a747e041e92b5ec1e5d086e39f20d1eb990d8683e3e5545cdeb9963c3",
+      "src/model/portable.rs": "ab07d8d060d0cf7d794b56a8d03f64546594d19e306d603f3ee4c1b50faedfec",
+      "src/model/regress.rs": "c98d1b7ff1f926e3ca46b262ddde511eced72e4c91e0d1045a54a68793bee3b2",
+      "src/model/training.rs": "b7febe7066c552ca3ac5c995ebf6f32c17d259fc33e7495587c95c17c77f1abf",
+      "src/output.rs": "4b8b3f2d333573cf667afa3b914d79e1d67d5e56ee435bda3ca10350a8a296d6",
+      "src/profiling.rs": "26f501150d25b199502fcb9d5493c45c5f4e7944db7898153814f9b12411109d",
+      "src/reaction.rs": "15815fc387aff99caa917625ea2b53670c4018816436af45b156228fba4c046e",
+      "src/storage/mod.rs": "7b8516382aa1529d7132a13ca92485512e2fbbdf2fc34e598000832809896a5f",
+      "src/storage/pack.rs": "80ffbb1e2a690b19b61f312a102db25d3e226250c49f8753328ab74b19f5710d",
+      "src/storage/schema.rs": "8648a358ef6b76426b267efc94364130cff7651928319f441ef01c936dd4a633",
+      "src/test_support.rs": "9eeb77f25eedc057c210b7055fcb7a89e2614b895be2974db94944ae7d638b06"
+    },
+    "executable_sha256": "b233501640e4d06555a36a278581fbf9cb011962311f205c81f3fc9a83ae89e6",
+    "build_command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--offline",
+      "--release",
+      "--bin",
+      "stericx",
+      "--target-dir",
+      "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/benchmarks/morfeus_current/build/target"
+    ],
+    "release": {
+      "opt_level": 3,
+      "lto": "thin",
+      "codegen_units": 1,
+      "cargo_features": [],
+      "target_cpu": "rustc default x86-64",
+      "rustflags": null
+    },
+    "morfeus_version": "0.8.0",
+    "installation": "Fresh uv virtual environment; PyPI morfeus-ml latest version resolved then pinned; environment/install.command.json",
+    "affinity_inherited": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "planned_affinities": {
+      "1": [
+        2
+      ],
+      "2": [
+        2,
+        3
+      ],
+      "4": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "6": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "input_manifest_sha256": "5caac20311ef752108f04f11f95890c6f989a81caa6b1a3cace13ada12dd760c"
+  },
+  "summaries": [
+    {
+      "structures": 56,
+      "workers": 1,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 31142425.5,
+            "MAD": 78692.5,
+            "minimum": 31030105,
+            "maximum": 31572754,
+            "samples": [
+              31572754,
+              31187490,
+              31030105,
+              31097361
+            ]
+          },
+          "cpu_user_s": {
+            "median": 0.0271345,
+            "MAD": 0.0009170000000000011,
+            "minimum": 0.024196,
+            "maximum": 0.028469,
+            "samples": [
+              0.024196,
+              0.027634,
+              0.026635,
+              0.028469
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.0035835,
+            "MAD": 0.001032,
+            "minimum": 0.002033,
+            "maximum": 0.006774,
+            "samples": [
+              0.006774,
+              0.00307,
+              0.004097,
+              0.002033
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 3043328.0,
+            "MAD": 12288.0,
+            "minimum": 3022848,
+            "maximum": 3080192,
+            "samples": [
+              3047424,
+              3022848,
+              3080192,
+              3039232
+            ]
+          },
+          "cpu_total_s": {
+            "median": 0.030718,
+            "MAD": 0.00011499999999999878,
+            "minimum": 0.030502,
+            "maximum": 0.030969999999999998,
+            "samples": [
+              0.030969999999999998,
+              0.030704,
+              0.030732,
+              0.030502
+            ]
+          },
+          "molecules_per_second": 1798.1900606938916
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 1048394047.0,
+            "MAD": 16105773.0,
+            "minimum": 1005945941,
+            "maximum": 1068473618,
+            "samples": [
+              1005945941,
+              1068473618,
+              1060526022,
+              1036262072
+            ]
+          },
+          "cpu_user_s": {
+            "median": 0.933629,
+            "MAD": 0.005435999999999996,
+            "minimum": 0.927853,
+            "maximum": 0.94794,
+            "samples": [
+              0.928533,
+              0.94794,
+              0.927853,
+              0.938725
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.108597,
+            "MAD": 0.017522999999999997,
+            "minimum": 0.076961,
+            "maximum": 0.132121,
+            "samples": [
+              0.076961,
+              0.120119,
+              0.132121,
+              0.097075
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 75382784.0,
+            "MAD": 145408.0,
+            "minimum": 74964992,
+            "maximum": 75550720,
+            "samples": [
+              75505664,
+              74964992,
+              75550720,
+              75259904
+            ]
+          },
+          "cpu_total_s": {
+            "median": 1.047887,
+            "MAD": 0.01612950000000002,
+            "minimum": 1.005494,
+            "maximum": 1.068059,
+            "samples": [
+              1.005494,
+              1.068059,
+              1.059974,
+              1.0358
+            ]
+          },
+          "molecules_per_second": 53.41503050331609
+        }
+      },
+      "paired_speedup": {
+        "median": 33.750238874834594,
+        "MAD": 0.46826730330063526,
+        "minimum": 31.861203523772428,
+        "maximum": 34.2596861113222,
+        "samples": [
+          31.861203523772428,
+          34.2596861113222,
+          34.177326244948254,
+          33.32315150472093
+        ]
+      },
+      "ratio_of_wall_medians": 33.66449562510794
+    },
+    {
+      "structures": 56,
+      "workers": 2,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 18169183.5,
+            "MAD": 109130.5,
+            "minimum": 18046267,
+            "maximum": 21497718,
+            "samples": [
+              21497718,
+              18073839,
+              18046267,
+              18264528
+            ]
+          },
+          "cpu_user_s": {
+            "median": 0.027075500000000002,
+            "MAD": 0.0011319999999999993,
+            "minimum": 0.024568,
+            "maximum": 0.028244,
+            "samples": [
+              0.028171,
+              0.02598,
+              0.024568,
+              0.028244
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.0050265,
+            "MAD": 0.0008785000000000004,
+            "minimum": 0.003026,
+            "maximum": 0.006614,
+            "samples": [
+              0.004857,
+              0.005196,
+              0.006614,
+              0.003026
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 3342336.0,
+            "MAD": 57344.0,
+            "minimum": 3284992,
+            "maximum": 3416064,
+            "samples": [
+              3284992,
+              3284992,
+              3399680,
+              3416064
+            ]
+          },
+          "cpu_total_s": {
+            "median": 0.031226,
+            "MAD": 4.700000000000017e-05,
+            "minimum": 0.031176,
+            "maximum": 0.033028,
+            "samples": [
+              0.033028,
+              0.031176,
+              0.031182,
+              0.03127
+            ]
+          },
+          "molecules_per_second": 3082.1418034552844
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 904496759.0,
+            "MAD": 8134703.0,
+            "minimum": 888914445,
+            "maximum": 921123326,
+            "samples": [
+              921123326,
+              903809667,
+              905183851,
+              888914445
+            ]
+          },
+          "cpu_user_s": {
+            "median": 1.3234694999999999,
+            "MAD": 0.010402000000000133,
+            "minimum": 1.312222,
+            "maximum": 1.334332,
+            "samples": [
+              1.334332,
+              1.312222,
+              1.313528,
+              1.333411
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.2192085,
+            "MAD": 0.009890999999999997,
+            "minimum": 0.183829,
+            "maximum": 0.236202,
+            "samples": [
+              0.236202,
+              0.221997,
+              0.21642,
+              0.183829
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 75302912.0,
+            "MAD": 141312.0,
+            "minimum": 75079680,
+            "maximum": 75579392,
+            "samples": [
+              75579392,
+              75362304,
+              75243520,
+              75079680
+            ]
+          },
+          "cpu_total_s": {
+            "median": 1.5320835000000002,
+            "MAD": 0.00848950000000015,
+            "minimum": 1.51724,
+            "maximum": 1.570534,
+            "samples": [
+              1.570534,
+              1.534219,
+              1.529948,
+              1.51724
+            ]
+          },
+          "molecules_per_second": 61.91288077351751
+        }
+      },
+      "paired_speedup": {
+        "median": 49.337705413998975,
+        "MAD": 0.7450828551865847,
+        "minimum": 42.84749320834891,
+        "maximum": 50.15906342292287,
+        "samples": [
+          42.84749320834891,
+          50.00651311544824,
+          50.15906342292287,
+          48.6688977125497
+        ]
+      },
+      "ratio_of_wall_medians": 49.781915571495
+    },
+    {
+      "structures": 56,
+      "workers": 4,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 12245608.5,
+            "MAD": 503787.5,
+            "minimum": 11493434,
+            "maximum": 16085741,
+            "samples": [
+              12501009,
+              16085741,
+              11990208,
+              11493434
+            ]
+          },
+          "cpu_user_s": {
+            "median": 0.029539000000000003,
+            "MAD": 0.0013149999999999985,
+            "minimum": 0.026617,
+            "maximum": 0.031678,
+            "samples": [
+              0.031678,
+              0.03003,
+              0.026617,
+              0.029048
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.0048325,
+            "MAD": 0.0007014999999999999,
+            "minimum": 0.003959,
+            "maximum": 0.007166,
+            "samples": [
+              0.003959,
+              0.005362,
+              0.007166,
+              0.004303
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 4188160.0,
+            "MAD": 26624.0,
+            "minimum": 4112384,
+            "maximum": 4218880,
+            "samples": [
+              4210688,
+              4218880,
+              4112384,
+              4165632
+            ]
+          },
+          "cpu_total_s": {
+            "median": 0.0345875,
+            "MAD": 0.0009269999999999973,
+            "minimum": 0.033351,
+            "maximum": 0.035636999999999995,
+            "samples": [
+              0.035636999999999995,
+              0.035392,
+              0.033783,
+              0.033351
+            ]
+          },
+          "molecules_per_second": 4573.067969631726
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 760004055.0,
+            "MAD": 8032831.0,
+            "minimum": 741904783,
+            "maximum": 770138809,
+            "samples": [
+              765934963,
+              754073147,
+              770138809,
+              741904783
+            ]
+          },
+          "cpu_user_s": {
+            "median": 1.7745039999999999,
+            "MAD": 0.01242600000000016,
+            "minimum": 1.729375,
+            "maximum": 1.792445,
+            "samples": [
+              1.767593,
+              1.792445,
+              1.729375,
+              1.781415
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.307035,
+            "MAD": 0.019214999999999982,
+            "minimum": 0.271865,
+            "maximum": 0.334321,
+            "samples": [
+              0.318179,
+              0.271865,
+              0.334321,
+              0.295891
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 75372544.0,
+            "MAD": 133120.0,
+            "minimum": 75014144,
+            "maximum": 75591680,
+            "samples": [
+              75014144,
+              75419648,
+              75325440,
+              75591680
+            ]
+          },
+          "cpu_total_s": {
+            "median": 2.070808,
+            "MAD": 0.00680499999999995,
+            "minimum": 2.063696,
+            "maximum": 2.085772,
+            "samples": [
+              2.085772,
+              2.06431,
+              2.063696,
+              2.077306
+            ]
+          },
+          "molecules_per_second": 73.68381738436909
+        }
+      },
+      "paired_speedup": {
+        "median": 62.75024881415329,
+        "MAD": 1.6402317384639957,
+        "minimum": 46.87835934943874,
+        "maximum": 64.55031481452802,
+        "samples": [
+          61.26985133760003,
+          46.87835934943874,
+          64.23064629070655,
+          64.55031481452802
+        ]
+      },
+      "ratio_of_wall_medians": 62.063396441263
+    },
+    {
+      "structures": 56,
+      "workers": 6,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 11198344.0,
+            "MAD": 228059.5,
+            "minimum": 9746619,
+            "maximum": 11441507,
+            "samples": [
+              9746619,
+              11411300,
+              10985388,
+              11441507
+            ]
+          },
+          "cpu_user_s": {
+            "median": 0.032409999999999994,
+            "MAD": 2.3000000000005655e-05,
+            "minimum": 0.026361,
+            "maximum": 0.032453,
+            "samples": [
+              0.026361,
+              0.032413,
+              0.032453,
+              0.032407
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.00435,
+            "MAD": 0.00042200000000000007,
+            "minimum": 0.003928,
+            "maximum": 0.009125,
+            "samples": [
+              0.009125,
+              0.003928,
+              0.004772,
+              0.003928
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 4710400.0,
+            "MAD": 135168.0,
+            "minimum": 4546560,
+            "maximum": 4878336,
+            "samples": [
+              4816896,
+              4546560,
+              4603904,
+              4878336
+            ]
+          },
+          "cpu_total_s": {
+            "median": 0.036337999999999995,
+            "MAD": 0.0004275000000000008,
+            "minimum": 0.035486,
+            "maximum": 0.037225,
+            "samples": [
+              0.035486,
+              0.036341,
+              0.037225,
+              0.036335
+            ]
+          },
+          "molecules_per_second": 5000.739395039123
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 680135982.5,
+            "MAD": 5267405.5,
+            "minimum": 674679051,
+            "maximum": 707017937,
+            "samples": [
+              675058103,
+              707017937,
+              685213862,
+              674679051
+            ]
+          },
+          "cpu_user_s": {
+            "median": 2.2992115,
+            "MAD": 0.025088,
+            "minimum": 2.271669,
+            "maximum": 2.335365,
+            "samples": [
+              2.276578,
+              2.335365,
+              2.321845,
+              2.271669
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.40730900000000003,
+            "MAD": 0.010674000000000045,
+            "minimum": 0.389275,
+            "maximum": 0.431986,
+            "samples": [
+              0.389275,
+              0.431986,
+              0.403995,
+              0.410623
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 75288576.0,
+            "MAD": 53248.0,
+            "minimum": 75128832,
+            "maximum": 75386880,
+            "samples": [
+              75386880,
+              75280384,
+              75128832,
+              75296768
+            ]
+          },
+          "cpu_total_s": {
+            "median": 2.704066,
+            "MAD": 0.029993500000000006,
+            "minimum": 2.6658530000000003,
+            "maximum": 2.7673509999999997,
+            "samples": [
+              2.6658530000000003,
+              2.7673509999999997,
+              2.7258400000000003,
+              2.6822920000000003
+            ]
+          },
+          "molecules_per_second": 82.33647600022398
+        }
+      },
+      "paired_speedup": {
+        "median": 62.16636452766364,
+        "MAD": 1.7036761625504369,
+        "minimum": 58.96767366396752,
+        "maximum": 69.26074600843636,
+        "samples": [
+          69.26074600843636,
+          61.95770306625889,
+          62.37502598906839,
+          58.96767366396752
+        ]
+      },
+      "ratio_of_wall_medians": 60.73540717270339
+    },
+    {
+      "structures": 1000,
+      "workers": 1,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 540678859.0,
+            "MAD": 4399859.0,
+            "minimum": 536208087,
+            "maximum": 573004604,
+            "samples": [
+              536208087,
+              536349913,
+              573004604,
+              545007805
+            ]
+          },
+          "cpu_user_s": {
+            "median": 0.47994349999999997,
+            "MAD": 0.001373000000000013,
+            "minimum": 0.478382,
+            "maximum": 0.498036,
+            "samples": [
+              0.478382,
+              0.481128,
+              0.498036,
+              0.478759
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.04852,
+            "MAD": 0.0019514999999999984,
+            "minimum": 0.045199,
+            "maximum": 0.055855,
+            "samples": [
+              0.047938,
+              0.045199,
+              0.049102,
+              0.055855
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 4454400.0,
+            "MAD": 24576.0,
+            "minimum": 4419584,
+            "maximum": 4562944,
+            "samples": [
+              4440064,
+              4419584,
+              4468736,
+              4562944
+            ]
+          },
+          "cpu_total_s": {
+            "median": 0.5304705000000001,
+            "MAD": 0.004147000000000067,
+            "minimum": 0.52632,
+            "maximum": 0.547138,
+            "samples": [
+              0.52632,
+              0.526327,
+              0.547138,
+              0.534614
+            ]
+          },
+          "molecules_per_second": 1849.526726178136
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 14848419747.5,
+            "MAD": 234037133.0,
+            "minimum": 14156734015,
+            "maximum": 15314970178,
+            "samples": [
+              15314970178,
+              14849943583,
+              14156734015,
+              14846895912
+            ]
+          },
+          "cpu_user_s": {
+            "median": 13.139868,
+            "MAD": 0.061589500000000186,
+            "minimum": 12.922707,
+            "maximum": 13.251228,
+            "samples": [
+              13.251228,
+              13.151687,
+              12.922707,
+              13.128049
+            ]
+          },
+          "cpu_system_s": {
+            "median": 1.6952235,
+            "MAD": 0.1898685,
+            "minimum": 1.227687,
+            "maximum": 2.057569,
+            "samples": [
+              2.057569,
+              1.677832,
+              1.227687,
+              1.712615
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 77826048.0,
+            "MAD": 28672.0,
+            "minimum": 77733888,
+            "maximum": 77856768,
+            "samples": [
+              77799424,
+              77733888,
+              77856768,
+              77852672
+            ]
+          },
+          "cpu_total_s": {
+            "median": 14.8350915,
+            "MAD": 0.2396389999999986,
+            "minimum": 14.150394,
+            "maximum": 15.308796999999998,
+            "samples": [
+              15.308796999999998,
+              14.829519000000001,
+              14.150394,
+              14.840664
+            ]
+          },
+          "molecules_per_second": 67.34723404949325
+        }
+      },
+      "paired_speedup": {
+        "median": 27.464332305131865,
+        "MAD": 0.6599982948212961,
+        "minimum": 24.70614357402266,
+        "maximum": 28.56161730734956,
+        "samples": [
+          28.56161730734956,
+          27.687043892556762,
+          24.70614357402266,
+          27.24162071770697
+        ]
+      },
+      "ratio_of_wall_medians": 27.46254916451246
+    },
+    {
+      "structures": 1000,
+      "workers": 2,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 309135200.0,
+            "MAD": 1828624.0,
+            "minimum": 303546400,
+            "maximum": 311311232,
+            "samples": [
+              310616416,
+              311311232,
+              307653984,
+              303546400
+            ]
+          },
+          "cpu_user_s": {
+            "median": 0.493087,
+            "MAD": 0.001055499999999987,
+            "minimum": 0.491037,
+            "maximum": 0.500035,
+            "samples": [
+              0.493148,
+              0.500035,
+              0.493026,
+              0.491037
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.0499035,
+            "MAD": 0.0015485000000000047,
+            "minimum": 0.047906,
+            "maximum": 0.05191,
+            "samples": [
+              0.05191,
+              0.051003,
+              0.048804,
+              0.047906
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 4845568.0,
+            "MAD": 4096.0,
+            "minimum": 4837376,
+            "maximum": 4964352,
+            "samples": [
+              4837376,
+              4845568,
+              4964352,
+              4845568
+            ]
+          },
+          "cpu_total_s": {
+            "median": 0.543444,
+            "MAD": 0.0030575000000000463,
+            "minimum": 0.538943,
+            "maximum": 0.551038,
+            "samples": [
+              0.5450579999999999,
+              0.551038,
+              0.54183,
+              0.538943
+            ]
+          },
+          "molecules_per_second": 3234.830585452579
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 7989374930.5,
+            "MAD": 109926074.0,
+            "minimum": 7746726173,
+            "maximum": 8208763737,
+            "samples": [
+              7988911589,
+              7989838272,
+              8208763737,
+              7746726173
+            ]
+          },
+          "cpu_user_s": {
+            "median": 14.1053015,
+            "MAD": 0.14140850000000071,
+            "minimum": 13.885263,
+            "maximum": 14.313445,
+            "samples": [
+              14.179975,
+              14.030628,
+              14.313445,
+              13.885263
+            ]
+          },
+          "cpu_system_s": {
+            "median": 1.4457140000000002,
+            "MAD": 0.13193,
+            "minimum": 1.190655,
+            "maximum": 1.638997,
+            "samples": [
+              1.375137,
+              1.516291,
+              1.638997,
+              1.190655
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 76132352.0,
+            "MAD": 38912.0,
+            "minimum": 76083200,
+            "maximum": 76263424,
+            "samples": [
+              76103680,
+              76083200,
+              76263424,
+              76161024
+            ]
+          },
+          "cpu_total_s": {
+            "median": 15.551015500000002,
+            "MAD": 0.20276149999999937,
+            "minimum": 15.075918,
+            "maximum": 15.952442,
+            "samples": [
+              15.555112000000001,
+              15.546919,
+              15.952442,
+              15.075918
+            ]
+          },
+          "molecules_per_second": 125.1662374965568
+        }
+      },
+      "paired_speedup": {
+        "median": 25.69232742856937,
+        "MAD": 0.09940465597360415,
+        "minimum": 25.520731502663185,
+        "maximum": 26.68180541747836,
+        "samples": [
+          25.71954081461039,
+          25.665114042528348,
+          26.68180541747836,
+          25.520731502663185
+        ]
+      },
+      "ratio_of_wall_medians": 25.84427438382947
+    },
+    {
+      "structures": 1000,
+      "workers": 4,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 186850565.5,
+            "MAD": 1132389.5,
+            "minimum": 184518920,
+            "maximum": 188351568,
+            "samples": [
+              188351568,
+              184518920,
+              187614342,
+              186086789
+            ]
+          },
+          "cpu_user_s": {
+            "median": 0.508588,
+            "MAD": 0.001757000000000064,
+            "minimum": 0.505802,
+            "maximum": 0.512895,
+            "samples": [
+              0.509316,
+              0.50786,
+              0.512895,
+              0.505802
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.048212500000000005,
+            "MAD": 0.003372500000000004,
+            "minimum": 0.044336,
+            "maximum": 0.05234,
+            "samples": [
+              0.05234,
+              0.045344,
+              0.044336,
+              0.051081
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 4837376.0,
+            "MAD": 0.0,
+            "minimum": 4837376,
+            "maximum": 4841472,
+            "samples": [
+              4841472,
+              4837376,
+              4837376,
+              4837376
+            ]
+          },
+          "cpu_total_s": {
+            "median": 0.557057,
+            "MAD": 0.0020135000000000014,
+            "minimum": 0.553204,
+            "maximum": 0.5616559999999999,
+            "samples": [
+              0.5616559999999999,
+              0.553204,
+              0.557231,
+              0.556883
+            ]
+          },
+          "molecules_per_second": 5351.87034261344
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 4630768940.0,
+            "MAD": 18889949.0,
+            "minimum": 4572692854,
+            "maximum": 4658447121,
+            "samples": [
+              4658447121,
+              4640870657,
+              4572692854,
+              4620667223
+            ]
+          },
+          "cpu_user_s": {
+            "median": 15.124748,
+            "MAD": 0.02947949999999988,
+            "minimum": 15.071958,
+            "maximum": 15.186134,
+            "samples": [
+              15.186134,
+              15.130917,
+              15.071958,
+              15.118579
+            ]
+          },
+          "cpu_system_s": {
+            "median": 2.065745,
+            "MAD": 0.15629400000000016,
+            "minimum": 1.851348,
+            "maximum": 2.290031,
+            "samples": [
+              1.851348,
+              2.290031,
+              1.967554,
+              2.163936
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 75962368.0,
+            "MAD": 63488.0,
+            "minimum": 75821056,
+            "maximum": 76087296,
+            "samples": [
+              75960320,
+              75821056,
+              75964416,
+              76087296
+            ]
+          },
+          "cpu_total_s": {
+            "median": 17.161013500000003,
+            "MAD": 0.12251650000000147,
+            "minimum": 17.037482,
+            "maximum": 17.420948,
+            "samples": [
+              17.037482,
+              17.420948,
+              17.039512000000002,
+              17.282515
+            ]
+          },
+          "molecules_per_second": 215.94685741327442
+        }
+      },
+      "paired_speedup": {
+        "median": 24.781716752555695,
+        "MAD": 0.20923425247783634,
+        "minimum": 24.372832083380917,
+        "maximum": 25.151191308728666,
+        "samples": [
+          24.732722803772994,
+          25.151191308728666,
+          24.372832083380917,
+          24.830710701338397
+        ]
+      },
+      "ratio_of_wall_medians": 24.783274953481477
+    },
+    {
+      "structures": 1000,
+      "workers": 6,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 145070936.0,
+            "MAD": 1223025.5,
+            "minimum": 143199035,
+            "maximum": 149488233,
+            "samples": [
+              143199035,
+              145645086,
+              149488233,
+              144496786
+            ]
+          },
+          "cpu_user_s": {
+            "median": 0.5227554999999999,
+            "MAD": 0.00651050000000003,
+            "minimum": 0.510961,
+            "maximum": 0.530291,
+            "samples": [
+              0.528241,
+              0.51727,
+              0.530291,
+              0.510961
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.050432500000000005,
+            "MAD": 0.006786000000000004,
+            "minimum": 0.043019,
+            "maximum": 0.058651,
+            "samples": [
+              0.043019,
+              0.056591,
+              0.044274,
+              0.058651
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 5306368.0,
+            "MAD": 47104.0,
+            "minimum": 5234688,
+            "maximum": 5378048,
+            "samples": [
+              5283840,
+              5234688,
+              5328896,
+              5378048
+            ]
+          },
+          "cpu_total_s": {
+            "median": 0.5725605,
+            "MAD": 0.0016525000000000012,
+            "minimum": 0.569612,
+            "maximum": 0.574565,
+            "samples": [
+              0.57126,
+              0.573861,
+              0.574565,
+              0.569612
+            ]
+          },
+          "molecules_per_second": 6893.179485655211
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 3435903223.0,
+            "MAD": 38947894.0,
+            "minimum": 3381181916,
+            "maximum": 3524032496,
+            "samples": [
+              3524032496,
+              3381181916,
+              3412728742,
+              3459077704
+            ]
+          },
+          "cpu_user_s": {
+            "median": 16.261297,
+            "MAD": 0.05514349999999979,
+            "minimum": 16.174878,
+            "maximum": 16.442776,
+            "samples": [
+              16.442776,
+              16.237429,
+              16.174878,
+              16.285165
+            ]
+          },
+          "cpu_system_s": {
+            "median": 2.0356425,
+            "MAD": 0.07955599999999996,
+            "minimum": 1.917703,
+            "maximum": 2.454865,
+            "samples": [
+              2.454865,
+              1.99447,
+              1.917703,
+              2.076815
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 75909120.0,
+            "MAD": 57344.0,
+            "minimum": 75694080,
+            "maximum": 76009472,
+            "samples": [
+              75694080,
+              75894784,
+              75923456,
+              76009472
+            ]
+          },
+          "cpu_total_s": {
+            "median": 18.2969395,
+            "MAD": 0.13469950000000175,
+            "minimum": 18.092581,
+            "maximum": 18.897641,
+            "samples": [
+              18.897641,
+              18.231899,
+              18.092581,
+              18.36198
+            ]
+          },
+          "molecules_per_second": 291.04428591177464
+        }
+      },
+      "paired_speedup": {
+        "median": 23.57700049176512,
+        "MAD": 0.5546862870877032,
+        "minimum": 22.829413884369078,
+        "maximum": 24.6093313128821,
+        "samples": [
+          24.6093313128821,
+          23.215214524985758,
+          22.829413884369078,
+          23.938786458544485
+        ]
+      },
+      "ratio_of_wall_medians": 23.684297611480222
+    },
+    {
+      "structures": 10000,
+      "workers": 1,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 5547521166.0,
+            "MAD": 34123862.5,
+            "minimum": 5412657816,
+            "maximum": 5614988814,
+            "samples": [
+              5412657816,
+              5546741089,
+              5548301243,
+              5614988814
+            ]
+          },
+          "cpu_user_s": {
+            "median": 4.934118,
+            "MAD": 0.03669199999999995,
+            "minimum": 4.826399,
+            "maximum": 4.978108,
+            "samples": [
+              4.826399,
+              4.963512,
+              4.978108,
+              4.904724
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.488332,
+            "MAD": 0.005788000000000015,
+            "minimum": 0.479566,
+            "maximum": 0.618595,
+            "samples": [
+              0.491142,
+              0.479566,
+              0.485522,
+              0.618595
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 17299456.0,
+            "MAD": 2048.0,
+            "minimum": 17285120,
+            "maximum": 17301504,
+            "samples": [
+              17301504,
+              17285120,
+              17297408,
+              17301504
+            ]
+          },
+          "cpu_total_s": {
+            "median": 5.453354,
+            "MAD": 0.0401205,
+            "minimum": 5.317541,
+            "maximum": 5.523319,
+            "samples": [
+              5.317541,
+              5.443078,
+              5.46363,
+              5.523319
+            ]
+          },
+          "molecules_per_second": 1802.6069123068219
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 139961056773.0,
+            "MAD": 757081615.0,
+            "minimum": 136563412367,
+            "maximum": 140871718271,
+            "samples": [
+              139357555041,
+              140871718271,
+              136563412367,
+              140564558505
+            ]
+          },
+          "cpu_user_s": {
+            "median": 128.111642,
+            "MAD": 0.3941639999999964,
+            "minimum": 127.470151,
+            "maximum": 128.957942,
+            "samples": [
+              127.470151,
+              128.957942,
+              127.964805,
+              128.258479
+            ]
+          },
+          "cpu_system_s": {
+            "median": 11.8319475,
+            "MAD": 0.1957879999999994,
+            "minimum": 8.531853,
+            "maximum": 12.217569,
+            "samples": [
+              11.825993,
+              11.837902,
+              8.531853,
+              12.217569
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 101869568.0,
+            "MAD": 61440.0,
+            "minimum": 101765120,
+            "maximum": 102006784,
+            "samples": [
+              102006784,
+              101851136,
+              101765120,
+              101888000
+            ]
+          },
+          "cpu_total_s": {
+            "median": 139.886096,
+            "MAD": 0.749849999999995,
+            "minimum": 136.496658,
+            "maximum": 140.795844,
+            "samples": [
+              139.296144,
+              140.795844,
+              136.496658,
+              140.476048
+            ]
+          },
+          "molecules_per_second": 71.44844595035316
+        }
+      },
+      "paired_speedup": {
+        "median": 25.215506886221362,
+        "MAD": 0.35639719541067727,
+        "minimum": 24.613554020574295,
+        "maximum": 25.746603568593297,
+        "samples": [
+          25.746603568593297,
+          25.39720459467078,
+          24.613554020574295,
+          25.033809177771943
+        ]
+      },
+      "ratio_of_wall_medians": 25.229476839277734
+    },
+    {
+      "structures": 10000,
+      "workers": 2,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 3149968468.5,
+            "MAD": 60838125.0,
+            "minimum": 3074102067,
+            "maximum": 3585143913,
+            "samples": [
+              3585143913,
+              3195778317,
+              3104158620,
+              3074102067
+            ]
+          },
+          "cpu_user_s": {
+            "median": 5.0105450000000005,
+            "MAD": 0.06915399999999972,
+            "minimum": 4.920465,
+            "maximum": 5.091766,
+            "samples": [
+              4.920465,
+              5.091766,
+              5.067632,
+              4.953458
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.4912065,
+            "MAD": 0.007045500000000038,
+            "minimum": 0.475246,
+            "maximum": 0.500137,
+            "samples": [
+              0.486046,
+              0.496367,
+              0.475246,
+              0.500137
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 17692672.0,
+            "MAD": 18432.0,
+            "minimum": 17657856,
+            "maximum": 17825792,
+            "samples": [
+              17657856,
+              17694720,
+              17825792,
+              17690624
+            ]
+          },
+          "cpu_total_s": {
+            "median": 5.4982365,
+            "MAD": 0.06726900000000002,
+            "minimum": 5.406511,
+            "maximum": 5.588133,
+            "samples": [
+              5.406511,
+              5.588133,
+              5.542878,
+              5.453595
+            ]
+          },
+          "molecules_per_second": 3174.634952699051
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 78682339345.0,
+            "MAD": 683418353.5,
+            "minimum": 75876824872,
+            "maximum": 79544303589,
+            "samples": [
+              79544303589,
+              78177466882,
+              75876824872,
+              79187211808
+            ]
+          },
+          "cpu_user_s": {
+            "median": 134.725184,
+            "MAD": 0.13747250000001543,
+            "minimum": 134.477332,
+            "maximum": 136.692727,
+            "samples": [
+              136.692727,
+              134.477332,
+              134.752277,
+              134.698091
+            ]
+          },
+          "cpu_system_s": {
+            "median": 17.8388035,
+            "MAD": 3.2442415000000002,
+            "minimum": 13.485566,
+            "maximum": 21.434916,
+            "samples": [
+              21.434916,
+              14.946433,
+              13.485566,
+              20.731174
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 102240256.0,
+            "MAD": 10240.0,
+            "minimum": 102219776,
+            "maximum": 102555648,
+            "samples": [
+              102555648,
+              102219776,
+              102240256,
+              102240256
+            ]
+          },
+          "cpu_total_s": {
+            "median": 152.426515,
+            "MAD": 3.5957110000000085,
+            "minimum": 148.237843,
+            "maximum": 158.12764299999998,
+            "samples": [
+              158.12764299999998,
+              149.423765,
+              148.237843,
+              155.42926500000002
+            ]
+          },
+          "molecules_per_second": 127.09332339691635
+        }
+      },
+      "paired_speedup": {
+        "median": 24.453167877542196,
+        "MAD": 0.6579282884615463,
+        "minimum": 22.187199599036013,
+        "maximum": 25.759460838357388,
+        "samples": [
+          22.187199599036013,
+          24.462731493650097,
+          24.443604261434295,
+          25.759460838357388
+        ]
+      },
+      "ratio_of_wall_medians": 24.978770464476476
+    },
+    {
+      "structures": 10000,
+      "workers": 4,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 1836244239.0,
+            "MAD": 23701760.0,
+            "minimum": 1810998791,
+            "maximum": 1889957112,
+            "samples": [
+              1814086167,
+              1889957112,
+              1858402311,
+              1810998791
+            ]
+          },
+          "cpu_user_s": {
+            "median": 5.1475124999999995,
+            "MAD": 0.014000000000000679,
+            "minimum": 5.096235,
+            "maximum": 5.169844,
+            "samples": [
+              5.169844,
+              5.153181,
+              5.096235,
+              5.141844
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.503307,
+            "MAD": 0.009911000000000059,
+            "minimum": 0.468076,
+            "maximum": 0.514518,
+            "samples": [
+              0.468076,
+              0.511918,
+              0.514518,
+              0.494696
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 18608128.0,
+            "MAD": 0.0,
+            "minimum": 18460672,
+            "maximum": 18608128,
+            "samples": [
+              18608128,
+              18460672,
+              18608128,
+              18608128
+            ]
+          },
+          "cpu_total_s": {
+            "median": 5.637230000000001,
+            "MAD": 0.013583500000000637,
+            "minimum": 5.610753,
+            "maximum": 5.665099,
+            "samples": [
+              5.63792,
+              5.665099,
+              5.610753,
+              5.63654
+            ]
+          },
+          "molecules_per_second": 5445.898637888116
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 41791225036.5,
+            "MAD": 195646702.0,
+            "minimum": 41410902939,
+            "maximum": 42694270069,
+            "samples": [
+              42694270069,
+              41410902939,
+              41802196343,
+              41780253730
+            ]
+          },
+          "cpu_user_s": {
+            "median": 141.896693,
+            "MAD": 0.632071499999995,
+            "minimum": 140.750556,
+            "maximum": 142.853616,
+            "samples": [
+              142.203913,
+              142.853616,
+              141.589473,
+              140.750556
+            ]
+          },
+          "cpu_system_s": {
+            "median": 17.8614695,
+            "MAD": 1.6541505,
+            "minimum": 15.769108,
+            "maximum": 23.021247,
+            "samples": [
+              23.021247,
+              16.64553,
+              19.077409,
+              15.769108
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 101523456.0,
+            "MAD": 59392.0,
+            "minimum": 101437440,
+            "maximum": 101605376,
+            "samples": [
+              101437440,
+              101486592,
+              101560320,
+              101605376
+            ]
+          },
+          "cpu_total_s": {
+            "median": 160.083014,
+            "MAD": 2.0736090000000047,
+            "minimum": 156.51966399999998,
+            "maximum": 165.22516,
+            "samples": [
+              165.22516,
+              159.499146,
+              160.666882,
+              156.51966399999998
+            ]
+          },
+          "molecules_per_second": 239.2846821615329
+        }
+      },
+      "paired_speedup": {
+        "median": 22.781951510195146,
+        "MAD": 0.5206214252855954,
+        "minimum": 21.911027861990977,
+        "maximum": 23.534863362970565,
+        "samples": [
+          23.534863362970565,
+          21.911027861990977,
+          22.493620512399374,
+          23.070282507990918
+        ]
+      },
+      "ratio_of_wall_medians": 22.75907755019511
+    },
+    {
+      "structures": 10000,
+      "workers": 6,
+      "tools": {
+        "stericx": {
+          "wall_ns": {
+            "median": 1464292346.5,
+            "MAD": 22599257.0,
+            "minimum": 1400612717,
+            "maximum": 1501550360,
+            "samples": [
+              1501550360,
+              1472232847,
+              1400612717,
+              1456351846
+            ]
+          },
+          "cpu_user_s": {
+            "median": 5.446057,
+            "MAD": 0.023712000000000177,
+            "minimum": 5.264341,
+            "maximum": 5.486765,
+            "samples": [
+              5.439341,
+              5.452773,
+              5.264341,
+              5.486765
+            ]
+          },
+          "cpu_system_s": {
+            "median": 0.5213935000000001,
+            "MAD": 0.009368500000000057,
+            "minimum": 0.510323,
+            "maximum": 0.539285,
+            "samples": [
+              0.52906,
+              0.539285,
+              0.510323,
+              0.513727
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 19292160.0,
+            "MAD": 26624.0,
+            "minimum": 19263488,
+            "maximum": 19398656,
+            "samples": [
+              19267584,
+              19398656,
+              19263488,
+              19316736
+            ]
+          },
+          "cpu_total_s": {
+            "median": 5.9802295,
+            "MAD": 0.016045500000000157,
+            "minimum": 5.774664,
+            "maximum": 6.000492,
+            "samples": [
+              5.968401,
+              5.992058,
+              5.774664,
+              6.000492
+            ]
+          },
+          "molecules_per_second": 6829.237360901551
+        },
+        "morfeus": {
+          "wall_ns": {
+            "median": 29705171570.5,
+            "MAD": 72821511.0,
+            "minimum": 29529254217,
+            "maximum": 29791413078,
+            "samples": [
+              29645770056,
+              29764573085,
+              29791413078,
+              29529254217
+            ]
+          },
+          "cpu_user_s": {
+            "median": 150.5735095,
+            "MAD": 0.10358049999999253,
+            "minimum": 150.261004,
+            "maximum": 150.723347,
+            "samples": [
+              150.516186,
+              150.261004,
+              150.723347,
+              150.630833
+            ]
+          },
+          "cpu_system_s": {
+            "median": 19.122854,
+            "MAD": 0.7898899999999998,
+            "minimum": 17.303022,
+            "maximum": 20.254123,
+            "samples": [
+              18.674343,
+              20.254123,
+              17.303022,
+              19.571365
+            ]
+          },
+          "peak_rss_bytes": {
+            "median": 101177344.0,
+            "MAD": 63488.0,
+            "minimum": 101036032,
+            "maximum": 101281792,
+            "samples": [
+              101199872,
+              101036032,
+              101154816,
+              101281792
+            ]
+          },
+          "cpu_total_s": {
+            "median": 169.69636350000002,
+            "MAD": 0.6622990000000044,
+            "minimum": 168.026369,
+            "maximum": 170.515127,
+            "samples": [
+              169.190529,
+              170.515127,
+              168.026369,
+              170.202198
+            ]
+          },
+          "molecules_per_second": 336.64171830372226
+        }
+      },
+      "paired_speedup": {
+        "median": 20.246740683930398,
+        "MAD": 0.266370496570719,
+        "minimum": 19.74344041048347,
+        "maximum": 21.270271729226344,
+        "samples": [
+          19.74344041048347,
+          20.217299964235888,
+          21.270271729226344,
+          20.276181403624904
+        ]
+      },
+      "ratio_of_wall_medians": 20.28636675012492
+    }
+  ],
+  "raw_timings": "raw_timings.json",
+  "memory_caveat": "wait4 peak_rss_bytes is a single-process/maximum-descendant high-water mark, NOT total multiprocessing memory. See separate process-tree samples.",
+  "measurement_gate": true,
+  "pyramidalization": "pyramidalization/benchmark_results.json",
+  "memory": "memory_results.json",
+  "scientific_summary": "scientific_summary.json",
+  "scope": "End-to-end public-API drivers; headline is 9 buried-volume outputs over three donor-plane grids; excludes Sterimol/combined; no historical ratio arithmetic",
+  "acceptance_gates": {
+    "scientific": true,
+    "fairness": true,
+    "measurement": true,
+    "documentation": true
+  },
+  "publication_status": "pre_policy_exploratory_scientific_admission_withdrawn",
+  "prospective_policy_admitted": false
+}

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "cargo",
+    "build",
+    "--locked",
+    "--offline",
+    "--release",
+    "--bin",
+    "stericx",
+    "--target-dir",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/benchmarks/morfeus_current/build/target"
+  ],
+  "returncode": 0
+}

@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "cargo",
+    "build",
+    "--offline",
+    "--release",
+    "--manifest-path",
+    "docs/benchmarks/morfeus_current/adapter/Cargo.toml"
+  ],
+  "returncode": 0,
+  "note": "Command and exit captured by session tool; reconstructed receipt after successful completion."
+}

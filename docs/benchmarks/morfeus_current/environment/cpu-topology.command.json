@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "lscpu",
+    "-e=CPU,CORE,SOCKET,ONLINE"
+  ],
+  "returncode": 0
+}

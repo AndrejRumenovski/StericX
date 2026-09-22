@@ -1,0 +1,86 @@
+{
+  "source_and_executable_records": [
+    {
+      "path": "adapter/Cargo.lock",
+      "bytes": 10065,
+      "sha256": "d2675db7edbcf2000af2bb33e2bb4b0b7bc314899dd3863856ed728182b04be8"
+    },
+    {
+      "path": "adapter/Cargo.toml",
+      "bytes": 229,
+      "sha256": "9b65c5ef2294bef6f50cad2d1e778cdc08ba142502353e4485c1f572c4693611"
+    },
+    {
+      "path": "adapter/grid_append.rs",
+      "bytes": 1261,
+      "sha256": "c77c17a0081a113316e35f7f2596db11888bda386c1ffcb1eb2eb20f196fda00"
+    },
+    {
+      "path": "adapter/src/bin/grid-observer.rs",
+      "bytes": 728,
+      "sha256": "81a9b48223df1c9d517964ad3a0b06995aa91695c9032bacb140815b47401f5a"
+    },
+    {
+      "path": "adapter/src/bin/pyramid-batch.rs",
+      "bytes": 901,
+      "sha256": "d356fa1eaee155f590462be590aa11f95c9c239ad9e6b4f9f76e74fcd4b2fd90"
+    },
+    {
+      "path": "adapter/src/bin/volume-batch.rs",
+      "bytes": 1354,
+      "sha256": "82e8421897468a472627ce8a0115c7835493520c3940a838e966261d5a626078"
+    },
+    {
+      "path": "adapter/src/copied_buried_volume.rs",
+      "bytes": 63674,
+      "sha256": "e2c5ec55aa5936983a1e1b78e7bf62cf2956fd1d55fc693bd4e06b500a3bed79"
+    },
+    {
+      "path": "adapter/src/main.rs",
+      "bytes": 2027,
+      "sha256": "ff812bd1718705d57e4772b62b33bffc8e686960485dc77645f7836b1da74c1d"
+    },
+    {
+      "path": "build/grid-observer",
+      "bytes": 604280,
+      "sha256": "d06e487d76031a38464bde888c9bb0db46ce07585c0e4b0b0004bebab951cd15"
+    },
+    {
+      "path": "build/measure-child",
+      "bytes": 16536,
+      "sha256": "263dd817e87f3045fff1556e1db6281a084bf426a0c543ff33982f9bc2d2b8b1"
+    },
+    {
+      "path": "build/morfeus-current-observer",
+      "bytes": 616976,
+      "sha256": "14cb2af52e21e4587b163aa7e1f32f0ad9257771ffea76dfe601ac0d4c8632d7"
+    },
+    {
+      "path": "build/profile_child.c",
+      "bytes": 1661,
+      "sha256": "0c6ad902b6a0abd7e440eb12a9ff44521b407410faff8309ce390d92d8540a4f"
+    },
+    {
+      "path": "build/pyramid-batch",
+      "bytes": 674752,
+      "sha256": "e60c7dc0f6ec00a85b979eb96958296b70d2b2190e25fde33d46f5f702d57fae"
+    },
+    {
+      "path": "build/source.tar.gz",
+      "bytes": 169541,
+      "sha256": "6697248ad4db08a90b3acf230b69c322543e6f4898410b3207cef08b2d7efb60"
+    },
+    {
+      "path": "build/stericx",
+      "bytes": 3438648,
+      "sha256": "b233501640e4d06555a36a278581fbf9cb011962311f205c81f3fc9a83ae89e6"
+    },
+    {
+      "path": "build/volume-batch",
+      "bytes": 698800,
+      "sha256": "09de3b179a9d9ee816c73f405ab31947733a381b8ab6e6c6e55ba35b8189eafb"
+    }
+  ],
+  "settings": "Same locked current source/dependencies; cargo build --offline --release --manifest-path adapter/Cargo.toml; individual bin build stdout/stderr in raw/; native release profile thin LTO, one codegen unit, no custom RUSTFLAGS.",
+  "production_source_binding": "freeze.json"
+}

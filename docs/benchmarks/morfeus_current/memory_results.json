@@ -1,0 +1,272 @@
+{
+  "results": [
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 10000,
+      "sampled_peak_sum_rss_bytes": 17526784,
+      "peak_snapshot": {
+        "elapsed_ns": 4904460781,
+        "processes": [
+          {
+            "pid": 148456,
+            "name": "volume-batch",
+            "rss_bytes": 17526784,
+            "hwm_bytes": 17526784
+          }
+        ],
+        "sum_rss_bytes": 17526784,
+        "sample_duration_ns": 164760
+      },
+      "samples": 532,
+      "max_sample_spacing_s": 0.011641096,
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 10000,
+      "sampled_peak_sum_rss_bytes": 102088704,
+      "peak_snapshot": {
+        "elapsed_ns": 134978066744,
+        "processes": [
+          {
+            "pid": 148568,
+            "name": "python",
+            "rss_bytes": 102088704,
+            "hwm_bytes": 102088704
+          }
+        ],
+        "sum_rss_bytes": 102088704,
+        "sample_duration_ns": 150293
+      },
+      "samples": 13210,
+      "max_sample_spacing_s": 0.01122357,
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 10000,
+      "sampled_peak_sum_rss_bytes": 17965056,
+      "peak_snapshot": {
+        "elapsed_ns": 2502206620,
+        "processes": [
+          {
+            "pid": 149252,
+            "name": "volume-batch",
+            "rss_bytes": 17965056,
+            "hwm_bytes": 17965056
+          }
+        ],
+        "sum_rss_bytes": 17965056,
+        "sample_duration_ns": 250040
+      },
+      "samples": 295,
+      "max_sample_spacing_s": 0.011649923,
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 10000,
+      "sampled_peak_sum_rss_bytes": 272953344,
+      "peak_snapshot": {
+        "elapsed_ns": 72933529119,
+        "processes": [
+          {
+            "pid": 149301,
+            "name": "python",
+            "rss_bytes": 100511744,
+            "hwm_bytes": 100511744
+          },
+          {
+            "pid": 149304,
+            "name": "python",
+            "rss_bytes": 78876672,
+            "hwm_bytes": 78876672
+          },
+          {
+            "pid": 149303,
+            "name": "python",
+            "rss_bytes": 78577664,
+            "hwm_bytes": 78581760
+          },
+          {
+            "pid": 149302,
+            "name": "python",
+            "rss_bytes": 14987264,
+            "hwm_bytes": 14987264
+          }
+        ],
+        "sum_rss_bytes": 272953344,
+        "sample_duration_ns": 646736
+      },
+      "samples": 7069,
+      "max_sample_spacing_s": 0.016002459,
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 10000,
+      "sampled_peak_sum_rss_bytes": 18849792,
+      "peak_snapshot": {
+        "elapsed_ns": 1306394953,
+        "processes": [
+          {
+            "pid": 149606,
+            "name": "volume-batch",
+            "rss_bytes": 18849792,
+            "hwm_bytes": 18849792
+          }
+        ],
+        "sum_rss_bytes": 18849792,
+        "sample_duration_ns": 333888
+      },
+      "samples": 178,
+      "max_sample_spacing_s": 0.010487937,
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 10000,
+      "sampled_peak_sum_rss_bytes": 427520000,
+      "peak_snapshot": {
+        "elapsed_ns": 33286104535,
+        "processes": [
+          {
+            "pid": 149665,
+            "name": "python",
+            "rss_bytes": 99811328,
+            "hwm_bytes": 99811328
+          },
+          {
+            "pid": 149670,
+            "name": "python",
+            "rss_bytes": 78209024,
+            "hwm_bytes": 78356480
+          },
+          {
+            "pid": 149669,
+            "name": "python",
+            "rss_bytes": 78258176,
+            "hwm_bytes": 78618624
+          },
+          {
+            "pid": 149668,
+            "name": "python",
+            "rss_bytes": 78290944,
+            "hwm_bytes": 78290944
+          },
+          {
+            "pid": 149667,
+            "name": "python",
+            "rss_bytes": 77848576,
+            "hwm_bytes": 77971456
+          },
+          {
+            "pid": 149666,
+            "name": "python",
+            "rss_bytes": 15101952,
+            "hwm_bytes": 15101952
+          }
+        ],
+        "sum_rss_bytes": 427520000,
+        "sample_duration_ns": 796348
+      },
+      "samples": 3902,
+      "max_sample_spacing_s": 0.011884128,
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 10000,
+      "sampled_peak_sum_rss_bytes": 19836928,
+      "peak_snapshot": {
+        "elapsed_ns": 940400792,
+        "processes": [
+          {
+            "pid": 149892,
+            "name": "volume-batch",
+            "rss_bytes": 19836928,
+            "hwm_bytes": 19836928
+          }
+        ],
+        "sum_rss_bytes": 19836928,
+        "sample_duration_ns": 315013
+      },
+      "samples": 139,
+      "max_sample_spacing_s": 0.011352278,
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 10000,
+      "sampled_peak_sum_rss_bytes": 578805760,
+      "peak_snapshot": {
+        "elapsed_ns": 25442150326,
+        "processes": [
+          {
+            "pid": 149945,
+            "name": "python",
+            "rss_bytes": 99713024,
+            "hwm_bytes": 99713024
+          },
+          {
+            "pid": 149952,
+            "name": "python",
+            "rss_bytes": 76673024,
+            "hwm_bytes": 77910016
+          },
+          {
+            "pid": 149951,
+            "name": "python",
+            "rss_bytes": 77488128,
+            "hwm_bytes": 77713408
+          },
+          {
+            "pid": 149950,
+            "name": "python",
+            "rss_bytes": 77230080,
+            "hwm_bytes": 78016512
+          },
+          {
+            "pid": 149949,
+            "name": "python",
+            "rss_bytes": 77266944,
+            "hwm_bytes": 77844480
+          },
+          {
+            "pid": 149948,
+            "name": "python",
+            "rss_bytes": 77701120,
+            "hwm_bytes": 78049280
+          },
+          {
+            "pid": 149947,
+            "name": "python",
+            "rss_bytes": 77660160,
+            "hwm_bytes": 77959168
+          },
+          {
+            "pid": 149946,
+            "name": "python",
+            "rss_bytes": 15073280,
+            "hwm_bytes": 15073280
+          }
+        ],
+        "sum_rss_bytes": 578805760,
+        "sample_duration_ns": 1421765
+      },
+      "samples": 2617,
+      "max_sample_spacing_s": 0.012837362,
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68"
+    }
+  ],
+  "complete": true,
+  "scope": "Separate untimed-for-speed 10000-file launches. Sum concurrent process RSS including parent, workers and resource tracker; double counts shared pages; sampling can miss short peaks. Never sum independent high-water marks."
+}

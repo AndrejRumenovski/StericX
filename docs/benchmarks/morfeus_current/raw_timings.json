@@ -1,0 +1,4000 @@
+{
+  "started_utc": "2026-09-22T18:43:30.997252+00:00",
+  "status": "complete",
+  "samples": [
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 56,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:30.997987+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137223,
+        "wall_ns": 31704061,
+        "cpu_user_s": 0.027896,
+        "cpu_system_s": 0.003099,
+        "peak_rss_bytes": 3047424,
+        "minor_faults": 266,
+        "major_faults": 0,
+        "voluntary_context_switches": 9,
+        "involuntary_context_switches": 3,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w1/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 56,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:31.033379+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137232,
+        "wall_ns": 1164950810,
+        "cpu_user_s": 1.055596,
+        "cpu_system_s": 0.108958,
+        "peak_rss_bytes": 75415552,
+        "minor_faults": 51117,
+        "major_faults": 0,
+        "voluntary_context_switches": 4,
+        "involuntary_context_switches": 2,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w1/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 56,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:32.202074+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137307,
+        "wall_ns": 31572754,
+        "cpu_user_s": 0.024196,
+        "cpu_system_s": 0.006774,
+        "peak_rss_bytes": 3047424,
+        "minor_faults": 266,
+        "major_faults": 0,
+        "voluntary_context_switches": 9,
+        "involuntary_context_switches": 3,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w1/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 56,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:32.238711+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137310,
+        "wall_ns": 1005945941,
+        "cpu_user_s": 0.928533,
+        "cpu_system_s": 0.076961,
+        "peak_rss_bytes": 75505664,
+        "minor_faults": 36317,
+        "major_faults": 0,
+        "voluntary_context_switches": 4,
+        "involuntary_context_switches": 2,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w1/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 56,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:33.248911+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137312,
+        "wall_ns": 1068473618,
+        "cpu_user_s": 0.94794,
+        "cpu_system_s": 0.120119,
+        "peak_rss_bytes": 74964992,
+        "minor_faults": 67356,
+        "major_faults": 0,
+        "voluntary_context_switches": 4,
+        "involuntary_context_switches": 3,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w1/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 56,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:34.332113+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137314,
+        "wall_ns": 31187490,
+        "cpu_user_s": 0.027634,
+        "cpu_system_s": 0.00307,
+        "peak_rss_bytes": 3022848,
+        "minor_faults": 265,
+        "major_faults": 0,
+        "voluntary_context_switches": 9,
+        "involuntary_context_switches": 3,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w1/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 56,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:34.367434+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137317,
+        "wall_ns": 31030105,
+        "cpu_user_s": 0.026635,
+        "cpu_system_s": 0.004097,
+        "peak_rss_bytes": 3080192,
+        "minor_faults": 265,
+        "major_faults": 0,
+        "voluntary_context_switches": 9,
+        "involuntary_context_switches": 3,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w1/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 56,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:34.402147+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137320,
+        "wall_ns": 1060526022,
+        "cpu_user_s": 0.927853,
+        "cpu_system_s": 0.132121,
+        "peak_rss_bytes": 75550720,
+        "minor_faults": 67814,
+        "major_faults": 0,
+        "voluntary_context_switches": 4,
+        "involuntary_context_switches": 5,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w1/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 56,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:35.467045+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137322,
+        "wall_ns": 1036262072,
+        "cpu_user_s": 0.938725,
+        "cpu_system_s": 0.097075,
+        "peak_rss_bytes": 75259904,
+        "minor_faults": 49805,
+        "major_faults": 0,
+        "voluntary_context_switches": 4,
+        "involuntary_context_switches": 7,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w1/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 56,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:36.507617+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137340,
+        "wall_ns": 31097361,
+        "cpu_user_s": 0.028469,
+        "cpu_system_s": 0.002033,
+        "peak_rss_bytes": 3039232,
+        "minor_faults": 266,
+        "major_faults": 0,
+        "voluntary_context_switches": 9,
+        "involuntary_context_switches": 3,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w1/pair3-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 56,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:36.543271+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137343,
+        "wall_ns": 18618153,
+        "cpu_user_s": 0.027953,
+        "cpu_system_s": 0.003855,
+        "peak_rss_bytes": 3448832,
+        "minor_faults": 414,
+        "major_faults": 0,
+        "voluntary_context_switches": 12,
+        "involuntary_context_switches": 4,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w2/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 56,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:36.566206+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137347,
+        "wall_ns": 990778908,
+        "cpu_user_s": 1.462526,
+        "cpu_system_s": 0.216128,
+        "peak_rss_bytes": 75071488,
+        "minor_faults": 88061,
+        "major_faults": 0,
+        "voluntary_context_switches": 67,
+        "involuntary_context_switches": 44,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w2/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 56,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:37.565350+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137402,
+        "wall_ns": 21497718,
+        "cpu_user_s": 0.028171,
+        "cpu_system_s": 0.004857,
+        "peak_rss_bytes": 3284992,
+        "minor_faults": 413,
+        "major_faults": 0,
+        "voluntary_context_switches": 13,
+        "involuntary_context_switches": 3,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w2/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 56,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:37.593781+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137406,
+        "wall_ns": 921123326,
+        "cpu_user_s": 1.334332,
+        "cpu_system_s": 0.236202,
+        "peak_rss_bytes": 75579392,
+        "minor_faults": 89725,
+        "major_faults": 0,
+        "voluntary_context_switches": 66,
+        "involuntary_context_switches": 50,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w2/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 56,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:38.521896+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137414,
+        "wall_ns": 903809667,
+        "cpu_user_s": 1.312222,
+        "cpu_system_s": 0.221997,
+        "peak_rss_bytes": 75362304,
+        "minor_faults": 87396,
+        "major_faults": 0,
+        "voluntary_context_switches": 62,
+        "involuntary_context_switches": 51,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w2/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 56,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:39.430337+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137422,
+        "wall_ns": 18073839,
+        "cpu_user_s": 0.02598,
+        "cpu_system_s": 0.005196,
+        "peak_rss_bytes": 3284992,
+        "minor_faults": 413,
+        "major_faults": 0,
+        "voluntary_context_switches": 11,
+        "involuntary_context_switches": 2,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w2/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 56,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:39.452786+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137426,
+        "wall_ns": 18046267,
+        "cpu_user_s": 0.024568,
+        "cpu_system_s": 0.006614,
+        "peak_rss_bytes": 3399680,
+        "minor_faults": 414,
+        "major_faults": 0,
+        "voluntary_context_switches": 12,
+        "involuntary_context_switches": 2,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w2/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 56,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:39.475060+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137430,
+        "wall_ns": 905183851,
+        "cpu_user_s": 1.313528,
+        "cpu_system_s": 0.21642,
+        "peak_rss_bytes": 75243520,
+        "minor_faults": 79993,
+        "major_faults": 0,
+        "voluntary_context_switches": 83,
+        "involuntary_context_switches": 51,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w2/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 56,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:40.384987+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137446,
+        "wall_ns": 888914445,
+        "cpu_user_s": 1.333411,
+        "cpu_system_s": 0.183829,
+        "peak_rss_bytes": 75079680,
+        "minor_faults": 79375,
+        "major_faults": 0,
+        "voluntary_context_switches": 71,
+        "involuntary_context_switches": 45,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w2/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 56,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:41.278812+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137454,
+        "wall_ns": 18264528,
+        "cpu_user_s": 0.028244,
+        "cpu_system_s": 0.003026,
+        "peak_rss_bytes": 3416064,
+        "minor_faults": 414,
+        "major_faults": 0,
+        "voluntary_context_switches": 13,
+        "involuntary_context_switches": 3,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w2/pair3-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 56,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:41.303035+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137458,
+        "wall_ns": 11932309,
+        "cpu_user_s": 0.028149,
+        "cpu_system_s": 0.005824,
+        "peak_rss_bytes": 4018176,
+        "minor_faults": 660,
+        "major_faults": 0,
+        "voluntary_context_switches": 25,
+        "involuntary_context_switches": 3,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w4/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 56,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:41.319186+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137464,
+        "wall_ns": 806400943,
+        "cpu_user_s": 1.944183,
+        "cpu_system_s": 0.295104,
+        "peak_rss_bytes": 75218944,
+        "minor_faults": 111901,
+        "major_faults": 0,
+        "voluntary_context_switches": 94,
+        "involuntary_context_switches": 118,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w4/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 56,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:42.130240+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137520,
+        "wall_ns": 12501009,
+        "cpu_user_s": 0.031678,
+        "cpu_system_s": 0.003959,
+        "peak_rss_bytes": 4210688,
+        "minor_faults": 711,
+        "major_faults": 0,
+        "voluntary_context_switches": 23,
+        "involuntary_context_switches": 4,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w4/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 56,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:42.147509+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137526,
+        "wall_ns": 765934963,
+        "cpu_user_s": 1.767593,
+        "cpu_system_s": 0.318179,
+        "peak_rss_bytes": 75014144,
+        "minor_faults": 110731,
+        "major_faults": 0,
+        "voluntary_context_switches": 96,
+        "involuntary_context_switches": 90,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w4/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 56,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:42.919887+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137537,
+        "wall_ns": 754073147,
+        "cpu_user_s": 1.792445,
+        "cpu_system_s": 0.271865,
+        "peak_rss_bytes": 75419648,
+        "minor_faults": 116762,
+        "major_faults": 0,
+        "voluntary_context_switches": 91,
+        "involuntary_context_switches": 79,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w4/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 56,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:43.678763+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137547,
+        "wall_ns": 16085741,
+        "cpu_user_s": 0.03003,
+        "cpu_system_s": 0.005362,
+        "peak_rss_bytes": 4218880,
+        "minor_faults": 612,
+        "major_faults": 0,
+        "voluntary_context_switches": 22,
+        "involuntary_context_switches": 73,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w4/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 56,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:43.699832+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137553,
+        "wall_ns": 11990208,
+        "cpu_user_s": 0.026617,
+        "cpu_system_s": 0.007166,
+        "peak_rss_bytes": 4112384,
+        "minor_faults": 708,
+        "major_faults": 0,
+        "voluntary_context_switches": 20,
+        "involuntary_context_switches": 4,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w4/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 56,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:43.716756+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137559,
+        "wall_ns": 770138809,
+        "cpu_user_s": 1.729375,
+        "cpu_system_s": 0.334321,
+        "peak_rss_bytes": 75325440,
+        "minor_faults": 115016,
+        "major_faults": 0,
+        "voluntary_context_switches": 89,
+        "involuntary_context_switches": 118,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w4/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 56,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:44.491908+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137569,
+        "wall_ns": 741904783,
+        "cpu_user_s": 1.781415,
+        "cpu_system_s": 0.295891,
+        "peak_rss_bytes": 75591680,
+        "minor_faults": 111291,
+        "major_faults": 0,
+        "voluntary_context_switches": 88,
+        "involuntary_context_switches": 78,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w4/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 56,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:43:45.238995+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137579,
+        "wall_ns": 11493434,
+        "cpu_user_s": 0.029048,
+        "cpu_system_s": 0.004303,
+        "peak_rss_bytes": 4165632,
+        "minor_faults": 708,
+        "major_faults": 0,
+        "voluntary_context_switches": 24,
+        "involuntary_context_switches": 4,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w4/pair3-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 56,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:43:45.256002+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137585,
+        "wall_ns": 9798066,
+        "cpu_user_s": 0.031756,
+        "cpu_system_s": 0.003402,
+        "peak_rss_bytes": 4583424,
+        "minor_faults": 965,
+        "major_faults": 0,
+        "voluntary_context_switches": 47,
+        "involuntary_context_switches": 4,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w6/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 56,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:43:45.271067+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137593,
+        "wall_ns": 680005427,
+        "cpu_user_s": 2.255016,
+        "cpu_system_s": 0.428758,
+        "peak_rss_bytes": 75448320,
+        "minor_faults": 142425,
+        "major_faults": 0,
+        "voluntary_context_switches": 113,
+        "involuntary_context_switches": 71,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w6/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 56,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:43:45.956541+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137605,
+        "wall_ns": 9746619,
+        "cpu_user_s": 0.026361,
+        "cpu_system_s": 0.009125,
+        "peak_rss_bytes": 4816896,
+        "minor_faults": 957,
+        "major_faults": 0,
+        "voluntary_context_switches": 50,
+        "involuntary_context_switches": 10,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w6/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 56,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:43:45.971591+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137613,
+        "wall_ns": 675058103,
+        "cpu_user_s": 2.276578,
+        "cpu_system_s": 0.389275,
+        "peak_rss_bytes": 75386880,
+        "minor_faults": 137144,
+        "major_faults": 0,
+        "voluntary_context_switches": 110,
+        "involuntary_context_switches": 74,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w6/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 56,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:43:46.652151+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137649,
+        "wall_ns": 707017937,
+        "cpu_user_s": 2.335365,
+        "cpu_system_s": 0.431986,
+        "peak_rss_bytes": 75280384,
+        "minor_faults": 141493,
+        "major_faults": 0,
+        "voluntary_context_switches": 108,
+        "involuntary_context_switches": 106,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w6/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 56,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:43:47.365099+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137684,
+        "wall_ns": 11411300,
+        "cpu_user_s": 0.032413,
+        "cpu_system_s": 0.003928,
+        "peak_rss_bytes": 4546560,
+        "minor_faults": 958,
+        "major_faults": 0,
+        "voluntary_context_switches": 47,
+        "involuntary_context_switches": 73,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w6/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 56,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:43:47.382019+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137692,
+        "wall_ns": 10985388,
+        "cpu_user_s": 0.032453,
+        "cpu_system_s": 0.004772,
+        "peak_rss_bytes": 4603904,
+        "minor_faults": 961,
+        "major_faults": 0,
+        "voluntary_context_switches": 42,
+        "involuntary_context_switches": 8,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w6/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 56,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:43:47.398327+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137700,
+        "wall_ns": 685213862,
+        "cpu_user_s": 2.321845,
+        "cpu_system_s": 0.403995,
+        "peak_rss_bytes": 75128832,
+        "minor_faults": 141883,
+        "major_faults": 0,
+        "voluntary_context_switches": 113,
+        "involuntary_context_switches": 68,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w6/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 56,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:43:48.089381+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137712,
+        "wall_ns": 674679051,
+        "cpu_user_s": 2.271669,
+        "cpu_system_s": 0.410623,
+        "peak_rss_bytes": 75296768,
+        "minor_faults": 142179,
+        "major_faults": 0,
+        "voluntary_context_switches": 138,
+        "involuntary_context_switches": 63,
+        "returncode": 0
+      },
+      "stdout_sha256": "d498694de41990124aa5ea8b1a2aa6d3c5bef76b419beaaa2712b07520bee851",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w6/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 56,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:43:48.770155+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137724,
+        "wall_ns": 11441507,
+        "cpu_user_s": 0.032407,
+        "cpu_system_s": 0.003928,
+        "peak_rss_bytes": 4878336,
+        "minor_faults": 916,
+        "major_faults": 0,
+        "voluntary_context_switches": 47,
+        "involuntary_context_switches": 10,
+        "returncode": 0
+      },
+      "stdout_sha256": "aff8a4218ea007b69aea33097305a47faccb096255e31d7845eac8484526894b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n56-w6/pair3-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 1000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:48.789582+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137732,
+        "wall_ns": 543651765,
+        "cpu_user_s": 0.479828,
+        "cpu_system_s": 0.054093,
+        "peak_rss_bytes": 4534272,
+        "minor_faults": 610,
+        "major_faults": 0,
+        "voluntary_context_switches": 119,
+        "involuntary_context_switches": 6,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w1/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 1000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:43:49.345636+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137735,
+        "wall_ns": 15292048592,
+        "cpu_user_s": 13.633637,
+        "cpu_system_s": 1.652198,
+        "peak_rss_bytes": 77950976,
+        "minor_faults": 1129092,
+        "major_faults": 0,
+        "voluntary_context_switches": 59,
+        "involuntary_context_switches": 116,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w1/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 1000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:44:04.670821+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137786,
+        "wall_ns": 536208087,
+        "cpu_user_s": 0.478382,
+        "cpu_system_s": 0.047938,
+        "peak_rss_bytes": 4440064,
+        "minor_faults": 610,
+        "major_faults": 0,
+        "voluntary_context_switches": 119,
+        "involuntary_context_switches": 10,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w1/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 1000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:44:05.219660+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137812,
+        "wall_ns": 15314970178,
+        "cpu_user_s": 13.251228,
+        "cpu_system_s": 2.057569,
+        "peak_rss_bytes": 77799424,
+        "minor_faults": 1365131,
+        "major_faults": 0,
+        "voluntary_context_switches": 59,
+        "involuntary_context_switches": 143,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w1/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 1000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:44:20.559484+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137947,
+        "wall_ns": 14849943583,
+        "cpu_user_s": 13.151687,
+        "cpu_system_s": 1.677832,
+        "peak_rss_bytes": 77733888,
+        "minor_faults": 1155887,
+        "major_faults": 0,
+        "voluntary_context_switches": 59,
+        "involuntary_context_switches": 141,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w1/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 1000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:44:35.431541+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137995,
+        "wall_ns": 536349913,
+        "cpu_user_s": 0.481128,
+        "cpu_system_s": 0.045199,
+        "peak_rss_bytes": 4419584,
+        "minor_faults": 610,
+        "major_faults": 0,
+        "voluntary_context_switches": 119,
+        "involuntary_context_switches": 8,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w1/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 1000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:44:35.979536+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 137998,
+        "wall_ns": 573004604,
+        "cpu_user_s": 0.498036,
+        "cpu_system_s": 0.049102,
+        "peak_rss_bytes": 4468736,
+        "minor_faults": 609,
+        "major_faults": 0,
+        "voluntary_context_switches": 119,
+        "involuntary_context_switches": 8,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w1/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 1000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:44:36.564683+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138074,
+        "wall_ns": 14156734015,
+        "cpu_user_s": 12.922707,
+        "cpu_system_s": 1.227687,
+        "peak_rss_bytes": 77856768,
+        "minor_faults": 798824,
+        "major_faults": 0,
+        "voluntary_context_switches": 59,
+        "involuntary_context_switches": 134,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w1/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 1000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:44:50.746683+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138162,
+        "wall_ns": 14846895912,
+        "cpu_user_s": 13.128049,
+        "cpu_system_s": 1.712615,
+        "peak_rss_bytes": 77852672,
+        "minor_faults": 1144586,
+        "major_faults": 0,
+        "voluntary_context_switches": 59,
+        "involuntary_context_switches": 137,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w1/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 1000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:45:05.606642+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138256,
+        "wall_ns": 545007805,
+        "cpu_user_s": 0.478759,
+        "cpu_system_s": 0.055855,
+        "peak_rss_bytes": 4562944,
+        "minor_faults": 611,
+        "major_faults": 0,
+        "voluntary_context_switches": 119,
+        "involuntary_context_switches": 8,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w1/pair3-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 1000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:06.166200+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138282,
+        "wall_ns": 320596874,
+        "cpu_user_s": 0.53041,
+        "cpu_system_s": 0.043704,
+        "peak_rss_bytes": 4849664,
+        "minor_faults": 751,
+        "major_faults": 0,
+        "voluntary_context_switches": 125,
+        "involuntary_context_switches": 5,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w2/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 1000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:06.499279+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138307,
+        "wall_ns": 7982096644,
+        "cpu_user_s": 14.075964,
+        "cpu_system_s": 1.500269,
+        "peak_rss_bytes": 75776000,
+        "minor_faults": 933164,
+        "major_faults": 0,
+        "voluntary_context_switches": 135,
+        "involuntary_context_switches": 125,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w2/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 1000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:14.493750+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138422,
+        "wall_ns": 310616416,
+        "cpu_user_s": 0.493148,
+        "cpu_system_s": 0.05191,
+        "peak_rss_bytes": 4837376,
+        "minor_faults": 751,
+        "major_faults": 0,
+        "voluntary_context_switches": 123,
+        "involuntary_context_switches": 2,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w2/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 1000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:14.816335+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138426,
+        "wall_ns": 7988911589,
+        "cpu_user_s": 14.179975,
+        "cpu_system_s": 1.375137,
+        "peak_rss_bytes": 76103680,
+        "minor_faults": 816845,
+        "major_faults": 0,
+        "voluntary_context_switches": 132,
+        "involuntary_context_switches": 121,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w2/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 1000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:22.817301+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138480,
+        "wall_ns": 7989838272,
+        "cpu_user_s": 14.030628,
+        "cpu_system_s": 1.516291,
+        "peak_rss_bytes": 76083200,
+        "minor_faults": 899161,
+        "major_faults": 0,
+        "voluntary_context_switches": 135,
+        "involuntary_context_switches": 137,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w2/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 1000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:30.819656+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138534,
+        "wall_ns": 311311232,
+        "cpu_user_s": 0.500035,
+        "cpu_system_s": 0.051003,
+        "peak_rss_bytes": 4845568,
+        "minor_faults": 753,
+        "major_faults": 0,
+        "voluntary_context_switches": 124,
+        "involuntary_context_switches": 8,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w2/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 1000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:31.143154+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138538,
+        "wall_ns": 307653984,
+        "cpu_user_s": 0.493026,
+        "cpu_system_s": 0.048804,
+        "peak_rss_bytes": 4964352,
+        "minor_faults": 753,
+        "major_faults": 0,
+        "voluntary_context_switches": 123,
+        "involuntary_context_switches": 9,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w2/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 1000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:31.464134+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138565,
+        "wall_ns": 8208763737,
+        "cpu_user_s": 14.313445,
+        "cpu_system_s": 1.638997,
+        "peak_rss_bytes": 76263424,
+        "minor_faults": 1022620,
+        "major_faults": 0,
+        "voluntary_context_switches": 142,
+        "involuntary_context_switches": 131,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w2/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 1000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:39.696327+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138659,
+        "wall_ns": 7746726173,
+        "cpu_user_s": 13.885263,
+        "cpu_system_s": 1.190655,
+        "peak_rss_bytes": 76161024,
+        "minor_faults": 686267,
+        "major_faults": 0,
+        "voluntary_context_switches": 133,
+        "involuntary_context_switches": 129,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w2/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 1000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:47.470279+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138721,
+        "wall_ns": 303546400,
+        "cpu_user_s": 0.491037,
+        "cpu_system_s": 0.047906,
+        "peak_rss_bytes": 4845568,
+        "minor_faults": 753,
+        "major_faults": 0,
+        "voluntary_context_switches": 122,
+        "involuntary_context_switches": 4,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w2/pair3-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 1000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:47.789709+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138725,
+        "wall_ns": 199418400,
+        "cpu_user_s": 0.512491,
+        "cpu_system_s": 0.056943,
+        "peak_rss_bytes": 5005312,
+        "minor_faults": 893,
+        "major_faults": 0,
+        "voluntary_context_switches": 138,
+        "involuntary_context_switches": 4,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w4/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 1000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:48.001706+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138731,
+        "wall_ns": 4466138892,
+        "cpu_user_s": 15.011519,
+        "cpu_system_s": 1.524076,
+        "peak_rss_bytes": 76017664,
+        "minor_faults": 817717,
+        "major_faults": 0,
+        "voluntary_context_switches": 160,
+        "involuntary_context_switches": 111,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w4/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 1000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:52.480340+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138788,
+        "wall_ns": 188351568,
+        "cpu_user_s": 0.509316,
+        "cpu_system_s": 0.05234,
+        "peak_rss_bytes": 4841472,
+        "minor_faults": 892,
+        "major_faults": 0,
+        "voluntary_context_switches": 139,
+        "involuntary_context_switches": 9,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w4/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 1000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:52.680946+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138794,
+        "wall_ns": 4658447121,
+        "cpu_user_s": 15.186134,
+        "cpu_system_s": 1.851348,
+        "peak_rss_bytes": 75960320,
+        "minor_faults": 1033338,
+        "major_faults": 0,
+        "voluntary_context_switches": 172,
+        "involuntary_context_switches": 124,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w4/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 1000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:45:57.351645+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138888,
+        "wall_ns": 4640870657,
+        "cpu_user_s": 15.130917,
+        "cpu_system_s": 2.290031,
+        "peak_rss_bytes": 75821056,
+        "minor_faults": 1309774,
+        "major_faults": 0,
+        "voluntary_context_switches": 172,
+        "involuntary_context_switches": 115,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w4/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 1000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:46:02.021527+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138944,
+        "wall_ns": 184518920,
+        "cpu_user_s": 0.50786,
+        "cpu_system_s": 0.045344,
+        "peak_rss_bytes": 4837376,
+        "minor_faults": 893,
+        "major_faults": 0,
+        "voluntary_context_switches": 136,
+        "involuntary_context_switches": 7,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w4/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 1000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:46:02.218727+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138950,
+        "wall_ns": 187614342,
+        "cpu_user_s": 0.512895,
+        "cpu_system_s": 0.044336,
+        "peak_rss_bytes": 4837376,
+        "minor_faults": 893,
+        "major_faults": 0,
+        "voluntary_context_switches": 140,
+        "involuntary_context_switches": 5,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w4/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 1000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:46:02.419530+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 138956,
+        "wall_ns": 4572692854,
+        "cpu_user_s": 15.071958,
+        "cpu_system_s": 1.967554,
+        "peak_rss_bytes": 75964416,
+        "minor_faults": 1080533,
+        "major_faults": 0,
+        "voluntary_context_switches": 179,
+        "involuntary_context_switches": 139,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w4/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 1000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:46:07.005432+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139012,
+        "wall_ns": 4620667223,
+        "cpu_user_s": 15.118579,
+        "cpu_system_s": 2.163936,
+        "peak_rss_bytes": 76087296,
+        "minor_faults": 1251339,
+        "major_faults": 0,
+        "voluntary_context_switches": 167,
+        "involuntary_context_switches": 120,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w4/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 1000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:46:11.639099+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139126,
+        "wall_ns": 186086789,
+        "cpu_user_s": 0.505802,
+        "cpu_system_s": 0.051081,
+        "peak_rss_bytes": 4837376,
+        "minor_faults": 894,
+        "major_faults": 0,
+        "voluntary_context_switches": 140,
+        "involuntary_context_switches": 8,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w4/pair3-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 1000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:46:11.840359+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139132,
+        "wall_ns": 157504839,
+        "cpu_user_s": 0.514503,
+        "cpu_system_s": 0.052846,
+        "peak_rss_bytes": 5382144,
+        "minor_faults": 1110,
+        "major_faults": 0,
+        "voluntary_context_switches": 149,
+        "involuntary_context_switches": 39,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w6/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 1000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:46:12.019664+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139140,
+        "wall_ns": 3402077051,
+        "cpu_user_s": 16.376957,
+        "cpu_system_s": 1.881589,
+        "peak_rss_bytes": 76046336,
+        "minor_faults": 929523,
+        "major_faults": 0,
+        "voluntary_context_switches": 208,
+        "involuntary_context_switches": 125,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w6/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 1000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:46:15.435613+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139199,
+        "wall_ns": 143199035,
+        "cpu_user_s": 0.528241,
+        "cpu_system_s": 0.043019,
+        "peak_rss_bytes": 5283840,
+        "minor_faults": 1128,
+        "major_faults": 0,
+        "voluntary_context_switches": 148,
+        "involuntary_context_switches": 8,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w6/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 1000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:46:15.592185+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139207,
+        "wall_ns": 3524032496,
+        "cpu_user_s": 16.442776,
+        "cpu_system_s": 2.454865,
+        "peak_rss_bytes": 75694080,
+        "minor_faults": 1281914,
+        "major_faults": 0,
+        "voluntary_context_switches": 200,
+        "involuntary_context_switches": 193,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w6/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 1000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:46:19.140633+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139287,
+        "wall_ns": 3381181916,
+        "cpu_user_s": 16.237429,
+        "cpu_system_s": 1.99447,
+        "peak_rss_bytes": 75894784,
+        "minor_faults": 1006842,
+        "major_faults": 0,
+        "voluntary_context_switches": 210,
+        "involuntary_context_switches": 140,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w6/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 1000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:46:22.535685+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139315,
+        "wall_ns": 145645086,
+        "cpu_user_s": 0.51727,
+        "cpu_system_s": 0.056591,
+        "peak_rss_bytes": 5234688,
+        "minor_faults": 1126,
+        "major_faults": 0,
+        "voluntary_context_switches": 152,
+        "involuntary_context_switches": 7,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w6/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 1000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:46:22.694919+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139323,
+        "wall_ns": 149488233,
+        "cpu_user_s": 0.530291,
+        "cpu_system_s": 0.044274,
+        "peak_rss_bytes": 5328896,
+        "minor_faults": 1121,
+        "major_faults": 0,
+        "voluntary_context_switches": 144,
+        "involuntary_context_switches": 25,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w6/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 1000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:46:22.857973+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139331,
+        "wall_ns": 3412728742,
+        "cpu_user_s": 16.174878,
+        "cpu_system_s": 1.917703,
+        "peak_rss_bytes": 75923456,
+        "minor_faults": 960736,
+        "major_faults": 0,
+        "voluntary_context_switches": 207,
+        "involuntary_context_switches": 188,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w6/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 1000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:46:26.287738+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139389,
+        "wall_ns": 3459077704,
+        "cpu_user_s": 16.285165,
+        "cpu_system_s": 2.076815,
+        "peak_rss_bytes": 76009472,
+        "minor_faults": 1040833,
+        "major_faults": 0,
+        "voluntary_context_switches": 209,
+        "involuntary_context_switches": 148,
+        "returncode": 0
+      },
+      "stdout_sha256": "e982f0d4e714a4d6a90c8a5357c0a738c953210b4e3103801e42e0f8b2783208",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w6/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 1000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T18:46:29.784246+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139447,
+        "wall_ns": 144496786,
+        "cpu_user_s": 0.510961,
+        "cpu_system_s": 0.058651,
+        "peak_rss_bytes": 5378048,
+        "minor_faults": 1167,
+        "major_faults": 0,
+        "voluntary_context_switches": 142,
+        "involuntary_context_switches": 12,
+        "returncode": 0
+      },
+      "stdout_sha256": "f5ad39c81db0e891d8570e34adc3890675ee5548edc4f7f041dc241a7f9aa0ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n1000-w6/pair3-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 10000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:46:29.963287+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139455,
+        "wall_ns": 5512243134,
+        "cpu_user_s": 4.877269,
+        "cpu_system_s": 0.500822,
+        "peak_rss_bytes": 17301504,
+        "minor_faults": 3835,
+        "major_faults": 0,
+        "voluntary_context_switches": 1165,
+        "involuntary_context_switches": 54,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w1/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 10000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:46:35.559343+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 139507,
+        "wall_ns": 143082433383,
+        "cpu_user_s": 131.027222,
+        "cpu_system_s": 11.994013,
+        "peak_rss_bytes": 102039552,
+        "minor_faults": 7860320,
+        "major_faults": 0,
+        "voluntary_context_switches": 579,
+        "involuntary_context_switches": 1298,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w1/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 10000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:48:58.722381+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 140029,
+        "wall_ns": 5412657816,
+        "cpu_user_s": 4.826399,
+        "cpu_system_s": 0.491142,
+        "peak_rss_bytes": 17301504,
+        "minor_faults": 3834,
+        "major_faults": 0,
+        "voluntary_context_switches": 1163,
+        "involuntary_context_switches": 48,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w1/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 10000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:49:04.212182+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 140102,
+        "wall_ns": 139357555041,
+        "cpu_user_s": 127.470151,
+        "cpu_system_s": 11.825993,
+        "peak_rss_bytes": 102006784,
+        "minor_faults": 7987825,
+        "major_faults": 0,
+        "voluntary_context_switches": 579,
+        "involuntary_context_switches": 1332,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w1/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 10000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:51:23.651773+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 140795,
+        "wall_ns": 140871718271,
+        "cpu_user_s": 128.957942,
+        "cpu_system_s": 11.837902,
+        "peak_rss_bytes": 101851136,
+        "minor_faults": 7839489,
+        "major_faults": 0,
+        "voluntary_context_switches": 579,
+        "involuntary_context_switches": 1312,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w1/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 10000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:53:44.608517+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 141175,
+        "wall_ns": 5546741089,
+        "cpu_user_s": 4.963512,
+        "cpu_system_s": 0.479566,
+        "peak_rss_bytes": 17285120,
+        "minor_faults": 3835,
+        "major_faults": 0,
+        "voluntary_context_switches": 1163,
+        "involuntary_context_switches": 56,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w1/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 10000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:53:50.257910+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 141247,
+        "wall_ns": 5548301243,
+        "cpu_user_s": 4.978108,
+        "cpu_system_s": 0.485522,
+        "peak_rss_bytes": 17297408,
+        "minor_faults": 3834,
+        "major_faults": 0,
+        "voluntary_context_switches": 1163,
+        "involuntary_context_switches": 58,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w1/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 10000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:53:55.884044+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 141336,
+        "wall_ns": 136563412367,
+        "cpu_user_s": 127.964805,
+        "cpu_system_s": 8.531853,
+        "peak_rss_bytes": 101765120,
+        "minor_faults": 5394671,
+        "major_faults": 0,
+        "voluntary_context_switches": 579,
+        "involuntary_context_switches": 1314,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w1/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 1,
+      "structures": 10000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:56:12.523907+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 141880,
+        "wall_ns": 140564558505,
+        "cpu_user_s": 128.258479,
+        "cpu_system_s": 12.217569,
+        "peak_rss_bytes": 101888000,
+        "minor_faults": 8084815,
+        "major_faults": 0,
+        "voluntary_context_switches": 580,
+        "involuntary_context_switches": 1280,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w1/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 1,
+      "structures": 10000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2
+      ],
+      "started_utc": "2026-09-22T18:58:33.167868+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 142448,
+        "wall_ns": 5614988814,
+        "cpu_user_s": 4.904724,
+        "cpu_system_s": 0.618595,
+        "peak_rss_bytes": 17301504,
+        "minor_faults": 3835,
+        "major_faults": 0,
+        "voluntary_context_switches": 1163,
+        "involuntary_context_switches": 48,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w1/pair3-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 10000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:58:38.903744+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 142543,
+        "wall_ns": 3076904310,
+        "cpu_user_s": 4.901086,
+        "cpu_system_s": 0.482796,
+        "peak_rss_bytes": 17702912,
+        "minor_faults": 3990,
+        "major_faults": 0,
+        "voluntary_context_switches": 1165,
+        "involuntary_context_switches": 37,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w2/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 10000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:58:42.058190+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 142556,
+        "wall_ns": 77665654704,
+        "cpu_user_s": 132.771789,
+        "cpu_system_s": 14.314992,
+        "peak_rss_bytes": 102174720,
+        "minor_faults": 9244577,
+        "major_faults": 0,
+        "voluntary_context_switches": 823,
+        "involuntary_context_switches": 901,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w2/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 10000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T18:59:59.802411+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 142849,
+        "wall_ns": 3585143913,
+        "cpu_user_s": 4.920465,
+        "cpu_system_s": 0.486046,
+        "peak_rss_bytes": 17657856,
+        "minor_faults": 3988,
+        "major_faults": 0,
+        "voluntary_context_switches": 1168,
+        "involuntary_context_switches": 34,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w2/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 10000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:00:03.462619+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 142924,
+        "wall_ns": 79544303589,
+        "cpu_user_s": 136.692727,
+        "cpu_system_s": 21.434916,
+        "peak_rss_bytes": 102555648,
+        "minor_faults": 14329053,
+        "major_faults": 0,
+        "voluntary_context_switches": 810,
+        "involuntary_context_switches": 950,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w2/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 10000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:01:23.093860+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 143322,
+        "wall_ns": 78177466882,
+        "cpu_user_s": 134.477332,
+        "cpu_system_s": 14.946433,
+        "peak_rss_bytes": 102219776,
+        "minor_faults": 9850792,
+        "major_faults": 0,
+        "voluntary_context_switches": 824,
+        "involuntary_context_switches": 912,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w2/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 10000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:02:41.345182+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 143622,
+        "wall_ns": 3195778317,
+        "cpu_user_s": 5.091766,
+        "cpu_system_s": 0.496367,
+        "peak_rss_bytes": 17694720,
+        "minor_faults": 3986,
+        "major_faults": 0,
+        "voluntary_context_switches": 1164,
+        "involuntary_context_switches": 36,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w2/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 10000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:02:44.621305+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 143690,
+        "wall_ns": 3104158620,
+        "cpu_user_s": 5.067632,
+        "cpu_system_s": 0.475246,
+        "peak_rss_bytes": 17825792,
+        "minor_faults": 3987,
+        "major_faults": 0,
+        "voluntary_context_switches": 1166,
+        "involuntary_context_switches": 38,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w2/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 10000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:02:47.799895+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 143740,
+        "wall_ns": 75876824872,
+        "cpu_user_s": 134.752277,
+        "cpu_system_s": 13.485566,
+        "peak_rss_bytes": 102240256,
+        "minor_faults": 8530140,
+        "major_faults": 0,
+        "voluntary_context_switches": 818,
+        "involuntary_context_switches": 858,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w2/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 2,
+      "structures": 10000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:04:03.752484+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 143964,
+        "wall_ns": 79187211808,
+        "cpu_user_s": 134.698091,
+        "cpu_system_s": 20.731174,
+        "peak_rss_bytes": 102240256,
+        "minor_faults": 13750375,
+        "major_faults": 0,
+        "voluntary_context_switches": 835,
+        "involuntary_context_switches": 909,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w2/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 2,
+      "structures": 10000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:05:23.054992+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 144319,
+        "wall_ns": 3074102067,
+        "cpu_user_s": 4.953458,
+        "cpu_system_s": 0.500137,
+        "peak_rss_bytes": 17690624,
+        "minor_faults": 3991,
+        "major_faults": 0,
+        "voluntary_context_switches": 1165,
+        "involuntary_context_switches": 33,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w2/pair3-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 10000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:05:26.224283+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 144385,
+        "wall_ns": 1796720745,
+        "cpu_user_s": 5.065517,
+        "cpu_system_s": 0.482525,
+        "peak_rss_bytes": 18407424,
+        "minor_faults": 4309,
+        "major_faults": 0,
+        "voluntary_context_switches": 1177,
+        "involuntary_context_switches": 27,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w4/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 10000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:05:28.097437+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 144392,
+        "wall_ns": 40068348283,
+        "cpu_user_s": 140.36783,
+        "cpu_system_s": 12.922012,
+        "peak_rss_bytes": 101642240,
+        "minor_faults": 7590234,
+        "major_faults": 0,
+        "voluntary_context_switches": 911,
+        "involuntary_context_switches": 707,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w4/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 10000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:06:08.244106+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 144607,
+        "wall_ns": 1814086167,
+        "cpu_user_s": 5.169844,
+        "cpu_system_s": 0.468076,
+        "peak_rss_bytes": 18608128,
+        "minor_faults": 4303,
+        "major_faults": 0,
+        "voluntary_context_switches": 1184,
+        "involuntary_context_switches": 22,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w4/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 10000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:06:10.139483+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 144659,
+        "wall_ns": 42694270069,
+        "cpu_user_s": 142.203913,
+        "cpu_system_s": 23.021247,
+        "peak_rss_bytes": 101437440,
+        "minor_faults": 13911663,
+        "major_faults": 0,
+        "voluntary_context_switches": 918,
+        "involuntary_context_switches": 713,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w4/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 10000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:06:52.911787+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 144821,
+        "wall_ns": 41410902939,
+        "cpu_user_s": 142.853616,
+        "cpu_system_s": 16.64553,
+        "peak_rss_bytes": 101486592,
+        "minor_faults": 9980393,
+        "major_faults": 0,
+        "voluntary_context_switches": 912,
+        "involuntary_context_switches": 719,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w4/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 10000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:07:34.398947+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 145012,
+        "wall_ns": 1889957112,
+        "cpu_user_s": 5.153181,
+        "cpu_system_s": 0.511918,
+        "peak_rss_bytes": 18460672,
+        "minor_faults": 4254,
+        "major_faults": 0,
+        "voluntary_context_switches": 1178,
+        "involuntary_context_switches": 40,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w4/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 10000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:07:36.368094+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 145041,
+        "wall_ns": 1858402311,
+        "cpu_user_s": 5.096235,
+        "cpu_system_s": 0.514518,
+        "peak_rss_bytes": 18608128,
+        "minor_faults": 4303,
+        "major_faults": 0,
+        "voluntary_context_switches": 1179,
+        "involuntary_context_switches": 29,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w4/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 10000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:07:38.301813+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 145063,
+        "wall_ns": 41802196343,
+        "cpu_user_s": 141.589473,
+        "cpu_system_s": 19.077409,
+        "peak_rss_bytes": 101560320,
+        "minor_faults": 11460569,
+        "major_faults": 0,
+        "voluntary_context_switches": 911,
+        "involuntary_context_switches": 735,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w4/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 4,
+      "structures": 10000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:08:20.178888+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 145219,
+        "wall_ns": 41780253730,
+        "cpu_user_s": 140.750556,
+        "cpu_system_s": 15.769108,
+        "peak_rss_bytes": 101605376,
+        "minor_faults": 9445195,
+        "major_faults": 0,
+        "voluntary_context_switches": 930,
+        "involuntary_context_switches": 747,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w4/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 4,
+      "structures": 10000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "started_utc": "2026-09-22T19:09:02.037951+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 145397,
+        "wall_ns": 1810998791,
+        "cpu_user_s": 5.141844,
+        "cpu_system_s": 0.494696,
+        "peak_rss_bytes": 18608128,
+        "minor_faults": 4303,
+        "major_faults": 0,
+        "voluntary_context_switches": 1175,
+        "involuntary_context_switches": 93,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w4/pair3-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 10000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T19:09:03.962724+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 145487,
+        "wall_ns": 1431252297,
+        "cpu_user_s": 5.286791,
+        "cpu_system_s": 0.494886,
+        "peak_rss_bytes": 19476480,
+        "minor_faults": 4635,
+        "major_faults": 0,
+        "voluntary_context_switches": 1206,
+        "involuntary_context_switches": 34,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w6/warmup-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 10000,
+      "phase": "warmup",
+      "pair": -1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T19:09:05.467801+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 145496,
+        "wall_ns": 29200251615,
+        "cpu_user_s": 149.680993,
+        "cpu_system_s": 18.676127,
+        "peak_rss_bytes": 101515264,
+        "minor_faults": 10273599,
+        "major_faults": 0,
+        "voluntary_context_switches": 981,
+        "involuntary_context_switches": 711,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w6/warmup-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 10000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T19:09:34.764536+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 145643,
+        "wall_ns": 1501550360,
+        "cpu_user_s": 5.439341,
+        "cpu_system_s": 0.52906,
+        "peak_rss_bytes": 19267584,
+        "minor_faults": 4631,
+        "major_faults": 0,
+        "voluntary_context_switches": 1208,
+        "involuntary_context_switches": 53,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w6/pair0-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 10000,
+      "phase": "pair0",
+      "pair": 0,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T19:09:36.343581+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 145697,
+        "wall_ns": 29645770056,
+        "cpu_user_s": 150.516186,
+        "cpu_system_s": 18.674343,
+        "peak_rss_bytes": 101199872,
+        "minor_faults": 10481767,
+        "major_faults": 0,
+        "voluntary_context_switches": 965,
+        "involuntary_context_switches": 695,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w6/pair0-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 10000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T19:10:06.070397+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 145873,
+        "wall_ns": 29764573085,
+        "cpu_user_s": 150.261004,
+        "cpu_system_s": 20.254123,
+        "peak_rss_bytes": 101036032,
+        "minor_faults": 11268444,
+        "major_faults": 0,
+        "voluntary_context_switches": 972,
+        "involuntary_context_switches": 683,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w6/pair1-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 10000,
+      "phase": "pair1",
+      "pair": 1,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T19:10:35.912971+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 146137,
+        "wall_ns": 1472232847,
+        "cpu_user_s": 5.452773,
+        "cpu_system_s": 0.539285,
+        "peak_rss_bytes": 19398656,
+        "minor_faults": 4629,
+        "major_faults": 0,
+        "voluntary_context_switches": 1210,
+        "involuntary_context_switches": 183,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w6/pair1-stericx"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 10000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T19:10:37.469227+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 146191,
+        "wall_ns": 1400612717,
+        "cpu_user_s": 5.264341,
+        "cpu_system_s": 0.510323,
+        "peak_rss_bytes": 19263488,
+        "minor_faults": 4633,
+        "major_faults": 0,
+        "voluntary_context_switches": 1209,
+        "involuntary_context_switches": 29,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w6/pair2-stericx"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 10000,
+      "phase": "pair2",
+      "pair": 2,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T19:10:38.959973+00:00",
+      "order": [
+        "stericx",
+        "morfeus"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 146199,
+        "wall_ns": 29791413078,
+        "cpu_user_s": 150.723347,
+        "cpu_system_s": 17.303022,
+        "peak_rss_bytes": 101154816,
+        "minor_faults": 9690909,
+        "major_faults": 0,
+        "voluntary_context_switches": 967,
+        "involuntary_context_switches": 780,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w6/pair2-morfeus"
+    },
+    {
+      "tool": "morfeus",
+      "workers": 6,
+      "structures": 10000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T19:11:08.834366+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 146333,
+        "wall_ns": 29529254217,
+        "cpu_user_s": 150.630833,
+        "cpu_system_s": 19.571365,
+        "peak_rss_bytes": 101281792,
+        "minor_faults": 10700446,
+        "major_faults": 0,
+        "voluntary_context_switches": 966,
+        "involuntary_context_switches": 749,
+        "returncode": 0
+      },
+      "stdout_sha256": "944bb124a73e747a158f3ff43fbef3c2ad8673fb09124e1cf80f9ccdc76d5e68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w6/pair3-morfeus"
+    },
+    {
+      "tool": "stericx",
+      "workers": 6,
+      "structures": 10000,
+      "phase": "pair3",
+      "pair": 3,
+      "affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "started_utc": "2026-09-22T19:11:38.441830+00:00",
+      "order": [
+        "morfeus",
+        "stericx"
+      ],
+      "status": "passed",
+      "metrics": {
+        "pid": 146534,
+        "wall_ns": 1456351846,
+        "cpu_user_s": 5.486765,
+        "cpu_system_s": 0.513727,
+        "peak_rss_bytes": 19316736,
+        "minor_faults": 4631,
+        "major_faults": 0,
+        "voluntary_context_switches": 1205,
+        "involuntary_context_switches": 54,
+        "returncode": 0
+      },
+      "stdout_sha256": "205e7b6eea3d4fae51e2df2e3169071eab2b0b8a75755eafc7a02499bca80ad6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_prefix": "timings/n10000-w6/pair3-stericx"
+    }
+  ],
+  "pairs": 4,
+  "warmups_per_tool": 1,
+  "exclusions": [],
+  "finished_utc": "2026-09-22T19:11:39.982588+00:00"
+}

@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "rustc",
+    "--print",
+    "cfg",
+    "-C",
+    "opt-level=3"
+  ],
+  "returncode": 0
+}

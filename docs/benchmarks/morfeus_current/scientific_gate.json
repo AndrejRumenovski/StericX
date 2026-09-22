@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "scope": "56 unique conformers; three planes each; all 8 octant populations and occupied counts exactly equal; each native f32 plane and aggregate output exactly reconstructed from independent morfeus counts",
+  "numerical_tolerance": null,
+  "reason": "Exact integer equality and bitwise reconstruction; stricter than a residual tolerance, no historical maximum promoted to a bound",
+  "scientific_definition": "Independent audit geometry/METHODS.md buried-volume equations and finite region normalization; corrected three-plane means in remediation geometry/RESULTS.md",
+  "descriptors": [
+    "buried_volume",
+    "near_vbur",
+    "far_vbur",
+    "percent_buried_volume",
+    "qvbur_min",
+    "qvbur_max",
+    "ovbur_min",
+    "ovbur_max",
+    "max_delta_qvbur"
+  ],
+  "excluded": {
+    "Sterimol": "Angular grids and transverse phase differ; no existing authorized error threshold for the observed scan residual. Excluded from headline and combined timing.",
+    "pyramidalization": "Compared and retained, not part of volume-only timing.",
+    "combined": "Not timed because Sterimol equivalence at matching convergence is not established."
+  },
+  "structures": 56,
+  "planes": 168,
+  "failures": [],
+  "source_sha256": "2215d2731a11d5328ddeaa949e3d557198a3b296436ffe50d1e06403ca0fd603"
+}

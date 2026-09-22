@@ -1,0 +1,3 @@
+{
+  "reason": "Initial evidence integrity verification passed. The reproduction helper was then corrected to preserve executable permissions and given a prepare-only mode, and successfully smoke-tested in a fresh directory. The report generator gained explicit review assertions/idempotence, and the verifier gained archived executable identity checks. No timing or scientific outputs were changed. Earlier prepublication seals are historical."
+}

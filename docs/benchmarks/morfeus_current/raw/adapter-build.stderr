@@ -1,0 +1,60 @@
+     Locking 44 packages to latest Rust 1.97.0 compatible versions
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.24
+   Compiling crossbeam-utils v0.8.23
+   Compiling serde_core v1.0.229
+   Compiling crossbeam-epoch v0.9.21
+   Compiling utf8parse v0.2.2
+   Compiling crossbeam-deque v0.8.8
+   Compiling rayon-core v1.13.0
+   Compiling anstyle-query v1.1.5
+   Compiling zmij v1.0.23
+   Compiling colorchoice v1.0.5
+   Compiling anstyle-parse v1.0.0
+   Compiling memchr v2.8.3
+   Compiling anstyle v1.0.14
+   Compiling libc v0.2.189
+   Compiling is_terminal_polyfill v1.70.2
+   Compiling itoa v1.0.18
+   Compiling serde v1.0.229
+   Compiling clap_lex v1.1.0
+   Compiling serde_json v1.0.151
+   Compiling strsim v0.11.1
+   Compiling anstream v1.0.0
+   Compiling heck v0.5.0
+   Compiling either v1.18.0
+   Compiling ryu v1.0.23
+   Compiling glam v0.30.10
+   Compiling clap_builder v4.6.6
+   Compiling csv-core v0.1.13
+   Compiling syn v3.0.3
+   Compiling syn v2.0.119
+   Compiling memmap2 v0.9.11
+   Compiling rayon v1.12.0
+   Compiling bytemuck_derive v1.11.0
+   Compiling csv v1.4.0
+   Compiling bytemuck v1.25.2
+   Compiling clap_derive v4.6.4
+   Compiling serde_derive v1.0.229
+   Compiling clap v4.6.6
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+   Compiling morfeus-current-observer v0.0.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/benchmarks/morfeus_current/adapter)
+error[E0308]: mismatched types
+  --> src/main.rs:9:41
+   |
+ 9 |         let m = Molecule::from_xyz_file(&path)?;
+   |                 ----------------------- ^^^^^ expected `&Path`, found `&String`
+   |                 |
+   |                 arguments to this function are incorrect
+   |
+   = note: expected reference `&Path`
+              found reference `&std::string::String`
+note: associated function defined here
+  --> /run/media/andrej-rumenovski/New Volume/Code/StericX/src/geometry/xyz.rs:75:12
+   |
+75 |     pub fn from_xyz_file(path: &Path) -> Result<Molecule, Box<dyn Error>> {
+   |            ^^^^^^^^^^^^^
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `morfeus-current-observer` (bin "morfeus-current-observer") due to 1 previous error

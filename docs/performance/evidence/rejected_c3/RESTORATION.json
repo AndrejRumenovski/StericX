@@ -1,0 +1,318 @@
+{
+  "complete_original_plan_inventory_verified": true,
+  "counts": {
+    "files": 7493,
+    "gzip_blob_bytes": 19069720,
+    "inherited_chunks": 1,
+    "local_chunks": 3123,
+    "logical_bytes": 4953944881,
+    "max_blob_bytes": 2912654,
+    "publication_files": 2678,
+    "shared_files": 2748,
+    "unique_chunks": 3124
+  },
+  "coverage": {
+    "cli_cases_per_thread": {
+      "1": 93,
+      "2": 93,
+      "4": 93,
+      "6": 93
+    },
+    "decision": {
+      "accepted": false,
+      "exact_C2_restoration": true,
+      "historical_source_aliases": 2,
+      "performance_gate_passed": false,
+      "rejection": ".stericx/profiling/scientifically_validated_optimization/rejected_c3_v1/decision.json",
+      "restoration": ".stericx/profiling/scientifically_validated_optimization/rejected_c3_v1/restoration.json",
+      "scientific_gate_passed": true
+    },
+    "native": {
+      ".stericx/profiling/scientifically_validated_optimization/candidate_c3_incremental_pairs_v1": {
+        "launches": 252,
+        "measured_pairs": 112,
+        "warmup_launches": 28
+      },
+      ".stericx/profiling/scientifically_validated_optimization/candidate_c3_native_pairs_v1": {
+        "launches": 720,
+        "measured_pairs": 320,
+        "warmup_launches": 80
+      }
+    },
+    "observation_rows": 128021,
+    "observations": {
+      "aggregation": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 11
+      },
+      "geometry": {
+        "private_bins": 24660,
+        "private_frames": 2055,
+        "rows": 844
+      },
+      "geometry_alignment": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 4
+      },
+      "geometry_alignment_rotation": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 4
+      },
+      "geometry_focused": {
+        "private_bins": 144,
+        "private_frames": 12,
+        "rows": 15
+      },
+      "geometry_historical": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 20
+      },
+      "geometry_numerical": {
+        "private_bins": 108,
+        "private_frames": 9,
+        "rows": 11
+      },
+      "kinetics": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 195
+      },
+      "kraken": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 31721
+      },
+      "kraken_all_bins": {
+        "private_bins": 1141668,
+        "private_frames": 95139,
+        "rows": 31721
+      },
+      "kraken_topology": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 31721
+      },
+      "kraken_topology_all_bins": {
+        "private_bins": 1141956,
+        "private_frames": 95163,
+        "rows": 31721
+      },
+      "model_domain": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 33
+      }
+    },
+    "total_measured_pairs": 432,
+    "total_native_launches": 972
+  },
+  "external_links_not_created": [
+    {
+      "kind": "external_directory_reference",
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/references_inferred/kraken/prepared_all",
+      "target": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/kraken/prepared_all"
+    },
+    {
+      "kind": "external_directory_reference",
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/references_inferred/kraken/primary",
+      "target": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/kraken/primary"
+    },
+    {
+      "kind": "external_directory_reference",
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/references_inferred/kraken/raw_sources",
+      "target": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/kraken/raw_sources"
+    },
+    {
+      "kind": "external_directory_reference",
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/references_topology/kraken/prepared_all",
+      "target": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/kraken/prepared_all"
+    },
+    {
+      "kind": "external_directory_reference",
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/references_topology/kraken/primary",
+      "target": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/kraken/primary"
+    },
+    {
+      "kind": "external_directory_reference",
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/references_topology/kraken/raw_sources",
+      "target": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/kraken/raw_sources"
+    }
+  ],
+  "files": 7493,
+  "manifest": {
+    "bytes": 6124,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/rejected_c3/manifest.json",
+    "sha256": "b3cd9ebef18394f136aa6b2209e063f2c82f25b2e03d552337f0ee4b7142c10f"
+  },
+  "omissions": [
+    {
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_diagnostics_v1/target",
+      "reason": "disposable_build_or_runtime_cache"
+    },
+    {
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_controller_v2/__pycache__",
+      "reason": "disposable_build_or_runtime_cache"
+    },
+    {
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v1/target",
+      "reason": "disposable_build_or_runtime_cache"
+    },
+    {
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v2/target",
+      "reason": "disposable_build_or_runtime_cache"
+    },
+    {
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/references_inferred/matplotlib-cache",
+      "reason": "disposable_build_or_runtime_cache"
+    },
+    {
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/references_topology/matplotlib-cache",
+      "reason": "disposable_build_or_runtime_cache"
+    },
+    {
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/validated_build_corrected_vC3/target",
+      "reason": "disposable_build_or_runtime_cache"
+    },
+    {
+      "path": ".stericx/profiling/scientifically_validated_optimization/command_boundary_controller_v1/__pycache__",
+      "reason": "disposable_build_or_runtime_cache"
+    },
+    {
+      "path": ".stericx/profiling/scientifically_validated_optimization/command_boundary_controller_v2/__pycache__",
+      "reason": "disposable_build_or_runtime_cache"
+    },
+    {
+      "path": ".stericx/profiling/scientifically_validated_optimization/publication_c3_v1/controllers/__pycache__",
+      "reason": "disposable_build_or_runtime_cache"
+    },
+    {
+      "bytes": 4417528,
+      "mode": 509,
+      "mtime_ns": 1790081097121945600,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_diagnostics_v1/bin/diagnostic/profile_predictions",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "4892a479ceea851084e38600981575cd84caa7049e5ac22765b082a8f0d728c5"
+    },
+    {
+      "bytes": 21819096,
+      "mode": 509,
+      "mtime_ns": 1790081115449122700,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_diagnostics_v1/bin/diagnostic/stericx",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "54dfd4b98f233dfffcdfe55dc03f0547a2b6c94134b583a72e0a4bfec5b24ed3"
+    },
+    {
+      "bytes": 734392,
+      "mode": 509,
+      "mtime_ns": 1790081061967606100,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_diagnostics_v1/bin/native/profile_predictions",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "4fa3446842b0f76dae989ba2466c2d04fc96024927cc91943db6ace7cef6db8a"
+    },
+    {
+      "bytes": 3439552,
+      "mode": 509,
+      "mtime_ns": 1790081077566756700,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_diagnostics_v1/bin/native/stericx",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "91c7d3b4e1d53481be87b67c3574377b580d211154d4871174817710754a0856"
+    },
+    {
+      "bytes": 4021552,
+      "mode": 509,
+      "mtime_ns": 1790081134911310600,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_diagnostics_v1/bin/symbols/profile_predictions",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "6cd69c9d53e3608b848f9df2b46e381128c48f96d0646a357d86ac20e3118d71"
+    },
+    {
+      "bytes": 20375672,
+      "mode": 509,
+      "mtime_ns": 1790081151928475000,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_diagnostics_v1/bin/symbols/stericx",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "c980dd6119418cbbadec2cc5eaa53fef86eef8a91b7588c8fe042dde1af20390"
+    },
+    {
+      "bytes": 16592,
+      "mode": 509,
+      "mtime_ns": 1790084323964062800,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_incremental_pairs_v1/launcher/wait4-0c6ad902b6a0abd7e440eb12a9ff44521b407410faff8309ce390d92d8540a4f",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "bc360a8d67000a4e9e2d56981e8c4808938a8d67b56b6fec73c12aa7434a7750"
+    },
+    {
+      "bytes": 16592,
+      "mode": 509,
+      "mtime_ns": 1790083336296536400,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_native_pairs_v1/launcher/wait4-0c6ad902b6a0abd7e440eb12a9ff44521b407410faff8309ce390d92d8540a4f",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "bc360a8d67000a4e9e2d56981e8c4808938a8d67b56b6fec73c12aa7434a7750"
+    },
+    {
+      "bytes": 3469240,
+      "mode": 493,
+      "mtime_ns": 1790081735448111300,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v2/bin/probe",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "db78c0862debb3b1bebc59e3ac90b6bbc4a9c9d362b087acc8bae7a85e58cd89"
+    },
+    {
+      "bytes": 3439552,
+      "mode": 493,
+      "mtime_ns": 1790080976215777800,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/demo/bin/stericx",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "91c7d3b4e1d53481be87b67c3574377b580d211154d4871174817710754a0856"
+    },
+    {
+      "bytes": 3439552,
+      "mode": 493,
+      "mtime_ns": 1790080976215777800,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/models/documented_demo/bin/stericx",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "91c7d3b4e1d53481be87b67c3574377b580d211154d4871174817710754a0856"
+    },
+    {
+      "bytes": 935136,
+      "mode": 493,
+      "mtime_ns": 1790080948012505400,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/thermodynamics/observer",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "fe5f752784741560de7462f603bbc89d3fae8b12305f5e3e3aa62623b97bca7d"
+    },
+    {
+      "bytes": 3439552,
+      "mode": 493,
+      "mtime_ns": 1790080976215777800,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/independent_references_v1/thermodynamics/stericx",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "91c7d3b4e1d53481be87b67c3574377b580d211154d4871174817710754a0856"
+    },
+    {
+      "bytes": 3439552,
+      "mode": 493,
+      "mtime_ns": 1790080976215777800,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/validated_build_corrected_vC3/bin/stericx",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "91c7d3b4e1d53481be87b67c3574377b580d211154d4871174817710754a0856"
+    },
+    {
+      "bytes": 935136,
+      "mode": 493,
+      "mtime_ns": 1790080948012505400,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/validated_build_corrected_vC3/bin/stericx-audit-observer",
+      "reason": "native_executable_retained_locally_no_binary_publication",
+      "sha256": "fe5f752784741560de7462f603bbc89d3fae8b12305f5e3e3aa62623b97bca7d"
+    }
+  ],
+  "restored_from_verified_in_memory_index": true,
+  "restored_root": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c3_v1/restored",
+  "scope": "Lossless byte and declared coverage verification; no scientific or performance rerun.",
+  "unique_file_reconstructions": 3562,
+  "verified": true
+}

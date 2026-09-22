@@ -1,0 +1,38 @@
+{
+  "baseline_commit": "1ecfbd5be8b354711bdadd8a8d148417e03d8e7a",
+  "freeze_manifest": ".stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/manifest.json",
+  "freeze_manifest_sha256": "feb021566f4a172c8d249184d1e16e39978b59c1784d216f4f50c9261ed27ced",
+  "raw_evidence_files": 76714,
+  "snapshot_copies": 211,
+  "gate_receipts": 22,
+  "admitted_observations": {
+    "bytes": 46035,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/observations_v4/manifest.json",
+    "sha256": "5120602e43e9d914587f94e0d2ea3caa396db2e189586f269ae36127e180ef30"
+  },
+  "workload_manifest": {
+    "bytes": 22929020,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/manifest.json",
+    "sha256": "a1041cc07fc5583c33d2a7cf584dbc638866c64bdd0b64e3720ef83cc85e1e6a"
+  },
+  "scientific_scope": "Preserve the independently rechecked corrected v4 implementation and explicit supported input/scientific contracts. No claim of universal tool equality, complete thermodynamics or predictive/experimental validity.",
+  "retained_limitations": [
+    "360-direction B1 discretization and phase sensitivity",
+    "f32 lattice/boundary arithmetic and odd-grid regional normalization",
+    "native radius table/fallback and geometric-center differences from reference conventions",
+    "XYZ distance inference is not authoritative connectivity",
+    "supplied historical populations, conformer completeness and source-energy provenance",
+    "conditional fixed-feature diagnostics, failed folds and uncalibrated intervals",
+    "unresolved Ni-hDA2064 source conflict",
+    "no prospective experimental validation"
+  ],
+  "optimization_equivalence": "exact complete values, bits and errors; zero tolerance",
+  "native_executable_sha256": "102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f",
+  "observer_sha256": "d6c5e20c8e012d1d9e5ff5afc5a8438697e0c1d11919b614ced69f0b8616ccc4",
+  "thread_affinities": {
+    "1": "2",
+    "2": "2,3",
+    "4": "0,1,2,3",
+    "6": "0,1,2,3,4,5"
+  }
+}

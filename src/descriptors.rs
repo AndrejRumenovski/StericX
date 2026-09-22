@@ -3,6 +3,7 @@
 //! and CSV emitters.
 
 use crate::cli::{DescriptorFormat, STERIMOL_L_CORRECTION, SterimolAxis};
+use rayon::prelude::*;
 use serde::Serialize;
 use std::error::Error;
 use std::path::{Path, PathBuf};
@@ -545,22 +546,50 @@ pub(crate) fn descriptors_command(
     }
     let mut results = Vec::with_capacity(inputs.len());
     let mut failures = 0_usize;
-    for path in inputs {
-        match descriptors_for_file_with_reference(
+    let calculate = |path: &PathBuf| {
+        descriptors_for_file_with_reference(
             path,
             donor_element,
             donor_index,
             reference_index,
             sterimol_axis,
             config,
-        ) {
-            Ok(result) => results.push(result),
-            Err(message) => {
-                eprintln!("skipped {}: {message}", path.display());
-                failures += 1;
-            }
+        )
+    };
+    let mut record = |path: &Path, outcome| match outcome {
+        Ok(result) => results.push(result),
+        Err(message) => {
+            eprintln!("skipped {}: {message}", path.display());
+            failures += 1;
+        }
+    };
+    // Each file keeps its original conformer order and arithmetic. Indexed
+    // collection preserves input order and duplicates despite worker completion
+    // order. Emit every outcome on this thread, including skipped-file messages.
+    // A private pool can fall back to serial execution if thread creation fails.
+    let one_thread = std::env::var("RAYON_NUM_THREADS")
+        .ok()
+        .and_then(|value| value.parse::<usize>().ok())
+        == Some(1);
+    let pool = if inputs.len() > 1 && !one_thread {
+        rayon::ThreadPoolBuilder::new().build().ok()
+    } else {
+        None
+    };
+    if let Some(pool) = pool.as_ref().filter(|pool| pool.current_num_threads() > 1) {
+        let outcomes = {
+            steric_x::profile_scope!("parallel_geometry", "descriptors::parallel_geometry");
+            pool.install(|| inputs.par_iter().map(calculate).collect::<Vec<_>>())
+        };
+        for (path, outcome) in inputs.iter().zip(outcomes) {
+            record(path, outcome);
+        }
+    } else {
+        for path in inputs {
+            record(path, calculate(path));
         }
     }
+    drop(pool);
     if results.is_empty() {
         return Err("no ligand files could be featurized".into());
     }

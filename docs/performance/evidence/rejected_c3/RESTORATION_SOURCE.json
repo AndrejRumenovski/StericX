@@ -1,0 +1,42 @@
+{
+  "all_live_scientific_sources_match_retained_build": true,
+  "changed_file_only": "/run/media/andrej-rumenovski/New Volume/Code/StericX/src/geometry/buried_volume.rs",
+  "complete": true,
+  "decision": {
+    "bytes": 22116,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/rejected_c3_v1/decision.json",
+    "sha256": "b07b0072c926e795bbf3517daf32d2c251ea3d2ae7892082e3ff2f8244f4340a"
+  },
+  "helper": {
+    "bytes": 5289,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/controllers/reject_and_restore_c3.py",
+    "sha256": "441859fdec3a020db8639d16f09a2761b08b883508e5cf6bdd6db5e1507006aa"
+  },
+  "kind": "exact_rejected_candidate_restoration",
+  "passed": true,
+  "pre_edit_source": {
+    "bytes": 62412,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_row_rejection/before/src/geometry/buried_volume.rs",
+    "sha256": "2215d2731a11d5328ddeaa949e3d557198a3b296436ffe50d1e06403ca0fd603"
+  },
+  "preserved_candidate_source": {
+    "bytes": 71587,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/validated_build_corrected_vC3/source/src/geometry/buried_volume.rs",
+    "sha256": "1df92d49859c3d1a8a17feeaa9d3ac49409ca275feea3b8d5fdd53f6635bb7d9"
+  },
+  "rejected_before": {
+    "bytes": 71587,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/src/geometry/buried_volume.rs",
+    "sha256": "1df92d49859c3d1a8a17feeaa9d3ac49409ca275feea3b8d5fdd53f6635bb7d9"
+  },
+  "restored_source": {
+    "bytes": 62412,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/src/geometry/buried_volume.rs",
+    "sha256": "2215d2731a11d5328ddeaa949e3d557198a3b296436ffe50d1e06403ca0fd603"
+  },
+  "retained_build": {
+    "bytes": 37625,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_science_v1/validated_build_corrected_vC2/manifest.json",
+    "sha256": "82b63f16c90e0767c5cb5b60daed61e2ce52f123d4f1a9f3156e791c5a03fd81"
+  }
+}

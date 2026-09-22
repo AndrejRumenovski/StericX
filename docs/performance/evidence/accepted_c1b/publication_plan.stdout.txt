@@ -1,0 +1,107 @@
+planned 0/8157
+planned 500/8157
+planned 1000/8157
+planned 1500/8157
+planned 2000/8157
+planned 2500/8157
+planned 3000/8157
+planned 3500/8157
+planned 4000/8157
+planned 4500/8157
+planned 5000/8157
+planned 5500/8157
+planned 6000/8157
+planned 6500/8157
+planned 7000/8157
+planned 7500/8157
+planned 8000/8157
+{
+  "planned_files": 8144,
+  "raw_bytes": 5275609854,
+  "shared_files": 2425,
+  "coverage": {
+    "native": {
+      ".stericx/profiling/scientifically_validated_optimization/candidate_c1b_native_pairs_v1": {
+        "launches": 720,
+        "measured_pairs": 320,
+        "warmup_launches": 80
+      }
+    },
+    "total_native_launches": 720,
+    "total_measured_pairs": 320,
+    "observations": {
+      "aggregation": {
+        "rows": 11,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "geometry": {
+        "rows": 844,
+        "private_frames": 2055,
+        "private_bins": 24660
+      },
+      "geometry_alignment": {
+        "rows": 4,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "geometry_alignment_rotation": {
+        "rows": 4,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "geometry_focused": {
+        "rows": 15,
+        "private_frames": 12,
+        "private_bins": 144
+      },
+      "geometry_historical": {
+        "rows": 20,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "geometry_numerical": {
+        "rows": 11,
+        "private_frames": 9,
+        "private_bins": 108
+      },
+      "kinetics": {
+        "rows": 195,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "kraken": {
+        "rows": 31721,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "kraken_all_bins": {
+        "rows": 31721,
+        "private_frames": 95139,
+        "private_bins": 1141668
+      },
+      "kraken_topology": {
+        "rows": 31721,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "kraken_topology_all_bins": {
+        "rows": 31721,
+        "private_frames": 95163,
+        "private_bins": 1141956
+      },
+      "model_domain": {
+        "rows": 33,
+        "private_frames": 0,
+        "private_bins": 0
+      }
+    },
+    "observation_rows": 128021,
+    "cli_cases_per_thread": {
+      "1": 93,
+      "2": 93,
+      "4": 93,
+      "6": 93
+    }
+  }
+}

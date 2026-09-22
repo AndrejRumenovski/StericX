@@ -1,0 +1,55 @@
+{
+  "analysis": {
+    "bytes": 381651,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_native_independent_review_v1/analysis.json",
+    "sha256": "a428b351d87e4454314230875b02f2696448371e2c61d4c0aa707b4261895757"
+  },
+  "archived_reviewer": {
+    "bytes": 10899,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_native_independent_review_v1/review.py",
+    "sha256": "3c549da989c03a7abb3d3157649bf45ccae22bb4c2075ad2ba385800033fb13c"
+  },
+  "complete": true,
+  "helper": {
+    "bytes": 9978,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/controllers/publish_final_measurements.py",
+    "sha256": "0a6a61b51136cebdfee4db073291ae0ef7256c04b9780a606bee348d3102888c"
+  },
+  "imported_helpers": [
+    {
+      "bytes": 19070,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/replay_scientific_remediation.py",
+      "sha256": "e82b3732742685d6da6a555971eac343d028c23427e9616501d742c829e621d4"
+    },
+    {
+      "bytes": 57148,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/check_current_scientific_equivalence.py",
+      "sha256": "b20f5e9767ed0f9fa1a2a60de2b021a7a69a6a15b2f322a4595d9dda93c3f102"
+    },
+    {
+      "bytes": 34461,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/recheck_current_scientific_references.py",
+      "sha256": "362b9636b44fb35367e03437757c3e9f6c594a0e715efafb9900997636c437b1"
+    }
+  ],
+  "kind": "final_native_measurement_publication",
+  "outputs": [
+    {
+      "bytes": 381651,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/current_final_measurements.json",
+      "sha256": "a428b351d87e4454314230875b02f2696448371e2c61d4c0aa707b4261895757"
+    },
+    {
+      "bytes": 11873,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/FINAL_NATIVE_MEASUREMENTS.md",
+      "sha256": "138dd875dc8de878e6bf3aaa3080617607ce6c7e1333e4f7a9e7408fe60c6ff2"
+    }
+  ],
+  "reviewer": {
+    "bytes": 10899,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_matrix_review_controller_v1/review.py",
+    "sha256": "3c549da989c03a7abb3d3157649bf45ccae22bb4c2075ad2ba385800033fb13c"
+  },
+  "rows": 40,
+  "samples_excluded": []
+}

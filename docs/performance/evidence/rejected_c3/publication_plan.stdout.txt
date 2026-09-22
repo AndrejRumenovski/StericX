@@ -1,0 +1,120 @@
+planned 0/7508
+planned 500/7508
+planned 1000/7508
+planned 1500/7508
+planned 2000/7508
+planned 2500/7508
+planned 3000/7508
+planned 3500/7508
+planned 4000/7508
+planned 4500/7508
+planned 5000/7508
+planned 5500/7508
+planned 6000/7508
+planned 6500/7508
+planned 7000/7508
+planned 7500/7508
+{
+  "planned_files": 7493,
+  "raw_bytes": 4953944881,
+  "shared_files": 2748,
+  "coverage": {
+    "native": {
+      ".stericx/profiling/scientifically_validated_optimization/candidate_c3_incremental_pairs_v1": {
+        "launches": 252,
+        "measured_pairs": 112,
+        "warmup_launches": 28
+      },
+      ".stericx/profiling/scientifically_validated_optimization/candidate_c3_native_pairs_v1": {
+        "launches": 720,
+        "measured_pairs": 320,
+        "warmup_launches": 80
+      }
+    },
+    "total_native_launches": 972,
+    "total_measured_pairs": 432,
+    "observations": {
+      "aggregation": {
+        "rows": 11,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "geometry": {
+        "rows": 844,
+        "private_frames": 2055,
+        "private_bins": 24660
+      },
+      "geometry_alignment": {
+        "rows": 4,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "geometry_alignment_rotation": {
+        "rows": 4,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "geometry_focused": {
+        "rows": 15,
+        "private_frames": 12,
+        "private_bins": 144
+      },
+      "geometry_historical": {
+        "rows": 20,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "geometry_numerical": {
+        "rows": 11,
+        "private_frames": 9,
+        "private_bins": 108
+      },
+      "kinetics": {
+        "rows": 195,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "kraken": {
+        "rows": 31721,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "kraken_all_bins": {
+        "rows": 31721,
+        "private_frames": 95139,
+        "private_bins": 1141668
+      },
+      "kraken_topology": {
+        "rows": 31721,
+        "private_frames": 0,
+        "private_bins": 0
+      },
+      "kraken_topology_all_bins": {
+        "rows": 31721,
+        "private_frames": 95163,
+        "private_bins": 1141956
+      },
+      "model_domain": {
+        "rows": 33,
+        "private_frames": 0,
+        "private_bins": 0
+      }
+    },
+    "observation_rows": 128021,
+    "cli_cases_per_thread": {
+      "1": 93,
+      "2": 93,
+      "4": 93,
+      "6": 93
+    },
+    "decision": {
+      "accepted": false,
+      "scientific_gate_passed": true,
+      "performance_gate_passed": false,
+      "exact_C2_restoration": true,
+      "historical_source_aliases": 2,
+      "rejection": ".stericx/profiling/scientifically_validated_optimization/rejected_c3_v1/decision.json",
+      "restoration": ".stericx/profiling/scientifically_validated_optimization/rejected_c3_v1/restoration.json"
+    }
+  }
+}

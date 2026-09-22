@@ -1,0 +1,19 @@
+test_added_cli_complete (test_c2_coverage.CoverageTests.test_added_cli_complete) ... ok
+test_added_cli_mutations_rejected (test_c2_coverage.CoverageTests.test_added_cli_mutations_rejected) ... ok
+test_count_duplicate_missing_actual_changed_rejected (test_c2_coverage.CoverageTests.test_count_duplicate_missing_actual_changed_rejected) ... ok
+test_counts_complete (test_c2_coverage.CoverageTests.test_counts_complete) ... ok
+test_prediction_complete (test_c2_coverage.CoverageTests.test_prediction_complete) ... ok
+test_prediction_missing_or_truncated_rejected (test_c2_coverage.CoverageTests.test_prediction_missing_or_truncated_rejected) ... ok
+test_raw_phase_digest_and_companions_required (test_c2_coverage.CoverageTests.test_raw_phase_digest_and_companions_required) ... ok
+test_same_raw_sample_cannot_cover_other_threads_or_phases (test_c2_coverage.CoverageTests.test_same_raw_sample_cannot_cover_other_threads_or_phases) ... ok
+test_changed_stage_hash_rejected (test_extended_coverage.ExtendedCoverageTests.test_changed_stage_hash_rejected) ... ok
+test_cli_status_difference_rejected_even_when_declared_exact (test_extended_coverage.ExtendedCoverageTests.test_cli_status_difference_rejected_even_when_declared_exact) ... ok
+test_complete_cli_and_reprofile_coverage (test_extended_coverage.ExtendedCoverageTests.test_complete_cli_and_reprofile_coverage) ... ok
+test_duplicate_reprofile_sample_rejected (test_extended_coverage.ExtendedCoverageTests.test_duplicate_reprofile_sample_rejected) ... ok
+test_missing_cli_stream_rejected (test_extended_coverage.ExtendedCoverageTests.test_missing_cli_stream_rejected) ... ok
+test_missing_reprofile_sample_rejected_despite_complete_flags (test_extended_coverage.ExtendedCoverageTests.test_missing_reprofile_sample_rejected_despite_complete_flags) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.074s
+
+OK

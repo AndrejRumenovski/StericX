@@ -1,0 +1,91 @@
+{
+  "complete": true,
+  "fixture": {
+    "bytes": 317103,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_final_v1/controllers/final_fixture.json.gz",
+    "sha256": "c3e327fbf1087752d62635bbcf6cd13c2827c057c19ced8f3b2d3e43c2227859"
+  },
+  "fixture_shape": {
+    "expected": {
+      "boundary": {
+        "cases": 31,
+        "intentional_errors": 13,
+        "recomputed_raw_fingerprints": 62,
+        "successes": 18
+      },
+      "engineering": {
+        "commands": 8,
+        "delivered_release_matches_measured": true
+      },
+      "native": {
+        "configurations": 40,
+        "launches": 720,
+        "measured_pairs": 320
+      },
+      "observer_commands": 11,
+      "references": {
+        "commands": 25,
+        "metadata_fields": 6,
+        "model_comparisons": 7624,
+        "scientific_global_pass": false
+      },
+      "supplemental": {
+        "additional_cli_cases": 24,
+        "commands": 3,
+        "normalization": "none"
+      }
+    },
+    "inventory_records": 561,
+    "retained_raw_fixture_files": 235
+  },
+  "initial_findings": {
+    "bytes": 1607,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_final_review_v1/findings.json",
+    "sha256": "bf74dc26f5029b67f01e0bbf52b19c5fe72860cd1f17c6dac1b75d4cea16c67c"
+  },
+  "kind": "independent_final_publication_coverage_review",
+  "limitation": "This is a publication byte/coverage/provenance guard review, not a repeat scientific or native-performance admission.",
+  "material_blockers": [],
+  "passed": true,
+  "resolved_findings": [
+    "Boundary cases now bind full argv to each side native; canonical result/artifact working directory/stdout/stderr paths and exact planned thread/locale context enforced. Prior wrong-executable false-pass reproduction now fails.",
+    "Supplemental inner candidate_build and full candidate native record now equal accepted build and its native.",
+    "Wrapper pins final_coverage executable SHA before import, including published .py.txt fallback; pin matches independently hashed current helper."
+  ],
+  "reviewer": "audit_coverage_recheck",
+  "scope": "Bounded source/actual-fixture/test review of new final_coverage.py and its integration; storage/provider framework and existing core full720/13-lane/4x93 coverage unchanged. No science, benchmark or full archive reconstruction executed by this review.",
+  "sources": [
+    {
+      "bytes": 17204,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_final_v1/controllers/final_coverage.py",
+      "sha256": "516613fe2e651940caa274458f9041ded68f7a23c952794edced087a037999b3"
+    },
+    {
+      "bytes": 42153,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_final_v1/controllers/publish_shared.py",
+      "sha256": "22b85e29473580da8e374c6059245b9af30fdda197af705b37653ea48ee7751a"
+    },
+    {
+      "bytes": 5841,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_final_v1/controllers/test_final_coverage.py",
+      "sha256": "aaee71d015ea9ceb5b8928d0937d5a1460dab360dd51fd50c7f4016a591f4622"
+    }
+  ],
+  "tests": {
+    "count": 22,
+    "log": {
+      "bytes": 2079,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_final_review_v1/tests.log",
+      "sha256": "16ee7510f82e8df4cc642fec88ef4742f6a5993c15033f572e33cde95f2fb2cb"
+    },
+    "returncode": 0
+  },
+  "verified_scope": [
+    "Exact accepted C2 build/native/prior links retained.",
+    "31 boundary cases retain18successes13exit2errors and recompute62 complete stdout/stderr/artifact fingerprints with only original named normalization.",
+    "24 supplemental cases retain exact stream/status/ID/argv comparison with no normalization.",
+    "Final independent-reference status, retainedfailed gate, original model limits7624checks/six metadatafields,25command logs, engineering8commands/release identity and freshobserver11commands retained.",
+    "Final native review/publication links remain bound to full40/720/320, with C3 rejection/restoration and all acceptance evidence retained.",
+    "Underlying publication verify reconstructs inventory bytes before recomputing coverage and checks original plan/helper/provider pins afterward."
+  ]
+}

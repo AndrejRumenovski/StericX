@@ -1,3 +1,5 @@
+> Historical evidence for audited `b515c4f`, superseded as the optimization baseline by corrected `1ecfbd5`. See [BASELINE_STATUS.md](BASELINE_STATUS.md). Do not use these timings or hypotheses as current-build measurements.
+
 # Fresh scientific observations and reference replay
 
 This is preparation for the optimization task, not a post-optimization pass.

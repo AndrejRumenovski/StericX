@@ -1,0 +1,36 @@
+test_bad_roots_metadata_and_locator_paths_rejected (test_provider_storage.ProviderTests.test_bad_roots_metadata_and_locator_paths_rejected) ... ok
+test_changed_compressed_blob_rejected (test_provider_storage.ProviderTests.test_changed_compressed_blob_rejected) ... ok
+test_changed_controller_or_helper_bytes_rejected (test_provider_storage.ProviderTests.test_changed_controller_or_helper_bytes_rejected) ... ok
+test_changed_manifest_index_or_plan_rejected_before_load (test_provider_storage.ProviderTests.test_changed_manifest_index_or_plan_rejected_before_load) ... ok
+test_changed_metadata_after_load_rejected (test_provider_storage.ProviderTests.test_changed_metadata_after_load_rejected) ... ok
+test_chunk_order_and_file_final_identity_checked (test_provider_storage.ProviderTests.test_chunk_order_and_file_final_identity_checked) ... ok
+test_file_and_chunk_cycles_rejected (test_provider_storage.ProviderTests.test_file_and_chunk_cycles_rejected) ... ok
+test_index_cannot_add_dependencies_absent_from_plan (test_provider_storage.ProviderTests.test_index_cannot_add_dependencies_absent_from_plan) ... ok
+test_index_cannot_redefine_original_plan (test_provider_storage.ProviderTests.test_index_cannot_redefine_original_plan) ... ok
+test_metadata_changed_during_load_cannot_be_adopted_as_new_pin (test_provider_storage.ProviderTests.test_metadata_changed_during_load_cannot_be_adopted_as_new_pin) ... ok
+test_missing_dependency_metadata_rejected (test_provider_storage.ProviderTests.test_missing_dependency_metadata_rejected) ... ok
+test_missing_or_changed_transitive_registry_pin_rejected (test_provider_storage.ProviderTests.test_missing_or_changed_transitive_registry_pin_rejected) ... ok
+test_mixed_local_and_inherited_chunks (test_provider_storage.ProviderTests.test_mixed_local_and_inherited_chunks) ... ok
+test_rehashed_manifest_counts_must_match_index (test_provider_storage.ProviderTests.test_rehashed_manifest_counts_must_match_index) ... ok
+test_rehashed_wrong_blob_content_rejected (test_provider_storage.ProviderTests.test_rehashed_wrong_blob_content_rejected) ... ok
+test_symlink_root_escape_rejected (test_provider_storage.ProviderTests.test_symlink_root_escape_rejected) ... ok
+test_transitive_chunk_reuse (test_provider_storage.ProviderTests.test_transitive_chunk_reuse) ... ok
+test_transitive_whole_file_reuse (test_provider_storage.ProviderTests.test_transitive_whole_file_reuse) ... ok
+test_undeclared_transitive_reference_rejected (test_provider_storage.ProviderTests.test_undeclared_transitive_reference_rejected) ... ok
+test_unknown_provider_and_missing_chunk_rejected (test_provider_storage.ProviderTests.test_unknown_provider_and_missing_chunk_rejected) ... ok
+test_whole_file_and_catalog_identity (test_provider_storage.ProviderTests.test_whole_file_and_catalog_identity) ... ok
+test_whole_file_sha_size_and_path_must_match (test_provider_storage.ProviderTests.test_whole_file_sha_size_and_path_must_match) ... ok
+test_controller_drift_during_copy_refuses_complete_package (test_publish_shared.SharedPublicationTests.test_controller_drift_during_copy_refuses_complete_package) ... ok
+test_duplicate_destination_rejected (test_publish_shared.SharedPublicationTests.test_duplicate_destination_rejected) ... ok
+test_forged_counts_rejected (test_publish_shared.SharedPublicationTests.test_forged_counts_rejected) ... ok
+test_metadata_drift_during_restore_is_rejected (test_publish_shared.SharedPublicationTests.test_metadata_drift_during_restore_is_rejected) ... ok
+test_mixed_inherited_and_local_chunks (test_publish_shared.SharedPublicationTests.test_mixed_inherited_and_local_chunks) ... ok
+test_provider_drift_after_load_is_rejected (test_publish_shared.SharedPublicationTests.test_provider_drift_after_load_is_rejected) ... ok
+test_rehashed_index_omission_still_fails_plan_binding (test_publish_shared.SharedPublicationTests.test_rehashed_index_omission_still_fails_plan_binding) ... ok
+test_shared_whole_files_empty_and_absolute_strings_restore (test_publish_shared.SharedPublicationTests.test_shared_whole_files_empty_and_absolute_strings_restore) ... ok
+test_source_drift_refuses_complete_package (test_publish_shared.SharedPublicationTests.test_source_drift_refuses_complete_package) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.433s
+
+OK

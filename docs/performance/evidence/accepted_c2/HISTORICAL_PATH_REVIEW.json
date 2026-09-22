@@ -1,0 +1,161 @@
+{
+  "approved_original_record": {
+    "bytes": 98185,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/tests/cli_screen.rs",
+    "sha256": "7d6ef0a1b3e785bfbf50d0f5d77d844d1d1da628ad63d46f031dac249e57df43"
+  },
+  "benchmarks_or_full_references_run": false,
+  "complete": true,
+  "current_live_test": {
+    "bytes": 104638,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/tests/cli_screen.rs",
+    "sha256": "5a150009f3a075af46f5bf6c41b43836a90b1ee82d8ff7835b26dc50d1c18bdc"
+  },
+  "finished_utc": "2026-09-22T11:52:48.963777+00:00",
+  "historical_resolution": {
+    "bytes": 2808,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_pair_controller_v2/prior_resolution.json",
+    "sha256": "2912e23821cd4a74d163da1703111daa675ee01cd8fe9202f13a831900541242"
+  },
+  "independent_source_review": {
+    "alias": "Only complete exact path/bytes/SHA record for the unique historical engineering test redirects to its unique pre-edit snapshot.",
+    "blocking_findings": [],
+    "limitation": "Tests use lightweight synthetic gate context; this receipt does not assert actual full prior/current scientific admission, scientific correctness, or performance acceptance.",
+    "provenance": "Pinned prior gate/build/engineering/pre-edit/capture helper/failure and snapshot; no original receipt rewrite.",
+    "scope": "Strict verifier restored in finally before current gate; exception, mutation, nested, unused and current-gate paths covered by focused tests.",
+    "unchanged_gates": "Numerical/error expectations, original scientific anchor, raw sample order, counters, statistics and output verification functions remain unchanged."
+  },
+  "kind": "independent_historical_path_alias_review",
+  "machine_checks": {
+    "all_seven_pinned_proofs_match": true,
+    "only_controller_functions_changed": [
+      "admit",
+      "main",
+      "run"
+    ],
+    "original_benchmark_test_bytes_unchanged": true,
+    "resolution_validated_against_actual_sealed_records": true,
+    "reviewed_files_and_proofs_unchanged_after_tests": true
+  },
+  "passed": true,
+  "pinned_proofs": {
+    "capture_helper": {
+      "bytes": 4829,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_quantile_reuse/freeze.py",
+      "sha256": "c3183485ca8fca3ddf224667df30211b5dc1cfaa7ba25dad147abc03f4aa111b"
+    },
+    "pre_edit_manifest": {
+      "bytes": 110773,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_quantile_reuse/pre_edit_manifest.json",
+      "sha256": "e0b89f2e5831f41f2614428e93064d7334e22f17b20c55c5e68f1fdb30b473c3"
+    },
+    "preserved_failure": {
+      "bytes": 3946,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/prior_c1b_path_diagnosis_v1/diagnosis.json",
+      "sha256": "0e1f3ed8052355b825a5a3c2cb723c9e11b795ede28b2774e6f05b6feb50b1a4"
+    },
+    "prior_build": {
+      "bytes": 37493,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/validated_build_corrected_vC1b/manifest.json",
+      "sha256": "def1aa57289814fd24e787dd95092cd0115a67091f250e4be9c49f0f4a5e663d"
+    },
+    "prior_engineering": {
+      "bytes": 40106,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/engineering.json",
+      "sha256": "9a9d9a022524202e3167cc66a074dd0ef42f3bb530c89373cb4497f4cd3a79c7"
+    },
+    "prior_gate": {
+      "bytes": 6423,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_performance_gate_v1/manifest.json",
+      "sha256": "8bfd72a7cd57ccdc230fd6aead18c91566aa0c5c24970403a62c0f387809fa86"
+    },
+    "snapshot": {
+      "bytes": 98185,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_quantile_reuse/before/tests/cli_screen.rs",
+      "sha256": "7d6ef0a1b3e785bfbf50d0f5d77d844d1d1da628ad63d46f031dac249e57df43"
+    }
+  },
+  "production_modified": false,
+  "reviewed_files": [
+    {
+      "bytes": 20144,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_pair_controller_v2/run.py",
+      "sha256": "70181015933060ba08639a5c8f3f66d6d06778e993116ccc62a96f7460624357"
+    },
+    {
+      "bytes": 6657,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_pair_controller_v2/historical_paths.py",
+      "sha256": "f5f70e4a4b8e1f0a7150191fdf70770fb97d21b948bb694f8017709a48ea4292"
+    },
+    {
+      "bytes": 12074,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_pair_controller_v2/test_historical_paths.py",
+      "sha256": "be654743df426d9fc9bd9d439b5197232473d229c76fbae15f3914ba4bfd05fd"
+    },
+    {
+      "bytes": 12874,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_pair_controller_v2/test_run.py",
+      "sha256": "9fba9e4bbf26bdac43d81a5d5febb0de217f673793fe904ce174574d9a57bc58"
+    },
+    {
+      "bytes": 6997,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_pair_controller_v2/harness.json",
+      "sha256": "8e56ba1c62d49376e60407f28b12850abfa887654abd2d5f24078213019b7a4f"
+    },
+    {
+      "bytes": 2808,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_pair_controller_v2/prior_resolution.json",
+      "sha256": "2912e23821cd4a74d163da1703111daa675ee01cd8fe9202f13a831900541242"
+    },
+    {
+      "bytes": 65,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_pair_controller_v2/prior_resolution.json.sha256",
+      "sha256": "4d450a245dc5b906df5f5624ffb5b11698186cb7dacfeadc7605b99283a5122b"
+    },
+    {
+      "bytes": 18906,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_pair_controller_v1/run.py",
+      "sha256": "e9524759d1840675e1134e22d6a231a3cb0b09b600e0082422fd4c4da46d8ddd"
+    },
+    {
+      "bytes": 12874,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_pair_controller_v1/test_run.py",
+      "sha256": "9fba9e4bbf26bdac43d81a5d5febb0de217f673793fe904ce174574d9a57bc58"
+    },
+    {
+      "bytes": 5525,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_path_review_v1/record_review.py",
+      "sha256": "dee2074206f8257a2ac811276fbde7dc981c31245edb919d45944ab290e5ec77"
+    }
+  ],
+  "scope": "Bounded source/provenance/mock-regression review; full prior-gate replay is separate evidence.",
+  "started_utc": "2026-09-22T11:52:48.564218+00:00",
+  "test_command": {
+    "alias_tests": 14,
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_pair_controller_v2",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+    "original_tests": 16,
+    "returncode": 0,
+    "stderr": {
+      "bytes": 4077,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_path_review_v1/tests.stderr",
+      "sha256": "685db0e1576139fecc79877c0e35a0e887fae14a86026c2f3111cfd047160b80"
+    },
+    "stdout": {
+      "bytes": 0,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/incremental_path_review_v1/tests.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "tests": 30
+  }
+}

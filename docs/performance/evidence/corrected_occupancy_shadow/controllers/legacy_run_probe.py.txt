@@ -1,0 +1,455 @@
+#!/usr/bin/env python3
+"""Nonproduction operation counts. No timings are performance measurements."""
+from pathlib import Path
+from datetime import datetime, UTC
+from collections import Counter
+import difflib
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parent
+REPO = ROOT.parents[3]
+PROFILE = REPO / '.stericx/profiling'
+CAPTURE = ROOT.parent / 'current_audited_b515c4f'
+SOURCE = ROOT / 'source'
+sys.path.insert(0, str(REPO / 'scripts'))
+from profile_stericx import verify_manifest, check_result, CONTROLLED_ENV
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def save(path, value):
+    with path.open('x') as stream:
+        json.dump(value, stream, indent=2, sort_keys=True)
+        stream.write('\n')
+
+
+def identity(path):
+    return {'path': str(path), 'bytes': path.stat().st_size, 'sha256': sha(path)}
+
+
+def replace_once(text, old, new):
+    assert text.count(old) == 1, old[:120]
+    return text.replace(old, new)
+
+
+APPEND = r'''
+
+// NONPRODUCTION DIAGNOSTIC ONLY. Everything above this marker is an EXACT
+// byte-identical copy of the captured CURRENT production BV source.
+// The original functions above still produce every CLI scientific output.
+// The instrumented copy below always executes each original predicate.
+
+#[derive(Default, serde::Serialize)]
+struct ProbeCounts {
+    rows: u64, point_visits: u64, xy_preparations: u64, xy_rejections: u64,
+    cached_z_tests: u64, new_candidate_z_tests: u64,
+    first_hits_cached: u64, first_hits_new: u64, point_misses: u64,
+    endpoint_checks_lazy: u64, endpoint_rejections_lazy: u64,
+    inside_z_range_lazy: u64, nonfinite_fallback_lazy: u64,
+    eliminated_cached_z_tests: u64, eliminated_new_z_tests: u64,
+    asserted_eliminated_tests_are_misses: u64,
+    eager_xy_preparations: u64, eager_xy_rejections: u64,
+    eager_endpoint_checks: u64, eager_endpoint_rejections: u64,
+    eager_inside_z_range: u64, eager_nonfinite_fallback: u64,
+}
+
+struct ProbeRow { start: usize, end: usize, finite: bool, minimum: f32, maximum: f32 }
+
+fn probe_rows(points: &[Vec3]) -> Vec<ProbeRow> {
+    let mut rows = Vec::new(); let mut start = 0;
+    while start < points.len() {
+        let mut end = start + 1;
+        while end < points.len() && points[end].x.to_bits() == points[start].x.to_bits()
+            && points[end].y.to_bits() == points[start].y.to_bits() { end += 1; }
+        let finite = points[start..end].iter().all(|p| p.is_finite());
+        let minimum = points[start..end].iter().map(|p| p.z).fold(f32::INFINITY, f32::min);
+        let maximum = points[start..end].iter().map(|p| p.z).fold(f32::NEG_INFINITY, f32::max);
+        rows.push(ProbeRow { start, end, finite, minimum, maximum }); start = end;
+    }
+    rows
+}
+
+// 0: conservative fallback, 1: atom within the actual row z range,
+// 2: closest actual endpoint hits, 3: closest actual endpoint misses.
+fn probe_endpoint(row: &ProbeRow, atom: &AlignedAtom, xy: f32) -> u8 {
+    if !row.finite || !atom.position.is_finite() || !atom.radius_squared.is_finite()
+        || !xy.is_finite() { return 0; }
+    let endpoint = if atom.position.z < row.minimum { row.minimum }
+        else if atom.position.z > row.maximum { row.maximum } else { return 1; };
+    let dz = endpoint - atom.position.z;
+    if xy + dz * dz <= atom.radius_squared { 2 } else { 3 }
+}
+
+fn probe_bits(v: &OccupiedVolumes) -> Vec<u32> {
+    let mut bits = vec![v.buried_volume.to_bits(), v.near_vbur.to_bits(), v.far_vbur.to_bits()];
+    bits.extend(v.quadrants.map(f32::to_bits)); bits.extend(v.octants.map(f32::to_bits)); bits
+}
+
+type ProbeWriter = std::sync::Mutex<Option<std::io::BufWriter<std::fs::File>>>;
+static PROBE_WRITER: std::sync::OnceLock<ProbeWriter> = std::sync::OnceLock::new();
+
+fn probe_record(value: serde_json::Value) {
+    use std::io::Write;
+    let output = PROBE_WRITER.get_or_init(|| std::sync::Mutex::new(
+        std::env::var_os("STERICX_ROW_RANGE_PROBE_PATH").map(|path| {
+            std::io::BufWriter::new(std::fs::OpenOptions::new().write(true).create_new(true)
+                .open(path).expect("fresh diagnostic sidecar"))
+        })));
+    if let Some(writer) = output.lock().unwrap().as_mut() {
+        serde_json::to_writer(&mut *writer, &value).unwrap(); writer.write_all(b"\n").unwrap();
+    }
+}
+
+pub fn row_range_probe_finish() {
+    use std::io::Write;
+    if let Some(writer) = PROBE_WRITER.get()
+        && let Some(writer) = writer.lock().unwrap().as_mut() { writer.flush().unwrap(); }
+}
+
+pub fn row_range_probe_conformer(molecule: &Molecule, donor: usize, reference: usize,
+    config: BuriedVolumeConfig, source: &str, conformer: usize) {
+    let (neighbors, center) = donor_geometry(molecule, donor, reference, config).unwrap();
+    let points = integration_grid(config);
+    for (orientation, plane) in neighbors.into_iter().enumerate() {
+        let basis = coordinate_basis(molecule, donor, plane, center).unwrap();
+        let atoms = aligned_atoms(molecule, center, basis, config).unwrap();
+        let context = serde_json::json!({"source":source,"conformer":conformer,
+            "orientation":orientation,"plane":plane,"atoms":atoms.len(),"points":points.len()});
+        let _ = probe_instrumented_occupied_volumes(&points, &atoms, config.sphere_radius, &context);
+    }
+}
+'''
+
+TESTS = r'''
+
+#[cfg(test)]
+mod row_range_shadow_tests {
+    use super::*;
+    #[test]
+    fn row_range_shadow_preserves_boundaries_nonfinite_and_arbitrary_order() {
+        let special = [0.0, -0.0, f32::from_bits(1), -f32::from_bits(1),
+            f32::MIN_POSITIVE, -1., 1., 1e20, f32::MAX, f32::INFINITY,
+            f32::NEG_INFINITY, f32::NAN];
+        let points: Vec<_> = special.into_iter().map(|z| Vec3::new(0.,0.,z)).collect();
+        for z in special { for r2 in special {
+            let atoms = [AlignedAtom{position:Vec3::new(0.,0.,z),radius_squared:r2}];
+            probe_instrumented_occupied_volumes(&points,&atoms,3.5,&serde_json::json!({"test":"nonfinite"}));
+        }}
+        let mut points = vec![Vec3::new(0.5,0.75,-0.25),Vec3::new(0.5,0.75,0.),
+            Vec3::new(0.5,0.75,0.25),Vec3::new(-0.,0.,0.),Vec3::new(0.,0.,0.),
+            Vec3::new(0.5,0.75,4.),Vec3::new(0.5,0.75,-4.)];
+        for z in [-4.,-0.25,0.,0.25,4.] {
+            for point in points.clone() {
+                let p = Vec3::new(0.,0.,z); let r2=point.distance_squared(p);
+                for radius_squared in [f32::from_bits(r2.to_bits().saturating_sub(1)),r2,
+                    f32::from_bits(r2.to_bits()+1)] {
+                    let atoms=[AlignedAtom{position:p,radius_squared}];
+                    probe_instrumented_occupied_volumes(&points,&atoms,3.5,&serde_json::json!({"test":"boundary"}));
+                    points.reverse();
+                }
+            }
+        }
+        let atoms=[AlignedAtom{position:Vec3::ZERO,radius_squared:1.0}];
+        probe_instrumented_occupied_volumes(&[],&atoms,3.5,&serde_json::json!({"test":"empty"}));
+        probe_instrumented_occupied_volumes(&points,&[],3.5,&serde_json::json!({"test":"no atoms"}));
+        let finite_points=[Vec3::new(0.,0.,f32::MAX),Vec3::new(0.,0.,-f32::MAX),
+            Vec3::new(0.,0.,1e20),Vec3::new(0.,0.,-1e20),Vec3::ZERO];
+        let mut atoms=[AlignedAtom{position:Vec3::new(0.,0.,1.),radius_squared:1.},
+            AlignedAtom{position:Vec3::new(0.,0.,-f32::MAX),radius_squared:f32::MAX},
+            AlignedAtom{position:Vec3::ZERO,radius_squared:f32::NAN}];
+        for _ in 0..atoms.len() {
+            probe_instrumented_occupied_volumes(&finite_points,&atoms,3.5,&serde_json::json!({"test":"finite overflow and atom order"}));
+            probe_instrumented_occupied_volumes(&points,&atoms,3.5,&serde_json::json!({"test":"atom order"}));
+            atoms.rotate_left(1);
+        }
+    }
+}
+'''
+
+
+def instrument(original):
+    start=original.index('fn occupied_volumes(')
+    end=original.index('\nfn quadrant_index(',start)
+    function=original[start:end]
+    (ROOT/'current_occupied_volumes.rs').write_text(function)
+    function=replace_once(function,'fn occupied_volumes(sphere: &[Vec3], atoms: &[AlignedAtom], sphere_radius: f32)',
+        'fn probe_instrumented_occupied_volumes(sphere: &[Vec3], atoms: &[AlignedAtom], sphere_radius: f32, context: &serde_json::Value)')
+    function=replace_once(function,'    struct RowCandidate {','''    let rows = probe_rows(sphere);
+    let mut counts = ProbeCounts::default();
+    let mut row_cursor = 0;
+    let mut row_lengths = std::collections::BTreeMap::<usize,u64>::new();
+    let mut eliminated_by_atom = vec![0_u64; atoms.len()];
+    let mut first_hits_by_atom = vec![0_u64; atoms.len()+1];
+    let mut witnesses = Vec::new();
+    // Eager model is computed separately; these atoms are NOT added to the
+    // actual lazy cache. It is an upper-work model, not an accepted algorithm.
+    for row in &rows {
+        *row_lengths.entry(row.end-row.start).or_default() += 1;
+        for atom in atoms {
+            counts.eager_xy_preparations += 1;
+            let dx=sphere[row.start].x-atom.position.x;
+            let dy=sphere[row.start].y-atom.position.y;
+            let xy=dx*dx+dy*dy;
+            if xy > atom.radius_squared { counts.eager_xy_rejections += 1; continue; }
+            match probe_endpoint(row,atom,xy) {
+                0 => counts.eager_nonfinite_fallback += 1,
+                1 => counts.eager_inside_z_range += 1,
+                2 => counts.eager_endpoint_checks += 1,
+                3 => {counts.eager_endpoint_checks += 1;counts.eager_endpoint_rejections += 1;},
+                _ => unreachable!(),
+            }
+        }
+    }
+    struct RowCandidate {
+        atom_index: usize,
+        shadow_skip: bool,''')
+    function=replace_once(function,'    for point in sphere {','''    for (point_index, point) in sphere.iter().enumerate() {
+        counts.point_visits += 1;
+        let mut hit_atom = atoms.len();''')
+    function=replace_once(function,'            row_xy = Some(xy);','''            if row_xy.is_some() { row_cursor += 1; }
+            counts.rows += 1;
+            assert_eq!(rows[row_cursor].start, point_index);
+            row_xy = Some(xy);''')
+    function=replace_once(function,'''            let dz = point.z - candidate.z;
+            candidate.xy_squared + dz * dz <= candidate.radius_squared''','''            counts.cached_z_tests += 1;
+            let dz = point.z - candidate.z;
+            let accepted = candidate.xy_squared + dz * dz <= candidate.radius_squared;
+            if candidate.shadow_skip {
+                counts.eliminated_cached_z_tests += 1;
+                eliminated_by_atom[candidate.atom_index] += 1;
+                assert!(!accepted,"row-range rejected an occupied original cached test");
+                counts.asserted_eliminated_tests_are_misses += 1;
+                if witnesses.len()<8 { witnesses.push(serde_json::json!({"row":row_cursor,
+                    "point_index":point_index,"atom":candidate.atom_index,"kind":"cached",
+                    "point_bits":point.to_array().map(f32::to_bits),"xy_bits":candidate.xy_squared.to_bits(),
+                    "radius_squared_bits":candidate.radius_squared.to_bits()})); }
+            }
+            if accepted {hit_atom=candidate.atom_index;counts.first_hits_cached += 1;}
+            accepted''')
+    function=replace_once(function,'            let atom = &atoms[next_atom];','''            counts.xy_preparations += 1;
+            let atom = &atoms[next_atom];''')
+    function=replace_once(function,'''            if xy_squared > atom.radius_squared {
+                continue;
+            }
+            candidates.push(RowCandidate {''','''            if xy_squared > atom.radius_squared {
+                counts.xy_rejections += 1;
+                continue;
+            }
+            let endpoint = probe_endpoint(&rows[row_cursor],atom,xy_squared);
+            match endpoint {
+                0 => counts.nonfinite_fallback_lazy += 1,
+                1 => counts.inside_z_range_lazy += 1,
+                2 => counts.endpoint_checks_lazy += 1,
+                3 => {counts.endpoint_checks_lazy += 1;counts.endpoint_rejections_lazy += 1;},
+                _ => unreachable!(),
+            }
+            let shadow_skip = endpoint==3;
+            candidates.push(RowCandidate {
+                atom_index: next_atom-1,
+                shadow_skip,''')
+    function=replace_once(function,'''            let dz = point.z - atom.position.z;
+            occupied = xy_squared + dz * dz <= atom.radius_squared;''','''            counts.new_candidate_z_tests += 1;
+            let dz = point.z - atom.position.z;
+            occupied = xy_squared + dz * dz <= atom.radius_squared;
+            if shadow_skip {
+                counts.eliminated_new_z_tests += 1;
+                eliminated_by_atom[next_atom-1] += 1;
+                assert!(!occupied,"row-range rejected an occupied original new test");
+                counts.asserted_eliminated_tests_are_misses += 1;
+                if witnesses.len()<8 { witnesses.push(serde_json::json!({"row":row_cursor,
+                    "point_index":point_index,"atom":next_atom-1,"kind":"new",
+                    "point_bits":point.to_array().map(f32::to_bits),"xy_bits":xy_squared.to_bits(),
+                    "radius_squared_bits":atom.radius_squared.to_bits()})); }
+            }
+            if occupied {hit_atom=next_atom-1;counts.first_hits_new += 1;}''')
+    function=replace_once(function,'''        if occupied {
+            occupied_total += 1;''','''        first_hits_by_atom[hit_atom] += 1;
+        if !occupied {counts.point_misses += 1;}
+        if occupied {
+            occupied_total += 1;''')
+    function=replace_once(function,'''    OccupiedVolumes {
+        buried_volume:''','''    let result = OccupiedVolumes {
+        buried_volume:''')
+    assert function.endswith('    }\n}\n')
+    function=function[:-len('    }\n}\n')]+'''    };
+    let unchanged = occupied_volumes(sphere,atoms,sphere_radius);
+    assert_eq!(probe_bits(&result),probe_bits(&unchanged),"diagnostic copy changed scientific bits");
+    assert_eq!(counts.point_visits,counts.first_hits_cached+counts.first_hits_new+counts.point_misses);
+    assert_eq!(counts.eliminated_cached_z_tests+counts.eliminated_new_z_tests,
+        counts.asserted_eliminated_tests_are_misses);
+    probe_record(serde_json::json!({"context":context,"counts":counts,
+        "row_length_histogram":row_lengths,"eliminated_original_tests_by_atom":eliminated_by_atom,
+        "original_first_hits_by_atom_or_miss":first_hits_by_atom,
+        "elimination_witnesses":witnesses,"scientific_bits":probe_bits(&result),
+        "matches_unmodified_current_function":true}));
+    result
+}
+'''
+    (ROOT/'instrumented_occupied_volumes.rs').write_text(function)
+    (ROOT/'instrumented_loop.patch').write_text(''.join(difflib.unified_diff(
+        original[start:end].splitlines(True),function.splitlines(True),
+        fromfile='current_occupied_volumes',tofile='instrumented_diagnostic_copy')))
+    return function
+
+
+def prepare():
+    assert not SOURCE.exists()
+    shutil.copytree(CAPTURE/'source',SOURCE)
+    bv=SOURCE/'src/geometry/buried_volume.rs'
+    captured=bv.read_bytes()
+    assert captured==(REPO/'src/geometry/buried_volume.rs').read_bytes()
+    before={str(p.relative_to(SOURCE)):sha(p) for p in SOURCE.rglob('*') if p.is_file()}
+    body=captured.decode()
+    addition=APPEND+'\n'+instrument(body)+TESTS
+    (ROOT/'observer_append.rs').write_text(addition)
+    bv.write_bytes(captured+addition.encode())
+    assert bv.read_bytes()[:len(captured)]==captured
+    mod=SOURCE/'src/geometry/mod.rs'
+    mod.write_text(mod.read_text()+'\npub use buried_volume::{row_range_probe_conformer,row_range_probe_finish};\n')
+    main=SOURCE/'src/main.rs'
+    main.write_text(replace_once(main.read_text(),'    let result = run();',
+        '    let result = run();\n    steric_x::geometry::row_range_probe_finish();'))
+    desc=SOURCE/'src/descriptors.rs'
+    old='''    let max_delta_qvbur_min = buried'''
+    new='''    // Additional diagnostics only; all scientific outputs above used the unmodified source.
+    for (conformer_index, molecule) in conformers.iter().enumerate() {
+        let t = detect_donor(molecule, donor_element, donor_index).unwrap();
+        steric_x::geometry::row_range_probe_conformer(molecule,t.donor_idx,t.reference_idx,
+            config,&path.display().to_string(),conformer_index);
+    }
+
+    let max_delta_qvbur_min = buried'''
+    desc.write_text(replace_once(desc.read_text(),old,new))
+    after={str(p.relative_to(SOURCE)):sha(p) for p in SOURCE.rglob('*') if p.is_file()}
+    changed=[name for name in before if before[name]!=after[name]]
+    assert set(changed)=={'src/geometry/buried_volume.rs','src/geometry/mod.rs','src/main.rs','src/descriptors.rs'}
+    patch=''.join(''.join(difflib.unified_diff((CAPTURE/'source'/name).read_text().splitlines(True),
+        (SOURCE/name).read_text().splitlines(True),fromfile='a/'+name,tofile='b/'+name)) for name in changed)
+    (ROOT/'probe.patch').write_text(patch)
+    save(ROOT/'source_manifest.json',{'created_utc':datetime.now(UTC).isoformat(),
+        'purpose':__doc__,'capture_identity':identity(CAPTURE/'identity.json'),
+        'captured_native':identity(CAPTURE/'bin/native/stericx'),
+        'production_bv':identity(REPO/'src/geometry/buried_volume.rs'),
+        'original_bv_prefix_verified':True,'original_bv_bytes':len(captured),
+        'before':before,'after':after,'changed':changed,'probe_patch':identity(ROOT/'probe.patch'),
+        'append':identity(ROOT/'observer_append.rs'),'loop_patch':identity(ROOT/'instrumented_loop.patch'),
+        'runner':identity(Path(__file__)),'no_performance_claim':True})
+
+
+def compile_probe():
+    target=ROOT/'target'
+    commands=[['cargo','build','--offline','--locked','--release','--bin','stericx',
+        '--manifest-path',str(SOURCE/'Cargo.toml'),'--target-dir',str(target)],
+        ['cargo','test','--offline','--locked','--release','--lib',
+        '--manifest-path',str(SOURCE/'Cargo.toml'),'--target-dir',str(target),
+        'row_range_shadow_tests::row_range_shadow_preserves_boundaries_nonfinite_and_arbitrary_order']]
+    records=[]
+    for i,command in enumerate(commands):
+        with (ROOT/f'build_{i}.stdout').open('xb') as out,(ROOT/f'build_{i}.stderr').open('xb') as err:
+            result=subprocess.run(command,cwd=SOURCE,stdout=out,stderr=err)
+        records.append({'argv':command,'returncode':result.returncode,
+            'stdout':identity(ROOT/f'build_{i}.stdout'),'stderr':identity(ROOT/f'build_{i}.stderr')})
+        if result.returncode:
+            save(ROOT/'build_failed.json',records)
+            raise RuntimeError('Probe build/test failed')
+    save(ROOT/'build_manifest.json',{'commands':records,'binary':identity(target/'release/stericx'),
+        'rustc':subprocess.check_output(['rustc','-vV'],text=True),'cargo':subprocess.check_output(['cargo','-V'],text=True)})
+
+
+def summarize(path):
+    totals=Counter();row_lengths=Counter();firsthits=Counter();per_geometry={};orientations=[]
+    records=0
+    for line in path.open():
+        row=json.loads(line);records+=1
+        assert row['matches_unmodified_current_function']
+        totals.update(row['counts']);row_lengths.update(row['row_length_histogram'])
+        for i,count in enumerate(row['original_first_hits_by_atom_or_miss']):
+            firsthits['miss' if i==row['context']['atoms'] else str(i)]+=count
+        key=(row['context']['source'],row['context']['conformer'])
+        per_geometry[key]=True
+        c=row['counts'];eliminated=c['eliminated_cached_z_tests']+c['eliminated_new_z_tests']
+        orientations.append({'context':row['context'],'eliminated_tests':eliminated,
+            'added_endpoint_checks':c['endpoint_checks_lazy'],
+            'net_z_predicate_count_reduction':eliminated-c['endpoint_checks_lazy']})
+    ztests=totals['cached_z_tests']+totals['new_candidate_z_tests']
+    eliminated=totals['eliminated_cached_z_tests']+totals['eliminated_new_z_tests']
+    added=totals['endpoint_checks_lazy']
+    assert totals['asserted_eliminated_tests_are_misses']==eliminated
+    orientations.sort(key=lambda v:v['net_z_predicate_count_reduction'])
+    return {'orientations':records,'geometries':len(per_geometry),'totals':dict(totals),
+        'current_z_predicates':ztests,'shadow_eliminable_z_predicates':eliminated,
+        'shadow_lazy_added_endpoint_predicates':added,'shadow_lazy_net_z_predicate_change':added-eliminated,
+        'shadow_lazy_net_z_predicate_reduction_fraction':(eliminated-added)/ztests,
+        'shadow_lazy_z_predicates_remaining_plus_endpoints':ztests-eliminated+added,
+        'eager_upper_model_xy_preparations':totals['eager_xy_preparations'],
+        'eager_upper_model_added_endpoint_checks':totals['eager_endpoint_checks'],
+        'eager_upper_model_extra_xy_preparations':totals['eager_xy_preparations']-totals['xy_preparations'],
+        'row_length_histogram':dict(row_lengths),'original_first_hit_histogram':dict(firsthits),
+        'orientations_net_z_tests_increased':sum(v['net_z_predicate_count_reduction']<0 for v in orientations),
+        'lowest_net_reduction_examples':orientations[:5],'highest_net_reduction_examples':orientations[-5:],
+        'limitations':['Operation counts are not machine instructions or performance predictions.',
+            'The probe always executes original current predicates and adds shadow work; it is excluded from native timing claims.',
+            'Row min/max scans, finite checks, branches, vector accesses and instrumentation are not represented by the z-predicate net count.',
+            'The eager upper-work model visits every row/atom; it is not the lazy candidate algorithm.',
+            'Repeated throughput fixtures do not represent 10000 distinct chemistries.']}
+
+
+def run():
+    workload_path=PROFILE/'workloads/manifest.json'
+    manifest=json.loads(workload_path.read_text());verify_manifest(manifest)
+    fresh=PROFILE/'runs/current_audited_b515c4f_20260921_native_t1/summary.json'
+    native_reference=json.loads(fresh.read_text())
+    summary={'purpose':__doc__,'scientific_findings':'Preserved current audited limitations, not a corrected scientific baseline.',
+        'workload_manifest':identity(workload_path),'fresh_native_summary':identity(fresh),
+        'source_manifest':identity(ROOT/'source_manifest.json'),'build_manifest':identity(ROOT/'build_manifest.json'),
+        'results':{},'no_performance_claim':True}
+    env={**os.environ,**CONTROLLED_ENV,'RAYON_NUM_THREADS':'1'};env.pop('STERICX_PROFILE_PATH',None)
+    for name in ['conformers_56','descriptors_10000']:
+        workload=manifest['workloads'][name]
+        for label,binary in [('current_native',CAPTURE/'bin/native/stericx'),('probe',ROOT/'target/release/stericx')]:
+            directory=ROOT/name/label;directory.mkdir(parents=True,exist_ok=False)
+            argv=[str(binary),*[v.replace('{run_dir}',str(directory)) for v in workload['argv']]]
+            runenv=dict(env)
+            if label=='probe':runenv['STERICX_ROW_RANGE_PROBE_PATH']=str(directory/'counts.jsonl')
+            else:runenv.pop('STERICX_ROW_RANGE_PROBE_PATH',None)
+            save(directory/'command.json',{'argv':argv,'cwd':str(REPO),'environment':{k:runenv.get(k) for k in [*CONTROLLED_ENV,'RAYON_NUM_THREADS','STERICX_ROW_RANGE_PROBE_PATH']},'binary':identity(binary)})
+            print(name,label,'running (diagnostic only)',flush=True)
+            with (directory/'stdout.txt').open('xb') as out,(directory/'stderr.txt').open('xb') as err:
+                result=subprocess.run(argv,cwd=REPO,env=runenv,stdout=out,stderr=err)
+            assert result.returncode==0,(name,label,result.returncode)
+            fingerprint=check_result(workload,directory)
+            assert fingerprint==native_reference['results'][name]['fingerprints']
+            save(directory/'result.json',{'returncode':result.returncode,'fingerprints':fingerprint,
+                'stdout':identity(directory/'stdout.txt'),'stderr':identity(directory/'stderr.txt')})
+        baseline=ROOT/name/'current_native';actual=ROOT/name/'probe'
+        for stream in ['stdout.txt','stderr.txt']:assert sha(baseline/stream)==sha(actual/stream),(name,stream)
+        data=summarize(actual/'counts.jsonl')
+        assert data['orientations']==3*workload['expected_records']
+        assert data['geometries']==workload['expected_records']
+        summary['results'][name]={**data,'raw_counts':identity(actual/'counts.jsonl'),
+            'exact_scientific_stdout_stderr':True,'fresh_native_fingerprint_match':True}
+        save(ROOT/name/'summary.json',summary['results'][name])
+        print(name,'exact scientific output; Z count delta',data['shadow_lazy_net_z_predicate_change'],flush=True)
+    source_manifest=json.loads((ROOT/'source_manifest.json').read_text())
+    for name,expected in source_manifest['before'].items():
+        assert sha(CAPTURE/'source'/name)==expected
+    for name,expected in source_manifest['after'].items():assert sha(SOURCE/name)==expected
+    assert sha(REPO/'src/geometry/buried_volume.rs')==source_manifest['production_bv']['sha256']
+    summary['completed_utc']=datetime.now(UTC).isoformat();summary['status']='complete'
+    save(ROOT/'summary.json',summary)
+    files=[identity(p) for p in ROOT.rglob('*') if p.is_file() and 'target' not in p.relative_to(ROOT).parts]
+    save(ROOT/'evidence_manifest.json',{'files':files,'scope':'Diagnostic source/count/output evidence; Cargo build cache excluded.'})
+
+
+if __name__=='__main__':
+    if sys.argv[1:]==['prepare']:prepare()
+    elif sys.argv[1:]==['build']:compile_probe()
+    elif sys.argv[1:]==['run']:run()
+    else:raise SystemExit('Use prepare, build, or run; each phase refuses existing outputs.')

@@ -1,0 +1,301 @@
+#!/usr/bin/env python3
+"""Confined, pinned cross-publication storage; no scientific execution."""
+
+import gzip
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+
+
+def module(name, expected):
+    path = Path(__file__).with_name(name + ".py")
+    if not path.exists():
+        path = path.with_suffix(".py.txt")
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != expected:
+        raise ValueError(f"Reviewed publication dependency changed: {path}")
+    spec = importlib.util.spec_from_loader(name, loader=None)
+    value = importlib.util.module_from_spec(spec)
+    value.__file__ = str(path)
+    exec(compile(raw, str(path), "exec"), value.__dict__)
+    return value
+
+
+base = module(
+    "publication_base",
+    "ebc8a36a707186fba821c09052966e40e1d83c66aa1c7554790e5cd1d226abbb",
+)
+bound = module(
+    "publication_bound",
+    "d02079e8eb93b8939cba2149e2ff038cf22fdeed6800ef5da7536ee0d29feb92",
+)
+
+
+class Providers:
+    """Registry uses explicit repo-relative roots and SHA-pinned metadata only."""
+
+    def __init__(self, root, registry):
+        self.root = Path(root).resolve()
+        self.registry = json.loads(json.dumps(registry))
+        self.loaded = {}
+        self.loading = set()
+        self.pins = {}
+
+    def load(self, name):
+        if name in self.loading:
+            raise ValueError("Cyclic publication providers")
+        if name in self.loaded:
+            self.check_pins()
+            return self.loaded[name]
+        if name not in self.registry:
+            raise ValueError(f"Unknown publication provider: {name}")
+        definition = self.registry[name]
+        package = base.within(self.root, definition["root"])
+        self.loading.add(name)
+        try:
+            expected_pins = {}
+            # Roots come from the caller's registry; original absolute paths are inert.
+            for field in ("manifest", "index", "plan"):
+                expected = definition[field]
+                path = base.within(package, expected["path"])
+                if (
+                    path.stat().st_size != expected["bytes"]
+                    or base.sha(path) != expected["sha256"]
+                ):
+                    raise ValueError(f"Provider {name} changed {field}")
+                expected_pins[expected["path"]] = {
+                    "path": str(path),
+                    "bytes": expected["bytes"],
+                    "sha256": expected["sha256"],
+                }
+            manifest = base.read(package / definition["manifest"]["path"])
+            if manifest.get("complete") is not True or manifest.get("version") not in (
+                1,
+                2,
+            ):
+                raise ValueError("Unsupported/incomplete provider")
+            for field in ("index", "plan"):
+                if any(
+                    manifest[field][key] != definition[field][key]
+                    for key in ("path", "bytes", "sha256")
+                ):
+                    raise ValueError("Provider manifest/registry bindings differ")
+            raw = self.decode_metadata(
+                package, manifest["index"], manifest["index"]["uncompressed_bytes"]
+            )
+            if (
+                hashlib.sha256(raw).hexdigest()
+                != manifest["index"]["uncompressed_sha256"]
+            ):
+                raise ValueError("Provider raw index hash differs")
+            index = json.loads(raw)
+            plan_bytes = self.decode_metadata(
+                package, manifest["plan"], index["plan"]["bytes"]
+            )
+            if (
+                len(plan_bytes) != index["plan"]["bytes"]
+                or hashlib.sha256(plan_bytes).hexdigest() != index["plan"]["sha256"]
+            ):
+                raise ValueError("Provider original plan identity differs")
+            plan = json.loads(plan_bytes)
+            if [
+                {key: value for key, value in row.items() if key != "chunks"}
+                for row in index["inventory"]
+            ] != plan["inventory"]:
+                raise ValueError("Provider inventory differs from original plan")
+            for field in (
+                "version",
+                "repo",
+                "scope",
+                "source_roots",
+                "shared_manifests",
+                "external_links",
+                "omissions",
+                "coverage_contract",
+                "coverage",
+            ):
+                if index[field] != plan[field]:
+                    raise ValueError(f"Provider original metadata differs: {field}")
+            if index["original_controller"] != plan["controller"]:
+                raise ValueError("Provider controller identity differs from plan")
+            if index.get("providers", {}) != plan.get("providers", {}):
+                raise ValueError("Provider dependencies differ from original plan")
+            if any(
+                manifest["controller"][key] != plan["controller"][key]
+                for key in ("bytes", "sha256")
+            ):
+                raise ValueError("Provider controller/manifest binding differs")
+            dependencies = [manifest["controller"], *manifest.get("helpers", [])]
+            for item in dependencies:
+                path = base.within(package, item["path"])
+                if (path.stat().st_size, base.sha(path)) != (
+                    item["bytes"],
+                    item["sha256"],
+                ):
+                    raise ValueError("Provider controller/helper bytes differ")
+                expected_pins[item["path"]] = {
+                    "path": str(path),
+                    "bytes": item["bytes"],
+                    "sha256": item["sha256"],
+                }
+            if manifest["version"] == 2:
+                if index.get("providers") != manifest.get("providers"):
+                    raise ValueError("Provider registry differs from manifest")
+                if index.get("helper_sources") != plan.get("helper_sources"):
+                    raise ValueError("Provider helper sources differ from plan")
+                if sorted(
+                    (x["bytes"], x["sha256"]) for x in manifest["helpers"]
+                ) != sorted((x["bytes"], x["sha256"]) for x in plan["helper_sources"]):
+                    raise ValueError("Provider helper identities differ from plan")
+            rows = {}
+            for row in index["inventory"]:
+                base.safe_relative(row["path"])
+                if row["path"] in rows or ("shared" in row) == ("chunks" in row):
+                    raise ValueError("Duplicate provider path or ambiguous storage")
+                if (
+                    not base.HEX.fullmatch(row["sha256"])
+                    or type(row["bytes"]) is not int
+                    or row["bytes"] < 0
+                ):
+                    raise ValueError("Invalid provider original file identity")
+                rows[row["path"]] = row
+            local = [
+                item
+                for item in index["blobs"].values()
+                if item.get("kind") != "publication_chunk"
+            ]
+            counts = {
+                "files": len(rows),
+                "unique_chunks": len(index["blobs"]),
+                "shared_files": sum("shared" in row for row in rows.values()),
+                "logical_bytes": sum(row["bytes"] for row in rows.values()),
+                "gzip_blob_bytes": sum(item["bytes"] for item in local),
+                "max_blob_bytes": max((item["bytes"] for item in local), default=0),
+            }
+            if manifest["version"] == 2:
+                counts.update(
+                    publication_files=sum(
+                        row.get("shared", {}).get("kind") == "publication_file"
+                        for row in rows.values()
+                    ),
+                    inherited_chunks=len(index["blobs"]) - len(local),
+                    local_chunks=len(local),
+                )
+            if manifest["counts"] != counts:
+                raise ValueError("Provider storage counts differ")
+            if {key for row in rows.values() for key in row.get("chunks", [])} != set(
+                index["blobs"]
+            ):
+                raise ValueError("Provider referenced chunk inventory differs")
+            for dependency, pin in index.get("providers", {}).items():
+                if dependency not in self.registry or pin != self.registry[dependency]:
+                    raise ValueError("Transitive provider pin missing/different")
+                self.load(dependency)
+            package_record = (package, manifest, index, rows)
+            self.loaded[name] = package_record
+            self.pins[name] = expected_pins
+            self.check_pins()
+            return package_record
+        finally:
+            self.loading.remove(name)
+
+    @staticmethod
+    def decode_metadata(package, item, expected):
+        if type(expected) is not int or not 0 < expected < 128 * 1024 * 1024:
+            raise ValueError("Provider metadata exceeds bound")
+        with gzip.open(base.within(package, item["path"]), "rb") as stream:
+            raw = stream.read(expected + 1)
+        if len(raw) != expected:
+            raise ValueError("Provider metadata size differs")
+        return raw
+
+    def check_pins(self):
+        for name, pinned in self.pins.items():
+            package = base.within(self.root, self.registry[name]["root"])
+            for relative, expected in pinned.items():
+                path = base.within(package, relative)
+                if base.record(path) != expected:
+                    raise ValueError("Provider metadata changed during operation")
+
+    def catalog(self):
+        files, chunks = {}, {}
+        for name in sorted(self.registry):
+            _, _, index, rows = self.load(name)
+            for path, row in sorted(rows.items()):
+                files.setdefault(
+                    (row["sha256"], row["bytes"]),
+                    {"kind": "publication_file", "provider": name, "path": path},
+                )
+            for key, blob in sorted(index["blobs"].items()):
+                chunks.setdefault(
+                    key,
+                    {
+                        "kind": "publication_chunk",
+                        "provider": name,
+                        "chunk": key,
+                        "uncompressed_bytes": blob["uncompressed_bytes"],
+                    },
+                )
+        return files, chunks
+
+    def chunk(self, name, key, visiting=None):
+        visiting = set() if visiting is None else set(visiting)
+        identity = (name, key)
+        if identity in visiting:
+            raise ValueError("Cyclic provider chunk")
+        visiting.add(identity)
+        package, _, index, _ = self.load(name)
+        if key not in index["blobs"]:
+            raise ValueError("Missing inherited chunk")
+        blob = index["blobs"][key]
+        if blob.get("kind") == "publication_chunk":
+            self.require_dependency(index, blob["provider"])
+            if blob["chunk"] != key:
+                raise ValueError("Inherited chunk key differs")
+            raw = self.chunk(blob["provider"], key, visiting)
+            if len(raw) != blob["uncompressed_bytes"]:
+                raise ValueError("Inherited chunk size differs")
+            return raw
+        return base.decode_blob(package, key, blob)
+
+    def file(self, locator, expected_sha, expected_size, visiting=None):
+        visiting = set() if visiting is None else set(visiting)
+        identity = (locator["provider"], locator["path"])
+        if identity in visiting:
+            raise ValueError("Cyclic provider file")
+        visiting.add(identity)
+        base.safe_relative(locator["path"])
+        _, _, index, rows = self.load(locator["provider"])
+        row = rows.get(locator["path"])
+        if row is None or (row["sha256"], row["bytes"]) != (
+            expected_sha,
+            expected_size,
+        ):
+            raise ValueError("Provider whole-file identity differs")
+        digest = hashlib.sha256()
+        size = 0
+        if "shared" in row:
+            shared = row["shared"]
+            if shared["kind"] == "publication_file":
+                self.require_dependency(index, shared["provider"])
+            blocks = (
+                self.file(shared, expected_sha, expected_size, visiting)
+                if shared["kind"] == "publication_file"
+                else [base.decode_shared(self.root, shared)]
+            )
+        else:
+            blocks = (self.chunk(locator["provider"], key) for key in row["chunks"])
+        for raw in blocks:
+            digest.update(raw)
+            size += len(raw)
+            yield raw
+        if digest.hexdigest() != expected_sha or size != expected_size:
+            raise ValueError("Reconstructed provider file differs")
+        self.check_pins()
+
+    def require_dependency(self, index, name):
+        if name not in index.get("providers", {}):
+            raise ValueError("Undeclared transitive publication provider")
+        if name not in self.registry or index["providers"][name] != self.registry[name]:
+            raise ValueError("Transitive publication provider pin differs")

@@ -1,3 +1,5 @@
+> Historical evidence for audited `b515c4f`, superseded as the optimization baseline by corrected `1ecfbd5`. See [BASELINE_STATUS.md](BASELINE_STATUS.md). Do not use these timings or hypotheses as current-build measurements.
+
 # Fresh current-audited performance baseline
 
 This is a new profile of `b515c4f`, **not an accepted optimization**. The scientific baseline prerequisite remains unresolved; see [baseline status](BASELINE_STATUS.md).

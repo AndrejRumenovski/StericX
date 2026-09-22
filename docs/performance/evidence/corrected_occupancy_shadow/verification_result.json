@@ -1,0 +1,31 @@
+{
+  "baseline_source_files_recovered": 128,
+  "focused_shadow_tests_passed": 2,
+  "results": {
+    "conformers_56": {
+      "added_endpoint_predicates": 484253,
+      "current_z_predicates": 10884695,
+      "f32_fields": 2520,
+      "frames": 168,
+      "native_fingerprint": {
+        "stdout_sha256": "8098e16239bd7740ae4061868d83b45cd0f3989fa950bd869fdef72a16ea606b"
+      },
+      "net_z_reduction": 4947229,
+      "removable_z_predicates": 5431482
+    },
+    "descriptors_10000": {
+      "added_endpoint_predicates": 86487808,
+      "current_z_predicates": 1943832492,
+      "f32_fields": 450000,
+      "frames": 30000,
+      "native_fingerprint": {
+        "stdout_sha256": "df2815f9b1411e7d77a62de7bd1074747ff5cface781f62857e278553da37037"
+      },
+      "net_z_reduction": 883481917,
+      "removable_z_predicates": 969969725
+    }
+  },
+  "retained_original_files": 47,
+  "scope": "Retained package byte integrity, source recovery and diagnostic coverage; no native speedup claim.",
+  "status": "verified"
+}

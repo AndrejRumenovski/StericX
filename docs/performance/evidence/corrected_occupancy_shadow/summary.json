@@ -1,0 +1,542 @@
+{
+  "build_manifest": {
+    "bytes": 3626,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/build_manifest.json",
+    "sha256": "fa7324b5a8c675e6815f76cd1b1451f93bd5e59e71c4ade2520c09d43f6f0a12"
+  },
+  "completed_utc": "2026-09-22T03:18:07.530225+00:00",
+  "native_summary": {
+    "bytes": 23044,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/runs/accurate_baseline_native_t1/summary.json",
+    "sha256": "46af9dad515e60aab0ca80c0b8a9e2f227ff0ba3004692940ea6bef813cee3a3"
+  },
+  "no_performance_claim": true,
+  "pre_edit": {
+    "bytes": 3272,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/pre_edit_manifest.json",
+    "sha256": "8306e8a3a9d2feaddcc546685cd61f9e95e9a9708056f69e6e996514e207f15c"
+  },
+  "purpose": "Corrected-baseline shadow counts; diagnostic elapsed time is not performance.",
+  "results": {
+    "conformers_56": {
+      "all_15_f32_frame_bits_match": true,
+      "current_z_predicates": 10884695,
+      "eager_upper_model_added_endpoint_checks": 493551,
+      "eager_upper_model_extra_xy_preparations": 38905,
+      "eager_upper_model_xy_preparations": 3876120,
+      "exact_scientific_stdout_stderr": true,
+      "fresh_native_fingerprint_match": true,
+      "geometries": 56,
+      "highest_net_reduction_examples": [
+        {
+          "added_endpoint_checks": 3917,
+          "context": {
+            "atoms": 23,
+            "conformer": 0,
+            "orientation": 0,
+            "plane": 15,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/conformers/SIG-NIHDA-401_9d42bff1/conf_000.xyz"
+          },
+          "eliminated_tests": 62459,
+          "net_z_predicate_count_reduction": 58542
+        },
+        {
+          "added_endpoint_checks": 3938,
+          "context": {
+            "atoms": 23,
+            "conformer": 0,
+            "orientation": 2,
+            "plane": 10,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/conformers/SIG-NIHDA-401_9d42bff1/conf_000.xyz"
+          },
+          "eliminated_tests": 62583,
+          "net_z_predicate_count_reduction": 58645
+        },
+        {
+          "added_endpoint_checks": 3917,
+          "context": {
+            "atoms": 23,
+            "conformer": 0,
+            "orientation": 0,
+            "plane": 15,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/conformers/SIG-NIHDA-401_9d42bff1/conf_002.xyz"
+          },
+          "eliminated_tests": 62862,
+          "net_z_predicate_count_reduction": 58945
+        },
+        {
+          "added_endpoint_checks": 3931,
+          "context": {
+            "atoms": 23,
+            "conformer": 0,
+            "orientation": 2,
+            "plane": 10,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/conformers/SIG-NIHDA-401_9d42bff1/conf_002.xyz"
+          },
+          "eliminated_tests": 62910,
+          "net_z_predicate_count_reduction": 58979
+        },
+        {
+          "added_endpoint_checks": 3938,
+          "context": {
+            "atoms": 23,
+            "conformer": 0,
+            "orientation": 1,
+            "plane": 13,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/conformers/SIG-NIHDA-401_9d42bff1/conf_002.xyz"
+          },
+          "eliminated_tests": 62934,
+          "net_z_predicate_count_reduction": 58996
+        }
+      ],
+      "limitations": [
+        "Operation counts are not machine instructions or performance predictions.",
+        "The probe always executes original current predicates and adds shadow work; it is excluded from native timing claims.",
+        "Row min/max scans, finite checks, branches, vector accesses and instrumentation are not represented by the z-predicate net count.",
+        "The eager upper-work model visits every row/atom; it is not the lazy candidate algorithm.",
+        "Repeated throughput fixtures do not represent 10000 distinct chemistries."
+      ],
+      "lowest_net_reduction_examples": [
+        {
+          "added_endpoint_checks": 1712,
+          "context": {
+            "atoms": 24,
+            "conformer": 0,
+            "orientation": 2,
+            "plane": 17,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/conformers/SIG-NIHDA-1057_be992081/conf_000.xyz"
+          },
+          "eliminated_tests": 9108,
+          "net_z_predicate_count_reduction": 7396
+        },
+        {
+          "added_endpoint_checks": 1798,
+          "context": {
+            "atoms": 26,
+            "conformer": 0,
+            "orientation": 2,
+            "plane": 17,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/conformers/SIG-NIHDA-1058_219b0b66/conf_001.xyz"
+          },
+          "eliminated_tests": 9225,
+          "net_z_predicate_count_reduction": 7427
+        },
+        {
+          "added_endpoint_checks": 1796,
+          "context": {
+            "atoms": 26,
+            "conformer": 0,
+            "orientation": 1,
+            "plane": 21,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/conformers/SIG-NIHDA-1058_219b0b66/conf_001.xyz"
+          },
+          "eliminated_tests": 9256,
+          "net_z_predicate_count_reduction": 7460
+        },
+        {
+          "added_endpoint_checks": 1717,
+          "context": {
+            "atoms": 24,
+            "conformer": 0,
+            "orientation": 1,
+            "plane": 21,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/conformers/SIG-NIHDA-1057_be992081/conf_000.xyz"
+          },
+          "eliminated_tests": 9264,
+          "net_z_predicate_count_reduction": 7547
+        },
+        {
+          "added_endpoint_checks": 1798,
+          "context": {
+            "atoms": 26,
+            "conformer": 0,
+            "orientation": 0,
+            "plane": 15,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/conformers/SIG-NIHDA-1058_219b0b66/conf_001.xyz"
+          },
+          "eliminated_tests": 9409,
+          "net_z_predicate_count_reduction": 7611
+        }
+      ],
+      "orientations": 168,
+      "orientations_net_z_tests_increased": 0,
+      "original_first_hit_histogram": {
+        "0": 117779,
+        "1": 75478,
+        "10": 85204,
+        "11": 10080,
+        "12": 9042,
+        "13": 20836,
+        "14": 30617,
+        "15": 21674,
+        "16": 34866,
+        "17": 7530,
+        "18": 8862,
+        "19": 15496,
+        "2": 50542,
+        "20": 8730,
+        "21": 3138,
+        "22": 6510,
+        "23": 2473,
+        "24": 8538,
+        "25": 147,
+        "26": 6773,
+        "27": 4090,
+        "28": 3344,
+        "29": 1146,
+        "3": 142237,
+        "30": 7180,
+        "31": 4471,
+        "32": 6293,
+        "33": 3204,
+        "34": 10157,
+        "35": 9221,
+        "36": 2353,
+        "37": 5292,
+        "38": 5662,
+        "39": 5829,
+        "4": 24683,
+        "40": 515,
+        "41": 12,
+        "42": 700,
+        "43": 0,
+        "44": 0,
+        "45": 1,
+        "46": 1302,
+        "47": 1133,
+        "5": 25414,
+        "6": 18911,
+        "7": 13319,
+        "8": 14953,
+        "9": 12907,
+        "miss": 1739900
+      },
+      "raw_counts": {
+        "bytes": 464638,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/conformers_56/probe/counts.jsonl",
+        "sha256": "0b975dbcca711443bbd9d34485ac248f8ad1470ac7463b3528cc55809ff0c59c"
+      },
+      "row_length_histogram": {
+        "10": 6720,
+        "12": 5376,
+        "14": 6720,
+        "16": 7392,
+        "18": 10752,
+        "2": 1344,
+        "20": 11424,
+        "22": 11424,
+        "24": 12768,
+        "26": 12768,
+        "28": 15456,
+        "30": 14784,
+        "6": 2688,
+        "8": 4704
+      },
+      "shadow_eliminable_z_predicates": 5431482,
+      "shadow_lazy_added_endpoint_predicates": 484253,
+      "shadow_lazy_net_z_predicate_change": -4947229,
+      "shadow_lazy_net_z_predicate_reduction_fraction": 0.4545124139904701,
+      "shadow_lazy_z_predicates_remaining_plus_endpoints": 5937466,
+      "totals": {
+        "asserted_eliminated_tests_are_misses": 5431482,
+        "cached_z_tests": 10257800,
+        "eager_endpoint_checks": 493551,
+        "eager_endpoint_rejections": 341900,
+        "eager_inside_z_range": 146871,
+        "eager_nonfinite_fallback": 0,
+        "eager_xy_preparations": 3876120,
+        "eager_xy_rejections": 3235698,
+        "eliminated_cached_z_tests": 5095739,
+        "eliminated_new_z_tests": 335743,
+        "endpoint_checks_lazy": 484253,
+        "endpoint_rejections_lazy": 335743,
+        "first_hits_cached": 688227,
+        "first_hits_new": 160417,
+        "inside_z_range_lazy": 142642,
+        "new_candidate_z_tests": 626895,
+        "nonfinite_fallback_lazy": 0,
+        "point_misses": 1739900,
+        "point_visits": 2588544,
+        "rows": 124320,
+        "xy_preparations": 3837215,
+        "xy_rejections": 3210320
+      }
+    },
+    "descriptors_10000": {
+      "all_15_f32_frame_bits_match": true,
+      "current_z_predicates": 1943832492,
+      "eager_upper_model_added_endpoint_checks": 88148204,
+      "eager_upper_model_extra_xy_preparations": 6947929,
+      "eager_upper_model_xy_preparations": 692455740,
+      "exact_scientific_stdout_stderr": true,
+      "fresh_native_fingerprint_match": true,
+      "geometries": 10000,
+      "highest_net_reduction_examples": [
+        {
+          "added_endpoint_checks": 3938,
+          "context": {
+            "atoms": 23,
+            "conformer": 0,
+            "orientation": 1,
+            "plane": 13,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/batch/ligand_09725.xyz"
+          },
+          "eliminated_tests": 62934,
+          "net_z_predicate_count_reduction": 58996
+        },
+        {
+          "added_endpoint_checks": 3938,
+          "context": {
+            "atoms": 23,
+            "conformer": 0,
+            "orientation": 1,
+            "plane": 13,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/batch/ligand_09781.xyz"
+          },
+          "eliminated_tests": 62934,
+          "net_z_predicate_count_reduction": 58996
+        },
+        {
+          "added_endpoint_checks": 3938,
+          "context": {
+            "atoms": 23,
+            "conformer": 0,
+            "orientation": 1,
+            "plane": 13,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/batch/ligand_09837.xyz"
+          },
+          "eliminated_tests": 62934,
+          "net_z_predicate_count_reduction": 58996
+        },
+        {
+          "added_endpoint_checks": 3938,
+          "context": {
+            "atoms": 23,
+            "conformer": 0,
+            "orientation": 1,
+            "plane": 13,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/batch/ligand_09893.xyz"
+          },
+          "eliminated_tests": 62934,
+          "net_z_predicate_count_reduction": 58996
+        },
+        {
+          "added_endpoint_checks": 3938,
+          "context": {
+            "atoms": 23,
+            "conformer": 0,
+            "orientation": 1,
+            "plane": 13,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/batch/ligand_09949.xyz"
+          },
+          "eliminated_tests": 62934,
+          "net_z_predicate_count_reduction": 58996
+        }
+      ],
+      "limitations": [
+        "Operation counts are not machine instructions or performance predictions.",
+        "The probe always executes original current predicates and adds shadow work; it is excluded from native timing claims.",
+        "Row min/max scans, finite checks, branches, vector accesses and instrumentation are not represented by the z-predicate net count.",
+        "The eager upper-work model visits every row/atom; it is not the lazy candidate algorithm.",
+        "Repeated throughput fixtures do not represent 10000 distinct chemistries."
+      ],
+      "lowest_net_reduction_examples": [
+        {
+          "added_endpoint_checks": 1712,
+          "context": {
+            "atoms": 24,
+            "conformer": 0,
+            "orientation": 2,
+            "plane": 17,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/batch/ligand_00000.xyz"
+          },
+          "eliminated_tests": 9108,
+          "net_z_predicate_count_reduction": 7396
+        },
+        {
+          "added_endpoint_checks": 1712,
+          "context": {
+            "atoms": 24,
+            "conformer": 0,
+            "orientation": 2,
+            "plane": 17,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/batch/ligand_00056.xyz"
+          },
+          "eliminated_tests": 9108,
+          "net_z_predicate_count_reduction": 7396
+        },
+        {
+          "added_endpoint_checks": 1712,
+          "context": {
+            "atoms": 24,
+            "conformer": 0,
+            "orientation": 2,
+            "plane": 17,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/batch/ligand_00112.xyz"
+          },
+          "eliminated_tests": 9108,
+          "net_z_predicate_count_reduction": 7396
+        },
+        {
+          "added_endpoint_checks": 1712,
+          "context": {
+            "atoms": 24,
+            "conformer": 0,
+            "orientation": 2,
+            "plane": 17,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/batch/ligand_00168.xyz"
+          },
+          "eliminated_tests": 9108,
+          "net_z_predicate_count_reduction": 7396
+        },
+        {
+          "added_endpoint_checks": 1712,
+          "context": {
+            "atoms": 24,
+            "conformer": 0,
+            "orientation": 2,
+            "plane": 17,
+            "points": 15408,
+            "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/batch/ligand_00224.xyz"
+          },
+          "eliminated_tests": 9108,
+          "net_z_predicate_count_reduction": 7396
+        }
+      ],
+      "orientations": 30000,
+      "orientations_net_z_tests_increased": 0,
+      "original_first_hit_histogram": {
+        "0": 21039379,
+        "1": 13484709,
+        "10": 15235264,
+        "11": 1799923,
+        "12": 1614808,
+        "13": 3715525,
+        "14": 5451723,
+        "15": 3867735,
+        "16": 6226012,
+        "17": 1345429,
+        "18": 1579426,
+        "19": 2759548,
+        "2": 9018719,
+        "20": 1556928,
+        "21": 560149,
+        "22": 1163163,
+        "23": 441048,
+        "24": 1526670,
+        "25": 26166,
+        "26": 1211365,
+        "27": 732110,
+        "28": 598576,
+        "29": 205134,
+        "3": 25390201,
+        "30": 1285220,
+        "31": 800309,
+        "32": 1126447,
+        "33": 572280,
+        "34": 1814688,
+        "35": 1645469,
+        "36": 419713,
+        "37": 947003,
+        "38": 1013366,
+        "39": 1043278,
+        "4": 4400609,
+        "40": 92185,
+        "41": 2148,
+        "42": 125300,
+        "43": 0,
+        "44": 0,
+        "45": 179,
+        "46": 233058,
+        "47": 202807,
+        "5": 4540758,
+        "6": 3379937,
+        "7": 2380580,
+        "8": 2673606,
+        "9": 2308149,
+        "miss": 310683201
+      },
+      "raw_counts": {
+        "bytes": 82144311,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/descriptors_10000/probe/counts.jsonl",
+        "sha256": "7b0e1968e4df548b070d2d08ee5b1e8ba984e88cdf9bdc54df75e814d5cd3730"
+      },
+      "row_length_histogram": {
+        "10": 1200000,
+        "12": 960000,
+        "14": 1200000,
+        "16": 1320000,
+        "18": 1920000,
+        "2": 240000,
+        "20": 2040000,
+        "22": 2040000,
+        "24": 2280000,
+        "26": 2280000,
+        "28": 2760000,
+        "30": 2640000,
+        "6": 480000,
+        "8": 840000
+      },
+      "shadow_eliminable_z_predicates": 969969725,
+      "shadow_lazy_added_endpoint_predicates": 86487808,
+      "shadow_lazy_net_z_predicate_change": -883481917,
+      "shadow_lazy_net_z_predicate_reduction_fraction": 0.45450516988271433,
+      "shadow_lazy_z_predicates_remaining_plus_endpoints": 1060350575,
+      "totals": {
+        "asserted_eliminated_tests_are_misses": 969969725,
+        "cached_z_tests": 1831868275,
+        "eager_endpoint_checks": 88148204,
+        "eager_endpoint_rejections": 61066565,
+        "eager_inside_z_range": 26231368,
+        "eager_nonfinite_fallback": 0,
+        "eager_xy_preparations": 692455740,
+        "eager_xy_rejections": 578076168,
+        "eliminated_cached_z_tests": 910002944,
+        "eliminated_new_z_tests": 59966781,
+        "endpoint_checks_lazy": 86487808,
+        "endpoint_rejections_lazy": 59966781,
+        "first_hits_cached": 122908551,
+        "first_hits_new": 28648248,
+        "inside_z_range_lazy": 25476409,
+        "new_candidate_z_tests": 111964217,
+        "nonfinite_fallback_lazy": 0,
+        "point_misses": 310683201,
+        "point_visits": 462240000,
+        "rows": 22200000,
+        "xy_preparations": 685507811,
+        "xy_rejections": 573543594
+      }
+    }
+  },
+  "scientific_scope": "corrected admitted baseline with its established numerical/convention limits",
+  "source_manifest": {
+    "bytes": 28463,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/source_manifest.json",
+    "sha256": "3542297f3b780001c2635f13ca7d3300075e7c62add4d355f5d50ca56f3177c1"
+  },
+  "status": "complete",
+  "workload_manifest": {
+    "bytes": 22929020,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/manifest.json",
+    "sha256": "a1041cc07fc5583c33d2a7cf584dbc638866c64bdd0b64e3720ef83cc85e1e6a"
+  }
+}

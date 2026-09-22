@@ -1,0 +1,184 @@
+#!/usr/bin/env python3
+"""Corrected-baseline shadow counts; diagnostic elapsed time is not performance."""
+from pathlib import Path
+from datetime import datetime, UTC
+import difflib
+import hashlib
+import importlib.util
+import json
+import os
+import shutil
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parent
+REPO = ROOT.parents[3]
+CAPTURE = ROOT.parent / 'accurate_baseline_v1'
+SOURCE = ROOT / 'source'
+WORKLOAD = ROOT.parent / 'corrected_workloads_v2/workloads/manifest.json'
+NATIVE_SUMMARY = ROOT.parent / 'corrected_workloads_v2/runs/accurate_baseline_native_t1/summary.json'
+spec = importlib.util.spec_from_file_location('sealed_legacy_probe', ROOT/'legacy_run_probe.py')
+legacy = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(legacy)
+legacy.ROOT = ROOT
+legacy.SOURCE = SOURCE
+legacy.REPO = REPO
+# Use the retained helper, not a live script that C1 may later supersede.
+spec2 = importlib.util.spec_from_file_location('sealed_profile',ROOT/'helpers/scripts/profile_stericx.py')
+profile = importlib.util.module_from_spec(spec2)
+spec2.loader.exec_module(profile)
+sha = legacy.sha
+save = legacy.save
+identity = legacy.identity
+replace_once = legacy.replace_once
+
+EXTRA_TESTS = r'''
+#[cfg(test)]
+mod corrected_row_range_edge_tests {
+    use super::*;
+    #[test]
+    fn finite_absorption_underflow_overflow_and_boundary_are_exercised() {
+        let cases = [
+            (vec![0.0, 0.00001], -0.0001, 1.0, 1.0, 2),
+            (vec![-0.00001, 0.0], 0.0001, 1.0, 1.0, 2),
+            (vec![0.0, f32::from_bits(1)], -f32::from_bits(1), 0.0, 0.0, 2),
+            (vec![f32::MAX / 2.0, f32::MAX], -f32::MAX, 0.0, f32::MAX, 3),
+            (vec![-f32::MAX, -f32::MAX / 2.0], f32::MAX, 0.0, f32::MAX, 3),
+            (vec![1.0, 2.0], 0.0, 1.0, f32::from_bits(2.0_f32.to_bits()-1), 3),
+            (vec![1.0, 2.0], 0.0, 1.0, 2.0, 2),
+            (vec![1.0, 2.0], 0.0, 1.0, f32::from_bits(2.0_f32.to_bits()+1), 2),
+            (vec![-2.0, 2.0, 0.0], 0.0, 0.0, 1.0, 1),
+        ];
+        for (index,(zs, az, x, r2, expected)) in cases.into_iter().enumerate() {
+            let mut points: Vec<_> = zs.into_iter().map(|z| Vec3::new(x,0.0,z)).collect();
+            let atom=AlignedAtom{position:Vec3::new(0.0,0.0,az),radius_squared:r2};
+            for reverse in [false,true] {
+                if reverse {points.reverse();}
+                let rows=probe_rows(&points);
+                let dx=points[0].x-atom.position.x;
+                let dy=points[0].y-atom.position.y;
+                assert_eq!(probe_endpoint(&rows[0],&atom,dx*dx+dy*dy),expected);
+                probe_instrumented_occupied_volumes(&points,std::slice::from_ref(&atom),3.5,
+                    &serde_json::json!({"test":"finite focused endpoint","case":index,"reverse":reverse}));
+            }
+        }
+        let points=[Vec3::new(0.0,0.0,2.0),Vec3::new(0.0,0.0,f32::NAN)];
+        let atom=AlignedAtom{position:Vec3::ZERO,radius_squared:1.0};
+        assert_eq!(probe_endpoint(&probe_rows(&points)[0],&atom,0.0),0);
+        let row=probe_rows(&[Vec3::new(0.0,0.0,2.0)]);
+        for (position,radius_squared,xy) in [
+            (Vec3::ZERO,f32::INFINITY,0.0),
+            (Vec3::new(0.0,0.0,f32::INFINITY),1.0,0.0),
+            (Vec3::ZERO,1.0,f32::INFINITY),
+            (Vec3::ZERO,f32::NAN,0.0),
+        ] { assert_eq!(probe_endpoint(&row[0],&AlignedAtom{position,radius_squared},xy),0); }
+    }
+}
+'''
+
+
+def verify_pre():
+    pre=json.loads((ROOT/'pre_edit_manifest.json').read_text())
+    for key in ['baseline','baseline_native','workloads','native_summary','frozen_bv','live_bv','previous_function','proposal','legacy_helper','profile_helper']:
+        item=pre[key]; assert identity(Path(item['path']))==item,key
+    receipt=json.loads((CAPTURE/'manifest.json').read_text())
+    for copy in receipt['copies']:
+        item=copy['snapshot']; p=Path(item['path'])
+        if p.is_relative_to(CAPTURE/'source') or p==CAPTURE/'bin/native':
+            assert identity(p)==item,p
+    profile.verify_manifest(json.loads(WORKLOAD.read_text()))
+    return pre
+
+
+def prepare():
+    verify_pre()
+    assert not SOURCE.exists()
+    shutil.copytree(CAPTURE/'source',SOURCE)
+    before={str(p.relative_to(SOURCE)):sha(p) for p in SOURCE.rglob('*') if p.is_file()}
+    bv=SOURCE/'src/geometry/buried_volume.rs';captured=bv.read_bytes();body=captured.decode()
+    append=replace_once(legacy.APPEND,
+        'pub fn row_range_probe_conformer(molecule: &Molecule, donor: usize, reference: usize,\n    config: BuriedVolumeConfig, source: &str, conformer: usize) {\n    let (neighbors, center) = donor_geometry(molecule, donor, reference, config).unwrap();',
+        'pub fn row_range_probe_conformer(molecule: &Molecule, donor: usize, neighbors: [usize;3],\n    config: BuriedVolumeConfig, source: &str, conformer: usize) {\n    let center = coordination_center_with_neighbors(molecule, donor, neighbors, config).unwrap();')
+    addition=append+'\n'+legacy.instrument(body)+legacy.TESTS+EXTRA_TESTS
+    (ROOT/'observer_append.rs').write_text(addition)
+    bv.write_bytes(captured+addition.encode()); assert bv.read_bytes().startswith(captured)
+    mod=SOURCE/'src/geometry/mod.rs';mod.write_text(mod.read_text()+'\npub use buried_volume::{row_range_probe_conformer,row_range_probe_finish};\n')
+    main=SOURCE/'src/main.rs';main.write_text(replace_once(main.read_text(),'    let result = run();','    let result = run();\n    steric_x::geometry::row_range_probe_finish();'))
+    desc=SOURCE/'src/descriptors.rs'
+    before_loop_end='''    }
+
+    let max_delta_qvbur_min = buried'''
+    probe_hook='''        // Additional shadow only: output still uses the original calculation above.
+        steric_x::geometry::row_range_probe_conformer(molecule,topology.donor_idx,
+            topology.substituents,config,&path.display().to_string(),conformer_index);
+    }
+
+    let max_delta_qvbur_min = buried'''
+    desc.write_text(replace_once(desc.read_text(),before_loop_end,probe_hook))
+    after={str(p.relative_to(SOURCE)):sha(p) for p in SOURCE.rglob('*') if p.is_file()}
+    changed=[n for n in before if before[n]!=after[n]]
+    assert set(changed)=={'src/geometry/buried_volume.rs','src/geometry/mod.rs','src/main.rs','src/descriptors.rs'}
+    patch=''.join(''.join(difflib.unified_diff((CAPTURE/'source'/n).read_text().splitlines(True),(SOURCE/n).read_text().splitlines(True),fromfile='a/'+n,tofile='b/'+n)) for n in changed)
+    (ROOT/'probe.patch').write_text(patch)
+    save(ROOT/'source_manifest.json',{'created_utc':datetime.now(UTC).isoformat(),'pre_edit':identity(ROOT/'pre_edit_manifest.json'),'runner':identity(Path(__file__)),'before':before,'after':after,'changed':changed,'original_bv_prefix_verified':True,'original_bv_bytes':len(captured),'probe_patch':identity(ROOT/'probe.patch'),'append':identity(ROOT/'observer_append.rs'),'no_performance_claim':True})
+    print('prepared corrected source; exact production BV prefix retained',flush=True)
+
+
+def verify_source():
+    verify_pre();m=json.loads((ROOT/'source_manifest.json').read_text())
+    for n,h in m['before'].items(): assert sha(CAPTURE/'source'/n)==h,n
+    for n,h in m['after'].items(): assert sha(SOURCE/n)==h,n
+    assert m['runner']==identity(Path(__file__))
+    for key in ['probe_patch','append']:
+        assert m[key]==identity(Path(m[key]['path']))
+
+
+def build():
+    verify_source(); records=[]
+    commands=[['cargo','build','--offline','--locked','--release','--bin','stericx'],
+              ['cargo','test','--offline','--locked','--release','--lib','row_range']]
+    for i,command in enumerate(commands):
+        command+=['--manifest-path',str(SOURCE/'Cargo.toml'),'--target-dir',str(ROOT/'target')]
+        with (ROOT/f'build_{i}.stdout').open('xb') as stdout,(ROOT/f'build_{i}.stderr').open('xb') as stderr:
+            p=subprocess.run(command,cwd=SOURCE,stdout=stdout,stderr=stderr)
+        records.append({'argv':command,'cwd':str(SOURCE),'returncode':p.returncode,'stdout':identity(ROOT/f'build_{i}.stdout'),'stderr':identity(ROOT/f'build_{i}.stderr')})
+        if p.returncode:
+            save(ROOT/'build_failed.json',records);raise RuntimeError('build/test failed')
+    verify_source();save(ROOT/'build_manifest.json',{'commands':records,'binary':identity(ROOT/'target/release/stericx'),'source_manifest':identity(ROOT/'source_manifest.json'),'rustc':subprocess.check_output(['rustc','-vV'],text=True),'cargo':subprocess.check_output(['cargo','-V'],text=True),'no_performance_claim':True})
+    print('built; focused shadow tests passed',flush=True)
+
+
+def run():
+    verify_source();build=json.loads((ROOT/'build_manifest.json').read_text());assert build['binary']==identity(ROOT/'target/release/stericx')
+    manifest=json.loads(WORKLOAD.read_text());native=json.loads(NATIVE_SUMMARY.read_text())
+    summary={'purpose':__doc__,'scientific_scope':'corrected admitted baseline with its established numerical/convention limits','pre_edit':identity(ROOT/'pre_edit_manifest.json'),'source_manifest':identity(ROOT/'source_manifest.json'),'build_manifest':identity(ROOT/'build_manifest.json'),'workload_manifest':identity(WORKLOAD),'native_summary':identity(NATIVE_SUMMARY),'results':{},'no_performance_claim':True}
+    env={**os.environ,**profile.CONTROLLED_ENV,'RAYON_NUM_THREADS':'1'};env.pop('STERICX_PROFILE_PATH',None)
+    for name in ['conformers_56','descriptors_10000']:
+        w=manifest['workloads'][name]
+        for label,binary in [('current_native',CAPTURE/'bin/native'),('probe',ROOT/'target/release/stericx')]:
+            directory=ROOT/name/label;directory.mkdir(parents=True,exist_ok=False)
+            argv=[str(binary),*w['argv']];assert '{run_dir}' not in str(argv)
+            runenv=dict(env);runenv.pop('STERICX_ROW_RANGE_PROBE_PATH',None)
+            if label=='probe':runenv['STERICX_ROW_RANGE_PROBE_PATH']=str(directory/'counts.jsonl')
+            save(directory/'command.json',{'argv':argv,'cwd':str(REPO),'environment':{k:runenv.get(k) for k in [*profile.CONTROLLED_ENV,'RAYON_NUM_THREADS','STERICX_ROW_RANGE_PROBE_PATH']},'binary':identity(binary)})
+            print(name,label,'running diagnostic only',flush=True)
+            with (directory/'stdout.txt').open('xb') as stdout,(directory/'stderr.txt').open('xb') as stderr:
+                p=subprocess.run(argv,cwd=REPO,env=runenv,stdout=stdout,stderr=stderr)
+            fingerprint=profile.check_result(w,directory) if p.returncode==0 else None
+            save(directory/'result.json',{'returncode':p.returncode,'fingerprints':fingerprint,'stdout':identity(directory/'stdout.txt'),'stderr':identity(directory/'stderr.txt')})
+            assert p.returncode==0,(name,label,p.returncode)
+            assert fingerprint==native['results'][name]['fingerprints'],(name,label)
+        for stream in ['stdout.txt','stderr.txt']:assert sha(ROOT/name/'current_native'/stream)==sha(ROOT/name/'probe'/stream),(name,stream)
+        data=legacy.summarize(ROOT/name/'probe/counts.jsonl')
+        assert data['orientations']==3*w['expected_records'];assert data['geometries']==w['expected_records']
+        summary['results'][name]={**data,'raw_counts':identity(ROOT/name/'probe/counts.jsonl'),'exact_scientific_stdout_stderr':True,'fresh_native_fingerprint_match':True,'all_15_f32_frame_bits_match':True}
+        save(ROOT/name/'summary.json',summary['results'][name])
+        print(name,'all scientific bits/output exact; operation count delta',data['shadow_lazy_net_z_predicate_change'],flush=True)
+    verify_source();profile.verify_manifest(manifest)
+    summary['completed_utc']=datetime.now(UTC).isoformat();summary['status']='complete';save(ROOT/'summary.json',summary)
+    files=[identity(p) for p in ROOT.rglob('*') if p.is_file() and 'target' not in p.relative_to(ROOT).parts and '__pycache__' not in p.relative_to(ROOT).parts]
+    save(ROOT/'evidence_manifest.json',{'files':files,'scope':'Complete diagnostic source/counter/output evidence; excludes disposable Cargo/Python caches.'})
+
+
+if __name__=='__main__':
+    {'prepare':prepare,'build':build,'run':run}[sys.argv[1]]()

@@ -1,0 +1,98 @@
+{
+  "attributed_sum": 469829574,
+  "attribution": "Each unique compressed blob belongs to its first file in sorted index order; duplicate contents contribute zero thereafter.",
+  "counts": {
+    "files": 6479,
+    "gzip_blob_bytes": 469829574,
+    "logical_bytes": 4566739926,
+    "max_blob_bytes": 4027996,
+    "shared_files": 356,
+    "unique_chunks": 3564
+  },
+  "external_links_not_followed": 6,
+  "future_shared_provider": {
+    "lookup": "Match original file SHA-256 and byte count; reuse original ordered chunk list and content-addressed blob identities through a pinned confined provider. No duplicate C1b/C2/C3 output publication.",
+    "manifest": {
+      "bytes": 3246,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/manifest.json",
+      "sha256": "16964fbfaa6a057fb0a8bb8d78326d0bb359a49785d16bde17fd57044417df9b"
+    },
+    "restoration_index": {
+      "bytes": 616333,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/restoration_index.json.gz",
+      "sha256": "5c936fab94486c6aa67f486b732c898a00755e67905071ac8719676962faec6e"
+    }
+  },
+  "manifest": {
+    "bytes": 3246,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/manifest.json",
+    "sha256": "16964fbfaa6a057fb0a8bb8d78326d0bb359a49785d16bde17fd57044417df9b"
+  },
+  "omission_counts": {
+    "disposable_build_or_runtime_cache": 9,
+    "native_executable_retained_locally_no_binary_publication": 14
+  },
+  "target_sitepackages_venv_node_modules_in_inventory": [],
+  "top10_compressed_contributors": [
+    {
+      "new_unique_gzip_bytes": 130332992,
+      "original_bytes": 597469770,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c1_science_v2/observations/kraken_all_bins/stdout.jsonl",
+      "unique_chunks_owned": 62
+    },
+    {
+      "new_unique_gzip_bytes": 130295873,
+      "original_bytes": 597551021,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c1_science_v2/observations/kraken_topology_all_bins/stdout.jsonl",
+      "unique_chunks_owned": 62
+    },
+    {
+      "new_unique_gzip_bytes": 54294822,
+      "original_bytes": 295354264,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c1_science_v2/independent_references_v1/references_inferred/kraken/sut/stdout.jsonl",
+      "unique_chunks_owned": 62
+    },
+    {
+      "new_unique_gzip_bytes": 17909924,
+      "original_bytes": 100397773,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c1_science_v2/observations/derived_requests/kraken_topology_all_bins.jsonl",
+      "unique_chunks_owned": 62
+    },
+    {
+      "new_unique_gzip_bytes": 17909309,
+      "original_bytes": 100429494,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c1_science_v2/observations/derived_requests/kraken_topology.jsonl",
+      "unique_chunks_owned": 62
+    },
+    {
+      "new_unique_gzip_bytes": 15445690,
+      "original_bytes": 89645614,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c1_science_v2/independent_references_v1/volume_reference/reference_results.jsonl",
+      "unique_chunks_owned": 62
+    },
+    {
+      "new_unique_gzip_bytes": 9638345,
+      "original_bytes": 53250950,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c1_science_v2/independent_references_v1/all_bins/per_id_residuals.jsonl",
+      "unique_chunks_owned": 62
+    },
+    {
+      "new_unique_gzip_bytes": 6314462,
+      "original_bytes": 32759652,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c1_science_v2/independent_references_v1/fixed_union/inferred/selected_inputs.jsonl",
+      "unique_chunks_owned": 5
+    },
+    {
+      "new_unique_gzip_bytes": 6207203,
+      "original_bytes": 28498017,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c1_science_v2/independent_references_v1/references_inferred/kraken/interpretation/full_primary_conformers.csv",
+      "unique_chunks_owned": 2
+    },
+    {
+      "new_unique_gzip_bytes": 5216409,
+      "original_bytes": 27042637,
+      "path": ".stericx/profiling/scientifically_validated_optimization/candidate_c1_science_v2/independent_references_v1/references_inferred/kraken/delta_outliers/selected_inputs.jsonl",
+      "unique_chunks_owned": 5
+    }
+  ]
+}

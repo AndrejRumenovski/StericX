@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c2_v1/controllers/publish_shared.py", line 1071, in <module>
+    main()
+    ~~~~^^
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c2_v1/controllers/publish_shared.py", line 1060, in main
+    result = {"plan": plan, "build": build, "verify": verify, "restore": restore}[
+        args.command
+    ](args)
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c2_v1/controllers/publish_shared.py", line 597, in build
+    raise ValueError(f"Source metadata drifted: {path}")
+ValueError: Source metadata drifted: /run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/controllers/run_final_observations.py

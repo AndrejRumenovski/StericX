@@ -1,0 +1,170 @@
+#!/usr/bin/env python3
+"""Offline integrity/coverage check; no science replay or benchmark execution."""
+from collections import Counter
+from pathlib import Path
+import gzip
+import hashlib
+import io
+import json
+import lzma
+import subprocess
+import tarfile
+import tempfile
+
+ROOT = Path(__file__).resolve().parent
+
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def read_json(name):
+    return json.loads((ROOT / name).read_bytes())
+
+
+assembly = read_json('ASSEMBLY.json')
+original = {}
+for item in assembly['original_files']:
+    path = ROOT / item['published']
+    stored = path.read_bytes()
+    assert len(stored) == item['stored_bytes'], path
+    assert digest(stored) == item['stored_sha256'], path
+    if item['encoding'] == 'tar+gzip':
+        continue
+    data = {'identity': lambda value: value, 'gzip': gzip.decompress,
+            'xz': lzma.decompress}[item['encoding']](stored)
+    record = item['original']
+    assert len(data) == record['bytes'], path
+    assert digest(data) == record['sha256'], path
+    original[record['path']] = (item, data)
+
+
+def bound(record):
+    item, data = original[record['path']]
+    assert item['original'] == record, record['path']
+    return data
+
+
+summary = read_json('summary.json')
+completion = read_json('completion_binding.json')
+source = read_json('source_manifest.json')
+build = read_json('build_manifest.json')
+pre = read_json('pre_edit_manifest.json')
+assert json.loads(bound(completion['summary'])) == summary
+assert json.loads(bound(build['source_manifest'])) == source
+assert json.loads(bound(summary['source_manifest'])) == source
+assert json.loads(bound(summary['build_manifest'])) == build
+assert summary['status'] == 'complete'
+assert len(build['commands']) == 2
+for command in build['commands']:
+    assert command['returncode'] == 0
+    bound(command['stdout'])
+    bound(command['stderr'])
+assert b'2 passed; 0 failed' in bound(build['commands'][1]['stdout'])
+for record in [source['runner'], source['append'], source['probe_patch'],
+               completion['checker'], pre['proposal'], pre['legacy_helper']]:
+    bound(record)
+
+# Reconstruct the exact pre-instrumentation source, without modifying the package.
+with tempfile.TemporaryDirectory(prefix='stericx-shadow-package-') as temp:
+    target = Path(temp)
+    with tarfile.open(ROOT / 'instrumented_source.tar.gz', 'r:gz') as archive:
+        members = archive.getmembers()
+        assert {member.name for member in members} == {
+            'source/' + name for name in source['after']
+        }
+        for member in members:
+            assert member.isfile()
+            relative = Path(member.name)
+            assert not relative.is_absolute() and '..' not in relative.parts
+            data = archive.extractfile(member).read()
+            name = str(relative.relative_to('source'))
+            assert digest(data) == source['after'][name], name
+            path = target / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(data)
+    bv = (target / 'source/src/geometry/buried_volume.rs').read_bytes()
+    assert digest(bv[:source['original_bv_bytes']]) == pre['frozen_bv']['sha256']
+    reverse = subprocess.run(
+        ['patch', '--batch', '--reverse', '-p1', '--input', str(ROOT / 'probe.patch')],
+        cwd=target / 'source', capture_output=True, check=False,
+    )
+    assert reverse.returncode == 0, reverse.stderr.decode()
+    for name, expected in source['before'].items():
+        assert digest((target / 'source' / name).read_bytes()) == expected, name
+
+native_summary = json.loads(bound(summary['native_summary']))
+workload = json.loads(bound(summary['workload_manifest']))
+results = {}
+for name, expected in summary['results'].items():
+    data = bound(expected['raw_counts'])
+    totals = Counter()
+    hist = Counter()
+    frames = set()
+    bit_digest = hashlib.sha256()
+    fields = 0
+    for line in io.BytesIO(data):
+        row = json.loads(line)
+        context, counts = row['context'], row['counts']
+        key = (context['source'], context['conformer'], context['orientation'])
+        assert key not in frames
+        frames.add(key)
+        assert row['matches_unmodified_current_function'] is True
+        assert len(row['scientific_bits']) == 15
+        for value in row['scientific_bits']:
+            assert type(value) is int and 0 <= value < 2**32
+            bit_digest.update(value.to_bytes(4, 'little'))
+            fields += 1
+        assert counts['point_visits'] == sum(
+            counts[key] for key in ['first_hits_cached', 'first_hits_new', 'point_misses']
+        )
+        eliminated = counts['eliminated_cached_z_tests'] + counts['eliminated_new_z_tests']
+        assert eliminated == counts['asserted_eliminated_tests_are_misses']
+        assert eliminated == sum(row['eliminated_original_tests_by_atom'])
+        hits = row['original_first_hits_by_atom_or_miss']
+        assert len(hits) == context['atoms'] + 1
+        assert sum(hits) == context['points'] == counts['point_visits']
+        assert hits[-1] == counts['point_misses']
+        assert sum(row['row_length_histogram'].values()) == counts['rows']
+        assert sum(int(size) * count for size, count in row['row_length_histogram'].items()) == counts['point_visits']
+        totals.update(counts)
+        hist.update(row['row_length_histogram'])
+    argv = workload['workloads'][name]['argv']
+    assert argv[0] == 'descriptors'
+    assert argv[-4:] == ['--sterimol-axis', 'coordination', '--format', 'json']
+    assert frames == {(path, 0, orientation) for path in argv[1:-4] for orientation in range(3)}
+    assert dict(totals) == expected['totals']
+    assert dict(hist) == expected['row_length_histogram']
+    assert len(frames) == expected['orientations']
+    z = totals['cached_z_tests'] + totals['new_candidate_z_tests']
+    removed = totals['eliminated_cached_z_tests'] + totals['eliminated_new_z_tests']
+    endpoints = totals['endpoint_checks_lazy']
+    assert z == expected['current_z_predicates']
+    assert removed == expected['shadow_eliminable_z_predicates']
+    assert endpoints - removed == expected['shadow_lazy_net_z_predicate_change']
+    bit_record = completion['executions'][name]['frame_bit_evidence']
+    assert fields == bit_record['f32_bit_values']
+    assert bit_digest.hexdigest() == bit_record['ordered_u32_le_sha256']
+    for label, binary in [('current_native', pre['baseline_native']), ('probe', build['binary'])]:
+        execution = completion['executions'][name][label]
+        command = json.loads(bound(execution['command']))
+        result = json.loads(bound(execution['result']))
+        assert result['returncode'] == 0
+        assert command['binary'] == execution['binary_pre_run'] == execution['binary_post_run'] == binary
+        assert command['argv'] == [binary['path'], *argv]
+        # Both result receipts must identify identical full stream bytes, published once.
+        native_result = json.loads(bound(completion['executions'][name]['current_native']['result']))
+        for stream in ['stdout', 'stderr']:
+            shared = bound(native_result[stream])
+            assert digest(shared) == result[stream]['sha256']
+            assert len(shared) == result[stream]['bytes']
+        assert result['fingerprints'] == native_summary['results'][name]['fingerprints']
+    results[name] = {'frames': len(frames), 'f32_fields': fields,
+                     'current_z_predicates': z, 'removable_z_predicates': removed,
+                     'added_endpoint_predicates': endpoints,
+                     'net_z_reduction': removed - endpoints,
+                     'native_fingerprint': native_summary['results'][name]['fingerprints']}
+
+print(json.dumps({'status': 'verified', 'scope': 'Retained package byte integrity, source recovery and diagnostic coverage; no native speedup claim.',
+                  'retained_original_files': len(original), 'baseline_source_files_recovered': len(source['before']),
+                  'focused_shadow_tests_passed': 2, 'results': results}, indent=2, sort_keys=True))

@@ -26,7 +26,8 @@ pub mod training;
 pub use dataset::{ReactionLabel, TrainingSplit, is_supported_split};
 pub use domain::{
     ApplicabilityAssessment, DescriptorExceedance, DomainRule, DomainVerdict, NeighborCalibration,
-    TrainingGeometry, assess_applicability, student_t_two_sided_quantile,
+    PredictionIntervalEvaluator, TrainingGeometry, assess_applicability,
+    student_t_two_sided_quantile,
 };
 pub use evaluation::{EvaluationSummary, ScoredPrediction, score_frozen_predictions};
 pub use features::{

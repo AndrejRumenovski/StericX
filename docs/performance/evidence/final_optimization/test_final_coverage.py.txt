@@ -1,0 +1,184 @@
+"""Publication-scope regressions use the actual sealed final-receipt fixture."""
+
+import base64
+import copy
+import gzip
+import importlib.util
+import json
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).parent
+spec = importlib.util.spec_from_file_location(
+    "final_coverage_tested", ROOT / "final_coverage.py"
+)
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+FIXTURE = json.loads(gzip.decompress((ROOT / "final_fixture.json.gz").read_bytes()))
+
+
+class CoverageTests(unittest.TestCase):
+    def setUp(self):
+        self.fixture = copy.deepcopy(FIXTURE)
+
+    def run_check(self):
+        return module.coverage(
+            self.fixture["index"],
+            lambda p: base64.b64decode(self.fixture["raws"][p]),
+            self.fixture["acceptance"],
+        )
+
+    def mutate(self, relative, change):
+        key = module.BASE + relative
+        data = json.loads(base64.b64decode(self.fixture["raws"][key]))
+        change(data)
+        self.fixture["raws"][key] = base64.b64encode(json.dumps(data).encode()).decode()
+
+    def rejected(self):
+        with self.assertRaises((ValueError, KeyError)):
+            self.run_check()
+
+    def test_complete_actual_scope(self):
+        self.assertEqual(self.run_check(), FIXTURE["expected"])
+
+    def test_missing_final_prior(self):
+        del self.fixture["acceptance"]["prior_acceptance"]
+        self.rejected()
+
+    def test_wrong_build(self):
+        self.fixture["acceptance"]["candidate_build"]["sha256"] = "0" * 64
+        self.rejected()
+
+    def test_missing_reference_command(self):
+        self.mutate(
+            "final_post_optimization_v1/independent_references_v1/progress.json",
+            lambda d: d["commands"].pop(),
+        )
+        self.rejected()
+
+    def test_reference_tolerance_changed(self):
+        self.mutate(
+            "final_post_optimization_v1/independent_reference_resolution_v1/models_review.json",
+            lambda d: d.update(numeric_tolerances_changed=True),
+        )
+        self.rejected()
+
+    def test_missing_observer_command(self):
+        self.mutate(
+            "final_post_optimization_v1/complete.json", lambda d: d["commands"].pop()
+        )
+        self.rejected()
+
+    def test_unrelated_review_campaign(self):
+        self.mutate(
+            "final_native_independent_review_v1/analysis.json",
+            lambda d: d["native_manifest"].update(sha256="0" * 64),
+        )
+        self.rejected()
+
+    def test_narrowed_native_review(self):
+        self.mutate(
+            "final_native_independent_review_v1/analysis.json",
+            lambda d: d.update(launches=700),
+        )
+        self.rejected()
+
+    def test_boundary_missing_case(self):
+        self.mutate(
+            "final_command_boundary_v1/complete.json", lambda d: d["cases"].pop()
+        )
+        self.rejected()
+
+    def test_boundary_raw_tampering(self):
+        key = module.BASE + "final_command_boundary_v1/compare_text/stdout"
+        self.fixture["raws"][key] = base64.b64encode(
+            base64.b64decode(self.fixture["raws"][key]) + b"\n"
+        ).decode()
+        self.rejected()
+
+    def test_boundary_failure_status_changed(self):
+        self.mutate(
+            "final_command_boundary_v1/compare_text/result.json",
+            lambda d: d.update(returncode=2),
+        )
+        self.rejected()
+
+    def test_wrong_boundary_executable(self):
+        self.mutate(
+            "final_command_boundary_v1/compare_text/result.json",
+            lambda d: d["argv"].__setitem__(0, "/wrong/stericx"),
+        )
+        self.rejected()
+
+    def test_wrong_boundary_thread(self):
+        self.mutate(
+            "final_command_boundary_v1/compare_text/result.json",
+            lambda d: d["environment"].update(RAYON_NUM_THREADS="6"),
+        )
+        self.rejected()
+
+    def test_wrong_boundary_cwd(self):
+        self.mutate(
+            "final_command_boundary_v1/compare_text/result.json",
+            lambda d: d.update(cwd="/elsewhere"),
+        )
+        self.rejected()
+
+    def test_missing_raw_companion(self):
+        self.fixture["index"]["inventory"] = [
+            r
+            for r in self.fixture["index"]["inventory"]
+            if r["path"]
+            != module.BASE + "final_command_boundary_v1/compare_text/stderr"
+        ]
+        self.rejected()
+
+    def test_supplemental_command_failed(self):
+        self.mutate(
+            "final_supplemental_checks_v1/manifest.json",
+            lambda d: d["commands"][0].update(returncode=1),
+        )
+        self.rejected()
+
+    def test_supplemental_wrong_inner_native(self):
+        self.mutate(
+            "final_supplemental_checks_v1/additional_cli/manifest.json",
+            lambda d: d["candidate"].update(sha256="0" * 64),
+        )
+        self.rejected()
+
+    def test_supplemental_missing_case(self):
+        self.mutate(
+            "final_supplemental_checks_v1/additional_cli/manifest.json",
+            lambda d: d["cases"].pop(),
+        )
+        self.rejected()
+
+    def test_rebuilt_release_different(self):
+        self.mutate(
+            "final_engineering_v1/complete.json",
+            lambda d: d["delivered_release"].update(sha256="0" * 64),
+        )
+        self.rejected()
+
+    def test_failed_engineering(self):
+        self.mutate(
+            "final_engineering_v1/complete.json",
+            lambda d: d["commands"][0].update(returncode=1),
+        )
+        self.rejected()
+
+    def test_published_analysis_missing(self):
+        self.mutate(
+            "final_measurement_publication_v1/receipt.json",
+            lambda d: d["outputs"].pop(0),
+        )
+        self.rejected()
+
+    def test_c3_rejection_reversed(self):
+        self.mutate("rejected_c3_v1/decision.json", lambda d: d.update(accepted=True))
+        self.rejected()
+
+
+if __name__ == "__main__":
+    unittest.main()

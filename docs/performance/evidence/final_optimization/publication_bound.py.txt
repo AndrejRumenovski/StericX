@@ -1,0 +1,146 @@
+#!/usr/bin/env python3
+"""Additive, plan-bound verification/restoration of the unchanged C1 v1 archive."""
+
+import argparse
+import gzip
+import hashlib
+import json
+import os
+from pathlib import Path
+import types
+
+
+def import_original(package):
+    path = package / "publish.py.txt"
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != "ebc8a36a707186fba821c09052966e40e1d83c66aa1c7554790e5cd1d226abbb":
+        raise ValueError("Original publication controller differs from reviewed source")
+    module = types.ModuleType("c1_publication_original")
+    module.__file__ = str(path)
+    exec(compile(raw, str(path), "exec"), module.__dict__)
+    return module
+
+
+def bind_plan(pub, manifest, index, raw):
+    """Compare metadata and complete membership; do not reopen historical paths."""
+    binding = index["plan"]
+    if len(raw) != binding["bytes"] or hashlib.sha256(raw).hexdigest() != binding["sha256"]:
+        raise ValueError("Stored plan differs from its original byte identity")
+    plan = json.loads(raw)
+    for field in ("version", "repo", "scope", "source_roots", "shared_manifests",
+                  "external_links", "omissions", "coverage_contract", "coverage"):
+        if index[field] != plan[field]:
+            raise ValueError(f"Index differs from plan: {field}")
+    if index["original_controller"] != plan["controller"]:
+        raise ValueError("Original controller binding differs")
+    controller = manifest["controller"]
+    if any(controller[key] != plan["controller"][key] for key in ("bytes", "sha256")):
+        raise ValueError("Published controller differs from planned controller")
+    original_inventory = [{key: value for key, value in row.items() if key != "chunks"}
+                          for row in index["inventory"]]
+    if original_inventory != plan["inventory"]:
+        raise ValueError("Complete restored inventory differs from the plan")
+    entries = {row["path"]: row for row in index["inventory"]}
+    for binding in (plan["spec"], plan["controller"]):
+        relative = Path(binding["path"]).relative_to(Path(plan["repo"])).as_posix()
+        row = entries.get(relative)
+        if row is None or any(row[key] != binding[key] for key in ("bytes", "sha256")):
+            raise ValueError("Planned specification/controller source missing from inventory")
+    used = {key for row in index["inventory"] for key in row.get("chunks", [])}
+    if used != set(index["blobs"]):
+        raise ValueError("Blob inventory differs from referenced chunks")
+    counts = {
+        "files": len(index["inventory"]),
+        "unique_chunks": len(index["blobs"]),
+        "shared_files": sum("shared" in row for row in index["inventory"]),
+        "logical_bytes": sum(row["bytes"] for row in index["inventory"]),
+        "gzip_blob_bytes": sum(row["bytes"] for row in index["blobs"].values()),
+        "max_blob_bytes": max((row["bytes"] for row in index["blobs"].values()), default=0),
+    }
+    if manifest["counts"] != counts:
+        raise ValueError("Published counts differ from actual inventory")
+    return plan
+
+
+def identities(pub, package, manifest):
+    names = ["manifest.json"] + [manifest[field]["path"] for field in ("index", "controller", "plan")]
+    return {name: pub.record(pub.within(package, name)) for name in names}
+
+
+def check_identities(pub, package, pinned):
+    for name, expected in pinned.items():
+        if pub.record(pub.within(package, name)) != expected:
+            raise ValueError(f"Publication metadata changed during verification/restoration: {name}")
+
+
+def load_bound(pub, package):
+    # Pin manifest before loading dependencies, then require the complete set unchanged.
+    initial_manifest = pub.record(package / "manifest.json")
+    manifest, index = pub.load_package(package)
+    pinned = identities(pub, package, manifest)
+    if pinned["manifest.json"] != initial_manifest:
+        raise ValueError("Publication manifest changed while loading")
+    expected = index["plan"]["bytes"]
+    if type(expected) is not int or not 0 < expected < 128 * 1024 * 1024:
+        raise ValueError("Plan exceeds metadata size bound")
+    with gzip.open(pub.within(package, manifest["plan"]["path"]), "rb") as stream:
+        raw = stream.read(expected + 1)
+    bind_plan(pub, manifest, index, raw)
+    check_identities(pub, package, pinned)
+    return manifest, index, pinned
+
+
+def verify_bound(pub, args):
+    package = args.package.resolve()
+    _, index, pinned = load_bound(pub, package)
+    result = pub.verify(args)
+    check_identities(pub, package, pinned)
+    if result["manifest"] != pinned["manifest.json"]:
+        raise ValueError("Verifier result names a different manifest")
+    result.update(verifier_version=2, complete_original_plan_inventory_verified=True,
+                  publication_metadata_pinned=pinned,
+                  verifier=pub.record(Path(__file__).resolve()))
+    return result, index, pinned
+
+
+def restore_bound(pub, args):
+    result, index, pinned = verify_bound(pub, args)
+    package = args.package.resolve()
+    # Use the already verified in-memory index, never a second independently loaded index.
+    args.output.mkdir(parents=True, exist_ok=False)
+    for row in index["inventory"]:
+        path = pub.within(args.output.resolve(), row["path"])
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("xb") as stream:
+            for block in pub.reconstructed(package, index, row, args.shared_root):
+                stream.write(block)
+        os.chmod(path, row["mode"] & 0o777)
+        os.utime(path, ns=(row["mtime_ns"], row["mtime_ns"]))
+        if pub.sha(path) != row["sha256"] or path.stat().st_size != row["bytes"]:
+            raise ValueError("Restored bytes differ after writing")
+    check_identities(pub, package, pinned)
+    result.update(restored_root=str(args.output.resolve()), external_links_not_created=index["external_links"],
+                  omissions=index["omissions"], restored_from_verified_in_memory_index=True)
+    pub.write_new(args.output / "RESTORATION_RECEIPT.json", pub.json_bytes(result))
+    return result
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("command", choices=("verify", "restore"))
+    parser.add_argument("--package", type=Path, required=True)
+    parser.add_argument("--shared-root", type=Path, required=True)
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args()
+    if args.command == "restore" and args.output is None:
+        parser.error("restore requires --output")
+    package = args.package.resolve()
+    # This is a repository code artifact, not an untrusted executable archive.
+    # Its exact controller identity is checked again by load_bound.
+    pub = import_original(package)
+    result = verify_bound(pub, args)[0] if args.command == "verify" else restore_bound(pub, args)
+    print(json.dumps(result, indent=2, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()

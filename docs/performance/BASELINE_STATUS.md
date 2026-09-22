@@ -1,76 +1,36 @@
-# Current optimization baseline: scientific remediation in progress
+# Corrected optimization baseline
 
-The performance task is **not complete**. No production optimization has been
-accepted. A file-parallel experiment was withdrawn before benchmarking and its
-source change restored; its patch and partial checks are preserved separately.
+The current baseline is corrected commit
+`1ecfbd5be8b354711bdadd8a8d148417e03d8e7a`. Its independently rechecked native release
+executable SHA-256 is
+`102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f`.
+The [remediation report](../scientific_remediation/SCIENTIFIC_REMEDIATION.md) and
+[scoped admission](../scientific_remediation/ADMISSION.json) record the corrected
+scientific contracts and remaining limitations. The original audit remains unchanged.
 
-The current commit is `b515c4f1736a1519be19a3ecdf40c3c1327ac9b4`, which publishes
-the independent scientific audit. Its 42 Cargo/Rust source files match the
-audited implementation, and a fresh locked release build reproduces executable
-SHA-256 `b577c49d3e98b4745213fce0e70e93a55fc61120c5abe6fdb0658547c43cab94`.
-That commit is the historical audited baseline, not the corrected optimization
-baseline. Remediation is now authorized and in progress in the working tree.
+The immutable freeze is
+`.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/`.
+It binds the source commit, Cargo/Rust/Python source, native and observer binaries,
+complete outputs/errors, independent reference evidence, machine/toolchain,
+76,714 raw evidence files and corrected benchmark inputs.
 
-The [audit](../scientific_accuracy_audit/SCIENTIFIC_ACCURACY_AUDIT.md) supports
-many scoped numerical claims, but does not establish the unrestricted passing
-baseline requested by the new optimization task. For example:
+The baseline gate includes 128,021 complete observations, all 31,721 topology
+conformers and 1,141,956 regional bins, 7,624 model comparisons, the analytical
+thermodynamic replay, 93 CLI cases at each of 1/2/4/6 threads, 306 Rust tests,
+113 Python tests, four reference-integrity tests, Clippy, rustdoc and formatting.
+These counts establish stated coverage; they do not establish universal chemical
+or experimental validity.
 
-| Required property | Current audited evidence |
-| --- | --- |
-| Valid symmetric geometries remain accepted | Valid PH3 occupied volume is rejected for zero quadrant asymmetry (G22). |
-| Automatic axis selection is invariant to atom ordering | A tied-axis witness changes L/B5 by 2.57 Å (G06). |
-| Requested thermodynamic temperature is honored | Parsed CREST populations ignore the requested temperature (C09). |
-| Validation rejects invalid predictions | `evaluate` accepts NaN predictions with exit status zero (M69). |
+Fresh profiling and optimization from this baseline retained ordered descriptor
+file parallelism (C1/C1b) and exact Student-t multiplier reuse (C2). The final
+native SHA-256 is
+`b233501640e4d06555a36a278581fbf9cb011962311f205c81f3fc9a83ae89e6`.
+Fresh scientific/reference/engineering gates and the final 720-launch matrix
+passed. The buried-volume row-rejection experiment C3 was exact but slower and
+was reverted. The [final report](SCIENTIFICALLY_EXACT_OPTIMIZATION.md) records the
+accepted gains, remaining regressions, all evidence and reproduction instructions.
 
-Claim IDs refer to the individual propositions and limitations in
-[CLAIMS.md](../scientific_accuracy_audit/CLAIMS.md); these are not four exhaustive
-categories or a count of independent defects. Preserving known failures exactly
-is an optimization regression check, not evidence that the failures are correct.
-
-The user explicitly chose: **correct the demonstrated scientific failures first,
-then freeze a new optimization baseline and continue the goal**. Follow the
-[remediation plan](../scientific_remediation/REMEDIATION_PLAN.md). Independent
-definitions remain fixed. Intentional corrections to the old scientific outputs
-must be justified and recorded before a new optimization oracle is frozen.
-Historical audit artifacts remain unchanged.
-
-Preparation proceeds independently: the current audited system is frozen under
-`.stericx/profiling/scientifically_validated_optimization/current_audited_b515c4f/`.
-The directory name follows the requested task layout; its machine-readable
-identity explicitly sets `scientifically_corrected_or_validated_baseline` to
-`false`. All 74,298 sealed audit payload files, totaling 1,150,324,652 bytes, were
-verified before the freeze. The original audit remains the immutable source of
-the scientific observations and negative findings.
-
-Fresh native measurements cover all ten requested workloads at 1/2/4/6 threads,
-with one warmup and seven measured launches per configuration. These measurements
-are a new performance baseline, not an optimization speedup. Separate diagnostic
-builds measure attribution and allocations; they are not used for native speed
-claims. Raw timings, resource measurements, output fingerprints and executable
-hashes are retained under the new snapshot and its bound run directories.
-
-Three new mechanisms close gaps in the historical regression workflow:
-
-- `scripts/check_current_scientific_equivalence.py` links the selected live Rust
-  source, including the private buried-volume observation module. It covers the
-  full 31,721-conformer corpus and an additional stream exposing every regional
-  bin, alongside geometry, kinetics, aggregation and model-domain witnesses.
-- `scripts/check_scientific_cli_equivalence.py` freezes 93 CLI cases plus live
-  Python weighting observations, preserving complete records, errors and
-  candidate decks. Only explicitly named process metrics and the portable
-  model's creation timestamp are excluded from exact comparison.
-- Independent scientific reference replay is prepared separately from baseline
-  equality, using the original equations, reference data and classifications.
-
-Initial CLI harness failures are retained: preparation first detected an
-incorrect assumed command count (33 model commands exist); the first full
-fidelity run identified the previously omitted `simulate` timing field
-`total_microseconds`. All other compared scientific values, artifacts and errors
-matched. A new manifest version explicitly identifies this process timing field;
-the earlier evidence was not rewritten. Neither event is a scientific tolerance
-adjustment or a production optimization.
-
-The requested [optimization report](SCIENTIFICALLY_EXACT_OPTIMIZATION.md) currently
-contains an explicitly incomplete checkpoint. It must not be presented as a final
-success report before the baseline prerequisite and both scientific and
-performance acceptance gates have been resolved.
+The earlier audited `b515c4f` freeze and its withdrawn file-parallel experiment
+remain preserved under `current_audited_b515c4f/` and in the
+[historical checkpoint](PRE_REMEDIATION_OPTIMIZATION_CHECKPOINT.md).
+Those timings and negative scientific outputs are not the corrected baseline.

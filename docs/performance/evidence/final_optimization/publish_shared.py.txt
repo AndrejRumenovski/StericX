@@ -1,0 +1,1089 @@
+#!/usr/bin/env python3
+"""Lossless content-addressed evidence publication; never runs scientific jobs."""
+
+from __future__ import annotations
+
+import argparse
+import gzip
+import hashlib
+import importlib.util
+import json
+import lzma
+import os
+import re
+import stat
+import sys
+from datetime import UTC, datetime
+from pathlib import Path, PurePosixPath
+
+
+def load_provider_module():
+    path = Path(__file__).with_name("provider_storage.py")
+    if not path.exists():
+        path = path.with_suffix(".py.txt")
+    raw = path.read_bytes()
+    expected = "09ebeb7757f1521352cac2579a5d0d6d65d41b63ef0d0f8743acc4a57415be82"
+    if hashlib.sha256(raw).hexdigest() != expected:
+        raise ValueError("Reviewed provider helper differs before import")
+    module_spec = importlib.util.spec_from_loader(
+        "shared_provider_storage", loader=None
+    )
+    value = importlib.util.module_from_spec(module_spec)
+    value.__file__ = str(path)
+    exec(compile(raw, str(path), "exec"), value.__dict__)
+    return value
+
+
+def load_final_module():
+    path = Path(__file__).with_name("final_coverage.py")
+    if not path.exists():
+        path = path.with_suffix(".py.txt")
+    raw = path.read_bytes()
+    expected = "516613fe2e651940caa274458f9041ded68f7a23c952794edced087a037999b3"
+    if hashlib.sha256(raw).hexdigest() != expected:
+        raise ValueError("Reviewed final coverage helper differs before import")
+    module_spec = importlib.util.spec_from_loader("final_payload_coverage", loader=None)
+    value = importlib.util.module_from_spec(module_spec)
+    value.__file__ = str(path)
+    exec(compile(raw, str(path), "exec"), value.__dict__)
+    return value
+
+
+final_coverage = load_final_module()
+provider_storage = load_provider_module()
+PROVIDER_CACHE = {}
+
+
+def providers_for(root, registry):
+    key = (str(root.resolve()), json.dumps(registry, sort_keys=True))
+    if key not in PROVIDER_CACHE:
+        PROVIDER_CACHE[key] = provider_storage.Providers(root, registry)
+    return PROVIDER_CACHE[key]
+
+
+def provider_pins(root, registry):
+    providers = providers_for(root, registry)
+    for name in registry:
+        providers.load(name)
+    providers.check_pins()
+    return providers
+
+
+VERSION = 2
+MAX_CHUNK = 16 * 1024 * 1024
+MAX_BLOB = 50_000_000
+SKIP_DIRS = {
+    "target",
+    "__pycache__",
+    ".git",
+    ".pytest_cache",
+    ".ruff_cache",
+    "matplotlib-cache",
+}
+HEX = re.compile(r"[0-9a-f]{64}\Z")
+
+
+def safe_relative(value):
+    if (
+        not isinstance(value, str)
+        or not value
+        or "\\" in value
+        or "\0" in value
+        or ":" in value
+    ):
+        raise ValueError(f"Unsafe relative path: {value!r}")
+    path = PurePosixPath(value)
+    if (
+        path.is_absolute()
+        or any(part in {".", "..", ""} for part in value.split("/"))
+        or str(path) != value
+    ):
+        raise ValueError(f"Unsafe relative path: {value!r}")
+    return path
+
+
+def within(root, relative):
+    path = root / str(safe_relative(relative))
+    if not path.resolve().is_relative_to(root.resolve()):
+        raise ValueError(f"Path escapes root: {relative}")
+    return path
+
+
+def sha(path):
+    value = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            value.update(block)
+    return value.hexdigest()
+
+
+def record(path):
+    return {"path": str(path), "bytes": path.stat().st_size, "sha256": sha(path)}
+
+
+def require_record(item):
+    if record(Path(item["path"])) != item:
+        raise ValueError(f"Changed file: {item['path']}")
+
+
+def read(path):
+    return json.loads(path.read_bytes())
+
+
+def write_new(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("xb") as stream:
+        stream.write(data)
+
+
+def json_bytes(value):
+    return (json.dumps(value, indent=2, sort_keys=True) + "\n").encode()
+
+
+def executable_binary(path):
+    with path.open("rb") as stream:
+        start = stream.read(8)
+    return start.startswith(
+        (b"\x7fELF", b"MZ", b"\x00asm", b"\xcf\xfa\xed\xfe", b"\xfe\xed\xfa\xcf")
+    )
+
+
+def shared_catalog(repo):
+    catalog = {}
+    seals = []
+    audit_manifest = repo / "docs/scientific_accuracy_audit/publication/manifest.json"
+    if audit_manifest.exists():
+        seals.append(record(audit_manifest))
+        data = read(audit_manifest)
+        for kind in ("direct_files", "bundled_files"):
+            for item in data[kind]:
+                catalog.setdefault(
+                    (item["sha256"], item["bytes"]),
+                    {
+                        "kind": "repository_file",
+                        "path": "docs/scientific_accuracy_audit/"
+                        + str(safe_relative(item["path"])),
+                        "publication_manifest": (
+                            "docs/scientific_accuracy_audit/publication/manifest.json"
+                        ),
+                        "availability": "direct"
+                        if kind == "direct_files"
+                        else "restore_shared_audit_bundle_first",
+                    },
+                )
+    assembly = (
+        repo / "docs/performance/evidence/corrected_occupancy_shadow/ASSEMBLY.json"
+    )
+    if assembly.exists():
+        seals.append(record(assembly))
+        for item in read(assembly)["original_files"]:
+            if item["encoding"] == "tar+gzip":
+                continue
+            origin = item["original"]
+            catalog[(origin["sha256"], origin["bytes"])] = {
+                "kind": "encoded_repository_file",
+                "path": "docs/performance/evidence/corrected_occupancy_shadow/"
+                + str(safe_relative(item["published"])),
+                "encoding": item["encoding"],
+                "encoded_bytes": item["stored_bytes"],
+                "encoded_sha256": item["stored_sha256"],
+                "publication_manifest": (
+                    "docs/performance/evidence/corrected_occupancy_shadow/ASSEMBLY.json"
+                ),
+            }
+    return catalog, seals
+
+
+def decode_shared(repo, locator):
+    path = within(repo, locator["path"])
+    if not path.is_file():
+        raise ValueError(
+            f"Missing shared evidence; restore its documented publication first: {path}"
+        )
+    if locator["kind"] == "repository_file":
+        return path.read_bytes()
+    if locator["kind"] != "encoded_repository_file":
+        raise ValueError("Unknown shared locator")
+    data = path.read_bytes()
+    if (
+        len(data) != locator["encoded_bytes"]
+        or hashlib.sha256(data).hexdigest() != locator["encoded_sha256"]
+    ):
+        raise ValueError(f"Changed encoded shared evidence: {path}")
+    return {"identity": lambda x: x, "gzip": gzip.decompress, "xz": lzma.decompress}[
+        locator["encoding"]
+    ](data)
+
+
+def plan(args):
+    repo = args.repo.resolve()
+    spec = read(args.spec)
+    catalog, seals = shared_catalog(repo)
+    providers = provider_pins(repo, spec.get("providers", {}))
+    inherited_files, _ = providers.catalog()
+    catalog.update(inherited_files)
+    paths = set()
+    links = []
+    omitted = []
+    for relative in spec["roots"]:
+        root = within(repo, relative)
+        if not root.exists() or root.is_symlink():
+            raise ValueError(f"Required root absent/not regular: {root}")
+        for directory, dirs, names in os.walk(root, followlinks=False):
+            for name in list(dirs):
+                p = Path(directory) / name
+                rel = p.relative_to(repo).as_posix()
+                if p.is_symlink():
+                    links.append(
+                        {
+                            "path": rel,
+                            "target": os.readlink(p),
+                            "kind": "external_directory_reference",
+                        }
+                    )
+                    dirs.remove(name)
+                elif name in SKIP_DIRS:
+                    omitted.append(
+                        {"path": rel, "reason": "disposable_build_or_runtime_cache"}
+                    )
+                    dirs.remove(name)
+            for name in names:
+                p = Path(directory) / name
+                rel = p.relative_to(repo).as_posix()
+                if p.is_symlink():
+                    links.append(
+                        {
+                            "path": rel,
+                            "target": os.readlink(p),
+                            "kind": "external_file_reference",
+                        }
+                    )
+                else:
+                    paths.add(rel)
+    for relative in spec.get("files", []):
+        p = within(repo, relative)
+        if not p.is_file() or p.is_symlink():
+            raise ValueError(f"Required explicit file absent/not regular: {p}")
+        paths.add(relative)
+    inventory = []
+    for i, relative in enumerate(sorted(paths)):
+        path = within(repo, relative)
+        before = path.stat()
+        item = {
+            "path": relative,
+            "bytes": before.st_size,
+            "sha256": sha(path),
+            "mode": stat.S_IMODE(before.st_mode),
+            "mtime_ns": before.st_mtime_ns,
+        }
+        after = path.stat()
+        if (before.st_size, before.st_mtime_ns) != (after.st_size, after.st_mtime_ns):
+            raise ValueError(f"Changed during planning: {path}")
+        if executable_binary(path):
+            omitted.append(
+                {
+                    **item,
+                    "reason": (
+                        "native_executable_retained_locally_no_binary_publication"
+                    ),
+                }
+            )
+            continue
+        locator = catalog.get((item["sha256"], item["bytes"]))
+        if locator is not None and item["bytes"]:
+            # Local source is always hashed above. The shared provider must also match.
+            blocks = (
+                providers.file(locator, item["sha256"], item["bytes"])
+                if locator["kind"] == "publication_file"
+                else [decode_shared(repo, locator)]
+            )
+            digest = hashlib.sha256()
+            size = 0
+            for data in blocks:
+                digest.update(data)
+                size += len(data)
+            if size != item["bytes"] or digest.hexdigest() != item["sha256"]:
+                raise ValueError(f"Shared provider differs: {relative}")
+            item["shared"] = locator
+        inventory.append(item)
+        if i % 500 == 0:
+            print(f"planned {i}/{len(paths)}", flush=True)
+    result = {
+        "version": VERSION,
+        "kind": "accepted_candidate_shared_publication_plan",
+        "created_utc": datetime.now(UTC).isoformat(),
+        "repo": str(repo),
+        "spec": record(args.spec.resolve()),
+        "controller": record(Path(__file__).resolve()),
+        "shared_manifests": seals,
+        "source_roots": spec["roots"],
+        "inventory": inventory,
+        "external_links": links,
+        "omissions": omitted,
+        "scope": spec["scope"],
+        "coverage_contract": spec["coverage_contract"],
+    }
+    result["providers"] = spec.get("providers", {})
+    result["helper_sources"] = [
+        record(Path(__file__).with_name(name))
+        for name in (
+            "provider_storage.py",
+            "publication_base.py",
+            "publication_bound.py",
+            "final_coverage.py",
+        )
+    ]
+    result["coverage"] = coverage(
+        result, lambda relative: within(repo, relative).read_bytes()
+    )
+    providers.check_pins()
+    write_new(args.output, json_bytes(result))
+    print(
+        json.dumps(
+            {
+                "planned_files": len(inventory),
+                "raw_bytes": sum(i["bytes"] for i in inventory),
+                "shared_files": sum("shared" in i for i in inventory),
+                "coverage": result["coverage"],
+            },
+            indent=2,
+        ),
+        flush=True,
+    )
+
+
+def coverage(index, get):
+    inventory = {item["path"]: item for item in index["inventory"]}
+    contracts = index["coverage_contract"]
+    primary = contracts["native"][contracts["primary_native"]]
+    expected_workloads = {
+        "single_small",
+        "single_large",
+        "conformers_56",
+        "descriptors_10000",
+        "ensemble_sdf",
+        "parse_ensembles_1000",
+        "db_build_ensembles",
+        "predict_1000000",
+        "screen_1000",
+        "search_database",
+    }
+    if (
+        len(primary["configurations"]) != 40
+        or primary["launches"] != 720
+        or primary["measured_pairs"] != 8
+        or {tuple(row) for row in primary["configurations"]}
+        != {(t, name) for t in (1, 2, 4, 6) for name in expected_workloads}
+        or len(contracts["lanes"]) != 13
+        or contracts["observation_rows"] != 128021
+        or sorted(contracts["cli_manifests"].values()) != [1, 2, 4, 6]
+    ):
+        raise ValueError("Incomplete accepted-candidate coverage contract")
+    launches = {}
+    for root, contract in contracts["native"].items():
+        found = {}
+        for relative in inventory:
+            if not relative.startswith(root + "/") or not relative.endswith(
+                "/metrics.json"
+            ):
+                continue
+            match = re.fullmatch(
+                re.escape(root)
+                + r"/t([1246])/([^/]+)/(warmup|measured)_(\d+)"
+                + r"/(baseline|candidate)/metrics.json",
+                relative,
+            )
+            if not match:
+                continue
+            thread, workload, phase, pair, side = match.groups()
+            key = (int(thread), workload, phase, int(pair), side)
+            if key in found:
+                raise ValueError("Duplicate native launch")
+            data = json.loads(get(relative))
+            if (
+                data["returncode"] != 0
+                or data["side"] != side
+                or data["phase"] != phase
+                or data["pair"] != int(pair)
+            ):
+                raise ValueError(f"Native launch identity/status differs: {relative}")
+            for stream in ("stdout", "stderr"):
+                stream_path = relative.removesuffix("metrics.json") + stream + ".txt"
+                if (
+                    inventory[stream_path]["sha256"]
+                    != data["raw_" + stream + "_sha256"]
+                ):
+                    raise ValueError(f"Native stream hash differs: {relative}")
+            usage = relative.removesuffix("metrics.json") + "native_usage.json"
+            if usage not in inventory:
+                raise ValueError(f"Missing raw native usage: {relative}")
+            found[key] = relative
+        expected = set()
+        for thread, workload in contract["configurations"]:
+            for phase, count in (
+                ("warmup", 1),
+                ("measured", contract["measured_pairs"]),
+            ):
+                for pair in range(count):
+                    for side in ("baseline", "candidate"):
+                        expected.add((thread, workload, phase, pair, side))
+        if set(found) != expected or len(found) != contract["launches"]:
+            raise ValueError(f"Native launch coverage differs for {root}: {len(found)}")
+        launches[root] = {
+            "launches": len(found),
+            "measured_pairs": len(contract["configurations"])
+            * contract["measured_pairs"],
+            "warmup_launches": 2 * len(contract["configurations"]),
+        }
+    observation_path = contracts["observation_manifest"]
+    observations = json.loads(get(observation_path))
+    expected_lanes = contracts["lanes"]
+    if not observations["complete_capture"] or set(observations["lanes"]) != set(
+        expected_lanes
+    ):
+        raise ValueError("Scientific observation lane coverage differs")
+    repo = Path(index["repo"])
+    lanes = {}
+    for name, row in observations["lanes"].items():
+        if row["returncode"] != 0:
+            raise ValueError(f"Observer exit differs: {name}")
+        for stream in ("stdout", "stderr"):
+            rel = Path(row[stream]["path"]).relative_to(repo).as_posix()
+            item = inventory.get(rel)
+            if item is None or (item["bytes"], item["sha256"]) != (
+                row[stream]["bytes"],
+                row[stream]["sha256"],
+            ):
+                raise ValueError(f"Observation stream absent/changed: {name}/{stream}")
+        lanes[name] = {
+            key: row[key] for key in ("rows", "private_frames", "private_bins")
+        }
+    if sum(row["rows"] for row in lanes.values()) != contracts["observation_rows"]:
+        raise ValueError("Scientific row count differs")
+    cli = {}
+    for path, threads in contracts["cli_manifests"].items():
+        data = json.loads(get(path))
+        if (
+            not data["complete_capture"]
+            or data["threads"] != threads
+            or len(data["cases"]) != 93
+        ):
+            raise ValueError(f"CLI coverage differs: {path}")
+        cli[str(threads)] = len(data["cases"])
+        for item in data["files"]:
+            rel = Path(item["path"]).relative_to(repo).as_posix()
+            if rel not in inventory or (
+                inventory[rel]["bytes"],
+                inventory[rel]["sha256"],
+            ) != (item["bytes"], item["sha256"]):
+                raise ValueError(f"CLI raw artifact absent/changed: {rel}")
+    for path in contracts["required_receipts"]:
+        if path not in inventory:
+            raise ValueError(f"Required success/failure receipt absent: {path}")
+    acceptance = json.loads(get(contracts["acceptance"]))
+    failed = json.loads(get(contracts["retained_failed_reference_gate"]))
+    resolved = json.loads(get(contracts["resolved_reference_gate"]))
+    if (
+        acceptance.get("accepted") is not True
+        or failed.get("passed") is not False
+        or resolved.get("passed") is not True
+    ):
+        raise ValueError("Acceptance/failure/resolution status differs")
+    for field in (
+        "candidate_build",
+        "candidate_gate",
+        "paired_benchmark_manifest",
+        "paired_summary",
+        "independent_performance_review",
+    ):
+        if field not in acceptance:
+            raise ValueError(f"Acceptance omits required binding: {field}")
+    for field, binding in acceptance.items():
+        if not isinstance(binding, dict) or set(binding) != {"path", "bytes", "sha256"}:
+            continue
+        if field == "baseline_snapshot":
+            continue
+        rel = Path(binding["path"]).relative_to(repo).as_posix()
+        if rel not in inventory or (
+            inventory[rel]["bytes"],
+            inventory[rel]["sha256"],
+        ) != (binding["bytes"], binding["sha256"]):
+            raise ValueError(f"Acceptance binding missing/changed: {field}")
+    return {
+        "final_scope": final_coverage.coverage(index, get, acceptance),
+        "native": launches,
+        "total_native_launches": sum(v["launches"] for v in launches.values()),
+        "total_measured_pairs": sum(v["measured_pairs"] for v in launches.values()),
+        "observations": lanes,
+        "observation_rows": sum(v["rows"] for v in lanes.values()),
+        "cli_cases_per_thread": cli,
+    }
+
+
+def pieces(path):
+    # Align JSONL groups across inferred/topology streams despite line lengths.
+    if path.suffix == ".jsonl":
+        with path.open("rb") as stream:
+            buffer = bytearray()
+            lines = 0
+            for line in stream:
+                while len(line) > MAX_CHUNK:
+                    if buffer:
+                        yield bytes(buffer)
+                        buffer.clear()
+                        lines = 0
+                    yield line[:MAX_CHUNK]
+                    line = line[MAX_CHUNK:]
+                if buffer and len(buffer) + len(line) > MAX_CHUNK:
+                    yield bytes(buffer)
+                    buffer.clear()
+                    lines = 0
+                buffer.extend(line)
+                lines += 1
+                if lines == 512:
+                    yield bytes(buffer)
+                    buffer.clear()
+                    lines = 0
+            if buffer:
+                yield bytes(buffer)
+    else:
+        with path.open("rb") as stream:
+            yield from iter(lambda: stream.read(MAX_CHUNK), b"")
+
+
+def check_pause(path):
+    if path is not None and path.exists():
+        raise InterruptedError(
+            "Pause file present; journal entries and blobs retained for --resume"
+        )
+
+
+def build(args):
+    plan_record = record(args.plan.resolve())
+    plan_data = read(args.plan)
+    require_record(plan_record)
+    require_record(plan_data["spec"])
+    require_record(plan_data["controller"])
+    for item in plan_data["shared_manifests"]:
+        require_record(item)
+    for item in plan_data["helper_sources"]:
+        require_record(item)
+    repo = Path(plan_data["repo"])
+    providers = provider_pins(repo, plan_data["providers"])
+    _, inherited_chunks = providers.catalog()
+    output = args.output.resolve()
+    if args.resume:
+        if (output / "manifest.json").exists() or read(output / "started.json")[
+            "plan"
+        ] != plan_record:
+            raise ValueError("Cannot resume a complete or differently planned package")
+    else:
+        output.mkdir(parents=True, exist_ok=False)
+        write_new(
+            output / "started.json",
+            json_bytes(
+                {"plan": plan_record, "complete": False, "max_blob_bytes": MAX_BLOB}
+            ),
+        )
+    repo = Path(plan_data["repo"])
+    journal_path = args.journal.resolve()
+    rows = {}
+    blobs = {}
+    by_hash = {}
+    if args.resume and journal_path.exists():
+        for line in journal_path.read_bytes().splitlines():
+            entry = json.loads(line)
+            if entry["file"]["path"] in rows:
+                raise ValueError("Duplicate journal file")
+            rows[entry["file"]["path"]] = entry["file"]
+            blobs.update(entry["blobs"])
+            by_hash[(entry["file"]["sha256"], entry["file"]["bytes"])] = entry[
+                "file"
+            ].get("chunks")
+        for key, item in blobs.items():
+            shared_chunk(output, key, item, providers)
+    journal_path.parent.mkdir(parents=True, exist_ok=True)
+    mode = "ab" if args.resume else "xb"
+    with journal_path.open(mode) as journal:
+        for position, item in enumerate(plan_data["inventory"]):
+            check_pause(args.pause_file)
+            path = within(repo, item["path"])
+            if (
+                path.stat().st_size != item["bytes"]
+                or path.stat().st_mtime_ns != item["mtime_ns"]
+            ):
+                raise ValueError(f"Source metadata drifted: {path}")
+            if item["path"] in rows:
+                if {k: rows[item["path"]][k] for k in item} != item:
+                    raise ValueError("Journal differs from plan")
+                continue
+            row = dict(item)
+            new_blobs = {}
+            key = (item["sha256"], item["bytes"])
+            if "shared" not in item:
+                if key in by_hash and by_hash[key] is not None:
+                    row["chunks"] = by_hash[key]
+                    if sha(path) != item["sha256"]:
+                        raise ValueError("Duplicate source content changed")
+                else:
+                    whole = hashlib.sha256()
+                    chunks = []
+                    for raw in pieces(path):
+                        check_pause(args.pause_file)
+                        whole.update(raw)
+                        chunk_hash = hashlib.sha256(raw).hexdigest()
+                        chunks.append(chunk_hash)
+                        if chunk_hash in blobs:
+                            continue
+                        if chunk_hash in inherited_chunks:
+                            entry = inherited_chunks[chunk_hash]
+                            if providers.chunk(entry["provider"], chunk_hash) != raw:
+                                raise ValueError(
+                                    "Inherited chunk differs from actual source"
+                                )
+                            blobs[chunk_hash] = entry
+                            new_blobs[chunk_hash] = entry
+                            continue
+                        packed = gzip.compress(raw, compresslevel=6, mtime=0)
+                        if len(packed) >= MAX_BLOB:
+                            raise ValueError("Blob exceeded publication bound")
+                        name = f"blobs/{chunk_hash[:2]}/{chunk_hash}.gz"
+                        blob = within(output, name)
+                        blob.parent.mkdir(parents=True, exist_ok=True)
+                        if blob.exists():
+                            if blob.read_bytes() != packed:
+                                raise ValueError("Existing partial blob bytes differ")
+                        else:
+                            write_new(blob, packed)
+                        entry = {
+                            "path": name,
+                            "bytes": len(packed),
+                            "sha256": hashlib.sha256(packed).hexdigest(),
+                            "uncompressed_bytes": len(raw),
+                        }
+                        blobs[chunk_hash] = entry
+                        new_blobs[chunk_hash] = entry
+                    if whole.hexdigest() != item["sha256"]:
+                        raise ValueError(f"Source content drifted: {path}")
+                    row["chunks"] = chunks
+                    by_hash[key] = chunks
+            elif sha(path) != item["sha256"]:
+                raise ValueError("Shared original changed")
+            if (
+                path.stat().st_size != item["bytes"]
+                or path.stat().st_mtime_ns != item["mtime_ns"]
+            ):
+                raise ValueError(f"Source changed during capture: {path}")
+            rows[item["path"]] = row
+            journal.write(
+                json.dumps({"file": row, "blobs": new_blobs}, sort_keys=True).encode()
+                + b"\n"
+            )
+            journal.flush()
+            if position % 100 == 0:
+                print(
+                    f"stored {position}/{len(plan_data['inventory'])}; "
+                    f"{len(blobs)} unique chunks",
+                    flush=True,
+                )
+    # Fail closed if any sealed original was edited after its earlier turn in the loop.
+    for item in plan_data["inventory"]:
+        check_pause(args.pause_file)
+        path = within(repo, item["path"])
+        if path.stat().st_size != item["bytes"] or sha(path) != item["sha256"]:
+            raise ValueError(f"Original changed before finalization: {path}")
+    result = {
+        k: plan_data[k]
+        for k in (
+            "version",
+            "repo",
+            "scope",
+            "source_roots",
+            "shared_manifests",
+            "external_links",
+            "omissions",
+            "coverage_contract",
+            "coverage",
+            "providers",
+            "helper_sources",
+        )
+    }
+    result.update(
+        kind="lossless_accepted_candidate_shared_evidence",
+        inventory=[rows[k] for k in sorted(rows)],
+        blobs=blobs,
+        plan=plan_record,
+        created_utc=datetime.now(UTC).isoformat(),
+        original_controller=plan_data["controller"],
+    )
+    index_bytes = json_bytes(result)
+    write_new(
+        output / "restoration_index.json.gz",
+        gzip.compress(index_bytes, compresslevel=6, mtime=0),
+    )
+    controller_copy = output / "publish_shared.py.txt"
+    write_new(controller_copy, Path(__file__).read_bytes())
+    if (controller_copy.stat().st_size, sha(controller_copy)) != (
+        plan_data["controller"]["bytes"],
+        plan_data["controller"]["sha256"],
+    ):
+        raise ValueError("Controller changed during copy")
+    plan_bytes = args.plan.read_bytes()
+    if (len(plan_bytes), hashlib.sha256(plan_bytes).hexdigest()) != (
+        plan_record["bytes"],
+        plan_record["sha256"],
+    ):
+        raise ValueError("Plan changed during copy")
+    write_new(
+        output / "plan.json.gz",
+        gzip.compress(plan_bytes, compresslevel=6, mtime=0),
+    )
+    helpers = []
+    for item in plan_data["helper_sources"]:
+        source = Path(item["path"])
+        target = output / (source.name + ".txt")
+        write_new(target, source.read_bytes())
+        if (target.stat().st_size, sha(target)) != (item["bytes"], item["sha256"]):
+            raise ValueError("Helper changed during copy")
+        helpers.append(
+            {"path": target.name, "bytes": item["bytes"], "sha256": item["sha256"]}
+        )
+    providers.check_pins()
+    for item in [
+        plan_record,
+        plan_data["spec"],
+        plan_data["controller"],
+        *plan_data["helper_sources"],
+        *plan_data["shared_manifests"],
+    ]:
+        require_record(item)
+    manifest = {
+        "version": VERSION,
+        "kind": "accepted_candidate_shared_lossless_publication",
+        "complete": True,
+        "providers": plan_data["providers"],
+        "helpers": helpers,
+        "index": {
+            "path": "restoration_index.json.gz",
+            "bytes": (output / "restoration_index.json.gz").stat().st_size,
+            "sha256": sha(output / "restoration_index.json.gz"),
+            "uncompressed_sha256": hashlib.sha256(index_bytes).hexdigest(),
+            "uncompressed_bytes": len(index_bytes),
+        },
+        "controller": {
+            "path": "publish_shared.py.txt",
+            "sha256": sha(controller_copy),
+            "bytes": controller_copy.stat().st_size,
+        },
+        "plan": {
+            "path": "plan.json.gz",
+            "sha256": sha(output / "plan.json.gz"),
+            "bytes": (output / "plan.json.gz").stat().st_size,
+        },
+        "counts": storage_counts(result),
+        "coverage": result["coverage"],
+        "native_executables_published": False,
+        "omissions_and_external_links_preserved_in_index": True,
+        "scientific_or_performance_acceptance": (
+            "Existing exact admission receipts retained; "
+            "publication adds byte/coverage verification only."
+        ),
+    }
+    write_new(output / "manifest.json", json_bytes(manifest))
+    print(json.dumps(manifest["counts"], indent=2), flush=True)
+
+
+def decode_blob(package, key, item):
+    if not HEX.fullmatch(key) or item["path"] != f"blobs/{key[:2]}/{key}.gz":
+        raise ValueError("Invalid content-addressed blob path")
+    if (
+        not 0 <= item["uncompressed_bytes"] <= MAX_CHUNK
+        or not 0 < item["bytes"] < MAX_BLOB
+    ):
+        raise ValueError("Blob exceeds size bounds")
+    path = within(package, item["path"])
+    packed = path.read_bytes()
+    if (
+        len(packed) != item["bytes"]
+        or hashlib.sha256(packed).hexdigest() != item["sha256"]
+    ):
+        raise ValueError("Compressed blob hash differs")
+    # Bounded read also rejects decompression bombs and concatenated oversized members.
+    with gzip.open(path, "rb") as stream:
+        raw = stream.read(MAX_CHUNK + 1)
+    if len(raw) != item["uncompressed_bytes"] or hashlib.sha256(raw).hexdigest() != key:
+        raise ValueError("Decompressed blob hash/length differs")
+    return raw
+
+
+def load_package(package):
+    manifest = read(package / "manifest.json")
+    if manifest.get("complete") is not True or manifest.get("version") != VERSION:
+        raise ValueError("Incomplete or unsupported publication")
+    for field in ("index", "controller", "plan"):
+        item = manifest[field]
+        path = within(package, item["path"])
+        if path.stat().st_size != item["bytes"] or sha(path) != item["sha256"]:
+            raise ValueError(f"Changed publication {field}")
+    expected_size = manifest["index"]["uncompressed_bytes"]
+    if not 0 < expected_size < 128 * 1024 * 1024:
+        raise ValueError("Restoration index exceeds metadata size bound")
+    with gzip.open(within(package, manifest["index"]["path"]), "rb") as stream:
+        raw = stream.read(expected_size + 1)
+    if (
+        len(raw) != expected_size
+        or hashlib.sha256(raw).hexdigest() != manifest["index"]["uncompressed_sha256"]
+    ):
+        raise ValueError("Restoration index hash differs")
+    data = json.loads(raw)
+    paths = [row["path"] for row in data["inventory"]]
+    for path in paths:
+        safe_relative(path)
+    if len(paths) != len(set(paths)):
+        raise ValueError("Duplicate restoration paths")
+    for row in data["inventory"]:
+        if bool("shared" in row) == bool("chunks" in row):
+            raise ValueError("Ambiguous file storage")
+        if not HEX.fullmatch(row["sha256"]) or row["bytes"] < 0:
+            raise ValueError("Invalid file identity")
+        for chunk in row.get("chunks", []):
+            if chunk not in data["blobs"]:
+                raise ValueError("Missing indexed chunk")
+    for row in data["external_links"]:
+        safe_relative(row["path"])
+    if data.get("providers") != manifest.get("providers"):
+        raise ValueError("Provider registry differs between index and manifest")
+    for helper in manifest["helpers"]:
+        path = within(package, helper["path"])
+        if (path.stat().st_size, sha(path)) != (helper["bytes"], helper["sha256"]):
+            raise ValueError("Published helper differs")
+    return manifest, data
+
+
+def shared_chunk(package, key, item, providers):
+    if item.get("kind") == "publication_chunk":
+        if item["chunk"] != key:
+            raise ValueError("Inherited chunk key mismatch")
+        raw = providers.chunk(item["provider"], key)
+        if len(raw) != item["uncompressed_bytes"]:
+            raise ValueError("Inherited chunk length mismatch")
+        return raw
+    return decode_blob(package, key, item)
+
+
+def storage_counts(index):
+    local = [x for x in index["blobs"].values() if x.get("kind") != "publication_chunk"]
+    return {
+        "files": len(index["inventory"]),
+        "unique_chunks": len(index["blobs"]),
+        "shared_files": sum("shared" in row for row in index["inventory"]),
+        "publication_files": sum(
+            row.get("shared", {}).get("kind") == "publication_file"
+            for row in index["inventory"]
+        ),
+        "inherited_chunks": len(index["blobs"]) - len(local),
+        "local_chunks": len(local),
+        "gzip_blob_bytes": sum(x["bytes"] for x in local),
+        "max_blob_bytes": max((x["bytes"] for x in local), default=0),
+        "logical_bytes": sum(row["bytes"] for row in index["inventory"]),
+    }
+
+
+def reconstructed(package, index, row, shared_root):
+    providers = providers_for(shared_root, index["providers"])
+    if "shared" in row:
+        locator = row["shared"]
+        if locator["kind"] == "publication_file":
+            yield from providers.file(locator, row["sha256"], row["bytes"])
+        else:
+            yield decode_shared(shared_root, locator)
+    else:
+        for key in row["chunks"]:
+            yield shared_chunk(package, key, index["blobs"][key], providers)
+
+
+def load_bound(package):
+    first = record(package / "manifest.json")
+    manifest, index = load_package(package)
+    pinned = {
+        name: record(within(package, name))
+        for name in [
+            "manifest.json",
+            *[manifest[field]["path"] for field in ("index", "controller", "plan")],
+            *[item["path"] for item in manifest["helpers"]],
+        ]
+    }
+    if pinned["manifest.json"] != first:
+        raise ValueError("Manifest changed while loading")
+    raw = provider_storage.Providers.decode_metadata(
+        package, manifest["plan"], index["plan"]["bytes"]
+    )
+    if hashlib.sha256(raw).hexdigest() != index["plan"]["sha256"]:
+        raise ValueError("Original plan identity differs")
+    plan = json.loads(raw)
+    for field in (
+        "version",
+        "repo",
+        "scope",
+        "source_roots",
+        "shared_manifests",
+        "external_links",
+        "omissions",
+        "coverage_contract",
+        "coverage",
+        "providers",
+        "helper_sources",
+    ):
+        if plan[field] != index[field]:
+            raise ValueError(f"Index differs from original plan: {field}")
+    if [
+        {key: value for key, value in row.items() if key != "chunks"}
+        for row in index["inventory"]
+    ] != plan["inventory"]:
+        raise ValueError("Complete original inventory differs")
+    if plan["controller"] != index["original_controller"]:
+        raise ValueError("Original controller binding differs")
+    if any(
+        manifest["controller"][key] != plan["controller"][key]
+        for key in ("bytes", "sha256")
+    ):
+        raise ValueError("Published controller differs from plan")
+    entries = {row["path"]: row for row in index["inventory"]}
+    for item in (plan["spec"], plan["controller"], *plan["helper_sources"]):
+        relative = Path(item["path"]).relative_to(plan["repo"]).as_posix()
+        if relative not in entries or any(
+            entries[relative][key] != item[key] for key in ("bytes", "sha256")
+        ):
+            raise ValueError("Original specification/controller/helper absent")
+    if {k for row in index["inventory"] for k in row.get("chunks", [])} != set(
+        index["blobs"]
+    ):
+        raise ValueError("Unreferenced/missing indexed chunks")
+    if manifest["counts"] != storage_counts(index):
+        raise ValueError("Published storage counts differ")
+    if sorted((x["bytes"], x["sha256"]) for x in manifest["helpers"]) != sorted(
+        (x["bytes"], x["sha256"]) for x in plan["helper_sources"]
+    ):
+        raise ValueError("Published helper bindings differ from plan")
+    return manifest, index, pinned
+
+
+def check_pins(package, pinned, providers):
+    for name, expected in pinned.items():
+        if record(within(package, name)) != expected:
+            raise ValueError("Publication metadata changed during operation")
+    providers.check_pins()
+
+
+def verify_context(args):
+    package = args.package.resolve()
+    manifest, index, pinned = load_bound(package)
+    providers = provider_pins(args.shared_root, index["providers"])
+    for key, blob in index["blobs"].items():
+        shared_chunk(package, key, blob, providers)
+    entries = {row["path"]: row for row in index["inventory"]}
+    seen = set()
+    for row in entries.values():
+        identity = (
+            row["sha256"],
+            row["bytes"],
+            json.dumps(row.get("shared"), sort_keys=True),
+            tuple(row.get("chunks", [])),
+        )
+        if identity in seen:
+            continue
+        digest = hashlib.sha256()
+        size = 0
+        for raw in reconstructed(package, index, row, args.shared_root):
+            digest.update(raw)
+            size += len(raw)
+        if size != row["bytes"] or digest.hexdigest() != row["sha256"]:
+            raise ValueError(f"Restored file differs: {row['path']}")
+        seen.add(identity)
+    actual = coverage(
+        index,
+        lambda relative: b"".join(
+            reconstructed(package, index, entries[relative], args.shared_root)
+        ),
+    )
+    if actual != index["coverage"] or actual != manifest["coverage"]:
+        raise ValueError("Recomputed coverage differs")
+    check_pins(package, pinned, providers)
+    result = {
+        "verified": True,
+        "files": len(entries),
+        "unique_file_reconstructions": len(seen),
+        "counts": storage_counts(index),
+        "coverage": actual,
+        "manifest": pinned["manifest.json"],
+        "complete_original_plan_inventory_verified": True,
+        "scope": (
+            "Lossless byte and declared coverage verification; "
+            "no scientific or performance rerun."
+        ),
+    }
+    return result, index, pinned, providers
+
+
+def verify(args):
+    return verify_context(args)[0]
+
+
+def restore(args):
+    result, index, pinned, providers = verify_context(args)
+    package = args.package.resolve()
+    args.output.mkdir(parents=True, exist_ok=False)
+    for row in index["inventory"]:
+        path = within(args.output.resolve(), row["path"])
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("xb") as stream:
+            for raw in reconstructed(package, index, row, args.shared_root):
+                stream.write(raw)
+        os.chmod(path, row["mode"] & 0o777)
+        os.utime(path, ns=(row["mtime_ns"], row["mtime_ns"]))
+        if path.stat().st_size != row["bytes"] or sha(path) != row["sha256"]:
+            raise ValueError("Restored file differs after write")
+    check_pins(package, pinned, providers)
+    result.update(
+        restored_root=str(args.output.resolve()),
+        restored_from_verified_in_memory_index=True,
+        external_links_not_created=index["external_links"],
+        omissions=index["omissions"],
+    )
+    write_new(args.output / "RESTORATION_RECEIPT.json", json_bytes(result))
+    return result
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    sub = parser.add_subparsers(dest="command", required=True)
+    p = sub.add_parser("plan")
+    p.add_argument("--repo", type=Path, required=True)
+    p.add_argument("--spec", type=Path, required=True)
+    p.add_argument("--output", type=Path, required=True)
+    p = sub.add_parser("build")
+    p.add_argument("--plan", type=Path, required=True)
+    p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--journal", type=Path, required=True)
+    p.add_argument("--pause-file", type=Path)
+    p.add_argument("--resume", action="store_true")
+    for name in ("verify", "restore"):
+        p = sub.add_parser(name)
+        p.add_argument("--package", type=Path, required=True)
+        p.add_argument("--shared-root", type=Path, required=True)
+        if name == "restore":
+            p.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    try:
+        result = {"plan": plan, "build": build, "verify": verify, "restore": restore}[
+            args.command
+        ](args)
+        if result is not None:
+            print(json.dumps(result, indent=2, sort_keys=True))
+    except InterruptedError as error:
+        print(str(error), file=sys.stderr)
+        raise SystemExit(75) from error
+
+
+if __name__ == "__main__":
+    main()

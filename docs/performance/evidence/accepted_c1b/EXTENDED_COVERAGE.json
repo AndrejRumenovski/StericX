@@ -1,0 +1,42 @@
+{
+  "checker": {
+    "bytes": 7267,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c1b_v1/extended_coverage.py",
+    "sha256": "46037d64043fc92a1eb54fc53ede145bcffc89ecd427c68f0b85030f7ce912ff"
+  },
+  "cli_bridge": {
+    "v1": {
+      "cases": 21,
+      "process_captures": 42,
+      "retained_passed": false
+    },
+    "v2": {
+      "cases": 24,
+      "process_captures": 48,
+      "retained_passed": true
+    }
+  },
+  "manifest": {
+    "bytes": 4272,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1b/manifest.json",
+    "sha256": "80c03521fdf1e60e86f25762c0cd4be8e38e95cbf655c58aece7050f8f3e6c0c"
+  },
+  "passed": true,
+  "reprofiles": {
+    "accepted_c1_reprofile_v1": {
+      "configurations": 40,
+      "measured_samples": 200,
+      "new_native_processes": 0,
+      "retained_process_captures": 240,
+      "warmup_samples": 40
+    },
+    "accepted_c1b_reprofile_v1": {
+      "configurations": 40,
+      "measured_samples": 200,
+      "new_native_processes": 0,
+      "retained_process_captures": 240,
+      "warmup_samples": 40
+    }
+  },
+  "scope": "Additional retained-case/sample coverage and receipt bindings. Run the main full byte verifier separately; this does not rerun science or measure performance."
+}

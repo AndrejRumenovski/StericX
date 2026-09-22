@@ -18,7 +18,9 @@ reaction prediction is a separate validation task.
 **Scientific status:** the [independent audit](docs/scientific_accuracy_audit/SCIENTIFIC_ACCURACY_AUDIT.md)
 found implementation defects and overstated scientific claims. Corrections and
 independent rechecks are documented in the [scientific remediation report](docs/scientific_remediation/SCIENTIFIC_REMEDIATION.md).
-The historical studies and speed numbers below are not validation of a corrected build.
+The [current optimization report](docs/performance/SCIENTIFICALLY_EXACT_OPTIMIZATION.md)
+compares the corrected implementation with the same independently checked scientific
+baseline. Historical studies and pre-remediation speed numbers retain their original scope.
 
 **Current scientific scope:** the descriptor comparisons are the strongest result.
 The retrospective ligand-ranking experiment did not beat random selection (top-1 recovery
@@ -64,7 +66,7 @@ per-parameter results are in the [study docs](#scientific-studies).
 | Compact native features fail to reproduce Ni-hDA selectivity in the reported fixed-feature check | **LOO Q² ≈ 0.002** · **10 training ligands** |
 | Retrospective top-1 ligand recovery, including failed screens | **0.158 vs 0.333 random** · **10/57 screens failed** |
 | Frozen forecast from the published-descriptor model; experimental outcomes pending | **10 ligands · SHA-256** |
-| Recorded single-core, warm-cache buried-volume benchmark against `morfeus` | **13.8×** · **1,546 input structures** · **one machine** |
+| Historical, pre-remediation single-core buried-volume benchmark against `morfeus`; not a current-build comparison | **13.8×** · **1,546 input structures** · **one machine** |
 
 ---
 
@@ -894,6 +896,19 @@ block) per record; dedicated v1/v2 mmap readers preserve backward compatibility.
 <details>
 <summary><b>Performance benchmarks</b> (<a href="benchmark_linux.sh">benchmark_linux.sh</a>)</summary>
 
+**Current corrected build:** the 10,000-file descriptor batch is **5.46× faster**
+at six threads (4.970 → 0.912 seconds), and 1,000-entry screening takes
+**16.7–18.6% less time** across 1/2/4/6 threads. These compare the same independently
+checked scientific baseline and final build on fixed native end-to-end workloads.
+All 128,021 scientific responses remain exact, and the independent references
+were rerun. Parsing is 1.5–2.0% slower; parallel batches use more CPU and memory.
+See the [scientifically exact optimization report](docs/performance/SCIENTIFICALLY_EXACT_OPTIMIZATION.md)
+for all 720 final launches, thread scaling, negative results and scientific limits.
+
+**Historical, pre-remediation measurements:** the following throughput figures
+and September 16 comparisons describe older binaries. They do not measure the
+current corrected build or establish its scientific accuracy.
+
 | Workload | Items | Throughput | Peak RAM |
 |---|---:|---:|---:|
 | Sterimol extraction | 10,000 molecules | 62,126 mol/s | 7.75 MB |
@@ -911,12 +926,12 @@ counts, and optimization limits on fixed scientific workloads, see the
 include startup and output; they are a different measurement from the kernel
 throughput figures above. Numerical outputs are checked against a frozen baseline.
 
-The [exact-output optimization report](docs/profiling/OPTIMIZATION.md) records
+The [historical exact-output optimization report](docs/profiling/OPTIMIZATION.md) records
 **2.37× faster end-to-end descriptor batches** (12.24 → 5.16 seconds for 10,000
 molecules) and **3.41× faster screening** (1.32 → 0.388 seconds for 1,000 entries).
 These compare the original September 16 executable with the optimized build on
 the same fixed workloads and machine, using fresh timing controls. Scientific
-outputs, packed records, predictions, validation and exclusions remain exact;
+outputs, packed records, predictions, validation and exclusions matched that older baseline;
 peak memory is essentially unchanged. The report includes corpus limits and
 paired regression checks.
 

@@ -1,0 +1,78 @@
+{
+  "accepted": true,
+  "allocation_comparison": {
+    "bytes": 23911,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_cache_analysis_v2/receipt.json",
+    "sha256": "876fe239b2a7f2d11fb7706056774f5f2eca2b4ff33e81223934c1b8ba4be304"
+  },
+  "baseline_snapshot": {
+    "bytes": 20063701,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/manifest.json",
+    "sha256": "feb021566f4a172c8d249184d1e16e39978b59c1784d216f4f50c9261ed27ced"
+  },
+  "candidate": "C2: reuse one immutable fit's lazy Student-t interval multiplier",
+  "candidate_build": {
+    "bytes": 37625,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_science_v1/validated_build_corrected_vC2/manifest.json",
+    "sha256": "82b63f16c90e0767c5cb5b60daed61e2ce52f123d4f1a9f3156e791c5a03fd81"
+  },
+  "candidate_gate": {
+    "bytes": 7572,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_performance_gate_v1/manifest.json",
+    "sha256": "855a91c276e78aae174e89140117f7c6b73491ad01c774b101639bcfb03a75d9"
+  },
+  "decision": "Accept C2 for its reproducible screening gain while retaining the disclosed small parsing, startup and resource costs.",
+  "decision_helper": {
+    "bytes": 5901,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/controllers/accept_c2.py",
+    "sha256": "6b3f153102891192ee8b6c6c31a7275b60de689d6e23f35cfe5a356e3d5f02f5"
+  },
+  "exactness_argument": "The immutable geometry borrow pins multiplier inputs. Construction performs no numerical work. Every query retains original leverage-first evaluation, interval arithmetic and finite guards; only the identical Student-t multiplier (including None) is reused. The original uncached method is unchanged and frozen endpoint bits cover adversarial sequences.",
+  "incremental_benchmark_manifest": {
+    "bytes": 872258,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_incremental_pairs_v1/manifest.json",
+    "sha256": "1a0af61e3140b9fc89928d7712a88921d8676ed31f0644d85beae979211cfe76"
+  },
+  "incremental_summary": {
+    "bytes": 1012626,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_incremental_pairs_v1/summary.json",
+    "sha256": "a80472e0fa1434743d19344a53a75692c3591e83ea12e44aee8a9849da0281c3"
+  },
+  "independent_performance_review": {
+    "bytes": 202309,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_independent_review_v1/review.json",
+    "sha256": "bd3527f7dd36c63ac76d57d76681a1bfe7b1c73e8e8914a059e81fb4d380aaec"
+  },
+  "kind": "accepted_corrected_optimization",
+  "next_step": "Fresh all-40 C2 profile before any C3 production edit, then an individually gated row-rejection experiment if its measured benefit remains justified.",
+  "operation_counts": {
+    "bytes": 62037,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_cache_counts_v2/manifest.json",
+    "sha256": "6c0a72e8835bfb61adc521a0888bcb10982235bf7694282ee7a680ea9672018f"
+  },
+  "paired_benchmark_manifest": {
+    "bytes": 1013970,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_native_pairs_v1/manifest.json",
+    "sha256": "b84c20f80c10eb2d7e28135c5cf7c10d69136791c459025516bf942918fc428d"
+  },
+  "paired_summary": {
+    "bytes": 136673338,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_native_pairs_v1/summary.json",
+    "sha256": "f6eeb41e742ffcaac0fa99880fe6aa215c6aa60e873e3fd6cc686971ab19cc3b"
+  },
+  "performance_gate": "Direct actual-C1b to C2 screening paired wall reductions are approximately 21.67/18.82/19.28/15.52 percent at 1/2/4/6 threads. Both AB/BA medians at every setting exceed the predeclared 10 percent reduction threshold, with 94 of 96 pairs faster and approximately 19 percent lower CPU work.",
+  "prior_acceptance": {
+    "bytes": 4696,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accepted_c1b_v1/acceptance.json",
+    "sha256": "a6a69381f79b3e82310c4b89b894ca4e54b331eaa554abd412155246eb8582cb"
+  },
+  "retained_tradeoffs": [
+    "Incremental parsing is reproducibly about 1.35\u20131.67 percent slower, with corresponding 1.4\u20131.7 percent CPU costs and roughly 2.6\u20133 ms higher median time. Both launch orders agree. This is a real regression; its cause is not established.",
+    "Search wall measurements are widely dispersed and order-sensitive. Negative wall medians and modest CPU costs are retained; no search speedup or absence of regression is claimed.",
+    "The cumulative matrix retains short-workload/prediction penalties. Existing parallel batch CPU and RSS costs remain; the six-thread 10,000-file peak is 26.55 MiB and full-matrix peak is 69.66 MiB.",
+    "Screening adds a 24-byte stack evaluator and no cache heap allocation. Instrumented allocation-call counts are identical. Tiny requested-byte differences follow profiling-path length and are not claimed as a cache memory gain."
+  ],
+  "sample_policy": "All 720 original-baseline launches and 600 incremental launches are retained, with 608 measured pairs and no exclusions. C1 batch gains are not assigned to C2. All 52 configuration distributions, negative medians and order effects remain in the independent review.",
+  "scientific_gate": "128,021 responses exactly equal; 93 CLI cases at all four thread settings plus 24 extra CLI cases; all independent references at unchanged limits; eight million-value prediction streams exactly equal; 319 Rust and 124 Python tests plus four reference-integrity tests, study verification, Clippy, rustdoc, Rustfmt and Ruff pass before timing.",
+  "tradeoff_rationale": "A reproducible 15.5\u201321.7 percent targeted screening wall reduction and approximately 19 percent CPU reduction justify the bounded 1\u20132 percent parsing cost for this screening-focused change. There is no universal speedup claim. Existing scientific scope and predictive limitations are unchanged; final combined measurements must retain these costs."
+}

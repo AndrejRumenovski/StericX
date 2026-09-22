@@ -1,0 +1,26 @@
+{
+  "kind": "bounded_publication_review_findings",
+  "reviewed_scope": "final_coverage.py, focused actual-final-receipt fixture/tests and publish_shared integration only",
+  "observed_checker": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_final_v1/controllers/final_coverage.py",
+    "bytes": 17204,
+    "sha256": "516613fe2e651940caa274458f9041ded68f7a23c952794edced087a037999b3"
+  },
+  "findings": [
+    {
+      "id": "boundary_execution_binding",
+      "reproduction": "In a deep copy of the actual final_fixture.json.gz, change only final_command_boundary_v1/compare_text/result.json argv[0] to /different/unadmitted/executable. The initial coverage call still returned 31 cases,18 successes,13 intentional errors and62 recomputed raw fingerprints. No original evidence changed.",
+      "request": "Bind each side argv[0], environment, canonical result/cwd/stdout/stderr paths to its complete receipt and plan."
+    },
+    {
+      "id": "supplemental_candidate_binding",
+      "request": "Require additional24 CLI manifest candidate_build and full candidate native record equal accepted candidate build/native; fields exist in actual fixture."
+    },
+    {
+      "id": "executable_guard_identity",
+      "request": "Pin final_coverage executable bytes in publish_shared loader after fixes, as done for provider helper, so loading cannot silently run different final-scope semantics."
+    }
+  ],
+  "status": "Owner notified; corrections and final focused review pending",
+  "scientific_or_native_rerun": false
+}

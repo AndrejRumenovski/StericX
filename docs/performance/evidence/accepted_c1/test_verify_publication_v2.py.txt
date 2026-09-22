@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+"""Small metadata-only mutation tests; no scientific jobs or blob recompression."""
+
+import argparse
+import copy
+import gzip
+import importlib.util
+import json
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import patch
+
+HERE = Path(__file__).resolve().parent
+spec = importlib.util.spec_from_file_location("verifier_v2", HERE / "verify_publication_v2.py")
+v2 = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(v2)
+PACKAGE = Path("docs/performance/evidence/accepted_c1").resolve()
+PUB = v2.import_original(PACKAGE)
+MANIFEST, INDEX = PUB.load_package(PACKAGE)
+PLAN = gzip.decompress((PACKAGE / "plan.json.gz").read_bytes())
+
+
+class BoundPublicationTests(unittest.TestCase):
+    def test_actual_original_plan_and_index_match(self):
+        v2.bind_plan(PUB, MANIFEST, INDEX, PLAN)
+
+    def test_omitting_nonrequired_scientific_file_rejected(self):
+        data = copy.deepcopy(INDEX)
+        del data["inventory"][100]
+        with self.assertRaisesRegex(ValueError, "inventory differs"):
+            v2.bind_plan(PUB, MANIFEST, data, PLAN)
+
+    def test_inventory_metadata_change_rejected(self):
+        data = copy.deepcopy(INDEX)
+        data["inventory"][100]["mtime_ns"] += 1
+        with self.assertRaisesRegex(ValueError, "inventory differs"):
+            v2.bind_plan(PUB, MANIFEST, data, PLAN)
+
+    def test_forged_summary_counts_rejected(self):
+        manifest = copy.deepcopy(MANIFEST)
+        manifest["counts"]["logical_bytes"] -= 1
+        with self.assertRaisesRegex(ValueError, "counts differ"):
+            v2.bind_plan(PUB, manifest, INDEX, PLAN)
+
+    def test_stored_plan_byte_identity_rejected(self):
+        with self.assertRaisesRegex(ValueError, "original byte identity"):
+            v2.bind_plan(PUB, MANIFEST, INDEX, PLAN + b" ")
+
+    def test_changed_plan_scope_rejected(self):
+        data = copy.deepcopy(INDEX)
+        data["scope"] = "different scope"
+        with self.assertRaisesRegex(ValueError, "scope"):
+            v2.bind_plan(PUB, MANIFEST, data, PLAN)
+
+    def test_changed_metadata_rejected_after_pin(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            path = root / "manifest.json"
+            path.write_bytes(b"original")
+            pinned = {"manifest.json": PUB.record(path)}
+            path.write_bytes(b"changed")
+            with self.assertRaisesRegex(ValueError, "changed during"):
+                v2.check_identities(PUB, root, pinned)
+
+    def test_replaced_python_controller_rejected_before_import(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "publish.py.txt").write_text("raise RuntimeError('must never execute')")
+            with self.assertRaisesRegex(ValueError, "reviewed source"):
+                v2.import_original(root)
+
+    def test_restore_uses_verified_in_memory_index(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            index = {"inventory": [], "external_links": [], "omissions": []}
+            args = argparse.Namespace(package=root, shared_root=root, output=root / "new")
+            with patch.object(v2, "verify_bound", return_value=({}, index, {})), patch.object(
+                v2, "load_bound", side_effect=AssertionError("must not reload")
+            ):
+                result = v2.restore_bound(PUB, args)
+            self.assertTrue(result["restored_from_verified_in_memory_index"])
+
+
+if __name__ == "__main__":
+    unittest.main()

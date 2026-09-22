@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+"""Bind completed diagnostic source/build/execution receipts and retain executed bytes."""
+from pathlib import Path
+import hashlib
+import json
+import shutil
+from datetime import datetime, UTC
+
+ROOT=Path(__file__).resolve().parent
+
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def identity(p):return {'path':str(p),'bytes':p.stat().st_size,'sha256':sha(p)}
+def verify(r):
+    p=Path(r['path']); assert identity(p)==r,p
+    return p
+
+def read(p):return json.loads(p.read_text())
+def save(p,d):
+    with p.open('x') as f:json.dump(d,f,indent=2,sort_keys=True);f.write('\n')
+
+summary=read(ROOT/'summary.json');assert summary['status']=='complete'
+source=read(verify(summary['source_manifest']))
+build=read(verify(summary['build_manifest']))
+assert build['source_manifest']==summary['source_manifest']
+verify(build['source_manifest'])
+assert len(build['commands'])==2
+for command in build['commands']:
+    assert command['returncode']==0
+    verify(command['stdout']);verify(command['stderr'])
+assert '2 passed; 0 failed' in Path(build['commands'][1]['stdout']['path']).read_text()
+verify(source['runner']);verify(source['probe_patch']);verify(source['append'])
+pre=read(verify(summary['pre_edit']))
+for key in ['baseline','baseline_native','workloads','native_summary','frozen_bv','live_bv','previous_function','proposal','legacy_helper','profile_helper']:verify(pre[key])
+baseline=Path(pre['baseline']['path']).parent
+for n,h in source['before'].items():assert sha(baseline/'source'/n)==h,n
+for n,h in source['after'].items():assert sha(ROOT/'source'/n)==h,n
+for item in read(ROOT/'evidence_manifest.json')['files']:verify(item)
+for item in read(verify(summary['workload_manifest']))['files']:verify(item)
+executed_probe=verify(build['binary']);native=verify(pre['baseline_native'])
+assert read(verify(summary['native_summary']))['binary_sha256']==pre['baseline_native']['sha256']
+records={}
+for name,data in summary['results'].items():
+    verify(data['raw_counts'])
+    records[name]={}
+    for label,expected in [('current_native',pre['baseline_native']),('probe',build['binary'])]:
+        directory=ROOT/name/label;command=read(directory/'command.json');result=read(directory/'result.json')
+        assert command['binary']==expected;verify(command['binary'])
+        assert command['argv'][0]==expected['path'];assert result['returncode']==0
+        verify(result['stdout']);verify(result['stderr'])
+        assert result['fingerprints']==read(Path(pre['native_summary']['path']))['results'][name]['fingerprints']
+        records[name][label]={'command':identity(directory/'command.json'),'result':identity(directory/'result.json'),'binary_pre_run':command['binary'],'binary_post_run':identity(Path(expected['path']))}
+    for stream in ['stdout.txt','stderr.txt']:
+        assert sha(ROOT/name/'current_native'/stream)==sha(ROOT/name/'probe'/stream)
+    frames=0;values=0;bits=hashlib.sha256()
+    for line in Path(data['raw_counts']['path']).open():
+        row=json.loads(line);assert row['matches_unmodified_current_function']
+        assert len(row['scientific_bits'])==15
+        for value in row['scientific_bits']:
+            assert type(value) is int and 0<=value<2**32
+            bits.update(value.to_bytes(4,'little'));values+=1
+        frames+=1
+    assert frames==data['orientations']
+    records[name]['frame_bit_evidence']={'frames':frames,'f32_bit_values':values,'ordered_u32_le_sha256':bits.hexdigest(),'runtime_assertions_compare_original_and_shadow_each_frame':True}
+archive=ROOT/'bin';archive.mkdir()
+for name,original in [('probe',executed_probe),('baseline_native',native)]:
+    shutil.copy2(original,archive/name);assert sha(original)==sha(archive/name)
+save(ROOT/'completion_binding.json',{'created_utc':datetime.now(UTC).isoformat(),'scope':'Diagnostic operation-count/source/execution identity only; no native performance claim','summary':identity(ROOT/'summary.json'),'prior_evidence':identity(ROOT/'evidence_manifest.json'),'source_build_link_verified':True,'all_build_and_test_returncodes_zero':True,'focused_shadow_tests_passed':2,'source_inventory_and_workload_reverified':True,'execution_pre_post_binary_hashes_verified':True,'executions':records,'retained_executed_probe':identity(archive/'probe'),'retained_executed_baseline':identity(archive/'baseline_native'),'checker':identity(Path(__file__)),'limitation':'The runner executed its target-path binary. Its recorded pre-run identity and checked post-run identity equal this retained byte-for-byte copy; diagnostic timings are not benchmarks.'})
+print('completion binding verified and executed bytes retained')

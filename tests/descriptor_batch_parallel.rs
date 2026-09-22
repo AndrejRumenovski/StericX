@@ -182,22 +182,61 @@ fn all_failed_inputs_emit_every_skip_in_order_then_one_terminal_error() {
 }
 
 #[test]
-fn batch_donor_index_is_rejected_before_reading_any_input() {
+fn batch_explicit_indices_are_rejected_before_reading_any_input() {
     let f = Fixtures::new();
     for format in ["json", "text", "csv"] {
         for threads in [1, 2, 4, 6] {
-            let output = run(
-                &[&f.missing, &f.malformed, &f.large],
-                format,
-                threads,
-                &["--donor-index", "0"],
-            );
-            assert_eq!(output.status.code(), Some(2));
-            assert!(output.stdout.is_empty());
-            assert_eq!(
+            for flag in ["--donor-index", "--reference-index"] {
+                let output = run(
+                    &[&f.missing, &f.malformed, &f.large],
+                    format,
+                    threads,
+                    &[flag, "0"],
+                );
+                assert_eq!(output.status.code(), Some(2));
+                assert!(output.stdout.is_empty());
+                assert_eq!(
                 output.stderr,
                 b"error: --donor-index/--reference-index apply to a single file; omit it for batch runs\n"
             );
+            }
+        }
+    }
+}
+
+#[test]
+fn mixed_ensemble_batch_keeps_checked_means_and_single_file_results() {
+    let f = Fixtures::new();
+    let ensemble = f.root.join("finite ensemble.sdf");
+    fs::copy(
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("docs/scientific_remediation/geometry/finite_mean/finite_mean_4.sdf"),
+        &ensemble,
+    )
+    .unwrap();
+    let extra = ["--sterimol-axis", "coordination", "--density", "1"];
+    for format in ["json", "text", "csv"] {
+        let single = run(&[&ensemble], format, 1, &extra);
+        let small = run(&[&f.small], format, 1, &extra);
+        assert!(single.status.success() && single.stderr.is_empty());
+        assert!(small.status.success() && small.stderr.is_empty());
+        let expected = combined_stdout(
+            &[
+                std::str::from_utf8(&single.stdout).unwrap(),
+                std::str::from_utf8(&small.stdout).unwrap(),
+                std::str::from_utf8(&single.stdout).unwrap(),
+            ],
+            format,
+        );
+        for threads in [1, 2, 4, 6] {
+            let again = run(&[&ensemble], format, threads, &extra);
+            assert_eq!(again.status.code(), single.status.code());
+            assert_eq!(again.stdout, single.stdout);
+            assert_eq!(again.stderr, single.stderr);
+            let batch = run(&[&ensemble, &f.small, &ensemble], format, threads, &extra);
+            assert!(batch.status.success());
+            assert!(batch.stderr.is_empty());
+            assert_eq!(batch.stdout, expected.as_bytes());
         }
     }
 }

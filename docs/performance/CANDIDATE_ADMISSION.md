@@ -1,3 +1,5 @@
+> Historical evidence for audited `b515c4f`, superseded as the optimization baseline by corrected `1ecfbd5`. See [BASELINE_STATUS.md](BASELINE_STATUS.md). Do not use these timings or hypotheses as current-build measurements.
+
 # Candidate admission against the freshly profiled audited build
 
 These are **pre-implementation proposals**, not accepted optimizations or measured

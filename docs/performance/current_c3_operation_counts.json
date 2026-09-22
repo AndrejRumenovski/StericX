@@ -1,0 +1,263 @@
+{
+  "kind": "actual_c3_operation_count_publication",
+  "complete": true,
+  "bindings": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v2/manifest.json",
+      "bytes": 47246,
+      "sha256": "485188e4d2aff482453effb3e36e9c2c43856d2ba6960a436daa6485c3dc8887"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_publication_v1/publish.py",
+      "bytes": 10044,
+      "sha256": "e85ff8c9b235369a4ea5b4e3a0087182f4cdab9524b5764d3d3a1aaa184b8363"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v2/summary.json",
+      "bytes": 8185,
+      "sha256": "1301b3e7bd12e2c55b92d69d2b40aedf2c4c35a32d44c17876b985d6a6e20471"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v2/build_manifest.json",
+      "bytes": 5187,
+      "sha256": "1ee5bb030c021e2979f5c1773f4f4a7b1776b03a515236a3bb36101f1d4f8dce"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v2/source_manifest.json",
+      "bytes": 26938,
+      "sha256": "f2c87faa65154be88050c883a3b9a5670b9d807052a374ef063c924806c07085"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v2/harness_tests.json",
+      "bytes": 1568,
+      "sha256": "d575c06d0d02562d282a3253af6a8874cf19bf522ac7cc1af1ee11553e232c95"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v1/failure.json",
+      "bytes": 3038,
+      "sha256": "2a904ecd2f98643412920c613dec1848744d7bdffecf40f4b16255046d33288e"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_controller_v1/probe.py",
+      "bytes": 30747,
+      "sha256": "c2470caef9000c5433064f52caef04ebe2f927204ec2775b2da6a0fd33c6069e"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_controller_v2/probe.py",
+      "bytes": 32503,
+      "sha256": "00a2dd7c089fa686ef0e6531f5d81318a23cc8da91b2d487339ec8d8a982d387"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_controller_v2/test_probe.py",
+      "bytes": 4275,
+      "sha256": "fae4b0283628ae5b28316f46836c9ccb39b51cf7a393efb7f2bcc3591e54a230"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_diagnostics_v1/builds.json",
+      "bytes": 96072,
+      "sha256": "b778c21ab020611ae45fdc100cc346e9dcfe42f948839b478d363e17fb22825b"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_diagnostics_v1/prediction_comparison.json",
+      "bytes": 4768,
+      "sha256": "66e1995cf226bfcebef14cae09814502a2b6dda0ab1a194c79f85568c22d4a05"
+    }
+  ],
+  "summary": {
+    "candidate_build": {
+      "bytes": 37625,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/validated_build_corrected_vC3/manifest.json",
+      "sha256": "bace96d478096c9db5db9985e33bc557a733c754119842a6d4b93dd39819b987"
+    },
+    "complete": true,
+    "kind": "actual_frozen_c3_occupancy_operation_counts",
+    "limitations": [
+      "Extra instrumented work is excluded from native performance comparisons.",
+      "Counts are source operations, not machine instructions or wall time.",
+      "Allocations of probe counters/sidecar are not C3 native allocation evidence.",
+      "Native A/B and matched diagnostic allocation comparisons remain separate."
+    ],
+    "no_performance_claim": true,
+    "original_native": {
+      "bytes": 23044,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/runs/accurate_baseline_native_t1/summary.json",
+      "sha256": "46af9dad515e60aab0ca80c0b8a9e2f227ff0ba3004692940ea6bef813cee3a3"
+    },
+    "original_shadow": {
+      "bytes": 20819,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/summary.json",
+      "sha256": "69facaa96977fb2d6b26c3cb9340c2a880b5df9be4883e569858abb46437a70f"
+    },
+    "probe_build": {
+      "bytes": 5187,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v2/build_manifest.json",
+      "sha256": "1ee5bb030c021e2979f5c1773f4f4a7b1776b03a515236a3bb36101f1d4f8dce"
+    },
+    "results": {
+      "conformers_56": {
+        "actual_original_z_predicates": 5453213,
+        "actual_z_including_endpoint_predicates": 5937466,
+        "all_actual_c3_fields_equal_original_shadow": true,
+        "all_per_frame_counts_equal_shadow_prediction": true,
+        "exact_native_stdout_stderr": true,
+        "f32_fields_compared": 2520,
+        "geometries": 56,
+        "ordered_f32_bits_sha256": "3f3e8848c8a17ea5d6882fe5343502b77a1fbec84f166c015c8af4ed0d189a00",
+        "orientations": 168,
+        "original_fingerprints_match": true,
+        "original_raw_counts": {
+          "bytes": 464638,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/conformers_56/probe/counts.jsonl",
+          "sha256": "0b975dbcca711443bbd9d34485ac248f8ad1470ac7463b3528cc55809ff0c59c"
+        },
+        "original_shadow_totals": {
+          "asserted_eliminated_tests_are_misses": 5431482,
+          "cached_z_tests": 10257800,
+          "eager_endpoint_checks": 493551,
+          "eager_endpoint_rejections": 341900,
+          "eager_inside_z_range": 146871,
+          "eager_nonfinite_fallback": 0,
+          "eager_xy_preparations": 3876120,
+          "eager_xy_rejections": 3235698,
+          "eliminated_cached_z_tests": 5095739,
+          "eliminated_new_z_tests": 335743,
+          "endpoint_checks_lazy": 484253,
+          "endpoint_rejections_lazy": 335743,
+          "first_hits_cached": 688227,
+          "first_hits_new": 160417,
+          "inside_z_range_lazy": 142642,
+          "new_candidate_z_tests": 626895,
+          "nonfinite_fallback_lazy": 0,
+          "point_misses": 1739900,
+          "point_visits": 2588544,
+          "rows": 124320,
+          "xy_preparations": 3837215,
+          "xy_rejections": 3210320
+        },
+        "raw_counts": {
+          "bytes": 191490,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v2/conformers_56/probe/counts.jsonl",
+          "sha256": "c124f4a37cbb10cdd71b4e43c026ad5ddf40b47791dce8d855ddb3a3e144b7f8"
+        },
+        "totals": {
+          "cached_z_tests": 5162061,
+          "endpoint_checks_lazy": 484253,
+          "endpoint_rejections_lazy": 335743,
+          "first_hits_cached": 688227,
+          "first_hits_new": 160417,
+          "helper_atom_finite_checks": 626895,
+          "helper_radius_finite_checks": 626895,
+          "helper_row_finite_checks": 626895,
+          "helper_xy_finite_checks": 626895,
+          "inside_z_range_lazy": 142642,
+          "new_candidate_z_tests": 291152,
+          "nonfinite_fallback_lazy": 0,
+          "point_misses": 1739900,
+          "point_visits": 2588544,
+          "row_bound_checks": 2588544,
+          "row_first_point_finite_checks": 124320,
+          "row_helper_calls": 626895,
+          "row_remaining_z_finite_checks": 2464224,
+          "row_scan_points": 2588544,
+          "row_xy_comparisons": 2588376,
+          "rows": 124320,
+          "xy_preparations": 3837215,
+          "xy_rejections": 3210320
+        }
+      },
+      "descriptors_10000": {
+        "actual_original_z_predicates": 973862767,
+        "actual_z_including_endpoint_predicates": 1060350575,
+        "all_actual_c3_fields_equal_original_shadow": true,
+        "all_per_frame_counts_equal_shadow_prediction": true,
+        "exact_native_stdout_stderr": true,
+        "f32_fields_compared": 450000,
+        "geometries": 10000,
+        "ordered_f32_bits_sha256": "9a2a9dc3d4d5f7229ff563faa20e8e10c23be54cb634a10951a011fbf589ecea",
+        "orientations": 30000,
+        "original_fingerprints_match": true,
+        "original_raw_counts": {
+          "bytes": 82144311,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/descriptors_10000/probe/counts.jsonl",
+          "sha256": "7b0e1968e4df548b070d2d08ee5b1e8ba984e88cdf9bdc54df75e814d5cd3730"
+        },
+        "original_shadow_totals": {
+          "asserted_eliminated_tests_are_misses": 969969725,
+          "cached_z_tests": 1831868275,
+          "eager_endpoint_checks": 88148204,
+          "eager_endpoint_rejections": 61066565,
+          "eager_inside_z_range": 26231368,
+          "eager_nonfinite_fallback": 0,
+          "eager_xy_preparations": 692455740,
+          "eager_xy_rejections": 578076168,
+          "eliminated_cached_z_tests": 910002944,
+          "eliminated_new_z_tests": 59966781,
+          "endpoint_checks_lazy": 86487808,
+          "endpoint_rejections_lazy": 59966781,
+          "first_hits_cached": 122908551,
+          "first_hits_new": 28648248,
+          "inside_z_range_lazy": 25476409,
+          "new_candidate_z_tests": 111964217,
+          "nonfinite_fallback_lazy": 0,
+          "point_misses": 310683201,
+          "point_visits": 462240000,
+          "rows": 22200000,
+          "xy_preparations": 685507811,
+          "xy_rejections": 573543594
+        },
+        "raw_counts": {
+          "bytes": 33365834,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v2/descriptors_10000/probe/counts.jsonl",
+          "sha256": "185fdad7441ea803a5a48b0952f8873bb5df714b983e59f4c98fd3d6cb917bf3"
+        },
+        "totals": {
+          "cached_z_tests": 921865331,
+          "endpoint_checks_lazy": 86487808,
+          "endpoint_rejections_lazy": 59966781,
+          "first_hits_cached": 122908551,
+          "first_hits_new": 28648248,
+          "helper_atom_finite_checks": 111964217,
+          "helper_radius_finite_checks": 111964217,
+          "helper_row_finite_checks": 111964217,
+          "helper_xy_finite_checks": 111964217,
+          "inside_z_range_lazy": 25476409,
+          "new_candidate_z_tests": 51997436,
+          "nonfinite_fallback_lazy": 0,
+          "point_misses": 310683201,
+          "point_visits": 462240000,
+          "row_bound_checks": 462240000,
+          "row_first_point_finite_checks": 22200000,
+          "row_helper_calls": 111964217,
+          "row_remaining_z_finite_checks": 440040000,
+          "row_scan_points": 462240000,
+          "row_xy_comparisons": 462210000,
+          "rows": 22200000,
+          "xy_preparations": 685507811,
+          "xy_rejections": 573543594
+        }
+      }
+    },
+    "workloads": {
+      "bytes": 22929020,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/manifest.json",
+      "sha256": "a1041cc07fc5583c33d2a7cf584dbc638866c64bdd0b64e3720ef83cc85e1e6a"
+    }
+  },
+  "comparison": {
+    "conformers_56": {
+      "original_z": 10884695,
+      "actual_z_including_endpoints": 5937466,
+      "net_z_removed": 4947229,
+      "net_z_reduction_fraction": 0.4545124139904701,
+      "net_combined_xy_z_reduction_fraction": 0.3360453229234522
+    },
+    "descriptors_10000": {
+      "original_z": 1943832492,
+      "actual_z_including_endpoints": 1060350575,
+      "net_z_removed": 883481917,
+      "net_z_reduction_fraction": 0.45450516988271433,
+      "net_combined_xy_z_reduction_fraction": 0.3360089662003709
+    }
+  },
+  "no_performance_or_acceptance_claim": true
+}

@@ -1,0 +1,208 @@
+{
+  "complete": true,
+  "controller": {
+    "bytes": 49824,
+    "path": "publish_shared.py.txt",
+    "sha256": "adb595678bf0567e3d536c9c50f867cbee9d18904916f94824443fb04bde1df9"
+  },
+  "counts": {
+    "files": 7493,
+    "gzip_blob_bytes": 19069720,
+    "inherited_chunks": 1,
+    "local_chunks": 3123,
+    "logical_bytes": 4953944881,
+    "max_blob_bytes": 2912654,
+    "publication_files": 2678,
+    "shared_files": 2748,
+    "unique_chunks": 3124
+  },
+  "coverage": {
+    "cli_cases_per_thread": {
+      "1": 93,
+      "2": 93,
+      "4": 93,
+      "6": 93
+    },
+    "decision": {
+      "accepted": false,
+      "exact_C2_restoration": true,
+      "historical_source_aliases": 2,
+      "performance_gate_passed": false,
+      "rejection": ".stericx/profiling/scientifically_validated_optimization/rejected_c3_v1/decision.json",
+      "restoration": ".stericx/profiling/scientifically_validated_optimization/rejected_c3_v1/restoration.json",
+      "scientific_gate_passed": true
+    },
+    "native": {
+      ".stericx/profiling/scientifically_validated_optimization/candidate_c3_incremental_pairs_v1": {
+        "launches": 252,
+        "measured_pairs": 112,
+        "warmup_launches": 28
+      },
+      ".stericx/profiling/scientifically_validated_optimization/candidate_c3_native_pairs_v1": {
+        "launches": 720,
+        "measured_pairs": 320,
+        "warmup_launches": 80
+      }
+    },
+    "observation_rows": 128021,
+    "observations": {
+      "aggregation": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 11
+      },
+      "geometry": {
+        "private_bins": 24660,
+        "private_frames": 2055,
+        "rows": 844
+      },
+      "geometry_alignment": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 4
+      },
+      "geometry_alignment_rotation": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 4
+      },
+      "geometry_focused": {
+        "private_bins": 144,
+        "private_frames": 12,
+        "rows": 15
+      },
+      "geometry_historical": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 20
+      },
+      "geometry_numerical": {
+        "private_bins": 108,
+        "private_frames": 9,
+        "rows": 11
+      },
+      "kinetics": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 195
+      },
+      "kraken": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 31721
+      },
+      "kraken_all_bins": {
+        "private_bins": 1141668,
+        "private_frames": 95139,
+        "rows": 31721
+      },
+      "kraken_topology": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 31721
+      },
+      "kraken_topology_all_bins": {
+        "private_bins": 1141956,
+        "private_frames": 95163,
+        "rows": 31721
+      },
+      "model_domain": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 33
+      }
+    },
+    "total_measured_pairs": 432,
+    "total_native_launches": 972
+  },
+  "helpers": [
+    {
+      "bytes": 13159,
+      "path": "provider_storage.py.txt",
+      "sha256": "09ebeb7757f1521352cac2579a5d0d6d65d41b63ef0d0f8743acc4a57415be82"
+    },
+    {
+      "bytes": 28795,
+      "path": "publication_base.py.txt",
+      "sha256": "ebc8a36a707186fba821c09052966e40e1d83c66aa1c7554790e5cd1d226abbb"
+    },
+    {
+      "bytes": 6962,
+      "path": "publication_bound.py.txt",
+      "sha256": "d02079e8eb93b8939cba2149e2ff038cf22fdeed6800ef5da7536ee0d29feb92"
+    }
+  ],
+  "index": {
+    "bytes": 604920,
+    "path": "restoration_index.json.gz",
+    "sha256": "22a5c4b88c10518a1f5753a1624fa3c0002a34a4502332296c4f206a2f3ec3f3",
+    "uncompressed_bytes": 4477038,
+    "uncompressed_sha256": "f5f28ad3fbc5c6fe01eabfc4b98d539ac9c24fe42e16d67f6a1fd21a39fa8250"
+  },
+  "kind": "rejected_candidate_shared_lossless_publication",
+  "native_executables_published": false,
+  "omissions_and_external_links_preserved_in_index": true,
+  "plan": {
+    "bytes": 296017,
+    "path": "plan.json.gz",
+    "sha256": "b2536ed1ab0dbd7c73a4a0a4a689c70c690fa3e22f3531366b28c9889a26c796"
+  },
+  "providers": {
+    "accepted_c1": {
+      "index": {
+        "bytes": 616333,
+        "path": "restoration_index.json.gz",
+        "sha256": "5c936fab94486c6aa67f486b732c898a00755e67905071ac8719676962faec6e"
+      },
+      "manifest": {
+        "bytes": 3246,
+        "path": "manifest.json",
+        "sha256": "16964fbfaa6a057fb0a8bb8d78326d0bb359a49785d16bde17fd57044417df9b"
+      },
+      "plan": {
+        "bytes": 234585,
+        "path": "plan.json.gz",
+        "sha256": "2a470af8dc2714b938b452b6eb26a174caf52269805772359312c8f1446b221d"
+      },
+      "root": "docs/performance/evidence/accepted_c1"
+    },
+    "accepted_c1b": {
+      "index": {
+        "bytes": 684733,
+        "path": "restoration_index.json.gz",
+        "sha256": "b6c2670848aac30a390afff4ec35d895d3c8114832e4e43de6e26520eff888c0"
+      },
+      "manifest": {
+        "bytes": 4272,
+        "path": "manifest.json",
+        "sha256": "80c03521fdf1e60e86f25762c0cd4be8e38e95cbf655c58aece7050f8f3e6c0c"
+      },
+      "plan": {
+        "bytes": 305648,
+        "path": "plan.json.gz",
+        "sha256": "571f6e23a64d781a32878a186c775962e05d7f59085095078f2b5d7e3db1e31c"
+      },
+      "root": "docs/performance/evidence/accepted_c1b"
+    },
+    "accepted_c2": {
+      "index": {
+        "bytes": 816044,
+        "path": "restoration_index.json.gz",
+        "sha256": "4121895aa67ae3da33e48c4d462eb4b58cc3de9802cfbe17c05b998852c0286b"
+      },
+      "manifest": {
+        "bytes": 5071,
+        "path": "manifest.json",
+        "sha256": "cf05c4d2136f14a8ada8f3236c197b8aa9e35772c805cc7e3825d9b917f60dcd"
+      },
+      "plan": {
+        "bytes": 370100,
+        "path": "plan.json.gz",
+        "sha256": "da7ad6480c6bb2bfd1c7fe9f10e81d726f90ef03d1e1bcebe9677a8a45d49802"
+      },
+      "root": "docs/performance/evidence/accepted_c2"
+    }
+  },
+  "scientific_or_performance_acceptance": "Existing scientific passes, performance rejection and restoration retained; publication adds byte/coverage verification only.",
+  "version": 2
+}

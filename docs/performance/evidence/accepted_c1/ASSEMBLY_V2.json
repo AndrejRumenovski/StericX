@@ -1,0 +1,62 @@
+{
+  "additional_tests": {
+    "bytes": 3540,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/test_verify_publication_v2.py.txt",
+    "sha256": "7a507d40504ae400f56e78972772f16c2864e03b29e4e9ea26ea1cb03d919ced"
+  },
+  "additive_verifier": {
+    "bytes": 6962,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/verify_publication_v2.py.txt",
+    "sha256": "d02079e8eb93b8939cba2149e2ff038cf22fdeed6800ef5da7536ee0d29feb92"
+  },
+  "builder_and_test_source_archive": "publish.py.txt and restored publication_controller_v1/; additive verifier/tests kept as .py.txt.",
+  "finalizer": {
+    "bytes": 5921,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/finish_publication.py.txt",
+    "sha256": "a9b6dfa774d3ce5bcdc07987d06613f6bc277bf2a2bc5de19296873675833247"
+  },
+  "kind": "additive_accepted_c1_publication_review",
+  "original_compressed_index": {
+    "bytes": 616333,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/restoration_index.json.gz",
+    "sha256": "5c936fab94486c6aa67f486b732c898a00755e67905071ac8719676962faec6e"
+  },
+  "original_controller": {
+    "bytes": 28795,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/publish.py.txt",
+    "sha256": "ebc8a36a707186fba821c09052966e40e1d83c66aa1c7554790e5cd1d226abbb"
+  },
+  "original_manifest": {
+    "bytes": 3246,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/manifest.json",
+    "sha256": "16964fbfaa6a057fb0a8bb8d78326d0bb359a49785d16bde17fd57044417df9b"
+  },
+  "restoration": {
+    "bytes": 12173,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/RESTORATION_V1.json",
+    "sha256": "6289323168b923f7012faa500834d84c44dcc8fb479f7a19ef20ea946465e835"
+  },
+  "scope": "Exact evidence publication and artifact integrity only. Original plan/index/blob/controller bytes unchanged; no science or performance rerun.",
+  "test_results": [
+    {
+      "bytes": 109,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/tests_original.stderr.txt",
+      "sha256": "8c4b1532288f3c2237a75b4778a19116380135ed2658033225c3d1a1a8446867"
+    },
+    {
+      "bytes": 109,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/tests_restored.stderr.txt",
+      "sha256": "8c4b1532288f3c2237a75b4778a19116380135ed2658033225c3d1a1a8446867"
+    },
+    {
+      "bytes": 107,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/tests_v2.stderr.txt",
+      "sha256": "8067b6d16ebe319b19fc80b05be075e555a9cba29d017a60691942c56bb307eb"
+    }
+  ],
+  "verification": {
+    "bytes": 4006,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/VERIFICATION.json",
+    "sha256": "6c3d6f62a47c58d98a926c6e3803688e07cea927a6a34bdf395680684e05dc75"
+  }
+}

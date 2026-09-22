@@ -1,0 +1,803 @@
+{
+  "accepted": false,
+  "candidate": "C3 exact one-sided row-endpoint rejection",
+  "candidate_build": {
+    "bytes": 37625,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/validated_build_corrected_vC3/manifest.json",
+    "sha256": "bace96d478096c9db5db9985e33bc557a733c754119842a6d4b93dd39819b987"
+  },
+  "candidate_gate": {
+    "bytes": 7307,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_performance_gate_v1/manifest.json",
+    "sha256": "c4d58655c610c5feebee25baf86a12f959b963ed716ecbaf3a74ed81dd2129ff"
+  },
+  "complete": true,
+  "exclusions": [],
+  "helper": {
+    "bytes": 5289,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/controllers/reject_and_restore_c3.py",
+    "sha256": "441859fdec3a020db8639d16f09a2761b08b883508e5cf6bdd6db5e1507006aa"
+  },
+  "independent_reviews": [
+    {
+      "bytes": 381478,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_independent_review_v1/analysis.json",
+      "sha256": "852f2fcf9d6ac3afe98f27edd65b8a45bb6bc2674b1a991364aed755e2907172"
+    },
+    {
+      "bytes": 150400,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_incremental_independent_review_v1/analysis.json",
+      "sha256": "f68dc0ebe5db2887d7ef020035074684f79e7246c11601973d6b25ffbe78289f"
+    }
+  ],
+  "kind": "rejected_corrected_optimization",
+  "measured_pairs": 432,
+  "operation_evidence": {
+    "bytes": 47246,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_occupancy_counts_v2/manifest.json",
+    "sha256": "485188e4d2aff482453effb3e36e9c2c43856d2ba6960a436daa6485c3dc8887"
+  },
+  "performance_gate_passed": false,
+  "preserved_candidate_source": {
+    "bytes": 71587,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_science_v1/validated_build_corrected_vC3/source/src/geometry/buried_volume.rs",
+    "sha256": "1df92d49859c3d1a8a17feeaa9d3ac49409ca275feea3b8d5fdd53f6635bb7d9"
+  },
+  "preserved_patch": {
+    "bytes": 14405,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c3_row_rejection/candidate.patch",
+    "sha256": "5270bfeb1c0bf84016bbf17ff49df6058963905c58811b99168678bb9bb1cb5f"
+  },
+  "reason": "Both target batch paired medians regress by about 15.6 percent, failing the predeclared at-least-10-percent runtime reduction. Scientific equality and fewer predicates do not justify retaining slower production code.",
+  "retained_acceptance": {
+    "bytes": 6733,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accepted_c2_v1/acceptance.json",
+    "sha256": "071f29b5e52cc4940b9581eb3de90430b3c1d7d4d2d1c4e7d4c9d30750f8cabe"
+  },
+  "retained_build": {
+    "bytes": 37625,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_science_v1/validated_build_corrected_vC2/manifest.json",
+    "sha256": "82b63f16c90e0767c5cb5b60daed61e2ce52f123d4f1a9f3156e791c5a03fd81"
+  },
+  "scientific_gate_passed": true,
+  "target_results": [
+    {
+      "AB_cpu_speedup_median": 0.8620866809982652,
+      "AB_wall_speedup_median": 0.8620896046042477,
+      "BA_cpu_speedup_median": 0.8660277508351324,
+      "BA_wall_speedup_median": 0.866251937061434,
+      "configuration": "t1/descriptors_10000",
+      "cpu_slower_pairs": 8,
+      "metrics": {
+        "baseline": {
+          "cpu_percent_one_core": {
+            "mad": 0.013999505215522845,
+            "maximum": 99.8771772283427,
+            "median": 99.68828723510822,
+            "minimum": 99.62754141271868,
+            "values": [
+              99.68051065503502,
+              99.68626390594501,
+              99.75218847961966,
+              99.7001394898271,
+              99.69031056427141,
+              99.8771772283427,
+              99.62754141271868,
+              99.67214047939605
+            ]
+          },
+          "cpu_system_s": {
+            "mad": 0.0020005000000000023,
+            "maximum": 0.072002,
+            "median": 0.06648899999999999,
+            "minimum": 0.053991,
+            "values": [
+              0.066985,
+              0.053991,
+              0.06698,
+              0.062984,
+              0.072002,
+              0.065998,
+              0.070986,
+              0.065994
+            ]
+          },
+          "cpu_total_s": {
+            "mad": 0.008821500000000704,
+            "maximum": 5.1015939999999995,
+            "median": 4.861015500000001,
+            "minimum": 4.848217,
+            "values": [
+              4.857924,
+              4.848217,
+              4.849577,
+              4.854811,
+              4.865197,
+              4.8879090000000005,
+              4.864107000000001,
+              5.1015939999999995
+            ]
+          },
+          "cpu_user_s": {
+            "mad": 0.0017750000000003041,
+            "maximum": 5.0356,
+            "median": 4.793158,
+            "minimum": 4.782597,
+            "values": [
+              4.790939,
+              4.794226,
+              4.782597,
+              4.791827,
+              4.793195,
+              4.821911,
+              4.793121,
+              5.0356
+            ]
+          },
+          "involuntary_context_switches": {
+            "mad": 2.5,
+            "maximum": 50,
+            "median": 46.5,
+            "minimum": 41,
+            "values": [
+              46,
+              47,
+              41,
+              46,
+              49,
+              44,
+              50,
+              49
+            ]
+          },
+          "major_faults": {
+            "mad": 0.0,
+            "maximum": 0,
+            "median": 0.0,
+            "minimum": 0,
+            "values": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minor_faults": {
+            "mad": 1.0,
+            "maximum": 4634,
+            "median": 4632.0,
+            "minimum": 4630,
+            "values": [
+              4630,
+              4633,
+              4634,
+              4631,
+              4634,
+              4632,
+              4632,
+              4632
+            ]
+          },
+          "peak_rss_bytes": {
+            "mad": 45056.0,
+            "maximum": 22134784,
+            "median": 22069248.0,
+            "minimum": 21983232,
+            "values": [
+              22065152,
+              22065152,
+              21983232,
+              22093824,
+              22073344,
+              21991424,
+              22134784,
+              22134784
+            ]
+          },
+          "voluntary_context_switches": {
+            "mad": 0.0,
+            "maximum": 2,
+            "median": 2.0,
+            "minimum": 2,
+            "values": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          "wall_ns": {
+            "mad": 10458589.5,
+            "maximum": 5118375080,
+            "median": 4876902551.0,
+            "minimum": 4861624666,
+            "values": [
+              4873494295,
+              4863475478,
+              4861624666,
+              4869412445,
+              4880310807,
+              4893919848,
+              4882291514,
+              5118375080
+            ]
+          }
+        },
+        "candidate": {
+          "cpu_percent_one_core": {
+            "mad": 0.031164934206849182,
+            "maximum": 99.9096725271117,
+            "median": 99.72263098882223,
+            "minimum": 99.60425538840533,
+            "values": [
+              99.60425538840533,
+              99.73257655730981,
+              99.9096725271117,
+              99.70545189554011,
+              99.7677817639538,
+              99.70817578707653,
+              99.80482569317046,
+              99.71268542033464
+            ]
+          },
+          "cpu_system_s": {
+            "mad": 0.0029939999999999967,
+            "maximum": 0.076993,
+            "median": 0.071996,
+            "minimum": 0.067995,
+            "values": [
+              0.067995,
+              0.076986,
+              0.070997,
+              0.07,
+              0.075988,
+              0.070991,
+              0.076993,
+              0.072995
+            ]
+          },
+          "cpu_total_s": {
+            "mad": 0.03734649999999995,
+            "maximum": 5.875626,
+            "median": 5.6393765,
+            "minimum": 5.596827,
+            "values": [
+              5.615633,
+              5.60004,
+              5.596827,
+              5.60402,
+              5.66312,
+              5.6713070000000005,
+              5.697524,
+              5.875626
+            ]
+          },
+          "cpu_user_s": {
+            "mad": 0.03745999999999983,
+            "maximum": 5.802631,
+            "median": 5.567385,
+            "minimum": 5.523054,
+            "values": [
+              5.547638,
+              5.523054,
+              5.52583,
+              5.53402,
+              5.587132,
+              5.600316,
+              5.620531,
+              5.802631
+            ]
+          },
+          "involuntary_context_switches": {
+            "mad": 4.5,
+            "maximum": 69,
+            "median": 52.5,
+            "minimum": 45,
+            "values": [
+              45,
+              45,
+              52,
+              54,
+              52,
+              53,
+              69,
+              65
+            ]
+          },
+          "major_faults": {
+            "mad": 0.0,
+            "maximum": 0,
+            "median": 0.0,
+            "minimum": 0,
+            "values": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minor_faults": {
+            "mad": 0.5,
+            "maximum": 4635,
+            "median": 4633.0,
+            "minimum": 4630,
+            "values": [
+              4633,
+              4633,
+              4633,
+              4633,
+              4635,
+              4630,
+              4634,
+              4634
+            ]
+          },
+          "peak_rss_bytes": {
+            "mad": 65536.0,
+            "maximum": 22151168,
+            "median": 22081536.0,
+            "minimum": 21913600,
+            "values": [
+              22151168,
+              21913600,
+              22126592,
+              22142976,
+              22097920,
+              21987328,
+              21942272,
+              22065152
+            ]
+          },
+          "voluntary_context_switches": {
+            "mad": 0.0,
+            "maximum": 2,
+            "median": 2.0,
+            "minimum": 2,
+            "values": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          "wall_ns": {
+            "mad": 39307498.0,
+            "maximum": 5892556173,
+            "median": 5657123135.0,
+            "minimum": 5601887043,
+            "values": [
+              5637944863,
+              5615055976,
+              5601887043,
+              5620575298,
+              5676301407,
+              5687905686,
+              5708665849,
+              5892556173
+            ]
+          }
+        }
+      },
+      "paired_cpu_speedup": {
+        "mad": 0.0019662095524046186,
+        "maximum": 0.8682639092413302,
+        "median": 0.8654091703161733,
+        "minimum": 0.8537229505307922,
+        "values": [
+          0.865071488824145,
+          0.8657468518082014,
+          0.8664868504958255,
+          0.8663086498620632,
+          0.8591018731723855,
+          0.8618664092774382,
+          0.8537229505307922,
+          0.8682639092413302
+        ]
+      },
+      "paired_wall_speedup": {
+        "mad": 0.002956573697690479,
+        "maximum": 0.8686171043141959,
+        "median": 0.8652793879807208,
+        "minimum": 0.8552421254180155,
+        "values": [
+          0.8644097119471954,
+          0.8661490640142463,
+          0.8678548190426266,
+          0.8663548101086217,
+          0.8597694972613,
+          0.8604080514284392,
+          0.8552421254180155,
+          0.8686171043141959
+        ]
+      },
+      "pairs": 8,
+      "wall_slower_pairs": 8
+    },
+    {
+      "AB_cpu_speedup_median": 0.8673526516854946,
+      "AB_wall_speedup_median": 0.8454778986137022,
+      "BA_cpu_speedup_median": 0.8667861256457923,
+      "BA_wall_speedup_median": 0.8908555807404201,
+      "configuration": "t6/descriptors_10000",
+      "cpu_slower_pairs": 8,
+      "metrics": {
+        "baseline": {
+          "cpu_percent_one_core": {
+            "mad": 9.012156384836203,
+            "maximum": 575.4445419849214,
+            "median": 566.2986958816591,
+            "minimum": 395.6418701501034,
+            "values": [
+              575.4445419849214,
+              574.9572142404493,
+              568.099899633614,
+              395.6418701501034,
+              400.0014677318805,
+              554.0197975120839,
+              575.1771625480692,
+              564.4974921297044
+            ]
+          },
+          "cpu_system_s": {
+            "mad": 0.0015475000000000072,
+            "maximum": 0.089008,
+            "median": 0.08549,
+            "minimum": 0.069003,
+            "values": [
+              0.085989,
+              0.087037,
+              0.084991,
+              0.089008,
+              0.076043,
+              0.087038,
+              0.069003,
+              0.083994
+            ]
+          },
+          "cpu_total_s": {
+            "mad": 0.00938650000000063,
+            "maximum": 5.234272,
+            "median": 5.220836,
+            "minimum": 5.197475,
+            "values": [
+              5.219335,
+              5.234272,
+              5.215465999999999,
+              5.197475,
+              5.200969000000001,
+              5.222337,
+              5.2342390000000005,
+              5.22565
+            ]
+          },
+          "cpu_user_s": {
+            "mad": 0.008364999999999956,
+            "maximum": 5.165236,
+            "median": 5.1343225,
+            "minimum": 5.108467,
+            "values": [
+              5.133346,
+              5.147235,
+              5.130475,
+              5.108467,
+              5.124926,
+              5.135299,
+              5.165236,
+              5.141656
+            ]
+          },
+          "involuntary_context_switches": {
+            "mad": 5.0,
+            "maximum": 66,
+            "median": 23.0,
+            "minimum": 16,
+            "values": [
+              17,
+              21,
+              25,
+              43,
+              66,
+              19,
+              16,
+              26
+            ]
+          },
+          "major_faults": {
+            "mad": 0.0,
+            "maximum": 0,
+            "median": 0.0,
+            "minimum": 0,
+            "values": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minor_faults": {
+            "mad": 5.0,
+            "maximum": 6411,
+            "median": 6397.5,
+            "minimum": 6381,
+            "values": [
+              6402,
+              6398,
+              6403,
+              6381,
+              6397,
+              6394,
+              6411,
+              6391
+            ]
+          },
+          "peak_rss_bytes": {
+            "mad": 102400.0,
+            "maximum": 27856896,
+            "median": 27559936.0,
+            "minimum": 27389952,
+            "values": [
+              27484160,
+              27619328,
+              27500544,
+              27652096,
+              27389952,
+              27774976,
+              27856896,
+              27447296
+            ]
+          },
+          "voluntary_context_switches": {
+            "mad": 3.0,
+            "maximum": 49,
+            "median": 34.5,
+            "minimum": 23,
+            "values": [
+              38,
+              23,
+              32,
+              28,
+              37,
+              34,
+              35,
+              49
+            ]
+          },
+          "wall_ns": {
+            "mad": 13370125.5,
+            "maximum": 1313681739,
+            "median": 921885755.5,
+            "minimum": 907009211,
+            "values": [
+              907009211,
+              910375915,
+              918054378,
+              1313681739,
+              1300237479,
+              942626423,
+              910022049,
+              925717133
+            ]
+          }
+        },
+        "candidate": {
+          "cpu_percent_one_core": {
+            "mad": 14.211899078243903,
+            "maximum": 582.0770425134931,
+            "median": 565.8012359338197,
+            "minimum": 399.43538622498835,
+            "values": [
+              558.2284112439419,
+              581.7124354700213,
+              482.72584745827896,
+              568.2360708459062,
+              582.0770425134931,
+              578.3138345541059,
+              563.3664010217332,
+              399.43538622498835
+            ]
+          },
+          "cpu_system_s": {
+            "mad": 0.004997500000000009,
+            "maximum": 0.099987,
+            "median": 0.092997,
+            "minimum": 0.085001,
+            "values": [
+              0.085001,
+              0.085985,
+              0.094025,
+              0.099987,
+              0.085023,
+              0.09201,
+              0.096002,
+              0.093984
+            ]
+          },
+          "cpu_total_s": {
+            "mad": 0.00839099999999915,
+            "maximum": 6.046638,
+            "median": 6.027074000000001,
+            "minimum": 5.9725980000000005,
+            "values": [
+              6.025136,
+              6.02701,
+              5.9725980000000005,
+              6.034266,
+              6.046638,
+              6.036664,
+              6.027138000000001,
+              6.006009
+            ]
+          },
+          "cpu_user_s": {
+            "mad": 0.0067589999999997374,
+            "maximum": 5.961615,
+            "median": 5.937207,
+            "minimum": 5.878573,
+            "values": [
+              5.940135,
+              5.941025,
+              5.878573,
+              5.934279,
+              5.961615,
+              5.944654,
+              5.931136,
+              5.912025
+            ]
+          },
+          "involuntary_context_switches": {
+            "mad": 5.0,
+            "maximum": 490,
+            "median": 24.5,
+            "minimum": 17,
+            "values": [
+              52,
+              22,
+              490,
+              22,
+              96,
+              25,
+              17,
+              24
+            ]
+          },
+          "major_faults": {
+            "mad": 0.0,
+            "maximum": 0,
+            "median": 0.0,
+            "minimum": 0,
+            "values": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "minor_faults": {
+            "mad": 4.0,
+            "maximum": 6410,
+            "median": 6399.0,
+            "minimum": 6382,
+            "values": [
+              6405,
+              6409,
+              6382,
+              6410,
+              6397,
+              6399,
+              6399,
+              6397
+            ]
+          },
+          "peak_rss_bytes": {
+            "mad": 135168.0,
+            "maximum": 27779072,
+            "median": 27570176.0,
+            "minimum": 27348992,
+            "values": [
+              27693056,
+              27717632,
+              27598848,
+              27467776,
+              27348992,
+              27779072,
+              27541504,
+              27422720
+            ]
+          },
+          "voluntary_context_switches": {
+            "mad": 2.5,
+            "maximum": 45,
+            "median": 36.5,
+            "minimum": 24,
+            "values": [
+              38,
+              34,
+              45,
+              35,
+              39,
+              24,
+              38,
+              31
+            ]
+          },
+          "wall_ns": {
+            "mad": 24565140.0,
+            "maximum": 1503624668,
+            "median": 1065886386.0,
+            "minimum": 1036080653,
+            "values": [
+              1079331664,
+              1036080653,
+              1237265009,
+              1061929418,
+              1038803725,
+              1043838767,
+              1069843354,
+              1503624668
+            ]
+          }
+        }
+      },
+      "paired_cpu_speedup": {
+        "mad": 0.002483574104744035,
+        "maximum": 0.8732323856385443,
+        "median": 0.8673526516854946,
+        "minimum": 0.8601422807186409,
+        "values": [
+          0.8662601142945155,
+          0.8684691082311129,
+          0.8732323856385443,
+          0.8613267960013695,
+          0.8601422807186409,
+          0.8651031430604718,
+          0.8684451890764737,
+          0.8700702912699598
+        ]
+      },
+      "paired_wall_speedup": {
+        "mad": 0.08051765596994132,
+        "maximum": 1.251668094470878,
+        "median": 0.8646426250034602,
+        "minimum": 0.6156570537189404,
+        "values": [
+          0.8403433728967299,
+          0.8786728256762458,
+          0.742003023864712,
+          1.237070672243115,
+          1.251668094470878,
+          0.9030383358045946,
+          0.8506124243306745,
+          0.6156570537189404
+        ]
+      },
+      "pairs": 8,
+      "wall_slower_pairs": 6
+    }
+  ],
+  "thresholds_changed": false,
+  "verified_launches": 972
+}

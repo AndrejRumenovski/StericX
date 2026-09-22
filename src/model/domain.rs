@@ -15,6 +15,7 @@
 
 use crate::model::{FeatureDomain, MODEL_FEATURE_COUNT};
 use serde::{Deserialize, Serialize};
+use std::cell::OnceCell;
 
 const EPSILON: f64 = 1.0e-12;
 
@@ -60,6 +61,56 @@ pub struct TrainingGeometry {
     /// from it. Absent when there are too few points to measure a spacing.
     #[serde(default)]
     pub neighbor_calibration: Option<NeighborCalibration>,
+}
+
+/// Reuses one fit's Student-t multiplier across prediction interval queries.
+///
+/// The geometry remains immutably borrowed for this evaluator's lifetime.
+/// Construction does no numerical work: every query first performs the same
+/// leverage calculation as [`TrainingGeometry::prediction_interval`], then
+/// initializes or reuses the multiplier, including an unavailable value.
+/// Candidate-specific interval availability is never cached.
+pub struct PredictionIntervalEvaluator<'a> {
+    geometry: &'a TrainingGeometry,
+    multiplier: OnceCell<Option<f64>>,
+}
+
+impl<'a> PredictionIntervalEvaluator<'a> {
+    /// Borrow a fit without validating it or calculating its multiplier.
+    #[must_use]
+    pub fn new(geometry: &'a TrainingGeometry) -> Self {
+        Self {
+            geometry,
+            multiplier: OnceCell::new(),
+        }
+    }
+
+    /// The same 95% prediction interval as the uncached geometry method.
+    #[must_use]
+    pub fn prediction_interval(
+        &self,
+        prediction: f64,
+        expanded: &[f32; MODEL_FEATURE_COUNT],
+    ) -> Option<(f64, f64)> {
+        crate::profile_scope!(
+            "uncertainty",
+            "model::TrainingGeometry::prediction_interval"
+        );
+        let leverage = self.geometry.leverage(expanded)?;
+        let multiplier = (*self.multiplier.get_or_init(|| {
+            crate::profile_scope!(
+                "uncertainty_cache",
+                "model::PredictionIntervalEvaluator::initialize_multiplier"
+            );
+            self.geometry.t_multiplier()
+        }))?;
+        let half_width =
+            multiplier * self.geometry.residual_standard_error * (1.0 + leverage.max(0.0)).sqrt();
+        (half_width.is_finite()
+            && (prediction - half_width).is_finite()
+            && (prediction + half_width).is_finite())
+        .then_some((prediction - half_width, prediction + half_width))
+    }
 }
 
 /// How densely the training set samples its own descriptor space.
@@ -969,6 +1020,10 @@ pub fn assess_applicability(
         maximum_extrapolation,
     }
 }
+
+#[cfg(test)]
+#[path = "domain_interval_cache_tests.rs"]
+mod interval_cache_tests;
 
 #[cfg(test)]
 mod tests {

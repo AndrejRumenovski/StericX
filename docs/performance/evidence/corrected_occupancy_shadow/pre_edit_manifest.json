@@ -1,0 +1,58 @@
+{
+  "baseline": {
+    "bytes": 20063701,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/manifest.json",
+    "sha256": "feb021566f4a172c8d249184d1e16e39978b59c1784d216f4f50c9261ed27ced"
+  },
+  "baseline_native": {
+    "bytes": 3393664,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/bin/native",
+    "sha256": "102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f"
+  },
+  "created_utc": "2026-09-22T03:13:48.087490+00:00",
+  "exact_function_sha256": "863e94f9c7cf3bfa0daf126f4545d9d2ca75fc435967e7e06abbc3ea5245b0f4",
+  "frozen_bv": {
+    "bytes": 62412,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/source/src/geometry/buried_volume.rs",
+    "sha256": "2215d2731a11d5328ddeaa949e3d557198a3b296436ffe50d1e06403ca0fd603"
+  },
+  "function_unchanged": true,
+  "legacy_helper": {
+    "bytes": 25803,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/legacy_run_probe.py",
+    "sha256": "5eb663021c7a77f5aee9c026188507f530aaf4e95f491b08d6420e40137fbd04"
+  },
+  "live_bv": {
+    "bytes": 62412,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/src/geometry/buried_volume.rs",
+    "sha256": "2215d2731a11d5328ddeaa949e3d557198a3b296436ffe50d1e06403ca0fd603"
+  },
+  "native_summary": {
+    "bytes": 23044,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/runs/accurate_baseline_native_t1/summary.json",
+    "sha256": "46af9dad515e60aab0ca80c0b8a9e2f227ff0ba3004692940ea6bef813cee3a3"
+  },
+  "no_performance_claim": true,
+  "previous_function": {
+    "bytes": 3229,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/occupancy_probe/current_occupied_volumes.rs",
+    "sha256": "863e94f9c7cf3bfa0daf126f4545d9d2ca75fc435967e7e06abbc3ea5245b0f4"
+  },
+  "production_commit": "1ecfbd5be8b354711bdadd8a8d148417e03d8e7a",
+  "profile_helper": {
+    "bytes": 27627,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/profile_stericx.py",
+    "sha256": "a97afe319e590e264b0aaebde5225997e978e6a4d1bb3d8cdc53295c888f8dac"
+  },
+  "proposal": {
+    "bytes": 2998,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/PRE_EDIT_HYPOTHESIS.md",
+    "sha256": "f52597a0d56b1c37a5425a5d6f1a6ced855b80db104800f7000ab5a6295f8e84"
+  },
+  "scope": "nonproduction corrected occupancy shadow operation counts",
+  "workloads": {
+    "bytes": 22929020,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/manifest.json",
+    "sha256": "a1041cc07fc5583c33d2a7cf584dbc638866c64bdd0b64e3720ef83cc85e1e6a"
+  }
+}

@@ -1,0 +1,268 @@
+"""Mock-only rejected-decision and exact historical source binding tests."""
+
+import copy
+import json
+import unittest
+
+import publish_shared as m
+
+C3 = "1df92d49859c3d1a8a17feeaa9d3ac49409ca275feea3b8d5fdd53f6635bb7d9"
+C2 = "2215d2731a11d5328ddeaa949e3d557198a3b296436ffe50d1e06403ca0fd603"
+
+
+class RejectionTests(unittest.TestCase):
+    def setUp(self):
+        self.data = {}
+        self.rows = {}
+
+        def rec(path, value=None, sha="a" * 64):
+            self.rows[path] = dict(path=path, bytes=1, sha256=sha)
+            if value is not None:
+                self.data[path] = value
+            return dict(path="/origin/" + path, bytes=1, sha256=sha)
+
+        self.c3 = rec("c3/source/src/geometry/buried_volume.rs", sha=C3)
+        self.c2 = rec("c2/source/src/geometry/buried_volume.rs", sha=C2)
+        pre = rec("before/src/geometry/buried_volume.rs", sha=C2)
+        build3 = rec("c3/build.json", {"sources": [self.c3]})
+        build2 = rec("c2/build.json", {"sources": [self.c2]})
+        accepted = rec("accepted.json", {"accepted": True, "candidate_build": build2})
+        decision = dict(
+            kind="rejected_corrected_optimization",
+            complete=True,
+            accepted=False,
+            scientific_gate_passed=True,
+            performance_gate_passed=False,
+            verified_launches=972,
+            measured_pairs=432,
+            exclusions=[],
+            thresholds_changed=False,
+            candidate_build=build3,
+            retained_build=build2,
+            retained_acceptance=accepted,
+            preserved_candidate_source=self.c3,
+        )
+        dr = rec("decision.json", decision)
+        restoration = dict(
+            kind="exact_rejected_candidate_restoration",
+            complete=True,
+            passed=True,
+            all_live_scientific_sources_match_retained_build=True,
+            retained_build=build2,
+            preserved_candidate_source=self.c3,
+            decision=dr,
+            rejected_before={
+                **self.c3,
+                "path": "/origin/src/geometry/buried_volume.rs",
+            },
+            restored_source={
+                **self.c2,
+                "path": "/origin/src/geometry/buried_volume.rs",
+            },
+            pre_edit_source=pre,
+        )
+        rec("restoration.json", restoration)
+        rec("failed.json", {"passed": False})
+        rec("resolved.json", {"passed": True})
+        self.index = dict(
+            repo="/origin",
+            inventory=list(self.rows.values()),
+            coverage_contract=dict(
+                decision="decision.json",
+                restoration="restoration.json",
+                retained_failed_reference_gate="failed.json",
+                resolved_reference_gate="resolved.json",
+                historical_file_aliases=[
+                    {"original": restoration["rejected_before"], "frozen": self.c3},
+                    {"original": restoration["restored_source"], "frozen": pre},
+                ],
+            ),
+        )
+        workloads = [
+            "single_small",
+            "single_large",
+            "conformers_56",
+            "descriptors_10000",
+            "ensemble_sdf",
+            "parse_ensembles_1000",
+            "db_build_ensembles",
+            "predict_1000000",
+            "screen_1000",
+            "search_database",
+        ]
+        inc = [
+            "descriptors_10000",
+            "conformers_56",
+            "ensemble_sdf",
+            "db_build_ensembles",
+            "screen_1000",
+            "parse_ensembles_1000",
+            "search_database",
+        ]
+        self.index["coverage_contract"].update(
+            primary_native="full",
+            native={
+                "full": dict(
+                    launches=720,
+                    measured_pairs=8,
+                    configurations=[[t, w] for t in [1, 2, 4, 6] for w in workloads],
+                ),
+                "incremental": dict(
+                    launches=252,
+                    measured_pairs=8,
+                    configurations=[[t, w] for t in [1, 6] for w in inc],
+                ),
+            },
+            independent_review="review.json",
+        )
+        oldbuild = rec("original/build.json")
+        gate = rec("gate.json", {"candidate_build": build3, "baseline_build": oldbuild})
+        summaries = []
+        manifests = []
+        analyses = []
+        for i, root in enumerate(["full", "incremental"]):
+            summaries.append(rec(root + "/summary.json"))
+            manifests.append(rec(root + "/manifest.json"))
+            analyses.append(
+                rec(
+                    root + "/analysis.json",
+                    dict(
+                        complete=True,
+                        native_summary=summaries[-1],
+                        native_manifest=manifests[-1],
+                        builds={
+                            "baseline": oldbuild if i == 0 else build2,
+                            "candidate": build3,
+                        },
+                        launches=720 if i == 0 else 252,
+                        measured_pairs=320 if i == 0 else 112,
+                    ),
+                )
+            )
+        decision.update(
+            candidate_gate=gate,
+            independent_reviews=analyses,
+            operation_evidence=rec("operations.json"),
+            preserved_patch=rec("patch"),
+            helper=rec("helper.py"),
+            reason="rejection witness",
+            target_results=[
+                dict(configuration=f"t{t}/descriptors_10000", pairs=8) for t in [1, 6]
+            ],
+        )
+        rec(
+            "review.json",
+            dict(
+                complete=True,
+                recommendation="reject_and_restore_accepted_C2",
+                candidate_build=build3,
+                total_verified_launches=972,
+                total_measured_pairs=432,
+                total_configurations=54,
+                analyses=analyses,
+                native_summaries=summaries,
+                native_manifests=manifests,
+                cumulative_builds={"baseline": oldbuild, "candidate": build3},
+                incremental_builds={"baseline": build2, "candidate": build3},
+            ),
+        )
+        self.index["inventory"] = list(self.rows.values())
+        self.index = copy.deepcopy(self.index)
+
+    def get(self, p):
+        return json.dumps(self.data[p]).encode()
+
+    def check(self):
+        return m.rejection_coverage(self.index, self.get)
+
+    def test_complete_rejection(self):
+        self.assertFalse(self.check()["accepted"])
+
+    def test_accepted_true_rejected(self):
+        self.data["decision.json"]["accepted"] = True
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_missing_failed_reference_rejected(self):
+        self.data["failed.json"]["passed"] = True
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_incomplete_samples_rejected(self):
+        self.data["decision.json"]["verified_launches"] = 970
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_missing_restoration_rejected(self):
+        self.data["restoration.json"]["passed"] = False
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_extra_alias_rejected(self):
+        self.index["coverage_contract"]["historical_file_aliases"].append({})
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_alias_does_not_accept_wrong_hash(self):
+        self.data["restoration.json"]["rejected_before"]["sha256"] = "b" * 64
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_alias_cannot_hide_missing_frozen_bytes(self):
+        self.index["inventory"] = [
+            x
+            for x in self.index["inventory"]
+            if x["path"] != "c3/source/src/geometry/buried_volume.rs"
+        ]
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_unrelated_accepted_build_rejected(self):
+        self.data["accepted.json"]["candidate_build"] = {}
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_wrong_build_source_rejected(self):
+        self.data["c3/build.json"]["sources"][0]["sha256"] = "b" * 64
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_every_critical_decision_field_required(self):
+        for field in [
+            "candidate_gate",
+            "independent_reviews",
+            "operation_evidence",
+            "preserved_patch",
+            "target_results",
+        ]:
+            with self.subTest(field=field):
+                saved = self.data["decision.json"].pop(field)
+                with self.assertRaises(ValueError):
+                    self.check()
+                self.data["decision.json"][field] = saved
+
+    def test_incremental_campaign_cannot_be_dropped(self):
+        del self.index["coverage_contract"]["native"]["incremental"]
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_incremental_matrix_cannot_be_narrowed(self):
+        self.index["coverage_contract"]["native"]["incremental"]["configurations"].pop()
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_review_for_unrelated_build_rejected(self):
+        self.data["incremental/analysis.json"]["builds"]["candidate"] = {}
+        with self.assertRaises(ValueError):
+            self.check()
+
+    def test_review_for_unrelated_campaign_rejected(self):
+        self.data["review.json"]["native_summaries"][0] = self.data["review.json"][
+            "native_summaries"
+        ][1]
+        with self.assertRaises(ValueError):
+            self.check()
+
+
+if __name__ == "__main__":
+    unittest.main()

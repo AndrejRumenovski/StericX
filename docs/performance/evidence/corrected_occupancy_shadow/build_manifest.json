@@ -1,0 +1,71 @@
+{
+  "binary": {
+    "bytes": 3436568,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/target/release/stericx",
+    "sha256": "539a7c27080a1d28841a418d57755f0e302664dc46d7c88b4529d4b9dd2124e1"
+  },
+  "cargo": "cargo 1.97.0 (c980f4866 2026-06-30)\n",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--release",
+        "--bin",
+        "stericx",
+        "--manifest-path",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/source/Cargo.toml",
+        "--target-dir",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/target"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/source",
+      "returncode": 0,
+      "stderr": {
+        "bytes": 1423,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/build_0.stderr",
+        "sha256": "0a9ebb3afa3782a242016512f1b590dd545cdc7e2c00f9f8c9f238ae20700f26"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/build_0.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--release",
+        "--lib",
+        "row_range",
+        "--manifest-path",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/source/Cargo.toml",
+        "--target-dir",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/target"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/source",
+      "returncode": 0,
+      "stderr": {
+        "bytes": 463,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/build_1.stderr",
+        "sha256": "4d224905e7b6bab7045dbfd8d524c0975e821c172f36719df1aa50a2ce1eba91"
+      },
+      "stdout": {
+        "bytes": 377,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/build_1.stdout",
+        "sha256": "aec8753d86f93360b0e0aa19dbffac1282386383ac7f223ce831597a325301ed"
+      }
+    }
+  ],
+  "no_performance_claim": true,
+  "rustc": "rustc 1.97.0 (2d8144b78 2026-07-07)\nbinary: rustc\ncommit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3\ncommit-date: 2026-07-07\nhost: x86_64-unknown-linux-gnu\nrelease: 1.97.0\nLLVM version: 22.1.6\n",
+  "source_manifest": {
+    "bytes": 28463,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/source_manifest.json",
+    "sha256": "3542297f3b780001c2635f13ca7d3300075e7c62add4d355f5d50ca56f3177c1"
+  }
+}

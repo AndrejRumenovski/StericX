@@ -1,0 +1,61 @@
+{
+  "baseline": {
+    "bytes": 10954,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/command_boundary_oracle_v2/baseline/complete.json",
+    "sha256": "a7bcf9f47a255b2f64d2bb80668d1ba3141245b886825c7eb05b97fa71e77935"
+  },
+  "candidate": {
+    "bytes": 11476,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/command_boundary_oracle_v2/candidate_c3/complete.json",
+    "sha256": "e9b842ce082a4ed11a81954c7350e7fbf6376bac262f8384cf692499d052f0fc"
+  },
+  "case_count": 31,
+  "comparison": {
+    "bytes": 24131,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/command_boundary_oracle_v2/candidate_c3_comparison.json",
+    "sha256": "33131b8db72267a3b32d93b156ec3593fa1cf4072050c2c733999f127d635b6f"
+  },
+  "database_geometries_per_process": 56,
+  "database_rows_per_process": 11,
+  "database_threads": [
+    1,
+    2,
+    4,
+    6
+  ],
+  "error_count": 13,
+  "expected_error_exit": 2,
+  "final_postperformance_replay": "PENDING; use same frozen plan and controller with final accepted existing build plus acceptance receipt",
+  "kind": "additive_command_boundary_case_closure",
+  "passed": true,
+  "plan": {
+    "bytes": 49593,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/command_boundary_oracle_v2/plan.json",
+    "sha256": "3d9c6edb41634396f25407f3d439ef3e68cdaa16fc354d0238a0bf150aa2f31b"
+  },
+  "prediction_rows_per_process": 1000000,
+  "prediction_scope": "CLI preview/aggregate only; full f32 vector gate separately retained",
+  "prediction_threads": [
+    1,
+    2,
+    4,
+    6
+  ],
+  "prior_failed_attempt": {
+    "complete": {
+      "bytes": 10955,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/command_boundary_oracle_v1/baseline/complete.json",
+      "sha256": "33c4989e1d62ab7791fbf440a868071fa1e2f3e7492fe6b27d5f7d64adac4999"
+    },
+    "plan": {
+      "bytes": 49617,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/command_boundary_oracle_v1/plan.json",
+      "sha256": "78a99237c2db4956dc9f3503f6fa050bf2448af4c380c815d6c2a466cd24ab44"
+    },
+    "reason": "Harness incorrectly required JSON on missing-model file-read failure; actual baseline statuses and scientific output schemas otherwise passed"
+  },
+  "scientific_global_pass": false,
+  "success_count": 18,
+  "volume_conformers_per_executable": 115,
+  "volume_records_per_executable": 25
+}

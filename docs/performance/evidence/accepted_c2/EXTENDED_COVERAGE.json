@@ -1,0 +1,50 @@
+{
+  "added_cli": {
+    "cases": 24,
+    "exact_streams": 48,
+    "normalization": "none"
+  },
+  "cache_counts": {
+    "counts_per_process": {
+      "model::PredictionIntervalEvaluator::initialize_multiplier": 1,
+      "model::TrainingGeometry::prediction_interval": 1000,
+      "model::student_t_two_sided_quantile": 1
+    },
+    "native_speedup_claim": false,
+    "processes": 8
+  },
+  "checker": {
+    "bytes": 13213,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c2_v1/extended_coverage.py",
+    "sha256": "8c8e2361e68f3215206e631c2343c075d26a2d2b250a9d3081d96099fd325042"
+  },
+  "historical_alias_review": {
+    "passed": true,
+    "tests": 30
+  },
+  "manifest": {
+    "bytes": 5071,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c2/manifest.json",
+    "sha256": "cf05c4d2136f14a8ada8f3236c197b8aa9e35772c805cc7e3825d9b917f60dcd"
+  },
+  "passed": true,
+  "prediction_streams": {
+    "encoding": "ieee754-f32-le",
+    "records_per_stream": 1000000,
+    "streams": 8,
+    "threads": [
+      1,
+      2,
+      4,
+      6
+    ]
+  },
+  "reprofile": {
+    "configurations": 40,
+    "measured_samples": 200,
+    "new_native_processes": 0,
+    "retained_process_captures": 240,
+    "warmup_samples": 40
+  },
+  "scope": "Additional retained payload coverage only; full byte verification, historical scientific admission and native performance review remain separate."
+}

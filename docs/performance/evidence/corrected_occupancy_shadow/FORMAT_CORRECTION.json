@@ -1,0 +1,38 @@
+{
+  "corrected_document": {
+    "bytes": 7953,
+    "path": "REPRODUCTION.md",
+    "sha256": "5b0f8a9ac2ce2323d446edc5cae3d7c5867336c8b8f60a0cb5a48c3cf1f243f9"
+  },
+  "created_utc": "2026-09-22T10:39:31.144186+00:00",
+  "format_stderr": "",
+  "format_stdout": "1 file reformatted\n",
+  "kind": "publication_documentation_format_correction",
+  "originals": [
+    {
+      "original": {
+        "bytes": 10008,
+        "path": "PACKAGE_MANIFEST.json",
+        "sha256": "318fa7cee6d809d0887dbaab3db7e5a521274814465235039c7ddc7737db464d"
+      },
+      "stored": {
+        "bytes": 3387,
+        "path": "publication_history_v1/PACKAGE_MANIFEST.json.gz",
+        "sha256": "dde52c550da04a800258728c3a913196ec13a701c3654bb7c9ecefc83580f57d"
+      }
+    },
+    {
+      "original": {
+        "bytes": 7938,
+        "path": "REPRODUCTION.md",
+        "sha256": "4e82c2b61df453020070308f4510ccea1ddecffb9949147c1516f498f539ea1a"
+      },
+      "stored": {
+        "bytes": 3489,
+        "path": "publication_history_v1/REPRODUCTION.md.gz",
+        "sha256": "5cb05cd0752b0727fce16cb20b6c50a34e00fa107e40899dafb2fac833b67c34"
+      }
+    }
+  ],
+  "reason": "Ruff formatting of a non-executed documentation Python snippet; original package index and document retained losslessly. No executed source, scientific results, counts or input changed."
+}

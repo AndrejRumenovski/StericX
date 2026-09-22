@@ -1,0 +1,123 @@
+{
+  "complete": true,
+  "controller": {
+    "bytes": 28795,
+    "path": "publish.py.txt",
+    "sha256": "ebc8a36a707186fba821c09052966e40e1d83c66aa1c7554790e5cd1d226abbb"
+  },
+  "counts": {
+    "files": 6479,
+    "gzip_blob_bytes": 469829574,
+    "logical_bytes": 4566739926,
+    "max_blob_bytes": 4027996,
+    "shared_files": 356,
+    "unique_chunks": 3564
+  },
+  "coverage": {
+    "cli_cases_per_thread": {
+      "1": 93,
+      "2": 93,
+      "4": 93,
+      "6": 93
+    },
+    "native": {
+      ".stericx/profiling/scientifically_validated_optimization/candidate_c1_native_pairs_v1": {
+        "launches": 720,
+        "measured_pairs": 320,
+        "warmup_launches": 80
+      },
+      ".stericx/profiling/scientifically_validated_optimization/candidate_c1_native_supplement_v1": {
+        "launches": 250,
+        "measured_pairs": 120,
+        "warmup_launches": 10
+      }
+    },
+    "observation_rows": 128021,
+    "observations": {
+      "aggregation": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 11
+      },
+      "geometry": {
+        "private_bins": 24660,
+        "private_frames": 2055,
+        "rows": 844
+      },
+      "geometry_alignment": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 4
+      },
+      "geometry_alignment_rotation": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 4
+      },
+      "geometry_focused": {
+        "private_bins": 144,
+        "private_frames": 12,
+        "rows": 15
+      },
+      "geometry_historical": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 20
+      },
+      "geometry_numerical": {
+        "private_bins": 108,
+        "private_frames": 9,
+        "rows": 11
+      },
+      "kinetics": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 195
+      },
+      "kraken": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 31721
+      },
+      "kraken_all_bins": {
+        "private_bins": 1141668,
+        "private_frames": 95139,
+        "rows": 31721
+      },
+      "kraken_topology": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 31721
+      },
+      "kraken_topology_all_bins": {
+        "private_bins": 1141956,
+        "private_frames": 95163,
+        "rows": 31721
+      },
+      "model_domain": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 33
+      }
+    },
+    "total_measured_pairs": 440,
+    "total_native_launches": 970
+  },
+  "index": {
+    "bytes": 616333,
+    "path": "restoration_index.json.gz",
+    "sha256": "5c936fab94486c6aa67f486b732c898a00755e67905071ac8719676962faec6e",
+    "uncompressed_bytes": 3925263,
+    "uncompressed_sha256": "783b854570b82bc5d1cce012d2d7d9044d36e0501d2bb1413ee97e16e42ac2df"
+  },
+  "kind": "accepted_c1_lossless_publication",
+  "native_executables_published": false,
+  "omissions_and_external_links_preserved_in_index": true,
+  "plan": {
+    "bytes": 234585,
+    "path": "plan.json.gz",
+    "sha256": "2a470af8dc2714b938b452b6eb26a174caf52269805772359312c8f1446b221d"
+  },
+  "scientific_or_performance_acceptance": "Existing exact admission receipts retained; publication adds byte/coverage verification only.",
+  "version": 1
+}

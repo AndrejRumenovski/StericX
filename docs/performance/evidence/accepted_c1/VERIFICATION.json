@@ -1,0 +1,131 @@
+{
+  "chunks": 3564,
+  "complete_original_plan_inventory_verified": true,
+  "coverage": {
+    "cli_cases_per_thread": {
+      "1": 93,
+      "2": 93,
+      "4": 93,
+      "6": 93
+    },
+    "native": {
+      ".stericx/profiling/scientifically_validated_optimization/candidate_c1_native_pairs_v1": {
+        "launches": 720,
+        "measured_pairs": 320,
+        "warmup_launches": 80
+      },
+      ".stericx/profiling/scientifically_validated_optimization/candidate_c1_native_supplement_v1": {
+        "launches": 250,
+        "measured_pairs": 120,
+        "warmup_launches": 10
+      }
+    },
+    "observation_rows": 128021,
+    "observations": {
+      "aggregation": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 11
+      },
+      "geometry": {
+        "private_bins": 24660,
+        "private_frames": 2055,
+        "rows": 844
+      },
+      "geometry_alignment": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 4
+      },
+      "geometry_alignment_rotation": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 4
+      },
+      "geometry_focused": {
+        "private_bins": 144,
+        "private_frames": 12,
+        "rows": 15
+      },
+      "geometry_historical": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 20
+      },
+      "geometry_numerical": {
+        "private_bins": 108,
+        "private_frames": 9,
+        "rows": 11
+      },
+      "kinetics": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 195
+      },
+      "kraken": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 31721
+      },
+      "kraken_all_bins": {
+        "private_bins": 1141668,
+        "private_frames": 95139,
+        "rows": 31721
+      },
+      "kraken_topology": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 31721
+      },
+      "kraken_topology_all_bins": {
+        "private_bins": 1141956,
+        "private_frames": 95163,
+        "rows": 31721
+      },
+      "model_domain": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 33
+      }
+    },
+    "total_measured_pairs": 440,
+    "total_native_launches": 970
+  },
+  "files": 6479,
+  "manifest": {
+    "bytes": 3246,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/manifest.json",
+    "sha256": "16964fbfaa6a057fb0a8bb8d78326d0bb359a49785d16bde17fd57044417df9b"
+  },
+  "publication_metadata_pinned": {
+    "manifest.json": {
+      "bytes": 3246,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/manifest.json",
+      "sha256": "16964fbfaa6a057fb0a8bb8d78326d0bb359a49785d16bde17fd57044417df9b"
+    },
+    "plan.json.gz": {
+      "bytes": 234585,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/plan.json.gz",
+      "sha256": "2a470af8dc2714b938b452b6eb26a174caf52269805772359312c8f1446b221d"
+    },
+    "publish.py.txt": {
+      "bytes": 28795,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/publish.py.txt",
+      "sha256": "ebc8a36a707186fba821c09052966e40e1d83c66aa1c7554790e5cd1d226abbb"
+    },
+    "restoration_index.json.gz": {
+      "bytes": 616333,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/restoration_index.json.gz",
+      "sha256": "5c936fab94486c6aa67f486b732c898a00755e67905071ac8719676962faec6e"
+    }
+  },
+  "scope": "Lossless bytes and declared evidence coverage; no rerun of science or native timing.",
+  "unique_file_reconstructions": 3089,
+  "verified": true,
+  "verifier": {
+    "bytes": 6962,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c1/verify_publication_v2.py.txt",
+    "sha256": "d02079e8eb93b8939cba2149e2ff038cf22fdeed6800ef5da7536ee0d29feb92"
+  },
+  "verifier_version": 2
+}

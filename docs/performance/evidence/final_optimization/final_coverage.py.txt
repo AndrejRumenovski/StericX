@@ -1,0 +1,450 @@
+"""Bound final publication scope to retained raw evidence, never live paths."""
+
+import hashlib
+import json
+import types
+from pathlib import Path
+
+BASE = ".stericx/profiling/scientifically_validated_optimization/"
+BUILD_SHA = "82b63f16c90e0767c5cb5b60daed61e2ce52f123d4f1a9f3156e791c5a03fd81"
+NATIVE_SHA = "b233501640e4d06555a36a278581fbf9cb011962311f205c81f3fc9a83ae89e6"
+PRIOR_SHA = "071f29b5e52cc4940b9581eb3de90430b3c1d7d4d2d1c4e7d4c9d30750f8cabe"
+BOUNDARY_SHA = "205d9a45f25be17ce6b6022e3ddc39f154c7ab8cfebd379dd98033e583c4ac4d"
+PLAN_SHA = "3d9c6edb41634396f25407f3d439ef3e68cdaa16fc354d0238a0bf150aa2f31b"
+OLD_BOUNDARY_SHA = "a7bcf9f47a255b2f64d2bb80668d1ba3141245b886825c7eb05b97fa71e77935"
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def records(value):
+    if isinstance(value, dict):
+        if set(value) == {"path", "bytes", "sha256"}:
+            yield value
+        else:
+            for child in value.values():
+                yield from records(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from records(child)
+
+
+class Evidence:
+    def __init__(self, index, get):
+        self.origin = Path(index["repo"])
+        self.entries = {r["path"]: r for r in index["inventory"]}
+        self.get = get
+
+    def retain(self, row):
+        relative = Path(row["path"]).relative_to(self.origin).as_posix()
+        actual = self.entries.get(relative)
+        require(
+            actual is not None
+            and (actual["bytes"], actual["sha256"]) == (row["bytes"], row["sha256"]),
+            f"Required retained record absent/different: {relative}",
+        )
+        return relative
+
+    def load(self, row):
+        return json.loads(self.get(self.retain(row)))
+
+    def path(self, relative):
+        require(relative in self.entries, "Missing final evidence: " + relative)
+        return json.loads(self.get(relative))
+
+    def identity(self, relative):
+        row = self.entries[relative]
+        return dict(
+            path=str(self.origin / relative), bytes=row["bytes"], sha256=row["sha256"]
+        )
+
+    def commands(self, rows, expected):
+        require(
+            len(rows) == len(expected) and {r["name"] for r in rows} == set(expected),
+            "Missing/duplicate final command coverage",
+        )
+        for row in rows:
+            require(row["returncode"] == 0, "Failed final command: " + row["name"])
+            require(bool(row["argv"]), "Missing executed argv")
+            keys = ("log",) if "log" in row else ("stdout", "stderr")
+            for key in keys:
+                self.retain(row[key])
+
+
+def check_review(e, acceptance, contracts):
+    review = e.load(acceptance["independent_performance_review"])
+    require(
+        review["kind"] == "independent_complete_native_matrix_review"
+        and review["complete"] is True
+        and review["full_scientific_gate_verified"] is True
+        and review["source_live_and_frozen_verified"] is True
+        and review["exclusions"] == []
+        and (review["configurations"], review["launches"], review["measured_pairs"])
+        == (40, 720, 320)
+        and len(review["results"]) == 40,
+        "Incomplete independent final matrix review",
+    )
+    for review_key, acceptance_key in (
+        ("native_manifest", "paired_benchmark_manifest"),
+        ("native_summary", "paired_summary"),
+        ("gate", "candidate_gate"),
+    ):
+        require(
+            review[review_key] == acceptance[acceptance_key], "Unrelated final review"
+        )
+    require(
+        review["builds"]["candidate"] == acceptance["candidate_build"],
+        "Review build differs",
+    )
+    require(
+        review["binaries"]["candidate"]["sha256"] == NATIVE_SHA, "Review native differs"
+    )
+    for key in ("helper", "archived_helper"):
+        e.retain(review[key])
+    primary = contracts["primary_native"]
+    require(
+        set(contracts["native"]) == {BASE + "final_native_pairs_v1"}
+        and primary == BASE + "final_native_pairs_v1"
+        and acceptance["paired_benchmark_manifest"]
+        == e.identity(primary + "/manifest.json")
+        and acceptance["paired_summary"] == e.identity(primary + "/summary.json"),
+        "Final native campaign differs",
+    )
+    return {"configurations": 40, "launches": 720, "measured_pairs": 320}
+
+
+def check_references(e, acceptance, contracts):
+    failed = e.path(contracts["retained_failed_reference_gate"])
+    resolved = e.path(contracts["resolved_reference_gate"])
+    require(
+        failed["passed"] is False
+        and resolved["passed"] is True
+        and resolved["complete"] is True
+        and resolved["scientific_global_pass"] is False
+        and resolved["candidate_build"] == acceptance["candidate_build"]
+        and resolved["retained_failed_attempt"]
+        == e.identity(contracts["retained_failed_reference_gate"])
+        and set(resolved["domains"]) == {"geometry", "models", "thermodynamics"}
+        and all(row["passed"] is True for row in resolved["domains"].values()),
+        "Independent-reference resolution differs",
+    )
+    for row in records(resolved["domains"]):
+        e.retain(row)
+    model = e.load(resolved["resolution"])
+    require(
+        model["passed"] is True
+        and model["comparisons"] == 7624
+        and model["normalized_metadata_fields"] == 6
+        and model["numeric_tolerances_changed"] is False
+        and model["baseline_reference_expectations_unchanged"] is True
+        and model["scientific_global_pass"] is False,
+        "Independent model equation/metadata policy differs",
+    )
+    progress = e.path(
+        BASE + "final_post_optimization_v1/independent_references_v1/progress.json"
+    )
+    e.commands(
+        progress["commands"],
+        [f"demo_{i:02}" for i in range(17)]
+        + [
+            "references_inferred",
+            "references_topology",
+            "volume_reference",
+            "all_bins",
+            "fixed_union",
+            "models",
+            "model_supplement",
+            "thermodynamics",
+        ],
+    )
+    require(
+        progress["candidate_build"] == acceptance["candidate_build"],
+        "Reference command build differs",
+    )
+    return {
+        "commands": 25,
+        "model_comparisons": 7624,
+        "metadata_fields": 6,
+        "scientific_global_pass": False,
+    }
+
+
+def check_boundary(e, acceptance):
+    current_rel = BASE + "final_command_boundary_v1/complete.json"
+    current = e.path(current_rel)
+    require(
+        current["complete"] is True
+        and current["passed"] is True
+        and current["build"] == acceptance["candidate_build"]
+        and current["acceptance"] == acceptance["prior_acceptance"]
+        and current["native"]["sha256"] == NATIVE_SHA
+        and current["plan"]["sha256"] == PLAN_SHA
+        and current["baseline"]["sha256"] == OLD_BOUNDARY_SHA
+        and current["controller"]["sha256"] == BOUNDARY_SHA,
+        "Unanchored final boundary capture",
+    )
+    helper_raw = e.get(e.retain(current["controller"]))
+    require(
+        hashlib.sha256(helper_raw).hexdigest() == BOUNDARY_SHA,
+        "Boundary helper differs",
+    )
+    helper = types.ModuleType("sealed_boundary_policy")
+    helper.__file__ = current["controller"]["path"]
+    exec(compile(helper_raw, helper.__file__, "exec"), helper.__dict__)
+    plan = e.load(current["plan"])
+    baseline = e.load(current["baseline"])
+    require(
+        plan["stdout_metrics"] == helper.METRICS
+        and plan["db_manifest_exclusions"] == ["build_seconds"],
+        "Boundary policy differs",
+    )
+    require(
+        len(plan["cases"]) == len(current["cases"]) == len(baseline["cases"]) == 31,
+        "Boundary membership differs",
+    )
+    require(len({r["id"] for r in plan["cases"]}) == 31, "Duplicate boundary case")
+    outcomes = {0: 0, 2: 0}
+    for case, candidate_record, old_record in zip(
+        plan["cases"], current["cases"], baseline["cases"], strict=True
+    ):
+        fingerprints = []
+        for receipt, receipt_path, row in (
+            (current, str(e.origin / current_rel), candidate_record),
+            (baseline, current["baseline"]["path"], old_record),
+        ):
+            capture = e.load(row)
+            expected_rc = 0 if case["expected_outcome"] == "success" else 2
+            require(
+                capture["id"] == case["id"]
+                and capture["returncode"] == expected_rc
+                and capture["passed"] is True,
+                "Boundary identity/status differs",
+            )
+            require(
+                capture["argv"] == [receipt["native"]["path"], *case["argv"]],
+                "Boundary argv differs",
+            )
+            directory = Path(receipt_path).parent / case["id"]
+            require(
+                row["path"] == str(directory / "result.json")
+                and capture["cwd"] == str(directory / "artifacts")
+                and capture["environment"]
+                == dict(
+                    LC_ALL="C",
+                    TZ="UTC",
+                    OMP_NUM_THREADS="1",
+                    RAYON_NUM_THREADS=str(case["threads"]),
+                )
+                and all(
+                    capture[name]["path"] == str(directory / name)
+                    for name in ("stdout", "stderr")
+                ),
+                "Boundary process context/path differs",
+            )
+            artifacts = {}
+            for item in capture["artifacts"]:
+                name = Path(item["path"]).relative_to(capture["cwd"]).as_posix()
+                require(name not in artifacts, "Duplicate boundary artifact")
+                raw = e.get(e.retain(item))
+                artifacts[name] = hashlib.sha256(
+                    helper.normalized_artifact(name, raw)
+                ).hexdigest()
+            require(
+                set(artifacts) == set(case["outputs"]),
+                "Boundary output membership differs",
+            )
+            actual = dict(
+                returncode=capture["returncode"],
+                stdout=hashlib.sha256(
+                    helper.normalized_stdout(case, e.get(e.retain(capture["stdout"])))
+                ).hexdigest(),
+                stderr=hashlib.sha256(e.get(e.retain(capture["stderr"]))).hexdigest(),
+                artifacts=artifacts,
+            )
+            require(
+                actual == capture["fingerprint"], "Boundary raw fingerprint differs"
+            )
+            fingerprints.append(actual)
+        require(fingerprints[0] == fingerprints[1], "Boundary outputs differ")
+        outcomes[fingerprints[0]["returncode"]] += 1
+    require(outcomes == {0: 18, 2: 13}, "Boundary success/error coverage differs")
+    comparison = e.path(BASE + "final_command_boundary_v1/comparison.json")
+    require(
+        comparison["passed"] is True
+        and comparison["candidate"] == e.identity(current_rel)
+        and comparison["baseline"] == current["baseline"]
+        and len(comparison["cases"]) == 31,
+        "Boundary comparison binding differs",
+    )
+    return {
+        "cases": 31,
+        "successes": 18,
+        "intentional_errors": 13,
+        "recomputed_raw_fingerprints": 62,
+    }
+
+
+def check_supplemental(e, acceptance):
+    data = e.path(BASE + "final_supplemental_checks_v1/manifest.json")
+    require(
+        data["passed"] is True
+        and data["complete"] is True
+        and data["normalization"] == "none"
+        and data["candidate_build"] == acceptance["candidate_build"],
+        "Supplemental binding/status differs",
+    )
+    e.commands(
+        data["commands"],
+        ["reference-integrity-tests", "study-011-integrity", "additional-cli"],
+    )
+    for row in data["bindings"]:
+        e.retain(row)
+    cli = e.load(data["additional_cli"])
+    require(
+        cli["candidate_build"] == acceptance["candidate_build"]
+        and cli["candidate"]
+        == e.load(acceptance["candidate_build"])["binaries"]["native"],
+        "Supplemental inner native/build differs",
+    )
+    baseline = e.load(cli["baseline_oracle"])
+    require(
+        cli["passed"] is True
+        and cli["normalization"] == "none"
+        and len(cli["cases"]) == len(baseline["cases"]) == 24,
+        "Additional CLI scope differs",
+    )
+    require(
+        [r["case"] for r in cli["cases"]] == list(range(24)),
+        "Additional CLI IDs differ",
+    )
+    for current, old in zip(cli["cases"], baseline["cases"], strict=True):
+        capture, expected = current["capture"], old["captures"]["candidate"]
+        require(
+            current["case"] == old["case"]
+            and current["argv"] == old["argv"]
+            and current["exact"] is True
+            and capture["returncode"] == expected["returncode"],
+            "Additional CLI case differs",
+        )
+        for stream in ("stdout", "stderr"):
+            e.retain(capture[stream])
+            e.retain(expected[stream])
+            require(
+                all(
+                    capture[stream][key] == expected[stream][key]
+                    for key in ("bytes", "sha256")
+                ),
+                "Additional CLI raw stream differs",
+            )
+    return {"commands": 3, "additional_cli_cases": 24, "normalization": "none"}
+
+
+def check_engineering(e, acceptance):
+    data = e.path(BASE + "final_engineering_v1/complete.json")
+    require(
+        data["complete"] is True
+        and data["passed"] is True
+        and data["build"] == acceptance["candidate_build"]
+        and data["acceptance"] == acceptance["prior_acceptance"],
+        "Final engineering differs",
+    )
+    e.commands(
+        data["commands"],
+        [
+            "rust-format",
+            "rust-tests",
+            "clippy",
+            "rustdoc",
+            "python-tests",
+            "ruff-check",
+            "ruff-format",
+            "release-build",
+        ],
+    )
+    for key in ("measured_release", "delivered_release"):
+        require(
+            data[key]["sha256"] == NATIVE_SHA and data[key]["bytes"] == 3438648,
+            "Delivered/measured native differs",
+        )
+    for key in ("sources", "test_sources", "imported_helpers"):
+        for row in data[key]:
+            e.retain(row)
+    e.retain(data["helper"])
+    e.retain(data["engineering"])
+    return {"commands": 8, "delivered_release_matches_measured": True}
+
+
+def coverage(index, get, acceptance):
+    e = Evidence(index, get)
+    c = index["coverage_contract"]
+    require(
+        acceptance["kind"] == "accepted_corrected_optimization"
+        and acceptance["accepted"] is True
+        and acceptance["candidate_build"]["sha256"] == BUILD_SHA
+        and acceptance["prior_acceptance"]["sha256"] == PRIOR_SHA
+        and acceptance["production_changes_after_final_science"] is False
+        and acceptance["thresholds_widened"] is False
+        and acceptance["samples_excluded"] == [],
+        "Final acceptance scope differs",
+    )
+    prior = e.load(acceptance["prior_acceptance"])
+    require(
+        prior["accepted"] is True
+        and prior["candidate_build"] == acceptance["candidate_build"],
+        "Prior acceptance/build differs",
+    )
+    build = e.load(acceptance["candidate_build"])
+    require(
+        build["binaries"]["native"]["sha256"] == NATIVE_SHA,
+        "Final build/native differs",
+    )
+    observer = e.path(BASE + "final_post_optimization_v1/complete.json")
+    require(
+        observer["complete"] is True
+        and observer["build"] == acceptance["candidate_build"]
+        and observer["observations"] == e.identity(c["observation_manifest"]),
+        "Fresh observer/build binding differs",
+    )
+    e.commands(
+        observer["commands"],
+        ["observe", "compare-observations", "additional-cli"]
+        + [name for t in (1, 2, 4, 6) for name in (f"cli-t{t}", f"cli-compare-t{t}")],
+    )
+    publisher = e.path(BASE + "final_measurement_publication_v1/receipt.json")
+    require(
+        publisher["complete"] is True
+        and publisher["rows"] == 40
+        and publisher["samples_excluded"] == []
+        and publisher["analysis"] == acceptance["independent_performance_review"],
+        "Final measurement publication differs",
+    )
+    for row in records(publisher):
+        e.retain(row)
+    require(
+        any(
+            row["sha256"] == publisher["analysis"]["sha256"]
+            and row["bytes"] == publisher["analysis"]["bytes"]
+            for row in publisher["outputs"]
+        ),
+        "Published full analysis missing",
+    )
+    for row in acceptance["additional_evidence"]:
+        e.retain(row)
+    rejection = e.path(BASE + "rejected_c3_v1/decision.json")
+    restoration = e.path(BASE + "rejected_c3_v1/restoration.json")
+    require(
+        rejection["accepted"] is False
+        and restoration["passed"] is True
+        and restoration["all_live_scientific_sources_match_retained_build"] is True,
+        "C3 rejection/restoration changed",
+    )
+    return dict(
+        native=check_review(e, acceptance, c),
+        references=check_references(e, acceptance, c),
+        boundary=check_boundary(e, acceptance),
+        supplemental=check_supplemental(e, acceptance),
+        engineering=check_engineering(e, acceptance),
+        observer_commands=11,
+    )

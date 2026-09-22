@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+"""Small synthetic integrity/path tests; no repository science jobs."""
+import argparse
+import gzip
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import patch
+
+spec = importlib.util.spec_from_file_location('publication', Path(__file__).with_name('publish.py'))
+pub = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(pub)
+
+
+class PublicationTests(unittest.TestCase):
+    def test_path_traversal_rejected(self):
+        for value in ['', '.', '..', '../x', 'a/../b', '/tmp/x', 'a//b', 'a/./b', 'a\\..\\b', 'C:/x', 'x\0y']:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                pub.safe_relative(value)
+        self.assertEqual(str(pub.safe_relative('.stericx/a/b.txt')), '.stericx/a/b.txt')
+
+    def test_parent_symlink_escape_rejected(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp) / 'root'; root.mkdir()
+            (root / 'escape').symlink_to(Path(temp), target_is_directory=True)
+            with self.assertRaises(ValueError):pub.within(root, 'escape/outside')
+
+    def blob(self, root, raw=b'exact\nraw\x00bytes\n'):
+        key = hashlib.sha256(raw).hexdigest()
+        name = f'blobs/{key[:2]}/{key}.gz'
+        packed = gzip.compress(raw, mtime=0)
+        target = root / name; target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(packed)
+        return key, {'path':name, 'bytes':len(packed), 'sha256':hashlib.sha256(packed).hexdigest(), 'uncompressed_bytes':len(raw)}, raw
+
+    def test_chunk_raw_hash_and_gzip_hash_are_both_checked(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); key, item, raw = self.blob(root)
+            self.assertEqual(pub.decode_blob(root, key, item), raw)
+            bad = dict(item, sha256='0'*64)
+            with self.assertRaises(ValueError):pub.decode_blob(root, key, bad)
+            bad = dict(item, uncompressed_bytes=len(raw)+1)
+            with self.assertRaises(ValueError):pub.decode_blob(root, key, bad)
+            (root/item['path']).write_bytes(b'changed')
+            with self.assertRaises(ValueError):pub.decode_blob(root, key, item)
+
+    def test_missing_chunk_and_malicious_blob_path_rejected(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);key,item,_=self.blob(root)
+            with self.assertRaises(ValueError):pub.decode_blob(root,key,dict(item,path='../outside'))
+            (root/item['path']).unlink()
+            with self.assertRaises(FileNotFoundError):pub.decode_blob(root,key,item)
+
+    def test_oversized_decompressed_payload_rejected(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);key,item,_=self.blob(root,b'x'*100)
+            with patch.object(pub,'MAX_CHUNK',50), self.assertRaises(ValueError):
+                pub.decode_blob(root,key,dict(item,uncompressed_bytes=49))
+
+    def test_shared_bytes_checked_and_paths_confined(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);raw=b'original source bytes';packed=gzip.compress(raw,mtime=0);(root/'input.gz').write_bytes(packed)
+            locator={'kind':'encoded_repository_file','path':'input.gz','encoding':'gzip','encoded_bytes':len(packed),'encoded_sha256':hashlib.sha256(packed).hexdigest()}
+            self.assertEqual(pub.decode_shared(root,locator),raw)
+            with self.assertRaises(ValueError):pub.decode_shared(root,dict(locator,path='../outside'))
+            with self.assertRaises(ValueError):pub.decode_shared(root,dict(locator,encoded_sha256='0'*64))
+
+    def test_safe_restore_does_not_rewrite_absolute_paths_in_contents(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);package=root/'package';package.mkdir();raw=b'{"path":"/original/workspace/data.csv"}\n'
+            key,item,_=self.blob(package,raw)
+            row={'path':'.stericx/capture/manifest.json','sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'chunks':[key],'mode':0o644,'mtime_ns':1234567890}
+            index={'inventory':[row],'blobs':{key:item},'external_links':[],'omissions':[]}
+            output=root/'restored';args=argparse.Namespace(package=package,shared_root=None,output=output)
+            with patch.object(pub,'verify',return_value={'verified':True}),patch.object(pub,'load_package',return_value=({},index)):
+                pub.restore(args)
+                self.assertEqual((output/row['path']).read_bytes(),raw)
+                with self.assertRaises(FileExistsError):pub.restore(args)
+
+    def test_restore_path_traversal_rejected_even_after_validation(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);package=root/'package';package.mkdir();key,item,raw=self.blob(package)
+            row={'path':'../outside','sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'chunks':[key],'mode':0o644,'mtime_ns':1}
+            index={'inventory':[row],'blobs':{key:item},'external_links':[],'omissions':[]}
+            args=argparse.Namespace(package=package,shared_root=None,output=root/'restored')
+            with patch.object(pub,'verify',return_value={'verified':True}),patch.object(pub,'load_package',return_value=({},index)),self.assertRaises(ValueError):pub.restore(args)
+            self.assertFalse((root/'outside').exists())
+
+    def test_chunking_preserves_exact_bytes_and_size_bound(self):
+        with tempfile.TemporaryDirectory() as temp:
+            p=Path(temp)/'records.jsonl';raw=b'a'*70+b'\n'+b'b\n'*600;p.write_bytes(raw)
+            with patch.object(pub,'MAX_CHUNK',32):
+                chunks=list(pub.pieces(p))
+            self.assertEqual(b''.join(chunks),raw)
+            self.assertTrue(all(len(chunk)<=32 for chunk in chunks))
+
+    def test_pause_keeps_existing_evidence_untouched(self):
+        with tempfile.TemporaryDirectory() as temp:
+            p=Path(temp)/'PAUSE';p.write_text('root requested timing window')
+            with self.assertRaises(InterruptedError):pub.check_pause(p)
+            self.assertEqual(p.read_text(),'root requested timing window')
+
+
+if __name__=='__main__':unittest.main()

@@ -1,0 +1,976 @@
+{
+  "baseline": {
+    "bytes": 3393664,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/bin/stericx",
+    "sha256": "102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f"
+  },
+  "candidate": {
+    "bytes": 3437832,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/validated_build_corrected_vC1b/bin/stericx",
+    "sha256": "e7e7f00a1b4802e219144535d5c6567eb5e97bd269d1073e931b880288c5023d"
+  },
+  "candidate_build": {
+    "bytes": 37493,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/validated_build_corrected_vC1b/manifest.json",
+    "sha256": "def1aa57289814fd24e787dd95092cd0115a67091f250e4be9c49f0f4a5e663d"
+  },
+  "cases": [
+    {
+      "argv": [
+        "--help"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/00_baseline.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 1160,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/00_baseline.stdout",
+            "sha256": "5378e172e6b505077d326549c2d4b01712d2752f460b1ce56f51006336da9846"
+          }
+        },
+        "candidate": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/00_candidate.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 1160,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/00_candidate.stdout",
+            "sha256": "5378e172e6b505077d326549c2d4b01712d2752f460b1ce56f51006336da9846"
+          }
+        }
+      },
+      "case": 0,
+      "exact": true
+    },
+    {
+      "argv": [
+        "fit",
+        "--help"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/01_baseline.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 3109,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/01_baseline.stdout",
+            "sha256": "7944678c03cc8c9c9f454fd2d823da00a37412ffe4f76c392a7912819abf5d6d"
+          }
+        },
+        "candidate": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/01_candidate.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 3109,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/01_candidate.stdout",
+            "sha256": "7944678c03cc8c9c9f454fd2d823da00a37412ffe4f76c392a7912819abf5d6d"
+          }
+        }
+      },
+      "case": 1,
+      "exact": true
+    },
+    {
+      "argv": [
+        "screen",
+        "--help"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/02_baseline.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 5290,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/02_baseline.stdout",
+            "sha256": "e437a1728c6435403a39df1f0d0c133a13dfb6410d86cc3e9434bb897b712693"
+          }
+        },
+        "candidate": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/02_candidate.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 5290,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/02_candidate.stdout",
+            "sha256": "e437a1728c6435403a39df1f0d0c133a13dfb6410d86cc3e9434bb897b712693"
+          }
+        }
+      },
+      "case": 2,
+      "exact": true
+    },
+    {
+      "argv": [
+        "search",
+        "--help"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/03_baseline.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 4062,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/03_baseline.stdout",
+            "sha256": "e300a48041931e402ceb15ee99401c81353654e75dca598c482bb5786b67698f"
+          }
+        },
+        "candidate": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/03_candidate.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 4062,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/03_candidate.stdout",
+            "sha256": "e300a48041931e402ceb15ee99401c81353654e75dca598c482bb5786b67698f"
+          }
+        }
+      },
+      "case": 3,
+      "exact": true
+    },
+    {
+      "argv": [
+        "fit"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 288,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/04_baseline.stderr",
+            "sha256": "c8bc6054a03a31092ea60c2b9455a2281d47da7901d24e1500fc09bc3f48c8f7"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/04_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 288,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/04_candidate.stderr",
+            "sha256": "c8bc6054a03a31092ea60c2b9455a2281d47da7901d24e1500fc09bc3f48c8f7"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/04_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 4,
+      "exact": true
+    },
+    {
+      "argv": [
+        "screen"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 147,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/05_baseline.stderr",
+            "sha256": "b2c156d9ee4b159755fd68a57b160382952fb1219f54d8774068067e17955aef"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/05_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 147,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/05_candidate.stderr",
+            "sha256": "b2c156d9ee4b159755fd68a57b160382952fb1219f54d8774068067e17955aef"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/05_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 5,
+      "exact": true
+    },
+    {
+      "argv": [
+        "search"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 161,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/06_baseline.stderr",
+            "sha256": "4fcbd3bf39e524a37b2ca3182c6b250f4a548c6c2a32cdc009c43d166703c30d"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/06_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 161,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/06_candidate.stderr",
+            "sha256": "4fcbd3bf39e524a37b2ca3182c6b250f4a548c6c2a32cdc009c43d166703c30d"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/06_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 6,
+      "exact": true
+    },
+    {
+      "argv": [
+        "screen",
+        "unused.json",
+        "unused.csv",
+        "--library",
+        "other.csv"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 149,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/07_baseline.stderr",
+            "sha256": "49c2dbf85acff0ab4ede7c7aafee9d8b6c3570dd87db58d25865ddd3a41eab3c"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/07_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 149,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/07_candidate.stderr",
+            "sha256": "49c2dbf85acff0ab4ede7c7aafee9d8b6c3570dd87db58d25865ddd3a41eab3c"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/07_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 7,
+      "exact": true
+    },
+    {
+      "argv": [
+        "screen",
+        "unused.json",
+        "unused.csv",
+        "--ascending",
+        "--descending"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 159,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/08_baseline.stderr",
+            "sha256": "15c41d90dbc33265dcf99353260f93a0621d4db47201512ac65b4df4a59da918"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/08_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 159,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/08_candidate.stderr",
+            "sha256": "15c41d90dbc33265dcf99353260f93a0621d4db47201512ac65b4df4a59da918"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/08_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 8,
+      "exact": true
+    },
+    {
+      "argv": [
+        "screen",
+        "unused.json",
+        "unused.csv",
+        "--temperature",
+        "nan"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 59,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/09_baseline.stderr",
+            "sha256": "030690d7cd99f61b0bd4359b7e16812cf94c449fe252506d1807458c571d65a6"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/09_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 59,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/09_candidate.stderr",
+            "sha256": "030690d7cd99f61b0bd4359b7e16812cf94c449fe252506d1807458c571d65a6"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/09_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 9,
+      "exact": true
+    },
+    {
+      "argv": [
+        "screen",
+        "unused.json",
+        "unused.csv",
+        "--domain-rule",
+        "invalid"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 165,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/10_baseline.stderr",
+            "sha256": "e9043e8289d5ea542aa397eef91100a8ec1f483f492c50bf82814e55124d1592"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/10_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 165,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/10_candidate.stderr",
+            "sha256": "e9043e8289d5ea542aa397eef91100a8ec1f483f492c50bf82814e55124d1592"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/10_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 10,
+      "exact": true
+    },
+    {
+      "argv": [
+        "screen",
+        "unused.json",
+        "--library",
+        "unused.csv"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 80,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/11_baseline.stderr",
+            "sha256": "4f22e1d6a5784cc3e00721d85bd3f84b697344c4b6709d3ad62ce98370ad10ab"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/11_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 80,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/11_candidate.stderr",
+            "sha256": "4f22e1d6a5784cc3e00721d85bd3f84b697344c4b6709d3ad62ce98370ad10ab"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/11_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 11,
+      "exact": true
+    },
+    {
+      "argv": [
+        "screen",
+        "unused.json",
+        "unused.csv",
+        "--inside-domain-only"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 80,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/12_baseline.stderr",
+            "sha256": "4f22e1d6a5784cc3e00721d85bd3f84b697344c4b6709d3ad62ce98370ad10ab"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/12_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 80,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/12_candidate.stderr",
+            "sha256": "4f22e1d6a5784cc3e00721d85bd3f84b697344c4b6709d3ad62ce98370ad10ab"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/12_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 12,
+      "exact": true
+    },
+    {
+      "argv": [
+        "screen",
+        "unused.json",
+        "unused.csv",
+        "--diverse",
+        "--diversity-weight",
+        "nan"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 80,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/13_baseline.stderr",
+            "sha256": "4f22e1d6a5784cc3e00721d85bd3f84b697344c4b6709d3ad62ce98370ad10ab"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/13_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 80,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/13_candidate.stderr",
+            "sha256": "4f22e1d6a5784cc3e00721d85bd3f84b697344c4b6709d3ad62ce98370ad10ab"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/13_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 13,
+      "exact": true
+    },
+    {
+      "argv": [
+        "search",
+        "--library",
+        "missing.csv"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 102,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/14_baseline.stderr",
+            "sha256": "585efbcdb9962d625e699e6c8d3651903e61828389650a7b835bd480cde90ffe"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/14_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 102,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/14_candidate.stderr",
+            "sha256": "585efbcdb9962d625e699e6c8d3651903e61828389650a7b835bd480cde90ffe"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/14_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 14,
+      "exact": true
+    },
+    {
+      "argv": [
+        "search",
+        "--database",
+        "missing.csv",
+        "--ligand",
+        "missing.xyz"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 110,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/15_baseline.stderr",
+            "sha256": "06230fa2fa9bbc5bc6901fa767d17d027c9617d019b13d77900fc1896a69b61b"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/15_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 110,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/15_candidate.stderr",
+            "sha256": "06230fa2fa9bbc5bc6901fa767d17d027c9617d019b13d77900fc1896a69b61b"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/15_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 15,
+      "exact": true
+    },
+    {
+      "argv": [
+        "search",
+        "--database",
+        "missing.csv",
+        "--similar-to",
+        "missing.xyz"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 110,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/16_baseline.stderr",
+            "sha256": "06230fa2fa9bbc5bc6901fa767d17d027c9617d019b13d77900fc1896a69b61b"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/16_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 110,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/16_candidate.stderr",
+            "sha256": "06230fa2fa9bbc5bc6901fa767d17d027c9617d019b13d77900fc1896a69b61b"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/16_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 16,
+      "exact": true
+    },
+    {
+      "argv": [
+        "search",
+        "--database",
+        "missing.csv",
+        "--format",
+        "invalid"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 129,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/17_baseline.stderr",
+            "sha256": "9e5662d6aba981c20fcf30d2436cc97283b13224e93ea1d855edc667ccf68ef9"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/17_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 129,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/17_candidate.stderr",
+            "sha256": "9e5662d6aba981c20fcf30d2436cc97283b13224e93ea1d855edc667ccf68ef9"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/17_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 17,
+      "exact": true
+    },
+    {
+      "argv": [
+        "search",
+        "--database",
+        "missing.csv",
+        "--top",
+        "-1"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 128,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/18_baseline.stderr",
+            "sha256": "a4dfc070bd97ae6fe36f28c2864f4041418acbda03d824c711900e0940c44814"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/18_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 128,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/18_candidate.stderr",
+            "sha256": "a4dfc070bd97ae6fe36f28c2864f4041418acbda03d824c711900e0940c44814"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/18_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 18,
+      "exact": true
+    },
+    {
+      "argv": [
+        "fit",
+        "--data",
+        "unused.sigpack",
+        "--metadata",
+        "unused.csv",
+        "--output",
+        "unused.json",
+        "--predictions",
+        "unused_predictions.csv",
+        "--response-sign-convention",
+        "positive"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 322,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/19_baseline.stderr",
+            "sha256": "4d13e7f88ef9ca6ecb2a0da89e1e26abeb3f083d82064a49097fbcf86618ebec"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/19_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 322,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/19_candidate.stderr",
+            "sha256": "4d13e7f88ef9ca6ecb2a0da89e1e26abeb3f083d82064a49097fbcf86618ebec"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/19_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 19,
+      "exact": true
+    },
+    {
+      "argv": [
+        "fit",
+        "--data",
+        "unused.sigpack",
+        "--metadata",
+        "unused.csv",
+        "--output",
+        "unused.json",
+        "--predictions",
+        "unused_predictions.csv",
+        "--descriptor-aggregation",
+        "invalid"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 207,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/20_baseline.stderr",
+            "sha256": "43aaa57c6a81db194940d07e9fd4c3d38b2350dee4dbb4197f6a4b33c366f31b"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/20_baseline.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "candidate": {
+          "returncode": 2,
+          "stderr": {
+            "bytes": 207,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/20_candidate.stderr",
+            "sha256": "43aaa57c6a81db194940d07e9fd4c3d38b2350dee4dbb4197f6a4b33c366f31b"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/20_candidate.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "case": 20,
+      "exact": true
+    },
+    {
+      "argv": [
+        "search",
+        "--similar-to",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/xyz/SIG-NIHDA-2062_d86f6436.xyz",
+        "--database",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/search_database.csv",
+        "--sterimol-axis",
+        "coordination",
+        "--top",
+        "1543",
+        "--format",
+        "json"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/21_baseline.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 1102078,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/21_baseline.stdout",
+            "sha256": "132001cbcdfb881b2efa7d40bebc59a93c1c28eefbafe21ee03395aba91cb2de"
+          }
+        },
+        "candidate": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/21_candidate.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 1102078,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/21_candidate.stdout",
+            "sha256": "132001cbcdfb881b2efa7d40bebc59a93c1c28eefbafe21ee03395aba91cb2de"
+          }
+        }
+      },
+      "case": 21,
+      "exact": true
+    },
+    {
+      "argv": [
+        "search",
+        "--ligand",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/sources/data/xyz/SIG-NIHDA-2062_d86f6436.xyz",
+        "--library",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/search_database.csv",
+        "--sterimol-axis",
+        "coordination",
+        "--top",
+        "1543",
+        "--format",
+        "json"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/22_baseline.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 1102078,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/22_baseline.stdout",
+            "sha256": "132001cbcdfb881b2efa7d40bebc59a93c1c28eefbafe21ee03395aba91cb2de"
+          }
+        },
+        "candidate": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/22_candidate.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 1102078,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/22_candidate.stdout",
+            "sha256": "132001cbcdfb881b2efa7d40bebc59a93c1c28eefbafe21ee03395aba91cb2de"
+          }
+        }
+      },
+      "case": 22,
+      "exact": true
+    },
+    {
+      "argv": [
+        "search",
+        "--database",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/generated/search_database.csv",
+        "--filter",
+        "vbur=0..100",
+        "--sort-by",
+        "vbur",
+        "--top",
+        "1543",
+        "--format",
+        "json"
+      ],
+      "captures": {
+        "baseline": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/23_baseline.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 1094370,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/23_baseline.stdout",
+            "sha256": "6144976c2220513b66ffcdb6165aa0ce815a11e353cb9a09f94b2877bffdcb0c"
+          }
+        },
+        "candidate": {
+          "returncode": 0,
+          "stderr": {
+            "bytes": 0,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/23_candidate.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 1094370,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v2/23_candidate.stdout",
+            "sha256": "6144976c2220513b66ffcdb6165aa0ce815a11e353cb9a09f94b2877bffdcb0c"
+          }
+        }
+      },
+      "case": 23,
+      "exact": true
+    }
+  ],
+  "controller": {
+    "bytes": 3186,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/controllers/check_cli_group_bridge.py",
+    "sha256": "2199eebb219aaacf0fb9f3c1e5b23f4fe9fcc3bcde91fb3d55227d621136c30e"
+  },
+  "kind": "cli_argument_group_bridge_checks",
+  "normalization": "none",
+  "passed": true,
+  "prior_attempt": {
+    "bytes": 35784,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_cli_group_checks_v1/manifest.json",
+    "sha256": "10a03e793e6302481c603679f2345a8467ccee446fa06f6b729d0a2fe2756907"
+  },
+  "prior_failure_reason": "Baseline was named native while candidate was named stericx; generated usage text includes argv[0]. Re-execute the same bytes with equal original executable names. No result normalization.",
+  "workloads": {
+    "bytes": 22929020,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/manifest.json",
+    "sha256": "a1041cc07fc5583c33d2a7cf584dbc638866c64bdd0b64e3720ef83cc85e1e6a"
+  }
+}

@@ -1,0 +1,780 @@
+{
+  "affinity": [
+    2
+  ],
+  "binary": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/bin/native",
+  "binary_sha256": "102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f",
+  "cache_policy": "Sequential warm launches only when separately authorized; no benchmarks executed in preparation",
+  "created_utc": "2026-09-22T02:43:53.148699+00:00",
+  "environment": {
+    "LC_ALL": "C",
+    "OMP_NUM_THREADS": "1",
+    "RAYON_NUM_THREADS": "1",
+    "TZ": "UTC"
+  },
+  "finished_utc": "2026-09-22T02:44:38.593721+00:00",
+  "harness_sha256": "a97afe319e590e264b0aaebde5225997e978e6a4d1bb3d8cdc53295c888f8dac",
+  "launcher_identity": {
+    "binary_sha256": "bc360a8d67000a4e9e2d56981e8c4808938a8d67b56b6fec73c12aa7434a7750",
+    "compile_argv": [
+      "cc",
+      "-O2",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/launcher/wait4-0c6ad902b6a0abd7e440eb12a9ff44521b407410faff8309ce390d92d8540a4f.c",
+      "-o",
+      "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/launcher/wait4-0c6ad902b6a0abd7e440eb12a9ff44521b407410faff8309ce390d92d8540a4f"
+    ],
+    "compiler_identity": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+    "source_sha256": "0c6ad902b6a0abd7e440eb12a9ff44521b407410faff8309ce390d92d8540a4f"
+  },
+  "launcher_sha256": "bc360a8d67000a4e9e2d56981e8c4808938a8d67b56b6fec73c12aa7434a7750",
+  "launcher_source_sha256": "0c6ad902b6a0abd7e440eb12a9ff44521b407410faff8309ce390d92d8540a4f",
+  "manifest": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/manifest.json",
+  "manifest_sha256": "a1041cc07fc5583c33d2a7cf584dbc638866c64bdd0b64e3720ef83cc85e1e6a",
+  "measurement": "Native parent fork/exec through exact-child wait4; process startup and output included. Python/launcher startup excluded from wall_ns and retained as controller_wall_ns.",
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.43",
+  "profile_env": null,
+  "python": "3.12.13 (main, Jul 18 2026, 17:02:19) [Clang 22.1.3 ]",
+  "repetitions": 7,
+  "results": {
+    "conformers_56": {
+      "exactness_scope": "all emitted values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "8098e16239bd7740ae4061868d83b45cd0f3989fa950bd869fdef72a16ea606b"
+      },
+      "measured_runs": 7,
+      "summary": {
+        "cpu_percent_one_core": {
+          "mad": 0.036759683109394814,
+          "maximum": 99.26801112046593,
+          "median": 99.18122631231611,
+          "minimum": 98.43104724322056,
+          "p90_nearest_rank": 99.26801112046593
+        },
+        "cpu_system_s": {
+          "mad": 1.3999999999999907e-05,
+          "maximum": 0.003023,
+          "median": 0.001018,
+          "minimum": 0.0,
+          "p90_nearest_rank": 0.003023
+        },
+        "cpu_user_s": {
+          "mad": 0.00014699999999999783,
+          "maximum": 0.029837,
+          "median": 0.028644,
+          "minimum": 0.026202,
+          "p90_nearest_rank": 0.029837
+        },
+        "involuntary_context_switches": {
+          "mad": 0,
+          "maximum": 1,
+          "median": 1,
+          "minimum": 1,
+          "p90_nearest_rank": 1
+        },
+        "major_faults": {
+          "mad": 0,
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 0
+        },
+        "minor_faults": {
+          "mad": 1,
+          "maximum": 310,
+          "median": 307,
+          "minimum": 304,
+          "p90_nearest_rank": 310
+        },
+        "peak_rss_bytes": {
+          "mad": 69632,
+          "maximum": 5545984,
+          "median": 5394432,
+          "minimum": 5238784,
+          "p90_nearest_rank": 5545984
+        },
+        "voluntary_context_switches": {
+          "mad": 0,
+          "maximum": 2,
+          "median": 2,
+          "minimum": 2,
+          "p90_nearest_rank": 2
+        },
+        "wall_ns": {
+          "mad": 142448,
+          "maximum": 30417232,
+          "median": 29911129,
+          "minimum": 29466262,
+          "p90_nearest_rank": 30417232
+        }
+      }
+    },
+    "db_build_ensembles": {
+      "exactness_scope": "all emitted values byte-for-byte",
+      "fingerprints": {
+        "manifest_sha256": "9a6d8d172b9a2e73caecd052ceb12720ebeecc7fdba2c3fa5f4639fccc564bc1",
+        "stdout_sha256": "475263f4fb7073c5d512f871f006bf6bf4f97da564d9061ab38bb22665690a8b",
+        "table_sha256": "7adf947d97efba43f8deee4bb791d866771209078e4d82a7daa7a6f00ef80160"
+      },
+      "measured_runs": 7,
+      "summary": {
+        "cpu_percent_one_core": {
+          "mad": 0.028302962720488267,
+          "maximum": 99.3675623068848,
+          "median": 99.32006428645323,
+          "minimum": 99.25488042128168,
+          "p90_nearest_rank": 99.3675623068848
+        },
+        "cpu_system_s": {
+          "mad": 5.099999999999983e-05,
+          "maximum": 0.003009,
+          "median": 0.002018,
+          "minimum": 0.001967,
+          "p90_nearest_rank": 0.003009
+        },
+        "cpu_user_s": {
+          "mad": 0.0005420000000000008,
+          "maximum": 0.028866,
+          "median": 0.028262,
+          "minimum": 0.027023,
+          "p90_nearest_rank": 0.028866
+        },
+        "involuntary_context_switches": {
+          "mad": 0,
+          "maximum": 6,
+          "median": 5,
+          "minimum": 4,
+          "p90_nearest_rank": 6
+        },
+        "major_faults": {
+          "mad": 0,
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 0
+        },
+        "minor_faults": {
+          "mad": 1,
+          "maximum": 365,
+          "median": 362,
+          "minimum": 360,
+          "p90_nearest_rank": 365
+        },
+        "peak_rss_bytes": {
+          "mad": 53248,
+          "maximum": 5947392,
+          "median": 5840896,
+          "minimum": 5726208,
+          "p90_nearest_rank": 5947392
+        },
+        "voluntary_context_switches": {
+          "mad": 0,
+          "maximum": 5,
+          "median": 5,
+          "minimum": 5,
+          "p90_nearest_rank": 5
+        },
+        "wall_ns": {
+          "mad": 202692,
+          "maximum": 31052387,
+          "median": 30487294,
+          "minimum": 30229528,
+          "p90_nearest_rank": 31052387
+        }
+      }
+    },
+    "descriptors_10000": {
+      "exactness_scope": "all emitted values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "df2815f9b1411e7d77a62de7bd1074747ff5cface781f62857e278553da37037"
+      },
+      "measured_runs": 7,
+      "summary": {
+        "cpu_percent_one_core": {
+          "mad": 0.057342666341881454,
+          "maximum": 99.80537779121862,
+          "median": 99.71948990541725,
+          "minimum": 99.6567889753117,
+          "p90_nearest_rank": 99.80537779121862
+        },
+        "cpu_system_s": {
+          "mad": 0.004004999999999995,
+          "maximum": 0.080005,
+          "median": 0.062988,
+          "minimum": 0.056996,
+          "p90_nearest_rank": 0.080005
+        },
+        "cpu_user_s": {
+          "mad": 0.01719700000000035,
+          "maximum": 4.961551,
+          "median": 4.909091,
+          "minimum": 4.891894,
+          "p90_nearest_rank": 4.961551
+        },
+        "involuntary_context_switches": {
+          "mad": 3,
+          "maximum": 52,
+          "median": 49,
+          "minimum": 45,
+          "p90_nearest_rank": 52
+        },
+        "major_faults": {
+          "mad": 0,
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 0
+        },
+        "minor_faults": {
+          "mad": 1,
+          "maximum": 4635,
+          "median": 4632,
+          "minimum": 4630,
+          "p90_nearest_rank": 4635
+        },
+        "peak_rss_bytes": {
+          "mad": 40960,
+          "maximum": 22138880,
+          "median": 22028288,
+          "minimum": 21975040,
+          "p90_nearest_rank": 22138880
+        },
+        "voluntary_context_switches": {
+          "mad": 0,
+          "maximum": 2,
+          "median": 2,
+          "minimum": 2,
+          "p90_nearest_rank": 2
+        },
+        "wall_ns": {
+          "mad": 13970005,
+          "maximum": 5033606721,
+          "median": 4991032658,
+          "minimum": 4974096621,
+          "p90_nearest_rank": 5033606721
+        }
+      }
+    },
+    "ensemble_sdf": {
+      "exactness_scope": "all emitted values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "b5ecfb5e501197149186172f38c50542128049429e91699c65d0542e97ad9e40"
+      },
+      "measured_runs": 7,
+      "summary": {
+        "cpu_percent_one_core": {
+          "mad": 0.007963937765651963,
+          "maximum": 99.64009099344705,
+          "median": 99.608277790038,
+          "minimum": 99.59891717229074,
+          "p90_nearest_rank": 99.64009099344705
+        },
+        "cpu_system_s": {
+          "mad": 0.000994,
+          "maximum": 0.00299,
+          "median": 0.00199,
+          "minimum": 0.0,
+          "p90_nearest_rank": 0.00299
+        },
+        "cpu_user_s": {
+          "mad": 0.000782999999999999,
+          "maximum": 0.046853,
+          "median": 0.04607,
+          "minimum": 0.043866,
+          "p90_nearest_rank": 0.046853
+        },
+        "involuntary_context_switches": {
+          "mad": 0,
+          "maximum": 2,
+          "median": 1,
+          "minimum": 1,
+          "p90_nearest_rank": 2
+        },
+        "major_faults": {
+          "mad": 0,
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 0
+        },
+        "minor_faults": {
+          "mad": 1,
+          "maximum": 598,
+          "median": 597,
+          "minimum": 595,
+          "p90_nearest_rank": 598
+        },
+        "peak_rss_bytes": {
+          "mad": 73728,
+          "maximum": 6291456,
+          "median": 6172672,
+          "minimum": 6000640,
+          "p90_nearest_rank": 6291456
+        },
+        "voluntary_context_switches": {
+          "mad": 0,
+          "maximum": 2,
+          "median": 2,
+          "minimum": 2,
+          "p90_nearest_rank": 2
+        },
+        "wall_ns": {
+          "mad": 124525,
+          "maximum": 48266589,
+          "median": 47033277,
+          "minimum": 46718745,
+          "p90_nearest_rank": 48266589
+        }
+      }
+    },
+    "parse_ensembles_1000": {
+      "exactness_scope": "all emitted values byte-for-byte",
+      "fingerprints": {
+        "sigpack_sha256": "3b906ba7db1daaefc4194e80ee79f7b6c9a5164385b749cbee6c61ab627e0450",
+        "stdout_sha256": "50784ddea708a6966ae12f2862ae5510f6afa376106ed7bda6244cf2bc4d2a4f"
+      },
+      "measured_runs": 7,
+      "summary": {
+        "cpu_percent_one_core": {
+          "mad": 0.012529130657739529,
+          "maximum": 99.85560678120788,
+          "median": 99.83508636020946,
+          "minimum": 97.75227972656018,
+          "p90_nearest_rank": 99.85560678120788
+        },
+        "cpu_system_s": {
+          "mad": 0.0009739999999999957,
+          "maximum": 0.046816,
+          "median": 0.042873,
+          "minimum": 0.032943,
+          "p90_nearest_rank": 0.046816
+        },
+        "cpu_user_s": {
+          "mad": 0.001367000000000007,
+          "maximum": 0.151737,
+          "median": 0.14214,
+          "minimum": 0.136464,
+          "p90_nearest_rank": 0.151737
+        },
+        "involuntary_context_switches": {
+          "mad": 0,
+          "maximum": 3,
+          "median": 3,
+          "minimum": 2,
+          "p90_nearest_rank": 3
+        },
+        "major_faults": {
+          "mad": 0,
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 0
+        },
+        "minor_faults": {
+          "mad": 1,
+          "maximum": 224,
+          "median": 223,
+          "minimum": 221,
+          "p90_nearest_rank": 224
+        },
+        "peak_rss_bytes": {
+          "mad": 49152,
+          "maximum": 5255168,
+          "median": 5132288,
+          "minimum": 5050368,
+          "p90_nearest_rank": 5255168
+        },
+        "voluntary_context_switches": {
+          "mad": 0,
+          "maximum": 2,
+          "median": 2,
+          "minimum": 2,
+          "p90_nearest_rank": 2
+        },
+        "wall_ns": {
+          "mad": 724264,
+          "maximum": 187577211,
+          "median": 184947051,
+          "minimum": 183582753,
+          "p90_nearest_rank": 187577211
+        }
+      }
+    },
+    "predict_1000000": {
+      "exactness_scope": "CLI preview/aggregate only; full per-prediction independent gate remains required",
+      "fingerprints": {
+        "stdout_sha256": "a03530980b459e2521e1fabfbf679ab5bcfaff4fbff50d787038a36d0c5c1f1a"
+      },
+      "measured_runs": 7,
+      "summary": {
+        "cpu_percent_one_core": {
+          "mad": 0.0035426476483877423,
+          "maximum": 99.40069202847168,
+          "median": 99.31083225426849,
+          "minimum": 99.28204189303301,
+          "p90_nearest_rank": 99.40069202847168
+        },
+        "cpu_system_s": {
+          "mad": 0.0009189999999999997,
+          "maximum": 0.0101,
+          "median": 0.007063,
+          "minimum": 0.005061,
+          "p90_nearest_rank": 0.0101
+        },
+        "cpu_user_s": {
+          "mad": 0.0006890000000000004,
+          "maximum": 0.016196,
+          "median": 0.014126,
+          "minimum": 0.01212,
+          "p90_nearest_rank": 0.016196
+        },
+        "involuntary_context_switches": {
+          "mad": 1,
+          "maximum": 8,
+          "median": 6,
+          "minimum": 4,
+          "p90_nearest_rank": 8
+        },
+        "major_faults": {
+          "mad": 0,
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 0
+        },
+        "minor_faults": {
+          "mad": 1,
+          "maximum": 2158,
+          "median": 2157,
+          "minimum": 2155,
+          "p90_nearest_rank": 2158
+        },
+        "peak_rss_bytes": {
+          "mad": 20480,
+          "maximum": 73080832,
+          "median": 72937472,
+          "minimum": 72916992,
+          "p90_nearest_rank": 73080832
+        },
+        "voluntary_context_switches": {
+          "mad": 0,
+          "maximum": 2,
+          "median": 2,
+          "minimum": 2,
+          "p90_nearest_rank": 2
+        },
+        "wall_ns": {
+          "mad": 132299,
+          "maximum": 22363462,
+          "median": 21970413,
+          "minimum": 21316753,
+          "p90_nearest_rank": 22363462
+        }
+      }
+    },
+    "screen_1000": {
+      "exactness_scope": "all emitted values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "630d07a2356c968a6467e80d44d9dd20f591a6ef34ae7bb81dd4ba7da70048a0"
+      },
+      "measured_runs": 7,
+      "summary": {
+        "cpu_percent_one_core": {
+          "mad": 2.6122474997775385,
+          "maximum": 99.87036539116633,
+          "median": 97.24132694407379,
+          "minimum": 92.97972976094493,
+          "p90_nearest_rank": 99.87036539116633
+        },
+        "cpu_system_s": {
+          "mad": 0.004068000000000002,
+          "maximum": 0.045131,
+          "median": 0.038841,
+          "minimum": 0.028036,
+          "p90_nearest_rank": 0.045131
+        },
+        "cpu_user_s": {
+          "mad": 0.003571999999999992,
+          "maximum": 0.221285,
+          "median": 0.212132,
+          "minimum": 0.207605,
+          "p90_nearest_rank": 0.221285
+        },
+        "involuntary_context_switches": {
+          "mad": 1,
+          "maximum": 5,
+          "median": 4,
+          "minimum": 2,
+          "p90_nearest_rank": 5
+        },
+        "major_faults": {
+          "mad": 0,
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 0
+        },
+        "minor_faults": {
+          "mad": 1,
+          "maximum": 2311,
+          "median": 2309,
+          "minimum": 2307,
+          "p90_nearest_rank": 2311
+        },
+        "peak_rss_bytes": {
+          "mad": 73728,
+          "maximum": 10838016,
+          "median": 10719232,
+          "minimum": 10645504,
+          "p90_nearest_rank": 10838016
+        },
+        "voluntary_context_switches": {
+          "mad": 0,
+          "maximum": 2,
+          "median": 2,
+          "minimum": 2,
+          "p90_nearest_rank": 2
+        },
+        "wall_ns": {
+          "mad": 5012515,
+          "maximum": 269922273,
+          "median": 256824961,
+          "minimum": 249686605,
+          "p90_nearest_rank": 269922273
+        }
+      }
+    },
+    "search_database": {
+      "exactness_scope": "all emitted values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "132001cbcdfb881b2efa7d40bebc59a93c1c28eefbafe21ee03395aba91cb2de"
+      },
+      "measured_runs": 7,
+      "summary": {
+        "cpu_percent_one_core": {
+          "mad": 0.17664359917192485,
+          "maximum": 96.0521903244495,
+          "median": 95.70193444905415,
+          "minimum": 95.10894702472764,
+          "p90_nearest_rank": 96.0521903244495
+        },
+        "cpu_system_s": {
+          "mad": 0.000863,
+          "maximum": 0.004957,
+          "median": 0.001981,
+          "minimum": 0.001118,
+          "p90_nearest_rank": 0.004957
+        },
+        "cpu_user_s": {
+          "mad": 0.0009069999999999998,
+          "maximum": 0.005803,
+          "median": 0.004896,
+          "minimum": 0.001983,
+          "p90_nearest_rank": 0.005803
+        },
+        "involuntary_context_switches": {
+          "mad": 0,
+          "maximum": 2,
+          "median": 1,
+          "minimum": 1,
+          "p90_nearest_rank": 2
+        },
+        "major_faults": {
+          "mad": 0,
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 0
+        },
+        "minor_faults": {
+          "mad": 1,
+          "maximum": 972,
+          "median": 969,
+          "minimum": 967,
+          "p90_nearest_rank": 972
+        },
+        "peak_rss_bytes": {
+          "mad": 49152,
+          "maximum": 8298496,
+          "median": 8175616,
+          "minimum": 8110080,
+          "p90_nearest_rank": 8298496
+        },
+        "voluntary_context_switches": {
+          "mad": 0,
+          "maximum": 2,
+          "median": 2,
+          "minimum": 2,
+          "p90_nearest_rank": 2
+        },
+        "wall_ns": {
+          "mad": 86554,
+          "maximum": 7948561,
+          "median": 7235179,
+          "minimum": 7040542,
+          "p90_nearest_rank": 7948561
+        }
+      }
+    },
+    "single_large": {
+      "exactness_scope": "all emitted values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "df4ab3549f2749f8e14fd2bc750661975e451174675ab0ba0e78179ad0520b5d"
+      },
+      "measured_runs": 7,
+      "summary": {
+        "cpu_percent_one_core": {
+          "mad": 0.3016294381830278,
+          "maximum": 94.30998265683283,
+          "median": 94.0083532186498,
+          "minimum": 89.79894169156853,
+          "p90_nearest_rank": 94.30998265683283
+        },
+        "cpu_system_s": {
+          "mad": 3.399999999999996e-05,
+          "maximum": 0.001735,
+          "median": 0.000882,
+          "minimum": 0.0,
+          "p90_nearest_rank": 0.001735
+        },
+        "cpu_user_s": {
+          "mad": 1.9000000000000028e-05,
+          "maximum": 0.001854,
+          "median": 0.000867,
+          "minimum": 0.0,
+          "p90_nearest_rank": 0.001854
+        },
+        "involuntary_context_switches": {
+          "mad": 0,
+          "maximum": 1,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 1
+        },
+        "major_faults": {
+          "mad": 0,
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 0
+        },
+        "minor_faults": {
+          "mad": 1,
+          "maximum": 247,
+          "median": 246,
+          "minimum": 245,
+          "p90_nearest_rank": 247
+        },
+        "peak_rss_bytes": {
+          "mad": 28672,
+          "maximum": 5369856,
+          "median": 5308416,
+          "minimum": 5165056,
+          "p90_nearest_rank": 5369856
+        },
+        "voluntary_context_switches": {
+          "mad": 0,
+          "maximum": 2,
+          "median": 2,
+          "minimum": 2,
+          "p90_nearest_rank": 2
+        },
+        "wall_ns": {
+          "mad": 41128,
+          "maximum": 1982712,
+          "median": 1845223,
+          "minimum": 1804095,
+          "p90_nearest_rank": 1982712
+        }
+      }
+    },
+    "single_small": {
+      "exactness_scope": "all emitted values byte-for-byte",
+      "fingerprints": {
+        "stdout_sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+      },
+      "measured_runs": 7,
+      "summary": {
+        "cpu_percent_one_core": {
+          "mad": 0.552981645494711,
+          "maximum": 94.27911415177476,
+          "median": 93.21072421862372,
+          "minimum": 92.15719051391444,
+          "p90_nearest_rank": 94.27911415177476
+        },
+        "cpu_system_s": {
+          "mad": 0.00025700000000000007,
+          "maximum": 0.001819,
+          "median": 0.000977,
+          "minimum": 0.0,
+          "p90_nearest_rank": 0.001819
+        },
+        "cpu_user_s": {
+          "mad": 0.0002480000000000002,
+          "maximum": 0.002213,
+          "median": 0.000986,
+          "minimum": 0.0,
+          "p90_nearest_rank": 0.002213
+        },
+        "involuntary_context_switches": {
+          "mad": 0,
+          "maximum": 1,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 1
+        },
+        "major_faults": {
+          "mad": 0,
+          "maximum": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90_nearest_rank": 0
+        },
+        "minor_faults": {
+          "mad": 0,
+          "maximum": 247,
+          "median": 245,
+          "minimum": 243,
+          "p90_nearest_rank": 247
+        },
+        "peak_rss_bytes": {
+          "mad": 20480,
+          "maximum": 5447680,
+          "median": 5238784,
+          "minimum": 5214208,
+          "p90_nearest_rank": 5447680
+        },
+        "voluntary_context_switches": {
+          "mad": 0,
+          "maximum": 2,
+          "median": 2,
+          "minimum": 2,
+          "p90_nearest_rank": 2
+        },
+        "wall_ns": {
+          "mad": 152516,
+          "maximum": 2647764,
+          "median": 2083962,
+          "minimum": 1917710,
+          "p90_nearest_rank": 2647764
+        }
+      }
+    }
+  },
+  "status": "complete",
+  "warmups": 1,
+  "workloads": [
+    "conformers_56",
+    "db_build_ensembles",
+    "descriptors_10000",
+    "ensemble_sdf",
+    "parse_ensembles_1000",
+    "predict_1000000",
+    "screen_1000",
+    "search_database",
+    "single_large",
+    "single_small"
+  ]
+}

@@ -1,0 +1,223 @@
+"""Storage tests; the coverage stub does not emulate scientific gates."""
+
+import contextlib
+import copy
+import gzip
+import hashlib
+import io
+import json
+import shutil
+import tempfile
+import types
+import unittest
+from pathlib import Path
+from unittest import mock
+
+import test_provider_storage as fixtures
+
+
+class SharedPublicationTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.outer = Path(self.tmp.name)
+        self.repo = self.outer / "repo"
+        self.code = self.repo / "controller"
+        self.code.mkdir(parents=True)
+        for name in (
+            "publish_shared.py",
+            "provider_storage.py",
+            "publication_base.py",
+            "publication_bound.py",
+            "final_coverage.py",
+        ):
+            shutil.copyfile(Path(__file__).with_name(name), self.code / name)
+        self.pub = types.ModuleType("synthetic_publication")
+        self.pub.__file__ = str(self.code / "publish_shared.py")
+        exec(
+            compile(
+                (self.code / "publish_shared.py").read_bytes(),
+                self.pub.__file__,
+                "exec",
+            ),
+            self.pub.__dict__,
+        )
+        # These are storage tests. Real scientific coverage is separately checked
+        # by the unmodified coverage function in full candidate publication.
+        self.pub.coverage = lambda index, get: {
+            "synthetic_storage_files": len(index["inventory"])
+        }
+        self.fixture = fixtures.ProviderTests()
+        self.fixture.root = self.repo
+        self.fixture.registry = {}
+        self.raw, _, _, _ = self.fixture.ordinary()
+        self.inputs = self.repo / "inputs"
+        self.inputs.mkdir()
+        (self.inputs / "same.txt").write_bytes(self.raw)
+        (self.inputs / "duplicate.txt").write_bytes(self.raw)
+        (self.inputs / "empty.txt").write_bytes(b"")
+        (self.inputs / "paths.json").write_bytes(
+            b'{"original":"/inert/original/source"}\n'
+        )
+        self.spec = self.code / "spec.json"
+        self.spec.write_text(
+            json.dumps(
+                {
+                    "roots": ["inputs", "controller"],
+                    "files": [],
+                    "providers": self.fixture.registry,
+                    "scope": "synthetic",
+                    "coverage_contract": {},
+                }
+            )
+        )
+        self.plan = self.outer / "plan.json"
+        self.package = self.outer / "package"
+        self.build_args = types.SimpleNamespace(
+            plan=self.plan,
+            output=self.package,
+            journal=self.outer / "journal.jsonl",
+            pause_file=None,
+            resume=False,
+        )
+        self.args = types.SimpleNamespace(
+            package=self.package, shared_root=self.repo, output=self.outer / "restored"
+        )
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.pub.plan(
+                types.SimpleNamespace(repo=self.repo, spec=self.spec, output=self.plan)
+            )
+
+    def build(self):
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.pub.build(self.build_args)
+
+    def rewrite_index(self, edit):
+        manifest = self.pub.read(self.package / "manifest.json")
+        index = json.loads(
+            gzip.decompress((self.package / manifest["index"]["path"]).read_bytes())
+        )
+        edit(index)
+        raw = self.pub.json_bytes(index)
+        path = self.package / manifest["index"]["path"]
+        path.write_bytes(gzip.compress(raw, mtime=0))
+        manifest["index"].update(
+            bytes=path.stat().st_size,
+            sha256=self.pub.sha(path),
+            uncompressed_bytes=len(raw),
+            uncompressed_sha256=hashlib.sha256(raw).hexdigest(),
+        )
+        (self.package / "manifest.json").write_bytes(self.pub.json_bytes(manifest))
+
+    def test_shared_whole_files_empty_and_absolute_strings_restore(self):
+        self.build()
+        result = self.pub.restore(self.args)
+        self.assertTrue(result["verified"])
+        self.assertEqual(result["counts"]["publication_files"], 2)
+        for source in self.inputs.iterdir():
+            self.assertEqual(
+                source.read_bytes(),
+                (self.args.output / "inputs" / source.name).read_bytes(),
+            )
+        _, index, _ = self.pub.load_bound(self.package)
+        reused = [
+            row
+            for row in index["inventory"]
+            if row["path"] in ("inputs/same.txt", "inputs/duplicate.txt")
+        ]
+        self.assertTrue(all("shared" in row and "chunks" not in row for row in reused))
+
+    def test_mixed_inherited_and_local_chunks(self):
+        mixed = self.inputs / "mixed.txt"
+        mixed.write_bytes(self.raw + b"new suffix")
+        self.plan.unlink()
+        original_pieces = self.pub.pieces
+        self.pub.pieces = lambda path: (
+            iter([self.raw, b"new suffix"])
+            if path.name == "mixed.txt"
+            else original_pieces(path)
+        )
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.pub.plan(
+                types.SimpleNamespace(repo=self.repo, spec=self.spec, output=self.plan)
+            )
+        self.build()
+        result = self.pub.restore(self.args)
+        self.assertEqual(result["counts"]["inherited_chunks"], 1)
+        self.assertEqual(
+            (self.args.output / "inputs/mixed.txt").read_bytes(), mixed.read_bytes()
+        )
+
+    def test_rehashed_index_omission_still_fails_plan_binding(self):
+        self.build()
+        self.rewrite_index(lambda index: index["inventory"].pop())
+        with self.assertRaisesRegex(ValueError, "original inventory"):
+            self.pub.verify(self.args)
+
+    def test_duplicate_destination_rejected(self):
+        self.build()
+        self.rewrite_index(
+            lambda index: index["inventory"].append(
+                copy.deepcopy(index["inventory"][0])
+            )
+        )
+        with self.assertRaisesRegex(ValueError, "Duplicate restoration"):
+            self.pub.verify(self.args)
+
+    def test_forged_counts_rejected(self):
+        self.build()
+        path = self.package / "manifest.json"
+        manifest = self.pub.read(path)
+        manifest["counts"]["files"] += 1
+        path.write_bytes(self.pub.json_bytes(manifest))
+        with self.assertRaisesRegex(ValueError, "storage counts"):
+            self.pub.verify(self.args)
+
+    def test_source_drift_refuses_complete_package(self):
+        (self.inputs / "same.txt").write_bytes(b"changed!")
+        with self.assertRaises(ValueError), contextlib.redirect_stdout(io.StringIO()):
+            self.pub.build(self.build_args)
+        self.assertFalse((self.package / "manifest.json").exists())
+
+    def test_controller_drift_during_copy_refuses_complete_package(self):
+        original = self.pub.write_new
+
+        def changing_write(path, data):
+            if path.name == "publish_shared.py.txt":
+                data += b"# changed during copy\n"
+            original(path, data)
+
+        with (
+            mock.patch.object(self.pub, "write_new", changing_write),
+            contextlib.redirect_stdout(io.StringIO()),
+        ):
+            with self.assertRaisesRegex(ValueError, "Controller changed"):
+                self.pub.build(self.build_args)
+        self.assertFalse((self.package / "manifest.json").exists())
+
+    def test_metadata_drift_during_restore_is_rejected(self):
+        self.build()
+        original = self.pub.reconstructed
+
+        def changing_reconstruction(package, index, row, shared_root):
+            yield from original(package, index, row, shared_root)
+            if self.args.output.exists():
+                with (self.package / "manifest.json").open("ab") as stream:
+                    stream.write(b" ")
+
+        with mock.patch.object(self.pub, "reconstructed", changing_reconstruction):
+            with self.assertRaisesRegex(ValueError, "metadata changed"):
+                self.pub.restore(self.args)
+        self.assertFalse((self.args.output / "RESTORATION_RECEIPT.json").exists())
+
+    def test_provider_drift_after_load_is_rejected(self):
+        self.build()
+        self.pub.verify(self.args)
+        with (self.repo / "alpha/manifest.json").open("ab") as stream:
+            stream.write(b" ")
+        with self.assertRaisesRegex(ValueError, "metadata changed"):
+            self.pub.verify(self.args)
+
+
+if __name__ == "__main__":
+    unittest.main()

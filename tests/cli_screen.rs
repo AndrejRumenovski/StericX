@@ -2772,3 +2772,162 @@ fn deck_numbers_keep_full_round_trip_precision() {
         "a deck value must read back bit-identical"
     );
 }
+
+fn interval_model_variant(edit: impl FnOnce(&mut serde_json::Value)) -> PathBuf {
+    let mut document: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(study_001_portable_model()).unwrap())
+            .unwrap();
+    edit(&mut document);
+    let path = temp_path("json");
+    std::fs::write(&path, serde_json::to_vec(&document).unwrap()).unwrap();
+    path
+}
+
+fn student_t_bits(hit: &serde_json::Value) -> (Option<u64>, Option<u64>) {
+    (
+        hit["prediction_interval_low"].as_f64().map(f64::to_bits),
+        hit["prediction_interval_high"].as_f64().map(f64::to_bits),
+    )
+}
+
+#[test]
+fn interval_cache_preserves_temperature_then_model_error_precedence() {
+    let model = interval_model_variant(|doc| {
+        doc["training_geometry"]["scales"][0] = serde_json::json!(0.0);
+    });
+    let missing_library = temp_path("missing.csv");
+    let base = [
+        "screen",
+        model.to_str().unwrap(),
+        "--library",
+        missing_library.to_str().unwrap(),
+        "--format",
+        "json",
+    ];
+    let mut invalid_temperature = base.to_vec();
+    invalid_temperature.extend(["--temperature", "0"]);
+    let output = run(&invalid_temperature);
+    assert_ne!(output.status, 0);
+    assert!(
+        output
+            .stderr
+            .contains("--temperature must be a positive finite temperature")
+    );
+    assert!(!output.stderr.contains("not a usable StericX model"));
+    let output = run(&base);
+    assert_ne!(output.status, 0);
+    assert!(output.stderr.contains("not a usable StericX model"));
+    assert!(!output.stderr.contains(missing_library.to_str().unwrap()));
+}
+
+#[test]
+fn interval_cache_keeps_nonfinite_prediction_exclusions_and_later_valid_interval() {
+    let mixed = descriptor_library(&[("overflow", 1.0e30, 1.0e30), ("ordinary", 9.97, 1.0)]);
+    let ordinary = descriptor_library(&[("ordinary", 9.97, 1.0)]);
+    let report = screen_json(&study_001_portable_model(), &mixed, &[]);
+    let reference = screen_json(&study_001_portable_model(), &ordinary, &[]);
+    assert_eq!(report["hits"].as_array().unwrap().len(), 1);
+    assert_eq!(report["excluded"].as_array().unwrap().len(), 1);
+    assert_eq!(report["excluded"][0]["ligand"], "overflow");
+    assert_eq!(report["excluded"][0]["reason"], "non_finite_prediction");
+    assert_eq!(
+        student_t_bits(&report["hits"][0]),
+        student_t_bits(&reference["hits"][0])
+    );
+    assert!(student_t_bits(&report["hits"][0]).0.is_some());
+    assert_eq!(
+        report["hits"][0]["predicted_ddg_kcal_mol"]
+            .as_f64()
+            .unwrap()
+            .to_bits(),
+        reference["hits"][0]["predicted_ddg_kcal_mol"]
+            .as_f64()
+            .unwrap()
+            .to_bits()
+    );
+    let only_overflow = descriptor_library(&[("overflow", 1.0e30, 1.0e30)]);
+    let output = run(&[
+        "screen",
+        study_001_portable_model().to_str().unwrap(),
+        "--library",
+        only_overflow.to_str().unwrap(),
+        "--format",
+        "json",
+    ]);
+    assert_ne!(output.status, 0);
+    assert!(
+        output
+            .stderr
+            .contains("no library member could be screened with this model")
+    );
+}
+
+#[test]
+fn interval_cache_keeps_student_t_and_bootstrap_channels_independent() {
+    let library = uncertainty_probe_library();
+    let full = screen_json(&study_001_portable_model(), &library, &[]);
+    let no_geometry =
+        interval_model_variant(|doc| doc["training_geometry"] = serde_json::Value::Null);
+    let no_bootstrap = interval_model_variant(|doc| doc["uncertainty"] = serde_json::Value::Null);
+    let without_geometry = screen_json(&no_geometry, &library, &[]);
+    let without_bootstrap = screen_json(&no_bootstrap, &library, &[]);
+    for i in 0..full["hits"].as_array().unwrap().len() {
+        let reference = &full["hits"][i];
+        let geometry_absent = &without_geometry["hits"][i];
+        let bootstrap_absent = &without_bootstrap["hits"][i];
+        for hit in [geometry_absent, bootstrap_absent] {
+            assert_eq!(hit["ligand"], reference["ligand"]);
+            assert_eq!(
+                hit["predicted_ddg_kcal_mol"].as_f64().unwrap().to_bits(),
+                reference["predicted_ddg_kcal_mol"]
+                    .as_f64()
+                    .unwrap()
+                    .to_bits()
+            );
+        }
+        assert!(student_t_bits(reference).0.is_some());
+        assert_eq!(student_t_bits(geometry_absent), (None, None));
+        assert!(geometry_absent["leverage"].is_null());
+        assert_eq!(
+            serde_json::to_string(&geometry_absent["uncertainty"]).unwrap(),
+            serde_json::to_string(&reference["uncertainty"]).unwrap()
+        );
+        assert_eq!(student_t_bits(bootstrap_absent), student_t_bits(reference));
+        assert!(bootstrap_absent["uncertainty"].is_null());
+    }
+}
+
+#[test]
+fn interval_cache_saturated_model_keeps_predictions_without_student_t_bounds() {
+    let model = interval_model_variant(|doc| {
+        doc["training_count"] = serde_json::json!(2);
+        doc["training_group_count"] = serde_json::json!(2);
+        doc["provenance"]["training"]["record_count"] = serde_json::json!(2);
+        doc["provenance"]["training"]["group_count"] = serde_json::json!(2);
+        doc["training_geometry"]["observations"] = serde_json::json!(2);
+        doc["training_geometry"]["standardized_training_points"] = serde_json::json!([]);
+        doc["training_geometry"]["training_labels"] = serde_json::json!([]);
+    });
+    // This is an accepted structural fixture, not a claim that a saturated fit
+    // estimates residual uncertainty. Verify loading before exercising screen.
+    steric_x::model::PortableModel::from_json(&std::fs::read_to_string(&model).unwrap()).unwrap();
+    let library = uncertainty_probe_library();
+    let report = screen_json(&model, &library, &[]);
+    let reference = screen_json(&study_001_portable_model(), &library, &[]);
+    assert_eq!(ranked_ligands(&report), ranked_ligands(&reference));
+    for (hit, original) in report["hits"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .zip(reference["hits"].as_array().unwrap())
+    {
+        assert_eq!(student_t_bits(hit), (None, None));
+        assert_eq!(
+            hit["predicted_ddg_kcal_mol"].as_f64().unwrap().to_bits(),
+            original["predicted_ddg_kcal_mol"]
+                .as_f64()
+                .unwrap()
+                .to_bits()
+        );
+    }
+}

@@ -1,0 +1,137 @@
+{
+  "complete_original_plan_inventory_verified": true,
+  "counts": {
+    "files": 6006,
+    "gzip_blob_bytes": 13443508,
+    "inherited_chunks": 1,
+    "local_chunks": 2192,
+    "logical_bytes": 4421079580,
+    "max_blob_bytes": 2912655,
+    "publication_files": 2441,
+    "shared_files": 2441,
+    "unique_chunks": 2193
+  },
+  "coverage": {
+    "cli_cases_per_thread": {
+      "1": 93,
+      "2": 93,
+      "4": 93,
+      "6": 93
+    },
+    "final_scope": {
+      "boundary": {
+        "cases": 31,
+        "intentional_errors": 13,
+        "recomputed_raw_fingerprints": 62,
+        "successes": 18
+      },
+      "engineering": {
+        "commands": 8,
+        "delivered_release_matches_measured": true
+      },
+      "native": {
+        "configurations": 40,
+        "launches": 720,
+        "measured_pairs": 320
+      },
+      "observer_commands": 11,
+      "references": {
+        "commands": 25,
+        "metadata_fields": 6,
+        "model_comparisons": 7624,
+        "scientific_global_pass": false
+      },
+      "supplemental": {
+        "additional_cli_cases": 24,
+        "commands": 3,
+        "normalization": "none"
+      }
+    },
+    "native": {
+      ".stericx/profiling/scientifically_validated_optimization/final_native_pairs_v1": {
+        "launches": 720,
+        "measured_pairs": 320,
+        "warmup_launches": 80
+      }
+    },
+    "observation_rows": 128021,
+    "observations": {
+      "aggregation": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 11
+      },
+      "geometry": {
+        "private_bins": 24660,
+        "private_frames": 2055,
+        "rows": 844
+      },
+      "geometry_alignment": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 4
+      },
+      "geometry_alignment_rotation": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 4
+      },
+      "geometry_focused": {
+        "private_bins": 144,
+        "private_frames": 12,
+        "rows": 15
+      },
+      "geometry_historical": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 20
+      },
+      "geometry_numerical": {
+        "private_bins": 108,
+        "private_frames": 9,
+        "rows": 11
+      },
+      "kinetics": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 195
+      },
+      "kraken": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 31721
+      },
+      "kraken_all_bins": {
+        "private_bins": 1141668,
+        "private_frames": 95139,
+        "rows": 31721
+      },
+      "kraken_topology": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 31721
+      },
+      "kraken_topology_all_bins": {
+        "private_bins": 1141956,
+        "private_frames": 95163,
+        "rows": 31721
+      },
+      "model_domain": {
+        "private_bins": 0,
+        "private_frames": 0,
+        "rows": 33
+      }
+    },
+    "total_measured_pairs": 320,
+    "total_native_launches": 720
+  },
+  "files": 6006,
+  "manifest": {
+    "bytes": 6934,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/final_optimization/manifest.json",
+    "sha256": "a9dc27dc452ece09f95f385d8dcd5f6b61277fb7331d0f606f0bafc7239f58d4"
+  },
+  "scope": "Lossless byte and declared coverage verification; no scientific or performance rerun.",
+  "unique_file_reconstructions": 2816,
+  "verified": true
+}

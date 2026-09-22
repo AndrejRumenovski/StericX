@@ -1,0 +1,53 @@
+{
+  "accepted": true,
+  "baseline_snapshot": {
+    "bytes": 20063701,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/manifest.json",
+    "sha256": "feb021566f4a172c8d249184d1e16e39978b59c1784d216f4f50c9261ed27ced"
+  },
+  "candidate": "C1 ordered descriptor file parallelism",
+  "candidate_build": {
+    "bytes": 37279,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1_science_v2/validated_build_corrected_vC1/manifest.json",
+    "sha256": "13b99d5157a57fbcc2372e8f25d09841160db0a75396fc507bf8edd6f3309221"
+  },
+  "candidate_gate": {
+    "bytes": 5536,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1_performance_gate_v1/manifest.json",
+    "sha256": "07c18d21095b649cdbc0edf60b0c93df647aa5c320e31b57d8716cc3a7a866cc"
+  },
+  "decision": "Accept for substantial descriptor file batch gains with explicit measured costs; no universal speedup claim.",
+  "independent_performance_review": {
+    "bytes": 291958,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1_independent_review_v1/review.json",
+    "sha256": "cff04dac6a2537ac39ef873097020536b6c29515d5f4b1391b38eb82e4fc4724"
+  },
+  "kind": "accepted_corrected_optimization",
+  "next_step": "Fresh accepted-C1 diagnostic reprofile, then validate current HEAD plusC1 as bridge beforeC2.",
+  "paired_benchmark_manifest": {
+    "bytes": 1013970,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1_native_pairs_v1/manifest.json",
+    "sha256": "0bc562d34ee3791821889749f5245ef659dcc4a5c3962d05646085cd313f3ed5"
+  },
+  "paired_summary": {
+    "bytes": 136673321,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1_native_pairs_v1/summary.json",
+    "sha256": "1f617cb8d0472b30051e1e37c73856207714f9ab59f04cc5f0f893d59771a279"
+  },
+  "performance_gate": "10,000-file paired speedups 1.931/3.693/5.287 at 2/4/6 threads; 56-file speedups 1.804/2.993/4.051, all beyond paired noise. One-thread large batch neutral.",
+  "retained_tradeoffs": [
+    "Parser repeat wall +2.28%/+2.01% at 1/2 threads; real small regression retained.",
+    "Screen repeat wall approximately neutral; CPU +1.75%/+1.84%.",
+    "Search t2 CPU +4.65%; wall result too variable for precise speed claim.",
+    "Six-thread 10,000-file peak RSS 26.4MiB, about5.6MiB above baseline; totalCPUwork increases."
+  ],
+  "sample_policy": "All970launches/440measuredpairs retained; no exclusions or retrospectively loosened threshold.",
+  "scientific_gate": "Complete bit-exact observations, CLI outputs, prediction streams and independent references; no scientific tolerance changes.",
+  "scope": "Only frozen C1 source/binaries are accepted here. HEAD has independently advanced to3ea936d with CLI grouping/CI fixtures; this receipt does not validate that newer executable. A separately captured bridge is required before further optimization.",
+  "supplemental_benchmark_manifest": {
+    "bytes": 370915,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1_native_supplement_v1/manifest.json",
+    "sha256": "624bdf0051d72e722ec64b4ed505fe80d2032e6c0b26f5d2c3f140decd0bd571"
+  },
+  "tradeoff_rationale": "Large 10,000-file and56-file native improvements justify these bounded costs for descriptor batch workloads. The final combined build must remeasure all workloads; no claim that unrelated workloads are unchanged."
+}

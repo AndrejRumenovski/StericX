@@ -1,0 +1,521 @@
+"""Synthetic, byte-exact publication provider tests; no scientific execution."""
+
+import copy
+import gzip
+import hashlib
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from unittest import mock
+
+import provider_storage as storage
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def encoded(value):
+    return (json.dumps(value, sort_keys=True) + "\n").encode()
+
+
+class ProviderTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+        self.registry = {}
+
+    def record(self, package, relative, raw):
+        path = package / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(raw)
+        return {"path": relative, "bytes": len(raw), "sha256": sha(raw)}
+
+    def blob(self, name, raw):
+        key = sha(raw)
+        item = self.record(
+            self.root / name,
+            f"blobs/{key[:2]}/{key}.gz",
+            gzip.compress(raw, mtime=0),
+        )
+        item["uncompressed_bytes"] = len(raw)
+        return key, item
+
+    @staticmethod
+    def row(path, raw, **storage_fields):
+        return {"path": path, "bytes": len(raw), "sha256": sha(raw), **storage_fields}
+
+    @staticmethod
+    def locator(name, path):
+        return {"kind": "publication_file", "provider": name, "path": path}
+
+    def package(
+        self,
+        name,
+        rows,
+        blobs,
+        dependencies=None,
+        mutate_index=None,
+        mutate_manifest=None,
+    ):
+        package = self.root / name
+        controller = self.record(package, "publish.py.txt", b"# fixture controller\n")
+        helpers = [
+            self.record(
+                package, helper + ".txt", b"# synthetic helper " + helper.encode()
+            )
+            for helper in (
+                "provider_storage.py",
+                "publication_base.py",
+                "publication_bound.py",
+            )
+        ]
+        plan = {
+            "version": 2,
+            "repo": "/inert/original/repo",
+            "scope": "synthetic",
+            "source_roots": [],
+            "shared_manifests": [],
+            "external_links": [],
+            "omissions": [],
+            "coverage_contract": {},
+            "coverage": {},
+            "providers": copy.deepcopy(dependencies or {}),
+            "helper_sources": helpers,
+            "controller": controller,
+            "inventory": [
+                {key: value for key, value in row.items() if key != "chunks"}
+                for row in rows
+            ],
+        }
+        plan_raw = encoded(plan)
+        plan_record = self.record(
+            package, "plan.json.gz", gzip.compress(plan_raw, mtime=0)
+        )
+        index = {
+            **copy.deepcopy(plan),
+            "original_controller": controller,
+            "plan": {
+                "path": "/inert/plan.json",
+                "bytes": len(plan_raw),
+                "sha256": sha(plan_raw),
+            },
+            "inventory": rows,
+            "blobs": blobs,
+            "providers": copy.deepcopy(dependencies or {}),
+        }
+        if mutate_index:
+            mutate_index(index)
+        index_raw = encoded(index)
+        index_record = self.record(
+            package, "index.json.gz", gzip.compress(index_raw, mtime=0)
+        )
+        index_record.update(
+            uncompressed_bytes=len(index_raw), uncompressed_sha256=sha(index_raw)
+        )
+        manifest = {
+            "version": 2,
+            "complete": True,
+            "index": index_record,
+            "plan": plan_record,
+            "controller": controller,
+            "helpers": helpers,
+            "providers": copy.deepcopy(dependencies or {}),
+            "counts": {
+                "files": len(rows),
+                "unique_chunks": len(blobs),
+                "shared_files": sum("shared" in row for row in rows),
+                "publication_files": sum(
+                    row.get("shared", {}).get("kind") == "publication_file"
+                    for row in rows
+                ),
+                "inherited_chunks": sum(
+                    item.get("kind") == "publication_chunk" for item in blobs.values()
+                ),
+                "local_chunks": sum(
+                    item.get("kind") != "publication_chunk" for item in blobs.values()
+                ),
+                "gzip_blob_bytes": sum(
+                    item["bytes"]
+                    for item in blobs.values()
+                    if item.get("kind") != "publication_chunk"
+                ),
+                "max_blob_bytes": max(
+                    (
+                        item["bytes"]
+                        for item in blobs.values()
+                        if item.get("kind") != "publication_chunk"
+                    ),
+                    default=0,
+                ),
+                "logical_bytes": sum(row["bytes"] for row in rows),
+            },
+        }
+        if mutate_manifest:
+            mutate_manifest(manifest)
+        manifest_record = self.record(package, "manifest.json", encoded(manifest))
+        self.registry[name] = {
+            "root": name,
+            "manifest": manifest_record,
+            "index": index_record,
+            "plan": plan_record,
+        }
+        return copy.deepcopy(self.registry[name])
+
+    def ordinary(self, name="alpha", raw=b"one\ntwo\n"):
+        key, blob = self.blob(name, raw)
+        row = self.row("evidence/results.txt", raw, chunks=[key])
+        self.package(name, [row], {key: blob})
+        return raw, key, blob, row
+
+    def providers(self):
+        return storage.Providers(self.root, copy.deepcopy(self.registry))
+
+    def restored(self, providers, name, raw, path="evidence/results.txt"):
+        return b"".join(providers.file(self.locator(name, path), sha(raw), len(raw)))
+
+    def test_whole_file_and_catalog_identity(self):
+        raw, key, _, _ = self.ordinary()
+        providers = self.providers()
+        self.assertEqual(self.restored(providers, "alpha", raw), raw)
+        files, chunks = providers.catalog()
+        self.assertEqual(
+            files[(sha(raw), len(raw))], self.locator("alpha", "evidence/results.txt")
+        )
+        self.assertEqual(chunks[key]["provider"], "alpha")
+        self.assertEqual(providers.chunk("alpha", key), raw)
+
+    def test_changed_manifest_index_or_plan_rejected_before_load(self):
+        self.ordinary()
+        for field in ("manifest", "index", "plan"):
+            with self.subTest(field=field):
+                path = self.root / "alpha" / self.registry["alpha"][field]["path"]
+                original = path.read_bytes()
+                path.write_bytes(original + b"changed")
+                with self.assertRaisesRegex(ValueError, f"changed {field}"):
+                    self.providers().load("alpha")
+                path.write_bytes(original)
+
+    def test_changed_metadata_after_load_rejected(self):
+        self.ordinary()
+        for field in ("manifest", "index", "plan"):
+            with self.subTest(field=field):
+                providers = self.providers()
+                providers.load("alpha")
+                path = self.root / "alpha" / self.registry["alpha"][field]["path"]
+                original = path.read_bytes()
+                path.write_bytes(original + b"changed")
+                with self.assertRaisesRegex(ValueError, "changed during operation"):
+                    providers.check_pins()
+                path.write_bytes(original)
+
+    def test_metadata_changed_during_load_cannot_be_adopted_as_new_pin(self):
+        self.ordinary()
+        original_decoder = storage.Providers.decode_metadata
+        for field in ("manifest", "index", "plan"):
+            with self.subTest(field=field):
+                providers = self.providers()
+                path = self.root / "alpha" / self.registry["alpha"][field]["path"]
+                original = path.read_bytes()
+
+                def mutate_after_decode(
+                    package, item, expected, path=path, original=original
+                ):
+                    raw = original_decoder(package, item, expected)
+                    if item["path"] == "plan.json.gz":
+                        path.write_bytes(original + b"changed after original decode")
+                    return raw
+
+                with mock.patch.object(
+                    storage.Providers,
+                    "decode_metadata",
+                    side_effect=mutate_after_decode,
+                ):
+                    with self.assertRaises(ValueError):
+                        providers.load("alpha")
+                path.write_bytes(original)
+
+    def test_changed_compressed_blob_rejected(self):
+        raw, _, blob, _ = self.ordinary()
+        path = self.root / "alpha" / blob["path"]
+        path.write_bytes(path.read_bytes() + b"changed")
+        with self.assertRaisesRegex(ValueError, "Compressed blob hash differs"):
+            self.restored(self.providers(), "alpha", raw)
+
+    def test_rehashed_wrong_blob_content_rejected(self):
+        raw, key, _, row = self.ordinary()
+        changed = self.record(
+            self.root / "alpha",
+            f"blobs/{key[:2]}/{key}.gz",
+            gzip.compress(b"different", mtime=0),
+        )
+        changed["uncompressed_bytes"] = len(b"different")
+        self.package("alpha", [row], {key: changed})
+        with self.assertRaisesRegex(
+            ValueError, "Decompressed blob hash/length differs"
+        ):
+            self.restored(self.providers(), "alpha", raw)
+
+    def test_bad_roots_metadata_and_locator_paths_rejected(self):
+        raw, _, _, _ = self.ordinary()
+        for bad in ("../outside", "/tmp/outside", "a//b", "a\\b", "a/./b"):
+            with self.subTest(bad=bad):
+                providers = self.providers()
+                providers.registry["alpha"]["root"] = bad
+                with self.assertRaises(ValueError):
+                    providers.load("alpha")
+                providers = self.providers()
+                providers.registry["alpha"]["index"]["path"] = bad
+                with self.assertRaises(ValueError):
+                    providers.load("alpha")
+                with self.assertRaises(ValueError):
+                    self.restored(self.providers(), "alpha", raw, bad)
+
+    def test_symlink_root_escape_rejected(self):
+        self.ordinary()
+        with tempfile.TemporaryDirectory() as outside:
+            (self.root / "escape").symlink_to(outside, target_is_directory=True)
+            providers = self.providers()
+            providers.registry["alpha"]["root"] = "escape"
+            with self.assertRaisesRegex(ValueError, "escapes root"):
+                providers.load("alpha")
+
+    def test_unknown_provider_and_missing_chunk_rejected(self):
+        self.ordinary()
+        with self.assertRaisesRegex(ValueError, "Unknown publication provider"):
+            self.providers().load("unknown")
+        with self.assertRaisesRegex(ValueError, "Missing inherited chunk"):
+            self.providers().chunk("alpha", sha(b"absent"))
+
+    def test_whole_file_sha_size_and_path_must_match(self):
+        raw, _, _, _ = self.ordinary()
+        for expected_sha, expected_size, path in (
+            (sha(b"wrong"), len(raw), "evidence/results.txt"),
+            (sha(raw), len(raw) + 1, "evidence/results.txt"),
+            (sha(raw), len(raw), "missing.txt"),
+        ):
+            with self.subTest(path=path, size=expected_size, sha=expected_sha):
+                with self.assertRaisesRegex(ValueError, "whole-file identity differs"):
+                    list(
+                        self.providers().file(
+                            self.locator("alpha", path), expected_sha, expected_size
+                        )
+                    )
+
+    def test_mixed_local_and_inherited_chunks(self):
+        left, key, _, _ = self.ordinary(raw=b"left\n")
+        right = b"right\n"
+        second, local = self.blob("beta", right)
+        inherited = {
+            "kind": "publication_chunk",
+            "provider": "alpha",
+            "chunk": key,
+            "uncompressed_bytes": len(left),
+        }
+        combined = left + right
+        self.package(
+            "beta",
+            [self.row("evidence/results.txt", combined, chunks=[key, second])],
+            {key: inherited, second: local},
+            {"alpha": self.registry["alpha"]},
+        )
+        self.assertEqual(self.restored(self.providers(), "beta", combined), combined)
+
+    def test_chunk_order_and_file_final_identity_checked(self):
+        first, one = self.blob("alpha", b"one")
+        second, two = self.blob("alpha", b"two")
+        raw = b"onetwo"
+        self.package(
+            "alpha",
+            [self.row("evidence/results.txt", raw, chunks=[second, first])],
+            {first: one, second: two},
+        )
+        with self.assertRaisesRegex(ValueError, "Reconstructed provider file differs"):
+            self.restored(self.providers(), "alpha", raw)
+
+    def test_transitive_whole_file_reuse(self):
+        raw, _, _, _ = self.ordinary()
+        for name, prior in (("beta", "alpha"), ("gamma", "beta")):
+            self.package(
+                name,
+                [
+                    self.row(
+                        "evidence/results.txt",
+                        raw,
+                        shared=self.locator(prior, "evidence/results.txt"),
+                    )
+                ],
+                {},
+                {prior: self.registry[prior]},
+            )
+        self.assertEqual(self.restored(self.providers(), "gamma", raw), raw)
+
+    def test_transitive_chunk_reuse(self):
+        raw, key, _, _ = self.ordinary()
+        for name, prior in (("beta", "alpha"), ("gamma", "beta")):
+            inherited = {
+                "kind": "publication_chunk",
+                "provider": prior,
+                "chunk": key,
+                "uncompressed_bytes": len(raw),
+            }
+            self.package(
+                name,
+                [self.row("evidence/results.txt", raw, chunks=[key])],
+                {key: inherited},
+                {prior: self.registry[prior]},
+            )
+        self.assertEqual(self.restored(self.providers(), "gamma", raw), raw)
+
+    def test_missing_or_changed_transitive_registry_pin_rejected(self):
+        raw, _, _, _ = self.ordinary()
+        self.package(
+            "beta",
+            [
+                self.row(
+                    "evidence/results.txt",
+                    raw,
+                    shared=self.locator("alpha", "evidence/results.txt"),
+                )
+            ],
+            {},
+            {"alpha": self.registry["alpha"]},
+        )
+        providers = self.providers()
+        del providers.registry["alpha"]
+        with self.assertRaisesRegex(
+            ValueError, "Transitive provider pin missing/different"
+        ):
+            providers.load("beta")
+        providers = self.providers()
+        providers.registry["alpha"]["manifest"]["sha256"] = "0" * 64
+        with self.assertRaisesRegex(
+            ValueError, "Transitive provider pin missing/different"
+        ):
+            providers.load("beta")
+
+    def test_undeclared_transitive_reference_rejected(self):
+        raw, key, _, _ = self.ordinary()
+        for kind in ("file", "chunk"):
+            with self.subTest(kind=kind):
+                if kind == "file":
+                    row = self.row(
+                        "evidence/results.txt",
+                        raw,
+                        shared=self.locator("alpha", "evidence/results.txt"),
+                    )
+                    blobs = {}
+                else:
+                    row = self.row("evidence/results.txt", raw, chunks=[key])
+                    blobs = {
+                        key: {
+                            "kind": "publication_chunk",
+                            "provider": "alpha",
+                            "chunk": key,
+                            "uncompressed_bytes": len(raw),
+                        }
+                    }
+                self.package("beta", [row], blobs)
+                with self.assertRaises(ValueError):
+                    self.restored(self.providers(), "beta", raw)
+
+    def test_file_and_chunk_cycles_rejected(self):
+        raw = b"cyclic"
+        key = sha(raw)
+        self.package(
+            "alpha",
+            [
+                self.row(
+                    "evidence/results.txt",
+                    raw,
+                    shared=self.locator("alpha", "evidence/results.txt"),
+                )
+            ],
+            {},
+        )
+        with self.assertRaises(ValueError):
+            self.restored(self.providers(), "alpha", raw)
+        self.package(
+            "alpha",
+            [self.row("evidence/results.txt", raw, chunks=[key])],
+            {
+                key: {
+                    "kind": "publication_chunk",
+                    "provider": "alpha",
+                    "chunk": key,
+                    "uncompressed_bytes": len(raw),
+                }
+            },
+        )
+        with self.assertRaises(ValueError):
+            self.providers().chunk("alpha", key)
+
+    def test_index_cannot_redefine_original_plan(self):
+        _, key, blob, row = self.ordinary()
+        self.package(
+            "alpha",
+            [row],
+            {key: blob},
+            mutate_index=lambda index: index.update(scope="changed"),
+        )
+        with self.assertRaisesRegex(ValueError, "original metadata differs"):
+            self.providers().load("alpha")
+
+    def test_index_cannot_add_dependencies_absent_from_plan(self):
+        _, key, blob, row = self.ordinary()
+        self.package(
+            "alpha",
+            [row],
+            {key: blob},
+            mutate_index=lambda index: index.update(providers={"missing": {}}),
+        )
+        with self.assertRaisesRegex(
+            ValueError, "dependencies differ from original plan"
+        ):
+            self.providers().load("alpha")
+
+    def test_missing_dependency_metadata_rejected(self):
+        raw, _, _, _ = self.ordinary()
+        self.package(
+            "beta",
+            [
+                self.row(
+                    "evidence/results.txt",
+                    raw,
+                    shared=self.locator("alpha", "evidence/results.txt"),
+                )
+            ],
+            {},
+            {"alpha": self.registry["alpha"]},
+        )
+        (self.root / "alpha/manifest.json").unlink()
+        with self.assertRaises((ValueError, OSError)):
+            self.providers().load("beta")
+
+    def test_changed_controller_or_helper_bytes_rejected(self):
+        self.ordinary()
+        for relative in ("publish.py.txt", "provider_storage.py.txt"):
+            with self.subTest(relative=relative):
+                path = self.root / "alpha" / relative
+                original = path.read_bytes()
+                path.write_bytes(original + b"changed")
+                with self.assertRaises(ValueError):
+                    self.providers().load("alpha")
+                path.write_bytes(original)
+
+    def test_rehashed_manifest_counts_must_match_index(self):
+        _, key, blob, row = self.ordinary()
+        self.package(
+            "alpha",
+            [row],
+            {key: blob},
+            mutate_manifest=lambda manifest: manifest["counts"].update(files=2),
+        )
+        with self.assertRaises(ValueError):
+            self.providers().load("alpha")
+
+
+if __name__ == "__main__":
+    unittest.main()

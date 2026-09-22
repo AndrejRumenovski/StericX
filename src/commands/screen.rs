@@ -22,7 +22,7 @@ use std::path::{Path, PathBuf};
 use steric_x::model::{
     BootstrapEnsemble, DatasetDigest, DescriptorAggregation, DomainRule, DomainVerdict,
     FeatureTransform, InferenceSpec, MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, Optimization,
-    PortableModel, assess_applicability, expand_features,
+    PortableModel, PredictionIntervalEvaluator, assess_applicability, expand_features,
 };
 use steric_x::{
     BuriedVolumeConfig, EyringKineticLink, PackedReactionRecord, ScientificFitReport,
@@ -1839,6 +1839,10 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
     let (order, overridden) =
         resolve_order(Some(model_optimization), args.ascending, args.descending)?;
 
+    let interval_evaluator = report
+        .training_geometry
+        .as_ref()
+        .map(PredictionIntervalEvaluator::new);
     steric_x::profile_scope!(
         inference_profile,
         "model_inference",
@@ -1897,8 +1901,9 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             (Some(leverage), Some(warning)) if warning > 0.0 => Some(leverage / warning),
             _ => None,
         };
-        let interval =
-            geometry.and_then(|geometry| geometry.prediction_interval(predicted, &features));
+        let interval = interval_evaluator
+            .as_ref()
+            .and_then(|evaluator| evaluator.prediction_interval(predicted, &features));
         let trust = trust_grade(outside.is_empty(), leverage_ratio);
         hits.push(ScreenHit {
             rank: 0,

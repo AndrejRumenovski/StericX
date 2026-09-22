@@ -1,0 +1,78 @@
+{
+  "all_scientific_stdout_streams_inherited": true,
+  "attribution": "Each unique local gzip blob counted once, at first owner in sorted original inventory. Provider bytes not counted as local blobs.",
+  "counts": {
+    "files": 6006,
+    "gzip_blob_bytes": 13443508,
+    "inherited_chunks": 1,
+    "local_chunks": 2192,
+    "logical_bytes": 4421079580,
+    "max_blob_bytes": 2912655,
+    "publication_files": 2441,
+    "shared_files": 2441,
+    "unique_chunks": 2193
+  },
+  "external_links_recorded_not_created": 6,
+  "manifest": {
+    "bytes": 6934,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/final_optimization/manifest.json",
+    "sha256": "a9dc27dc452ece09f95f385d8dcd5f6b61277fb7331d0f606f0bafc7239f58d4"
+  },
+  "omissions": {
+    "disposable_build_or_runtime_cache": 3,
+    "native_executable_retained_locally_no_binary_publication": 11
+  },
+  "top10_new_compressed_contributors": [
+    {
+      "first_owned_local_gzip_bytes": 3254893,
+      "original_bytes": 18881373,
+      "path": ".stericx/profiling/scientifically_validated_optimization/final_post_optimization_v1/independent_references_v1/references_inferred/started.json"
+    },
+    {
+      "first_owned_local_gzip_bytes": 3254087,
+      "original_bytes": 18876556,
+      "path": ".stericx/profiling/scientifically_validated_optimization/final_post_optimization_v1/independent_references_v1/references_topology/started.json"
+    },
+    {
+      "first_owned_local_gzip_bytes": 2341731,
+      "original_bytes": 136662222,
+      "path": ".stericx/profiling/scientifically_validated_optimization/final_native_pairs_v1/summary.json"
+    },
+    {
+      "first_owned_local_gzip_bytes": 316386,
+      "original_bytes": 317103,
+      "path": ".stericx/profiling/scientifically_validated_optimization/publication_final_v1/controllers/final_fixture.json.gz"
+    },
+    {
+      "first_owned_local_gzip_bytes": 93697,
+      "original_bytes": 1332556,
+      "path": ".stericx/profiling/scientifically_validated_optimization/final_post_optimization_v1/independent_references_v1/models/comparisons.json"
+    },
+    {
+      "first_owned_local_gzip_bytes": 91364,
+      "original_bytes": 992185,
+      "path": ".stericx/profiling/scientifically_validated_optimization/final_native_pairs_v1/manifest.json"
+    },
+    {
+      "first_owned_local_gzip_bytes": 68906,
+      "original_bytes": 3550734,
+      "path": ".stericx/profiling/scientifically_validated_optimization/final_post_optimization_v1/independent_references_v1/references_inferred/geometry/reference_results.jsonl"
+    },
+    {
+      "first_owned_local_gzip_bytes": 59897,
+      "original_bytes": 381651,
+      "path": ".stericx/profiling/scientifically_validated_optimization/final_native_independent_review_v1/analysis.json"
+    },
+    {
+      "first_owned_local_gzip_bytes": 43400,
+      "original_bytes": 156912,
+      "path": ".stericx/profiling/scientifically_validated_optimization/final_post_optimization_v1/independent_references_v1/models/input_contracts/record_values/model.json"
+    },
+    {
+      "first_owned_local_gzip_bytes": 43399,
+      "original_bytes": 156910,
+      "path": ".stericx/profiling/scientifically_validated_optimization/final_post_optimization_v1/independent_references_v1/models/input_contracts/mismatched_weights/model.json"
+    }
+  ],
+  "whole_file_provider_logical_bytes": 4099505000
+}

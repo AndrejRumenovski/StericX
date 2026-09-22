@@ -1,0 +1,130 @@
+{
+  "baseline_build": {
+    "bytes": 29725,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/manifest.json",
+    "sha256": "d79fa7ec5c9e6c1254aa3bd1de665fe4338dde2aabe2401b7bf79a36b5a7bdd3"
+  },
+  "candidate_build": {
+    "bytes": 37493,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/validated_build_corrected_vC1b/manifest.json",
+    "sha256": "def1aa57289814fd24e787dd95092cd0115a67091f250e4be9c49f0f4a5e663d"
+  },
+  "complete": true,
+  "domains": {
+    "geometry": {
+      "checks": [
+        {
+          "equals": true,
+          "evidence": {
+            "bytes": 151988,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/independent_references_v1/geometry_review.json",
+            "sha256": "6c6cb65a6f1baad6bc2e287d6fce9b69b695a20c6c8fdac74a82fea0189525bb"
+          },
+          "field": [
+            "passed"
+          ]
+        },
+        {
+          "equals": 0,
+          "evidence": {
+            "bytes": 151988,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/independent_references_v1/geometry_review.json",
+            "sha256": "6c6cb65a6f1baad6bc2e287d6fce9b69b695a20c6c8fdac74a82fea0189525bb"
+          },
+          "field": [
+            "failures"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "bytes": 151988,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/independent_references_v1/geometry_review.json",
+          "sha256": "6c6cb65a6f1baad6bc2e287d6fce9b69b695a20c6c8fdac74a82fea0189525bb"
+        }
+      ],
+      "passed": true
+    },
+    "models": {
+      "checks": [
+        {
+          "equals": true,
+          "evidence": {
+            "bytes": 205463,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/independent_reference_resolution_v1/models_review.json",
+            "sha256": "36eebb6cd694e19fa1311385adc1cfe384adf808c5f66d5c38c0e26a2f081507"
+          },
+          "field": [
+            "passed"
+          ]
+        },
+        {
+          "equals": 0,
+          "evidence": {
+            "bytes": 205463,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/independent_reference_resolution_v1/models_review.json",
+            "sha256": "36eebb6cd694e19fa1311385adc1cfe384adf808c5f66d5c38c0e26a2f081507"
+          },
+          "field": [
+            "failures"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "bytes": 205463,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/independent_reference_resolution_v1/models_review.json",
+          "sha256": "36eebb6cd694e19fa1311385adc1cfe384adf808c5f66d5c38c0e26a2f081507"
+        }
+      ],
+      "passed": true
+    },
+    "thermodynamics": {
+      "checks": [
+        {
+          "equals": true,
+          "evidence": {
+            "bytes": 13879,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/independent_references_v1/thermodynamics_review.json",
+            "sha256": "ecba8e54fb7a8d7361eafb494272e7e30c3510d191df0cc57f2c48b2de346c91"
+          },
+          "field": [
+            "passed"
+          ]
+        },
+        {
+          "equals": 0,
+          "evidence": {
+            "bytes": 13879,
+            "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/independent_references_v1/thermodynamics_review.json",
+            "sha256": "ecba8e54fb7a8d7361eafb494272e7e30c3510d191df0cc57f2c48b2de346c91"
+          },
+          "field": [
+            "failures"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "bytes": 13879,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/independent_references_v1/thermodynamics_review.json",
+          "sha256": "ecba8e54fb7a8d7361eafb494272e7e30c3510d191df0cc57f2c48b2de346c91"
+        }
+      ],
+      "passed": true
+    }
+  },
+  "kind": "corrected_candidate_independent_reference_gate",
+  "passed": true,
+  "resolution": {
+    "bytes": 205463,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/independent_reference_resolution_v1/models_review.json",
+    "sha256": "36eebb6cd694e19fa1311385adc1cfe384adf808c5f66d5c38c0e26a2f081507"
+  },
+  "retained_failed_attempt": {
+    "bytes": 8959,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c1b_science_v1/independent_references_v1/independent_gate.json",
+    "sha256": "449f43e3450b6eecee57c2f31c3e4f0e356ea165948460e5a62d74fd5b7b061d"
+  },
+  "scientific_global_pass": false
+}

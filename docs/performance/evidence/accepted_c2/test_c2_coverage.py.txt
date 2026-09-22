@@ -1,0 +1,199 @@
+"""Synthetic C2 payload coverage regressions; no performance jobs."""
+
+import copy
+import json
+import unittest
+from pathlib import Path
+
+import extended_coverage as check
+
+
+class CoverageTests(unittest.TestCase):
+    def setUp(self):
+        self.origin = Path("/origin")
+        self.entries = {}
+        self.content = {}
+
+    def record(self, path, data=None, size=1, digest="a" * 64):
+        self.entries[path] = {"path": path, "bytes": size, "sha256": digest}
+        if data is not None:
+            self.content[path] = json.dumps(data).encode()
+        return {"path": str(self.origin / path), "bytes": size, "sha256": digest}
+
+    def added(self):
+        current = {"passed": True, "normalization": "none", "cases": []}
+        baseline = {"passed": True, "cases": []}
+        for i in range(24):
+            capture = {
+                "returncode": i % 2,
+                "stdout": self.record(f"{i}.out"),
+                "stderr": self.record(f"{i}.err"),
+            }
+            row = {"case": i, "argv": ["--help", str(i)], "exact": True}
+            current["cases"].append({**row, "capture": copy.deepcopy(capture)})
+            baseline["cases"].append({**row, "captures": {"candidate": capture}})
+        current["baseline_oracle"] = self.record("baseline.json", baseline)
+        return current
+
+    def test_added_cli_complete(self):
+        self.assertEqual(
+            check.check_added_cli(
+                self.added(), self.entries, self.origin, self.content.__getitem__
+            )["cases"],
+            24,
+        )
+
+    def test_added_cli_mutations_rejected(self):
+        for field in ("argv", "returncode", "sha256"):
+            with self.subTest(field=field):
+                data = self.added()
+                if field == "argv":
+                    data["cases"][0]["argv"] = []
+                elif field == "returncode":
+                    data["cases"][0]["capture"][field] = 19
+                else:
+                    data["cases"][0]["capture"]["stdout"][field] = "b" * 64
+                with self.assertRaises(ValueError):
+                    check.check_added_cli(
+                        data, self.entries, self.origin, self.content.__getitem__
+                    )
+
+    def predictions(self):
+        return {
+            "complete": True,
+            "exact_equivalence": True,
+            "encoding": "ieee754-f32-le",
+            "records": 1000000,
+            "threads": {
+                str(t): {
+                    side: self.record(f"{t}/{side}.f32", size=4000000)
+                    for side in ("baseline", "candidate")
+                }
+                for t in (1, 2, 4, 6)
+            },
+        }
+
+    def test_prediction_complete(self):
+        self.assertEqual(
+            check.check_predictions(self.predictions(), self.entries, self.origin)[
+                "streams"
+            ],
+            8,
+        )
+
+    def test_prediction_missing_or_truncated_rejected(self):
+        for changed in ("missing", "truncated"):
+            with self.subTest(changed=changed):
+                data = self.predictions()
+                if changed == "missing":
+                    del data["threads"]["6"]
+                else:
+                    data["threads"]["1"]["candidate"]["bytes"] = 3999996
+                with self.assertRaises(ValueError):
+                    check.check_predictions(data, self.entries, self.origin)
+
+    def count_parent(self, thread, phase):
+        return (
+            ".stericx/profiling/scientifically_validated_optimization/"
+            "corrected_workloads_v2/runs/"
+            f"candidate_c2_cache_counts_v2_t{thread}/screen_1000/{phase}_00/"
+        )
+
+    def counts(self):
+        counts = {
+            "model::PredictionIntervalEvaluator::initialize_multiplier": 1,
+            "model::TrainingGeometry::prediction_interval": 1000,
+            "model::student_t_two_sided_quantile": 1,
+        }
+        rows = []
+        for t in (1, 2, 4, 6):
+            for phase in ("warmup", "measured"):
+                stages = {
+                    "dropped_scopes": 0,
+                    "functions": [
+                        {"function": name, "calls": value}
+                        for name, value in counts.items()
+                    ],
+                }
+                parent = self.count_parent(t, phase)
+                for companion in ("stdout.txt", "stderr.txt", "native_usage.json"):
+                    self.record(parent + companion)
+                rows.append(
+                    {
+                        "threads": t,
+                        "phase": phase,
+                        "counts": counts,
+                        "metrics": self.record(
+                            parent + "metrics.json",
+                            {
+                                "returncode": 0,
+                                "phase": phase,
+                                "stages_sha256": "a" * 64,
+                                "raw_stdout_sha256": "a" * 64,
+                                "raw_stderr_sha256": "a" * 64,
+                            },
+                        ),
+                        "stages": self.record(parent + "stages.json", stages),
+                    }
+                )
+        return {"complete": True, "native_speedup_claim": False, "results": rows}
+
+    def test_counts_complete(self):
+        self.assertEqual(
+            check.check_counts(
+                self.counts(), self.entries, self.origin, self.content.__getitem__
+            )["processes"],
+            8,
+        )
+
+    def test_count_duplicate_missing_actual_changed_rejected(self):
+        for changed in ("duplicate", "missing", "raw"):
+            with self.subTest(changed=changed):
+                data = self.counts()
+                if changed == "duplicate":
+                    data["results"][-1] = data["results"][0]
+                elif changed == "missing":
+                    data["results"].pop()
+                else:
+                    path = self.count_parent(1, "warmup") + "stages.json"
+                    raw = json.loads(self.content[path])
+                    raw["functions"][0]["calls"] = 1000
+                    self.content[path] = json.dumps(raw).encode()
+                with self.assertRaises(ValueError):
+                    check.check_counts(
+                        data, self.entries, self.origin, self.content.__getitem__
+                    )
+
+    def test_same_raw_sample_cannot_cover_other_threads_or_phases(self):
+        data = self.counts()
+        for row in data["results"][1:]:
+            for key in ("metrics", "stages"):
+                row[key] = data["results"][0][key]
+        with self.assertRaisesRegex(ValueError, "sample identity"):
+            check.check_counts(
+                data, self.entries, self.origin, self.content.__getitem__
+            )
+
+    def test_raw_phase_digest_and_companions_required(self):
+        for changed in ("phase", "stages_sha256", "stdout", "native_usage"):
+            with self.subTest(changed=changed):
+                data = self.counts()
+                parent = self.count_parent(1, "warmup")
+                if changed in ("phase", "stages_sha256"):
+                    path = parent + "metrics.json"
+                    raw = json.loads(self.content[path])
+                    raw[changed] = "wrong"
+                    self.content[path] = json.dumps(raw).encode()
+                else:
+                    del self.entries[
+                        parent
+                        + ("stdout.txt" if changed == "stdout" else "native_usage.json")
+                    ]
+                with self.assertRaises(ValueError):
+                    check.check_counts(
+                        data, self.entries, self.origin, self.content.__getitem__
+                    )
+
+
+if __name__ == "__main__":
+    unittest.main()

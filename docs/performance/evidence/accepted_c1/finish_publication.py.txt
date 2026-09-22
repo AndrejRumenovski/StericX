@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+"""Publish additive readable receipts and a full package inventory; no recompression."""
+import collections
+import gzip
+import hashlib
+import json
+from pathlib import Path
+
+ROOT = Path.cwd().resolve()
+CONTROLLER = ROOT / ".stericx/profiling/scientifically_validated_optimization/publication_controller_v1"
+PACKAGE = ROOT / "docs/performance/evidence/accepted_c1"
+
+
+def digest(path):
+    result = hashlib.sha256()
+    with path.open("rb") as stream:
+        for data in iter(lambda: stream.read(1024 * 1024), b""):
+            result.update(data)
+    return result.hexdigest()
+
+
+def record(path):
+    return {"path": str(path), "bytes": path.stat().st_size, "sha256": digest(path)}
+
+
+def write(path, raw):
+    with path.open("xb") as stream:
+        stream.write(raw)
+
+
+def encoded(data):
+    return (json.dumps(data, indent=2, sort_keys=True) + "\n").encode()
+
+
+manifest = json.loads((PACKAGE / "manifest.json").read_bytes())
+index = json.loads(gzip.decompress((PACKAGE / "restoration_index.json.gz").read_bytes()))
+copies = {
+    "verification_v2.stdout": "VERIFICATION.json",
+    "restore_v1.stdout": "RESTORATION_V1.json",
+    "tests.stderr": "tests_original.stderr.txt",
+    "restored_tests.stderr": "tests_restored.stderr.txt",
+    "tests_v2.stderr": "tests_v2.stderr.txt",
+    "plan_v1.stdout": "publication_plan.stdout.txt",
+    "build_v1.stdout": "publication_build.stdout.txt",
+    "finish_publication.py": "finish_publication.py.txt",
+}
+for source, destination in copies.items():
+    write(PACKAGE / destination, (CONTROLLER / source).read_bytes())
+for name in ("verification_v2.stdout", "restore_v1.stdout"):
+    if json.loads((CONTROLLER / name).read_bytes()).get("verified") is not True:
+        raise ValueError("A complete verification/restoration receipt is required")
+for name in ("plan_v1.stderr", "build_v1.stderr", "restore_v1.stderr", "verification_v2.stderr"):
+    if (CONTROLLER / name).read_bytes():
+        raise ValueError("Publication command has stderr requiring review")
+
+seen = set()
+owned = []
+for row in index["inventory"]:
+    keys = set(row.get("chunks", [])) - seen
+    seen.update(keys)
+    size = sum(index["blobs"][key]["bytes"] for key in keys)
+    if size:
+        owned.append({"path": row["path"], "new_unique_gzip_bytes": size,
+                      "original_bytes": row["bytes"], "unique_chunks_owned": len(keys)})
+suspicious = [row["path"] for row in index["inventory"] if any(
+    part in {"target", "site-packages", ".venv", "node_modules"} for part in Path(row["path"]).parts)]
+if suspicious:
+    raise ValueError("Unexpected build/package contents")
+storage = {
+    "manifest": record(PACKAGE / "manifest.json"),
+    "counts": manifest["counts"],
+    "attribution": "Each unique compressed blob belongs to its first file in sorted index order; duplicate contents contribute zero thereafter.",
+    "top10_compressed_contributors": sorted(owned, key=lambda row: row["new_unique_gzip_bytes"], reverse=True)[:10],
+    "attributed_sum": sum(row["new_unique_gzip_bytes"] for row in owned),
+    "omission_counts": dict(collections.Counter(row["reason"] for row in index["omissions"])),
+    "external_links_not_followed": len(index["external_links"]),
+    "target_sitepackages_venv_node_modules_in_inventory": suspicious,
+    "future_shared_provider": {"manifest": record(PACKAGE / "manifest.json"),
+                               "restoration_index": record(PACKAGE / "restoration_index.json.gz"),
+                               "lookup": "Match original file SHA-256 and byte count; reuse original ordered chunk list and content-addressed blob identities through a pinned confined provider. No duplicate C1b/C2/C3 output publication."},
+}
+if storage["attributed_sum"] != manifest["counts"]["gzip_blob_bytes"]:
+    raise ValueError("Compressed contribution accounting differs")
+write(PACKAGE / "STORAGE_REPORT.json", encoded(storage))
+assembly = {
+    "kind": "additive_accepted_c1_publication_review",
+    "original_manifest": record(PACKAGE / "manifest.json"),
+    "original_compressed_index": record(PACKAGE / "restoration_index.json.gz"),
+    "original_controller": record(PACKAGE / "publish.py.txt"),
+    "additive_verifier": record(PACKAGE / "verify_publication_v2.py.txt"),
+    "additional_tests": record(PACKAGE / "test_verify_publication_v2.py.txt"),
+    "verification": record(PACKAGE / "VERIFICATION.json"),
+    "restoration": record(PACKAGE / "RESTORATION_V1.json"),
+    "test_results": [record(PACKAGE / name) for name in ("tests_original.stderr.txt", "tests_restored.stderr.txt", "tests_v2.stderr.txt")],
+    "scope": "Exact evidence publication and artifact integrity only. Original plan/index/blob/controller bytes unchanged; no science or performance rerun.",
+    "builder_and_test_source_archive": "publish.py.txt and restored publication_controller_v1/; additive verifier/tests kept as .py.txt.",
+    "finalizer": record(PACKAGE / "finish_publication.py.txt"),
+}
+write(PACKAGE / "ASSEMBLY_V2.json", encoded(assembly))
+files = []
+for path in sorted(PACKAGE.rglob("*")):
+    if path.is_symlink():
+        raise ValueError("Unexpected publication symlink")
+    if path.is_file():
+        row = record(path)
+        row["path"] = path.relative_to(PACKAGE).as_posix()
+        files.append(row)
+inventory = {"schema": 1, "kind": "accepted_c1_complete_publication_inventory", "files": files,
+             "file_count": len(files), "total_bytes": sum(row["bytes"] for row in files),
+             "excludes_only": ["PUBLICATION_FILES.json", "PUBLICATION_FILES.json.sha256"]}
+write(PACKAGE / "PUBLICATION_FILES.json", encoded(inventory))
+write(PACKAGE / "PUBLICATION_FILES.json.sha256", (digest(PACKAGE / "PUBLICATION_FILES.json") + "  PUBLICATION_FILES.json\n").encode())
+print(json.dumps({"publication_files": len(files), "bytes": inventory["total_bytes"],
+                  "inventory": record(PACKAGE / "PUBLICATION_FILES.json")}, indent=2))

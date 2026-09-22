@@ -1,0 +1,335 @@
+#!/usr/bin/env python3
+"""Verify C2 retained CLI, prediction, count, alias and diagnostic coverage."""
+
+import argparse
+import hashlib
+import json
+import re
+import types
+from pathlib import Path
+
+
+def verify_record(item, entries, origin):
+    relative = Path(item["path"]).relative_to(origin).as_posix()
+    row = entries.get(relative)
+    if row is None or (row["bytes"], row["sha256"]) != (item["bytes"], item["sha256"]):
+        raise ValueError(f"Retained record missing/different: {relative}")
+    return relative
+
+
+def check_cli(data, expected_cases, expected_passed, entries, origin):
+    if data["passed"] is not expected_passed or len(data["cases"]) != expected_cases:
+        raise ValueError("CLI bridge count/status differs")
+    if {row["case"] for row in data["cases"]} != set(range(expected_cases)):
+        raise ValueError("CLI bridge ordered case IDs differ")
+    for row in data["cases"]:
+        if set(row["captures"]) != {"baseline", "candidate"}:
+            raise ValueError("CLI bridge side missing")
+        if expected_passed and (
+            row["exact"] is not True
+            or row["captures"]["baseline"]["returncode"]
+            != row["captures"]["candidate"]["returncode"]
+        ):
+            raise ValueError("Resolved CLI bridge decision/status differs")
+        for capture in row["captures"].values():
+            for stream in ("stdout", "stderr"):
+                verify_record(capture[stream], entries, origin)
+    return {
+        "cases": expected_cases,
+        "process_captures": expected_cases * 2,
+        "retained_passed": expected_passed,
+    }
+
+
+def check_profile(data, entries, origin, get, workloads):
+    if (
+        data.get("complete") is not True
+        or data["diagnostic_configurations"] != 40
+        or data["diagnostic_measured"] != 200
+        or data["diagnostic_warmups"] != 40
+        or data["native_processes_executed"] != 0
+    ):
+        raise ValueError("Reprofile declarations differ")
+    if len(data["runs"]) != 4 or {run["threads"] for run in data["runs"]} != {
+        1,
+        2,
+        4,
+        6,
+    }:
+        raise ValueError("Reprofile thread coverage differs")
+    for item in data["files"]:
+        verify_record(item, entries, origin)
+    found = set()
+    for run in data["runs"]:
+        if run["returncode"] != 0:
+            raise ValueError("Reprofile controller failed")
+        verify_record(run["native_adapter"], entries, origin)
+        for item in run["raw_files"]:
+            relative = verify_record(item, entries, origin)
+            if not relative.endswith("/metrics.json"):
+                continue
+            parts = Path(relative).parts
+            label, workload, phase_and_id, _ = parts[-4:]
+            match = re.fullmatch(r"(warmup|measured)_(\d+)", phase_and_id)
+            if not match or label != run["label"]:
+                raise ValueError("Unexpected reprofile metrics identity")
+            phase, number = match.groups()
+            key = (run["threads"], workload, phase, int(number))
+            if key in found:
+                raise ValueError("Duplicate reprofile sample")
+            found.add(key)
+            metrics = json.loads(get(relative))
+            if metrics["returncode"] != 0 or metrics["phase"] != phase:
+                raise ValueError("Reprofile sample phase/status differs")
+            parent = relative.removesuffix("metrics.json")
+            for filename, key_name in (
+                ("stdout.txt", "raw_stdout_sha256"),
+                ("stderr.txt", "raw_stderr_sha256"),
+                ("stages.json", "stages_sha256"),
+            ):
+                if (
+                    parent + filename not in entries
+                    or entries[parent + filename]["sha256"] != metrics[key_name]
+                ):
+                    raise ValueError(
+                        "Reprofile sample raw stream/stage missing or changed"
+                    )
+            if parent + "native_usage.json" not in entries:
+                raise ValueError("Missing diagnostic raw native usage")
+    expected = {
+        (t, w, phase, n)
+        for t in (1, 2, 4, 6)
+        for w in workloads
+        for phase, count in (("warmup", 1), ("measured", 5))
+        for n in range(count)
+    }
+    if found != expected:
+        raise ValueError("Reprofile full sample matrix differs")
+    return {
+        "configurations": 40,
+        "measured_samples": 200,
+        "warmup_samples": 40,
+        "retained_process_captures": len(found),
+        "new_native_processes": 0,
+    }
+
+
+def check_added_cli(data, entries, origin, get):
+    if (
+        data.get("passed") is not True
+        or data.get("normalization") != "none"
+        or len(data["cases"]) != 24
+    ):
+        raise ValueError("Added CLI coverage/status differs")
+    baseline = json.loads(get(verify_record(data["baseline_oracle"], entries, origin)))
+    if baseline.get("passed") is not True or len(baseline["cases"]) != 24:
+        raise ValueError("Added CLI baseline differs")
+    if [row["case"] for row in data["cases"]] != list(range(24)):
+        raise ValueError("Added CLI ordered case IDs differ")
+    for current, old in zip(data["cases"], baseline["cases"], strict=True):
+        capture = current["capture"]
+        expected = old["captures"]["candidate"]
+        if (
+            current["case"] != old["case"]
+            or current["argv"] != old["argv"]
+            or current["exact"] is not True
+            or capture["returncode"] != expected["returncode"]
+        ):
+            raise ValueError("Added CLI case/status/arguments differ")
+        for stream in ("stdout", "stderr"):
+            verify_record(capture[stream], entries, origin)
+            verify_record(expected[stream], entries, origin)
+            if any(
+                capture[stream][key] != expected[stream][key]
+                for key in ("bytes", "sha256")
+            ):
+                raise ValueError("Added CLI exact stream differs")
+    return {"cases": 24, "normalization": "none", "exact_streams": 48}
+
+
+def check_predictions(data, entries, origin):
+    if (
+        data.get("complete") is not True
+        or data.get("exact_equivalence") is not True
+        or data.get("encoding") != "ieee754-f32-le"
+        or data.get("records") != 1000000
+        or set(data["threads"]) != {"1", "2", "4", "6"}
+    ):
+        raise ValueError("Million prediction coverage differs")
+    for streams in data["threads"].values():
+        if set(streams) != {"baseline", "candidate"}:
+            raise ValueError("Prediction side missing")
+        for stream in streams.values():
+            verify_record(stream, entries, origin)
+            if stream["bytes"] != 4000000:
+                raise ValueError("Prediction stream truncated")
+        if streams["baseline"]["sha256"] != streams["candidate"]["sha256"]:
+            raise ValueError("Prediction streams differ")
+    return {
+        "threads": [1, 2, 4, 6],
+        "records_per_stream": 1000000,
+        "streams": 8,
+        "encoding": "ieee754-f32-le",
+    }
+
+
+def check_counts(data, entries, origin, get):
+    expected_counts = {
+        "model::PredictionIntervalEvaluator::initialize_multiplier": 1,
+        "model::TrainingGeometry::prediction_interval": 1000,
+        "model::student_t_two_sided_quantile": 1,
+    }
+    if (
+        data.get("complete") is not True
+        or data.get("native_speedup_claim") is not False
+    ):
+        raise ValueError("Diagnostic count scope/status differs")
+    seen = set()
+    for row in data["results"]:
+        key = (row["threads"], row["phase"])
+        if key in seen or row["counts"] != expected_counts:
+            raise ValueError("Duplicate or incorrect diagnostic count row")
+        seen.add(key)
+        parent = (
+            ".stericx/profiling/scientifically_validated_optimization/"
+            "corrected_workloads_v2/runs/"
+            f"candidate_c2_cache_counts_v2_t{row['threads']}/screen_1000/"
+            f"{row['phase']}_00/"
+        )
+        stage_path = verify_record(row["stages"], entries, origin)
+        metric_path = verify_record(row["metrics"], entries, origin)
+        if (
+            stage_path != parent + "stages.json"
+            or metric_path != parent + "metrics.json"
+        ):
+            raise ValueError("Diagnostic raw sample identity differs")
+        stages = json.loads(get(stage_path))
+        metrics = json.loads(get(metric_path))
+        if (
+            metrics["phase"] != row["phase"]
+            or metrics["stages_sha256"] != row["stages"]["sha256"]
+        ):
+            raise ValueError("Diagnostic raw phase/stage digest differs")
+        for stream in ("stdout", "stderr"):
+            companion = entries.get(parent + stream + ".txt")
+            if (
+                companion is None
+                or companion["sha256"] != metrics[f"raw_{stream}_sha256"]
+            ):
+                raise ValueError("Diagnostic raw stream missing or changed")
+        if parent + "native_usage.json" not in entries:
+            raise ValueError("Diagnostic native resource record missing")
+        actual = {
+            name: sum(
+                item["calls"]
+                for item in stages["functions"]
+                if item["function"] == name
+            )
+            for name in expected_counts
+        }
+        if (
+            actual != expected_counts
+            or metrics["returncode"] != 0
+            or stages["dropped_scopes"] != 0
+        ):
+            raise ValueError("Actual diagnostic counts/status differ")
+    if seen != {(t, p) for t in (1, 2, 4, 6) for p in ("warmup", "measured")}:
+        raise ValueError("Diagnostic count sample coverage differs")
+    return {
+        "processes": 8,
+        "counts_per_process": expected_counts,
+        "native_speedup_claim": False,
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--package", type=Path, required=True)
+    parser.add_argument("--shared-root", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    package = args.package.resolve()
+    code = package / "publish_shared.py.txt"
+    raw = code.read_bytes()
+    if (
+        hashlib.sha256(raw).hexdigest()
+        != "732a6433435bf6f8880e0bc0ad2b82108f1edb2f909bba0395a439c61e98c06c"
+    ):
+        raise ValueError("Reviewed storage controller changed")
+    pub = types.ModuleType("published_controller")
+    pub.__file__ = str(code)
+    exec(compile(raw, str(code), "exec"), pub.__dict__)
+    _, index, pinned = pub.load_bound(package)
+    providers = pub.provider_pins(args.shared_root, index["providers"])
+    entries = {row["path"]: row for row in index["inventory"]}
+    origin = Path(index["repo"])
+
+    def get(relative):
+        raw = b"".join(
+            pub.reconstructed(package, index, entries[relative], args.shared_root)
+        )
+        row = entries[relative]
+        if len(raw) != row["bytes"] or hashlib.sha256(raw).hexdigest() != row["sha256"]:
+            raise ValueError("Reconstructed coverage evidence differs")
+        return raw
+
+    prefix = ".stericx/profiling/scientifically_validated_optimization/"
+
+    def load(relative):
+        return json.loads(get(prefix + relative))
+
+    contracts = index["coverage_contract"]
+    workloads = {
+        row[1]
+        for row in contracts["native"][contracts["primary_native"]]["configurations"]
+    }
+    review = load("incremental_path_review_v1/review.json")
+    if (
+        review.get("passed") is not True
+        or review["test_command"]["tests"] != 30
+        or review["test_command"]["returncode"] != 0
+    ):
+        raise ValueError("Historical alias review differs")
+    for row in [
+        *review["reviewed_files"],
+        *review["pinned_proofs"].values(),
+        review["test_command"]["stdout"],
+        review["test_command"]["stderr"],
+    ]:
+        verify_record(row, entries, origin)
+    result = {
+        "scope": (
+            "Additional retained payload coverage only; full byte verification, "
+            "historical scientific admission and native performance review "
+            "remain separate."
+        ),
+        "manifest": pub.record(package / "manifest.json"),
+        "added_cli": check_added_cli(
+            load("candidate_c2_added_cli_v1/manifest.json"), entries, origin, get
+        ),
+        "prediction_streams": check_predictions(
+            load("candidate_c2_diagnostics_v1/prediction_comparison.json"),
+            entries,
+            origin,
+        ),
+        "cache_counts": check_counts(
+            load("candidate_c2_cache_counts_v2/manifest.json"), entries, origin, get
+        ),
+        "reprofile": check_profile(
+            load("accepted_c2_reprofile_v1/manifest.json"),
+            entries,
+            origin,
+            get,
+            workloads,
+        ),
+        "historical_alias_review": {"tests": 30, "passed": True},
+        "checker": pub.record(Path(__file__).resolve()),
+        "passed": True,
+    }
+    pub.check_pins(package, pinned, providers)
+    pub.write_new(args.output, pub.json_bytes(result))
+    print(json.dumps(result, indent=2, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()

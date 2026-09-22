@@ -1,0 +1,208 @@
+#!/usr/bin/env python3
+"""Add readable receipts and an exact final inventory, preserving core archive."""
+
+import collections
+import gzip
+import hashlib
+import json
+from pathlib import Path
+
+root = Path.cwd().resolve()
+base = root / ".stericx/profiling/scientifically_validated_optimization"
+source = base / "publication_c2_v1"
+package = root / "docs/performance/evidence/accepted_c2"
+
+
+def record(path):
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for data in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(data)
+    return {
+        "path": str(path),
+        "bytes": path.stat().st_size,
+        "sha256": digest.hexdigest(),
+    }
+
+
+def write(path, raw):
+    with path.open("xb") as stream:
+        stream.write(raw)
+
+
+def encoded(value):
+    return (json.dumps(value, indent=2, sort_keys=True) + "\n").encode()
+
+
+manifest = json.loads((package / "manifest.json").read_bytes())
+index = json.loads(
+    gzip.decompress((package / "restoration_index.json.gz").read_bytes())
+)
+receipt = json.loads((source / "restore_v1.stdout").read_bytes())
+extended = json.loads((source / "extended_coverage_result_v1.json").read_bytes())
+if receipt.get("verified") is not True or extended.get("passed") is not True:
+    raise ValueError("Complete full restoration and extended coverage are required")
+if receipt["manifest"] != record(package / "manifest.json") or extended[
+    "manifest"
+] != record(package / "manifest.json"):
+    raise ValueError("Review receipts bind a different archive")
+for name in (
+    "plan_v2.stderr",
+    "build_v2.stderr",
+    "restore_v1.stderr",
+    "extended_coverage_v1.stderr",
+):
+    if (source / name).read_bytes():
+        raise ValueError("Execution error output requires review")
+copies = {
+    source / "restore_v1.stdout": "RESTORATION.json",
+    source / "failed_build_v1/failure.json": "FAILED_PUBLICATION_ATTEMPT.json",
+    source / "build_v1.stderr": "publication_failed_build.stderr.txt",
+    source / "extended_coverage_result_v1.json": "EXTENDED_COVERAGE.json",
+    source / "extended_coverage.py": "extended_coverage.py.txt",
+    source / "test_extended_coverage.py": "test_extended_coverage.py.txt",
+    source / "controllers/test_provider_storage.py": "test_provider_storage.py.txt",
+    source / "controllers/test_publish_shared.py": "test_publish_shared.py.txt",
+    source / "controllers/integrate.py": "integrate.py.txt",
+    source / "tests.stderr": "tests_original.stderr.txt",
+    source / "restored_tests.stderr": "tests_restored.stderr.txt",
+    source / "extended_tests_v2.stderr": "tests_extended.stderr.txt",
+    source / "test_c2_coverage.py": "test_c2_coverage.py.txt",
+    source / "restored_extended_tests.stderr": "tests_extended_restored.stderr.txt",
+    source / "README.draft.md": "README.md",
+    source / "plan_v2.stdout": "publication_plan.stdout.txt",
+    source / "build_v2.stdout": "publication_build.stdout.txt",
+    source / "finalize.py": "finalize.py.txt",
+    base / "accepted_c2_v1/acceptance.json": "ACCEPTANCE.json",
+    base
+    / "candidate_c2_science_v1"
+    / "independent_references_v1"
+    / "independent_gate.json": "FAILED_REFERENCE_GATE.json",
+    base
+    / "candidate_c2_science_v1"
+    / "independent_reference_resolution_v1"
+    / "independent_gate.json": "RESOLVED_REFERENCE_GATE.json",
+    base / "incremental_path_review_v1/review.json": "HISTORICAL_PATH_REVIEW.json",
+    base / "candidate_c2_added_cli_v1/manifest.json": "ADDED_CLI.json",
+    base / "candidate_c2_independent_review_v1/review.json": "PERFORMANCE_REVIEW.json",
+    base / "candidate_c2_cache_analysis_v2" / "comparison.json": (
+        "CACHE_ALLOCATION_COMPARISON.json"
+    ),
+}
+for original, name in copies.items():
+    write(package / name, original.read_bytes())
+owned = []
+seen = set()
+for row in index["inventory"]:
+    keys = set(row.get("chunks", [])) - seen
+    seen.update(keys)
+    local = [
+        index["blobs"][key]
+        for key in keys
+        if index["blobs"][key].get("kind") != "publication_chunk"
+    ]
+    size = sum(blob["bytes"] for blob in local)
+    if size:
+        owned.append(
+            {
+                "path": row["path"],
+                "first_owned_local_gzip_bytes": size,
+                "original_bytes": row["bytes"],
+            }
+        )
+for row in index["inventory"]:
+    if any(
+        part in {"target", ".venv", "site-packages", "node_modules"}
+        for part in Path(row["path"]).parts
+    ):
+        raise ValueError("Unexpected unbounded package contents")
+inherited_files = [
+    row
+    for row in index["inventory"]
+    if row.get("shared", {}).get("kind") == "publication_file"
+]
+storage = {
+    "manifest": record(package / "manifest.json"),
+    "counts": manifest["counts"],
+    "whole_file_provider_logical_bytes": sum(row["bytes"] for row in inherited_files),
+    "top10_new_compressed_contributors": sorted(
+        owned, key=lambda row: row["first_owned_local_gzip_bytes"], reverse=True
+    )[:10],
+    "attribution": (
+        "Each unique local gzip blob counted once, at first owner in sorted "
+        "original inventory. Provider bytes not counted as local blobs."
+    ),
+    "omissions": dict(collections.Counter(row["reason"] for row in index["omissions"])),
+    "external_links_recorded_not_created": len(index["external_links"]),
+    "all_scientific_stdout_streams_inherited": all(
+        row.get("shared", {}).get("kind") == "publication_file"
+        for row in index["inventory"]
+        if "/candidate_c2_science_v1/observations/" in row["path"]
+        and row["path"].endswith("/stdout.jsonl")
+    ),
+}
+if (
+    sum(row["first_owned_local_gzip_bytes"] for row in owned)
+    != manifest["counts"]["gzip_blob_bytes"]
+):
+    raise ValueError("Storage attribution differs")
+write(package / "STORAGE_REPORT.json", encoded(storage))
+assembly = {
+    "kind": "accepted_C2_additive_publication_review",
+    "core_manifest": record(package / "manifest.json"),
+    "restoration_index": record(package / "restoration_index.json.gz"),
+    "restoration": record(package / "RESTORATION.json"),
+    "extended_coverage": record(package / "EXTENDED_COVERAGE.json"),
+    "tests": [
+        record(package / name)
+        for name in (
+            "tests_original.stderr.txt",
+            "tests_restored.stderr.txt",
+            "tests_extended.stderr.txt",
+            "tests_extended_restored.stderr.txt",
+        )
+    ],
+    "readable_original_copies": [
+        {"original": record(path), "published": record(package / name)}
+        for path, name in copies.items()
+    ],
+    "scope": (
+        "Byte-exact publication, restoration and declared coverage checks only; "
+        "no new scientific or performance admission."
+    ),
+}
+write(package / "ASSEMBLY.json", encoded(assembly))
+files = []
+for path in sorted(package.rglob("*")):
+    if path.is_symlink():
+        raise ValueError("Unexpected symlink in publication")
+    if path.is_file():
+        row = record(path)
+        row["path"] = path.relative_to(package).as_posix()
+        files.append(row)
+inventory = {
+    "schema": 1,
+    "files": files,
+    "file_count": len(files),
+    "total_bytes": sum(row["bytes"] for row in files),
+    "excludes_only": ["PUBLICATION_FILES.json", "PUBLICATION_FILES.json.sha256"],
+}
+write(package / "PUBLICATION_FILES.json", encoded(inventory))
+write(
+    package / "PUBLICATION_FILES.json.sha256",
+    (
+        record(package / "PUBLICATION_FILES.json")["sha256"]
+        + "  PUBLICATION_FILES.json\n"
+    ).encode(),
+)
+print(
+    json.dumps(
+        {
+            "files": len(files),
+            "bytes": inventory["total_bytes"],
+            "manifest": record(package / "manifest.json"),
+            "inventory": record(package / "PUBLICATION_FILES.json"),
+        },
+        indent=2,
+    )
+)

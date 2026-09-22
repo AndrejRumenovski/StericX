@@ -1,0 +1,41 @@
+{
+  "complete": false,
+  "journal": {
+    "bytes": 3982520,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c2_v1/build_journal.jsonl",
+    "sha256": "82fea79a0cc9403d0415283f9fe0456818d286136459201caa610c4611836e8c"
+  },
+  "kind": "superseded_publication_closure_attempt",
+  "original_partial_package_path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/accepted_c2",
+  "partial_blob_policy": "Preserved locally byte-for-byte; final package republishes all required source/output payloads under a new plan. Failure/log/plan/journal retained; no claim of complete first attempt.",
+  "planned_unexecuted_file": {
+    "bytes": 8923,
+    "mode": 436,
+    "mtime_ns": 1790080358025764400,
+    "path": ".stericx/profiling/scientifically_validated_optimization/controllers/run_final_observations.py",
+    "sha256": "3f031f076f9aa2ddfc92ed248e004590bd3e6e7824831cbc5ceb132415a47ef9"
+  },
+  "preserved_partial_package_path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c2_v1/failed_build_v1/partial_package",
+  "prior_plan": {
+    "bytes": 4061137,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c2_v1/plan_v1.json",
+    "sha256": "ea26ceae84a86e64cb768af2e064a730bd2fa7f6a7294c0a164475da8f4916ee"
+  },
+  "prior_spec": {
+    "bytes": 272439,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c2_v1/spec.json",
+    "sha256": "1e2691a718470efe8ece5d85142b098fe986929d4175016f47fbd98bb5d761bb"
+  },
+  "reason": "Build correctly refused concurrent edits to unexecuted C3 final-observer controller included by an overbroad controller glob.",
+  "science_or_timing_change": false,
+  "stderr": {
+    "bytes": 980,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c2_v1/build_v1.stderr",
+    "sha256": "36d3741a20c6380ece6d91fdbcfb102366b0a59ea7c6a248df0ff0be0ceb57c3"
+  },
+  "stdout": {
+    "bytes": 2626,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c2_v1/build_v1.stdout",
+    "sha256": "711cf4d9151b7bbc77f785db54ba94bcd4cea6ffd86bf38227e1e944d097dede"
+  }
+}

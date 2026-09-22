@@ -1,0 +1,985 @@
+{
+  "accepted": true,
+  "additional_evidence": [
+    {
+      "bytes": 17274,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_post_optimization_v1/complete.json",
+      "sha256": "8d994386e57af530f773ac9273130d6b535d4c0069c2f3907739b7799d2e728b"
+    },
+    {
+      "bytes": 5544,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_post_optimization_v1/independent_reference_resolution_v1/independent_gate.json",
+      "sha256": "5efb637c764f13a299103509073d7e813e4932d089f5ea2953d182114296d89a"
+    },
+    {
+      "bytes": 46690,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_engineering_v1/complete.json",
+      "sha256": "3c761d0cc42eb0d38dba2a72a62d9e45627bfbc0a17c6cf2f4c788a44b8da680"
+    },
+    {
+      "bytes": 11299,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_command_boundary_v1/complete.json",
+      "sha256": "d263785ee707a21f19e8276611749349be2582078323e5b1350bc766a72b4f9d"
+    },
+    {
+      "bytes": 23683,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_command_boundary_v1/comparison.json",
+      "sha256": "89700630a5b1b7736431932446185cb6d5468269b8e13f2adbff31649d8e9d80"
+    },
+    {
+      "bytes": 5939,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_supplemental_checks_v1/manifest.json",
+      "sha256": "aeba04b349300f9ca4a4d41f60d945e4cf143e7318a80b5f9e3f074c93e85c34"
+    },
+    {
+      "bytes": 2513,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_measurement_publication_v1/receipt.json",
+      "sha256": "3c6705fd843387f7f95413e1e4a7b26bb5f0111a95f15aa570f6b767970b8032"
+    },
+    {
+      "bytes": 22116,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/rejected_c3_v1/decision.json",
+      "sha256": "b07b0072c926e795bbf3517daf32d2c251ea3d2ae7892082e3ff2f8244f4340a"
+    },
+    {
+      "bytes": 2266,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/rejected_c3_v1/restoration.json",
+      "sha256": "f1293e23cfeab06e4062a1ea4e3605d619ef4e6fa28998460e4b51d36899fc91"
+    },
+    {
+      "bytes": 941964,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accepted_c2_reprofile_v1/manifest.json",
+      "sha256": "52e7d287332afdb1edf13348cb73e7bccc243e2c0259d187c5705dc675426187"
+    }
+  ],
+  "all_configuration_results": [
+    {
+      "AB_wall_speedup": 1.0000320177526048,
+      "BA_wall_speedup": 1.0046290966156264,
+      "configuration": "t1/conformers_56",
+      "paired_cpu_cost_percent": -0.457879315709947,
+      "paired_wall_speedup": {
+        "mad": 0.004125426330464754,
+        "maximum": 1.012613741044952,
+        "median": 1.0046290966156264,
+        "minimum": 0.9859112302337697,
+        "values": [
+          0.9914272903062127,
+          1.0035186047902103,
+          0.9859112302337697,
+          1.0088723006931857,
+          1.012613741044952,
+          1.0032449541888921,
+          1.0086367451989966,
+          1.0057395884410425
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0186915739766986,
+      "BA_wall_speedup": 1.0218361008738543,
+      "configuration": "t1/db_build_ensembles",
+      "paired_cpu_cost_percent": -1.995872086392425,
+      "paired_wall_speedup": {
+        "mad": 0.00837814643456214,
+        "maximum": 1.029925307163627,
+        "median": 1.0207024033929906,
+        "minimum": 1.0011197950379591,
+        "values": [
+          1.0120366293957541,
+          1.016058288228338,
+          1.0011197950379591,
+          1.0276139135193707,
+          1.025346518557643,
+          1.029925307163627,
+          1.0287929222648784,
+          1.0084532809391569
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0005859756713467,
+      "BA_wall_speedup": 1.0026102497042875,
+      "configuration": "t1/descriptors_10000",
+      "paired_cpu_cost_percent": -0.021943785091910195,
+      "paired_wall_speedup": {
+        "mad": 0.009122224317129002,
+        "maximum": 1.025264895006886,
+        "median": 1.0005859756713467,
+        "minimum": 0.9752497627299707,
+        "values": [
+          1.005094765296503,
+          1.0117324740214164,
+          0.996786394296553,
+          0.9934880253871584,
+          0.9809636789411068,
+          1.025264895006886,
+          1.0043855570461404,
+          0.9752497627299707
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0006342067807592,
+      "BA_wall_speedup": 0.9988451533186988,
+      "configuration": "t1/ensemble_sdf",
+      "paired_cpu_cost_percent": -0.3818220921699589,
+      "paired_wall_speedup": {
+        "mad": 0.006689754306482942,
+        "maximum": 1.0161128294053405,
+        "median": 1.0006342067807592,
+        "minimum": 0.9592628057424857,
+        "values": [
+          1.0078811439739197,
+          1.0031886712764437,
+          0.9924980441579593,
+          0.9592628057424857,
+          1.0012202134016597,
+          0.9945016353609538,
+          1.0000482001598587,
+          1.0161128294053405
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.9781470611205614,
+      "BA_wall_speedup": 0.9881441722507543,
+      "configuration": "t1/parse_ensembles_1000",
+      "paired_cpu_cost_percent": 1.745050554307559,
+      "paired_wall_speedup": {
+        "mad": 0.007588131986977553,
+        "maximum": 0.9916134098449817,
+        "median": 0.9828497508802425,
+        "minimum": 0.865423202079772,
+        "values": [
+          0.9821805665488099,
+          0.9916134098449817,
+          0.983518935211675,
+          0.9892898196662678,
+          0.9741135556923127,
+          0.9869985248352409,
+          0.865423202079772,
+          0.9516257504383324
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.015685173223181,
+      "BA_wall_speedup": 1.0025056891234483,
+      "configuration": "t1/predict_1000000",
+      "paired_cpu_cost_percent": -0.8691746550410995,
+      "paired_wall_speedup": {
+        "mad": 0.009233179324345975,
+        "maximum": 1.028398209059699,
+        "median": 1.0089595298324825,
+        "minimum": 0.9943227745181015,
+        "values": [
+          1.016796006527791,
+          1.0033447197463938,
+          1.019589411785866,
+          0.9943227745181015,
+          1.0145743399185712,
+          1.028398209059699,
+          0.9966295661657449,
+          1.001666658500503
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.2038849396523217,
+      "BA_wall_speedup": 1.233937064349524,
+      "configuration": "t1/screen_1000",
+      "paired_cpu_cost_percent": -19.00704020640639,
+      "paired_wall_speedup": {
+        "mad": 0.08303781476133876,
+        "maximum": 1.3853330867860951,
+        "median": 1.2038849396523217,
+        "minimum": 1.1077715929627299,
+        "values": [
+          1.133922656819236,
+          1.3853330867860951,
+          1.3174783633863552,
+          1.1077715929627299,
+          1.239134069190496,
+          1.1637823147470372,
+          1.1686358101141476,
+          1.304091813952011
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.7571836160620851,
+      "BA_wall_speedup": 2.442530894488291,
+      "configuration": "t1/search_database",
+      "paired_cpu_cost_percent": 6.197312012468148,
+      "paired_wall_speedup": {
+        "mad": 0.7259657822177108,
+        "maximum": 4.076676406424646,
+        "median": 1.06023204525744,
+        "minimum": 0.29287116779849404,
+        "values": [
+          0.3493643520123925,
+          4.076676406424646,
+          0.6233775918070423,
+          3.0837658725287684,
+          0.8909896403171279,
+          0.29287116779849404,
+          1.2294744501977524,
+          1.8012959164478142
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.9978430091753845,
+      "BA_wall_speedup": 0.9973187036552656,
+      "configuration": "t1/single_large",
+      "paired_cpu_cost_percent": 2.795375356350971,
+      "paired_wall_speedup": {
+        "mad": 0.0346693157417165,
+        "maximum": 1.7685838764756114,
+        "median": 0.9978430091753845,
+        "minimum": 0.9599667484994242,
+        "values": [
+          1.0272055944529104,
+          0.9636469460907833,
+          0.9599667484994242,
+          0.9627004407765527,
+          1.075753647385526,
+          1.030990461219748,
+          0.9684804238978585,
+          1.7685838764756114
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.017957393931178,
+      "BA_wall_speedup": 0.9946254842766589,
+      "configuration": "t1/single_small",
+      "paired_cpu_cost_percent": 1.478922086746448,
+      "paired_wall_speedup": {
+        "mad": 0.02056745505773333,
+        "maximum": 1.0663165896234006,
+        "median": 1.0078760201320867,
+        "minimum": 0.8810944349000712,
+        "values": [
+          1.0106404747288724,
+          0.9548043605852292,
+          1.0663165896234006,
+          1.0213761193230635,
+          0.8810944349000712,
+          1.0051115655353011,
+          1.0252743131334834,
+          0.9841394030180167
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.8455667667112179,
+      "BA_wall_speedup": 1.7967113661211398,
+      "configuration": "t2/conformers_56",
+      "paired_cpu_cost_percent": 2.915553414135863,
+      "paired_wall_speedup": {
+        "mad": 0.0268442279883071,
+        "maximum": 1.8726008257865245,
+        "median": 1.8167207321390388,
+        "minimum": 1.7846429491189606,
+        "values": [
+          1.8474910125284085,
+          1.789954064917413,
+          1.8436425208940272,
+          1.8034686673248663,
+          1.8726008257865245,
+          1.815283783695645,
+          1.8181576805824327,
+          1.7846429491189606
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0238911874343135,
+      "BA_wall_speedup": 1.0143375447089313,
+      "configuration": "t2/db_build_ensembles",
+      "paired_cpu_cost_percent": -1.2996556172397034,
+      "paired_wall_speedup": {
+        "mad": 0.02580972878203841,
+        "maximum": 1.0583457828022307,
+        "median": 1.0143375447089313,
+        "minimum": 0.07983113842684024,
+        "values": [
+          0.07983113842684024,
+          0.9902192253359215,
+          1.0059436919686287,
+          1.01441123594276,
+          1.0418386828999984,
+          1.0583457828022307,
+          1.0512851132484167,
+          1.0142638534751027
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.9621067416801983,
+      "BA_wall_speedup": 1.9524707413362985,
+      "configuration": "t2/descriptors_10000",
+      "paired_cpu_cost_percent": 1.0061406032389253,
+      "paired_wall_speedup": {
+        "mad": 0.015244220266701802,
+        "maximum": 1.982407027568587,
+        "median": 1.953982173514676,
+        "minimum": 1.9238336347165697,
+        "values": [
+          1.9541281138484796,
+          1.9511052494917243,
+          1.9238336347165697,
+          1.9538362331808725,
+          1.982407027568587,
+          1.9683674180508388,
+          1.970085369511917,
+          1.925375290448292
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0157569088113723,
+      "BA_wall_speedup": 1.0064505956476848,
+      "configuration": "t2/ensemble_sdf",
+      "paired_cpu_cost_percent": -0.8351426344381463,
+      "paired_wall_speedup": {
+        "mad": 0.006188683302613351,
+        "maximum": 1.0474164474648529,
+        "median": 1.0083983153495892,
+        "minimum": 0.9969313435841262,
+        "values": [
+          1.0474164474648529,
+          1.0037146693511638,
+          1.000704594742788,
+          1.0095488864754267,
+          1.023903708867772,
+          0.9969313435841262,
+          1.0076101087549725,
+          1.0091865219442058
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.9803172017262121,
+      "BA_wall_speedup": 0.9815959472863589,
+      "configuration": "t2/parse_ensembles_1000",
+      "paired_cpu_cost_percent": 1.9536365341753514,
+      "paired_wall_speedup": {
+        "mad": 0.0019823477199867323,
+        "maximum": 1.0574543461220431,
+        "median": 0.9815959472863589,
+        "minimum": 0.9531435177495204,
+        "values": [
+          0.983244154712376,
+          1.0574543461220431,
+          0.9833435906979668,
+          0.9793788952579934,
+          0.977390248740048,
+          0.9808095626905421,
+          0.9531435177495204,
+          0.9823823318821758
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0076629464975217,
+      "BA_wall_speedup": 0.9894988245715473,
+      "configuration": "t2/predict_1000000",
+      "paired_cpu_cost_percent": 0.33034503185194186,
+      "paired_wall_speedup": {
+        "mad": 0.015651188783631587,
+        "maximum": 1.0216928264389775,
+        "median": 1.000696612649966,
+        "minimum": 0.973223400255287,
+        "values": [
+          0.973223400255287,
+          0.9836147850625323,
+          1.0064400841956518,
+          1.0216928264389775,
+          1.0153468856060777,
+          0.9840445080388145,
+          1.0088858087993917,
+          0.9949531411042801
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.2031900178958517,
+      "BA_wall_speedup": 1.2288438899209253,
+      "configuration": "t2/screen_1000",
+      "paired_cpu_cost_percent": -18.67771559292234,
+      "paired_wall_speedup": {
+        "mad": 0.05922017183652151,
+        "maximum": 1.309470720541016,
+        "median": 1.2288438899209253,
+        "minimum": 1.115746940020728,
+        "values": [
+          1.2666574029738775,
+          1.2175596038718475,
+          1.14002791813423,
+          1.309470720541016,
+          1.2663521176574735,
+          1.115746940020728,
+          1.1388202155631002,
+          1.2401281759700034
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.8872306265809259,
+      "BA_wall_speedup": 0.6476670557413441,
+      "configuration": "t2/search_database",
+      "paired_cpu_cost_percent": 6.491432534623687,
+      "paired_wall_speedup": {
+        "mad": 0.5655641731333659,
+        "maximum": 2.2392065245482784,
+        "median": 0.8872306265809259,
+        "minimum": 0.28982979366415595,
+        "values": [
+          0.9415935863637808,
+          0.28982979366415595,
+          2.2392065245482784,
+          1.937473899148891,
+          0.318575772900498,
+          0.32475713399462186,
+          0.832867666798071,
+          0.9705769774880663
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0193503461516105,
+      "BA_wall_speedup": 1.0044309365752484,
+      "configuration": "t2/single_large",
+      "paired_cpu_cost_percent": -0.36969671333699217,
+      "paired_wall_speedup": {
+        "mad": 0.05006672979140708,
+        "maximum": 1.0706892079214025,
+        "median": 1.0044309365752484,
+        "minimum": 0.7846618595331745,
+        "values": [
+          0.9692836163602033,
+          0.8844391932067219,
+          1.0706892079214025,
+          1.0321953014861966,
+          1.0694170759430175,
+          1.0245109367137706,
+          0.7846618595331745,
+          0.9843509364367262
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.9908873779885212,
+      "BA_wall_speedup": 0.9531919745047558,
+      "configuration": "t2/single_small",
+      "paired_cpu_cost_percent": 2.308570017401168,
+      "paired_wall_speedup": {
+        "mad": 0.02232208581516204,
+        "maximum": 1.045922879986478,
+        "median": 0.9733849107916626,
+        "minimum": 0.8311921664417409,
+        "values": [
+          0.9961198430560626,
+          0.8311921664417409,
+          0.98565491292098,
+          1.045922879986478,
+          1.0377064612426874,
+          0.9514756714257385,
+          0.9611149086623453,
+          0.9549082775837731
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 3.081751763456582,
+      "BA_wall_speedup": 3.177268316103179,
+      "configuration": "t4/conformers_56",
+      "paired_cpu_cost_percent": 6.416782205230898,
+      "paired_wall_speedup": {
+        "mad": 0.0456009585632815,
+        "maximum": 3.240744060245339,
+        "median": 3.1316673575398974,
+        "minimum": 2.47819076988042,
+        "values": [
+          3.0575053906708543,
+          3.151553498364313,
+          3.111781216715482,
+          3.240744060245339,
+          2.47819076988042,
+          3.1879055777093566,
+          3.10599813624231,
+          3.1666310544970013
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0070854758426053,
+      "BA_wall_speedup": 1.0778881513447809,
+      "configuration": "t4/db_build_ensembles",
+      "paired_cpu_cost_percent": -0.8956936612940558,
+      "paired_wall_speedup": {
+        "mad": 0.051841035843372296,
+        "maximum": 1.4279671393240803,
+        "median": 1.0364005500757907,
+        "minimum": 0.9815102551841612,
+        "values": [
+          0.9815102551841612,
+          1.1073315505792531,
+          1.0243563480412725,
+          0.9876087732806755,
+          0.9898146036439383,
+          1.4279671393240803,
+          1.1581202241370097,
+          1.0484447521103086
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 3.785392381751402,
+      "BA_wall_speedup": 3.7843382748341083,
+      "configuration": "t4/descriptors_10000",
+      "paired_cpu_cost_percent": 2.5766607681885545,
+      "paired_wall_speedup": {
+        "mad": 0.011191619087680849,
+        "maximum": 3.819958040933276,
+        "median": 3.7843382748341083,
+        "minimum": 3.7270068481130414,
+        "values": [
+          3.7764381667909417,
+          3.7719633585365,
+          3.7943465967118617,
+          3.790074190251222,
+          3.7270068481130414,
+          3.7786023594169946,
+          3.800877523188751,
+          3.819958040933276
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0032997095426912,
+      "BA_wall_speedup": 1.004215084882003,
+      "configuration": "t4/ensemble_sdf",
+      "paired_cpu_cost_percent": -0.31473847586992454,
+      "paired_wall_speedup": {
+        "mad": 0.008749248148938182,
+        "maximum": 1.0138046079845617,
+        "median": 1.004215084882003,
+        "minimum": 0.981414358887205,
+        "values": [
+          1.0138046079845617,
+          1.0081029271788882,
+          0.9842498025344931,
+          1.00804658579891,
+          0.9944753610080617,
+          1.0003835839650963,
+          1.0121240580773208,
+          0.981414358887205
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.9810174663923452,
+      "BA_wall_speedup": 0.9774672851519226,
+      "configuration": "t4/parse_ensembles_1000",
+      "paired_cpu_cost_percent": 1.9733177288301373,
+      "paired_wall_speedup": {
+        "mad": 0.007979077531376944,
+        "maximum": 0.9936963418420631,
+        "median": 0.9805204076614784,
+        "minimum": 0.9319494013032134,
+        "values": [
+          0.990217485872273,
+          0.980675239494326,
+          0.9816693569560594,
+          0.9742593308095191,
+          0.9687962658324467,
+          0.9319494013032134,
+          0.9803655758286309,
+          0.9936963418420631
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.9921989680338079,
+      "BA_wall_speedup": 1.0010017187870792,
+      "configuration": "t4/predict_1000000",
+      "paired_cpu_cost_percent": -0.10185000991349558,
+      "paired_wall_speedup": {
+        "mad": 0.007318815636670195,
+        "maximum": 1.0727866761490232,
+        "median": 0.9921989680338079,
+        "minimum": 0.8671283480610159,
+        "values": [
+          0.9910092353628813,
+          1.0114655370553973,
+          0.9998482733294297,
+          0.9852106420560893,
+          0.9933887007047344,
+          1.0727866761490232,
+          0.8671283480610159,
+          0.9905379005187613
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.1839658839239986,
+      "BA_wall_speedup": 1.2430972502850266,
+      "configuration": "t4/screen_1000",
+      "paired_cpu_cost_percent": -18.8608430992768,
+      "paired_wall_speedup": {
+        "mad": 0.05914206551360257,
+        "maximum": 1.3231497169618982,
+        "median": 1.2005270638682555,
+        "minimum": 1.1191885186091208,
+        "values": [
+          1.1191885186091208,
+          1.3231497169618982,
+          1.2257189445888261,
+          1.1405571734501345,
+          1.1422128232591713,
+          1.3108593174223684,
+          1.2363696702748874,
+          1.1753351831476848
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 2.0855399834256048,
+      "BA_wall_speedup": 0.35626655391917283,
+      "configuration": "t4/search_database",
+      "paired_cpu_cost_percent": 5.002805240699482,
+      "paired_wall_speedup": {
+        "mad": 0.7455726106097861,
+        "maximum": 3.61000760726425,
+        "median": 1.101839164528959,
+        "minimum": 0.2563318088164163,
+        "values": [
+          1.7098027816586456,
+          0.3392143640328625,
+          2.4612771851925643,
+          0.3733187438054832,
+          3.61000760726425,
+          0.2563318088164163,
+          1.6380182876240843,
+          0.5656600414338337
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0266211239335732,
+      "BA_wall_speedup": 0.97283131169446,
+      "configuration": "t4/single_large",
+      "paired_cpu_cost_percent": -0.3328686679695769,
+      "paired_wall_speedup": {
+        "mad": 0.02904636829199908,
+        "maximum": 1.1286734519409805,
+        "median": 1.0015357509366005,
+        "minimum": 0.8767098963224131,
+        "values": [
+          1.1286734519409805,
+          0.9728241843419402,
+          0.9807461749319932,
+          1.069582350133167,
+          1.0309169209259383,
+          0.9728384390469799,
+          1.022325326941208,
+          0.8767098963224131
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.9302381651801854,
+      "BA_wall_speedup": 1.007148975726409,
+      "configuration": "t4/single_small",
+      "paired_cpu_cost_percent": 1.2704722065567498,
+      "paired_wall_speedup": {
+        "mad": 0.034099027089205536,
+        "maximum": 1.0488995891969715,
+        "median": 0.9730499486372035,
+        "minimum": 0.11297461167255088,
+        "values": [
+          0.9843028920420611,
+          1.0047695978388034,
+          0.8986793251280251,
+          0.9509587920384597,
+          0.9617970052323458,
+          1.0488995891969715,
+          0.11297461167255088,
+          1.0095283536140147
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 4.1883343998190625,
+      "BA_wall_speedup": 4.143152247472434,
+      "configuration": "t6/conformers_56",
+      "paired_cpu_cost_percent": 13.725008940038109,
+      "paired_wall_speedup": {
+        "mad": 0.0950656764188671,
+        "maximum": 4.304086763050282,
+        "median": 4.1883343998190625,
+        "minimum": 3.0066984473769245,
+        "values": [
+          3.0066984473769245,
+          4.215822449986509,
+          4.304086763050282,
+          3.716794867453431,
+          4.214498001887716,
+          4.07048204495836,
+          4.162170797750409,
+          4.262713389425577
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.9821727743123415,
+      "BA_wall_speedup": 1.0626845447841737,
+      "configuration": "t6/db_build_ensembles",
+      "paired_cpu_cost_percent": -2.952905643223996,
+      "paired_wall_speedup": {
+        "mad": 0.09827555088010537,
+        "maximum": 1.5893242898200086,
+        "median": 1.0040728920112776,
+        "minimum": 0.8946443924070973,
+        "values": [
+          0.9449367811664269,
+          1.136632073004049,
+          1.09682711730393,
+          0.9887370165642988,
+          1.0194087674582561,
+          1.5893242898200086,
+          0.8946443924070973,
+          0.9002760155437192
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 5.480699012511447,
+      "BA_wall_speedup": 5.444773472932438,
+      "configuration": "t6/descriptors_10000",
+      "paired_cpu_cost_percent": 5.052107755620449,
+      "paired_wall_speedup": {
+        "mad": 0.06091895862759156,
+        "maximum": 5.561617457839413,
+        "median": 5.462225744804018,
+        "minimum": 3.851515124367129,
+        "values": [
+          5.50651490446385,
+          5.419978576815885,
+          5.454883120559045,
+          3.851515124367129,
+          5.352087509132601,
+          5.46956836904899,
+          5.561617457839413,
+          5.539774502399369
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0117305740634053,
+      "BA_wall_speedup": 1.0110841563772826,
+      "configuration": "t6/ensemble_sdf",
+      "paired_cpu_cost_percent": -1.0608005868555759,
+      "paired_wall_speedup": {
+        "mad": 0.005001186916982592,
+        "maximum": 1.0470927143435635,
+        "median": 1.0110841563772826,
+        "minimum": 0.9756729754081738,
+        "values": [
+          1.0470927143435635,
+          1.012824790505538,
+          1.0182958701574545,
+          1.009343522249027,
+          1.0051652779693563,
+          1.008403481963019,
+          0.9756729754081738,
+          1.0151676518033215
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.9802030320645713,
+      "BA_wall_speedup": 0.9966045480190195,
+      "configuration": "t6/parse_ensembles_1000",
+      "paired_cpu_cost_percent": 1.4791127313838248,
+      "paired_wall_speedup": {
+        "mad": 0.014779631708226382,
+        "maximum": 1.009586865132507,
+        "median": 0.9856172032037835,
+        "minimum": 0.960006734818589,
+        "values": [
+          0.9839953189575616,
+          0.960006734818589,
+          0.9627292694392718,
+          1.0059700085880336,
+          0.9892296678115094,
+          1.009586865132507,
+          0.9764107451715809,
+          0.9872390874500053
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.0384444167844296,
+      "BA_wall_speedup": 1.0865525178919704,
+      "configuration": "t6/predict_1000000",
+      "paired_cpu_cost_percent": 0.4358530016191353,
+      "paired_wall_speedup": {
+        "mad": 0.04593802491507826,
+        "maximum": 1.127538011742241,
+        "median": 1.0678703166442425,
+        "minimum": 0.8629304224307695,
+        "values": [
+          1.0051122255658858,
+          1.0639640252855116,
+          0.8629304224307695,
+          1.1184756726202123,
+          1.127538011742241,
+          1.0403783252056178,
+          1.0717766080029734,
+          1.1091410104984292
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.2064859519556994,
+      "BA_wall_speedup": 1.205723830893633,
+      "configuration": "t6/screen_1000",
+      "paired_cpu_cost_percent": -18.681638522089017,
+      "paired_wall_speedup": {
+        "mad": 0.04713963876284555,
+        "maximum": 1.333496293167746,
+        "median": 1.2064859519556994,
+        "minimum": 1.1319626740471314,
+        "values": [
+          1.333496293167746,
+          1.1852155274496323,
+          1.1873480050148175,
+          1.3184785314663972,
+          1.2256238988965815,
+          1.1334770989360754,
+          1.1319626740471314,
+          1.226232134337634
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.762127155792655,
+      "BA_wall_speedup": 1.8024014929823036,
+      "configuration": "t6/search_database",
+      "paired_cpu_cost_percent": 3.2039533422452693,
+      "paired_wall_speedup": {
+        "mad": 0.5852763666897046,
+        "maximum": 5.5967694894078,
+        "median": 0.969229087113906,
+        "minimum": 0.3493987423528146,
+        "values": [
+          1.5623367437601503,
+          5.5967694894078,
+          0.5599176799807286,
+          0.9741215426232307,
+          0.3917840103807411,
+          2.6306814433413765,
+          0.9643366316045814,
+          0.3493987423528146
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 0.9514326871333056,
+      "BA_wall_speedup": 1.029878317236599,
+      "configuration": "t6/single_large",
+      "paired_cpu_cost_percent": -1.8499445096489375,
+      "paired_wall_speedup": {
+        "mad": 0.043589190878965955,
+        "maximum": 1.1700027003547349,
+        "median": 1.0110176070996797,
+        "minimum": 0.09505755660321567,
+        "values": [
+          1.032404466036474,
+          1.1700027003547349,
+          1.014239440292966,
+          1.0077957739063934,
+          0.09505755660321567,
+          0.9647824788088728,
+          0.8886259339736454,
+          1.0519608605668047
+        ]
+      }
+    },
+    {
+      "AB_wall_speedup": 1.4151229680116262,
+      "BA_wall_speedup": 0.9689858201905417,
+      "configuration": "t6/single_small",
+      "paired_cpu_cost_percent": -1.1222322032960197,
+      "paired_wall_speedup": {
+        "mad": 0.06117329344149469,
+        "maximum": 6.450698869512373,
+        "median": 1.0080251234395468,
+        "minimum": 0.9421691338830376,
+        "values": [
+          6.450698869512373,
+          0.9864371142680167,
+          0.9575768954980968,
+          0.9421691338830376,
+          1.029613132611077,
+          0.9515345261130665,
+          1.8006328034121752,
+          1.1057913986991292
+        ]
+      }
+    }
+  ],
+  "baseline_snapshot": {
+    "bytes": 20063701,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/manifest.json",
+    "sha256": "feb021566f4a172c8d249184d1e16e39978b59c1784d216f4f50c9261ed27ced"
+  },
+  "candidate": "Final unchanged C1/C1b+C2 build after C3 rejection",
+  "candidate_build": {
+    "bytes": 37625,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/candidate_c2_science_v1/validated_build_corrected_vC2/manifest.json",
+    "sha256": "82b63f16c90e0767c5cb5b60daed61e2ce52f123d4f1a9f3156e791c5a03fd81"
+  },
+  "candidate_gate": {
+    "bytes": 9269,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_performance_gate_v1/manifest.json",
+    "sha256": "faf53930343a2e7d21fb3e539f427ea4300d0c4895bfaa7092c37b4e37355346"
+  },
+  "decision": "Retain C1/C1b and C2. Fresh final corpus/reference/engineering gates pass, all 720 native launches match scientific expectations, and both target gains reproduce. C3 remains rejected and its scientific source reverted.",
+  "decision_helper": {
+    "bytes": 6587,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/controllers/accept_final.py",
+    "sha256": "55cf0dc26a5721c7e9039faaa1cca2b37e9d0f4d46b2cc4f0f154046bd6c3d36"
+  },
+  "independent_performance_review": {
+    "bytes": 381651,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_native_independent_review_v1/analysis.json",
+    "sha256": "a428b351d87e4454314230875b02f2696448371e2c61d4c0aa707b4261895757"
+  },
+  "kind": "accepted_corrected_optimization",
+  "paired_benchmark_manifest": {
+    "bytes": 992185,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_native_pairs_v1/manifest.json",
+    "sha256": "259cc6686576371883fd442c29a5d04bf5f5c14984e260cf2d9633d4f35a1154"
+  },
+  "paired_summary": {
+    "bytes": 136662222,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/final_native_pairs_v1/summary.json",
+    "sha256": "fdd923d527ec09f5375a2190120ccc1dc7c729ccc19f72220d79c6cd9218cb3d"
+  },
+  "performance_interpretation": "Use this fresh complete matrix for the headline; preserve prior admission series separately. Every configuration and outlier remains. Large multi-file descriptor and screening gains justify the disclosed small parser/startup costs and added batch CPU/RSS. Search is noisy and has no reliable speedup or no-regression claim.",
+  "prior_acceptance": {
+    "bytes": 6733,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accepted_c2_v1/acceptance.json",
+    "sha256": "071f29b5e52cc4940b9581eb3de90430b3c1d7d4d2d1c4e7d4c9d30750f8cabe"
+  },
+  "production_changes_after_final_science": false,
+  "samples_excluded": [],
+  "scientific_scope": "Zero-tolerance baseline equivalence and unchanged independent limits; 128021 responses, 93 CLI cases at four settings, 24 extra and 31 boundary cases, 25 independent reference commands, 319 Rust and 124 Python tests, reference-integrity/study verification and all engineering checks pass. No stronger methodological or prospective predictive claim follows.",
+  "thresholds_widened": false
+}

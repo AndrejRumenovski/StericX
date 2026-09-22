@@ -1,0 +1,79 @@
+{
+  "bindings": [
+    {
+      "bytes": 49824,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c3_v1/controllers/publish_shared.py",
+      "sha256": "adb595678bf0567e3d536c9c50f867cbee9d18904916f94824443fb04bde1df9"
+    },
+    {
+      "bytes": 9761,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c3_v1/controllers/test_rejection_coverage.py",
+      "sha256": "88b0d1dbb2ce4154e07b7c57487d2718aa1b64019bad9d5afbcf48a722d20c0c"
+    },
+    {
+      "bytes": 9363,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c3_v1/make_spec.py",
+      "sha256": "b2f5428a9c6a4cba50ec457bf943d953cd7e2a6b3949a1c23abf0ec7a48029cf"
+    },
+    {
+      "bytes": 68522,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c3_v1/spec.json",
+      "sha256": "7f6b46b4311a553f0b8d197cb5a1abb7b726707bef4a06c9b39fb7e37e8228da"
+    },
+    {
+      "bytes": 0,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c3_v1/tests.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 140,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c3_v1/tests.stderr",
+      "sha256": "30b8539707eacf0f0e8c5e44684b6f5cfa6aafa37f68bf1b2973bfc8ea49f4bb"
+    },
+    {
+      "bytes": 2277,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/publication_c3_v1/controller_freeze.json",
+      "sha256": "d8d64e71613060897b1fc01e4210f40cf400b334c2df5b0a3c49477d673ee8f5"
+    },
+    {
+      "bytes": 6124,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/rejected_c3/manifest.json",
+      "sha256": "b3cd9ebef18394f136aa6b2209e063f2c82f25b2e03d552337f0ee4b7142c10f"
+    },
+    {
+      "bytes": 604920,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/performance/evidence/rejected_c3/restoration_index.json.gz",
+      "sha256": "22a5c4b88c10518a1f5753a1624fa3c0002a34a4502332296c4f206a2f3ec3f3"
+    }
+  ],
+  "checks_confirmed": [
+    "Performance decision must remain accepted=false with scientific_gate_passed=true and performance_gate_passed=false; no artificial acceptance proxy.",
+    "Exact restoration binds accepted C2 build and both preserved source hashes. Only two full-record equality aliases map historical live buried_volume.rs identities to their frozen copies; unrelated source changes cannot use them.",
+    "Raw native stream hashes/resource presence,13scientific observation lanes/128021rows and93CLIcases at all4threads remain checked by unchanged parent coverage.",
+    "Additional tests cover missing critical fields, missing/narrowed incremental scope and unrelated review build/campaign. Owner suite increased from41 to46 tests, including unchanged31storage tests; retained final log reportsPASS.",
+    "Core storage/provider logic remains unchanged; differences reviewed concern rejected-decision coverage and descriptive kind/scope fields."
+  ],
+  "complete": true,
+  "findings_resolved": [
+    {
+      "finding": "Draft coverage could narrow or omit the incremental campaign while the decision claimed972launches/432pairs.",
+      "resolution": "Requires exactly two campaigns: original full40/720 and fixed seven workloads at1/6threads,8pairs/252launches. Computed payload totals match972/432 and analyses match native summary/manifest paths and exact baseline/C2/C3 builds."
+    },
+    {
+      "finding": "Draft recursive record checking validated only decision fields present, allowing omission of candidate gate, independent reviews, patch, operation evidence and target results.",
+      "resolution": "All critical fields required. Combined rejection review and both analyses bind the published campaigns/builds; target IDs/counts are fixed."
+    },
+    {
+      "finding": "Draft spec required a nonexistent probe-v1 build manifest after that attempt failed before writing it.",
+      "resolution": "Required path corrected to preserved candidate_c3_occupancy_counts_v1/failure.json; complete v1 root retained."
+    }
+  ],
+  "kind": "independent_rejected_C3_publication_coverage_review",
+  "limits": [
+    "Publication review validates byte/declared coverage linkage and preserved scientific/performance decisions; it does not create scientific acceptance or new performance evidence.",
+    "Full storage verification/restoration execution is owned by publication agent; bound core manifest records that separate process."
+  ],
+  "mode": "Read-only source/spec/mock-test inspection; no SUT or timing execution by reviewer.",
+  "recommendation": "no_remaining_blocker_in_reviewed_scope",
+  "reviewed_utc": "2026-09-22T14:08:10.312090+00:00"
+}

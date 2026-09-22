@@ -1,0 +1,34 @@
+{
+  "conformers_56": {
+    "counts_scope": "Static source-level arithmetic/allocation sites applied to observed successful shapes, not instrumented allocator or CPU-instruction events. Excludes extra diagnostic replay.",
+    "input_declared_atoms_sum": 3097,
+    "observed_aligned_atom_entries_across_frames": 5238,
+    "observed_frames": 168,
+    "observed_integration_points_per_frame": [
+      15408
+    ],
+    "static_aligned_vec_collections": 168,
+    "static_dot_products_three_per_transform": 15714,
+    "static_grid_constructions": 56,
+    "static_parser_vdw_table_lookups_one_per_input_atom": 3097,
+    "static_radius_scale_and_square_each": 5238,
+    "static_row_cache_vec_with_capacity_calls": 168,
+    "static_transforms_one_per_aligned_atom_entry": 5238
+  },
+  "descriptors_10000": {
+    "counts_scope": "Static source-level arithmetic/allocation sites applied to observed successful shapes, not instrumented allocator or CPU-instruction events. Excludes extra diagnostic replay.",
+    "input_declared_atoms_sum": 553228,
+    "observed_aligned_atom_entries_across_frames": 935751,
+    "observed_frames": 30000,
+    "observed_integration_points_per_frame": [
+      15408
+    ],
+    "static_aligned_vec_collections": 30000,
+    "static_dot_products_three_per_transform": 2807253,
+    "static_grid_constructions": 10000,
+    "static_parser_vdw_table_lookups_one_per_input_atom": 553228,
+    "static_radius_scale_and_square_each": 935751,
+    "static_row_cache_vec_with_capacity_calls": 30000,
+    "static_transforms_one_per_aligned_atom_entry": 935751
+  }
+}

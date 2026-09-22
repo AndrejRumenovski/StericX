@@ -1,0 +1,141 @@
+{
+  "all_build_and_test_returncodes_zero": true,
+  "checker": {
+    "bytes": 4640,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/finalize_evidence.py",
+    "sha256": "3551ce2f50c3ea3f7ef3de1f8c829e391b5505d13b7ce7dd760d00d64659e639"
+  },
+  "created_utc": "2026-09-22T03:19:15.235027+00:00",
+  "execution_pre_post_binary_hashes_verified": true,
+  "executions": {
+    "conformers_56": {
+      "current_native": {
+        "binary_post_run": {
+          "bytes": 3393664,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/bin/native",
+          "sha256": "102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f"
+        },
+        "binary_pre_run": {
+          "bytes": 3393664,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/bin/native",
+          "sha256": "102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f"
+        },
+        "command": {
+          "bytes": 12556,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/conformers_56/current_native/command.json",
+          "sha256": "06c4f25f8dca401d68ce6b43f914d7e12d4169f7b3851a9900b623cdedfb834e"
+        },
+        "result": {
+          "bytes": 761,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/conformers_56/current_native/result.json",
+          "sha256": "f5c2be23b18485127f4af6e2b03079a2d33b87b13e4b263a986a4314e9f8c454"
+        }
+      },
+      "frame_bit_evidence": {
+        "f32_bit_values": 2520,
+        "frames": 168,
+        "ordered_u32_le_sha256": "3f3e8848c8a17ea5d6882fe5343502b77a1fbec84f166c015c8af4ed0d189a00",
+        "runtime_assertions_compare_original_and_shadow_each_frame": true
+      },
+      "probe": {
+        "binary_post_run": {
+          "bytes": 3436568,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/target/release/stericx",
+          "sha256": "539a7c27080a1d28841a418d57755f0e302664dc46d7c88b4529d4b9dd2124e1"
+        },
+        "binary_pre_run": {
+          "bytes": 3436568,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/target/release/stericx",
+          "sha256": "539a7c27080a1d28841a418d57755f0e302664dc46d7c88b4529d4b9dd2124e1"
+        },
+        "command": {
+          "bytes": 12768,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/conformers_56/probe/command.json",
+          "sha256": "801c4002d939c007675bf07feea6d24c347ee1ed33b0116dadeba284d669714c"
+        },
+        "result": {
+          "bytes": 743,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/conformers_56/probe/result.json",
+          "sha256": "c8307247f66afcfeb4bf55e3b6aa5ff038171660ac538f7e5ce05b4a683e7f71"
+        }
+      }
+    },
+    "descriptors_10000": {
+      "current_native": {
+        "binary_post_run": {
+          "bytes": 3393664,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/bin/native",
+          "sha256": "102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f"
+        },
+        "binary_pre_run": {
+          "bytes": 3393664,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/accurate_baseline_v1/bin/native",
+          "sha256": "102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f"
+        },
+        "command": {
+          "bytes": 1830761,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/descriptors_10000/current_native/command.json",
+          "sha256": "04e5c61ae3ee8db01ecb8bd365e454081fcce023c506b006e81e794d92d1cb66"
+        },
+        "result": {
+          "bytes": 771,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/descriptors_10000/current_native/result.json",
+          "sha256": "b40606299fc4068a8f440c8a629bfe482ae9aa2c51f6ae924d7ab619d0b196d5"
+        }
+      },
+      "frame_bit_evidence": {
+        "f32_bit_values": 450000,
+        "frames": 30000,
+        "ordered_u32_le_sha256": "9a2a9dc3d4d5f7229ff563faa20e8e10c23be54cb634a10951a011fbf589ecea",
+        "runtime_assertions_compare_original_and_shadow_each_frame": true
+      },
+      "probe": {
+        "binary_post_run": {
+          "bytes": 3436568,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/target/release/stericx",
+          "sha256": "539a7c27080a1d28841a418d57755f0e302664dc46d7c88b4529d4b9dd2124e1"
+        },
+        "binary_pre_run": {
+          "bytes": 3436568,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/target/release/stericx",
+          "sha256": "539a7c27080a1d28841a418d57755f0e302664dc46d7c88b4529d4b9dd2124e1"
+        },
+        "command": {
+          "bytes": 1830977,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/descriptors_10000/probe/command.json",
+          "sha256": "239404ff52956b1ed927d32d7708befad4805755a90b01c97e24fe471c8e68c4"
+        },
+        "result": {
+          "bytes": 753,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/descriptors_10000/probe/result.json",
+          "sha256": "b08dc4968d513a22a279e75aa8689218dc9fa23aa8338d9fb539d3a0f5ef2b6a"
+        }
+      }
+    }
+  },
+  "focused_shadow_tests_passed": 2,
+  "limitation": "The runner executed its target-path binary. Its recorded pre-run identity and checked post-run identity equal this retained byte-for-byte copy; diagnostic timings are not benchmarks.",
+  "prior_evidence": {
+    "bytes": 50029,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/evidence_manifest.json",
+    "sha256": "b02682c730ddabe90a9d99d339c0dd97e9cc724510cc48e1806e90d1c7311c5a"
+  },
+  "retained_executed_baseline": {
+    "bytes": 3393664,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/bin/baseline_native",
+    "sha256": "102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f"
+  },
+  "retained_executed_probe": {
+    "bytes": 3436568,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/bin/probe",
+    "sha256": "539a7c27080a1d28841a418d57755f0e302664dc46d7c88b4529d4b9dd2124e1"
+  },
+  "scope": "Diagnostic operation-count/source/execution identity only; no native performance claim",
+  "source_build_link_verified": true,
+  "source_inventory_and_workload_reverified": true,
+  "summary": {
+    "bytes": 20819,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_occupancy_shadow_v1/summary.json",
+    "sha256": "69facaa96977fb2d6b26c3cb9340c2a880b5df9be4883e569858abb46437a70f"
+  }
+}

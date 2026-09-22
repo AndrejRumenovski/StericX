@@ -1,0 +1,143 @@
+"""Synthetic coverage tests; main publication tests handle raw storage integrity."""
+
+import copy
+import hashlib
+import json
+import unittest
+from pathlib import Path
+
+import extended_coverage as check
+
+
+class ExtendedCoverageTests(unittest.TestCase):
+    def setUp(self):
+        self.origin = Path("/original")
+        self.entries = {}
+        self.contents = {}
+
+    def add(self, path, raw=b"raw"):
+        item = {
+            "path": str(self.origin / path),
+            "bytes": len(raw),
+            "sha256": hashlib.sha256(raw).hexdigest(),
+        }
+        self.entries[path] = item
+        self.contents[path] = raw
+        return item
+
+    def cli(self):
+        captures = {
+            side: {
+                "returncode": 0,
+                "stdout": self.add(f"{side}/stdout"),
+                "stderr": self.add(f"{side}/stderr", b""),
+            }
+            for side in ("baseline", "candidate")
+        }
+        return {
+            "passed": True,
+            "cases": [{"case": 0, "exact": True, "captures": captures}],
+        }
+
+    def profile(self):
+        workloads = {f"workload_{n}" for n in range(10)}
+        data = {
+            "complete": True,
+            "diagnostic_configurations": 40,
+            "diagnostic_measured": 200,
+            "diagnostic_warmups": 40,
+            "native_processes_executed": 0,
+            "files": [],
+            "runs": [],
+        }
+        for thread in (1, 2, 4, 6):
+            label = f"run_t{thread}"
+            run = {
+                "threads": thread,
+                "label": label,
+                "returncode": 0,
+                "raw_files": [],
+                "native_adapter": self.add(label + "/native_adapter.json", b"{}"),
+            }
+            for workload in workloads:
+                for phase, count in (("warmup", 1), ("measured", 5)):
+                    for n in range(count):
+                        prefix = f"{label}/{workload}/{phase}_{n:02d}/"
+                        streams = {
+                            name: self.add(prefix + name)
+                            for name in (
+                                "stdout.txt",
+                                "stderr.txt",
+                                "stages.json",
+                                "native_usage.json",
+                            )
+                        }
+                        metric = {
+                            "returncode": 0,
+                            "phase": phase,
+                            "raw_stdout_sha256": streams["stdout.txt"]["sha256"],
+                            "raw_stderr_sha256": streams["stderr.txt"]["sha256"],
+                            "stages_sha256": streams["stages.json"]["sha256"],
+                        }
+                        run["raw_files"].extend(streams.values())
+                        run["raw_files"].append(
+                            self.add(
+                                prefix + "metrics.json", json.dumps(metric).encode()
+                            )
+                        )
+            data["runs"].append(run)
+        return data, workloads
+
+    def test_complete_cli_and_reprofile_coverage(self):
+        check.check_cli(self.cli(), 1, True, self.entries, self.origin)
+        profile, workloads = self.profile()
+        result = check.check_profile(
+            profile, self.entries, self.origin, self.contents.__getitem__, workloads
+        )
+        self.assertEqual(result["retained_process_captures"], 240)
+
+    def test_missing_cli_stream_rejected(self):
+        cli = self.cli()
+        del self.entries["candidate/stdout"]
+        with self.assertRaises(ValueError):
+            check.check_cli(cli, 1, True, self.entries, self.origin)
+
+    def test_cli_status_difference_rejected_even_when_declared_exact(self):
+        cli = self.cli()
+        cli["cases"][0]["captures"]["candidate"]["returncode"] = 1
+        with self.assertRaises(ValueError):
+            check.check_cli(cli, 1, True, self.entries, self.origin)
+
+    def test_missing_reprofile_sample_rejected_despite_complete_flags(self):
+        profile, workloads = self.profile()
+        profile["runs"][0]["raw_files"].pop()
+        with self.assertRaisesRegex(ValueError, "sample matrix"):
+            check.check_profile(
+                profile, self.entries, self.origin, self.contents.__getitem__, workloads
+            )
+
+    def test_duplicate_reprofile_sample_rejected(self):
+        profile, workloads = self.profile()
+        profile["runs"][0]["raw_files"].append(
+            copy.deepcopy(profile["runs"][0]["raw_files"][-1])
+        )
+        with self.assertRaisesRegex(ValueError, "Duplicate"):
+            check.check_profile(
+                profile, self.entries, self.origin, self.contents.__getitem__, workloads
+            )
+
+    def test_changed_stage_hash_rejected(self):
+        profile, workloads = self.profile()
+        metric = profile["runs"][0]["raw_files"][-1]
+        path = Path(metric["path"]).relative_to(self.origin).as_posix()
+        data = json.loads(self.contents[path])
+        data["stages_sha256"] = "0" * 64
+        self.contents[path] = json.dumps(data).encode()
+        with self.assertRaisesRegex(ValueError, "stream/stage"):
+            check.check_profile(
+                profile, self.entries, self.origin, self.contents.__getitem__, workloads
+            )
+
+
+if __name__ == "__main__":
+    unittest.main()

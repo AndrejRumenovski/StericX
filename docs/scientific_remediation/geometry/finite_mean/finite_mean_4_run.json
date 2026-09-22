@@ -1,0 +1,17 @@
+{
+  "command": [
+    "target/debug/stericx",
+    "descriptors",
+    ".stericx/scientific_remediation/geometry_review/finite_mean_4.sdf",
+    "--sterimol-axis",
+    "coordination",
+    "--density",
+    "1",
+    "--format",
+    "json"
+  ],
+  "returncode": 0,
+  "stdout": "[\n  {\n    \"file\": \".stericx/scientific_remediation/geometry_review/finite_mean_4.sdf\",\n    \"conformers\": 4,\n    \"donor_element\": \"P\",\n    \"donor_index\": 0,\n    \"substituents\": [\n      \"C\",\n      \"C\",\n      \"C\"\n    ],\n    \"sterimol_l\": null,\n    \"sterimol_b1\": 2.3968005,\n    \"sterimol_b5\": 1.2741663e+36,\n    \"percent_buried_volume\": 22.222223,\n    \"buried_volume\": 39.909863,\n    \"qvbur_min\": 6.414085,\n    \"qvbur_max\": 12.41876,\n    \"max_delta_qvbur\": 4.4011545,\n    \"max_delta_qvbur_min\": 4.4011545,\n    \"pyr_p\": 0.777585,\n    \"pyr_alpha\": 34.576164\n  }\n]\n",
+  "stderr": "",
+  "binary_sha256": "f22a3eb84875c70ba2628bddb540e05352ccb75b1da0110dad297a24d7898f54"
+}

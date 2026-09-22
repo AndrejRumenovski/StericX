@@ -1,0 +1,31 @@
+{
+  "kind": "new_independent_three_frame_volume",
+  "global_scientific_pass": false,
+  "inputs": {
+    "docs/scientific_remediation/geometry/topology_v1/requests.jsonl": "d6d1305c91eaa871d17dc8677342e9de2cbd2e4e53a8b6f134946c8f572d6b30",
+    "docs/scientific_remediation/geometry/topology_v1/observations.jsonl": "ff5bd60be9d7eb7e0eacb6313767c2a7e3c02c64a37ddd7c93d9f140f3c9d525",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/scripts/geometry_reference.py": "e08724b2da8ef85eb78b86e4890e5ed180786bfe6ed02656ed1bbf1aa1aaa6d1",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/recompute_volume_means.py": "93d5813edac03a015e878905ddc68c10c766b94ac35ddffab66b844b84297fb6"
+  },
+  "argv": [
+    "docs/scientific_remediation/geometry/recompute_volume_means.py",
+    "--requests",
+    "docs/scientific_remediation/geometry/topology_v1/requests.jsonl",
+    "--observations",
+    "docs/scientific_remediation/geometry/topology_v1/observations.jsonl",
+    "--output",
+    "docs/scientific_remediation/geometry/topology_v1/independent",
+    "--workers",
+    "2"
+  ],
+  "workers": 2,
+  "limit": null,
+  "numpy": "2.5.1",
+  "python": "3.12.13 (main, Jul 18 2026, 17:02:19) [Clang 22.1.3 ]",
+  "independent_reference_scope": "full supplied request stream",
+  "complete": true,
+  "requests": 9,
+  "reference_errors": 0,
+  "compared": 9,
+  "reference_results_sha256": "3fa45f8294a9ead2eb5e3e62074874dcc85aa4fc962275cf0132e96725d9b98d"
+}

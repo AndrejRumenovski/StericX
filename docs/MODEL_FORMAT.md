@@ -1,14 +1,15 @@
 # StericX Portable Model Format
 
 A StericX model document is a single JSON file that carries a fitted model
-together with everything needed to score a new structure on another machine —
-without the training data, the training code, or the study driver that produced
-it.
+together with the fitted descriptor transformation and metadata needed to score
+supplied descriptors on another machine, without retraining. Geometry-driven
+screening additionally requires the compatible descriptor-input method and its
+source geometry, axes and population provenance.
 
 The format is implemented by [`src/model/portable.rs`](../src/model/portable.rs)
-as typed Serde structures. Documents are read only through
-`PortableModel::from_json`, which validates before returning; there is no path
-that hands a caller an unvalidated model.
+as typed Serde structures. `PortableModel::from_json` validates before returning;
+portable model CLI readers use this checked entry point. Programmatic callers
+constructing or deserializing raw fit structures must also validate their inputs.
 
 ## Versions
 
@@ -16,6 +17,7 @@ that hands a caller an unvalidated model.
 |---:|---|
 | 1 | The original `stericx fit` artifact. Readable, but **not portable**: it cannot state what it predicts, what data trained it, or who produced it. |
 | 2 | Version 1 plus the `inference`, `provenance`, and `created` sections. |
+| 3 | Adds the required `descriptor_aggregation` input contract. New portable fits use this version. |
 
 Version 2 is a **strict superset** of version 1: every version 1 key keeps its
 name, position, and meaning at the document root, and three sections are added
@@ -31,13 +33,40 @@ A document whose `schema_version` exceeds the version this build understands is
 rejected outright, before any other field is examined, so a future format is
 never partially interpreted.
 
+Version-aware portable readers reject schema 3 when they support only an older
+version. Raw fit-report readers may still deserialize numeric fields and must not
+infer geometry compatibility from that alone. Versions 1 and 2 remain readable, but absent aggregation metadata means
+`unknown`; it does not authorize substituting a new geometry for supplied fitted
+descriptors. Historical model files remain unchanged.
+
+### Descriptor input contract
+
+`stericx fit --descriptor-aggregation` records the input provider's declaration:
+
+| Value | Meaning and screening input |
+| --- | --- |
+| `supplied_record_values` | Default: use the packed descriptor values as supplied. Their population provenance is unknown. Supply matching precomputed candidate columns. |
+| `single_geometry` | Training descriptors came from one geometry per record. Geometry inputs must follow that convention; multi-conformer substitution is rejected. |
+| `supplied_weight_mean` | Training descriptors are means under explicit supplied populations. Geometry CSV screening requires conformer paths, weights and explicit attachment/reference indices, and uses the same reaction aggregation routine as parsing. |
+| `unknown` | Older artifact without a declaration; geometry substitution is refused. Matching precomputed values remain usable with a provenance limitation. |
+
+The declaration cannot establish equilibrium populations or validate a caller's
+precomputed values. Descriptor definitions, selected axes, radii and populations
+must match the training inputs. The historical `L_boltz`/`B1_boltz`/`B5_boltz`
+column names alone do not establish thermodynamic provenance. A fresh model
+and descriptor recomputation are required after scientific definitions change;
+do not relabel old numbers as newly validated.
+
 ## Document layout
 
 ```jsonc
 {
-  // ---- schema version 1 fields, unchanged --------------------------------
-  "schema_version": 2,
-  "model": "mechanistically_constrained_ols",
+  // Schematic layout: numeric examples below are historical illustrations,
+  // not a newly fitted or validated schema-3 model.
+  // ---- fit-report fields -------------------------------------------------
+  "schema_version": 3,
+  "model": "fixed_vocabulary_ols",
+  "descriptor_aggregation": "supplied_record_values",
   "training_count": 10,
   "training_group_count": 9,
   "feature_names": ["intercept", "L_boltz", "...", "ir_frequency"],
@@ -50,7 +79,8 @@ never partially interpreted.
   "fixed_feature_loo":       {"count": 10, "r2": 0.0020, "mae": 0.5583, "rmse": 0.6882},
   "fixed_feature_group_loo": {"count": 10, "r2": 0.0013, "mae": 0.5586, "rmse": 0.6884},
   "ridge_baseline":  {"model": "ridge", "regularization": 0.01, "weights": [/*…*/],
-                      "training": {/*…*/}, "nested_loo": {/*…*/}},
+                      "training": {/*…*/}, "nested_loo": {/*…*/},
+                      "validation_scope": "fixed_feature_nested_alpha_loo"},
   "lasso_baseline":  {"model": "lasso", "...": "..."},
   "coefficient_intervals": [{"feature": "intercept", "estimate": 1.86,
                              "lower_95": -0.32, "upper_95": 2.90}],
@@ -193,22 +223,26 @@ descriptor space to the closest training observation. This is what
 `standardized_training_points` exists for; a range check alone cannot see a hole
 in the middle of the training box.
 
-**Mahalanobis distance.** Not a second covariance estimate. The standardized
-columns are centred on the training means by construction, so `Z'Z` is block
-diagonal and leverage decomposes exactly as
+**Mahalanobis distance.** Reconstructed from the ordinary sample covariance of
+the stored standardized training points. For an unregularized, centered design,
+the familiar relation is
 
 ```text
 h = 1/n + z'S⁻¹z ,  S = (n−1)·Cov   ⟹   Mahalanobis = √((n−1)(h − 1/n))
 ```
 
-recovered from `xtx_inverse`, which guarantees it can never disagree with the
-leverage the same model reports. It is **declined**, with a stated reason, when
-it would be unreliable rather than merely inconvenient:
+The stored fitted inverse can contain a ridge floor, so that identity is not
+used to silently turn singular covariance into a finite ordinary distance.
+Missing training points, insufficient dimensions, singular/numerically
+non-invertible covariance and nonfinite results produce a reason for
+unavailability. Persisted geometry dimensions and finite values are validated.
+A regularized distance would require a different, explicitly named definition.
 
-- `n < k + 2`, where the sample covariance of `k` descriptors is not estimable;
-- `xtx_inverse[0][0] ≠ 1/n` or a non-zero intercept row, meaning the stored
-  matrix is not the centred one the decomposition assumes;
-- a negative squared distance from numerical error.
+The model name `fixed_vocabulary_ols` describes the actual restriction. A fixed
+feature vocabulary does not enforce a reaction mechanism. The legacy
+`nested_loo` field remains readable, with `validation_scope` clarifying that
+alpha/scaling are nested while feature selection is fixed. These diagnostics
+and fixed-feature permutation tests are not full-selection predictive validation.
 
 ### `uncertainty` — the bootstrap ensemble
 
@@ -233,9 +267,13 @@ with the intercept column contributing 1. The reported interval is the empirical
 Storing the replicates rather than only the marginal percentiles is what makes a
 **joint** interval possible: the per-coefficient intervals discard the
 correlation between the intercept and the slopes, and recombining them by
-interval arithmetic is conservative rather than correct.
+interval arithmetic has no guaranteed joint coverage and is not necessarily
+conservative. A coefficient band is a sensitivity summary, not a calibrated joint
+confidence interval.
 
-The resulting interval is a confidence interval for the **fitted mean response**.
+The joint bootstrap interval estimates uncertainty in the **fitted mean response**
+conditional on the stored model and bootstrap procedure; nominal coverage is not
+an empirical calibration result.
 It is not a prediction interval and is not named like one: it excludes residual
 scatter, and it carries no information about extrapolation. A candidate outside
 the training range can have a narrower band than one inside it, because width
@@ -246,7 +284,9 @@ coefficient. `stericx fit --omit-bootstrap-ensemble` writes the document without
 it; screening then reports no bootstrap interval rather than inventing one.
 
 This section is absent from schema 1 entirely, and the ensemble is never written
-into the flattened fit report, so `--output` stays byte-identical.
+into the flattened fit report, so omitting it from a portable document does not change the accompanying fit
+report for that same run. Scientific corrections across versions can change fit
+values; historical reports are not overwritten.
 
 ### The one threshold, and where it comes from
 
@@ -311,7 +351,9 @@ can never make a ligand appear more in-domain than it is.
 `PortableModel::validate` runs on every read and every write. It rejects:
 
 - a `schema_version` above the supported maximum, or below 1;
-- a version 2 document missing `inference`, `provenance`, or `created`;
+- a version 2 or 3 document missing `inference`, `provenance`, or `created`;
+- a version 3 document with missing/unknown `descriptor_aggregation`; unsupported
+  aggregation labels are rejected during typed decoding;
 - a missing required field in any section (Serde reports the field by name);
 - non-finite weights; a selected index outside the descriptor columns, or
   pointing at the intercept; a duplicated selected index; a selected name that
@@ -321,7 +363,10 @@ can never make a ligand appear more in-domain than it is.
 - an inverted or non-finite applicability range;
 - an empty `model_id`, `stericx_version`, or `created_utc`;
 - an empty `dataset_digests` list, or a digest that is not hexadecimal;
-- provenance training counts that disagree with the fit report.
+- provenance training counts that disagree with the fit report;
+- malformed training geometry: invalid indices, dimensions, nonfinite values,
+  nonpositive scales/inverse diagonal, nonsymmetric inverse, inconsistent point
+  or label counts, or geometry selection/scaling/counts that differ from the fit.
 
 ### Cross-checking
 
@@ -347,49 +392,75 @@ and writing it again. `tests/portable_model_format.rs` guards this.
 
 ## Producing a document
 
-`stericx fit` writes its usual version 1 artifact to `--output` and, when asked,
-an additional version 2 document:
+`stericx fit` writes its fit report to `--output` and optionally an additional
+schema-3 portable document. Use corrected input records and new output paths;
+do not overwrite the historical study artifacts. Build the corrected CLI first.
+If the prepared input directory already exists, verify/reuse its receipt rather
+than rerunning the new-directory preparation step. Choose a new demo suffix for
+a repeat run.
 
 ```bash
+cargo build --release
+python3 scripts/prepare_remediation_inputs.py \
+  --output .stericx/scientific_remediation/ni_hda_response_metadata_v2
+mkdir -p .stericx/scientific_remediation/demo
+mkdir .stericx/scientific_remediation/demo/model_format_v1
+
+./target/release/stericx parse \
+  --csv .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
+  --xyz-dir data \
+  --output .stericx/scientific_remediation/demo/model_format_v1/reactions.sigpack
+
 ./target/release/stericx fit \
-  --data data/reactions.sigpack \
-  --metadata data/reactions_raw.csv \
-  --output docs/study_001/stericx_model.json \
-  --predictions docs/study_001/stericx_frozen_predictions.csv \
+  --data .stericx/scientific_remediation/demo/model_format_v1/reactions.sigpack \
+  --metadata .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
+  --output .stericx/scientific_remediation/demo/model_format_v1/fit-report.json \
+  --predictions .stericx/scientific_remediation/demo/model_format_v1/frozen-predictions.csv \
+  --portable-model .stericx/scientific_remediation/demo/model_format_v1/model.json \
+  --model-id ni-hda-corrected-supplied-means \
+  --descriptor-aggregation supplied_weight_mean \
   --bootstrap 2000 --permutations 2000 \
-  --portable-model docs/study_001/stericx_portable_model.json \
-  --model-id mechanistically_constrained_ols \
   --reaction-family "Ni-catalyzed homo-Diels-Alder" \
   --catalyst-metal Ni \
   --ligand-class "monodentate phosphorus(III)" \
   --source-url "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv" \
-  --response-temp-k 298.15 \
-  --response-sign-convention "Magnitude |ddG| from ddG_abs; larger values mean greater enantioselectivity; no R/S assignment." \
+  --response-temp-k 353.15 \
+  --response-sign-convention "Magnitude |ddG| from ddG_abs; no R/S assignment." \
   --optimize maximize
+
+./target/release/stericx screen \
+  .stericx/scientific_remediation/demo/model_format_v1/model.json \
+  --library .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
+  --temperature 353.15 --format json \
+  > .stericx/scientific_remediation/demo/model_format_v1/screen.json
 ```
 
-This reproduces the fit and corrected response annotation of the checked-in
-`docs/study_001/stericx_portable_model.json`; creation metadata depends on the run.
-The magnitude annotation corrects an earlier hardcoded R/S label without changing
-the fitted numbers (see [scientific notes](SCIENTIFIC_NOTES.md)). The replicate counts are not the
-defaults — the Study 001 artifact was fitted with 2,000 bootstrap and 2,000
-permutation replicates, and the defaults reproduce every other field but shift
-the coefficient intervals and the permutation p-value.
+The input preparation corrects response metadata to **353.15 K**, preserves
+published targets and the supplied historical **298.15 K** conformer weights,
+and records source hashes. Those retained weights are not claimed to describe
+thermodynamic equilibrium at reaction temperature. The ligand 2064 source
+conflict remains unresolved. Parsing and screening both use all listed conformers,
+explicit supplied weights and row bond-axis indices; neither silently substitutes
+a representative geometry. This screen includes training rows and is a method
+consistency example, not new validation.
 
-The checked-in `stericx_model.json` predates `training_geometry.neighbor_calibration`
-and `standardized_training_points`, which this build records. Re-running the command
-against that path re-emits it with those two fields added; every pre-existing value,
-including the bootstrap intervals and the permutation p-value, stays byte-identical.
-It was deliberately left as published, so the version 1 artifact still screens with
-applicability verdicts of `unknown` while the version 2 document reports
-`interpolation`.
+These commands produce a new scientific artifact; they do not reproduce the
+old coefficients or establish their predictive validity. The checked-in Study
+001 schema-1 and schema-2 models remain unchanged historical evidence. Without
+an aggregation declaration they report `unknown`: precomputed matching
+candidate descriptors remain usable, but geometry substitution is refused.
+Schema 3 requires a supported explicit declaration and older readers reject it.
+The default new-fit declaration `supplied_record_values` does not infer how
+packed descriptors were generated.
 
-`--output` is unchanged by this flag, so existing study artifacts stay
-byte-identical. Study 001 therefore publishes both documents side by side: the
-version 1 `stericx_model.json` that the released studies and the Python drivers
-already read, and the version 2 `stericx_portable_model.json` that carries the
-response definition, the provenance, the applicability calibration, and the
-optimization direction `screen` needs to rank without an explicit flag.
+Screen JSON records `descriptor_aggregation`, its provenance note and a
+`source` for each descriptor. CSV adds `descriptor_aggregation` and
+`descriptor_sources`; supplied/computed mixtures retain caller responsibility.
+The `trust` compatibility field uses measured range/leverage descriptions,
+not `reliable`. `mahalanobis_unavailable` gives the reason ordinary covariance
+distance could not be computed; missing legacy training points and singular
+covariance are not silently replaced with a regularized distance. See the
+[screening tutorial](REACTION_SCREENING.md) for the S001 split and deck workflow.
 
 ## Inspecting and validating a document
 
@@ -418,8 +489,12 @@ Issue codes include `unsupported_schema_version`, `missing_schema_version`,
 `descriptor_name_mismatch`, `duplicate_feature_index`, `invalid_feature_index`,
 `missing_section`, `missing_dataset_digest`, `malformed_digest`,
 `incomplete_digest`, `training_count_mismatch`, `training_group_mismatch`,
-`term_count_mismatch`, `inference_disagrees_with_fit`, `legacy_schema`, and
-`unrecorded_context`.
+`term_count_mismatch`, `inference_disagrees_with_fit`,
+`missing_descriptor_aggregation`, `invalid_training_geometry`,
+`inconsistent_training_geometry`, `legacy_schema`, and `unrecorded_context`.
+Unknown aggregation in a schema-1/2 document is exposed by inspection and
+screening, not itself a validation error. Geometry substitution still fails
+with an actionable request for matching precomputed values or a justified new fit.
 
 ## Compatibility policy
 
@@ -427,7 +502,7 @@ Issue codes include `unsupported_schema_version`, `missing_schema_version`,
 - Adding a required field, renaming one, or changing the meaning of one
   requires a new `schema_version`, and this build must then reject it until it
   is taught to read it.
-- Version 1 documents remain readable. They are reported as legacy rather than
+- Version 1 and 2 documents remain readable. Version 1 is reported as legacy rather than
   upgraded in place, because the metadata a version 2 document requires cannot
   be recovered from a version 1 file — and guessing it is exactly what this
   format exists to prevent.

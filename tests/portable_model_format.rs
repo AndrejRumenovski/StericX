@@ -184,7 +184,10 @@ fn portable_document_is_a_superset_of_the_version_1_artifact() {
     for key in ["inference", "provenance", "created"] {
         assert!(object.contains_key(key), "missing portable section `{key}`");
     }
-    assert_eq!(object["schema_version"], serde_json::json!(2));
+    assert_eq!(
+        object["schema_version"],
+        serde_json::json!(PORTABLE_SCHEMA_VERSION)
+    );
 
     // A legacy reader deserializes the same document as a plain fit report.
     let text = serde_json::to_string(&value).unwrap();
@@ -274,6 +277,42 @@ fn future_schema_versions_are_rejected() {
             assert_eq!(maximum, PORTABLE_SCHEMA_VERSION);
         }
         other => panic!("expected UnsupportedSchemaVersion, got {other:?}"),
+    }
+}
+
+#[test]
+fn new_schema_requires_aggregation_and_old_models_keep_unknown_provenance() {
+    let model = portable_model();
+    let mut value = as_value(&model);
+    assert_eq!(value["descriptor_aggregation"], "supplied_record_values");
+    value
+        .as_object_mut()
+        .unwrap()
+        .remove("descriptor_aggregation");
+    assert!(PortableModel::from_json(&value.to_string()).is_err());
+    value["schema_version"] = serde_json::json!(2);
+    let old = PortableModel::from_json(&value.to_string()).unwrap();
+    assert_eq!(
+        old.fit.descriptor_aggregation,
+        steric_x::model::DescriptorAggregation::Unknown
+    );
+    assert!(old.is_portable());
+}
+
+#[test]
+fn rejects_malformed_or_inconsistent_training_geometry() {
+    for change in 0..4 {
+        let mut value = as_value(&portable_model());
+        match change {
+            0 => value["training_geometry"]["xtx_inverse"][0] = serde_json::json!([]),
+            1 => value["training_geometry"]["feature_indices"][0] = serde_json::json!(99),
+            2 => value["training_geometry"]["scales"][0] = serde_json::json!(0.0),
+            _ => value["training_geometry"]["means"][0] = serde_json::json!(12345.0),
+        }
+        assert!(
+            PortableModel::from_json(&value.to_string()).is_err(),
+            "case {change}"
+        );
     }
 }
 

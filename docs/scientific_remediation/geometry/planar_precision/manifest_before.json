@@ -1,0 +1,11 @@
+{
+  "sources": {
+    "docs/scientific_accuracy_audit/geometry/requests.jsonl": "f6895aef132734008c575eb6707cee3040d4a2986acdd39370106817217d55fe",
+    ".stericx/scientific_remediation/observations_v2/geometry/stdout.jsonl": "f5c3fa428df83830bd0a4605430308790971406beb9661fe74069182f9f77f94",
+    "src/geometry/buried_volume.rs": "437949cbf112c2b02e7e76d8af6c2ef6cef3b704e50df7c70072b8b8d0b48571"
+  },
+  "rows": 124,
+  "initial_errors": 29,
+  "false_resolutions_at_input_precision": 95,
+  "classification": "Explicit precision ambiguity policy proposed; no fitted tolerance"
+}

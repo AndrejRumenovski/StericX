@@ -1,0 +1,951 @@
+{
+  "purpose": "Execute documented native commands on corrected v3 snapshot; command success is not empirical validation",
+  "started_utc": "2026-09-22T01:35:27.297713+00:00",
+  "input_bindings": [
+    {
+      "path": ".stericx/scientific_remediation/validated_build_v3/manifest.json",
+      "bytes": 29725,
+      "sha256": "5ae616ba13ee24839b7ba41af2508a5aa5fef381116a116e8ad6b527a9c60f4f"
+    },
+    {
+      "path": ".stericx/scientific_remediation/validated_build_v3/bin/stericx",
+      "bytes": 3382176,
+      "sha256": "2dc6c7b981c324a0c15cf1d030349859014c5547a4bb800080e5fc7c98bce9ba"
+    },
+    {
+      "path": ".stericx/scientific_remediation/ni_hda_response_metadata_v2/manifest.json",
+      "bytes": 41080,
+      "sha256": "1efaf1f478ac9129da619622a6b1aac832b4c0c411c6ee54d4afdcb1e6629b73"
+    },
+    {
+      "path": ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+      "bytes": 12767,
+      "sha256": "c20b8e5e256b285986f98e8c93d0a5710bf3fd7c98cc4bd186c314c7a8bc5748"
+    },
+    {
+      "path": "docs/examples/ni_hda_screening_split.csv",
+      "bytes": 718,
+      "sha256": "293b83e77fb8f018a464565ae21dd6c949995f6daa68d2328f4646f0b02a184d"
+    },
+    {
+      "path": "docs/examples/ni_hda_screening_tested.csv",
+      "bytes": 130,
+      "sha256": "5fde03c6345d706d0ba4ece74bb79c7d8ce6a23fc5fd0b53c9a13277f5f9de34"
+    }
+  ],
+  "binary": {
+    "path": ".stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+    "bytes": 3382176,
+    "sha256": "2dc6c7b981c324a0c15cf1d030349859014c5547a4bb800080e5fc7c98bce9ba"
+  },
+  "commands": [
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "parse",
+        "--csv",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--xyz-dir",
+        "data",
+        "--output",
+        ".stericx/scientific_remediation/demo/screening_v1/reactions.sigpack"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "parse",
+        "--csv",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--xyz-dir",
+        "data",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/reactions.sigpack"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/00.stdout",
+        "bytes": 570,
+        "sha256": "23f3bb84189c08bcb36da6fbecc72e12d7a73c2cc63e42930fa92a1e1b1fe066"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/00.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "fit",
+        "--data",
+        ".stericx/scientific_remediation/demo/screening_v1/reactions.sigpack",
+        "--metadata",
+        "docs/examples/ni_hda_screening_split.csv",
+        "--output",
+        ".stericx/scientific_remediation/demo/screening_v1/fit-report.json",
+        "--predictions",
+        ".stericx/scientific_remediation/demo/screening_v1/frozen-predictions.csv",
+        "--portable-model",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json",
+        "--model-id",
+        "ni-hda-screening-tutorial",
+        "--reaction-family",
+        "Ni-catalyzed homo-Diels-Alder",
+        "--catalyst-metal",
+        "Ni",
+        "--ligand-class",
+        "monodentate phosphorus(III)",
+        "--source-url",
+        "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv",
+        "--descriptor-aggregation",
+        "supplied_weight_mean",
+        "--response-temp-k",
+        "353.15",
+        "--response-sign-convention",
+        "Magnitude |ddG| from ddG_abs; larger values mean greater enantioselectivity; no R/S assignment.",
+        "--optimize",
+        "maximize",
+        "--bootstrap",
+        "1000",
+        "--permutations",
+        "500",
+        "--seed",
+        "20260904"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "fit",
+        "--data",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/reactions.sigpack",
+        "--metadata",
+        "docs/examples/ni_hda_screening_split.csv",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/fit-report.json",
+        "--predictions",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/frozen-predictions.csv",
+        "--portable-model",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+        "--model-id",
+        "ni-hda-screening-tutorial",
+        "--reaction-family",
+        "Ni-catalyzed homo-Diels-Alder",
+        "--catalyst-metal",
+        "Ni",
+        "--ligand-class",
+        "monodentate phosphorus(III)",
+        "--source-url",
+        "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv",
+        "--descriptor-aggregation",
+        "supplied_weight_mean",
+        "--response-temp-k",
+        "353.15",
+        "--response-sign-convention",
+        "Magnitude |ddG| from ddG_abs; larger values mean greater enantioselectivity; no R/S assignment.",
+        "--optimize",
+        "maximize",
+        "--bootstrap",
+        "1000",
+        "--permutations",
+        "500",
+        "--seed",
+        "20260904"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/01.stdout",
+        "bytes": 1052,
+        "sha256": "03afb9540fdff2dcfcdebe5320a77a78590dcbbe1b98e2b6501281e2fd1171f4"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/01.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "model",
+        "validate",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "model",
+        "validate",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/02.stdout",
+        "bytes": 194,
+        "sha256": "0863c9743c647297dad338b0f185c21209b565ca345c59242aa96ea22bae3ba1"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/02.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "model",
+        "inspect",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "model",
+        "inspect",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/03.stdout",
+        "bytes": 1306,
+        "sha256": "ab4eecdad85f8c3ff3f3fd43581b2a09663247f7b99aa998ed680689e1d2270d"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/03.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "model",
+        "inspect",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json",
+        "--format",
+        "json",
+        ">",
+        ".stericx/scientific_remediation/demo/screening_v1/model-summary.json"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "model",
+        "inspect",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/04.stdout",
+        "bytes": 1859,
+        "sha256": "1368dbc3ad6d367576860007df3be8c1aeb9acc7352f6ab043b2a7b748c82ff1"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/04.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "redirected_stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/model-summary.json",
+        "bytes": 1859,
+        "sha256": "1368dbc3ad6d367576860007df3be8c1aeb9acc7352f6ab043b2a7b748c82ff1"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "model",
+        "validate",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json",
+        "--format",
+        "json",
+        ">",
+        ".stericx/scientific_remediation/demo/screening_v1/model-validation.json"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "model",
+        "validate",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/05.stdout",
+        "bytes": 221,
+        "sha256": "7dd956088e9b75f5b3d0ec84275022a8dfbf56b07d10d7fda706240b98f89e5b"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/05.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "redirected_stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/model-validation.json",
+        "bytes": 221,
+        "sha256": "7dd956088e9b75f5b3d0ec84275022a8dfbf56b07d10d7fda706240b98f89e5b"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "screen",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--temperature",
+        "353.15",
+        "--top",
+        "11"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "screen",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--temperature",
+        "353.15",
+        "--top",
+        "11"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/06.stdout",
+        "bytes": 8574,
+        "sha256": "6fa149b682a04fc2dc22da7082bc242e6d92ddcbab3384100e0ec0e018fc63a3"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/06.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "screen",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--temperature",
+        "353.15",
+        "--format",
+        "json",
+        ">",
+        ".stericx/scientific_remediation/demo/screening_v1/ranking-all.json"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "screen",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--temperature",
+        "353.15",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/07.stdout",
+        "bytes": 21724,
+        "sha256": "722322c6223e620f28a59d55100d32766c2d0dd2f2912c164e79dda60f25169c"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/07.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "redirected_stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/ranking-all.json",
+        "bytes": 21724,
+        "sha256": "722322c6223e620f28a59d55100d32766c2d0dd2f2912c164e79dda60f25169c"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "screen",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--temperature",
+        "353.15",
+        "--format",
+        "csv",
+        ">",
+        ".stericx/scientific_remediation/demo/screening_v1/ranking-all.csv"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "screen",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--temperature",
+        "353.15",
+        "--format",
+        "csv"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/08.stdout",
+        "bytes": 8299,
+        "sha256": "1a5a4973d14210b7b47b0af833417ecff3b582aa5bf3c03749fad63640655afd"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/08.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "redirected_stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/ranking-all.csv",
+        "bytes": 8299,
+        "sha256": "1a5a4973d14210b7b47b0af833417ecff3b582aa5bf3c03749fad63640655afd"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "screen",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--domain-rule",
+        "mean-plus-2sd",
+        "--temperature",
+        "353.15",
+        "--top",
+        "11"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "screen",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--domain-rule",
+        "mean-plus-2sd",
+        "--temperature",
+        "353.15",
+        "--top",
+        "11"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/09.stdout",
+        "bytes": 8571,
+        "sha256": "939fb195acbb4a77a2cfe49e3929005e9d26b2a7f928980e7ddc85d8428d1bfc"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/09.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "screen",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--exclude-tested",
+        "docs/examples/ni_hda_screening_tested.csv",
+        "--temperature",
+        "353.15",
+        "--top",
+        "3"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "screen",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--exclude-tested",
+        "docs/examples/ni_hda_screening_tested.csv",
+        "--temperature",
+        "353.15",
+        "--top",
+        "3"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/10.stdout",
+        "bytes": 4717,
+        "sha256": "9d153c81cd7f917d580f8e41b1f7998a1d177068ef10b54008b3703163dae9d6"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/10.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "screen",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--exclude-tested",
+        "docs/examples/ni_hda_screening_tested.csv",
+        "--temperature",
+        "353.15",
+        "--top",
+        "2",
+        "--diverse",
+        "--diversity-weight",
+        "0.5"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "screen",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--exclude-tested",
+        "docs/examples/ni_hda_screening_tested.csv",
+        "--temperature",
+        "353.15",
+        "--top",
+        "2",
+        "--diverse",
+        "--diversity-weight",
+        "0.5"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/11.stdout",
+        "bytes": 4914,
+        "sha256": "1172f3199eff0ea3751932fc3facd9921e8a9a21d7804f877fa5734c4d512cde"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/11.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "screen",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--exclude-tested",
+        "docs/examples/ni_hda_screening_tested.csv",
+        "--temperature",
+        "353.15",
+        "--top",
+        "2",
+        "--diverse",
+        "--diversity-weight",
+        "0.5",
+        "--format",
+        "json",
+        ">",
+        ".stericx/scientific_remediation/demo/screening_v1/final-screen-report.json"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "screen",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--exclude-tested",
+        "docs/examples/ni_hda_screening_tested.csv",
+        "--temperature",
+        "353.15",
+        "--top",
+        "2",
+        "--diverse",
+        "--diversity-weight",
+        "0.5",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/12.stdout",
+        "bytes": 8706,
+        "sha256": "8d359f6e60271256100939e699f5d5d6e8ef215f8728ffca180d27bf38ae6d8f"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/12.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "redirected_stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/final-screen-report.json",
+        "bytes": 8706,
+        "sha256": "8d359f6e60271256100939e699f5d5d6e8ef215f8728ffca180d27bf38ae6d8f"
+      }
+    },
+    {
+      "document": "docs/REACTION_SCREENING.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "screen",
+        ".stericx/scientific_remediation/demo/screening_v1/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--exclude-tested",
+        "docs/examples/ni_hda_screening_tested.csv",
+        "--temperature",
+        "353.15",
+        "--top",
+        "2",
+        "--diverse",
+        "--diversity-weight",
+        "0.5",
+        "--export-deck",
+        ".stericx/scientific_remediation/demo/screening_v1/candidate-deck.csv",
+        ">",
+        ".stericx/scientific_remediation/demo/screening_v1/deck-export.txt"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "screen",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--exclude-tested",
+        "docs/examples/ni_hda_screening_tested.csv",
+        "--temperature",
+        "353.15",
+        "--top",
+        "2",
+        "--diverse",
+        "--diversity-weight",
+        "0.5",
+        "--export-deck",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/screening/candidate-deck.csv"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/13.stdout",
+        "bytes": 5252,
+        "sha256": "d957d00c94acb1328dfc4075c0b7f63e33d486feba9b97bf39add1efc9595546"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/13.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "redirected_stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/deck-export.txt",
+        "bytes": 5252,
+        "sha256": "d957d00c94acb1328dfc4075c0b7f63e33d486feba9b97bf39add1efc9595546"
+      }
+    },
+    {
+      "document": "docs/MODEL_FORMAT.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "parse",
+        "--csv",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--xyz-dir",
+        "data",
+        "--output",
+        ".stericx/scientific_remediation/demo/model_format_v1/reactions.sigpack"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "parse",
+        "--csv",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--xyz-dir",
+        "data",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/model_format/reactions.sigpack"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/14.stdout",
+        "bytes": 573,
+        "sha256": "77f24303a6bfb4898b35b38c4d039a8b5207096b2ed2fa210824147803d5fa17"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/14.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "document": "docs/MODEL_FORMAT.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "fit",
+        "--data",
+        ".stericx/scientific_remediation/demo/model_format_v1/reactions.sigpack",
+        "--metadata",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--output",
+        ".stericx/scientific_remediation/demo/model_format_v1/fit-report.json",
+        "--predictions",
+        ".stericx/scientific_remediation/demo/model_format_v1/frozen-predictions.csv",
+        "--portable-model",
+        ".stericx/scientific_remediation/demo/model_format_v1/model.json",
+        "--model-id",
+        "ni-hda-corrected-supplied-means",
+        "--descriptor-aggregation",
+        "supplied_weight_mean",
+        "--bootstrap",
+        "2000",
+        "--permutations",
+        "2000",
+        "--reaction-family",
+        "Ni-catalyzed homo-Diels-Alder",
+        "--catalyst-metal",
+        "Ni",
+        "--ligand-class",
+        "monodentate phosphorus(III)",
+        "--source-url",
+        "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv",
+        "--response-temp-k",
+        "353.15",
+        "--response-sign-convention",
+        "Magnitude |ddG| from ddG_abs; no R/S assignment.",
+        "--optimize",
+        "maximize"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "fit",
+        "--data",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/model_format/reactions.sigpack",
+        "--metadata",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/model_format/fit-report.json",
+        "--predictions",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/model_format/frozen-predictions.csv",
+        "--portable-model",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/model_format/model.json",
+        "--model-id",
+        "ni-hda-corrected-supplied-means",
+        "--descriptor-aggregation",
+        "supplied_weight_mean",
+        "--bootstrap",
+        "2000",
+        "--permutations",
+        "2000",
+        "--reaction-family",
+        "Ni-catalyzed homo-Diels-Alder",
+        "--catalyst-metal",
+        "Ni",
+        "--ligand-class",
+        "monodentate phosphorus(III)",
+        "--source-url",
+        "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv",
+        "--response-temp-k",
+        "353.15",
+        "--response-sign-convention",
+        "Magnitude |ddG| from ddG_abs; no R/S assignment.",
+        "--optimize",
+        "maximize"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/15.stdout",
+        "bytes": 1063,
+        "sha256": "568a3b72e61ed84929c1712c061903ab60b8c57a5a05c2edb9855415e0475414"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/15.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "document": "docs/MODEL_FORMAT.md",
+      "documented_argv": [
+        "./target/release/stericx",
+        "screen",
+        ".stericx/scientific_remediation/demo/model_format_v1/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--temperature",
+        "353.15",
+        "--format",
+        "json",
+        ">",
+        ".stericx/scientific_remediation/demo/model_format_v1/screen.json"
+      ],
+      "executed_argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "screen",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v2/model_format/model.json",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--temperature",
+        "353.15",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/16.stdout",
+        "bytes": 23485,
+        "sha256": "0e8327acf0a9c63c7c015466e07303073001c8d2fdb4a079d5049499dd16f38a"
+      },
+      "stderr": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/logs/16.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "redirected_stdout": {
+        "path": ".stericx/scientific_remediation/demo/documented_commands_v2/model_format/screen.json",
+        "bytes": 23485,
+        "sha256": "0e8327acf0a9c63c7c015466e07303073001c8d2fdb4a079d5049499dd16f38a"
+      }
+    }
+  ],
+  "documents": [
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/docs/REACTION_SCREENING.md",
+      "bytes": 21378,
+      "sha256": "c2c955f5aa9b209ace39190d7379bab79113853eafbe8270dbae24fa451820c0"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/docs/MODEL_FORMAT.md",
+      "bytes": 27806,
+      "sha256": "d186dea235ead6157e7f9ee5328f42855151b88ab1ddd65821ac804237c7f383"
+    }
+  ],
+  "input_bindings_after": [
+    {
+      "path": ".stericx/scientific_remediation/validated_build_v3/manifest.json",
+      "bytes": 29725,
+      "sha256": "5ae616ba13ee24839b7ba41af2508a5aa5fef381116a116e8ad6b527a9c60f4f"
+    },
+    {
+      "path": ".stericx/scientific_remediation/validated_build_v3/bin/stericx",
+      "bytes": 3382176,
+      "sha256": "2dc6c7b981c324a0c15cf1d030349859014c5547a4bb800080e5fc7c98bce9ba"
+    },
+    {
+      "path": ".stericx/scientific_remediation/ni_hda_response_metadata_v2/manifest.json",
+      "bytes": 41080,
+      "sha256": "1efaf1f478ac9129da619622a6b1aac832b4c0c411c6ee54d4afdcb1e6629b73"
+    },
+    {
+      "path": ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+      "bytes": 12767,
+      "sha256": "c20b8e5e256b285986f98e8c93d0a5710bf3fd7c98cc4bd186c314c7a8bc5748"
+    },
+    {
+      "path": "docs/examples/ni_hda_screening_split.csv",
+      "bytes": 718,
+      "sha256": "293b83e77fb8f018a464565ae21dd6c949995f6daa68d2328f4646f0b02a184d"
+    },
+    {
+      "path": "docs/examples/ni_hda_screening_tested.csv",
+      "bytes": 130,
+      "sha256": "5fde03c6345d706d0ba4ece74bb79c7d8ce6a23fc5fd0b53c9a13277f5f9de34"
+    }
+  ],
+  "outputs": [
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/candidate-deck.csv",
+      "bytes": 1526,
+      "sha256": "3c8c8f7e4e13993e3dca37a8dc4b3a9e987a5c2ec665098dfa2a6fc2c2770b11"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/candidate-deck.meta.json",
+      "bytes": 4598,
+      "sha256": "dec1bc412c37a1a539e84e1b7fcce863ad05b9cbbe9e1263f66b776fd5ec2000"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/deck-export.txt",
+      "bytes": 5252,
+      "sha256": "d957d00c94acb1328dfc4075c0b7f63e33d486feba9b97bf39add1efc9595546"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/final-screen-report.json",
+      "bytes": 8706,
+      "sha256": "8d359f6e60271256100939e699f5d5d6e8ef215f8728ffca180d27bf38ae6d8f"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/fit-report.json",
+      "bytes": 6263,
+      "sha256": "cd3695c278b6a2358ff120d107592ec2012fb440584391d447d4c8b7fd96a092"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/frozen-predictions.csv",
+      "bytes": 351,
+      "sha256": "c81b1498426bd1410d71141872f96445a0b6daa1c84bbb4d311cac59b4a1567b"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/model-summary.json",
+      "bytes": 1859,
+      "sha256": "1368dbc3ad6d367576860007df3be8c1aeb9acc7352f6ab043b2a7b748c82ff1"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/model-validation.json",
+      "bytes": 221,
+      "sha256": "7dd956088e9b75f5b3d0ec84275022a8dfbf56b07d10d7fda706240b98f89e5b"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/model.json",
+      "bytes": 81904,
+      "sha256": "3c4558e923ed3ed978e3e77e2faeb88ed5eedd82b7c1ba2ad8a805115732303c"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/ranking-all.csv",
+      "bytes": 8299,
+      "sha256": "1a5a4973d14210b7b47b0af833417ecff3b582aa5bf3c03749fad63640655afd"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/ranking-all.json",
+      "bytes": 21724,
+      "sha256": "722322c6223e620f28a59d55100d32766c2d0dd2f2912c164e79dda60f25169c"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/screening/reactions.sigpack",
+      "bytes": 704,
+      "sha256": "8772fcbffdae0ac5288b42f18b3e78c4a1dd43346a7f186da5dfb151d4a7bd3b"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/model_format/fit-report.json",
+      "bytes": 6425,
+      "sha256": "d3e846a6d07de641682401249188f275f7f00c80952a754b2abf52ceaef36db0"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/model_format/frozen-predictions.csv",
+      "bytes": 159,
+      "sha256": "05e4734acd97369e34d588cb542cd2ec3f603b402c08b0ff057c5967c6528465"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/model_format/model.json",
+      "bytes": 156910,
+      "sha256": "3895e529581bb918feb80ea88c7dde5754484bca82bef5903f4c7d4787c853de"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/model_format/reactions.sigpack",
+      "bytes": 704,
+      "sha256": "8772fcbffdae0ac5288b42f18b3e78c4a1dd43346a7f186da5dfb151d4a7bd3b"
+    },
+    {
+      "path": ".stericx/scientific_remediation/demo/documented_commands_v2/model_format/screen.json",
+      "bytes": 23485,
+      "sha256": "0e8327acf0a9c63c7c015466e07303073001c8d2fdb4a079d5049499dd16f38a"
+    }
+  ],
+  "all_commands_succeeded": true,
+  "finished_utc": "2026-09-22T01:35:27.387635+00:00"
+}

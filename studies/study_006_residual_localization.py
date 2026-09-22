@@ -1,11 +1,9 @@
 """Study 006: localize the buried-volume residual to the coordination centre.
 
-Study 004's residual anatomy showed the full-set `vbur_max_delta_qvbur_min`
-residual is confined to primary/secondary phosphines and grows ~0.7 Å³ per P-H
-bond, and attributed it to the geometric lone-pair centre standing in for
-Kraken's xTB localized-molecular-orbital centre. This study turns that
-attribution into a controlled test using descriptors StericX computes from the
-*same* geometries but with *different* dependence on that centre:
+This historical comparison measures P-H-associated residuals. It does not
+uniquely identify a causal mechanism. The original electronic-LMO attribution
+was incorrect: Kraken DFT uses a geometric raw-bond-vector sum, while StericX
+uses unit vectors. The descriptors differ in their center dependence:
 
   * Buried volume and Sterimol (L, B1, B5) are anchored on the coordination
     centre / lone-pair axis - a wrong centre moves them.
@@ -13,10 +11,8 @@ attribution into a controlled test using descriptors StericX computes from the
     donor->substituent bond vectors and never references the coordination
     centre at all.
 
-If the P-H residual is genuinely a coordination-centre artefact, it must appear
-in the centre-coupled descriptors and vanish in pyramidalization - an internal
-control, on the same ligands, that no amount of kernel or geometry error could
-fake. This script measures the signed residual (StericX minus Kraken published,
+Association with center dependence cannot exclude kernel, frame or input errors.
+This script measures the signed residual (StericX minus Kraken published,
 each ligand's minimum over its conformers) as a function of the donor's P-H
 count for every descriptor, and reports the per-P-H slope, standardized so the
 six descriptors are comparable despite their different units.
@@ -221,13 +217,11 @@ def write_report(
         "",
         "## An internal control: which descriptors carry the P-H residual?",
         "",
-        f"Study 004 showed the full-set buried-volume residual is confined to the "
-        f"{n_ph} primary/secondary phosphines and grows ~0.7 Å³ per P-H bond, and "
-        f"attributed it to StericX's geometric lone-pair centre standing in for "
-        f"Kraken's xTB localized-molecular-orbital centre. This study tests that "
-        f"attribution directly. StericX computes six descriptors from the same "
-        f"{ligands} DFT geometries, split by how they depend on the coordination "
-        f"centre:",
+        f"This comparison measures class residuals for {n_ph} P-H ligands among "
+        f"{ligands} structures. It groups six descriptors by coordination-center "
+        "dependence. Original Kraken DFT uses a geometric raw-bond-vector sum; "
+        "StericX uses unit vectors. The earlier electronic-LMO attribution was "
+        "incorrect, and center differences are not confined to P-H donors.",
         "",
         "- **Centre-coupled** - buried volume and Sterimol `L`/`B1`/`B5` are "
         "anchored on the coordination centre / lone-pair axis, so a wrong centre "
@@ -236,9 +230,8 @@ def write_report(
         "purely from the three donor→substituent bond vectors and never "
         "references the coordination centre at all.",
         "",
-        "If the P-H residual is genuinely a coordination-centre artefact, it must "
-        "appear in the centre-coupled descriptors and vanish in pyramidalization "
-        "- on the *same* ligands. It does.",
+        "The observed association supports a center-convention contribution "
+        "without identifying a unique cause.",
         "",
         "| Descriptor | Centre | Residual, P-H 0/1/2 | Std slope/P-H | Outlier x |",
         "|---|---|---|---:|---:|",
@@ -267,16 +260,12 @@ def write_report(
         f"minimum-over-conformers reduction interacts with the small P-H "
         f"sample; the systematic per-P-H slope is the robust signal.)",
         "",
-        "Because pyramidalization shares the donor, the geometries, the "
-        "covalent-radius frame, and the `f32` kernel with the buried volume - "
-        "differing *only* in that it never places the coordination centre - this "
-        "rules out the kernel, the frame construction, and the geometries as the "
-        "source. The residual is specifically the geometric lone-pair centre "
-        "diverging from Kraken's xTB LMO centre, exactly where a P-H bond "
-        "replaces a bulky substituent with a short, light one. It is a bounded, "
-        "understood property of the free reproduction pipeline, affecting 1.6 % "
-        "of the library and none of the tertiary phosphines that make up the "
-        "Ni-hDA family - not a bug, and not tuned away.",
+        "Scientific correction: these descriptors differ in more than center "
+        "placement, so the comparison cannot rule out kernel, frame or geometry "
+        "effects. The independent audit includes direct convention-isolation "
+        "calculations and identifies native defects separately. See "
+        "docs/scientific_accuracy_audit/kraken/REPORT.md. Historical values are "
+        "retained and do not validate a corrected build.",
         "",
         "![Residual localization](residual_localization.png)",
         "",

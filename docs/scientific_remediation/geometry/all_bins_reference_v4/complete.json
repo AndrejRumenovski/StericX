@@ -1,0 +1,43 @@
+{
+  "kind": "complete_private_bin_reference_comparison",
+  "global_scientific_pass": false,
+  "thresholds_inferred_from_observed_errors": false,
+  "inputs": {
+    ".stericx/scientific_remediation/observations_v4/manifest.json": "5120602e43e9d914587f94e0d2ea3caa396db2e189586f269ae36127e180ef30",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/observations_v4/derived_requests/kraken_topology_all_bins.jsonl": "c9e10bbf57c4285c9974a9b95e3ae5bf346a3ca5b47c12742f56a8fd33eb1016",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/observations_v4/kraken_topology_all_bins/stdout.jsonl": "b8be0be5fed86ea9d317b66434c1b17266fb6aafd8009ce7110cd8479c0c9de2",
+    ".stericx/scientific_remediation/buried_volume_reference_v4/complete.json": "ddeeedaa7ef9b9f8a0169c377848b6159e0daa5d79fea0e286661397df9c9eef",
+    ".stericx/scientific_remediation/buried_volume_reference_v4/reference_results.jsonl": "8f65f8e71e562783f606cff9a3bb54b40141bac2da9f886f5ab15b0bb2810dfe",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/manifest_final.json": "c31b655641a352402b14dc2d4535261a9de9c9004979c5e571d78e45cac82f03",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/scripts/geometry_reference.py": "e08724b2da8ef85eb78b86e4890e5ed180786bfe6ed02656ed1bbf1aa1aaa6d1",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/compare_all_volume_bins.py": "32d4d7cf4990d9c84c95050109884bb967e77fbb47755728ccebae355afe3f5b"
+  },
+  "rows": 31721,
+  "frames": 95163,
+  "bins": 1141956,
+  "radius_strata": {
+    "no_B+no_Br": 30779,
+    "no_B+no_Br+other_radius:FE": 244,
+    "no_B+no_Br+other_radius:SE": 19,
+    "B+no_Br": 241,
+    "no_B+Br": 205,
+    "no_B+no_Br+other_radius:SN": 233
+  },
+  "radius_mismatch_atom_counts": {
+    "FE": 244,
+    "SE": 57,
+    "B": 313,
+    "BR": 237,
+    "SN": 233
+  },
+  "packages": {
+    "numpy": "2.5.1",
+    "scipy": "1.18.0",
+    "morfeus-ml": "0.8.0"
+  },
+  "artifacts": {
+    "per_id_residuals.jsonl": "4929d2a2d63707b2e6866af8995c658641f73bbc8f0bdaddfb01a2aebac435c5",
+    "metrics.json": "0d874157526352daf956a8e8c3edacb275821b14af0751a34362e8cb8cd022b1",
+    "top20.json": "b6d061f98b5d651fc10bf50700af4c1acb7bf803b057e7140d0dc19d87e9ecb6"
+  }
+}

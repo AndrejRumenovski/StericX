@@ -1,0 +1,144 @@
+{
+  "scope": "focused debug before/after with preserved v3 beforebinary; final whole-source snapshot still needed",
+  "definition": "Euclidean distance of library population-standardized descriptors; unchanged f32 epsilon constant-axis policy and f32 output",
+  "commands": [
+    {
+      "stage": "before",
+      "case": "identical",
+      "argv": [
+        ".stericx/scientific_remediation/validated_build_v3/bin/stericx",
+        "search",
+        "--database",
+        "docs/scientific_remediation/geometry/db_mean/ungrouped.csv",
+        "--similar-to",
+        "docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_0.sdf",
+        "--features",
+        "sterimol_l",
+        "--sterimol-axis",
+        "coordination",
+        "--density",
+        "1",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "stdout_sha256": "51469909d9a423bb6b99274a26fc521f2faafa062e30727518a23846e08f9b89",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "stage": "before",
+      "case": "varying",
+      "argv": [
+        ".stericx/scientific_remediation/validated_build_v3/bin/stericx",
+        "search",
+        "--database",
+        "docs/scientific_remediation/geometry/db_mean/large_varying.csv",
+        "--similar-to",
+        "docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_0.sdf",
+        "--features",
+        "sterimol_l",
+        "--sterimol-axis",
+        "coordination",
+        "--density",
+        "1",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "stdout_sha256": "dd9d488934e431f0dc483784e6eda6c3230dfcc6d8cf1dee65fe4eb99f72d531",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "stage": "after",
+      "case": "identical",
+      "argv": [
+        ".stericx/scientific_remediation/db_search_debug_v2/stericx",
+        "search",
+        "--database",
+        "docs/scientific_remediation/geometry/db_mean/ungrouped.csv",
+        "--similar-to",
+        "docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_0.sdf",
+        "--features",
+        "sterimol_l",
+        "--sterimol-axis",
+        "coordination",
+        "--density",
+        "1",
+        "--format",
+        "json"
+      ],
+      "returncode": 2,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "f1e2a7517e76ef540e4821badd4369da5c4c22a1c96f0465343fc3b03bfb2784"
+    },
+    {
+      "stage": "after",
+      "case": "varying",
+      "argv": [
+        ".stericx/scientific_remediation/db_search_debug_v2/stericx",
+        "search",
+        "--database",
+        "docs/scientific_remediation/geometry/db_mean/large_varying.csv",
+        "--similar-to",
+        "docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_0.sdf",
+        "--features",
+        "sterimol_l",
+        "--sterimol-axis",
+        "coordination",
+        "--density",
+        "1",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "stdout_sha256": "ff4510a1ba4a2d9118b12439427474e3c26d59bd2e792f11173a091c9bce6ee1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "identical_case": "old successful null distances now rejected as all constant under existing policy",
+  "varying_results": [
+    {
+      "ligand": "high",
+      "query_l_f32": 1.9999593712379312e+38,
+      "candidate_l_f32": 2.5521177519070385e+38,
+      "mean_f64": 1.7014118346046923e+38,
+      "population_sd_f64": 8.507059173023462e+37,
+      "expected_distance_f32": 0.6490590572357178,
+      "observed_distance_f32": 0.6490590572357178,
+      "exact_f32_match": true
+    },
+    {
+      "ligand": "low",
+      "query_l_f32": 1.9999593712379312e+38,
+      "candidate_l_f32": 8.507059173023462e+37,
+      "mean_f64": 1.7014118346046923e+38,
+      "population_sd_f64": 8.507059173023462e+37,
+      "expected_distance_f32": 1.3509409427642822,
+      "observed_distance_f32": 1.3509409427642822,
+      "exact_f32_match": true
+    }
+  ],
+  "unit_tests_passed": 8,
+  "files": [
+    {
+      "path": ".stericx/scientific_remediation/db_search_debug_v2/stericx",
+      "sha256": "c14b0ee085400a73eeda3c5b31fabd2b124081ab51e351a181c52063e319213e"
+    },
+    {
+      "path": "src/commands/search.rs",
+      "sha256": "fa4a370e823aa4f10a14cdc343cbeb1441decfabc0f3ce7e5315c27c50cd245b"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/db_mean/large_varying.csv",
+      "sha256": "a36f8635027cd5ef97b225645a0039f65db99cd03c31a47121820accf0e12b11"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/db_mean/search_tests.log",
+      "sha256": "80cd9eabeb2bc92f20c02247640d5a1e51f019bf29c7f5732594e823e5d7d156"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/db_mean/search_audit.json",
+      "sha256": "28338c3b278488f488f02100007bff1baf8a4ce3c8756ba6d247edfa8d2d26ec"
+    }
+  ]
+}

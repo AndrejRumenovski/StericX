@@ -1,0 +1,188 @@
+{
+  "kind": "geometry_remediation_results",
+  "historical_ledger_sha256": "215b12c0d0ac3993feb85c770fbada51a7042497ff77da1fa3a5926ca838c171",
+  "historical_audit_immutable": true,
+  "full_corpus_acceptance": "geometry review complete for frozen v4; coordinator cross-domain admission remains separate",
+  "global_scientific_pass": false,
+  "claims": [
+    {
+      "id": "G06",
+      "historical_status": "INCORRECT",
+      "remediation_status": "corrected_contract",
+      "resolution": "Implicit tied bond axes now reject; explicit mapped axes give identical results across six permutations."
+    },
+    {
+      "id": "G12",
+      "historical_status": "INCORRECT",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "G13",
+      "historical_status": "UNCERTAIN",
+      "remediation_status": "documentation_corrected_limit_retained",
+      "resolution": "Unknown-element1.8A fallback explicitly unvalidated; table unchanged."
+    },
+    {
+      "id": "G14",
+      "historical_status": "INCORRECT",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "G17",
+      "historical_status": "INCORRECT",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "G18",
+      "historical_status": "INCORRECT",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "G20",
+      "historical_status": "INCORRECT",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "G22",
+      "historical_status": "INCORRECT",
+      "remediation_status": "corrected_and_final_v4_reviewed",
+      "resolution": "Valid symmetric nonzero occupancy is accepted, with independent PH3 volume/asymmetry witness."
+    },
+    {
+      "id": "G23",
+      "historical_status": "UNCERTAIN",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "G26",
+      "historical_status": "UNCERTAIN",
+      "remediation_status": "documentation_corrected_limit_retained",
+      "resolution": "Distance heuristic no longer claimed universally reliable; authoritative topology available."
+    },
+    {
+      "id": "G29",
+      "historical_status": "INCORRECT",
+      "remediation_status": "documentation_corrected_convention_retained",
+      "resolution": "Negative sum of unit vectors remains explicit; no false electronic/original-DFT center attribution."
+    },
+    {
+      "id": "G30",
+      "historical_status": "UNCERTAIN",
+      "remediation_status": "clarified_and_precision_ambiguity_checked",
+      "resolution": "Planar fallback compares coordinate-rounding clearance intervals conditional on the fixed represented normal; all124 original planar variants consistently require explicit center, off-plane control remains resolved. No inferred-normal uncertainty enclosure claimed. Three-frame volume mean corrects order dependence."
+    },
+    {
+      "id": "G33",
+      "historical_status": "TERMINOLOGY ISSUE",
+      "remediation_status": "corrected_documentation",
+      "resolution": "P tetrahedral=4/(3sqrt(3)); orthogonal triad=1; equation unchanged apart from stable evaluation."
+    },
+    {
+      "id": "G35",
+      "historical_status": "INCORRECT",
+      "remediation_status": "corrected_and_final_v4_reviewed",
+      "resolution": "Checked Result APIs distinguish invalid geometry; nearly-collinear/short-axis witnesses return independent-consistent finite values."
+    },
+    {
+      "id": "G36",
+      "historical_status": "INCORRECT",
+      "remediation_status": "corrected_and_final_v4_reviewed",
+      "resolution": "Checked finite inputs/results, finite-coordinate projection overflow fixed, checked conformer means prevent repeated finite-frame overflow. Shared DB export mean overflow also corrected with independently retained four-file witness."
+    },
+    {
+      "id": "G37",
+      "historical_status": "UNCERTAIN",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "G38",
+      "historical_status": "OUT OF SCOPE",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "G39",
+      "historical_status": "INCORRECT",
+      "remediation_status": "corrected_and_final_v4_reviewed",
+      "resolution": "Direct axial/radial projections correct pole snapping; full31721 same-center topology reference max L1.3137623913195284e-6A andB56.983686944295187e-7A; sampled B1 phase limit retained."
+    },
+    {
+      "id": "K03",
+      "historical_status": "TERMINOLOGY ISSUE",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "K04",
+      "historical_status": "INCORRECT",
+      "remediation_status": "documentation_corrected_convention_retained",
+      "resolution": "Unit-vector center convention retained and distinguished from raw-vector primary DFT construction."
+    },
+    {
+      "id": "K06",
+      "historical_status": "INCORRECT",
+      "remediation_status": "documentation_corrected_convention_retained",
+      "resolution": "Center/frame/radius/density protocol distinctions retained; no output matching by tuning."
+    },
+    {
+      "id": "K09",
+      "historical_status": "UNCERTAIN",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "K10",
+      "historical_status": "INCORRECT",
+      "remediation_status": "corrected_and_final_v4_reviewed",
+      "resolution": "Constructive near-axis witnesses and final31721 same-center support reference reviewed; no unexplained support-kernel regression. B1 sampling and historical conventions remain separate."
+    },
+    {
+      "id": "K11",
+      "historical_status": "INCORRECT",
+      "remediation_status": "resolved_with_explicit_topology",
+      "resolution": "All31721 supplied-topology cases compute successfully, including all8 graph-verified extra-contact witnesses; original inference still exposes those8documented errors."
+    },
+    {
+      "id": "K12",
+      "historical_status": "INCORRECT",
+      "remediation_status": "corrected_and_final_v4_reviewed",
+      "resolution": "KRAKEN1299:54318 computes valid nonzero occupancy and zero asymmetry."
+    },
+    {
+      "id": "K13",
+      "historical_status": "UNCERTAIN",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "K14",
+      "historical_status": "UNCERTAIN",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    },
+    {
+      "id": "K15",
+      "historical_status": "INCORRECT",
+      "remediation_status": "retained_classified_limit",
+      "resolution": "Original convention, provenance, numerical-resolution or source-access limitation retained; not relabeled as verified by computational corrections."
+    }
+  ],
+  "report_sha256": "712d1da7c19d7a2915f81c6b806ca816bf35a4e06a6049f871611724817301b1",
+  "planar_precision_evidence_sha256": "ef7361454984f68b7672d840d53dddee14e03232b1fd33724f09e76b11c24101",
+  "geometry_readiness": "corrected demonstrated defects; no new unexplained regression in reviewed scope; retained numerical/convention/provenance limits remain explicit",
+  "final_evidence": {
+    "docs/scientific_remediation/geometry/final_review_v4_2/review.json": "b67bbce4e4cb900af62eeef098a78ee1e3ce4324e779864e985bf497800bf1b1",
+    "docs/scientific_remediation/geometry/all_bins_reference_v4/complete.json": "eb718a2a705ff80790ff5c4ecd8706048470fce798ab5f2910742658c61b40cf",
+    "docs/scientific_remediation/geometry/boundary_witnesses_v4/complete.json": "c6f2517047a0f96afaf630abd5491c45e452f8f92bae1c5b9440d9ec5883efdb",
+    "docs/scientific_remediation/geometry/fixed_variant_comparison_v4/complete.json": "5f78646cd78cbf7240137127bf4f9ecf2f787d821c415ea199963efa66967877",
+    "docs/scientific_remediation/geometry/final_geometry_frame_means_v4.json": "b894659c8971becedb5c3bea5726d50c65f57d8c9763d36fe8236e56e4ad3df4",
+    ".stericx/scientific_remediation/fixed_reference_union_v4/complete.json": "2c61aad0ba518dab166410dc1368f94223c5825077f741fe15f31c34d17a3639"
+  }
+}

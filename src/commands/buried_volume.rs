@@ -5,8 +5,8 @@ use crate::output::{
 };
 use crate::reaction::{
     ReactionCsvRow, conformer_coordination_centers, conformer_energy_span, conformer_paths,
-    conformer_weights, record_from_ensemble, resolve_xyz_path, sterimol_from_molecule,
-    validate_reaction_row,
+    conformer_weights, normalized_weights, record_from_ensemble, resolve_xyz_path,
+    sterimol_from_molecule, validate_reaction_row,
 };
 use serde::Serialize;
 use std::error::Error;
@@ -91,6 +91,7 @@ pub(crate) fn buried_volume_command(
         validate_reaction_row(&row, row_index + 2)?;
         let coordinate_paths = conformer_paths(&row)?;
         let weights = conformer_weights(&row, coordinate_paths.len())?;
+        let reported_weights = normalized_weights(&weights)?;
         let energy_span = conformer_energy_span(&row, coordinate_paths.len())?;
         let coordination_centers = conformer_coordination_centers(&row, coordinate_paths.len())?;
         if require_explicit_centers && coordination_centers.is_none() {
@@ -161,7 +162,7 @@ pub(crate) fn buried_volume_command(
                 reaction_id: row.reaction_id.clone(),
                 conformer_index,
                 conformer_xyz_path: csv_coordinate_path.display().to_string(),
-                boltzmann_weight: weights[conformer_index],
+                boltzmann_weight: reported_weights[conformer_index] as f32,
                 vbur: buried.buried_volume,
                 percent_vbur: buried.percent_buried_volume,
                 qvbur_min: buried.qvbur_min,

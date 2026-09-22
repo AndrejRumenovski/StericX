@@ -2,7 +2,13 @@
 
 ## Reproducing Kraken's published Sterimol at full scale
 
-Kraken measures Sterimol along the coordination axis — a virtual metal 2.28 Å from phosphorus along the lone pair, the same centre the buried volume uses, with the +0.40 Å Verloop `L` correction. StericX exposes this as `descriptors --sterimol-axis coordination`. Comparing StericX against Kraken's *published* `sterimol_L/B1/B5` across 1541 ligands, at each conformer-ensemble minimum and maximum:
+This historical comparison uses `descriptors --sterimol-axis coordination` and
+ensemble minima/maxima on 1541 ligands. **Correction (2026-09-21):** the shared
+2.28 Å distance and +0.40 Å L correction do not make the conventions identical.
+Original Kraken DFT sums raw bond vectors to place the virtual metal, uses a
+1.09 Å hydrogen radius for Sterimol and samples 3,600 directions. The audited
+StericX build sums unit vectors, uses H = 1.20 Å and samples 360 directions.
+See the [source-based convention matrix](../scientific_accuracy_audit/kraken/REPORT.md).
 
 | Parameter | Extremum | R² | Pearson r | RMSE (Å) | Median abs. err (Å) |
 |---|---|---:|---:|---:|---:|
@@ -13,7 +19,11 @@ Kraken measures Sterimol along the coordination axis — a virtual metal 2.28 Å
 | B5 | min | 0.9927 | 0.9987 | 0.1188 | 0.1074 |
 | B5 | max | 0.9955 | 0.9995 | 0.1158 | 0.1097 |
 
-Mean R² across the six comparisons is **0.9887**. Once the axis convention is matched, StericX reproduces Kraken's published Sterimol as closely as it reproduces the buried-volume family — a second, independent classical steric descriptor validated over the whole library. The discovery that Sterimol shares the buried volume's 2.28 Å coordination centre mirrors the §3.2 result and is not a fitted choice: it is the one distance at which the published `L` values fall on the diagonal.
+The historical mean R² across the six comparisons is **0.9887**, with the
+absolute errors shown above. This is approximate agreement under different
+conventions, not an exact reproduction. The independent audit also identified
+a separate near-axis alignment defect in native L/B5. The table and figure
+retain the original observations and do not describe a corrected build.
 
 ![Sterimol parity](kraken_sterimol_parity.png)
 

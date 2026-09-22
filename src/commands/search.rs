@@ -415,31 +415,47 @@ pub(crate) fn library_statistics(
 /// Mean and standard deviation of each selected feature across the library.
 struct Standardizer {
     features: Vec<usize>,
-    means: Vec<f32>,
-    deviations: Vec<f32>,
+    means: Vec<f64>,
+    deviations: Vec<f64>,
 }
 
 impl Standardizer {
-    fn fit(entries: &[LibraryEntry], features: &[usize]) -> Self {
-        let count = entries.len() as f32;
+    fn fit(entries: &[LibraryEntry], features: &[usize]) -> Result<Self, String> {
+        if entries.is_empty() {
+            return Err("cannot standardize an empty library".into());
+        }
+        let count = entries.len() as f64;
         let mut means = Vec::with_capacity(features.len());
         let mut deviations = Vec::with_capacity(features.len());
         for &feature in features {
             let read = FEATURES[feature].get;
-            let mean = entries.iter().map(read).sum::<f32>() / count;
+            if entries.iter().any(|entry| !read(entry).is_finite()) {
+                return Err(format!(
+                    "library contains nonfinite {}",
+                    FEATURES[feature].name
+                ));
+            }
+            let mean = entries
+                .iter()
+                .map(|entry| f64::from(read(entry)))
+                .sum::<f64>()
+                / count;
             let variance = entries
                 .iter()
-                .map(|entry| (read(entry) - mean).powi(2))
-                .sum::<f32>()
+                .map(|entry| (f64::from(read(entry)) - mean).powi(2))
+                .sum::<f64>()
                 / count;
+            if !mean.is_finite() || !variance.is_finite() {
+                return Err("library standardization is outside finite precision".into());
+            }
             means.push(mean);
             deviations.push(variance.sqrt());
         }
-        Self {
+        Ok(Self {
             features: features.to_vec(),
             means,
             deviations,
-        }
+        })
     }
 
     /// Features the library cannot discriminate on (every member identical) are
@@ -448,25 +464,38 @@ impl Standardizer {
         self.features
             .iter()
             .zip(&self.deviations)
-            .filter(|(_, deviation)| **deviation <= f32::EPSILON)
+            .filter(|(_, deviation)| **deviation <= f64::from(f32::EPSILON))
             .map(|(feature, _)| FEATURES[*feature].name)
             .collect()
     }
 
-    fn distance(&self, query: &LibraryEntry, candidate: &LibraryEntry) -> f32 {
-        self.features
+    fn distance(&self, query: &LibraryEntry, candidate: &LibraryEntry) -> Result<f32, String> {
+        // Validate even ignored constant axes; NaN is never evidence of a match.
+        if self.features.iter().any(|&feature| {
+            let read = FEATURES[feature].get;
+            !read(query).is_finite() || !read(candidate).is_finite()
+        }) {
+            return Err("similarity requires finite query and candidate descriptors".into());
+        }
+        let distance = self
+            .features
             .iter()
             .zip(&self.means)
             .zip(&self.deviations)
-            .filter(|(_, deviation)| **deviation > f32::EPSILON)
+            .filter(|(_, deviation)| **deviation > f64::from(f32::EPSILON))
             .map(|((feature, mean), deviation)| {
                 let read = FEATURES[*feature].get;
-                let query_z = (read(query) - mean) / deviation;
-                let candidate_z = (read(candidate) - mean) / deviation;
+                let query_z = (f64::from(read(query)) - mean) / deviation;
+                let candidate_z = (f64::from(read(candidate)) - mean) / deviation;
                 (query_z - candidate_z).powi(2)
             })
-            .sum::<f32>()
-            .sqrt()
+            .sum::<f64>()
+            .sqrt() as f32;
+        if distance.is_finite() {
+            Ok(distance)
+        } else {
+            Err("standardized distance is outside finite output precision".into())
+        }
     }
 }
 
@@ -672,7 +701,7 @@ pub(crate) fn search_command(args: SearchArgs<'_>) -> Result<(), Box<dyn Error>>
         "ranking",
         "commands::search::rank_candidates"
     );
-    let standardizer = Standardizer::fit(&entries, &features);
+    let standardizer = Standardizer::fit(&entries, &features)?;
     let degenerate = standardizer.degenerate();
     if degenerate.len() == features.len() {
         return Err(
@@ -696,8 +725,8 @@ pub(crate) fn search_command(args: SearchArgs<'_>) -> Result<(), Box<dyn Error>>
         Some(query) => {
             let mut ranked = candidates
                 .into_iter()
-                .map(|entry| (Some(standardizer.distance(query, entry)), entry))
-                .collect::<Vec<_>>();
+                .map(|entry| Ok((Some(standardizer.distance(query, entry)?), entry)))
+                .collect::<Result<Vec<_>, String>>()?;
             // Ties break on file name so repeated runs emit an identical ordering.
             ranked.sort_by(|(left, left_entry), (right, right_entry)| {
                 left.unwrap_or(f32::INFINITY)
@@ -937,13 +966,19 @@ mod tests {
             resolve_feature("sterimol_l").unwrap(),
             resolve_feature("percent_buried_volume").unwrap(),
         ];
-        let standardizer = Standardizer::fit(&entries, &features);
+        let standardizer = Standardizer::fit(&entries, &features).unwrap();
         // A ligand is always its own nearest neighbour.
-        assert!(standardizer.distance(&entries[0], &entries[0]).abs() < 1e-6);
+        assert!(
+            standardizer
+                .distance(&entries[0], &entries[0])
+                .unwrap()
+                .abs()
+                < 1e-6
+        );
         // `b` and `c` sit one step either side of `a`, so both are equidistant
         // even though %Vbur spans five times the range that L does.
-        let to_b = standardizer.distance(&entries[0], &entries[1]);
-        let to_c = standardizer.distance(&entries[0], &entries[2]);
+        let to_b = standardizer.distance(&entries[0], &entries[1]).unwrap();
+        let to_c = standardizer.distance(&entries[0], &entries[2]).unwrap();
         assert!((to_b - to_c).abs() < 1e-5, "{to_b} vs {to_c}");
     }
 
@@ -957,7 +992,58 @@ mod tests {
             resolve_feature("sterimol_b1").unwrap(),
             resolve_feature("sterimol_l").unwrap(),
         ];
-        let standardizer = Standardizer::fit(&entries, &features);
+        let standardizer = Standardizer::fit(&entries, &features).unwrap();
         assert_eq!(standardizer.degenerate(), vec!["sterimol_b1"]);
+    }
+
+    #[test]
+    fn large_finite_standardization_matches_exact_one_sigma_distances() {
+        let features = vec![resolve_feature("sterimol_l").unwrap()];
+        // For [s,3s], population mean=2s and sigma=s exactly at both scales.
+        for scale in [1.0_f32, 2.0_f32.powi(126)] {
+            let entries = vec![
+                entry("low", scale, 1.7, 7.0, 30.0),
+                entry("high", 3.0 * scale, 1.7, 7.0, 30.0),
+            ];
+            let center = entry("center", 2.0 * scale, 1.7, 7.0, 30.0);
+            let standardizer = Standardizer::fit(&entries, &features).unwrap();
+            assert_eq!(standardizer.means, vec![2.0 * f64::from(scale)]);
+            assert_eq!(standardizer.deviations, vec![f64::from(scale)]);
+            assert_eq!(standardizer.distance(&center, &entries[0]).unwrap(), 1.0);
+            assert_eq!(standardizer.distance(&center, &entries[1]).unwrap(), 1.0);
+            assert_eq!(
+                standardizer.distance(&entries[0], &entries[1]).unwrap(),
+                2.0
+            );
+        }
+    }
+
+    #[test]
+    fn large_identical_inputs_remain_constant_and_invalid_distances_fail() {
+        let features = vec![resolve_feature("sterimol_l").unwrap()];
+        let entries = vec![entry("large", f32::MAX, 1.7, 7.0, 30.0); 4];
+        let standardizer = Standardizer::fit(&entries, &features).unwrap();
+        assert_eq!(standardizer.means, vec![f64::from(f32::MAX)]);
+        assert_eq!(standardizer.degenerate(), vec!["sterimol_l"]);
+        assert_eq!(
+            standardizer.distance(&entries[0], &entries[1]).unwrap(),
+            0.0
+        );
+        assert!(Standardizer::fit(&[], &features).is_err());
+        for invalid in [f32::NAN, f32::INFINITY, f32::NEG_INFINITY] {
+            let bad = entry("invalid", invalid, 1.7, 7.0, 30.0);
+            assert!(Standardizer::fit(std::slice::from_ref(&bad), &features).is_err());
+            assert!(standardizer.distance(&bad, &entries[0]).is_err());
+        }
+        let narrow = vec![
+            entry("a", 1.0, 1.7, 7.0, 30.0),
+            entry("b", 1.0 + 8.0 * f32::EPSILON, 1.7, 7.0, 30.0),
+        ];
+        let narrow_standardizer = Standardizer::fit(&narrow, &features).unwrap();
+        assert!(
+            narrow_standardizer
+                .distance(&entries[0], &narrow[0])
+                .is_err()
+        );
     }
 }

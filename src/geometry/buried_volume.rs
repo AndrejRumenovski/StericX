@@ -4,7 +4,7 @@ use std::error::Error;
 use std::f32::consts::PI;
 use std::fmt::{Display, Formatter};
 
-/// Kraken-compatible geometric settings for a metal-centred buried-volume scan.
+/// Geometric settings for a metal-centred buried-volume scan.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct BuriedVolumeConfig {
     /// Radius of the integration sphere in ångströms.
@@ -34,7 +34,7 @@ impl Default for BuriedVolumeConfig {
 /// Buried-volume descriptors for one conformer.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct BuriedVolumeParams {
-    /// Ligand-occupied volume inside the integration sphere in Å³.
+    /// Mean ligand-occupied volume over the three donor-plane grids in Å³.
     pub buried_volume: f32,
     /// Occupied fraction of the integration sphere in percent.
     pub percent_buried_volume: f32,
@@ -48,9 +48,9 @@ pub struct BuriedVolumeParams {
     pub ovbur_min: f32,
     /// Largest octant occupied volume across all orientations.
     pub ovbur_max: f32,
-    /// Occupied volume in the donor-facing hemisphere.
+    /// Mean occupied volume in the donor-facing hemisphere over three planes.
     pub near_vbur: f32,
-    /// Occupied volume in the distal hemisphere.
+    /// Mean occupied volume in the distal hemisphere over three planes.
     pub far_vbur: f32,
 }
 
@@ -85,7 +85,7 @@ impl Display for BuriedVolumeError {
 
 impl Error for BuriedVolumeError {}
 
-/// Deterministic voxel implementation of Kraken's Morfeus buried-volume protocol.
+/// Deterministic f32 voxel descriptors with an explicit geometric-center convention.
 #[derive(Clone, Copy, Debug, Default)]
 pub struct BuriedVolumeCalculator;
 
@@ -93,8 +93,9 @@ impl BuriedVolumeCalculator {
     /// Calculate one conformer's coordination-aware buried-volume descriptors.
     ///
     /// The virtual centre is placed 2.1 Å from the donor along a geometrically
-    /// inferred lone-pair direction. This is a documented approximation to
-    /// Kraken's xTB localized-molecular-orbital centre. The three covalently
+    /// inferred lone-pair direction (negative sum of unit bond directions).
+    /// This differs from both the raw-bond-vector DFT construction and an
+    /// electronic localized-orbital center. The three covalently
     /// bonded donor substituents (see [`bonded_neighbors`], hydrogens
     /// included) are each used to define the XZ plane, matching Kraken's
     /// three-orientation quadrant scan.
@@ -110,65 +111,64 @@ impl BuriedVolumeCalculator {
         Self::compute_from_center(molecule, donor_idx, neighbor_indices, center, config)
     }
 
-    /// Preserve every buried-volume acceptance check when only Sterimol is used.
-    ///
-    /// Screening discards the buried-volume values, but its accepted geometries
-    /// still depend on this calculation's validation. One complete orientation
-    /// can prove the final symmetry rejection impossible: a non-positive (or
-    /// NaN) first volume never rejects, and a positive quadrant difference cannot
-    /// return to zero under the remaining non-negative `max` operations.
-    /// All later frame and atom checks still run, in their original order. When
-    /// neither condition is established, subsequent complete voxel scans run
-    /// until a witness is found or the original rejection is established.
+    /// Check the same frame, input, and grid preconditions without calculating occupancy.
     pub fn validate_for_sterimol(
         molecule: &Molecule,
         donor_idx: usize,
         reference_neighbor_idx: usize,
         config: BuriedVolumeConfig,
     ) -> Result<(), BuriedVolumeError> {
-        crate::profile_scope!(
-            "buried_volume",
-            "BuriedVolumeCalculator::validate_for_sterimol"
-        );
-        let (neighbor_indices, center) =
+        let (neighbors, center) =
             donor_geometry(molecule, donor_idx, reference_neighbor_idx, config)?;
-        let sphere = integration_grid(config);
-        if sphere.is_empty() {
-            return Err(BuriedVolumeError(
-                "integration grid contains no points".to_owned(),
-            ));
-        }
+        Self::validate_with_neighbors(molecule, donor_idx, neighbors, center, config)
+    }
 
-        let mut first_volume = 0.0;
-        let mut max_delta_qvbur = 0.0_f32;
-        let mut needs_occupancy = true;
-        for (orientation_index, &plane_idx) in neighbor_indices.iter().enumerate() {
-            let basis = coordinate_basis(molecule, donor_idx, plane_idx, center)?;
-            let atoms = aligned_atoms(molecule, center, basis, config)?;
-            if !needs_occupancy {
-                continue;
-            }
-            // Reuse the exact voxel predicate, point order, quadrant totals,
-            // f32 conversions and volume arithmetic of the full calculation.
-            let volumes = occupied_volumes(&sphere, &atoms, config.sphere_radius);
-            if orientation_index == 0 {
-                first_volume = volumes.buried_volume;
-            }
-            let q = volumes.quadrants;
-            let adjacent_delta = (0..4)
-                .map(|index| (q[index] - q[(index + 3) % 4]).abs())
-                .fold(0.0_f32, f32::max);
-            max_delta_qvbur = max_delta_qvbur.max(adjacent_delta);
-            // Keep the original comparisons, including IEEE NaN behavior.
-            needs_occupancy = first_volume > 0.0 && max_delta_qvbur == 0.0;
-        }
-        if needs_occupancy {
+    /// Validate an explicitly supplied trivalent topology and coordination center.
+    pub fn validate_with_neighbors(
+        molecule: &Molecule,
+        donor_idx: usize,
+        neighbors: [usize; 3],
+        center: Vec3,
+        config: BuriedVolumeConfig,
+    ) -> Result<(), BuriedVolumeError> {
+        validate_config(config)?;
+        validate_neighbors(molecule, donor_idx, neighbors)?;
+        if integration_grid(config).is_empty() {
             return Err(BuriedVolumeError(
-                "degenerate coordination frame produced a symmetric zero max_delta_qvbur"
-                    .to_owned(),
+                "integration grid contains no points".into(),
             ));
+        }
+        for plane in neighbors {
+            let basis = coordinate_basis(molecule, donor_idx, plane, center)?;
+            aligned_atoms(molecule, center, basis, config)?;
         }
         Ok(())
+    }
+
+    /// Calculate using three explicit bonded neighbors, without distance inference.
+    /// Supplied topology is authoritative; neighbors must be distinct and valid.
+    pub fn compute_with_neighbors(
+        molecule: &Molecule,
+        donor_idx: usize,
+        neighbors: [usize; 3],
+        config: BuriedVolumeConfig,
+    ) -> Result<BuriedVolumeParams, BuriedVolumeError> {
+        let center = coordination_center_with_neighbors(molecule, donor_idx, neighbors, config)?;
+        Self::compute_from_center(molecule, donor_idx, neighbors, center, config)
+    }
+
+    /// Calculate using explicit bonded neighbors and an explicit coordination center.
+    /// This also resolves an otherwise ambiguous planar-center sign.
+    pub fn compute_with_center_and_neighbors(
+        molecule: &Molecule,
+        donor_idx: usize,
+        neighbors: [usize; 3],
+        center: Vec3,
+        config: BuriedVolumeConfig,
+    ) -> Result<BuriedVolumeParams, BuriedVolumeError> {
+        validate_config(config)?;
+        validate_neighbors(molecule, donor_idx, neighbors)?;
+        Self::compute_from_center(molecule, donor_idx, neighbors, center, config)
     }
 
     /// Calculate buried volume around an explicitly supplied coordination center.
@@ -195,7 +195,7 @@ impl BuriedVolumeCalculator {
                 "donor or coordination-center coordinate is not finite".to_owned(),
             ));
         }
-        if center.distance_squared(donor.position) <= f32::EPSILON {
+        if center == donor.position {
             return Err(BuriedVolumeError(
                 "coordination center coincides with donor atom".to_owned(),
             ));
@@ -227,17 +227,16 @@ impl BuriedVolumeCalculator {
             ovbur_min: f32::INFINITY,
             ..BuriedVolumeParams::default()
         };
+        let mut totals = [0.0_f32; 3];
+        let mut near = [0.0_f32; 3];
+        let mut far = [0.0_f32; 3];
         for (orientation_index, &plane_idx) in neighbor_indices.iter().enumerate() {
             let basis = coordinate_basis(molecule, donor_idx, plane_idx, center)?;
             let atoms = aligned_atoms(molecule, center, basis, config)?;
             let volumes = occupied_volumes(&sphere, &atoms, config.sphere_radius);
-            if orientation_index == 0 {
-                result.buried_volume = volumes.buried_volume;
-                result.percent_buried_volume =
-                    100.0 * volumes.buried_volume / sphere_volume(config.sphere_radius);
-                result.near_vbur = volumes.near_vbur;
-                result.far_vbur = volumes.far_vbur;
-            }
+            totals[orientation_index] = volumes.buried_volume;
+            near[orientation_index] = volumes.near_vbur;
+            far[orientation_index] = volumes.far_vbur;
             result.qvbur_min = result
                 .qvbur_min
                 .min(volumes.quadrants.into_iter().fold(f32::INFINITY, f32::min));
@@ -256,17 +255,18 @@ impl BuriedVolumeCalculator {
                 .fold(0.0_f32, f32::max);
             result.max_delta_qvbur = result.max_delta_qvbur.max(adjacent_delta);
         }
-        // A donor that occupies volume but yields perfectly equal quadrants in
-        // every orientation is unphysical: it signals a collapsed frame (e.g.
-        // only the donor atom fell inside the sphere) rather than a genuine
-        // symmetric ligand. Refuse to emit that spurious zero so the ensemble
-        // minimum is never poisoned by it.
-        if result.buried_volume > 0.0 && result.max_delta_qvbur == 0.0 {
-            return Err(BuriedVolumeError(
-                "degenerate coordination frame produced a symmetric zero max_delta_qvbur"
-                    .to_owned(),
-            ));
+        // The previous first-plane selection changed under atom permutations.
+        // Average the same three lattice estimates symmetrically. Sorting before
+        // reduction fixes f32 accumulation order without choosing a chemical axis.
+        fn mean(mut values: [f32; 3]) -> f32 {
+            values.sort_by(f32::total_cmp);
+            values.into_iter().map(|value| value / 3.0).sum()
         }
+        result.buried_volume = mean(totals);
+        result.percent_buried_volume =
+            100.0 * (result.buried_volume / sphere_volume(config.sphere_radius));
+        result.near_vbur = mean(near);
+        result.far_vbur = mean(far);
         Ok(result)
     }
 
@@ -289,30 +289,64 @@ impl BuriedVolumeCalculator {
                 "weights must be finite and non-negative".to_owned(),
             ));
         }
-        let weight_sum = weights.iter().sum::<f32>();
-        if !weight_sum.is_finite() || weight_sum <= f32::EPSILON {
+        if conformers.iter().any(|params| {
+            [
+                params.buried_volume,
+                params.percent_buried_volume,
+                params.qvbur_min,
+                params.qvbur_max,
+                params.max_delta_qvbur,
+                params.ovbur_min,
+                params.ovbur_max,
+                params.near_vbur,
+                params.far_vbur,
+            ]
+            .iter()
+            .any(|value| !value.is_finite())
+        }) {
+            return Err(BuriedVolumeError(
+                "conformer descriptors must be finite".to_owned(),
+            ));
+        }
+        let scale = weights.iter().copied().fold(0.0_f32, f32::max);
+        if scale == 0.0 {
             return Err(BuriedVolumeError(
                 "conformer weights have zero total".to_owned(),
             ));
         }
-        let normalized = weights.iter().map(|weight| weight / weight_sum);
+        // Normalize before the sum can overflow, without an absolute epsilon
+        // cutoff that would reject a valid common scaling of the weights.
+        let scaled = weights
+            .iter()
+            .map(|weight| f64::from(*weight) / f64::from(scale))
+            .collect::<Vec<_>>();
+        let weight_sum = scaled.iter().sum::<f64>();
+        let mean = |select: fn(&BuriedVolumeParams) -> f32| {
+            (conformers
+                .iter()
+                .zip(&scaled)
+                .map(|(params, weight)| f64::from(select(params)) * (weight / weight_sum))
+                .sum::<f64>()) as f32
+        };
         let mut ensemble = BuriedVolumeEnsembleParams {
-            vbur_min: f32::INFINITY,
-            max_delta_qvbur_min: f32::INFINITY,
+            vbur_boltz: mean(|params| params.buried_volume),
+            qvbur_min_boltz: mean(|params| params.qvbur_min),
+            qvbur_max_boltz: mean(|params| params.qvbur_max),
+            max_delta_qvbur_boltz: mean(|params| params.max_delta_qvbur),
+            near_vbur_boltz: mean(|params| params.near_vbur),
+            far_vbur_boltz: mean(|params| params.far_vbur),
+            vbur_min: conformers[0].buried_volume,
+            vbur_max: conformers[0].buried_volume,
+            max_delta_qvbur_min: conformers[0].max_delta_qvbur,
+            max_delta_qvbur_max: conformers[0].max_delta_qvbur,
             conformer_count: conformers.len(),
             ..BuriedVolumeEnsembleParams::default()
         };
         let mut minimum_vbur_index = 0;
-        for (index, (params, weight)) in conformers.iter().zip(normalized).enumerate() {
+        for (index, params) in conformers.iter().enumerate() {
             if params.buried_volume < conformers[minimum_vbur_index].buried_volume {
                 minimum_vbur_index = index;
             }
-            ensemble.vbur_boltz += params.buried_volume * weight;
-            ensemble.qvbur_min_boltz += params.qvbur_min * weight;
-            ensemble.qvbur_max_boltz += params.qvbur_max * weight;
-            ensemble.max_delta_qvbur_boltz += params.max_delta_qvbur * weight;
-            ensemble.near_vbur_boltz += params.near_vbur * weight;
-            ensemble.far_vbur_boltz += params.far_vbur * weight;
             ensemble.vbur_min = ensemble.vbur_min.min(params.buried_volume);
             ensemble.vbur_max = ensemble.vbur_max.max(params.buried_volume);
             ensemble.max_delta_qvbur_min = ensemble.max_delta_qvbur_min.min(params.max_delta_qvbur);
@@ -322,6 +356,23 @@ impl BuriedVolumeCalculator {
         ensemble.max_delta_qvbur_delta =
             ensemble.max_delta_qvbur_max - ensemble.max_delta_qvbur_min;
         ensemble.max_delta_qvbur_vburminconf = conformers[minimum_vbur_index].max_delta_qvbur;
+        if [
+            ensemble.vbur_boltz,
+            ensemble.qvbur_min_boltz,
+            ensemble.qvbur_max_boltz,
+            ensemble.max_delta_qvbur_boltz,
+            ensemble.near_vbur_boltz,
+            ensemble.far_vbur_boltz,
+            ensemble.vbur_delta,
+            ensemble.max_delta_qvbur_delta,
+        ]
+        .iter()
+        .any(|value| !value.is_finite())
+        {
+            return Err(BuriedVolumeError(
+                "ensemble aggregation exceeds the finite f32 descriptor range".to_owned(),
+            ));
+        }
         Ok(ensemble)
     }
 }
@@ -342,6 +393,59 @@ pub fn coordination_center(
     donor_geometry(molecule, donor_idx, reference_neighbor_idx, config).map(|(_, center)| center)
 }
 
+/// Geometric coordination center using authoritative trivalent connectivity.
+/// The negative sum of normalized bonds defines the direction. A planar
+/// clearance tie has no unique sign and requires an explicit center instead.
+pub fn coordination_center_with_neighbors(
+    molecule: &Molecule,
+    donor_idx: usize,
+    neighbors: [usize; 3],
+    config: BuriedVolumeConfig,
+) -> Result<Vec3, BuriedVolumeError> {
+    validate_config(config)?;
+    validate_neighbors(molecule, donor_idx, neighbors)?;
+    let donor = molecule.atoms[donor_idx].position;
+    let direction = infer_lone_pair_direction(molecule, donor_idx, &neighbors)?;
+    let center = donor + config.center_distance * direction;
+    if !center.is_finite() || center == donor {
+        return Err(BuriedVolumeError(
+            "coordination center is non-finite or indistinguishable from donor at f32 precision"
+                .into(),
+        ));
+    }
+    Ok(center)
+}
+
+fn validate_neighbors(
+    molecule: &Molecule,
+    donor_idx: usize,
+    neighbors: [usize; 3],
+) -> Result<(), BuriedVolumeError> {
+    let donor = molecule
+        .atoms
+        .get(donor_idx)
+        .ok_or_else(|| BuriedVolumeError("donor index is out of bounds".into()))?;
+    if !donor.position.is_finite() {
+        return Err(BuriedVolumeError("donor coordinate is not finite".into()));
+    }
+    if neighbors[0] == neighbors[1] || neighbors[0] == neighbors[2] || neighbors[1] == neighbors[2]
+    {
+        return Err(BuriedVolumeError("donor neighbors must be distinct".into()));
+    }
+    for index in neighbors {
+        let atom = molecule
+            .atoms
+            .get(index)
+            .ok_or_else(|| BuriedVolumeError("neighbor index is out of bounds".into()))?;
+        if index == donor_idx || !atom.position.is_finite() || atom.position == donor.position {
+            return Err(BuriedVolumeError(
+                "invalid or coincident donor neighbor".into(),
+            ));
+        }
+    }
+    Ok(())
+}
+
 /// Shared preconditions in the same order as the full buried-volume calculation.
 fn donor_geometry(
     molecule: &Molecule,
@@ -360,8 +464,7 @@ fn donor_geometry(
         ));
     }
     let neighbor_indices = donor_neighbor_indices(molecule, donor_idx, reference_neighbor_idx)?;
-    let lone_pair_direction = infer_lone_pair_direction(molecule, donor_idx, &neighbor_indices)?;
-    let center = donor.position + config.center_distance * lone_pair_direction;
+    let center = coordination_center_with_neighbors(molecule, donor_idx, neighbor_indices, config)?;
     Ok((neighbor_indices, center))
 }
 
@@ -407,12 +510,26 @@ fn validate_config(config: BuriedVolumeConfig) -> Result<(), BuriedVolumeError> 
             "radii scale must be positive and finite".to_owned(),
         ));
     }
+    let volume = sphere_volume(config.sphere_radius);
+    let side = (volume / config.density * 6.0 / PI).cbrt().round().max(2.0);
+    let max_points = (isize::MAX as usize) / std::mem::size_of::<Vec3>();
+    if !volume.is_finite()
+        || volume <= 0.0
+        || !side.is_finite()
+        || side > (max_points as f64).cbrt() as f32
+        || !(config.sphere_radius * config.sphere_radius).is_finite()
+    {
+        return Err(BuriedVolumeError(
+            "integration grid exceeds finite representable range".into(),
+        ));
+    }
+
     Ok(())
 }
 
 /// Tolerance applied to summed covalent radii when inferring bonds from
-/// Cartesian coordinates. Real P–X bonds sit near 1.0× the summed radii while
-/// the nearest non-bonded contact is ~1.5×, so 1.3 separates them with margin.
+/// Cartesian coordinates. This heuristic can include non-bonded close contacts;
+/// supplied connectivity should be used when available.
 const BOND_TOLERANCE_FACTOR: f32 = 1.3;
 
 /// Covalently bonded neighbours of `donor_idx` as `(distance_squared, index)`,
@@ -454,8 +571,8 @@ pub fn bonded_neighbors(molecule: &Molecule, donor_idx: usize) -> Vec<(f32, usiz
 /// secondary phosphines (R–PH2, R2P–H): it discards the bonded hydrogens and
 /// reaches for distant non-bonded heavy atoms, which places the lone-pair
 /// centre in empty space (spurious `max_delta_qvbur = 0`) or skews it (gross
-/// overestimates). For a genuinely trisubstituted donor the two rules coincide,
-/// because no non-bonded heavy atom can lie closer than a real P–X bond.
+/// overestimates). Distance inference itself can still include close non-bonded
+/// contacts; explicit-neighbor APIs avoid that ambiguity.
 ///
 /// Hydrogens participate only in defining the geometric frame here; whether
 /// they contribute occupied volume remains governed by [`BuriedVolumeConfig`].
@@ -508,7 +625,25 @@ fn infer_lone_pair_direction(
 ) -> Result<Vec3, BuriedVolumeError> {
     crate::profile_scope!("donor_bond_detection", "infer_lone_pair_direction");
     let donor = molecule.atoms[donor_idx].position;
-    let vectors = neighbors.map(|index| (molecule.atoms[index].position - donor).normalize());
+    let mut vectors = neighbors.map(|index| {
+        let displacement = molecule.atoms[index].position - donor;
+        let squared = displacement.length_squared();
+        if squared.is_finite() && squared > f32::EPSILON {
+            displacement.normalize()
+        } else {
+            // Only the demonstrated small/overflow-prone normalization path
+            // needs wider intermediates; ordinary donor arithmetic stays f32.
+            (molecule.atoms[index].position.as_dvec3() - donor.as_dvec3())
+                .normalize()
+                .as_vec3()
+        }
+    });
+    // Reproducible sum and planar reference under neighbor/atom permutations.
+    vectors.sort_by(|a, b| {
+        a.x.total_cmp(&b.x)
+            .then(a.y.total_cmp(&b.y))
+            .then(a.z.total_cmp(&b.z))
+    });
     if vectors.iter().any(|vector| !vector.is_finite()) {
         return Err(BuriedVolumeError(
             "donor and substituent coordinates are coincident".to_owned(),
@@ -526,24 +661,106 @@ fn infer_lone_pair_direction(
         ));
     }
     let candidate = normal.normalize();
-    let positive_clearance = center_clearance(molecule, donor_idx, donor + candidate);
-    let negative_clearance = center_clearance(molecule, donor_idx, donor - candidate);
-    Ok(if positive_clearance >= negative_clearance {
-        candidate
+    // In the planar fallback, an exact f32 equality comparison can select a
+    // sign solely because a rigid transform rounded the input coordinates or
+    // because adding a unit probe to a translated donor lost precision.
+    // Resolve the fixed represented trial normal only when coordinate-rounding
+    // clearance intervals are disjoint. This does not propagate uncertainty in
+    // the inferred normal itself or establish an experimental coordinate error.
+    let positive = center_clearance_interval(molecule, donor_idx, candidate)?;
+    let negative = center_clearance_interval(molecule, donor_idx, -candidate)?;
+    if positive.0 > negative.1 {
+        Ok(candidate)
+    } else if negative.0 > positive.1 {
+        Ok(-candidate)
     } else {
-        -candidate
+        Err(BuriedVolumeError(
+            "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center".into(),
+        ))
+    }
+}
+
+/// Half the larger adjacent f32 spacing: a conservative symmetric rounding cell.
+fn coordinate_halfwidth(value: f32) -> f64 {
+    let magnitude = value.abs();
+    let bits = magnitude.to_bits();
+    let gap = if bits == f32::MAX.to_bits() {
+        f64::from(magnitude) - f64::from(f32::from_bits(bits - 1))
+    } else {
+        f64::from(f32::from_bits(bits + 1)) - f64::from(magnitude)
+    };
+    gap * 0.5
+}
+
+// Explicit adjacent-value operations preserve the crate's Rust 1.85 support.
+fn outward_down(value: f64) -> f64 {
+    if value == 0.0 {
+        return -f64::from_bits(1);
+    }
+    f64::from_bits(if value > 0.0 {
+        value.to_bits() - 1
+    } else {
+        value.to_bits() + 1
     })
 }
 
-fn center_clearance(molecule: &Molecule, donor_idx: usize, point: Vec3) -> f32 {
+fn outward_up(value: f64) -> f64 {
+    if value == 0.0 {
+        return f64::from_bits(1);
+    }
+    f64::from_bits(if value > 0.0 {
+        value.to_bits() + 1
+    } else {
+        value.to_bits() - 1
+    })
+}
+
+/// Squared nearest-heavy-atom distance intervals for a fixed one-Å trial normal.
+/// Only coordinate rounding is propagated; the represented probe stays fixed.
+fn center_clearance_interval(
+    molecule: &Molecule,
+    donor_idx: usize,
+    probe: Vec3,
+) -> Result<(f64, f64), BuriedVolumeError> {
     crate::profile_scope!("donor_bond_detection", "center_clearance");
-    molecule
-        .atoms
-        .iter()
-        .enumerate()
-        .filter(|(index, atom)| *index != donor_idx && !atom.element.eq_ignore_ascii_case("H"))
-        .map(|(_, atom)| point.distance_squared(atom.position))
-        .fold(f32::INFINITY, f32::min)
+    let donor = molecule.atoms[donor_idx].position.to_array();
+    let mut nearest = (f64::INFINITY, f64::INFINITY);
+    for (index, atom) in molecule.atoms.iter().enumerate() {
+        if index == donor_idx || atom.element.eq_ignore_ascii_case("H") {
+            continue;
+        }
+        if !atom.position.is_finite() {
+            return Err(BuriedVolumeError("atom coordinate is not finite".into()));
+        }
+        let mut distance = (0.0, 0.0);
+        for ((a, d), p) in atom
+            .position
+            .to_array()
+            .into_iter()
+            .zip(donor)
+            .zip(probe.to_array())
+        {
+            let da = coordinate_halfwidth(a);
+            let dd = coordinate_halfwidth(d);
+            let a = f64::from(a);
+            let d = f64::from(d);
+            let p = f64::from(p);
+            let low = outward_down(outward_down(outward_down(a - da) - outward_up(d + dd)) - p);
+            let high = outward_up(outward_up(outward_up(a + da) - outward_down(d - dd)) - p);
+            let closest = if low <= 0.0 && high >= 0.0 {
+                0.0
+            } else {
+                low.abs().min(high.abs())
+            };
+            let farthest = low.abs().max(high.abs());
+            distance.0 =
+                outward_down(distance.0 + outward_down(closest * closest).max(0.0)).max(0.0);
+            distance.1 = outward_up(distance.1 + outward_up(farthest * farthest));
+        }
+        nearest.0 = nearest.0.min(distance.0);
+        nearest.1 = nearest.1.min(distance.1);
+    }
+    Ok(nearest)
 }
 
 fn coordinate_basis(
@@ -554,13 +771,34 @@ fn coordinate_basis(
 ) -> Result<Basis, BuriedVolumeError> {
     crate::profile_scope!("buried_volume", "buried_volume::coordinate_basis");
     // Morfeus maps the centre->donor vector onto negative Z.
+    if !center.is_finite() || center == molecule.atoms[donor_idx].position {
+        return Err(BuriedVolumeError(
+            "coordination center is invalid or coincident with donor".into(),
+        ));
+    }
     let z = -(molecule.atoms[donor_idx].position - center).normalize();
     let plane_vector = molecule.atoms[plane_idx].position - center;
     let x_projection = plane_vector - z * plane_vector.dot(z);
-    if !z.is_finite() || x_projection.length_squared() <= 1.0e-8 {
-        return Err(BuriedVolumeError(
-            "donor plane atom is collinear with the coordination axis".to_owned(),
-        ));
+    if !z.is_finite() || !x_projection.is_finite() || x_projection.length_squared() <= 1.0e-8 {
+        // Resolve a genuinely nonzero small plane rather than imposing the
+        // old absolute threshold. A cross-product construction avoids subtracting
+        // nearly equal axial projections in the audited nearly-collinear case.
+        let axis = center.as_dvec3() - molecule.atoms[donor_idx].position.as_dvec3();
+        let plane = molecule.atoms[plane_idx].position.as_dvec3() - center.as_dvec3();
+        let normal = plane.cross(axis);
+        if normal.length_squared() == 0.0 || !normal.is_finite() {
+            return Err(BuriedVolumeError(
+                "donor plane atom is collinear with the coordination axis".into(),
+            ));
+        }
+        let z = axis.normalize();
+        let y = normal.normalize();
+        let x = z.cross(y);
+        return Ok(Basis {
+            x: x.as_vec3(),
+            y: -y.as_vec3(),
+            z: z.as_vec3(),
+        });
     }
     let x = x_projection.normalize();
     let y = z.cross(x).normalize();
@@ -592,9 +830,15 @@ fn aligned_atoms(
                 relative.dot(basis.z),
             );
             let radius = atom.vdw_radius * config.radii_scale;
+            let radius_squared = radius * radius;
+            if !position.is_finite() || !radius_squared.is_finite() || radius_squared == 0.0 {
+                return Err(BuriedVolumeError(
+                    "aligned coordinate or squared radius exceeds finite f32 range".into(),
+                ));
+            }
             Ok(AlignedAtom {
                 position,
-                radius_squared: radius * radius,
+                radius_squared,
             })
         })
         .collect()
@@ -908,19 +1152,20 @@ mod tests {
     }
 
     #[test]
-    fn sterimol_validation_keeps_symmetric_rejection_and_accepts_empty_occupancy() {
+    fn sterimol_validation_accepts_valid_symmetric_and_empty_occupancy() {
         let molecule = phosphine();
         // The donor covers every voxel, so every orientation has exactly equal
-        // quadrants. A valid atom/bond frame alone is insufficient for admission.
+        // quadrants. Occupancy symmetry is not a degenerate geometric frame.
         let symmetric = BuriedVolumeConfig {
             sphere_radius: 0.5,
             density: 0.001,
             center_distance: 0.1,
             ..BuriedVolumeConfig::default()
         };
-        let error =
-            assert_sterimol_validation_matches_full(&molecule, 0, 1, symmetric).unwrap_err();
-        assert!(error.to_string().contains("symmetric zero"));
+        assert_sterimol_validation_matches_full(&molecule, 0, 1, symmetric).unwrap();
+        let result = BuriedVolumeCalculator::compute(&molecule, 0, 1, symmetric).unwrap();
+        assert!(result.buried_volume > 0.0);
+        assert_eq!(result.max_delta_qvbur, 0.0);
 
         // Zero occupied volume is accepted even though quadrant differences
         // are also zero. It must not be mistaken for the positive-volume case.
@@ -1357,3 +1602,7 @@ mod tests {
         assert!(geometries >= 56);
     }
 }
+
+#[cfg(test)]
+#[path = "buried_volume/aggregation_remediation_tests.rs"]
+mod aggregation_remediation_tests;

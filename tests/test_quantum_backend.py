@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import sys
 import tempfile
 import time
@@ -309,6 +310,45 @@ print("CREST terminated normally.")
             self.assertEqual(len(second.conformers), 2)
             self.assertTrue((root / "cache" / "crest" / first.crest_cache_key).is_dir())
             self.assertTrue((root / "cache" / "jobs" / first.cache_key).is_dir())
+
+    def test_requested_population_temperature_is_bound_to_command_and_cache(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            backend = self._backend(root)
+            input_xyz = self._write_input(root)
+            initial = backend.crest_ensemble(input_xyz)
+            backend.config = QuantumConfig(
+                **{**backend.config.__dict__, "temperature_k": 500.0}
+            )
+            corrected = backend.crest_ensemble(input_xyz, legacy_donor_idx=0)
+            manifest = json.loads(Path(corrected.manifest_path).read_text())
+            command = manifest["command"]
+            self.assertEqual(command[command.index("--temp") + 1], "500.0")
+            self.assertEqual(
+                manifest["population_policy"],
+                "temperature_checked_rotamer_populations_v2",
+            )
+            self.assertNotEqual(initial.cache_key, corrected.cache_key)
+            self.assertFalse(corrected.cache_hit)
+            self.assertTrue(backend.crest_ensemble(input_xyz).cache_hit)
+            self.assertTrue(
+                all(
+                    row["population_temperature_k"] == 500.0
+                    for row in manifest["conformers"]
+                )
+            )
+            self.assertTrue(
+                all(
+                    row["population_method"]
+                    == "reweighted_complete_printed_rotamer_energies"
+                    for row in manifest["conformers"]
+                )
+            )
+            # The fake external CREST always prints its default-temperature table;
+            # its old 0.75/0.25 populations must not survive at the requested 500 K.
+            self.assertNotEqual(corrected.conformers[0].boltzmann_weight, 0.75)
 
     def test_failed_lmo_job_resumes_from_independent_caches(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -63,6 +63,8 @@ PUBLIC_DATASET_URLS: Final[tuple[str, ...]] = (
 )
 DEFAULT_SUBSTRATE_SMILES: Final[str] = "C=CC(=O)C"
 DEFAULT_TEMPERATURE_K: Final[float] = 298.15
+# Ni-hDA reaction conditions: 80 °C. Historical supplied ddG values are retained.
+NI_HDA_TEMPERATURE_K: Final[float] = 353.15
 DEFAULT_IR_FREQUENCY_CM1: Final[float] = 1650.0
 GAS_CONSTANT_KCAL_MOL_K: Final[float] = 0.00198720425864083
 PUBLISHED_TRAIN_IDS: Final[frozenset[str]] = frozenset(
@@ -353,11 +355,25 @@ def download_csv(
 
 
 def ee_to_ddg(ee_percent: pd.Series, temperature_k: float) -> pd.Series:
-    """Convert absolute percent ee to a positive ΔΔG‡ magnitude."""
-    ee = pd.to_numeric(ee_percent, errors="coerce").abs().clip(lower=0.0, upper=99.999)
-    major = (100.0 + ee) / 2.0
-    minor = (100.0 - ee) / 2.0
-    return GAS_CONSTANT_KCAL_MOL_K * temperature_k * np.log(major / minor)
+    """Convert |ee| < 100% to a ΔΔG‡ magnitude; missing observations stay missing.
+
+    Exactly 100% is a censored limit, not a finite free-energy measurement.
+    Values outside the physical interval and non-finite observations are errors.
+    """
+    if not np.isfinite(temperature_k) or temperature_k <= 0.0:
+        raise ValueError("temperature must be positive and finite")
+    ee = pd.to_numeric(ee_percent, errors="raise").abs()
+    observed = ee.notna()
+    if ((~np.isfinite(ee[observed])) | (ee[observed] >= 100.0)).any():
+        raise ValueError(
+            "finite ee measurements must satisfy |ee| < 100%; 100% is censored"
+        )
+    fraction = ee / 100.0
+    return (
+        GAS_CONSTANT_KCAL_MOL_K
+        * temperature_k
+        * (np.log1p(fraction) - np.log1p(-fraction))
+    )
 
 
 def normalize_public_sigman(frame: pd.DataFrame) -> pd.DataFrame:
@@ -367,11 +383,14 @@ def normalize_public_sigman(frame: pd.DataFrame) -> pd.DataFrame:
     if smiles_column is None:
         raise DatasetError("public table has no `smiles` column")
 
-    ddg = pd.to_numeric(frame.get("ddG_abs"), errors="coerce")
+    ddg = pd.to_numeric(
+        frame.get("ddG_abs", pd.Series(np.nan, index=frame.index)), errors="coerce"
+    )
     if ddg.isna().all() and "ee" not in frame.columns:
         raise DatasetError("public table has neither experimental `ddG_abs` nor `ee`")
     if "ee" in frame.columns:
-        ddg = ddg.fillna(ee_to_ddg(frame["ee"], DEFAULT_TEMPERATURE_K))
+        missing = ddg.isna()
+        ddg.loc[missing] = ee_to_ddg(frame.loc[missing, "ee"], NI_HDA_TEMPERATURE_K)
 
     source_ids = (
         frame.iloc[:, 0].astype(str).str.replace(r"\.0$", "", regex=True).str.strip()
@@ -396,10 +415,10 @@ def normalize_public_sigman(frame: pd.DataFrame) -> pd.DataFrame:
             # The source contains P-donor NBO charge. It maps to the engine's
             # generic donor-charge slot despite the historical `_N` CSV name.
             "NBO_Charge_N": donor_charge,
-            # This benchmark does not report IR values or per-row temperature.
-            # Explicit benchmark defaults keep the fixed-width matrix complete.
+            # IR is a missing-data placeholder. Reaction temperature is the
+            # published 80 °C; it does not establish conformer-weight provenance.
             "IR_Stretching_Freq": DEFAULT_IR_FREQUENCY_CM1,
-            "Temp_K": DEFAULT_TEMPERATURE_K,
+            "Temp_K": NI_HDA_TEMPERATURE_K,
             "Experimental_ddG": ddg,
             "Dataset_Split": dataset_split,
         }
@@ -411,7 +430,9 @@ def normalize_public_sigman(frame: pd.DataFrame) -> pd.DataFrame:
         "  Source note: mapped `nbo_P_boltz` to the generic donor-charge field; "
         f"the {DEFAULT_IR_FREQUENCY_CM1:.1f} cm^-1 IR value is an explicit "
         "missing-data placeholder and is excluded from scientific feature "
-        f"selection; temperature is {DEFAULT_TEMPERATURE_K:.2f} K."
+        f"selection; reaction temperature is {NI_HDA_TEMPERATURE_K:.2f} K. "
+        "Published ddG values are retained without resolving source "
+        "ee/ddG inconsistencies."
     )
     return normalized
 
@@ -597,7 +618,16 @@ def embed_and_optimize(
     energy_window: float,
     temperature_k: float,
 ) -> ConformerEnsemble:
-    """Generate, MMFF94-optimize, and Boltzmann-weight a ligand ensemble."""
+    """Attempt MMFF94 optimization and weight retained force-field energies.
+
+    Status 1 (iteration limit, not converged) remains retained by the existing
+    policy; status < 0 and non-finite energies are excluded. These populations
+    omit conformational entropy and are not a free-energy ensemble validation.
+    """
+    if not np.isfinite(temperature_k) or temperature_k <= 0.0:
+        raise ValueError("temperature must be positive and finite")
+    if not np.isfinite(energy_window) or energy_window < 0.0:
+        raise ValueError("energy window must be finite and non-negative")
     molecule = Chem.MolFromSmiles(smiles)
     if molecule is None:
         raise ValueError("RDKit could not parse ligand SMILES")
@@ -666,8 +696,11 @@ def embed_and_optimize(
         [item[2] - minimum_energy for item in retained],
         dtype=float,
     )
-    thermal_energy = GAS_CONSTANT_KCAL_MOL_K * temperature_k
-    raw_weights = np.exp(-relative_energies / thermal_energy)
+    # Divide by temperature before R to avoid underflow of R*T at tiny T.
+    with np.errstate(over="ignore", under="ignore"):
+        raw_weights = np.exp(
+            -(relative_energies / temperature_k) / GAS_CONSTANT_KCAL_MOL_K
+        )
     weights = raw_weights / raw_weights.sum()
 
     return ConformerEnsemble(

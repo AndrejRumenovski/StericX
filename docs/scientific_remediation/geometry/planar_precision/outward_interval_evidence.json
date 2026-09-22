@@ -1,0 +1,2186 @@
+{
+  "scope": "coordinate rounding only, conditional on fixed trial normal",
+  "not_an_uncertain_normal_or_experimental_error_enclosure": true,
+  "inputs": {
+    "docs/scientific_remediation/geometry/planar_precision/requests.jsonl": "6a6c4602d9e466f22990b0fe99660da8ccafb0d24187f334b5b7f060b44ce260",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/planar_precision/diagnose_intervals.py": "d644a7cc4becd0981972546a9303f9619667e2f9dd9f60b3e91174fc25de57d8"
+  },
+  "rows": [
+    {
+      "id": "planar_donor",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_000",
+      "fixed_represented_normal": [
+        3.062732275793678e-06,
+        0.6442180275917053,
+        -0.7648419141769409
+      ],
+      "positive_clearance_squared_interval": [
+        4.239961765240784,
+        4.24001073155134
+      ],
+      "negative_clearance_squared_interval": [
+        4.239976066483933,
+        4.240024964601025
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_001",
+      "fixed_represented_normal": [
+        -0.6442174315452576,
+        0.0,
+        -0.7648423910140991
+      ],
+      "positive_clearance_squared_interval": [
+        4.239982982393428,
+        4.24001627957986
+      ],
+      "negative_clearance_squared_interval": [
+        4.239981254880088,
+        4.240017206036643
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_002",
+      "fixed_represented_normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239967818273636,
+        4.240008957062023
+      ],
+      "negative_clearance_squared_interval": [
+        4.239967818273636,
+        4.240008957062023
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_003",
+      "fixed_represented_normal": [
+        0.31985604763031006,
+        0.3318110406398773,
+        0.8874646425247192
+      ],
+      "positive_clearance_squared_interval": [
+        4.239984637612708,
+        4.240007934253513
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399873334284335,
+        4.240011141380761
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_004",
+      "fixed_represented_normal": [
+        0.796715497970581,
+        -0.5851584672927856,
+        0.15110918879508972
+      ],
+      "positive_clearance_squared_interval": [
+        4.239983021912207,
+        4.240010989416844
+      ],
+      "negative_clearance_squared_interval": [
+        4.239970482354892,
+        4.240005992850022
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_005",
+      "fixed_represented_normal": [
+        0.3804027736186981,
+        -0.8555926084518433,
+        0.35107699036598206
+      ],
+      "positive_clearance_squared_interval": [
+        4.23998958880856,
+        4.240002910846553
+      ],
+      "negative_clearance_squared_interval": [
+        4.239985009908347,
+        4.240005540982285
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_006",
+      "fixed_represented_normal": [
+        0.2739422619342804,
+        -0.7661679983139038,
+        0.5813280940055847
+      ],
+      "positive_clearance_squared_interval": [
+        4.239970596750954,
+        4.240006153694349
+      ],
+      "negative_clearance_squared_interval": [
+        4.239981325537365,
+        4.240002101158771
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_007",
+      "fixed_represented_normal": [
+        0.5995546579360962,
+        -0.6911873817443848,
+        -0.40347757935523987
+      ],
+      "positive_clearance_squared_interval": [
+        4.239974617757402,
+        4.240019833890128
+      ],
+      "negative_clearance_squared_interval": [
+        4.239975115467023,
+        4.240012356327992
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_008",
+      "fixed_represented_normal": [
+        -0.3670479357242584,
+        0.411687970161438,
+        0.8341396450996399
+      ],
+      "positive_clearance_squared_interval": [
+        4.239972613737624,
+        4.240012997391663
+      ],
+      "negative_clearance_squared_interval": [
+        4.239966397131687,
+        4.240020281045449
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_009",
+      "fixed_represented_normal": [
+        0.6405587196350098,
+        -0.7676907777786255,
+        0.018312400206923485
+      ],
+      "positive_clearance_squared_interval": [
+        4.239986392054184,
+        4.240008937648
+      ],
+      "negative_clearance_squared_interval": [
+        4.239979809982625,
+        4.240010100988998
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_010",
+      "fixed_represented_normal": [
+        0.6824288368225098,
+        -0.3713347017765045,
+        -0.6296042203903198
+      ],
+      "positive_clearance_squared_interval": [
+        4.239971192977903,
+        4.24000486693259
+      ],
+      "negative_clearance_squared_interval": [
+        4.239978165917601,
+        4.240005930390004
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_011",
+      "fixed_represented_normal": [
+        0.6391316056251526,
+        0.3059767782688141,
+        -0.7056124806404114
+      ],
+      "positive_clearance_squared_interval": [
+        4.239973366464948,
+        4.240019473643732
+      ],
+      "negative_clearance_squared_interval": [
+        4.239979088066573,
+        4.240010028579416
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_012",
+      "fixed_represented_normal": [
+        -0.5536235570907593,
+        -0.026315838098526,
+        -0.8323511481285095
+      ],
+      "positive_clearance_squared_interval": [
+        4.239975660286759,
+        4.2400049730474585
+      ],
+      "negative_clearance_squared_interval": [
+        4.239978366958349,
+        4.240015777120959
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_013",
+      "fixed_represented_normal": [
+        0.07374769449234009,
+        -0.9019158482551575,
+        0.4255691170692444
+      ],
+      "positive_clearance_squared_interval": [
+        4.23998899482263,
+        4.240004982571991
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399858037815585,
+        4.240007340732147
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_014",
+      "fixed_represented_normal": [
+        0.22937308251857758,
+        -0.046249017119407654,
+        0.9722391963005066
+      ],
+      "positive_clearance_squared_interval": [
+        4.239970332958075,
+        4.240022329940444
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399695143878295,
+        4.240022206822024
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_015",
+      "fixed_represented_normal": [
+        0.22762902081012726,
+        0.5918455719947815,
+        -0.7732424736022949
+      ],
+      "positive_clearance_squared_interval": [
+        4.239981648958039,
+        4.240017015206947
+      ],
+      "negative_clearance_squared_interval": [
+        4.239983645471949,
+        4.240014832931472
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_016",
+      "fixed_represented_normal": [
+        -0.47738581895828247,
+        0.5115543007850647,
+        0.7144333124160767
+      ],
+      "positive_clearance_squared_interval": [
+        4.239983493792003,
+        4.240012015563472
+      ],
+      "negative_clearance_squared_interval": [
+        4.239979465412808,
+        4.240009172858749
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_017",
+      "fixed_represented_normal": [
+        0.5058916211128235,
+        0.7302623987197876,
+        0.4591193199157715
+      ],
+      "positive_clearance_squared_interval": [
+        4.239982453189759,
+        4.240006514402209
+      ],
+      "negative_clearance_squared_interval": [
+        4.239976921894237,
+        4.240008458028792
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_018",
+      "fixed_represented_normal": [
+        -0.9946938157081604,
+        -0.08222193270921707,
+        -0.06183683127164841
+      ],
+      "positive_clearance_squared_interval": [
+        4.2399747024556875,
+        4.2400143532518415
+      ],
+      "negative_clearance_squared_interval": [
+        4.239975750853076,
+        4.240017498863684
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_019",
+      "fixed_represented_normal": [
+        0.6410126686096191,
+        0.44662660360336304,
+        -0.6242014169692993
+      ],
+      "positive_clearance_squared_interval": [
+        4.239977803420921,
+        4.2400116725120265
+      ],
+      "negative_clearance_squared_interval": [
+        4.239980292949626,
+        4.240012158693353
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_020",
+      "fixed_represented_normal": [
+        0.29704174399375916,
+        -0.57163006067276,
+        -0.7648563981056213
+      ],
+      "positive_clearance_squared_interval": [
+        4.239988514396013,
+        4.2400060316113635
+      ],
+      "negative_clearance_squared_interval": [
+        4.23998965431064,
+        4.240007538919666
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_021",
+      "fixed_represented_normal": [
+        0.9598454236984253,
+        -0.16162531077861786,
+        -0.2292904257774353
+      ],
+      "positive_clearance_squared_interval": [
+        4.239977683744009,
+        4.240007210404497
+      ],
+      "negative_clearance_squared_interval": [
+        4.239976289173173,
+        4.240007429611226
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_022",
+      "fixed_represented_normal": [
+        0.8623482584953308,
+        -0.4979158341884613,
+        0.09184406697750092
+      ],
+      "positive_clearance_squared_interval": [
+        4.239985788983963,
+        4.240010013779334
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399727327436265,
+        4.240005345475499
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_023",
+      "fixed_represented_normal": [
+        -0.2572709918022156,
+        -0.055329032242298126,
+        0.964754045009613
+      ],
+      "positive_clearance_squared_interval": [
+        4.23998870371065,
+        4.240010557097411
+      ],
+      "negative_clearance_squared_interval": [
+        4.239988570555906,
+        4.240009405991972
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_024",
+      "fixed_represented_normal": [
+        0.6552478671073914,
+        -0.011482169851660728,
+        -0.7553266882896423
+      ],
+      "positive_clearance_squared_interval": [
+        4.239984741356257,
+        4.240004982802256
+      ],
+      "negative_clearance_squared_interval": [
+        4.23998601608955,
+        4.240004264195145
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_025",
+      "fixed_represented_normal": [
+        -0.5389660000801086,
+        -0.6567257642745972,
+        0.527472198009491
+      ],
+      "positive_clearance_squared_interval": [
+        4.239984692499472,
+        4.240001465081299
+      ],
+      "negative_clearance_squared_interval": [
+        4.239986959129339,
+        4.240010987078198
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_026",
+      "fixed_represented_normal": [
+        -0.11918552219867706,
+        -0.49862757325172424,
+        -0.8585833311080933
+      ],
+      "positive_clearance_squared_interval": [
+        4.23997500252416,
+        4.2400113410175075
+      ],
+      "negative_clearance_squared_interval": [
+        4.23997368269768,
+        4.240008968713184
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_027",
+      "fixed_represented_normal": [
+        -0.5635650157928467,
+        0.11187324672937393,
+        0.8184612393379211
+      ],
+      "positive_clearance_squared_interval": [
+        4.239998325431843,
+        4.240000818629788
+      ],
+      "negative_clearance_squared_interval": [
+        4.239997084297842,
+        4.240000508767533
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_028",
+      "fixed_represented_normal": [
+        -0.2521897852420807,
+        -0.4185507595539093,
+        -0.8724766969680786
+      ],
+      "positive_clearance_squared_interval": [
+        4.239978772888114,
+        4.240021173871884
+      ],
+      "negative_clearance_squared_interval": [
+        4.239981727976018,
+        4.240020678785022
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_029",
+      "fixed_represented_normal": [
+        0.13950996100902557,
+        -0.8696559071540833,
+        0.4735351502895355
+      ],
+      "positive_clearance_squared_interval": [
+        4.239976874081344,
+        4.240003264259215
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399794319688935,
+        4.240009610545581
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_030",
+      "fixed_represented_normal": [
+        -0.363447368144989,
+        -0.9037987589836121,
+        -0.22595085203647614
+      ],
+      "positive_clearance_squared_interval": [
+        4.239982375460314,
+        4.240008996219253
+      ],
+      "negative_clearance_squared_interval": [
+        4.239985137447942,
+        4.240006338090691
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_031",
+      "fixed_represented_normal": [
+        -0.37905120849609375,
+        0.18885715305805206,
+        -0.9058990478515625
+      ],
+      "positive_clearance_squared_interval": [
+        4.239976026414298,
+        4.2400211026028485
+      ],
+      "negative_clearance_squared_interval": [
+        4.239982001772794,
+        4.240017871459306
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_032",
+      "fixed_represented_normal": [
+        0.7209287285804749,
+        -0.6775072813034058,
+        -0.14575901627540588
+      ],
+      "positive_clearance_squared_interval": [
+        4.23998414686615,
+        4.240017722150696
+      ],
+      "negative_clearance_squared_interval": [
+        4.239984674642169,
+        4.240010061400644
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_033",
+      "fixed_represented_normal": [
+        0.902688205242157,
+        -0.10194462537765503,
+        -0.41804465651512146
+      ],
+      "positive_clearance_squared_interval": [
+        4.239974141645772,
+        4.240011253063922
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399751422720735,
+        4.240010590078556
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_034",
+      "fixed_represented_normal": [
+        -0.0337597094476223,
+        -0.0021186277735978365,
+        -0.9994277358055115
+      ],
+      "positive_clearance_squared_interval": [
+        4.239985707410438,
+        4.240010143258815
+      ],
+      "negative_clearance_squared_interval": [
+        4.239985283291433,
+        4.240010752834539
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_035",
+      "fixed_represented_normal": [
+        -0.8817749619483948,
+        0.46764156222343445,
+        -0.0615164153277874
+      ],
+      "positive_clearance_squared_interval": [
+        4.239986866315012,
+        4.240002576941034
+      ],
+      "negative_clearance_squared_interval": [
+        4.23998761830043,
+        4.240003063880279
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_036",
+      "fixed_represented_normal": [
+        -0.07130037248134613,
+        0.8766514658927917,
+        0.4758135676383972
+      ],
+      "positive_clearance_squared_interval": [
+        4.239981463745547,
+        4.239999762851677
+      ],
+      "negative_clearance_squared_interval": [
+        4.239991091682144,
+        4.240001233224055
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_037",
+      "fixed_represented_normal": [
+        -0.33253246545791626,
+        0.7421015501022339,
+        -0.5819856524467468
+      ],
+      "positive_clearance_squared_interval": [
+        4.239976949002006,
+        4.240012042178071
+      ],
+      "negative_clearance_squared_interval": [
+        4.239985511559052,
+        4.240004265550883
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_038",
+      "fixed_represented_normal": [
+        0.21667082607746124,
+        0.029131555929780006,
+        -0.9758099913597107
+      ],
+      "positive_clearance_squared_interval": [
+        4.239971212290466,
+        4.240007013994368
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399804722692025,
+        4.240014802166463
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_039",
+      "fixed_represented_normal": [
+        -0.7048233151435852,
+        0.7093696594238281,
+        0.004322965629398823
+      ],
+      "positive_clearance_squared_interval": [
+        4.239985304223409,
+        4.240005710368757
+      ],
+      "negative_clearance_squared_interval": [
+        4.239982537299173,
+        4.240005334089847
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_040",
+      "fixed_represented_normal": [
+        0.02448771521449089,
+        0.8287900686264038,
+        -0.5590236783027649
+      ],
+      "positive_clearance_squared_interval": [
+        4.23998961862816,
+        4.240004400898672
+      ],
+      "negative_clearance_squared_interval": [
+        4.239991510562432,
+        4.240003465812675
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_041",
+      "fixed_represented_normal": [
+        -0.9586277008056641,
+        0.13693925738334656,
+        0.24956084787845612
+      ],
+      "positive_clearance_squared_interval": [
+        4.239978088635757,
+        4.240016315125945
+      ],
+      "negative_clearance_squared_interval": [
+        4.239977586293468,
+        4.240015453872431
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_042",
+      "fixed_represented_normal": [
+        -0.8650640845298767,
+        0.10745089501142502,
+        0.4900187849998474
+      ],
+      "positive_clearance_squared_interval": [
+        4.239979844398545,
+        4.240004347624753
+      ],
+      "negative_clearance_squared_interval": [
+        4.239979777070952,
+        4.240004981984857
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_043",
+      "fixed_represented_normal": [
+        -0.431535929441452,
+        -0.25205251574516296,
+        0.8661676049232483
+      ],
+      "positive_clearance_squared_interval": [
+        4.239986947950995,
+        4.240009162563126
+      ],
+      "negative_clearance_squared_interval": [
+        4.239982124474395,
+        4.240005841974575
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_044",
+      "fixed_represented_normal": [
+        -0.7878563404083252,
+        0.23145659267902374,
+        -0.570710301399231
+      ],
+      "positive_clearance_squared_interval": [
+        4.239970382239119,
+        4.240007283510215
+      ],
+      "negative_clearance_squared_interval": [
+        4.239981243203197,
+        4.2400039709695285
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_045",
+      "fixed_represented_normal": [
+        0.38876256346702576,
+        -0.15894098579883575,
+        -0.907524824142456
+      ],
+      "positive_clearance_squared_interval": [
+        4.239986490599604,
+        4.240002440951077
+      ],
+      "negative_clearance_squared_interval": [
+        4.239979872714266,
+        4.239992790886324
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_046",
+      "fixed_represented_normal": [
+        -0.4432259202003479,
+        0.6505724191665649,
+        -0.6166898608207703
+      ],
+      "positive_clearance_squared_interval": [
+        4.239987931617965,
+        4.240017218281641
+      ],
+      "negative_clearance_squared_interval": [
+        4.23997034938064,
+        4.240003263018822
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_047",
+      "fixed_represented_normal": [
+        0.9613871574401855,
+        -0.2722780406475067,
+        0.03999358043074608
+      ],
+      "positive_clearance_squared_interval": [
+        4.239981387445161,
+        4.240008146696459
+      ],
+      "negative_clearance_squared_interval": [
+        4.239974953790651,
+        4.240003069871993
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_048",
+      "fixed_represented_normal": [
+        0.2483767718076706,
+        0.28819242119789124,
+        -0.9247995018959045
+      ],
+      "positive_clearance_squared_interval": [
+        4.239978409971774,
+        4.240016639509248
+      ],
+      "negative_clearance_squared_interval": [
+        4.239978658345055,
+        4.240008338202737
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_049",
+      "fixed_represented_normal": [
+        -0.6718578338623047,
+        0.44830819964408875,
+        0.5895988345146179
+      ],
+      "positive_clearance_squared_interval": [
+        4.239982054330721,
+        4.240008922802222
+      ],
+      "negative_clearance_squared_interval": [
+        4.239985379490429,
+        4.240011365995045
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_050",
+      "fixed_represented_normal": [
+        -0.6545419096946716,
+        -0.472353458404541,
+        0.5903025269508362
+      ],
+      "positive_clearance_squared_interval": [
+        4.239961150540846,
+        4.240002993276765
+      ],
+      "negative_clearance_squared_interval": [
+        4.239979371846358,
+        4.2400040561279315
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_051",
+      "fixed_represented_normal": [
+        0.5721933841705322,
+        0.1052468866109848,
+        -0.813337504863739
+      ],
+      "positive_clearance_squared_interval": [
+        4.239982316816171,
+        4.2400126993041
+      ],
+      "negative_clearance_squared_interval": [
+        4.239974697912441,
+        4.24000825372082
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_052",
+      "fixed_represented_normal": [
+        0.3769230842590332,
+        0.9143774509429932,
+        0.1477932333946228
+      ],
+      "positive_clearance_squared_interval": [
+        4.239979843997538,
+        4.240007564796599
+      ],
+      "negative_clearance_squared_interval": [
+        4.239974113294843,
+        4.240005772865388
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_053",
+      "fixed_represented_normal": [
+        0.4643572270870209,
+        -0.8627371788024902,
+        -0.20014238357543945
+      ],
+      "positive_clearance_squared_interval": [
+        4.239974517530791,
+        4.2400103675737535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239983753393806,
+        4.240013681174295
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_054",
+      "fixed_represented_normal": [
+        -0.8140257000923157,
+        0.48109063506126404,
+        0.32544437050819397
+      ],
+      "positive_clearance_squared_interval": [
+        4.239977989264439,
+        4.240012887193149
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399857443907125,
+        4.2400061397296875
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_055",
+      "fixed_represented_normal": [
+        -0.185533344745636,
+        -0.5268424153327942,
+        -0.8294664025306702
+      ],
+      "positive_clearance_squared_interval": [
+        4.239972373932168,
+        4.240000161706369
+      ],
+      "negative_clearance_squared_interval": [
+        4.239976444571148,
+        4.2400065895581776
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_056",
+      "fixed_represented_normal": [
+        -0.3057948350906372,
+        -0.9012619256973267,
+        -0.30694714188575745
+      ],
+      "positive_clearance_squared_interval": [
+        4.239984893235462,
+        4.2400071991608845
+      ],
+      "negative_clearance_squared_interval": [
+        4.239986895450622,
+        4.240006056145553
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_057",
+      "fixed_represented_normal": [
+        0.55226069688797,
+        0.32322239875793457,
+        0.7684629559516907
+      ],
+      "positive_clearance_squared_interval": [
+        4.239969520220918,
+        4.240012520412541
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399740501225525,
+        4.240007931870326
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_058",
+      "fixed_represented_normal": [
+        0.14549921452999115,
+        -0.9152334332466125,
+        -0.375736266374588
+      ],
+      "positive_clearance_squared_interval": [
+        4.2399782655464575,
+        4.240018075460019
+      ],
+      "negative_clearance_squared_interval": [
+        4.239965052199681,
+        4.2400025562874015
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_059",
+      "fixed_represented_normal": [
+        0.246581569314003,
+        0.8783493041992188,
+        -0.40951189398765564
+      ],
+      "positive_clearance_squared_interval": [
+        4.239987200235725,
+        4.240007385245453
+      ],
+      "negative_clearance_squared_interval": [
+        4.239983914728796,
+        4.240003533517019
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_060",
+      "fixed_represented_normal": [
+        -0.8312086462974548,
+        -0.4573978781700134,
+        0.31603705883026123
+      ],
+      "positive_clearance_squared_interval": [
+        4.239979230081818,
+        4.240016763337376
+      ],
+      "negative_clearance_squared_interval": [
+        4.239964766683945,
+        4.240009490081315
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_061",
+      "fixed_represented_normal": [
+        -0.23845849931240082,
+        0.9142786264419556,
+        -0.32746317982673645
+      ],
+      "positive_clearance_squared_interval": [
+        4.239961543272106,
+        4.240005729412991
+      ],
+      "negative_clearance_squared_interval": [
+        4.239981049349355,
+        4.240019872903697
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_062",
+      "fixed_represented_normal": [
+        0.16792380809783936,
+        0.8741781711578369,
+        -0.455646812915802
+      ],
+      "positive_clearance_squared_interval": [
+        4.239970578488591,
+        4.240011202401104
+      ],
+      "negative_clearance_squared_interval": [
+        4.239970133875278,
+        4.24000913029477
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_063",
+      "fixed_represented_normal": [
+        0.713702917098999,
+        0.5156159996986389,
+        0.47409725189208984
+      ],
+      "positive_clearance_squared_interval": [
+        4.239973280403803,
+        4.240017756392922
+      ],
+      "negative_clearance_squared_interval": [
+        4.239975547491252,
+        4.240015199369477
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_064",
+      "fixed_represented_normal": [
+        -0.24000918865203857,
+        0.7180790305137634,
+        0.6532672643661499
+      ],
+      "positive_clearance_squared_interval": [
+        4.239979642692247,
+        4.240007463078958
+      ],
+      "negative_clearance_squared_interval": [
+        4.239987865231878,
+        4.240002188015303
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_065",
+      "fixed_represented_normal": [
+        -0.8461355566978455,
+        0.450568288564682,
+        0.2846801280975342
+      ],
+      "positive_clearance_squared_interval": [
+        4.239988508996624,
+        4.24000187034099
+      ],
+      "negative_clearance_squared_interval": [
+        4.23998466446739,
+        4.240003365599114
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_066",
+      "fixed_represented_normal": [
+        0.48629525303840637,
+        0.2581600844860077,
+        0.8347876071929932
+      ],
+      "positive_clearance_squared_interval": [
+        4.239975768804464,
+        4.240002704858773
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399793974119655,
+        4.240004634491579
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_067",
+      "fixed_represented_normal": [
+        0.776713490486145,
+        -0.5453829765319824,
+        0.3150770664215088
+      ],
+      "positive_clearance_squared_interval": [
+        4.239984888053869,
+        4.240012076199792
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399837813601975,
+        4.240007723959132
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_068",
+      "fixed_represented_normal": [
+        -0.24189776182174683,
+        -0.47951069474220276,
+        -0.8435372114181519
+      ],
+      "positive_clearance_squared_interval": [
+        4.23998553533149,
+        4.240016913991366
+      ],
+      "negative_clearance_squared_interval": [
+        4.239976340741961,
+        4.2400108321458365
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_069",
+      "fixed_represented_normal": [
+        -0.6954172253608704,
+        -0.25373730063438416,
+        -0.6723186373710632
+      ],
+      "positive_clearance_squared_interval": [
+        4.2399889221577975,
+        4.24000685705472
+      ],
+      "negative_clearance_squared_interval": [
+        4.239981501660651,
+        4.240008349889604
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_070",
+      "fixed_represented_normal": [
+        -0.2569851577281952,
+        -0.9130950570106506,
+        0.31656914949417114
+      ],
+      "positive_clearance_squared_interval": [
+        4.239982558314836,
+        4.240013518970499
+      ],
+      "negative_clearance_squared_interval": [
+        4.239983160118178,
+        4.240008810793675
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_071",
+      "fixed_represented_normal": [
+        -0.1580881029367447,
+        0.9840417504310608,
+        -0.08166962116956711
+      ],
+      "positive_clearance_squared_interval": [
+        4.239991930219088,
+        4.240001275253495
+      ],
+      "negative_clearance_squared_interval": [
+        4.239993828364468,
+        4.240002963041925
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_072",
+      "fixed_represented_normal": [
+        -0.2602979242801666,
+        0.6539214849472046,
+        -0.7103742957115173
+      ],
+      "positive_clearance_squared_interval": [
+        4.239966924002609,
+        4.240012319713245
+      ],
+      "negative_clearance_squared_interval": [
+        4.239969959633091,
+        4.240009134782842
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_073",
+      "fixed_represented_normal": [
+        0.290991872549057,
+        0.7404319047927856,
+        -0.60587477684021
+      ],
+      "positive_clearance_squared_interval": [
+        4.239977913557658,
+        4.240015778100069
+      ],
+      "negative_clearance_squared_interval": [
+        4.239961054709551,
+        4.240010417159515
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_074",
+      "fixed_represented_normal": [
+        -0.2603955566883087,
+        -0.45334547758102417,
+        0.8524505496025085
+      ],
+      "positive_clearance_squared_interval": [
+        4.239976919656002,
+        4.240007720967956
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399740614236,
+        4.24001914576395
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_075",
+      "fixed_represented_normal": [
+        -0.8109056353569031,
+        0.1574985533952713,
+        -0.5635833144187927
+      ],
+      "positive_clearance_squared_interval": [
+        4.239982603003803,
+        4.240013961457491
+      ],
+      "negative_clearance_squared_interval": [
+        4.239985562539874,
+        4.240012897489343
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_076",
+      "fixed_represented_normal": [
+        0.3264833092689514,
+        -0.570328414440155,
+        -0.753746747970581
+      ],
+      "positive_clearance_squared_interval": [
+        4.239979953127209,
+        4.2400216329421525
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399692680005465,
+        4.240018149841223
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_077",
+      "fixed_represented_normal": [
+        -0.20192645490169525,
+        0.670632541179657,
+        -0.7137771248817444
+      ],
+      "positive_clearance_squared_interval": [
+        4.2399776170519035,
+        4.240013153534849
+      ],
+      "negative_clearance_squared_interval": [
+        4.239980315533088,
+        4.2400160726503975
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_078",
+      "fixed_represented_normal": [
+        -0.9597165584564209,
+        0.2760907709598541,
+        0.05213409662246704
+      ],
+      "positive_clearance_squared_interval": [
+        4.239981808224058,
+        4.240015438366386
+      ],
+      "negative_clearance_squared_interval": [
+        4.239983338805195,
+        4.24001188538985
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_079",
+      "fixed_represented_normal": [
+        0.5402692556381226,
+        -0.5749137997627258,
+        0.6144779324531555
+      ],
+      "positive_clearance_squared_interval": [
+        4.2399875410061965,
+        4.240008610588055
+      ],
+      "negative_clearance_squared_interval": [
+        4.239982589491842,
+        4.2400124606351834
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_080",
+      "fixed_represented_normal": [
+        0.70579594373703,
+        0.3337287902832031,
+        0.6248817443847656
+      ],
+      "positive_clearance_squared_interval": [
+        4.2399733911419455,
+        4.2400033549677465
+      ],
+      "negative_clearance_squared_interval": [
+        4.239970907131826,
+        4.240002365503191
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_081",
+      "fixed_represented_normal": [
+        0.30405890941619873,
+        0.09695576131343842,
+        0.9477065801620483
+      ],
+      "positive_clearance_squared_interval": [
+        4.239984697243126,
+        4.240007760732032
+      ],
+      "negative_clearance_squared_interval": [
+        4.239982966971172,
+        4.240009559075571
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_082",
+      "fixed_represented_normal": [
+        0.5425249934196472,
+        0.18046598136425018,
+        -0.8204259276390076
+      ],
+      "positive_clearance_squared_interval": [
+        4.2399836915332,
+        4.240005841882085
+      ],
+      "negative_clearance_squared_interval": [
+        4.239982313796908,
+        4.240007797819626
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_083",
+      "fixed_represented_normal": [
+        0.6336785554885864,
+        0.295806348323822,
+        -0.7148076891899109
+      ],
+      "positive_clearance_squared_interval": [
+        4.239980677957901,
+        4.240001791326857
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399899153817175,
+        4.2400025319112755
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_084",
+      "fixed_represented_normal": [
+        -0.9672670364379883,
+        0.2532714903354645,
+        0.015747549012303352
+      ],
+      "positive_clearance_squared_interval": [
+        4.239980335485194,
+        4.240006172156807
+      ],
+      "negative_clearance_squared_interval": [
+        4.239982471087572,
+        4.240003929921434
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_085",
+      "fixed_represented_normal": [
+        -0.5846298336982727,
+        0.8009746074676514,
+        -0.12902522087097168
+      ],
+      "positive_clearance_squared_interval": [
+        4.2399782415781955,
+        4.2400109052108155
+      ],
+      "negative_clearance_squared_interval": [
+        4.239976300573037,
+        4.240004703404654
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_086",
+      "fixed_represented_normal": [
+        0.7157813906669617,
+        -0.6892699003219604,
+        -0.1120893806219101
+      ],
+      "positive_clearance_squared_interval": [
+        4.239982329418214,
+        4.240002245132859
+      ],
+      "negative_clearance_squared_interval": [
+        4.239986084085619,
+        4.240006443533235
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_087",
+      "fixed_represented_normal": [
+        -0.253458708524704,
+        0.8387635350227356,
+        -0.4819070100784302
+      ],
+      "positive_clearance_squared_interval": [
+        4.239976021937225,
+        4.2400088275169585
+      ],
+      "negative_clearance_squared_interval": [
+        4.239980648547538,
+        4.240008797194579
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_088",
+      "fixed_represented_normal": [
+        -0.042878154665231705,
+        0.6494746804237366,
+        -0.7591733336448669
+      ],
+      "positive_clearance_squared_interval": [
+        4.2399760718868045,
+        4.240018003927343
+      ],
+      "negative_clearance_squared_interval": [
+        4.239964911349477,
+        4.2399995515435025
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_089",
+      "fixed_represented_normal": [
+        0.984765350818634,
+        0.14538562297821045,
+        -0.09539513289928436
+      ],
+      "positive_clearance_squared_interval": [
+        4.239990336552109,
+        4.240007066373322
+      ],
+      "negative_clearance_squared_interval": [
+        4.239990907126793,
+        4.240004709152047
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_090",
+      "fixed_represented_normal": [
+        -0.6629519462585449,
+        -0.5111201405525208,
+        -0.547038197517395
+      ],
+      "positive_clearance_squared_interval": [
+        4.239984794549912,
+        4.240006916039114
+      ],
+      "negative_clearance_squared_interval": [
+        4.239984515411432,
+        4.240009008991063
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_091",
+      "fixed_represented_normal": [
+        -0.20615330338478088,
+        -0.8507218956947327,
+        0.4835008382797241
+      ],
+      "positive_clearance_squared_interval": [
+        4.2399867706242285,
+        4.240009770826626
+      ],
+      "negative_clearance_squared_interval": [
+        4.239988110967496,
+        4.240010593861016
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_092",
+      "fixed_represented_normal": [
+        0.10612437129020691,
+        -0.8052839040756226,
+        0.5833141803741455
+      ],
+      "positive_clearance_squared_interval": [
+        4.239972085996805,
+        4.240011256838053
+      ],
+      "negative_clearance_squared_interval": [
+        4.239982577218514,
+        4.240017807282868
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_093",
+      "fixed_represented_normal": [
+        -0.3942565619945526,
+        0.7720678448677063,
+        -0.4984706938266754
+      ],
+      "positive_clearance_squared_interval": [
+        4.239959134059723,
+        4.240005591072237
+      ],
+      "negative_clearance_squared_interval": [
+        4.239978459869803,
+        4.240012401242463
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_094",
+      "fixed_represented_normal": [
+        0.16719047725200653,
+        -0.0762396827340126,
+        0.9829724431037903
+      ],
+      "positive_clearance_squared_interval": [
+        4.239985597749407,
+        4.240017108844494
+      ],
+      "negative_clearance_squared_interval": [
+        4.239982153868988,
+        4.240015452648563
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_095",
+      "fixed_represented_normal": [
+        -0.4893558621406555,
+        -0.5990099310874939,
+        0.6338121891021729
+      ],
+      "positive_clearance_squared_interval": [
+        4.239981271231498,
+        4.239998519527562
+      ],
+      "negative_clearance_squared_interval": [
+        4.239982856406376,
+        4.240015052452335
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_096",
+      "fixed_represented_normal": [
+        0.40926629304885864,
+        -0.19731152057647705,
+        0.8908250331878662
+      ],
+      "positive_clearance_squared_interval": [
+        4.239968596645115,
+        4.240012826903316
+      ],
+      "negative_clearance_squared_interval": [
+        4.239965799684243,
+        4.240010667103511
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_097",
+      "fixed_represented_normal": [
+        -0.6512144804000854,
+        0.6535348892211914,
+        0.3857613205909729
+      ],
+      "positive_clearance_squared_interval": [
+        4.239991558790262,
+        4.240008371177108
+      ],
+      "negative_clearance_squared_interval": [
+        4.239990594139807,
+        4.240002428097726
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_098",
+      "fixed_represented_normal": [
+        0.5462112426757812,
+        0.6593610644340515,
+        0.5166200399398804
+      ],
+      "positive_clearance_squared_interval": [
+        4.239982301161352,
+        4.24000777848707
+      ],
+      "negative_clearance_squared_interval": [
+        4.239985718003136,
+        4.2400105979106515
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_099",
+      "fixed_represented_normal": [
+        0.4324106276035309,
+        -0.4641784131526947,
+        -0.7730197310447693
+      ],
+      "positive_clearance_squared_interval": [
+        4.239983228696315,
+        4.2400010532814
+      ],
+      "negative_clearance_squared_interval": [
+        4.239984189487411,
+        4.240005464329631
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_100",
+      "fixed_represented_normal": [
+        0.09826274961233139,
+        0.9951598048210144,
+        -0.0012289589503780007
+      ],
+      "positive_clearance_squared_interval": [
+        4.23997963981493,
+        4.24000259278066
+      ],
+      "negative_clearance_squared_interval": [
+        4.239988862713505,
+        4.240010178657475
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_101",
+      "fixed_represented_normal": [
+        -0.0797906219959259,
+        0.04011516273021698,
+        0.9960041046142578
+      ],
+      "positive_clearance_squared_interval": [
+        4.23998535214912,
+        4.240006700788703
+      ],
+      "negative_clearance_squared_interval": [
+        4.2399857438868365,
+        4.240006209406405
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__rigid_102",
+      "fixed_represented_normal": [
+        0.683752179145813,
+        -0.627540647983551,
+        0.37239184975624084
+      ],
+      "positive_clearance_squared_interval": [
+        4.239977598897002,
+        4.240007391267144
+      ],
+      "negative_clearance_squared_interval": [
+        4.239971872931398,
+        4.240018098703962
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_00",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_01",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_02",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_03",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_04",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_05",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_06",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_07",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_08",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_09",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_10",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_11",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_12",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_13",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_14",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_15",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_16",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_17",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_18",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    },
+    {
+      "id": "planar_donor__permutation_19",
+      "fixed_represented_normal": [
+        -0.0,
+        0.0,
+        -1.0
+      ],
+      "positive_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "negative_clearance_squared_interval": [
+        4.239999613761909,
+        4.24000004291535
+      ],
+      "selected_sign": 0
+    }
+  ],
+  "control_request": {
+    "id": "clearly_off_plane_obstruction_control",
+    "donor": 0,
+    "neighbors": [
+      1,
+      2,
+      3
+    ],
+    "atoms": [
+      {
+        "element": "P",
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "element": "C",
+        "position": [
+          1.8,
+          0,
+          0
+        ]
+      },
+      {
+        "element": "C",
+        "position": [
+          -0.9,
+          1.5588458,
+          0
+        ]
+      },
+      {
+        "element": "C",
+        "position": [
+          -0.9,
+          -1.5588458,
+          0
+        ]
+      },
+      {
+        "element": "C",
+        "position": [
+          0,
+          0,
+          2.5
+        ]
+      }
+    ]
+  },
+  "control": {
+    "id": "clearly_off_plane_obstruction_control",
+    "fixed_represented_normal": [
+      -0.0,
+      0.0,
+      -1.0
+    ],
+    "positive_clearance_squared_interval": [
+      4.239999613761909,
+      4.24000004291535
+    ],
+    "negative_clearance_squared_interval": [
+      2.2499996423721416,
+      2.2500003576278873
+    ],
+    "selected_sign": 1
+  }
+}

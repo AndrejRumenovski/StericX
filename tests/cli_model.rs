@@ -369,8 +369,8 @@ fn validate_reports_every_problem_at_once() {
         );
     }
     assert!(
-        output.stdout.contains("errors=4"),
-        "expected four errors (two scaling, one count, one digest):\n{}",
+        output.stdout.contains("errors=5"),
+        "expected five errors (geometry consistency, two scaling, one count, one digest):\n{}",
         output.stdout
     );
 }

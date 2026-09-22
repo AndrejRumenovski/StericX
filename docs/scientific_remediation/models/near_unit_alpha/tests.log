@@ -1,0 +1,36 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.25s
+     Running unittests src/lib.rs (target/debug/deps/steric_x-e33073023f182352)
+
+running 28 tests
+test model::domain::tests::a_model_without_geometry_reports_unknown_but_still_checks_ranges ... ok
+test model::domain::tests::a_rule_never_yields_a_negative_boundary ... ok
+test model::domain::tests::a_point_between_training_points_interpolates ... ok
+test model::domain::tests::a_model_without_calibration_cannot_claim_interpolation ... ok
+test model::domain::tests::a_point_outside_a_descriptor_range_extrapolates ... ok
+test model::domain::tests::a_uniform_training_set_collapses_every_rule_onto_one_boundary ... ok
+test model::domain::tests::a_gap_inside_the_range_is_sparse_interpolation ... ok
+test model::domain::tests::a_stricter_rule_reclassifies_a_point_the_default_accepts ... ok
+test model::domain::tests::a_zero_width_training_range_never_reports_a_finite_fraction ... ok
+test model::domain::tests::a_training_point_is_zero_distance_and_interpolating ... ok
+test model::domain::tests::both_descriptors_outside_are_both_reported ... ok
+test model::domain::tests::calibration_measures_the_training_spacing ... ok
+test model::domain::tests::calibration_needs_at_least_two_points ... ok
+test model::domain::tests::applicability_ignores_the_prediction_entirely ... ok
+test model::domain::tests::degrees_of_freedom_guard_against_saturated_fits ... ok
+test model::domain::tests::each_rule_derives_its_threshold_from_the_calibration ... ok
+test model::domain::tests::inverts_a_known_matrix ... ok
+test model::domain::tests::leverage_grows_with_distance_from_the_training_centre ... ok
+test model::domain::tests::mahalanobis_is_declined_when_the_covariance_is_not_estimable ... ok
+test model::domain::tests::mahalanobis_is_declined_when_the_design_is_not_centred ... ok
+test model::domain::tests::mahalanobis_matches_a_hand_computed_value ... ok
+test model::domain::tests::malformed_geometry_declines_inference_without_panicking ... ok
+test model::domain::tests::rejects_a_singular_matrix ... ok
+test model::domain::tests::singular_covariance_is_not_a_regularized_mahalanobis_distance ... ok
+test model::domain::tests::prediction_interval_widens_with_leverage ... ok
+test model::domain::tests::brackets_extreme_cauchy_tail_without_silent_clipping ... ok
+test model::domain::tests::near_unit_alpha_preserves_small_central_mass ... ok
+test model::domain::tests::reproduces_published_student_t_quantiles ... ok
+
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 72 filtered out; finished in 0.00s
+

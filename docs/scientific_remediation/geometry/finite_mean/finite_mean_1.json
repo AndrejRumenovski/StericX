@@ -1,0 +1,18 @@
+{
+  "command": [
+    "target/debug/stericx",
+    "descriptors",
+    "--files",
+    ".stericx/scientific_remediation/geometry_review/finite_mean_1.sdf",
+    "--sterimol-axis",
+    "coordination",
+    "--density",
+    "1",
+    "--format",
+    "json"
+  ],
+  "returncode": 2,
+  "stdout": "",
+  "stderr": "error: unexpected argument '--files' found\n\n  tip: to pass '--files' as a value, use '-- --files'\n\nUsage: stericx descriptors [OPTIONS] <FILE>...\n\nFor more information, try '--help'.\n",
+  "binary_sha256": "f22a3eb84875c70ba2628bddb540e05352ccb75b1da0110dad297a24d7898f54"
+}

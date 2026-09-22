@@ -1,0 +1,13 @@
+[package]
+name = "stericx-audit-observer"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+steric_x = { path = "../frozen/repository" }
+glam = "=0.30.10"
+serde_json = { version = "=1.0.151", features = ["float_roundtrip"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

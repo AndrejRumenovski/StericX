@@ -1,0 +1,47 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.17s
+     Running tests/screening_regression.rs (target/debug/deps/screening_regression-4ba8bde812b4650e)
+
+running 21 tests
+test study_007_published_metrics_are_unchanged ... ok
+test study_009_published_metrics_are_unchanged ... ok
+test the_legacy_artifact_reports_no_interval_rather_than_inventing_one ... ok
+test the_frozen_blind_prediction_is_reproduced_within_the_published_tolerance ... ok
+test study_001_models_load_in_both_published_schema_versions ... ok
+test the_published_evaluation_error_still_follows_from_the_frozen_prediction ... ok
+
+thread 'applicability_agrees_with_the_published_training_domain' (156359) panicked at tests/screening_regression.rs:437:9:
+assertion `left == right` failed: "SIG-NIHDA-724": descriptor 5.053457042295406 vs published range [5.053457260131836, 14.475939750671387] but verdict interpolation
+  left: true
+ right: false
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test applicability_agrees_with_the_published_training_domain ... FAILED
+test the_neighbour_calibration_is_derived_from_the_published_training_points ... ok
+test the_screening_feature_space_still_cannot_express_a_buried_volume_classifier ... ok
+
+thread 'ranking_follows_the_direction_the_published_model_records' (156363) panicked at tests/screening_regression.rs:386:5:
+assertion `left == right` failed
+  left: String("SIG-NIHDA-724")
+ right: "SIG-NIHDA-723"
+test the_study_thresholds_remain_inside_the_committed_descriptor_distribution ... ok
+test ranking_follows_the_direction_the_published_model_records ... FAILED
+test the_published_model_still_selects_the_descriptor_the_study_reports ... ok
+test standardization_matches_the_constants_the_published_model_records ... ok
+test screening_reproduces_the_engine_kernel_for_every_published_ligand ... ok
+test a_library_missing_a_required_descriptor_is_refused_not_guessed ... ok
+test the_model_drives_which_library_columns_are_required ... ok
+test the_legacy_artifact_still_refuses_to_rank_without_a_direction ... ok
+test the_published_model_carries_a_usable_bootstrap_ensemble ... ok
+test an_exported_deck_is_reproducible_from_the_published_model ... ok
+test filtering_accounts_for_every_published_candidate ... ok
+test every_output_format_is_byte_identical_across_runs ... ok
+
+failures:
+
+failures:
+    applicability_agrees_with_the_published_training_domain
+    ranking_follows_the_direction_the_published_model_records
+
+test result: FAILED. 19 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.33s
+
+error: test failed, to rerun pass `--test screening_regression`

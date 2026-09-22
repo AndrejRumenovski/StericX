@@ -1,0 +1,11 @@
+{
+  "returncode": 101,
+  "command": [
+    "cargo",
+    "test",
+    "--test",
+    "geometry_remediation",
+    "rounded_planar_rotations_remain_ambiguous_at_input_precision"
+  ],
+  "test_sha256": "451adcc7d6df52e94fade5d11328ca62ab52ad1a0a87b104900368bbf4a04bbf"
+}

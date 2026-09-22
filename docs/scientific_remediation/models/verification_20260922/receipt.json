@@ -1,0 +1,169 @@
+{
+  "started_utc": "2026-09-22T01:19:00.654193+00:00",
+  "scope": "focused model/statistical correction checks; no empirical coverage or full pipeline validation claim",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--lib",
+        "model::",
+        "--",
+        "--nocapture"
+      ],
+      "returncode": 0,
+      "log": "docs/scientific_remediation/models/verification_20260922/00.log",
+      "log_sha256": "f91bf2b52a36616fc179bb29bdfc23dec81f1fdd0277262ff73e493c2e411113"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--test",
+        "model_scientific_remediation",
+        "--test",
+        "portable_model_format",
+        "--test",
+        "model_training_api",
+        "--test",
+        "cli_model",
+        "--test",
+        "cli_screen",
+        "--",
+        "--nocapture"
+      ],
+      "returncode": 0,
+      "log": "docs/scientific_remediation/models/verification_20260922/01.log",
+      "log_sha256": "17fd68c15cc29fbdd1d0f5e1251a000934fb9fcee941e65fdc1ce404698fb4d1"
+    },
+    {
+      "argv": [
+        ".venv/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_crosscoupling_convention.py",
+        "-v"
+      ],
+      "returncode": 0,
+      "log": "docs/scientific_remediation/models/verification_20260922/02.log",
+      "log_sha256": "325a3aff0c80f398b2e430ca88b62f2856bc5724670fa83181c31e708c6cc1ef"
+    },
+    {
+      "argv": [
+        ".venv/bin/ruff",
+        "check",
+        "studies/study_007_crosscoupling.py",
+        "studies/study_009_pd_crosscoupling.py",
+        "tests/test_crosscoupling_convention.py"
+      ],
+      "returncode": 0,
+      "log": "docs/scientific_remediation/models/verification_20260922/03.log",
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    }
+  ],
+  "sources": [
+    {
+      "path": "src/model/dataset.rs",
+      "sha256": "09f0f42066d9df30cefeae885eb0beba69ae31cd2e6cce6880c85c5b83c14d37"
+    },
+    {
+      "path": "src/model/domain.rs",
+      "sha256": "75e0560639f84d491ce6bbdee2a12a1813ebf51df6589fabd72bce5659651db0"
+    },
+    {
+      "path": "src/model/evaluation.rs",
+      "sha256": "31c73c059c4f2f1457ddc43c808b5d5ad6a3fd6e34501ba30d14b9f7fb20616a"
+    },
+    {
+      "path": "src/model/features.rs",
+      "sha256": "12a50e2f690a5975bd0eda62ce0910816414022bec8456b8cc6e1eea37d6ea4a"
+    },
+    {
+      "path": "src/model/fit.rs",
+      "sha256": "0aa6ed82bfb7dc42da3c1a624c792dc5b387e73cc82bf78cb2a842881f9dafe2"
+    },
+    {
+      "path": "src/model/mod.rs",
+      "sha256": "e0a9d89a654203a0728197f717b08113ccc761818ef48bca2ea417c9d515b233"
+    },
+    {
+      "path": "src/model/portable.rs",
+      "sha256": "3c867a0a63d07c8a918ff2ddaf287eb99af34c1b0a3b193e6cb90b3e91f91532"
+    },
+    {
+      "path": "src/model/regress.rs",
+      "sha256": "c98d1b7ff1f926e3ca46b262ddde511eced72e4c91e0d1045a54a68793bee3b2"
+    },
+    {
+      "path": "src/model/training.rs",
+      "sha256": "b7febe7066c552ca3ac5c995ebf6f32c17d259fc33e7495587c95c17c77f1abf"
+    },
+    {
+      "path": "src/commands/screen.rs",
+      "sha256": "87ef258fba32b6731624931589bcaf97b1917fff143f18c45268b42db637dc36"
+    },
+    {
+      "path": "src/commands/fit.rs",
+      "sha256": "aeb75584d77a86278bdd729280d11149bf2d33986db564e0ada851baa825d3c0"
+    },
+    {
+      "path": "src/commands/model.rs",
+      "sha256": "05b88f69b108a451d7058eb97fa0bf9f1c0e16faf4d78d92187713b3e394574f"
+    },
+    {
+      "path": "src/cli.rs",
+      "sha256": "e082e2c5088829bd135ac068055eac1cd82e7fa2f5baa9a11fa206bafb514f93"
+    },
+    {
+      "path": "src/main.rs",
+      "sha256": "b12d4e7d9569813c5cc33cc46df9eaf860812749f0ca8350ed1f4f1612541963"
+    },
+    {
+      "path": "tests/model_scientific_remediation.rs",
+      "sha256": "857e31e21acb7aeb895f5da87ec02d885b041374fdac20b2ee8778c1d7784701"
+    },
+    {
+      "path": "tests/model_training_api.rs",
+      "sha256": "b04365c0f31c0f4fc8944bda3eeac2cb3ca50dc6a03bb5244ad7383e0ea73d80"
+    },
+    {
+      "path": "tests/portable_model_format.rs",
+      "sha256": "590db457fc063fe87a0cddad43fdc878b8e88b697ad713ee276813fc1a30a134"
+    },
+    {
+      "path": "tests/cli_model.rs",
+      "sha256": "15746a085959c8822d0f269845b1e2a0a2c3e4c08c968e0e029520ef03af2cf3"
+    },
+    {
+      "path": "tests/cli_screen.rs",
+      "sha256": "7d6ef0a1b3e785bfbf50d0f5d77d844d1d1da628ad63d46f031dac249e57df43"
+    },
+    {
+      "path": "tests/test_crosscoupling_convention.py",
+      "sha256": "0e8b5dfcc0637dec5ebdd517f574a3e3d56c4007505dc870ed1390ebbb123762"
+    },
+    {
+      "path": "studies/study_007_crosscoupling.py",
+      "sha256": "72275457d88e9cffe3c7843894d76b8db9f62246ca81c79449ca35daa60381d7"
+    },
+    {
+      "path": "studies/study_009_pd_crosscoupling.py",
+      "sha256": "e14c82cfd97e6abe59adf60fa934a680252b738e88bf024d3136b562db15a0e1"
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/manifest_final.json",
+      "sha256": "c31b655641a352402b14dc2d4535261a9de9c9004979c5e571d78e45cac82f03"
+    },
+    {
+      "path": "docs/scientific_remediation/models/before_fix_manifest.json",
+      "sha256": "350eb10d889a4d91e7f7963417075358e5505a9a91b7627941d816a6a49a9f19"
+    }
+  ],
+  "finished_utc": "2026-09-22T01:19:06.336816+00:00"
+}

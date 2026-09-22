@@ -1,0 +1,16 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--lib",
+    "model::domain::",
+    "--",
+    "--nocapture"
+  ],
+  "returncode": 0,
+  "passed": 28,
+  "source_sha256": "55baecfbe5dcf75a3fb020ee355868db35f1c1a968d3751755bae47df067fc4f",
+  "log_sha256": "8cc84e4a6970361a18a8adeeef458a20b575f06298bb14c90608d5f137bad415",
+  "scope": "10 preserved before observations; independent after-observation replay from final snapshot remains separate"
+}

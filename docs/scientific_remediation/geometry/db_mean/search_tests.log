@@ -1,0 +1,16 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.38s
+     Running unittests src/main.rs (target/debug/deps/stericx-7b4cd0d3be081f26)
+
+running 8 tests
+test commands::search::tests::parses_every_supported_filter_form ... ok
+test commands::search::tests::constant_descriptors_are_reported_as_degenerate ... ok
+test commands::search::tests::filters_select_the_intended_range ... ok
+test commands::search::tests::rejects_malformed_filters ... ok
+test commands::search::tests::large_finite_standardization_matches_exact_one_sigma_distances ... ok
+test commands::search::tests::large_identical_inputs_remain_constant_and_invalid_distances_fail ... ok
+test commands::search::tests::resolves_short_aliases_to_canonical_descriptors ... ok
+test commands::search::tests::standardized_distance_is_scale_invariant_and_self_zero ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 33 filtered out; finished in 0.00s
+

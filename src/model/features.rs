@@ -1,4 +1,44 @@
 use crate::storage::PackedReactionRecord;
+use serde::{Deserialize, Serialize};
+
+/// Meaning declared for the stored Sterimol inputs, not inferred from names.
+/// A declaration records the data provider's method; it does not validate a
+/// conformer population or establish thermodynamic equilibrium.
+#[derive(Clone, Copy, Debug, Default, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum DescriptorAggregation {
+    /// Older model files did not record the method.
+    #[default]
+    Unknown,
+    /// Use supplied record values; their source aggregation is not established.
+    SuppliedRecordValues,
+    /// Each supplied training descriptor was computed from one geometry.
+    SingleGeometry,
+    /// Descriptors are means under explicitly supplied conformer weights.
+    SuppliedWeightMean,
+}
+
+impl DescriptorAggregation {
+    #[must_use]
+    pub const fn label(self) -> &'static str {
+        match self {
+            Self::Unknown => "unknown",
+            Self::SuppliedRecordValues => "supplied_record_values",
+            Self::SingleGeometry => "single_geometry",
+            Self::SuppliedWeightMean => "supplied_weight_mean",
+        }
+    }
+
+    pub fn from_label(value: &str) -> Result<Self, String> {
+        match value {
+            "unknown" => Ok(Self::Unknown),
+            "supplied_record_values" => Ok(Self::SuppliedRecordValues),
+            "single_geometry" => Ok(Self::SingleGeometry),
+            "supplied_weight_mean" => Ok(Self::SuppliedWeightMean),
+            _ => Err(format!("unsupported descriptor aggregation `{value}`")),
+        }
+    }
+}
 
 /// Number of coefficients in the physical-organic regression model.
 pub const MODEL_FEATURE_COUNT: usize = 8;

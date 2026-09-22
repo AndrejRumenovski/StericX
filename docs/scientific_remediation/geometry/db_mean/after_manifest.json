@@ -1,0 +1,53 @@
+{
+  "kind": "focused current-debug DB witness, final whole-source snapshot still required",
+  "argv": [
+    "docs/scientific_remediation/geometry/db_mean/after_stericx",
+    "db",
+    "build",
+    "--source",
+    "docs/scientific_remediation/geometry/db_mean/inputs",
+    "--output",
+    "docs/scientific_remediation/geometry/db_mean/after.csv",
+    "--group-by-parent",
+    "--label-from",
+    "parent",
+    "--sterimol-axis",
+    "coordination",
+    "--density",
+    "1"
+  ],
+  "returncode": 0,
+  "reference": "mean of four identical finite observations equals each observation",
+  "before_sterimol_l": "inf",
+  "after_sterimol_l": "199995937123793118967227732088089214976.0000",
+  "single_file_reference_sterimol_l": "199995937123793118967227732088089214976.0000",
+  "exact_decimal_match": true,
+  "unit_tests_passed": 4,
+  "files": [
+    {
+      "path": ".stericx/scientific_remediation/db_mean_debug_v1/stericx",
+      "sha256": "dc4d9705b1173b0abcab06ed3c1f70961c8ebe77780dc24a6eb6a42fc70ee318"
+    },
+    {
+      "path": "src/commands/db.rs",
+      "sha256": "89970a785131d7abf2c262a74c3c25a8eb3c86268186e8d30eef8e96bb8e2a2f"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/db_mean/after.csv",
+      "sha256": "5bcfd021a28c1d1a84047c8d5e3865f3ef873d59f43b578cc0234e24045cae2d"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/db_mean/tests.log",
+      "sha256": "d4568c1136532188b6d45368854f599da57dd485480565b0b7bd273b9d593f76"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/db_mean/ungrouped.csv",
+      "sha256": "8a61634177f935f20abbb50009d2d122af8f6386619901984ba96a725b3bf6bc"
+    }
+  ],
+  "archived_binary_relocation": {
+    "original_execution_path": "docs/scientific_remediation/geometry/db_mean/after_stericx",
+    "archived_path": ".stericx/scientific_remediation/db_mean_debug_v1/stericx",
+    "sha256": "dc4d9705b1173b0abcab06ed3c1f70961c8ebe77780dc24a6eb6a42fc70ee318"
+  }
+}

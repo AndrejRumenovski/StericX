@@ -1,0 +1,101 @@
+{
+  "created_utc": "2026-09-22T00:54:53.652565+00:00",
+  "purpose": "Evidence ledger before scientific model corrections; original audit immutable. Old comparator withdrawn untested, not a corrected-baseline gate.",
+  "files": [
+    {
+      "path": "docs/scientific_accuracy_audit/manifest_final.json",
+      "bytes": 13015961,
+      "sha256": "c31b655641a352402b14dc2d4535261a9de9c9004979c5e571d78e45cac82f03"
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/claims_models.md",
+      "bytes": 46760,
+      "sha256": "16147fd2ed8566b22a1777d21fefbfb0e1a4cdf7ed74a380da5593412d0ecfcf"
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/REPORT.md",
+      "bytes": 24682,
+      "sha256": "f6cf90e117d6dff2fcd697fb5e6e0a892967b0fefb6e3d8f36ad844e95d6d9ab"
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/DISCREPANCIES.md",
+      "bytes": 27690,
+      "sha256": "b946816fc06c23daf07c54e9ebc8501388e9a8e9962eaa143e65cca1b9eeccaf"
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/inputs/domain_requests.jsonl",
+      "bytes": 6788,
+      "sha256": "c1214acf10304843073047558d75530bc8939ea9dcab0ebbc4b0c964484b8b05"
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/raw/domain_observer.jsonl",
+      "bytes": 5355,
+      "sha256": "ce80da00d4fec1feb77e1a5d837a449ecdd2754d77fcbe644423b960a985f6ae"
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/results/evaluate_edge_cases.json",
+      "bytes": 1994,
+      "sha256": "764ec2de5931728aa23ae4d4b5293f0e2b0756a7a76a9d78610d78904afe0f20"
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/results/marginal_ci_counterexample.json",
+      "bytes": 553,
+      "sha256": "68e7177b5c83d5bfcda8769d1697d720a789b222c3626ceab48e22f9ca51f41b"
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/results/study011_recalculated.json",
+      "bytes": 6126,
+      "sha256": "bf8d0895cab36fe2d6ce13aaf3a0815e4e4b012c8ab7fc9be62e09cd405ee892"
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/results/crosscoupling_boundary_rows.csv",
+      "bytes": 1236,
+      "sha256": "c62fceba142f7de7245f65ca9592804d95f1534b16e41038efc66ddcaf063852"
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/results/formula_identity_counterexample.json",
+      "bytes": 7422,
+      "sha256": "71daf74b9a67952dcd66df44c26df08c49fd55fd5130262c174adbb527836058"
+    },
+    {
+      "path": "src/model/domain.rs",
+      "bytes": 52295,
+      "sha256": "115c934745cfb78718e9119cb59f51ee7646e8f5d0782ef6a89e086f8428fc46"
+    },
+    {
+      "path": "src/model/evaluation.rs",
+      "bytes": 9253,
+      "sha256": "7f102ccde5d4a8f29dc960506e7f049c5b25ac4ae9eed0b845f29587d43f743e"
+    },
+    {
+      "path": "src/model/portable.rs",
+      "bytes": 56099,
+      "sha256": "330e0a9a9649fd92f5fb3351afeb8c9318440eff270b4690a2310cea44922a02"
+    },
+    {
+      "path": "src/model/fit.rs",
+      "bytes": 37271,
+      "sha256": "360fc3614900cf02a2746e3414c6354aaf7f05836f79f69a4a44df62163393cc"
+    },
+    {
+      "path": "src/commands/screen.rs",
+      "bytes": 105406,
+      "sha256": "589b7fa122c36a4bf13597df169818f39c34fa72249c34e87a76d12022b96545"
+    },
+    {
+      "path": "studies/study_007_crosscoupling.py",
+      "bytes": 41552,
+      "sha256": "3a840f15cc81998ee0c097866d01cdf599e7a4a205110b02b1c7ea4302640718"
+    },
+    {
+      "path": "studies/study_009_pd_crosscoupling.py",
+      "bytes": 25516,
+      "sha256": "6f70e40c61b977314b58abb0bb281e09dd0a682703d26ba6f68178525dc5b762"
+    },
+    {
+      "path": "scripts/compare_current_scientific_references.py",
+      "bytes": 33835,
+      "sha256": "08718b401e8175273d61deebd936a426b695fdbc9ab8a483d9779de8432c82f0"
+    }
+  ]
+}

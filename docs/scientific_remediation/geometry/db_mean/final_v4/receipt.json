@@ -1,0 +1,206 @@
+{
+  "scope": "final v4 same-input DB/search finite-value correction witnesses",
+  "bindings": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/manifest.json",
+      "bytes": 29725,
+      "sha256": "d79fa7ec5c9e6c1254aa3bd1de665fe4338dde2aabe2401b7bf79a36b5a7bdd3"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/bin/stericx",
+      "bytes": 3393664,
+      "sha256": "102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/recheck_v4.py",
+      "bytes": 4826,
+      "sha256": "a81bda31794379a63d0a51c20027c44b6e57d89532f58e7141a24cc440b63da6"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/ungrouped.csv",
+      "bytes": 1240,
+      "sha256": "8a61634177f935f20abbb50009d2d122af8f6386619901984ba96a725b3bf6bc"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/large_varying.csv",
+      "bytes": 530,
+      "sha256": "a36f8635027cd5ef97b225645a0039f65db99cd03c31a47121820accf0e12b11"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_0.sdf",
+      "bytes": 179,
+      "sha256": "a009aec9df96256880dd5721db8253e8ab98c192b6e5aac547f7112fa1a9c887"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_1.sdf",
+      "bytes": 179,
+      "sha256": "a009aec9df96256880dd5721db8253e8ab98c192b6e5aac547f7112fa1a9c887"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_2.sdf",
+      "bytes": 179,
+      "sha256": "a009aec9df96256880dd5721db8253e8ab98c192b6e5aac547f7112fa1a9c887"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_3.sdf",
+      "bytes": 179,
+      "sha256": "a009aec9df96256880dd5721db8253e8ab98c192b6e5aac547f7112fa1a9c887"
+    }
+  ],
+  "commands": [
+    {
+      "name": "database",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/bin/stericx",
+        "db",
+        "build",
+        "--source",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/inputs",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/database.csv",
+        "--group-by-parent",
+        "--label-from",
+        "parent",
+        "--sterimol-axis",
+        "coordination",
+        "--density",
+        "1"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/database.stdout",
+        "bytes": 438,
+        "sha256": "b86e24c41ac0a5a322983e9ab10b41b08aac14142628c8fb9bfd770389eae1d7"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/database.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "search_identical",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/bin/stericx",
+        "search",
+        "--database",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/ungrouped.csv",
+        "--similar-to",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_0.sdf",
+        "--features",
+        "sterimol_l",
+        "--sterimol-axis",
+        "coordination",
+        "--density",
+        "1",
+        "--format",
+        "json"
+      ],
+      "returncode": 2,
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/search_identical.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/search_identical.stderr",
+        "bytes": 90,
+        "sha256": "f1e2a7517e76ef540e4821badd4369da5c4c22a1c96f0465343fc3b03bfb2784"
+      }
+    },
+    {
+      "name": "search_varying",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/bin/stericx",
+        "search",
+        "--database",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/large_varying.csv",
+        "--similar-to",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_0.sdf",
+        "--features",
+        "sterimol_l",
+        "--sterimol-axis",
+        "coordination",
+        "--density",
+        "1",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/search_varying.stdout",
+        "bytes": 1874,
+        "sha256": "a5fc53658bc86b349c82db32bdc7d6f2eafa257d72b0bd41017a17fbe96e7042"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/search_varying.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "checks": {
+    "database_success": true,
+    "four_source_observations": true,
+    "one_group": true,
+    "grouped_exact_mean": true,
+    "grouped_finite": true,
+    "identical_axis_rejected": true,
+    "identical_reason": true,
+    "identical_no_successful_json": true,
+    "varying_success": true,
+    "distance_exact_high": false,
+    "distance_exact_low": false,
+    "exact_hit_order": true,
+    "bindings_unchanged": true
+  },
+  "expected_distances_f32": {
+    "high": 0.6490590572357178,
+    "low": 1.3509409427642822
+  },
+  "all_checks_passed": false,
+  "no_tolerance": true,
+  "limitations": "Focused arithmetic checks, not global scientific validation.",
+  "files": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/database.csv",
+      "bytes": 520,
+      "sha256": "6fbc4daa49c46ead6a5af64725f60cb1e8754b4e4de63a78280c6d4c6d9ac619"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/database.manifest.json",
+      "bytes": 931,
+      "sha256": "732e6dd3b72db9d2ee1624389af6a8f7733d38cf76a7d03e23287cb742aa69d5"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/database.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/database.stdout",
+      "bytes": 438,
+      "sha256": "b86e24c41ac0a5a322983e9ab10b41b08aac14142628c8fb9bfd770389eae1d7"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/search_identical.stderr",
+      "bytes": 90,
+      "sha256": "f1e2a7517e76ef540e4821badd4369da5c4c22a1c96f0465343fc3b03bfb2784"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/search_identical.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/search_varying.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/search_varying.stdout",
+      "bytes": 1874,
+      "sha256": "a5fc53658bc86b349c82db32bdc7d6f2eafa257d72b0bd41017a17fbe96e7042"
+    }
+  ]
+}

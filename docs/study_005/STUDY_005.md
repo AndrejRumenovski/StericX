@@ -4,8 +4,8 @@
 
 Kraken publishes two geometric pyramidalization descriptors for the phosphorus donor: `pyr_P` (Radhakrishnan's dimensionless pyramidalization) and `pyr_alpha` (the mean out-of-plane angle in degrees). Both are defined by `morfeus`' `Pyramidalization` class from the three donor->substituent unit vectors. StericX reimplements the identical definitions natively in Rust:
 
-- `pyr_P = |det[a, b, c]|` of the three unit bond vectors, with `morfeus`' `2 - P` acute correction. This equals `morfeus`' `sin(theta) * cos(alpha)` but is order-invariant (verified to machine precision, 4.4e-16, over random geometries).
-- `pyr_alpha` = the mean signed out-of-plane angle over the three substituents (verified to 2.8e-14 vs `morfeus`).
+- `pyr_P = |det[a, b, c]|` of the three unit bond vectors, with `morfeus`' `2 - P` acute correction. This equals `morfeus`' `sin(theta) * cos(alpha)` but is order-invariant. The reported 4.4e-16 agreement came from a separate Python float64 algebra check, not the Rust kernel.
+- `pyr_alpha` = the mean signed out-of-plane angle over the three substituents. The reported 2.8e-14 agreement likewise came from the Python check.
 
 The native kernel is run on Kraken's own DFT-optimized conformers (the cached SDFs from Study 004) and compared against Kraken's *published* values over the same 1541-ligand set. Both the `min` and `max` reductions over the conformer ensemble are validated; both are weight-independent, so this is a pure geometry-vs-geometry kernel test.
 
@@ -18,7 +18,19 @@ The native kernel is run on Kraken's own DFT-optimized conformers (the cached SD
 
 Across the four (descriptor x reduction) comparisons the mean R² is **0.999977**. Both pyramidalization descriptors are purely geometric, so — like the Sterimol and buried-volume families — the native Rust kernel reproduces Kraken's published values directly from the DFT geometries, with no fitting.
 
-The agreement is near-exact, and higher than the buried-volume family (mean R² = 0.9925) or Sterimol (0.9887). This is expected, not tuned: pyramidalization depends only on the three donor->substituent bond directions, so it is insensitive to the virtual-metal centre, sphere radius, and lone-pair-direction conventions that bound the buried-volume agreement. The residual that remains (RMSE ~2e-4 for `pyr_P`, ~0.03 deg for `pyr_alpha`) is consistent with the 4-decimal coordinate precision of the cached DFT SDFs and `f32` arithmetic — a geometry input-precision floor, not a method difference. On identical full-precision coordinates the native kernel matches `morfeus` to machine precision (4.4e-16 for `pyr_P`, 2.8e-14 for `pyr_alpha`).
+**Scientific correction (2026-09-21).** The native implementation uses f32.
+On the independent audit's 31,721 identical exported geometries, its maximum
+absolute differences from Morfeus were 3.2010947048632943e−7 for P and
+4.8856123654239525e−5 degrees for alpha. The float64 algebra-check numbers
+above must not be attributed to native execution.
+
+The historical published-value table has larger residuals. Independent Morfeus
+also disagrees with some published extrema; the largest alpha discrepancy is
+about 1.156 degrees. Focused coordinate-rounding experiments do not explain
+those outliers. Historical geometry/ensemble/reference provenance remains
+uncertain. The [full independent comparison](../scientific_accuracy_audit/kraken/REPORT.md)
+preserves every discrepancy and reports more than R². The historical table and
+figure have not been recomputed during this documentation correction.
 
 ![Pyramidalization parity](kraken_pyramidalization_parity.png)
 

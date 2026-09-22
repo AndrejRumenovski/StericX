@@ -1,0 +1,31 @@
+{
+  "replay_manifest_sha256": "e8d34dc38d576e9aefc7eef58343b5297b8767d59457656a3a3d22571ae342d2",
+  "observed_kinetic_cases": 195,
+  "kinetics": {
+    "rate": {
+      "changed_f32_count": 13,
+      "largest_abs_change_finite": 1.152921504606847e+18,
+      "old_max_relative_error_normal": 6.923131173794542e-08,
+      "new_max_relative_error_normal": 5.2921798585206193e-08
+    },
+    "ee_percent": {
+      "changed_f32_count": 57,
+      "largest_abs_change_finite": 7.62939453125e-06,
+      "old_max_relative_error_normal": null,
+      "new_max_relative_error_normal": null
+    },
+    "r_percent": {
+      "changed_f32_count": 38,
+      "largest_abs_change_finite": 7.62939453125e-06,
+      "old_max_relative_error_normal": null,
+      "new_max_relative_error_normal": null
+    },
+    "s_percent": {
+      "changed_f32_count": 67,
+      "largest_abs_change_finite": 7.62939453125e-06,
+      "old_max_relative_error_normal": null,
+      "new_max_relative_error_normal": null
+    }
+  },
+  "receipt_path": ".stericx/scientific_remediation/thermodynamics/witness_replay_v3"
+}

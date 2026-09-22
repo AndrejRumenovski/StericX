@@ -16,43 +16,65 @@ repository root.
 
 ## The example data and split
 
-The tutorial uses three checked-in inputs:
+The tutorial preserves the checked-in historical evidence and creates fresh records:
 
-- [`data/reactions.sigpack`](../data/reactions.sigpack) contains the 11 packed descriptor and
-  response records.
-- [`data/reactions_raw.csv`](../data/reactions_raw.csv) provides reaction identifiers,
-  structures, electronic descriptors, groups, outcomes, and source provenance.
-- [`docs/examples/ni_hda_screening_split.csv`](examples/ni_hda_screening_split.csv) is the
-  row-aligned `S001` split predefined by Study 011. Eight observations are marked `train`;
-  three singleton scaffold groups are marked `blind`.
+- [`data/reactions_raw.csv`](../data/reactions_raw.csv) is the historical source.
+  The preparation helper creates
+  `.stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv`,
+  correcting response-temperature metadata to **353.15 K**. It preserves the
+  published targets and supplied historical **298.15 K** conformer weights; it
+  does not re-equilibrate those populations at reaction conditions. The ligand
+  2064 ee/energy source conflict remains unresolved.
+- `stericx parse` recomputes descriptors from every listed conformer with the
+  supplied weights and explicit atom axes into a new tutorial sigpack.
+- [`docs/examples/ni_hda_screening_split.csv`](examples/ni_hda_screening_split.csv)
+  is the row-aligned `S001` split predefined by Study 011. Eight observations are
+  marked `train`; three singleton scaffold groups are marked `blind`.
 
 `stericx fit` learns descriptor selection, scaling, and coefficients from `train` rows only.
 It writes predictions for the three `blind` rows without evaluating their known outcomes.
 This is a retrospective exercise, so the responses exist in the packed source data, but the
 split prevents them from entering the fit.
 
-Build StericX and create an ignored working directory for the generated files:
+Build the corrected implementation and prepare a new destination. The helper
+requires a new input destination; if `ni_hda_response_metadata_v2` already exists,
+verify its receipt and reuse it rather than overwriting it. Use a new demo suffix
+for a repeated tutorial run.
 
 ```bash
 cargo build --release
-mkdir -p .stericx/reaction-screening-tutorial
+python3 scripts/prepare_remediation_inputs.py \
+  --output .stericx/scientific_remediation/ni_hda_response_metadata_v2
+mkdir -p .stericx/scientific_remediation/demo
+mkdir .stericx/scientific_remediation/demo/screening_v1
+
+./target/release/stericx parse \
+  --csv .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
+  --xyz-dir data \
+  --output .stericx/scientific_remediation/demo/screening_v1/reactions.sigpack
 ```
+
+The fresh sigpack is deliberately separate from the historical
+`data/reactions.sigpack`. Scientific descriptor corrections can change fitted
+coefficients and predictions; old study numbers are retained as historical
+results, not substituted for this run.
 
 ## 1. Fit a model
 
 ```bash
 ./target/release/stericx fit \
-  --data data/reactions.sigpack \
+  --data .stericx/scientific_remediation/demo/screening_v1/reactions.sigpack \
   --metadata docs/examples/ni_hda_screening_split.csv \
-  --output .stericx/reaction-screening-tutorial/fit-report.json \
-  --predictions .stericx/reaction-screening-tutorial/frozen-predictions.csv \
-  --portable-model .stericx/reaction-screening-tutorial/model.json \
+  --output .stericx/scientific_remediation/demo/screening_v1/fit-report.json \
+  --predictions .stericx/scientific_remediation/demo/screening_v1/frozen-predictions.csv \
+  --portable-model .stericx/scientific_remediation/demo/screening_v1/model.json \
   --model-id ni-hda-screening-tutorial \
   --reaction-family "Ni-catalyzed homo-Diels-Alder" \
   --catalyst-metal Ni \
   --ligand-class "monodentate phosphorus(III)" \
   --source-url "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv" \
-  --response-temp-k 298.15 \
+  --descriptor-aggregation supplied_weight_mean \
+  --response-temp-k 353.15 \
   --response-sign-convention "Magnitude |ddG| from ddG_abs; larger values mean greater enantioselectivity; no R/S assignment." \
   --optimize maximize \
   --bootstrap 1000 \
@@ -81,19 +103,20 @@ summary:
 
 ```bash
 ./target/release/stericx model validate \
-  .stericx/reaction-screening-tutorial/model.json
+  .stericx/scientific_remediation/demo/screening_v1/model.json
 
 ./target/release/stericx model inspect \
-  .stericx/reaction-screening-tutorial/model.json
+  .stericx/scientific_remediation/demo/screening_v1/model.json
 ```
 
 Do not skip the validation block in `model inspect`. In particular, compare training R² with
 leave-one-out Q²/RMSE and leave-group-out Q². Training fit alone answers how well the model
 describes observations it already saw; held-out diagnostics are more relevant to screening.
-The exact tutorial run reports training R² `0.6929` and ordinary LOO Q² `0.4625`, but
-group-LOO Q² `-192.5603`. That extreme group-validation failure is a deployment-stopping
-warning: the apparently reasonable row-wise fit does not transfer across the training
-scaffold groups.
+Read the values from this fresh model. The earlier tutorial's numerical metrics
+came from the historical descriptor implementation and are not a reference for
+this corrected run. The reported LOO and group-LOO diagnostics condition on the
+selected feature set; feature selection is not repeated within these diagnostics.
+They are not a full-pipeline cross-validation estimate.
 Also inspect:
 
 - the selected descriptors and coefficient signs;
@@ -106,12 +129,12 @@ For machine-readable inspection and validation:
 
 ```bash
 ./target/release/stericx model inspect \
-  .stericx/reaction-screening-tutorial/model.json --format json \
-  > .stericx/reaction-screening-tutorial/model-summary.json
+  .stericx/scientific_remediation/demo/screening_v1/model.json --format json \
+  > .stericx/scientific_remediation/demo/screening_v1/model-summary.json
 
 ./target/release/stericx model validate \
-  .stericx/reaction-screening-tutorial/model.json --format json \
-  > .stericx/reaction-screening-tutorial/model-validation.json
+  .stericx/scientific_remediation/demo/screening_v1/model.json --format json \
+  > .stericx/scientific_remediation/demo/screening_v1/model-validation.json
 ```
 
 ## 3. Screen the ligand library
@@ -120,15 +143,25 @@ Use the reaction CSV as the example library:
 
 ```bash
 ./target/release/stericx screen \
-  .stericx/reaction-screening-tutorial/model.json \
-  --library data/reactions_raw.csv \
+  .stericx/scientific_remediation/demo/screening_v1/model.json \
+  --library .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
+  --temperature 353.15 \
   --top 11
 ```
 
 This first pass intentionally shows every row, including training ligands. It is useful for
 checking descriptor mapping and the shape of the report before applying campaign filters.
-In a real campaign, the library can instead be a reaction CSV, a descriptor CSV, or a
-directory of ligand geometries.
+The model declares `supplied_weight_mean`. When selected terms require missing
+steric descriptors, geometry-driven screening uses all `Conformer_XYZ_Paths`,
+explicit `Conformer_Boltzmann_Weights`, and the row
+`Attach_Atom_Idx`/`Primary_Bond_Vector_Idx` through the same aggregation routine as
+parsing. A model selecting electronics alone consumes those supplied columns
+and need not recompute unused geometry descriptors. The separate full-record
+example in [MODEL_FORMAT.md](MODEL_FORMAT.md#producing-a-document) exercises
+the declared ensemble route when steric terms are selected. Screening does not
+replace the ensemble with `Ligand_XYZ_Path`. A directory of
+single geometries is incompatible with this contract. Precomputed descriptor
+columns are also accepted, with source consistency remaining the caller's responsibility; mixed supplied/computed values are identified per descriptor.
 
 The example library contains an `Exp_ddG_kcal_mol` column because it began as an experimental
 dataset. `screen` does not read that response when making predictions, and candidate decks
@@ -140,16 +173,18 @@ Save the complete, unrounded result rather than scraping the terminal table:
 
 ```bash
 ./target/release/stericx screen \
-  .stericx/reaction-screening-tutorial/model.json \
-  --library data/reactions_raw.csv \
+  .stericx/scientific_remediation/demo/screening_v1/model.json \
+  --library .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
+  --temperature 353.15 \
   --format json \
-  > .stericx/reaction-screening-tutorial/ranking-all.json
+  > .stericx/scientific_remediation/demo/screening_v1/ranking-all.json
 
 ./target/release/stericx screen \
-  .stericx/reaction-screening-tutorial/model.json \
-  --library data/reactions_raw.csv \
+  .stericx/scientific_remediation/demo/screening_v1/model.json \
+  --library .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
+  --temperature 353.15 \
   --format csv \
-  > .stericx/reaction-screening-tutorial/ranking-all.csv
+  > .stericx/scientific_remediation/demo/screening_v1/ranking-all.csv
 ```
 
 ## 4. Understand the rankings
@@ -157,7 +192,7 @@ Save the complete, unrounded result rather than scraping the terminal table:
 `rank = 1` means the candidate is most desirable under the model's recorded optimization
 direction. It does not mean that ligand has the largest measured response. In this tutorial,
 `maximize` gives a descending ranking by predicted ΔΔG‡. StericX also reports the implied ee
-at 298.15 K, but the raw predicted ΔΔG‡ remains the model output.
+at the explicitly requested 353.15 K, but the raw predicted ΔΔG‡ remains the model output.
 
 Read a ranking row in this order:
 
@@ -180,16 +215,18 @@ display preference.
 
 StericX reports two useful but different intervals:
 
-- `prediction_interval_low` / `prediction_interval_high` is a 95% Student-t interval for a
-  new observation. It includes residual scatter and widens with leverage. Use this as the
-  primary interval when asking how variable an experimental outcome may be.
+- `prediction_interval_low` / `prediction_interval_high` is a nominal 95% Student-t interval for a
+  new observation, conditional on the fixed linear model and IID homoscedastic
+  normal errors. It includes residual scatter and widens with leverage; empirical
+  chemical coverage is not guaranteed.
 - `uncertainty.lower` / `uncertainty.upper` is a percentile-bootstrap interval for the mean
   response caused by coefficient uncertainty. It does not include residual scatter and does
   not diagnose extrapolation.
 
-The older `coefficient_band` propagates marginal coefficient intervals independently. It is
-conservative and discards coefficient correlation, so it is a weaker signal than the joint
-bootstrap interval.
+The older `coefficient_band` propagates marginal coefficient intervals independently.
+It discards coefficient correlation, has no guaranteed joint coverage and need not
+be conservative. Use the joint bootstrap distribution for the stated coefficient
+uncertainty calculation.
 
 Wide or strongly overlapping intervals mean that the order of nearby candidates is not
 well resolved. A precise-looking bootstrap interval does not rescue an extrapolative
@@ -206,23 +243,28 @@ range checks with distance and leverage relative to the training set:
 - `extrapolation`: outside at least one selected-descriptor range;
 - `unknown`: the model lacks enough recorded training geometry for the full assessment.
 
-All three `S001` held-out candidates happen to report `interpolation` and `reliable` in this
-tutorial. That means the model is not extrapolating for those descriptor values; it does not
-mean the ranking is accurate. Applicability is a support diagnostic, not a validation score.
+Read the actual verdicts from the corrected run. `interpolation` means the
+chosen descriptor-space checks find support; it does not establish an accurate
+ranking or chemically calibrated uncertainty.
 
-The `trust` field combines range and leverage information. Read
-`do_not_trust:extrapolation` literally; it is not a lower-confidence version of an otherwise
-supported estimate. `nearest_training_ligand`, `nearest_training_distance`,
-`nearest_training_ratio`, `leverage`, and `leverage_ratio` show why a warning was assigned.
+The compatibility field `trust` now uses descriptive labels such as
+`inside_range:ordinary_leverage` and `outside_range:high_leverage`, with
+`range_only:*` when leverage is unavailable. It no longer claims `reliable`.
+`nearest_training_ligand`, `nearest_training_distance`, `nearest_training_ratio`,
+`leverage`, and `leverage_ratio` show the measured evidence. Ordinary Mahalanobis
+distance is unavailable for singular covariance or missing stored training
+points; `mahalanobis_unavailable` explains why. JSON `descriptors[].source` and
+CSV `descriptor_sources` distinguish supplied values from computed values.
 
 The default neighbour boundary is the largest nearest-neighbour spacing in the training set.
 You can inspect a stricter training-derived rule without refitting:
 
 ```bash
 ./target/release/stericx screen \
-  .stericx/reaction-screening-tutorial/model.json \
-  --library data/reactions_raw.csv \
+  .stericx/scientific_remediation/demo/screening_v1/model.json \
+  --library .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
   --domain-rule mean-plus-2sd \
+  --temperature 353.15 \
   --top 11
 ```
 
@@ -239,9 +281,10 @@ Applying it leaves the three held-out singleton-scaffold ligands as the candidat
 
 ```bash
 ./target/release/stericx screen \
-  .stericx/reaction-screening-tutorial/model.json \
-  --library data/reactions_raw.csv \
+  .stericx/scientific_remediation/demo/screening_v1/model.json \
+  --library .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
   --exclude-tested docs/examples/ni_hda_screening_tested.csv \
+  --temperature 353.15 \
   --top 3
 ```
 
@@ -261,9 +304,10 @@ descriptor space used for applicability:
 
 ```bash
 ./target/release/stericx screen \
-  .stericx/reaction-screening-tutorial/model.json \
-  --library data/reactions_raw.csv \
+  .stericx/scientific_remediation/demo/screening_v1/model.json \
+  --library .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
   --exclude-tested docs/examples/ni_hda_screening_tested.csv \
+  --temperature 353.15 \
   --top 2 \
   --diverse \
   --diversity-weight 0.5
@@ -284,28 +328,30 @@ First capture the final, machine-readable screen report:
 
 ```bash
 ./target/release/stericx screen \
-  .stericx/reaction-screening-tutorial/model.json \
-  --library data/reactions_raw.csv \
+  .stericx/scientific_remediation/demo/screening_v1/model.json \
+  --library .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
   --exclude-tested docs/examples/ni_hda_screening_tested.csv \
+  --temperature 353.15 \
   --top 2 \
   --diverse \
   --diversity-weight 0.5 \
   --format json \
-  > .stericx/reaction-screening-tutorial/final-screen-report.json
+  > .stericx/scientific_remediation/demo/screening_v1/final-screen-report.json
 ```
 
 Then run the same deterministic selection with deck export enabled:
 
 ```bash
 ./target/release/stericx screen \
-  .stericx/reaction-screening-tutorial/model.json \
-  --library data/reactions_raw.csv \
+  .stericx/scientific_remediation/demo/screening_v1/model.json \
+  --library .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
   --exclude-tested docs/examples/ni_hda_screening_tested.csv \
+  --temperature 353.15 \
   --top 2 \
   --diverse \
   --diversity-weight 0.5 \
-  --export-deck .stericx/reaction-screening-tutorial/candidate-deck.csv \
-  > .stericx/reaction-screening-tutorial/deck-export.txt
+  --export-deck .stericx/scientific_remediation/demo/screening_v1/candidate-deck.csv \
+  > .stericx/scientific_remediation/demo/screening_v1/deck-export.txt
 ```
 
 This writes:
@@ -338,7 +384,7 @@ measuring outcomes.
   candidates under one fitted model. It is not a calibrated probability of success and does
   not account for unmodeled chemistry, availability, handling, or experimental failure.
 
-The repository's own evidence demonstrates these limits. Across all 57 predefined screens
+The repository's own evidence demonstrates these limits. In the historical audit, across all 57 predefined screens
 in [Study 011](study_011/STUDY_011.md), StericX recovered the best held-out ligand at rank 1
 in 0.158 of screens versus 0.333 for random selection. Among the 47 successful rankings,
 mean Spearman correlation was negative; the other 10 predefined splits failed to produce a
@@ -353,8 +399,8 @@ Replace the example files while preserving the separation of roles:
 2. Put only allowed observations in the `train` partition; keep evaluation rows `blind`,
    `test`, or `external` until predictions are frozen.
 3. Record `Ligand_Group` so leave-group-out validation reflects scaffold transfer.
-4. Supply the reaction context and correct optimization direction when fitting the portable
-   model.
+4. Record the justified descriptor aggregation, response temperature, reaction context
+   and optimization direction when fitting the portable model; retain population provenance.
 5. Screen a target-free library that supplies every descriptor selected by the model.
 6. Review uncertainty and applicability before excluding or filtering candidates.
 7. Exclude every previously tested ligand, then apply diversity within the eligible pool.
@@ -364,3 +410,9 @@ If the fitted model selected `nbo_charge`, `ir_frequency`, or an interaction inv
 them, a geometry-only library is insufficient. StericX reports the missing descriptor rather
 than substituting a value. If a saved model lacks recorded training geometry, leverage-based
 intervals and full applicability assessment are unavailable; refit the model to add them.
+
+The corrected tutorial is checked independently of historical study artifacts;
+see [model remediation receipts](scientific_remediation/models/RESULTS.md).
+Legacy schema 1/2 models without aggregation metadata report `unknown` and reject
+geometry substitution. Use matching precomputed inputs or refit from a documented
+method; changing the metadata alone does not validate old descriptor values.

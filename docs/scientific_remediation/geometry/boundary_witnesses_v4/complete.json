@@ -1,0 +1,1432 @@
+{
+  "kind": "minimized_point_atom_boundary_witnesses",
+  "global_scientific_pass": false,
+  "threshold_added": false,
+  "inputs": {
+    ".stericx/scientific_remediation/observations_v4/manifest.json": "5120602e43e9d914587f94e0d2ea3caa396db2e189586f269ae36127e180ef30",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/manifest.json": "d79fa7ec5c9e6c1254aa3bd1de665fe4338dde2aabe2401b7bf79a36b5a7bdd3",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/bin/stericx-audit-observer": "d6c5e20c8e012d1d9e5ff5afc5a8438697e0c1d11919b614ced69f0b8616ccc4",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/observations_v4/derived_requests/kraken_topology_all_bins.jsonl": "c9e10bbf57c4285c9974a9b95e3ae5bf346a3ca5b47c12742f56a8fd33eb1016",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/observations_v4/kraken_topology_all_bins/stdout.jsonl": "b8be0be5fed86ea9d317b66434c1b17266fb6aafd8009ce7110cd8479c0c9de2",
+    ".stericx/scientific_remediation/buried_volume_reference_v4/reference_results.jsonl": "8f65f8e71e562783f606cff9a3bb54b40141bac2da9f886f5ab15b0bb2810dfe",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/explain_lattice_boundaries.py": "4cf736df0e1ab8d9eb8312dd3b759e86f69b691e932f0778e4126a3650e7019e",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/scripts/geometry_reference.py": "e08724b2da8ef85eb78b86e4890e5ed180786bfe6ed02656ed1bbf1aa1aaa6d1"
+  },
+  "full_corpus_scanned": 31721,
+  "selected_same_table_rows": 56,
+  "frames_reconstructed": 56,
+  "changed_point_decisions": 58,
+  "exact_native_total_and_octant_bits_reconstructed": true,
+  "unchanged_independent_occupied_counts_reconstructed": true,
+  "frames": [
+    {
+      "id": "KRAKEN:10:31868",
+      "plane": 5,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1479,
+        1475,
+        938,
+        1190
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1479,
+        1474,
+        938,
+        1190
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:55:32771",
+      "plane": 7,
+      "native_octant_counts": [
+        204,
+        0,
+        2,
+        0,
+        1664,
+        1621,
+        1308,
+        1000
+      ],
+      "reference_octant_counts": [
+        204,
+        0,
+        2,
+        0,
+        1664,
+        1620,
+        1308,
+        1000
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:69:33004",
+      "plane": 6,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1164,
+        1150,
+        1366,
+        1090
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1164,
+        1151,
+        1366,
+        1090
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:134:33835",
+      "plane": 13,
+      "native_octant_counts": [
+        0,
+        266,
+        27,
+        0,
+        965,
+        1712,
+        1458,
+        1043
+      ],
+      "reference_octant_counts": [
+        0,
+        266,
+        27,
+        0,
+        965,
+        1712,
+        1457,
+        1043
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:146:34074",
+      "plane": 6,
+      "native_octant_counts": [
+        13,
+        125,
+        0,
+        0,
+        1335,
+        1672,
+        880,
+        952
+      ],
+      "reference_octant_counts": [
+        13,
+        125,
+        0,
+        0,
+        1336,
+        1672,
+        880,
+        952
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:171:34731",
+      "plane": 29,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1024,
+        1304,
+        1259,
+        1039
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1024,
+        1304,
+        1259,
+        1038
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:291:36875",
+      "plane": 8,
+      "native_octant_counts": [
+        277,
+        973,
+        1916,
+        1795,
+        1502,
+        1663,
+        1925,
+        1826
+      ],
+      "reference_octant_counts": [
+        277,
+        974,
+        1916,
+        1795,
+        1502,
+        1663,
+        1925,
+        1826
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:324:37575",
+      "plane": 16,
+      "native_octant_counts": [
+        0,
+        436,
+        552,
+        0,
+        1189,
+        1729,
+        1604,
+        882
+      ],
+      "reference_octant_counts": [
+        0,
+        436,
+        552,
+        0,
+        1189,
+        1728,
+        1604,
+        882
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:350:38080",
+      "plane": 15,
+      "native_octant_counts": [
+        982,
+        1746,
+        139,
+        0,
+        1797,
+        1899,
+        1437,
+        1356
+      ],
+      "reference_octant_counts": [
+        982,
+        1745,
+        139,
+        0,
+        1797,
+        1899,
+        1437,
+        1356
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:400:38972",
+      "plane": 10,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        886,
+        1049,
+        841,
+        878
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        885,
+        1049,
+        841,
+        877
+      ],
+      "changed_points": 2
+    },
+    {
+      "id": "KRAKEN:424:39247",
+      "plane": 8,
+      "native_octant_counts": [
+        223,
+        0,
+        390,
+        185,
+        1489,
+        1387,
+        1870,
+        1733
+      ],
+      "reference_octant_counts": [
+        223,
+        0,
+        390,
+        185,
+        1488,
+        1387,
+        1870,
+        1733
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:489:40763",
+      "plane": 16,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1108,
+        1217,
+        1026,
+        998
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1108,
+        1216,
+        1026,
+        998
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:523:41565",
+      "plane": 10,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1143,
+        1159,
+        1127,
+        936
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1143,
+        1160,
+        1127,
+        936
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:543:41945",
+      "plane": 12,
+      "native_octant_counts": [
+        579,
+        294,
+        231,
+        1541,
+        1428,
+        1736,
+        1728,
+        1836
+      ],
+      "reference_octant_counts": [
+        579,
+        294,
+        231,
+        1541,
+        1428,
+        1736,
+        1727,
+        1836
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:584:42648",
+      "plane": 9,
+      "native_octant_counts": [
+        0,
+        54,
+        51,
+        0,
+        1088,
+        1449,
+        1499,
+        1004
+      ],
+      "reference_octant_counts": [
+        0,
+        54,
+        51,
+        0,
+        1088,
+        1450,
+        1499,
+        1004
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:639:43420",
+      "plane": 2,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        800,
+        803,
+        1077,
+        1184
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        799,
+        803,
+        1077,
+        1183
+      ],
+      "changed_points": 2
+    },
+    {
+      "id": "KRAKEN:650:43816",
+      "plane": 2,
+      "native_octant_counts": [
+        275,
+        469,
+        153,
+        0,
+        1599,
+        1690,
+        1588,
+        1094
+      ],
+      "reference_octant_counts": [
+        275,
+        469,
+        153,
+        0,
+        1599,
+        1690,
+        1587,
+        1094
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:651:43858",
+      "plane": 3,
+      "native_octant_counts": [
+        158,
+        0,
+        0,
+        88,
+        1466,
+        1033,
+        1056,
+        1553
+      ],
+      "reference_octant_counts": [
+        158,
+        0,
+        0,
+        88,
+        1466,
+        1033,
+        1056,
+        1554
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:725:46141",
+      "plane": 21,
+      "native_octant_counts": [
+        0,
+        324,
+        1176,
+        59,
+        1264,
+        1794,
+        1768,
+        1111
+      ],
+      "reference_octant_counts": [
+        0,
+        324,
+        1175,
+        59,
+        1264,
+        1794,
+        1768,
+        1111
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:773:46832",
+      "plane": 10,
+      "native_octant_counts": [
+        22,
+        148,
+        240,
+        0,
+        1542,
+        1762,
+        1660,
+        1090
+      ],
+      "reference_octant_counts": [
+        22,
+        148,
+        240,
+        0,
+        1541,
+        1762,
+        1660,
+        1090
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:800:47287",
+      "plane": 6,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        950,
+        990,
+        879,
+        824
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        950,
+        991,
+        879,
+        824
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:820:47302",
+      "plane": 17,
+      "native_octant_counts": [
+        0,
+        354,
+        1677,
+        327,
+        1037,
+        1153,
+        1904,
+        956
+      ],
+      "reference_octant_counts": [
+        0,
+        354,
+        1677,
+        327,
+        1037,
+        1153,
+        1903,
+        956
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1072:49795",
+      "plane": 17,
+      "native_octant_counts": [
+        0,
+        0,
+        204,
+        814,
+        1100,
+        1071,
+        1299,
+        1544
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        204,
+        814,
+        1100,
+        1072,
+        1299,
+        1544
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1146:50817",
+      "plane": 5,
+      "native_octant_counts": [
+        256,
+        0,
+        180,
+        8,
+        1722,
+        1241,
+        1717,
+        1257
+      ],
+      "reference_octant_counts": [
+        256,
+        0,
+        180,
+        8,
+        1722,
+        1240,
+        1717,
+        1257
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1179:51769",
+      "plane": 9,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        812,
+        1138,
+        1028,
+        1226
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        812,
+        1138,
+        1027,
+        1226
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1190:51995",
+      "plane": 17,
+      "native_octant_counts": [
+        14,
+        568,
+        1600,
+        1255,
+        1402,
+        1881,
+        1902,
+        1821
+      ],
+      "reference_octant_counts": [
+        14,
+        568,
+        1600,
+        1254,
+        1402,
+        1881,
+        1902,
+        1821
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1207:52226",
+      "plane": 12,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        970,
+        1127,
+        1164,
+        1086
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        970,
+        1126,
+        1164,
+        1086
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1223:52585",
+      "plane": 3,
+      "native_octant_counts": [
+        892,
+        88,
+        180,
+        106,
+        1804,
+        1497,
+        1422,
+        1020
+      ],
+      "reference_octant_counts": [
+        892,
+        88,
+        180,
+        106,
+        1804,
+        1496,
+        1422,
+        1020
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1253:53437",
+      "plane": 9,
+      "native_octant_counts": [
+        0,
+        88,
+        40,
+        27,
+        829,
+        1627,
+        1468,
+        1378
+      ],
+      "reference_octant_counts": [
+        0,
+        88,
+        40,
+        27,
+        829,
+        1627,
+        1468,
+        1377
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1280:54226",
+      "plane": 3,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1303,
+        1404,
+        1350,
+        1169
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1303,
+        1404,
+        1350,
+        1168
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1450:54917",
+      "plane": 3,
+      "native_octant_counts": [
+        24,
+        104,
+        36,
+        227,
+        1181,
+        1355,
+        1111,
+        1825
+      ],
+      "reference_octant_counts": [
+        24,
+        104,
+        36,
+        227,
+        1181,
+        1355,
+        1112,
+        1825
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1500:55429",
+      "plane": 7,
+      "native_octant_counts": [
+        0,
+        69,
+        1,
+        14,
+        1121,
+        1503,
+        1249,
+        1488
+      ],
+      "reference_octant_counts": [
+        0,
+        69,
+        1,
+        14,
+        1121,
+        1503,
+        1249,
+        1487
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1572:56561",
+      "plane": 7,
+      "native_octant_counts": [
+        163,
+        0,
+        0,
+        540,
+        1214,
+        1382,
+        1259,
+        1427
+      ],
+      "reference_octant_counts": [
+        163,
+        0,
+        0,
+        540,
+        1214,
+        1382,
+        1258,
+        1427
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1594:57082",
+      "plane": 16,
+      "native_octant_counts": [
+        823,
+        733,
+        0,
+        0,
+        1533,
+        1433,
+        1163,
+        1110
+      ],
+      "reference_octant_counts": [
+        823,
+        734,
+        0,
+        0,
+        1533,
+        1433,
+        1163,
+        1110
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1594:57083",
+      "plane": 16,
+      "native_octant_counts": [
+        825,
+        733,
+        0,
+        0,
+        1533,
+        1433,
+        1163,
+        1110
+      ],
+      "reference_octant_counts": [
+        826,
+        733,
+        0,
+        0,
+        1533,
+        1433,
+        1163,
+        1110
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1616:57741",
+      "plane": 6,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1099,
+        1181,
+        940,
+        866
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1098,
+        1181,
+        940,
+        866
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1622:57877",
+      "plane": 8,
+      "native_octant_counts": [
+        0,
+        0,
+        444,
+        1144,
+        1032,
+        968,
+        1276,
+        1683
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        444,
+        1144,
+        1032,
+        968,
+        1277,
+        1683
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1675:58993",
+      "plane": 11,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1131,
+        1201,
+        1340,
+        1232
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1131,
+        1201,
+        1339,
+        1232
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1703:59726",
+      "plane": 5,
+      "native_octant_counts": [
+        0,
+        0,
+        200,
+        694,
+        912,
+        872,
+        1086,
+        1795
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        200,
+        694,
+        912,
+        872,
+        1087,
+        1795
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1706:59771",
+      "plane": 4,
+      "native_octant_counts": [
+        0,
+        115,
+        89,
+        1007,
+        846,
+        1577,
+        956,
+        1873
+      ],
+      "reference_octant_counts": [
+        0,
+        115,
+        89,
+        1006,
+        846,
+        1577,
+        956,
+        1873
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1716:59934",
+      "plane": 8,
+      "native_octant_counts": [
+        39,
+        0,
+        0,
+        94,
+        1456,
+        1125,
+        1257,
+        1590
+      ],
+      "reference_octant_counts": [
+        39,
+        0,
+        0,
+        94,
+        1456,
+        1125,
+        1258,
+        1590
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1722:60091",
+      "plane": 1,
+      "native_octant_counts": [
+        0,
+        0,
+        121,
+        0,
+        1291,
+        1274,
+        1589,
+        929
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        121,
+        0,
+        1291,
+        1274,
+        1588,
+        929
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1722:60103",
+      "plane": 4,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        44,
+        1086,
+        1256,
+        1330,
+        1382
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        44,
+        1085,
+        1256,
+        1330,
+        1382
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1723:60132",
+      "plane": 8,
+      "native_octant_counts": [
+        0,
+        156,
+        0,
+        0,
+        1089,
+        1481,
+        1216,
+        1271
+      ],
+      "reference_octant_counts": [
+        0,
+        156,
+        0,
+        0,
+        1089,
+        1481,
+        1216,
+        1270
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1725:60196",
+      "plane": 4,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1274,
+        1321,
+        1038,
+        1036
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1274,
+        1320,
+        1038,
+        1036
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1729:60322",
+      "plane": 3,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        46,
+        1186,
+        1310,
+        1265,
+        1480
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        46,
+        1185,
+        1310,
+        1265,
+        1480
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1737:60528",
+      "plane": 6,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1003,
+        1259,
+        1316,
+        829
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        1002,
+        1259,
+        1316,
+        829
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1764:61017",
+      "plane": 6,
+      "native_octant_counts": [
+        45,
+        0,
+        0,
+        165,
+        1208,
+        834,
+        973,
+        1585
+      ],
+      "reference_octant_counts": [
+        45,
+        0,
+        0,
+        165,
+        1208,
+        834,
+        973,
+        1586
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1769:61173",
+      "plane": 2,
+      "native_octant_counts": [
+        165,
+        73,
+        0,
+        5,
+        1637,
+        1431,
+        1246,
+        1515
+      ],
+      "reference_octant_counts": [
+        165,
+        73,
+        0,
+        5,
+        1637,
+        1432,
+        1246,
+        1515
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1778:61469",
+      "plane": 4,
+      "native_octant_counts": [
+        0,
+        0,
+        869,
+        183,
+        1028,
+        1167,
+        1750,
+        1043
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        869,
+        183,
+        1028,
+        1167,
+        1750,
+        1042
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1799:62002",
+      "plane": 7,
+      "native_octant_counts": [
+        640,
+        1194,
+        890,
+        334,
+        1775,
+        1906,
+        1826,
+        1525
+      ],
+      "reference_octant_counts": [
+        640,
+        1194,
+        890,
+        334,
+        1775,
+        1906,
+        1827,
+        1525
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1803:62106",
+      "plane": 14,
+      "native_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        940,
+        1325,
+        1097,
+        1084
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        0,
+        0,
+        940,
+        1325,
+        1097,
+        1083
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1810:62244",
+      "plane": 8,
+      "native_octant_counts": [
+        6,
+        11,
+        0,
+        11,
+        1433,
+        1338,
+        1074,
+        1325
+      ],
+      "reference_octant_counts": [
+        7,
+        11,
+        0,
+        11,
+        1433,
+        1338,
+        1074,
+        1325
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1836:62816",
+      "plane": 4,
+      "native_octant_counts": [
+        192,
+        2,
+        1144,
+        339,
+        1629,
+        1138,
+        1813,
+        1779
+      ],
+      "reference_octant_counts": [
+        192,
+        2,
+        1144,
+        339,
+        1628,
+        1138,
+        1813,
+        1779
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:1902:63200",
+      "plane": 10,
+      "native_octant_counts": [
+        0,
+        0,
+        33,
+        94,
+        1331,
+        1327,
+        1568,
+        1363
+      ],
+      "reference_octant_counts": [
+        0,
+        0,
+        33,
+        94,
+        1331,
+        1327,
+        1569,
+        1363
+      ],
+      "changed_points": 1
+    },
+    {
+      "id": "KRAKEN:2062:64944",
+      "plane": 37,
+      "native_octant_counts": [
+        10,
+        576,
+        0,
+        0,
+        855,
+        1854,
+        1185,
+        981
+      ],
+      "reference_octant_counts": [
+        10,
+        576,
+        0,
+        0,
+        854,
+        1854,
+        1185,
+        981
+      ],
+      "changed_points": 1
+    }
+  ],
+  "interpretation": "Discrete f32/f64 membership differences reproduced from actual captured grid/aligned atoms versus unchanged independent grid/frame/radii. Point/atom margins retain each sign flip. These are arithmetic boundary witnesses, not an empirical global error allowance.",
+  "artifacts": {
+    "explain_lattice_boundaries.py": "4cf736df0e1ab8d9eb8312dd3b759e86f69b691e932f0778e4126a3650e7019e",
+    "grid_observation.jsonl": "187d16f418b70f002e7c7a2535cb6677cf8bc38c4ca1090761cf181185b36f6a",
+    "grid_request.jsonl": "ee47bb38b83665a5ce138f9bcecf6c691790487b42eec2a6b5c44f16cce655da",
+    "grid_stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "point_atom_witnesses.jsonl": "3eaf86ef115a2555b65c2c12fddab223c83b002a68f8d4deb0d9827adf834137",
+    "selected_inputs.jsonl": "04f17b5db1d6bbaaaece43c0ec8079309007e6847acfc7d055c1d5d9f632a229"
+  }
+}

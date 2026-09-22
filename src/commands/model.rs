@@ -143,6 +143,10 @@ fn report_unreadable(
 fn print_summary(model_path: &Path, summary: &ModelSummary, diagnosis: &Diagnosis) {
     println!("command=model-inspect");
     println!("model={}", model_path.display());
+    println!(
+        "descriptor_aggregation={}",
+        summary.descriptor_aggregation.label()
+    );
     println!("schema_version={}", summary.schema_version);
     println!("portable={}", summary.portable);
     println!("model_name={}", summary.model);

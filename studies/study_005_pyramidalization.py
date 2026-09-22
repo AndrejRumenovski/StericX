@@ -270,10 +270,11 @@ def write_report(
         "",
         "- `pyr_P = |det[a, b, c]|` of the three unit bond vectors, with "
         "`morfeus`' `2 - P` acute correction. This equals `morfeus`' "
-        "`sin(theta) * cos(alpha)` but is order-invariant (verified to machine "
-        "precision, 4.4e-16, over random geometries).",
+        "`sin(theta) * cos(alpha)` and is order-invariant. The 4.4e-16 agreement "
+        "reported previously came from a Python float64 algebra check, not "
+        "native Rust execution.",
         "- `pyr_alpha` = the mean signed out-of-plane angle over the three "
-        "substituents (verified to 2.8e-14 vs `morfeus`).",
+        "substituents. The previous 2.8e-14 comparison likewise tested Python.",
         "",
         f"The native kernel is run on Kraken's own DFT-optimized conformers (the "
         f"cached SDFs from Study 004) and compared against Kraken's *published* "
@@ -302,17 +303,14 @@ def write_report(
         f"native Rust kernel reproduces Kraken's published values directly from "
         f"the DFT geometries, with no fitting.",
         "",
-        "The agreement is near-exact, and higher than the buried-volume family "
-        "(mean R² = 0.9925) or Sterimol (0.9887). This is expected, not tuned: "
-        "pyramidalization depends only on the three donor->substituent bond "
-        "directions, so it is insensitive to the virtual-metal centre, sphere "
-        "radius, and lone-pair-direction conventions that bound the buried-volume "
-        "agreement. The residual that remains (RMSE ~2e-4 for `pyr_P`, "
-        "~0.03 deg for `pyr_alpha`) is consistent with the 4-decimal coordinate "
-        "precision of the cached DFT SDFs and `f32` arithmetic — a geometry "
-        "input-precision floor, not a method difference. On identical "
-        "full-precision coordinates the native kernel matches `morfeus` to "
-        "machine precision (4.4e-16 for `pyr_P`, 2.8e-14 for `pyr_alpha`).",
+        "The independent audit compared the f32 native kernel with Morfeus on "
+        "31,721 identical exported geometries: maximum |ΔP| was "
+        "3.2010947048632943e-7 and maximum |Δalpha| was "
+        "4.8856123654239525e-5 degrees. Those native results must not be confused "
+        "with the separate float64 algebra experiment. Larger published-value "
+        "outliers also occur with independent Morfeus; focused rounding studies "
+        "do not explain them. Historical geometry/ensemble/reference provenance "
+        "remains uncertain. See docs/scientific_accuracy_audit/kraken/REPORT.md.",
         "",
         "![Pyramidalization parity](kraken_pyramidalization_parity.png)",
         "",

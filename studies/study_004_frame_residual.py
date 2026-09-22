@@ -9,10 +9,10 @@ It classifies every validated ligand by the coordination of its phosphorus
 donor — tertiary (R3P), secondary (R2PH), or primary (RPH2) — using the same
 covalent-radius bond detection the kernel uses, then reports the signed residual
 (StericX minus published) per class. The result is a clean, monotonic signal:
-tertiary donors are unbiased, and the residual grows by ~0.7 Å³ for each P-H
-bond. That isolates the entire remaining bias to the one documented
-approximation in the pipeline — the geometric lone-pair centre standing in for
-Kraken's xTB localized-molecular-orbital centre — and to just 1.6 % of the set.
+tertiary donors have near-zero signed class mean, and P-H class means increase.
+This association alone does not identify a unique mechanism. The independent
+scientific audit established that original Kraken DFT uses a raw-bond-vector
+geometric center, not an electronic LMO center; StericX uses unit vectors.
 
 This is diagnosis, not tuning: nothing here changes a descriptor value.
 
@@ -183,31 +183,19 @@ def write_report(table: pd.DataFrame, totals: dict[str, float], output: Path) ->
         f"{100 * tertiary['ligands'] / totals['ligands']:.1f}% of the set — are "
         f"essentially unbiased** (mean residual {tertiary['mean_residual']:+.3f} Å³, "
         f"median {tertiary['median_residual']:+.3f} Å³; class `R^2` = "
-        f"{totals['tertiary_r2']:.4f}). The entire systematic bias lives in the "
-        f"{totals['has_ph_ligands']:.0f} primary and secondary phosphines "
-        f"({100 * totals['has_ph_ligands'] / totals['ligands']:.1f}% of the set), "
-        "and it is **monotonic in the number of P-H bonds**: roughly +0.7 Å³ per "
-        "hydrogen (0 → ~0, 1 → +0.78, 2 → +1.46 Å³).",
+        f"{totals['tertiary_r2']:.4f}). The P-H class means increase, but a near-zero "
+        "signed class mean does not imply zero individual error or equal centers.",
         "",
-        "That monotonic signal points at a single, already-documented cause. The "
-        "buried-volume centre is placed along a **geometrically inferred** "
-        "lone-pair direction — the negated sum of the three P-substituent bond "
-        "vectors — as a stand-in for Kraken's **xTB localized-molecular-orbital** "
-        "centre. For a tertiary phosphine the three bulky substituents pin that "
-        "direction tightly, and the two centres coincide. Each P-H bond replaces a "
-        "heavy substituent with a short, light one: the geometric construction "
-        "weights that P-H direction exactly like a P-C bond, whereas the true "
-        "electronic lone pair (and Kraken's LMO centre) does not. The centre "
-        "shifts, the integration sphere captures slightly more ligand, and the "
-        "descriptor reads high — by an amount that scales with the count of P-H "
-        "bonds, exactly as observed.",
+        "Scientific correction: original Kraken DFT constructs a geometric center "
+        "from the sum of raw bond displacements. StericX sums unit vectors. "
+        "The original attribution to an xTB electronic-LMO center was incorrect, "
+        "and the two geometric centers can differ for tertiary donors too.",
         "",
-        "This is a genuine limit of the geometric-centre approximation, not a bug "
-        "and not something to tune away: closing it would require the xTB LMO "
-        "centre itself, which is outside the free, reproducible pipeline. It "
-        "affects 1.6% of the library and none of the tertiary phosphines that make "
-        "up the Ni-hDA reaction family. The honest headline is unchanged; this "
-        "note simply shows the residual is understood down to its mechanism.",
+        "Independent same-geometry calculations using the original center and "
+        "density reduce all twenty largest headline discrepancies to at most "
+        "0.006275429 Å³. Other published-value discrepancies remain unresolved. "
+        "See docs/scientific_accuracy_audit/kraken/REPORT.md. This does not "
+        "establish a unique cause for every residual.",
         "",
         "![Residual by P-H count](residual_by_phosphine_class.png)",
         "",

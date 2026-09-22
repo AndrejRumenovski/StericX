@@ -6,10 +6,10 @@ use crate::cli::{DescriptorFormat, STERIMOL_L_CORRECTION, SterimolAxis};
 use serde::Serialize;
 use std::error::Error;
 use std::path::{Path, PathBuf};
+use steric_x::geometry::{coordination_center_with_neighbors, parse_coordinate_file_with_topology};
 use steric_x::{
     BuriedVolumeCalculator, BuriedVolumeConfig, Molecule, PyramidalizationCalculator,
-    SterimolCalculator, SterimolParams, bonded_neighbors, coordination_center,
-    parse_coordinate_file,
+    SterimolCalculator, SterimolParams, bonded_neighbors,
 };
 
 /// The donor atom, its bonded substituents, and the substituent chosen as the
@@ -27,11 +27,14 @@ struct DonorTopology {
 /// The donor is the sole atom of `donor_element` unless `explicit_index` names
 /// one. Substituents are the covalently bonded atoms (hydrogens included),
 /// identical to the kernel's own frame construction, and the primary axis is the
-/// nearest bonded heavy atom.
-fn detect_donor(
+/// nearest bonded heavy atom, unless tied (explicit reference required).
+fn detect_topology(
     molecule: &Molecule,
+    bonds: Option<&[[usize; 2]]>,
     donor_element: &str,
     explicit_index: Option<usize>,
+    explicit_reference: Option<usize>,
+    axis: SterimolAxis,
 ) -> Result<DonorTopology, String> {
     steric_x::profile_scope!("donor_bond_detection", "descriptors::detect_donor");
     let donor_idx = match explicit_index {
@@ -72,7 +75,29 @@ fn detect_donor(
     let donor = &molecule.atoms[donor_idx];
     // Shared covalent-radius frame (already sorted by ascending distance/index),
     // identical to the buried-volume kernel's own substituent detection.
-    let bonded = bonded_neighbors(molecule, donor_idx);
+    let mut bonded = if let Some(bonds) = bonds {
+        bonds
+            .iter()
+            .filter_map(|&[a, b]| {
+                let index = if a == donor_idx {
+                    b
+                } else if b == donor_idx {
+                    a
+                } else {
+                    return None;
+                };
+                Some((
+                    molecule.atoms[index]
+                        .position
+                        .distance_squared(donor.position),
+                    index,
+                ))
+            })
+            .collect::<Vec<_>>()
+    } else {
+        bonded_neighbors(molecule, donor_idx)
+    };
+    bonded.sort_by(|a, b| a.0.total_cmp(&b.0).then(a.1.cmp(&b.1)));
     if bonded.len() != 3 {
         return Err(format!(
             "{} donor (atom {donor_idx}) is not three-coordinate — found {} bonded atoms; \
@@ -81,21 +106,54 @@ fn detect_donor(
             bonded.len()
         ));
     }
-    let reference_idx = bonded
-        .iter()
-        .find(|(_, index)| !molecule.atoms[*index].element.eq_ignore_ascii_case("H"))
-        .map(|(_, index)| *index)
-        .ok_or_else(|| {
-            format!(
-                "{} donor (atom {donor_idx}) has no bonded heavy atom to define an axis",
+    let reference_idx = if let Some(index) = explicit_reference {
+        if !bonded.iter().any(|(_, neighbor)| *neighbor == index) {
+            return Err("--reference-index must name a bonded donor substituent".into());
+        }
+        index
+    } else if matches!(axis, SterimolAxis::Coordination) {
+        // All three planes are reduced symmetrically; no unique heavy bond axis
+        // is needed for this physically distinct coordination-axis descriptor.
+        bonded[0].1
+    } else {
+        let heavy = bonded
+            .iter()
+            .filter(|(_, index)| !molecule.atoms[*index].element.eq_ignore_ascii_case("H"))
+            .collect::<Vec<_>>();
+        let Some(first) = heavy.first() else {
+            return Err(format!(
+                "{} donor (atom {donor_idx}) has no bonded heavy atom to define an axis; pass --reference-index or use coordination mode",
                 donor.element
-            )
-        })?;
+            ));
+        };
+        if heavy.get(1).is_some_and(|next| next.0 == first.0) {
+            return Err(
+                "nearest bonded heavy-atom axis is ambiguous; pass --reference-index".into(),
+            );
+        }
+        first.1
+    };
     Ok(DonorTopology {
         donor_idx,
         reference_idx,
         substituents: [bonded[0].1, bonded[1].1, bonded[2].1],
     })
+}
+
+#[cfg(test)]
+fn detect_donor(
+    molecule: &Molecule,
+    donor_element: &str,
+    explicit_index: Option<usize>,
+) -> Result<DonorTopology, String> {
+    detect_topology(
+        molecule,
+        None,
+        donor_element,
+        explicit_index,
+        None,
+        SterimolAxis::Coordination,
+    )
 }
 
 /// One file's descriptors, ready for text, JSON, or CSV emission.
@@ -124,6 +182,7 @@ pub(crate) struct DescriptorResult {
 
 /// Only the values screening consumes; validation still matches full descriptors.
 pub(crate) struct ScreeningDescriptors {
+    pub(crate) conformers: usize,
     pub(crate) file: String,
     pub(crate) sterimol_l: f32,
     pub(crate) sterimol_b1: f32,
@@ -135,20 +194,30 @@ fn sterimol_for_conformer(
     topology: DonorTopology,
     axis: SterimolAxis,
     config: BuriedVolumeConfig,
-) -> Result<SterimolParams, steric_x::BuriedVolumeError> {
-    Ok(match axis {
+) -> Result<SterimolParams, String> {
+    match axis {
         SterimolAxis::Bond => {
             SterimolCalculator::compute(molecule, topology.donor_idx, topology.reference_idx)
+                .map_err(|error| error.to_string())
         }
         SterimolAxis::Coordination => {
-            let center =
-                coordination_center(molecule, topology.donor_idx, topology.reference_idx, config)?;
+            let center = coordination_center_with_neighbors(
+                molecule,
+                topology.donor_idx,
+                topology.substituents,
+                config,
+            )
+            .map_err(|error| error.to_string())?;
             let mut params =
-                SterimolCalculator::compute_with_dummy(molecule, topology.donor_idx, center);
+                SterimolCalculator::compute_with_dummy(molecule, topology.donor_idx, center)
+                    .map_err(|error| error.to_string())?;
             params.l += STERIMOL_L_CORRECTION;
-            params
+            if !params.l.is_finite() {
+                return Err("corrected Sterimol L exceeds finite f32 range".into());
+            }
+            Ok(params)
         }
-    })
+    }
 }
 
 /// Preserve full descriptor acceptance/errors while avoiding unused calculations.
@@ -163,35 +232,62 @@ pub(crate) fn screening_descriptors_for_file(
         "conformer_processing",
         "descriptors::screening_descriptors_for_file"
     );
-    let conformers = parse_coordinate_file(path)
+    let conformers = parse_coordinate_file_with_topology(path)
         .map_err(|error| format!("failed to read {}: {error}", path.display()))?;
     if conformers.is_empty() {
         return Err(format!("{} contains no geometries", path.display()));
     }
     // Full descriptors report the first donor error without a conformer prefix.
-    detect_donor(&conformers[0], donor_element, donor_index)?;
+    detect_topology(
+        &conformers[0].molecule,
+        conformers[0].bonds.as_deref(),
+        donor_element,
+        donor_index,
+        None,
+        sterimol_axis,
+    )?;
     let mut sterimol = Vec::with_capacity(conformers.len());
-    for (conformer_index, molecule) in conformers.iter().enumerate() {
+    for (conformer_index, frame) in conformers.iter().enumerate() {
+        let molecule = &frame.molecule;
         let contextualize =
             |error: String| format!("{} (conformer {conformer_index}): {error}", path.display());
-        let topology = detect_donor(molecule, donor_element, donor_index).map_err(contextualize)?;
+        let topology = detect_topology(
+            molecule,
+            frame.bonds.as_deref(),
+            donor_element,
+            donor_index,
+            None,
+            sterimol_axis,
+        )
+        .map_err(contextualize)?;
         sterimol.push(
             sterimol_for_conformer(molecule, topology, sterimol_axis, config)
                 .map_err(|error| contextualize(error.to_string()))?,
         );
-        BuriedVolumeCalculator::validate_for_sterimol(
+        let center = coordination_center_with_neighbors(
             molecule,
             topology.donor_idx,
-            topology.reference_idx,
+            topology.substituents,
+            config,
+        )
+        .map_err(|error| contextualize(error.to_string()))?;
+        PyramidalizationCalculator::compute(molecule, topology.donor_idx, topology.substituents)
+            .map_err(|error| contextualize(error.to_string()))?;
+        BuriedVolumeCalculator::validate_with_neighbors(
+            molecule,
+            topology.donor_idx,
+            topology.substituents,
+            center,
             config,
         )
         .map_err(|error| contextualize(error.to_string()))?;
     }
     Ok(ScreeningDescriptors {
+        conformers: conformers.len(),
         file: path.display().to_string(),
-        sterimol_l: conformer_mean(&sterimol, |params| params.l),
-        sterimol_b1: conformer_mean(&sterimol, |params| params.b1),
-        sterimol_b5: conformer_mean(&sterimol, |params| params.b5),
+        sterimol_l: conformer_mean(&sterimol, |params| params.l)?,
+        sterimol_b1: conformer_mean(&sterimol, |params| params.b1)?,
+        sterimol_b5: conformer_mean(&sterimol, |params| params.b5)?,
     })
 }
 
@@ -203,46 +299,85 @@ pub(crate) fn descriptors_for_file(
     sterimol_axis: SterimolAxis,
     config: BuriedVolumeConfig,
 ) -> Result<DescriptorResult, String> {
+    descriptors_for_file_with_reference(
+        path,
+        donor_element,
+        donor_index,
+        None,
+        sterimol_axis,
+        config,
+    )
+}
+
+fn descriptors_for_file_with_reference(
+    path: &Path,
+    donor_element: &str,
+    donor_index: Option<usize>,
+    reference_index: Option<usize>,
+    sterimol_axis: SterimolAxis,
+    config: BuriedVolumeConfig,
+) -> Result<DescriptorResult, String> {
     steric_x::profile_scope!("conformer_processing", "descriptors::descriptors_for_file");
-    let conformers = parse_coordinate_file(path)
+    let conformers = parse_coordinate_file_with_topology(path)
         .map_err(|error| format!("failed to read {}: {error}", path.display()))?;
     if conformers.is_empty() {
         return Err(format!("{} contains no geometries", path.display()));
     }
 
-    let topology = detect_donor(&conformers[0], donor_element, donor_index)?;
+    let topology = detect_topology(
+        &conformers[0].molecule,
+        conformers[0].bonds.as_deref(),
+        donor_element,
+        donor_index,
+        reference_index,
+        sterimol_axis,
+    )?;
     let substituents = topology
         .substituents
         .iter()
-        .map(|index| conformers[0].atoms[*index].element.clone())
+        .map(|index| conformers[0].molecule.atoms[*index].element.clone())
         .collect::<Vec<_>>();
 
     let mut sterimol = Vec::with_capacity(conformers.len());
     let mut buried = Vec::with_capacity(conformers.len());
     let mut pyramidalization = Vec::with_capacity(conformers.len());
-    for (conformer_index, molecule) in conformers.iter().enumerate() {
+    for (conformer_index, frame) in conformers.iter().enumerate() {
+        let molecule = &frame.molecule;
         // Re-detect per conformer so this tolerates files whose models differ.
-        let topology = detect_donor(molecule, donor_element, donor_index).map_err(|message| {
+        let topology = detect_topology(
+            molecule,
+            frame.bonds.as_deref(),
+            donor_element,
+            donor_index,
+            reference_index,
+            sterimol_axis,
+        )
+        .map_err(|message| {
             format!(
                 "{} (conformer {conformer_index}): {message}",
                 path.display()
             )
         })?;
-        pyramidalization.push(PyramidalizationCalculator::compute(
-            molecule,
-            topology.donor_idx,
-            topology.substituents,
-        ));
+        pyramidalization.push(
+            PyramidalizationCalculator::compute(
+                molecule,
+                topology.donor_idx,
+                topology.substituents,
+            )
+            .map_err(|error| {
+                format!("{} (conformer {conformer_index}): {error}", path.display())
+            })?,
+        );
         sterimol.push(
             sterimol_for_conformer(molecule, topology, sterimol_axis, config).map_err(|error| {
                 format!("{} (conformer {conformer_index}): {error}", path.display())
             })?,
         );
         buried.push(
-            BuriedVolumeCalculator::compute(
+            BuriedVolumeCalculator::compute_with_neighbors(
                 molecule,
                 topology.donor_idx,
-                topology.reference_idx,
+                topology.substituents,
                 config,
             )
             .map_err(|error| {
@@ -259,26 +394,44 @@ pub(crate) fn descriptors_for_file(
     Ok(DescriptorResult {
         file: path.display().to_string(),
         conformers: conformers.len(),
-        donor_element: conformers[0].atoms[topology.donor_idx].element.clone(),
+        donor_element: conformers[0].molecule.atoms[topology.donor_idx]
+            .element
+            .clone(),
         donor_index: topology.donor_idx,
         substituents,
-        sterimol_l: conformer_mean(&sterimol, |params| params.l),
-        sterimol_b1: conformer_mean(&sterimol, |params| params.b1),
-        sterimol_b5: conformer_mean(&sterimol, |params| params.b5),
-        percent_buried_volume: conformer_mean(&buried, |params| params.percent_buried_volume),
-        buried_volume: conformer_mean(&buried, |params| params.buried_volume),
-        qvbur_min: conformer_mean(&buried, |params| params.qvbur_min),
-        qvbur_max: conformer_mean(&buried, |params| params.qvbur_max),
-        max_delta_qvbur: conformer_mean(&buried, |params| params.max_delta_qvbur),
+        sterimol_l: conformer_mean(&sterimol, |params| params.l)?,
+        sterimol_b1: conformer_mean(&sterimol, |params| params.b1)?,
+        sterimol_b5: conformer_mean(&sterimol, |params| params.b5)?,
+        percent_buried_volume: conformer_mean(&buried, |params| params.percent_buried_volume)?,
+        buried_volume: conformer_mean(&buried, |params| params.buried_volume)?,
+        qvbur_min: conformer_mean(&buried, |params| params.qvbur_min)?,
+        qvbur_max: conformer_mean(&buried, |params| params.qvbur_max)?,
+        max_delta_qvbur: conformer_mean(&buried, |params| params.max_delta_qvbur)?,
         max_delta_qvbur_min,
-        pyr_p: conformer_mean(&pyramidalization, |params| params.pyr_p),
-        pyr_alpha: conformer_mean(&pyramidalization, |params| params.pyr_alpha),
+        pyr_p: conformer_mean(&pyramidalization, |params| params.pyr_p)?,
+        pyr_alpha: conformer_mean(&pyramidalization, |params| params.pyr_alpha)?,
     })
 }
 
 /// Arithmetic mean of one descriptor field over a conformer ensemble.
-fn conformer_mean<T>(items: &[T], select: impl Fn(&T) -> f32) -> f32 {
-    items.iter().map(select).sum::<f32>() / items.len() as f32
+fn conformer_mean<T>(items: &[T], select: impl Fn(&T) -> f32) -> Result<f32, String> {
+    if items.is_empty() {
+        return Err("cannot average an empty conformer ensemble".into());
+    }
+    let mut sum = 0.0_f64;
+    for item in items {
+        let value = select(item);
+        if !value.is_finite() {
+            return Err("conformer descriptor is not finite".into());
+        }
+        // A repeated finite descriptor must not overflow before division.
+        sum += f64::from(value);
+    }
+    let mean = (sum / items.len() as f64) as f32;
+    if !mean.is_finite() {
+        return Err("conformer mean exceeds finite f32 range".into());
+    }
+    Ok(mean)
 }
 
 fn print_descriptor_text(result: &DescriptorResult) {
@@ -379,18 +532,28 @@ pub(crate) fn descriptors_command(
     inputs: &[PathBuf],
     donor_element: &str,
     donor_index: Option<usize>,
+    reference_index: Option<usize>,
     sterimol_axis: SterimolAxis,
     format: DescriptorFormat,
     config: BuriedVolumeConfig,
 ) -> Result<(), Box<dyn Error>> {
     steric_x::profile_scope!("orchestration", "descriptors::descriptors_command");
-    if inputs.len() > 1 && donor_index.is_some() {
-        return Err("--donor-index applies to a single file; omit it for batch runs".into());
+    if inputs.len() > 1 && (donor_index.is_some() || reference_index.is_some()) {
+        return Err(
+            "--donor-index/--reference-index apply to a single file; omit it for batch runs".into(),
+        );
     }
     let mut results = Vec::with_capacity(inputs.len());
     let mut failures = 0_usize;
     for path in inputs {
-        match descriptors_for_file(path, donor_element, donor_index, sterimol_axis, config) {
+        match descriptors_for_file_with_reference(
+            path,
+            donor_element,
+            donor_index,
+            reference_index,
+            sterimol_axis,
+            config,
+        ) {
             Ok(result) => results.push(result),
             Err(message) => {
                 eprintln!("skipped {}: {message}", path.display());
@@ -479,7 +642,12 @@ mod tests {
         let mut substituents = topology.substituents;
         substituents.sort_unstable();
         assert_eq!(substituents, [1, 2, 3]);
-        assert_eq!(topology.reference_idx, 1);
+        assert_eq!(
+            detect_topology(&molecule, None, "P", None, None, SterimolAxis::Bond)
+                .unwrap()
+                .reference_idx,
+            1
+        );
     }
 
     #[test]
@@ -544,10 +712,22 @@ mod tests {
              C -0.7 -1.212 0.45\nC 2.8 0 0.7\n",
         )
         .unwrap();
-        let result = descriptors_for_file(
+        assert!(
+            descriptors_for_file(
+                &path,
+                "P",
+                None,
+                SterimolAxis::Bond,
+                BuriedVolumeConfig::default()
+            )
+            .unwrap_err()
+            .contains("ambiguous")
+        );
+        let result = descriptors_for_file_with_reference(
             &path,
             "P",
             None,
+            Some(1),
             SterimolAxis::Bond,
             BuriedVolumeConfig::default(),
         )
@@ -576,10 +756,140 @@ mod tests {
     }
 
     #[test]
+    fn repeating_finite_extreme_conformers_preserves_the_mean() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("docs/scientific_remediation/geometry/finite_mean");
+        let config = BuriedVolumeConfig {
+            density: 1.0,
+            ..BuriedVolumeConfig::default()
+        };
+        let one = descriptors_for_file(
+            &root.join("finite_mean_1.sdf"),
+            "P",
+            None,
+            SterimolAxis::Coordination,
+            config,
+        )
+        .unwrap();
+        let four = descriptors_for_file(
+            &root.join("finite_mean_4.sdf"),
+            "P",
+            None,
+            SterimolAxis::Coordination,
+            config,
+        )
+        .unwrap();
+        assert_eq!(one.sterimol_l, four.sterimol_l);
+        assert!(four.sterimol_l.is_finite() && four.sterimol_l > 1.0e38);
+        assert_eq!(one.sterimol_b1, four.sterimol_b1);
+        assert_eq!(one.sterimol_b5, four.sterimol_b5);
+        let screening = screening_descriptors_for_file(
+            &root.join("finite_mean_4.sdf"),
+            "P",
+            None,
+            SterimolAxis::Coordination,
+            config,
+        )
+        .unwrap();
+        assert_eq!(screening.sterimol_l, one.sterimol_l);
+        assert_eq!(screening.conformers, 4);
+        assert!(conformer_mean(&[f32::NAN], |x| *x).is_err());
+        assert!(conformer_mean(&[] as &[f32], |x| *x).is_err());
+    }
+
+    #[test]
     fn csv_field_quotes_only_when_required() {
         assert_eq!(csv_field("plain"), "plain");
         assert_eq!(csv_field("a,b"), "\"a,b\"");
         assert_eq!(csv_field("say \"hi\""), "\"say \"\"hi\"\"\"");
+    }
+
+    #[test]
+    fn tied_bond_axes_require_explicit_reference_for_all_atom_orders() {
+        let original = molecule_from(&[
+            ("P", 0.0, 0.0, 0.0),
+            ("C", 1.8, 0.0, 0.0),
+            ("C", 0.0, 1.8, 0.0),
+            ("C", 0.0, 0.0, 1.8),
+            ("C", 3.3, 0.0, 0.0),
+            ("F", 4.6, 0.0, 0.0),
+        ]);
+        let config = BuriedVolumeConfig::default();
+        let expected = SterimolCalculator::compute(&original, 0, 1).unwrap();
+        let expected_volume =
+            BuriedVolumeCalculator::compute_with_neighbors(&original, 0, [1, 2, 3], config)
+                .unwrap();
+        for order in [
+            [1, 2, 3],
+            [1, 3, 2],
+            [2, 1, 3],
+            [2, 3, 1],
+            [3, 1, 2],
+            [3, 2, 1],
+        ] {
+            let molecule = Molecule {
+                atoms: [0, order[0], order[1], order[2], 4, 5]
+                    .map(|index| original.atoms[index].clone())
+                    .to_vec(),
+            };
+            let error =
+                detect_topology(&molecule, None, "P", None, None, SterimolAxis::Bond).unwrap_err();
+            assert!(error.contains("ambiguous"));
+            let reference = order.iter().position(|index| *index == 1).unwrap() + 1;
+            let topology = detect_topology(
+                &molecule,
+                None,
+                "P",
+                None,
+                Some(reference),
+                SterimolAxis::Bond,
+            )
+            .unwrap();
+            assert_eq!(
+                sterimol_for_conformer(&molecule, topology, SterimolAxis::Bond, config).unwrap(),
+                expected
+            );
+            assert_eq!(
+                BuriedVolumeCalculator::compute_with_neighbors(
+                    &molecule,
+                    0,
+                    topology.substituents,
+                    config
+                )
+                .unwrap(),
+                expected_volume
+            );
+            let coordination =
+                detect_topology(&molecule, None, "P", None, None, SterimolAxis::Coordination)
+                    .unwrap();
+            assert!(
+                sterimol_for_conformer(&molecule, coordination, SterimolAxis::Coordination, config)
+                    .is_ok()
+            );
+        }
+    }
+
+    #[test]
+    fn coordination_mode_does_not_require_a_heavy_bond_axis() {
+        let molecule = molecule_from(&[
+            ("P", 0.0, 0.0, 0.0),
+            ("H", 1.0, 0.0, 0.5),
+            ("H", -0.5, 0.866, 0.5),
+            ("H", -0.5, -0.866, 0.5),
+        ]);
+        assert!(detect_topology(&molecule, None, "P", None, None, SterimolAxis::Bond).is_err());
+        let topology =
+            detect_topology(&molecule, None, "P", None, None, SterimolAxis::Coordination).unwrap();
+        assert!(
+            sterimol_for_conformer(
+                &molecule,
+                topology,
+                SterimolAxis::Coordination,
+                BuriedVolumeConfig::default()
+            )
+            .unwrap()
+            .l > 0.0
+        );
     }
 
     fn compare_screening_and_full(path: &Path, axis: SterimolAxis, config: BuriedVolumeConfig) {

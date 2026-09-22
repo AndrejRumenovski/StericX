@@ -75,7 +75,31 @@ fn study_001_legacy() -> PathBuf {
 }
 
 fn study_001_library() -> PathBuf {
-    repo("data/reactions_raw.csv")
+    // Reproduce inference on the supplied descriptors consumed by the published
+    // fit. Geometry substitution is not justified by a legacy model's metadata.
+    static PATH: std::sync::OnceLock<PathBuf> = std::sync::OnceLock::new();
+    PATH.get_or_init(|| {
+        let packed = steric_x::SigPackReader::open(&repo("data/reactions.sigpack")).unwrap();
+        let mut source = csv::Reader::from_path(repo("data/reactions_raw.csv")).unwrap();
+        let mut headers = source.headers().unwrap().clone();
+        for name in ["sterimol_l", "sterimol_b1", "sterimol_b5"] {
+            headers.push_field(name);
+        }
+        let path = temp_path("csv");
+        let mut output = csv::Writer::from_path(&path).unwrap();
+        output.write_record(&headers).unwrap();
+        let rows = source.records().collect::<Result<Vec<_>, _>>().unwrap();
+        assert_eq!(rows.len(), packed.records().len());
+        for (mut row, record) in rows.into_iter().zip(packed.records()) {
+            for value in [record.l, record.b1, record.b5] {
+                row.push_field(&value.to_string());
+            }
+            output.write_record(&row).unwrap();
+        }
+        output.flush().unwrap();
+        path
+    })
+    .clone()
 }
 
 fn screen(model: &Path, extra: &[&str]) -> serde_json::Value {
@@ -144,6 +168,22 @@ fn study_001_models_load_in_both_published_schema_versions() {
     assert_eq!(output.status, 0, "{}", output.stderr);
     assert!(output.stdout.contains("errors=0"), "{}", output.stdout);
     assert!(output.stdout.contains("warnings=0"), "{}", output.stdout);
+}
+
+#[test]
+fn legacy_unknown_aggregation_refuses_geometry_substitution() {
+    for model in [study_001_legacy(), study_001_portable()] {
+        let output = run(&[
+            "screen",
+            model.to_str().unwrap(),
+            "--descending",
+            "--library",
+            repo("data/reactions_raw.csv").to_str().unwrap(),
+        ]);
+        assert_ne!(output.status, 0);
+        assert!(output.stderr.contains("descriptor_aggregation=unknown"));
+        assert!(output.stderr.contains("precomputed"));
+    }
 }
 
 #[test]
@@ -358,8 +398,33 @@ fn ranking_follows_the_direction_the_published_model_records() {
     sorted.sort_by(|a, b| b.total_cmp(a));
     assert_eq!(values, sorted, "hits are not in the model's stated order");
 
-    // The best-predicted ligand in the published library, pinned.
-    assert_eq!(report["hits"][0]["ligand"], "SIG-NIHDA-723");
+    // Derive the expected winner from the retained packed inputs and published
+    // single-term model. The old geometry fallback's winner was not an ensemble
+    // inference golden: it silently replaced the model's descriptor inputs.
+    let model = json_file(&study_001_portable());
+    let intercept = f64::from(model["weights"][0].as_f64().unwrap() as f32);
+    let slope = f64::from(model["weights"][6].as_f64().unwrap() as f32);
+    let packed = steric_x::SigPackReader::open(&repo("data/reactions.sigpack")).unwrap();
+    let expected_index = packed
+        .records()
+        .iter()
+        .enumerate()
+        .max_by(|(_, a), (_, b)| {
+            let prediction =
+                |r: &PackedReactionRecord| intercept + slope * f64::from(r.b5 * r.nbo_charge);
+            prediction(a).total_cmp(&prediction(b))
+        })
+        .unwrap()
+        .0;
+    let mut source = csv::Reader::from_path(repo("data/reactions_raw.csv")).unwrap();
+    let id_column = source
+        .headers()
+        .unwrap()
+        .iter()
+        .position(|name| name == "Reaction_ID")
+        .unwrap();
+    let expected_row = source.records().nth(expected_index).unwrap().unwrap();
+    assert_eq!(report["hits"][0]["ligand"], expected_row[id_column]);
 }
 
 #[test]
@@ -406,8 +471,12 @@ fn applicability_agrees_with_the_published_training_domain() {
     let report = screen(&study_001_portable(), &[]);
     for entry in report["hits"].as_array().unwrap() {
         let descriptors = entry["descriptors"].as_array().unwrap();
-        let product =
-            descriptors[0]["value"].as_f64().unwrap() * descriptors[1]["value"].as_f64().unwrap();
+        // Packed feature interactions are f32. Multiplying decoded f64 inputs
+        // instead changes the exact boundary case for retained ligand 724.
+        let product = f64::from(
+            descriptors[0]["value"].as_f64().unwrap() as f32
+                * descriptors[1]["value"].as_f64().unwrap() as f32,
+        );
         let inside = product >= minimum && product <= maximum;
         let verdict = entry["domain_verdict"].as_str().unwrap();
         assert_eq!(

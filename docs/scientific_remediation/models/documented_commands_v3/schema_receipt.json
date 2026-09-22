@@ -1,0 +1,115 @@
+{
+  "binary_sha256": "2dc6c7b981c324a0c15cf1d030349859014c5547a4bb800080e5fc7c98bce9ba",
+  "results": [
+    {
+      "case": "legacy_inspection",
+      "argv": [
+        ".stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "model",
+        "inspect",
+        "docs/study_001/stericx_model.json",
+        "--format",
+        "json"
+      ],
+      "expected_returncode": 0,
+      "returncode": 0,
+      "stdout_sha256": "3753952e59efccbbb6e4794e3cd828afdd94161f217624c0d5359b33ab10bb4b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "legacy_geometry_refused",
+      "argv": [
+        ".stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "screen",
+        "docs/study_001/stericx_model.json",
+        "--descending",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--format",
+        "json"
+      ],
+      "expected_returncode": 2,
+      "returncode": 2,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "09323a934615be881a2b7d2a0beeb6ab019e83d6328ed3993468988b78c2534b"
+    },
+    {
+      "case": "legacy_inspection",
+      "argv": [
+        ".stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "model",
+        "inspect",
+        "docs/study_001/stericx_portable_model.json",
+        "--format",
+        "json"
+      ],
+      "expected_returncode": 0,
+      "returncode": 0,
+      "stdout_sha256": "34b054cfb39a763191fadae3a6277a13399d998f56627de5d587708df71dec4c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "legacy_geometry_refused",
+      "argv": [
+        ".stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "screen",
+        "docs/study_001/stericx_portable_model.json",
+        "--descending",
+        "--library",
+        ".stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv",
+        "--format",
+        "json"
+      ],
+      "expected_returncode": 2,
+      "returncode": 2,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "09323a934615be881a2b7d2a0beeb6ab019e83d6328ed3993468988b78c2534b"
+    },
+    {
+      "case": "missing_aggregation",
+      "argv": [
+        ".stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "model",
+        "validate",
+        ".stericx/scientific_remediation/demo/documented_commands_v2/schema_checks/missing_aggregation.json",
+        "--format",
+        "json"
+      ],
+      "expected_returncode": 2,
+      "returncode": 2,
+      "stdout_sha256": "bc5714654b7cb6631b17b5f7e4706a1e62f462f9dc44c4a0c36fac2b3140d67b",
+      "stderr_sha256": "074a20e0a85517f6dd2cf20eb5ffd8cad326e72348adb9b88cb316ad53a1c0d4"
+    },
+    {
+      "case": "future_schema",
+      "argv": [
+        ".stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "model",
+        "validate",
+        ".stericx/scientific_remediation/demo/documented_commands_v2/schema_checks/future_schema.json",
+        "--format",
+        "json"
+      ],
+      "expected_returncode": 2,
+      "returncode": 2,
+      "stdout_sha256": "7078ef2886aa03c809104b711ac8ddc3ffca9ba4606cbf52659af6727d111237",
+      "stderr_sha256": "2684f1cd581dd23552c56cdf0d94e5ed67a139e5056d55822a819b8a3c65d55d"
+    },
+    {
+      "case": "malformed_geometry",
+      "argv": [
+        ".stericx/scientific_remediation/demo/documented_commands_v2/bin/stericx",
+        "model",
+        "validate",
+        ".stericx/scientific_remediation/demo/documented_commands_v2/schema_checks/malformed_geometry.json",
+        "--format",
+        "json"
+      ],
+      "expected_returncode": 2,
+      "returncode": 2,
+      "stdout_sha256": "36a5b1233f802d46823d96d87d4d7bbb2ae5ddc8a7f2f4eee12bb86093e90f6b",
+      "stderr_sha256": "3321c6aee3cf07d2cd03c4e1d8c7f335736ef9ba97ffdd15edb5128420559587"
+    }
+  ],
+  "all_expected": true
+}

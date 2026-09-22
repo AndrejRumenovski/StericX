@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "generator": "stericx 0.3.0",
+  "source": "docs/scientific_remediation/geometry/db_mean/inputs",
+  "grouping": "parent_directory_is_one_ligand",
+  "extensions": [
+    "xyz",
+    "sdf",
+    "mol"
+  ],
+  "label_from": "parent",
+  "donor_element": "P",
+  "sterimol_axis": "coordination",
+  "sphere_radius": 3.5,
+  "grid_density": 1.0,
+  "center_distance": 2.28,
+  "radii_scale": 1.17,
+  "ligands": 1,
+  "geometries_featurized": 4,
+  "geometries_skipped": 0,
+  "descriptor_columns": [
+    "sterimol_l",
+    "sterimol_b1",
+    "sterimol_b5",
+    "percent_buried_volume",
+    "buried_volume",
+    "qvbur_min",
+    "qvbur_max",
+    "max_delta_qvbur",
+    "max_delta_qvbur_min",
+    "pyr_p",
+    "pyr_alpha"
+  ],
+  "table": "after.csv",
+  "table_sha256": "5bcfd021a28c1d1a84047c8d5e3865f3ef873d59f43b578cc0234e24045cae2d",
+  "build_seconds": 0.001352456
+}

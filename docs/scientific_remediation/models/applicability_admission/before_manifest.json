@@ -1,0 +1,25 @@
+{
+  "finding": "Public assess_applicability indexed expanded[8] before validating selected indices/geometry; preserved independently reported v3 panic and malformed-metadata controls",
+  "files": [
+    {
+      "path": "docs/scientific_remediation/models/applicability_admission/before_requests.jsonl",
+      "sha256": "23569ff53b88aaf753d74a62e31fe3f2d1533007a0df71d02c0546f1d6b56173"
+    },
+    {
+      "path": "docs/scientific_remediation/models/applicability_admission/before_stdout",
+      "sha256": "5e5231f564557a91676d6370ff16584770435b370686336f2d5c941ec26fa03c"
+    },
+    {
+      "path": "docs/scientific_remediation/models/applicability_admission/before_stderr",
+      "sha256": "db229c5d60975dbbb3be94c4a53244abed14f7253e1cb7f9b8016d565297b4be"
+    },
+    {
+      "path": "src/model/domain.rs",
+      "sha256": "55baecfbe5dcf75a3fb020ee355868db35f1c1a968d3751755bae47df067fc4f"
+    },
+    {
+      "path": ".stericx/scientific_remediation/validated_build_v3/manifest.json",
+      "sha256": "5ae616ba13ee24839b7ba41af2508a5aa5fef381116a116e8ad6b527a9c60f4f"
+    }
+  ]
+}

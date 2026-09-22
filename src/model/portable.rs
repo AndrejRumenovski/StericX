@@ -26,6 +26,11 @@
 //! * a version 1 artifact loads here as a [`PortableModel`] that reports itself
 //!   as legacy, with the three sections absent rather than invented.
 //!
+//! Schema 3 additionally requires an explicit `descriptor_aggregation` contract.
+//! Schema 2 remains readable with unknown aggregation when the field is absent.
+//! New schema 3 files are rejected by older readers instead of silently losing
+//! this inference restriction.
+//!
 //! [`PortableModel::from_json`] rejects any `schema_version` above
 //! [`PORTABLE_SCHEMA_VERSION`], so a future format is never partially read.
 //!
@@ -47,8 +52,8 @@
 //! silently scoring with one of the two.
 
 use super::{
-    BootstrapEnsemble, FitOptions, MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, RegressXPredictor,
-    ScientificFitReport,
+    BootstrapEnsemble, DescriptorAggregation, FitOptions, MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES,
+    RegressXPredictor, ScientificFitReport,
 };
 use serde::{Deserialize, Serialize};
 use std::error::Error;
@@ -56,7 +61,8 @@ use std::fmt::{Display, Formatter};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 /// Highest document schema version this build writes and accepts.
-pub const PORTABLE_SCHEMA_VERSION: u32 = 2;
+pub const PORTABLE_SCHEMA_VERSION: u32 = 3;
+const PORTABLE_METADATA_VERSION: u32 = 2;
 
 /// Lowest document schema version this build accepts.
 ///
@@ -416,6 +422,7 @@ pub struct ModelSummary {
     pub schema_version: u32,
     pub portable: bool,
     pub model: String,
+    pub descriptor_aggregation: DescriptorAggregation,
     pub reaction_family: Option<String>,
     pub target: Option<ResponseSpec>,
     pub training_observations: usize,
@@ -491,6 +498,11 @@ impl PortableModel {
         provenance: ModelProvenance,
         created: CreationMetadata,
     ) -> Result<Self, ModelFormatError> {
+        if fit.descriptor_aggregation == DescriptorAggregation::Unknown {
+            // Wrapping stored fitted values establishes only their record
+            // identity, never a conformer population or geometry recipe.
+            fit.descriptor_aggregation = DescriptorAggregation::SuppliedRecordValues;
+        }
         let terms = fit
             .selected_feature_indices
             .iter()
@@ -586,7 +598,7 @@ impl PortableModel {
     /// state which data trained it or what its response means.
     #[must_use]
     pub fn is_portable(&self) -> bool {
-        self.schema_version() >= PORTABLE_SCHEMA_VERSION
+        self.schema_version() >= PORTABLE_METADATA_VERSION
     }
 
     /// Returns the inference section, or an error for a legacy document.
@@ -669,6 +681,7 @@ impl PortableModel {
             schema_version: fit.schema_version,
             portable: self.is_portable(),
             model: fit.model.clone(),
+            descriptor_aggregation: fit.descriptor_aggregation,
             reaction_family: provenance
                 .and_then(|provenance| provenance.reaction.reaction_family.clone()),
             target: inference.map(|inference| inference.response.clone()),
@@ -714,7 +727,7 @@ impl PortableModel {
                 maximum: PORTABLE_SCHEMA_VERSION,
             });
         }
-        if version >= PORTABLE_SCHEMA_VERSION {
+        if version >= PORTABLE_METADATA_VERSION {
             for (section, present) in [
                 ("inference", self.inference.is_some()),
                 ("provenance", self.provenance.is_some()),
@@ -766,7 +779,7 @@ impl PortableModel {
             ));
         }
         self.collect_fit_issues(&mut issues);
-        if version >= PORTABLE_SCHEMA_VERSION {
+        if version >= PORTABLE_METADATA_VERSION {
             self.collect_section_issues(&mut issues);
         } else {
             issues.push(ModelIssue::warning(
@@ -784,6 +797,10 @@ impl PortableModel {
     /// Checks the fields every schema version carries.
     fn collect_fit_issues(&self, issues: &mut Vec<ModelIssue>) {
         let fit = &self.fit;
+        if fit.schema_version >= 3 && fit.descriptor_aggregation == DescriptorAggregation::Unknown {
+            issues.push(ModelIssue::error("missing_descriptor_aggregation", "descriptor_aggregation",
+                "schema 3 requires a descriptor aggregation declaration; use supplied_record_values when source populations are unknown".to_owned()));
+        }
         if fit.feature_names.len() != MODEL_FEATURE_COUNT {
             issues.push(ModelIssue::error(
                 "feature_name_count",
@@ -894,6 +911,28 @@ impl PortableModel {
                         domain.feature, domain.minimum, domain.maximum
                     ),
                 ));
+            }
+        }
+        if let Some(geometry) = &fit.training_geometry {
+            if let Err(message) = geometry.validate() {
+                issues.push(ModelIssue::error(
+                    "invalid_training_geometry",
+                    "training_geometry",
+                    message,
+                ));
+            } else if geometry.feature_indices != fit.selected_feature_indices
+                || geometry.observations != fit.training_count
+                || geometry
+                    .feature_indices
+                    .iter()
+                    .enumerate()
+                    .any(|(i, &column)| {
+                        geometry.means[i] != fit.standardized_means[column]
+                            || geometry.scales[i] != fit.standardized_scales[column]
+                    })
+            {
+                issues.push(ModelIssue::error("inconsistent_training_geometry", "training_geometry",
+                    "training geometry differs from selected features, scaling or observation count".to_owned()));
             }
         }
         if fit.training_count == 0 {

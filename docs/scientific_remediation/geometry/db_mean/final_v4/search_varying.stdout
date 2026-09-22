@@ -1,0 +1,71 @@
+{
+  "query": {
+    "ligand": "",
+    "file": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_0.sdf",
+    "conformers": 1,
+    "donor_element": "P",
+    "donor_index": 0,
+    "substituents": "C C C",
+    "sterimol_l": 1.9999594e+38,
+    "sterimol_b1": 2.3968005,
+    "sterimol_b5": 1.2741663e+36,
+    "percent_buried_volume": 22.222223,
+    "buried_volume": 39.909863,
+    "qvbur_min": 6.414085,
+    "qvbur_max": 12.41876,
+    "max_delta_qvbur": 4.4011545,
+    "max_delta_qvbur_min": 4.4011545,
+    "pyr_p": 0.777585,
+    "pyr_alpha": 34.576164
+  },
+  "similarity_features": [
+    "sterimol_l"
+  ],
+  "filters": [],
+  "library_size": 2,
+  "candidates_after_filters": 2,
+  "hits": [
+    {
+      "rank": 1,
+      "distance": 0.64905906,
+      "ligand": "high",
+      "file": "high",
+      "conformers": 1,
+      "donor_element": "P",
+      "donor_index": 0,
+      "substituents": "C C C",
+      "sterimol_l": 2.5521178e+38,
+      "sterimol_b1": 2.3968,
+      "sterimol_b5": 1.2741663e+36,
+      "percent_buried_volume": 22.2222,
+      "buried_volume": 39.9099,
+      "qvbur_min": 6.4141,
+      "qvbur_max": 12.4188,
+      "max_delta_qvbur": 4.4012,
+      "max_delta_qvbur_min": 4.4012,
+      "pyr_p": 0.7776,
+      "pyr_alpha": 34.5762
+    },
+    {
+      "rank": 2,
+      "distance": 1.350941,
+      "ligand": "low",
+      "file": "low",
+      "conformers": 1,
+      "donor_element": "P",
+      "donor_index": 0,
+      "substituents": "C C C",
+      "sterimol_l": 8.507059e+37,
+      "sterimol_b1": 2.3968,
+      "sterimol_b5": 1.2741663e+36,
+      "percent_buried_volume": 22.2222,
+      "buried_volume": 39.9099,
+      "qvbur_min": 6.4141,
+      "qvbur_max": 12.4188,
+      "max_delta_qvbur": 4.4012,
+      "max_delta_qvbur_min": 4.4012,
+      "pyr_p": 0.7776,
+      "pyr_alpha": 34.5762
+    }
+  ]
+}

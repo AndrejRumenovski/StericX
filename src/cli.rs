@@ -86,6 +86,9 @@ pub(crate) enum Command {
         /// Frozen predictions for every non-training row.
         #[arg(long)]
         predictions: PathBuf,
+        /// Declared training descriptor method; sigpack does not infer populations.
+        #[arg(long, default_value = "supplied_record_values", value_parser = ["supplied_record_values", "single_geometry", "supplied_weight_mean"])]
+        descriptor_aggregation: String,
         /// Maximum number of non-intercept model terms.
         #[arg(long, default_value_t = 3)]
         max_terms: usize,
@@ -98,7 +101,7 @@ pub(crate) enum Command {
         /// Deterministic resampling seed.
         #[arg(long, default_value_t = 20_260_725)]
         seed: u64,
-        /// Optional destination for a schema-2 portable model document.
+        /// Optional destination for a schema-3 portable model document.
         #[arg(long)]
         portable_model: Option<PathBuf>,
         /// Model identifier recorded in the portable document.
@@ -186,6 +189,10 @@ pub(crate) enum Command {
         /// Explicit zero-based donor atom index, overriding auto-detection.
         #[arg(long)]
         donor_index: Option<usize>,
+        /// Explicit zero-based bonded reference atom for the Sterimol bond axis.
+        /// Required when the nearest heavy-bond axis is ambiguous.
+        #[arg(long)]
+        reference_index: Option<usize>,
         /// Sterimol axis: `bond` (donor→substituent) or `coordination`
         /// (metal→donor along the lone pair, the Kraken/ligand convention).
         #[arg(long, value_enum, default_value_t = SterimolAxis::Bond)]
@@ -307,7 +314,7 @@ pub(crate) enum Command {
     },
     /// Rank a ligand library with a fitted reaction model.
     ///
-    /// Reports predicted performance, a conservative uncertainty band from the
+    /// Reports predicted performance, a marginal-coefficient envelope from the
     /// model's bootstrap coefficient intervals, and an applicability-domain
     /// warning for every ligand that falls outside the range the model was
     /// trained on. The model decides what the library must supply: a model that

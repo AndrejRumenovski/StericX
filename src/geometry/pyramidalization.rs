@@ -1,4 +1,6 @@
-use super::Molecule;
+use super::{DescriptorError, Molecule};
+use glam::DVec3;
+#[cfg(test)]
 use glam::Vec3;
 
 /// Pyramidalization descriptors for a trivalent donor atom.
@@ -11,7 +13,8 @@ pub struct PyramidalizationParams {
     /// Radhakrishnan pyramidalization `P` (dimensionless).
     ///
     /// Equal to the absolute scalar triple product of the three donor→neighbor
-    /// unit vectors: `1` for an ideal tetrahedral-like apex through `0` for a
+    /// unit vectors: `4/(3√3)` for three ideal tetrahedral bonds, `1` for an
+    /// orthogonal triad, and `0` for a
     /// planar centre, with `morfeus`' `2 - P` correction for an inverted
     /// ("acute") pyramid.
     pub pyr_p: f32,
@@ -35,36 +38,61 @@ impl PyramidalizationCalculator {
     /// frame). The descriptors are invariant to the order of the three
     /// neighbours. Out-of-bounds indices, a neighbour coincident with the
     /// donor, non-finite coordinates, or two collinear substituent vectors
-    /// yield the zero-valued default.
-    #[must_use]
+    /// return an explicit error; valid planar values are not error sentinels.
     pub fn compute(
         molecule: &Molecule,
         donor_idx: usize,
         neighbor_indices: [usize; 3],
-    ) -> PyramidalizationParams {
+    ) -> Result<PyramidalizationParams, DescriptorError> {
         crate::profile_scope!("pyramidalization", "PyramidalizationCalculator::compute");
         let Some(donor) = molecule.atoms.get(donor_idx) else {
-            return PyramidalizationParams::default();
+            return Err(DescriptorError(
+                "invalid or degenerate pyramidalization geometry".into(),
+            ));
         };
         if !donor.position.is_finite() {
-            return PyramidalizationParams::default();
+            return Err(DescriptorError(
+                "invalid or degenerate pyramidalization geometry".into(),
+            ));
         }
 
         // Unit vectors from the donor to each substituent.
-        let mut unit = [Vec3::ZERO; 3];
+        if neighbor_indices[0] == neighbor_indices[1]
+            || neighbor_indices[0] == neighbor_indices[2]
+            || neighbor_indices[1] == neighbor_indices[2]
+        {
+            return Err(DescriptorError(
+                "pyramidalization requires three distinct neighbors".into(),
+            ));
+        }
+        // Wider bond/plane intermediates resolve the audited small nonzero-axis
+        // and nearly-collinear witnesses without an arbitrary EPSILON cutoff.
+        let mut unit = [DVec3::ZERO; 3];
         for (slot, &neighbor_idx) in unit.iter_mut().zip(neighbor_indices.iter()) {
             if neighbor_idx == donor_idx {
-                return PyramidalizationParams::default();
+                return Err(DescriptorError(
+                    "invalid or degenerate pyramidalization geometry".into(),
+                ));
             }
             let Some(neighbor) = molecule.atoms.get(neighbor_idx) else {
-                return PyramidalizationParams::default();
+                return Err(DescriptorError(
+                    "invalid or degenerate pyramidalization geometry".into(),
+                ));
             };
-            let bond = neighbor.position - donor.position;
-            if !bond.is_finite() || bond.length_squared() <= f32::EPSILON {
-                return PyramidalizationParams::default();
+            let bond = neighbor.position.as_dvec3() - donor.position.as_dvec3();
+            if !bond.is_finite() || bond.length_squared() == 0.0 {
+                return Err(DescriptorError(
+                    "invalid or degenerate pyramidalization geometry".into(),
+                ));
             }
             *slot = bond.normalize();
         }
+        // Canonical vector order makes the reduction reproducible under index permutations.
+        unit.sort_by(|a, b| {
+            a.x.total_cmp(&b.x)
+                .then(a.y.total_cmp(&b.y))
+                .then(a.z.total_cmp(&b.z))
+        });
         let [a, b, c] = unit;
 
         // pyr_P is the absolute scalar triple product of the three unit
@@ -75,7 +103,7 @@ impl PyramidalizationCalculator {
         // pyr_alpha averages the signed out-of-plane angle for each substituent
         // taken in turn as the apex vector; the other two define the reference
         // plane, ordered so their cross product points toward the apex.
-        let mut alpha_sum = 0.0_f32;
+        let mut alpha_sum = 0.0_f64;
         for apex in 0..3 {
             let v3 = unit[apex];
             let mut v1 = unit[(apex + 1) % 3];
@@ -85,8 +113,10 @@ impl PyramidalizationCalculator {
                 std::mem::swap(&mut v1, &mut v2);
                 normal = -normal;
             }
-            if normal.length_squared() <= f32::EPSILON {
-                return PyramidalizationParams::default();
+            if normal.length_squared() == 0.0 {
+                return Err(DescriptorError(
+                    "invalid or degenerate pyramidalization geometry".into(),
+                ));
             }
             let cos_alpha = v3.dot(normal.normalize()).clamp(-1.0, 1.0);
             let mut alpha = cos_alpha.acos();
@@ -95,7 +125,7 @@ impl PyramidalizationCalculator {
             // the sign of the projection matters, so the bisector need not be
             // normalised (its length is positive by the guard).
             let bisector = v1 + v2;
-            if bisector.length_squared() > f32::EPSILON && bisector.dot(v3) > 0.0 {
+            if bisector.length_squared() > 0.0 && bisector.dot(v3) > 0.0 {
                 alpha = -alpha;
             }
             alpha_sum += alpha;
@@ -108,13 +138,13 @@ impl PyramidalizationCalculator {
         }
 
         let params = PyramidalizationParams {
-            pyr_p,
-            pyr_alpha: mean_alpha.to_degrees(),
+            pyr_p: pyr_p as f32,
+            pyr_alpha: mean_alpha.to_degrees() as f32,
         };
         if params.pyr_p.is_finite() && params.pyr_alpha.is_finite() {
-            params
+            Ok(params)
         } else {
-            PyramidalizationParams::default()
+            Err(DescriptorError("non-finite pyramidalization result".into()))
         }
     }
 }
@@ -141,7 +171,7 @@ mod tests {
             Vec3::new((4.0 * PI / 3.0).cos(), (4.0 * PI / 3.0).sin(), 0.0),
         ];
         let molecule = molecule_from(Vec3::ZERO, neighbors);
-        let params = PyramidalizationCalculator::compute(&molecule, 0, [1, 2, 3]);
+        let params = PyramidalizationCalculator::compute(&molecule, 0, [1, 2, 3]).unwrap();
         assert!(params.pyr_p.abs() < 1.0e-5, "P = {}", params.pyr_p);
         assert!(
             (params.pyr_alpha - 90.0).abs() < 1.0e-3,
@@ -160,7 +190,7 @@ mod tests {
             Vec3::new(-1.0, 1.0, -1.0),
         ];
         let molecule = molecule_from(Vec3::ZERO, neighbors);
-        let params = PyramidalizationCalculator::compute(&molecule, 0, [1, 2, 3]);
+        let params = PyramidalizationCalculator::compute(&molecule, 0, [1, 2, 3]).unwrap();
         assert!(
             (params.pyr_p - 0.769_8).abs() < 1.0e-4,
             "P = {}",
@@ -181,9 +211,9 @@ mod tests {
             Vec3::new(-1.0, 1.0, -1.0),
         ];
         let molecule = molecule_from(Vec3::ZERO, neighbors);
-        let base = PyramidalizationCalculator::compute(&molecule, 0, [1, 2, 3]);
+        let base = PyramidalizationCalculator::compute(&molecule, 0, [1, 2, 3]).unwrap();
         for order in [[2, 3, 1], [3, 1, 2], [3, 2, 1], [1, 3, 2], [2, 1, 3]] {
-            let permuted = PyramidalizationCalculator::compute(&molecule, 0, order);
+            let permuted = PyramidalizationCalculator::compute(&molecule, 0, order).unwrap();
             assert!((permuted.pyr_p - base.pyr_p).abs() < 1.0e-6);
             assert!((permuted.pyr_alpha - base.pyr_alpha).abs() < 1.0e-4);
         }
@@ -199,14 +229,14 @@ mod tests {
         let origin = molecule_from(Vec3::ZERO, neighbors);
         let shift = Vec3::new(-3.0, 7.5, 2.0);
         let shifted = molecule_from(shift, neighbors.map(|position| position + shift));
-        let first = PyramidalizationCalculator::compute(&origin, 0, [1, 2, 3]);
-        let second = PyramidalizationCalculator::compute(&shifted, 0, [1, 2, 3]);
+        let first = PyramidalizationCalculator::compute(&origin, 0, [1, 2, 3]).unwrap();
+        let second = PyramidalizationCalculator::compute(&shifted, 0, [1, 2, 3]).unwrap();
         assert!((first.pyr_p - second.pyr_p).abs() < 1.0e-6);
         assert!((first.pyr_alpha - second.pyr_alpha).abs() < 1.0e-4);
     }
 
     #[test]
-    fn invalid_inputs_return_default() {
+    fn invalid_inputs_return_errors() {
         let molecule = molecule_from(
             Vec3::ZERO,
             [
@@ -216,14 +246,8 @@ mod tests {
             ],
         );
         // Out-of-bounds neighbour.
-        assert_eq!(
-            PyramidalizationCalculator::compute(&molecule, 0, [1, 2, 9]),
-            PyramidalizationParams::default()
-        );
+        assert!(PyramidalizationCalculator::compute(&molecule, 0, [1, 2, 9]).is_err());
         // Neighbour coincident with the donor.
-        assert_eq!(
-            PyramidalizationCalculator::compute(&molecule, 0, [0, 2, 3]),
-            PyramidalizationParams::default()
-        );
+        assert!(PyramidalizationCalculator::compute(&molecule, 0, [0, 2, 3]).is_err());
     }
 }

@@ -1,0 +1,39 @@
+{
+  "original_receipt": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/final_v4/receipt.json",
+    "bytes": 8958,
+    "sha256": "40de7161302072d5279abef331706e6e6cfdf8c1937f9a489e3b99b1fb80e5a7"
+  },
+  "helpers": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/verify_serialized_f32.py",
+      "bytes": 2233,
+      "sha256": "e882cb2b2fdc14ac1fb7fb4aee314c5ae4a6c08516a3d32fb4ab16844201a3c4"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/recheck_v4.py",
+      "bytes": 4826,
+      "sha256": "a81bda31794379a63d0a51c20027c44b6e57d89532f58e7141a24cc440b63da6"
+    }
+  ],
+  "reason": "Original checker compared shortest-roundtrip f32 JSON decimal parsed as Python f64 directly to its full f32 numeric value. Decode at the declared f32 API boundary, then require exact equality. No tolerance.",
+  "comparisons": [
+    {
+      "ligand": "high",
+      "serialized_decimal": 0.64905906,
+      "observed_f32": 0.6490590572357178,
+      "analytic_expected_f32": 0.6490590572357178,
+      "exact_f32_equality": true
+    },
+    {
+      "ligand": "low",
+      "serialized_decimal": 1.350941,
+      "observed_f32": 1.3509409427642822,
+      "analytic_expected_f32": 1.3509409427642822,
+      "exact_f32_equality": true
+    }
+  ],
+  "other_original_checks_passed": true,
+  "all_arithmetic_checks_passed": true,
+  "original_failed_receipt_preserved": true
+}

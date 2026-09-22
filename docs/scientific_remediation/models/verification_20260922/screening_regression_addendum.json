@@ -1,0 +1,48 @@
+{
+  "reason": "Legacy fixture now supplies immutable packed descriptors explicitly; independently derived packed ranking replaces unsupported single-geometry winner; boundary product uses declared f32 feature arithmetic. Original numeric expectations and tolerances unchanged. Explicit geometry refusal added.",
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--test",
+    "screening_regression",
+    "--",
+    "--nocapture"
+  ],
+  "final_returncode": 0,
+  "tests_passed": 22,
+  "files": [
+    {
+      "path": "tests/screening_regression.rs",
+      "sha256": "f18b20477902aef9f158c5a74043e7fca73ca5e6536842c32ff137ed26331e38"
+    },
+    {
+      "path": "data/reactions.sigpack",
+      "sha256": "6dd2d1190127ad88b3c883d025d24cbd365099060d943cdce498f4f226d406ae"
+    },
+    {
+      "path": "data/reactions_raw.csv",
+      "sha256": "88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f"
+    },
+    {
+      "path": "docs/study_001/stericx_model.json",
+      "sha256": "46987ab86f2175f5df744d85fa93ff32875c345faa72c8ca303832e9634a2189"
+    },
+    {
+      "path": "docs/study_001/stericx_portable_model.json",
+      "sha256": "c14dd63918d89efdaab5a04e70fff2dd4d13519f74e71664f27ce10a253fbe75"
+    },
+    {
+      "path": "docs/study_001/stericx_frozen_predictions.csv",
+      "sha256": "c074c000d7cdc9d0d82254de837e4bd2dbfac64b91eb30a5d983ec87360e6570"
+    },
+    {
+      "path": "docs/scientific_remediation/models/verification_20260922/06_screening_regression.log",
+      "sha256": "1bc0bf940d30b78715ac4f38cac04c6e08196dca3e44ed0f5979874e4a2a1441"
+    },
+    {
+      "path": "docs/scientific_remediation/models/verification_20260922/07_screening_regression.log",
+      "sha256": "d570ad238135b504837783e43f1c43542d46e6df3247f584fb41396ce2610934"
+    }
+  ]
+}

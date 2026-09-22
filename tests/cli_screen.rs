@@ -71,7 +71,30 @@ fn study_001_model() -> PathBuf {
 
 /// The reaction table Study 001 was fitted from, usable directly as a library.
 fn study_001_library() -> PathBuf {
-    repo("data/reactions_raw.csv")
+    // The old geometry fallback silently changed an ensemble predictor. Use
+    // the exact stored training descriptors for this inference fixture.
+    static PATH: std::sync::OnceLock<PathBuf> = std::sync::OnceLock::new();
+    PATH.get_or_init(|| {
+        let matrix = steric_x::SigPackReader::open(&repo("data/reactions.sigpack")).unwrap();
+        let mut source = csv::Reader::from_path(repo("data/reactions_raw.csv")).unwrap();
+        let mut headers = source.headers().unwrap().clone();
+        for column in ["sterimol_l", "sterimol_b1", "sterimol_b5"] {
+            headers.push_field(column);
+        }
+        let path = temp_path("csv");
+        let mut output = csv::Writer::from_path(&path).unwrap();
+        output.write_record(&headers).unwrap();
+        for (source, record) in source.records().zip(matrix.records()) {
+            let mut row = source.unwrap();
+            for value in [record.l, record.b1, record.b5] {
+                row.push_field(&value.to_string());
+            }
+            output.write_record(&row).unwrap();
+        }
+        output.flush().unwrap();
+        path
+    })
+    .clone()
 }
 
 /// Fits a geometry-only model so the shipped Kraken library can be screened.
@@ -108,7 +131,7 @@ fn geometry_only_model() -> PathBuf {
             )
         })
         .collect::<Vec<_>>();
-    let trained = train_scientific_model(
+    let mut trained = train_scientific_model(
         &records,
         &labels,
         FitOptions {
@@ -118,6 +141,7 @@ fn geometry_only_model() -> PathBuf {
         },
     )
     .expect("geometry fixture trains");
+    trained.report.descriptor_aggregation = steric_x::model::DescriptorAggregation::SingleGeometry;
     assert_eq!(
         trained.report.selected_features,
         ["L_boltz"],
@@ -2366,7 +2390,13 @@ fn exclusion_removes_candidates_before_they_are_screened() {
         plain["screened"].as_u64().unwrap() - 1
     );
     // Nothing else moves: the remaining predictions are unchanged.
-    let plain_rest: Vec<f64> = predictions(&plain).into_iter().skip(1).collect();
+    let plain_rest: Vec<f64> = plain["hits"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|hit| hit["ligand"] != "SIG-NIHDA-723")
+        .map(|hit| hit["predicted_ddg_kcal_mol"].as_f64().unwrap())
+        .collect();
     assert_eq!(predictions(&filtered), plain_rest);
 }
 

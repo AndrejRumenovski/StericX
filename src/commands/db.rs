@@ -120,12 +120,35 @@ fn label_for(path: &Path, source: &Path, label_from: DbLabel) -> String {
 /// conformers — that is Kraken's own `*_min` convention for the headline
 /// quadrant-asymmetry descriptor, so aggregating any other way would silently
 /// redefine it.
-fn aggregate(label: String, group: &[LibraryEntry]) -> DatabaseRow {
+fn aggregate(label: String, group: &[LibraryEntry]) -> Result<DatabaseRow, String> {
     steric_x::profile_scope!("conformer_processing", "commands::db::aggregate");
-    let count = group.len() as f32;
-    let mean = |read: fn(&LibraryEntry) -> f32| group.iter().map(read).sum::<f32>() / count;
-    let representative = &group[0];
-    DatabaseRow {
+    let representative = group
+        .first()
+        .ok_or("cannot average an empty database group")?;
+    for feature in FEATURES {
+        if group.iter().any(|entry| !(feature.get)(entry).is_finite()) {
+            return Err(format!(
+                "database group {label} has nonfinite {}",
+                feature.name
+            ));
+        }
+    }
+    let count = group.len() as f64;
+    let mean = |read: fn(&LibraryEntry) -> f32| -> Result<f32, String> {
+        let value = (group
+            .iter()
+            .map(|entry| f64::from(read(entry)))
+            .sum::<f64>()
+            / count) as f32;
+        if value.is_finite() {
+            Ok(value)
+        } else {
+            Err(format!(
+                "database group {label} mean is outside finite descriptor precision"
+            ))
+        }
+    };
+    Ok(DatabaseRow {
         entry: LibraryEntry {
             ligand: label.clone(),
             file: representative.file.clone(),
@@ -133,24 +156,24 @@ fn aggregate(label: String, group: &[LibraryEntry]) -> DatabaseRow {
             donor_element: representative.donor_element.clone(),
             donor_index: representative.donor_index,
             substituents: representative.substituents.clone(),
-            sterimol_l: mean(|entry| entry.sterimol_l),
-            sterimol_b1: mean(|entry| entry.sterimol_b1),
-            sterimol_b5: mean(|entry| entry.sterimol_b5),
-            percent_buried_volume: mean(|entry| entry.percent_buried_volume),
-            buried_volume: mean(|entry| entry.buried_volume),
-            qvbur_min: mean(|entry| entry.qvbur_min),
-            qvbur_max: mean(|entry| entry.qvbur_max),
-            max_delta_qvbur: mean(|entry| entry.max_delta_qvbur),
+            sterimol_l: mean(|entry| entry.sterimol_l)?,
+            sterimol_b1: mean(|entry| entry.sterimol_b1)?,
+            sterimol_b5: mean(|entry| entry.sterimol_b5)?,
+            percent_buried_volume: mean(|entry| entry.percent_buried_volume)?,
+            buried_volume: mean(|entry| entry.buried_volume)?,
+            qvbur_min: mean(|entry| entry.qvbur_min)?,
+            qvbur_max: mean(|entry| entry.qvbur_max)?,
+            max_delta_qvbur: mean(|entry| entry.max_delta_qvbur)?,
             max_delta_qvbur_min: group
                 .iter()
                 .map(|entry| entry.max_delta_qvbur_min)
                 .fold(f32::INFINITY, f32::min),
-            pyr_p: mean(|entry| entry.pyr_p),
-            pyr_alpha: mean(|entry| entry.pyr_alpha),
+            pyr_p: mean(|entry| entry.pyr_p)?,
+            pyr_alpha: mean(|entry| entry.pyr_alpha)?,
         },
         geometries: group.len(),
         label,
-    }
+    })
 }
 
 pub(crate) fn db_build_command(args: DbBuildArgs<'_>) -> Result<(), Box<dyn Error>> {
@@ -223,7 +246,7 @@ pub(crate) fn db_build_command(args: DbBuildArgs<'_>) -> Result<(), Box<dyn Erro
         grouped
             .into_iter()
             .map(|(label, group)| aggregate(label, &group))
-            .collect::<Vec<_>>()
+            .collect::<Result<Vec<_>, _>>()?
     } else {
         grouped
             .into_iter()
@@ -374,13 +397,26 @@ mod tests {
     #[test]
     fn aggregation_averages_but_takes_the_minimum_of_the_kraken_min_descriptor() {
         let group = vec![entry(8.0, 7.0, 30.0, 5.0), entry(10.0, 9.0, 40.0, 3.0)];
-        let row = aggregate("lig".into(), &group);
+        let row = aggregate("lig".into(), &group).unwrap();
         assert!((row.entry.sterimol_l - 9.0).abs() < 1e-6);
         assert!((row.entry.percent_buried_volume - 35.0).abs() < 1e-6);
         // Kraken's `*_min` convention: the minimum over conformers, not the mean.
         assert!((row.entry.max_delta_qvbur_min - 3.0).abs() < 1e-6);
         assert_eq!(row.geometries, 2);
         assert_eq!(row.entry.conformers, 2);
+    }
+
+    #[test]
+    fn a_finite_database_mean_does_not_overflow_before_division() {
+        let group = vec![entry(f32::MAX, 7.0, 30.0, 5.0); 4];
+        let row = aggregate("large".into(), &group).unwrap();
+        assert_eq!(row.entry.sterimol_l, f32::MAX);
+        assert_eq!(row.entry.sterimol_b5, 7.0);
+        assert_eq!(row.geometries, 4);
+        assert!(aggregate("empty".into(), &[]).is_err());
+        for invalid in [f32::NAN, f32::INFINITY, f32::NEG_INFINITY] {
+            assert!(aggregate("invalid".into(), &[entry(invalid, 7.0, 30.0, 5.0)]).is_err());
+        }
     }
 
     #[test]

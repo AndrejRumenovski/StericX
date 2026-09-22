@@ -1,0 +1,18 @@
+
+running 1 test
+test rounded_planar_rotations_remain_ambiguous_at_input_precision ... FAILED
+
+failures:
+
+---- rounded_planar_rotations_remain_ambiguous_at_input_precision stdout ----
+
+thread 'rounded_planar_rotations_remain_ambiguous_at_input_precision' (169507) panicked at tests/geometry_remediation.rs:184:9:
+"planar_donor__rigid_000" falsely selected a planar sign: Ok(Vec3(34.08008, -35.56163, 41.744617))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    rounded_planar_rotations_remain_ambiguous_at_input_precision
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+

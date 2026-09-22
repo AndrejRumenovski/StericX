@@ -3,7 +3,30 @@ pub const BOLTZMANN_CONSTANT_J_K: f64 = 1.380_649e-23;
 /// Planck constant in joule-seconds.
 pub const PLANCK_CONSTANT_J_S: f64 = 6.626_070_15e-34;
 /// Molar gas constant in kcal mol⁻¹ K⁻¹.
-pub const GAS_CONSTANT_KCAL_MOL_K: f64 = 1.987_204_258e-3;
+pub const GAS_CONSTANT_KCAL_MOL_K: f64 = 0.001_987_204_258_640_831_6;
+
+/// Failure to represent an absolute transition-state-theory rate as finite,
+/// nonzero f32. Log rates remain available for valid extreme inputs.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum RateConstantError {
+    InvalidInput,
+    Underflow,
+    Overflow,
+}
+
+impl std::fmt::Display for RateConstantError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            Self::InvalidInput => {
+                "activation free energy must be finite and temperature positive and finite"
+            }
+            Self::Underflow => "rate rounds to zero in f32; use calculate_log_rate_constant",
+            Self::Overflow => "rate overflows f32; use calculate_log_rate_constant",
+        })
+    }
+}
+
+impl std::error::Error for RateConstantError {}
 
 /// Predicted enantiomeric product distribution at one temperature.
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -23,18 +46,52 @@ pub struct ProductRatio {
 pub struct EyringKineticLink;
 
 impl EyringKineticLink {
-    /// Calculates `k = (k_B T / h) exp(-ΔG‡ / RT)`.
-    ///
-    /// `ddg` is interpreted as a barrier in kcal/mol and `temp_k` as kelvin.
-    /// Non-positive or non-finite temperatures return `NaN`.
-    #[must_use]
-    pub fn calculate_rate_constant(ddg_kcal: f32, temp_k: f32) -> f32 {
-        if !valid_inputs(ddg_kcal, temp_k) {
-            return f32::NAN;
+    /// Calculates `ln(k / s^-1)` for an absolute activation free energy ΔG‡.
+    /// Assumes unit transmission coefficient and a unimolecular rate prefactor.
+    /// A barrier difference ΔΔG‡ alone does not determine an absolute rate.
+    pub fn calculate_log_rate_constant(
+        activation_free_energy_kcal: f32,
+        temp_k: f32,
+    ) -> Result<f64, RateConstantError> {
+        if !valid_inputs(activation_free_energy_kcal, temp_k) {
+            return Err(RateConstantError::InvalidInput);
         }
         let temperature = f64::from(temp_k);
-        let exponent = -f64::from(ddg_kcal) / (GAS_CONSTANT_KCAL_MOL_K * temperature);
-        ((BOLTZMANN_CONSTANT_J_K * temperature / PLANCK_CONSTANT_J_S) * exponent.exp()) as f32
+        Ok(
+            (BOLTZMANN_CONSTANT_J_K / PLANCK_CONSTANT_J_S).ln() + temperature.ln()
+                - f64::from(activation_free_energy_kcal) / (GAS_CONSTANT_KCAL_MOL_K * temperature),
+        )
+    }
+
+    /// Calculates an absolute Eyring rate, reporting f32 underflow/overflow.
+    pub fn calculate_rate_constant_checked(
+        activation_free_energy_kcal: f32,
+        temp_k: f32,
+    ) -> Result<f32, RateConstantError> {
+        let rate =
+            Self::calculate_log_rate_constant(activation_free_energy_kcal, temp_k)?.exp() as f32;
+        if rate == 0.0 {
+            Err(RateConstantError::Underflow)
+        } else if !rate.is_finite() {
+            Err(RateConstantError::Overflow)
+        } else {
+            Ok(rate)
+        }
+    }
+
+    /// Calculates `k = (k_B T / h) exp(-ΔG‡ / RT)` from an absolute barrier.
+    ///
+    /// Units are kcal/mol, kelvin, and s^-1; transmission coefficient is one.
+    /// Invalid inputs return NaN, and f32 range limits return zero or infinity.
+    /// Use the checked or log-rate API when these limits must be distinguished.
+    #[must_use]
+    pub fn calculate_rate_constant(activation_free_energy_kcal: f32, temp_k: f32) -> f32 {
+        match Self::calculate_rate_constant_checked(activation_free_energy_kcal, temp_k) {
+            Ok(rate) => rate,
+            Err(RateConstantError::InvalidInput) => f32::NAN,
+            Err(RateConstantError::Underflow) => 0.0,
+            Err(RateConstantError::Overflow) => f32::INFINITY,
+        }
     }
 
     /// Returns normalized `(major_percent, minor_percent)` from ΔΔG‡.
@@ -49,16 +106,20 @@ impl EyringKineticLink {
             return (f32::NAN, f32::NAN);
         }
         let log_ratio = f64::from(ddg_kcal).abs() / (GAS_CONSTANT_KCAL_MOL_K * f64::from(temp_k));
-        let major_fraction = 1.0 / (1.0 + (-log_ratio).exp());
-        let major_percent = (100.0 * major_fraction) as f32;
-        (major_percent, 100.0 - major_percent)
+        let minor_ratio = (-log_ratio).exp();
+        let minor_percent = (100.0 * minor_ratio / (1.0 + minor_ratio)) as f32;
+        (100.0 - minor_percent, minor_percent)
     }
 
     /// Calculates absolute enantiomeric excess from ΔΔG‡.
     #[must_use]
     pub fn calculate_enantiomeric_excess(ddg_kcal: f32, temp_k: f32) -> f32 {
-        let (major_percent, minor_percent) = Self::calculate_enantiomeric_ratio(ddg_kcal, temp_k);
-        major_percent - minor_percent
+        if !valid_inputs(ddg_kcal, temp_k) {
+            return f32::NAN;
+        }
+        let half_log_ratio =
+            f64::from(ddg_kcal).abs() / (2.0 * GAS_CONSTANT_KCAL_MOL_K * f64::from(temp_k));
+        (100.0 * half_log_ratio.tanh()) as f32
     }
 
     /// Converts ΔΔG‡ into an R:S product distribution.
@@ -85,7 +146,7 @@ impl EyringKineticLink {
             temp_k,
             percent_r,
             percent_s,
-            ee_percent: major_percent - minor_percent,
+            ee_percent: Self::calculate_enantiomeric_excess(ddg_kcal, temp_k),
         }
     }
 

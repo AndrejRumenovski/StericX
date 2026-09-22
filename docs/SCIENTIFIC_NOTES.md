@@ -1,9 +1,48 @@
 # Scientific interpretation notes
 
-**Review date: 2026-09-16.** These notes qualify the historical study narratives for
+**Review updated: 2026-09-21.** These notes qualify the historical study narratives for
 the current demonstration. Original study numbers, failed results, prediction files,
 and preregistration rules are retained. This review did not repeat the quantum
 calculations or collect new experimental outcomes.
+
+The subsequent [independent audit](scientific_accuracy_audit/SCIENTIFIC_ACCURACY_AUDIT.md)
+found demonstrated implementation failures and convention/terminology errors.
+[Scientific remediation](scientific_remediation/REMEDIATION_PLAN.md) now precedes
+any further performance optimization. Until the corrected build's recheck is
+complete, historical validation and benchmark numbers remain historical evidence.
+
+## Corrections established by the independent audit
+
+- Original Kraken DFT places a geometric virtual center using the normalized sum
+  of **raw bond displacements**. StericX uses the sum of **unit bond vectors**.
+  The earlier electronic-LMO attribution was wrong; tertiary phosphine centers
+  need not coincide. The [source/convention matrix](scientific_accuracy_audit/kraken/REPORT.md)
+  also records differences in hydrogen radius, angular scan and grid density.
+- The historical Study 005 values of 4.4e−16 and 2.8e−14 describe a Python float64
+  algebra experiment. Actual native-versus-Morfeus maxima on the audit's 31,721
+  geometries were 3.2010947048632943e−7 for P and 4.8856123654239525e−5 degrees
+  for alpha. Larger published-extremum discrepancies remain unexplained by
+  rounding alone.
+- A molecular formula does not establish structural identity. Study 007's guard
+  cannot distinguish constitutional isomers; this does not prove that its 18
+  historical mappings were wrong.
+- Ni-hDA experimental targets correspond to 80 °C (353.15 K), while historical
+  prepared files and some model metadata recorded 298.15 K. Published targets and
+  frozen predictions are preserved; temperature-dependent interpretations need
+  corrected metadata. The source conflict for ligand 2064 remains unresolved.
+- A fixed descriptor vocabulary does not prove a mechanistic model. Fixed-feature
+  LOO/permutation diagnostics condition on the chosen model; they do not validate
+  the complete feature-selection procedure. Historical ligand 723 is a held-out
+  observation, not a scaffold-disjoint holdout.
+- Marginal coefficient bands are not necessarily conservative. The Student-t
+  prediction interval is conditional on linear-model/residual assumptions and
+  excludes model-selection and chemistry-domain uncertainty. Available overlapping
+  Ni-hDA panels had 92/141 nominal 95% interval coverage (65.25%); this is evidence
+  against blanket calibration claims, not a target for tuning interval widths.
+
+Each correction is linked to its independent evidence in
+[CLAIMS.md](scientific_accuracy_audit/CLAIMS.md). The original audit is preserved;
+new code and recheck results belong to the remediation record.
 
 ## What the evidence supports
 
@@ -82,8 +121,8 @@ and class R² is **0.9869**. They are not error-free. The 24 primary/secondary
 phosphines have a larger positive mean bias that increases with P–H count.
 
 The [cross-descriptor control](study_006/STUDY_006.md) supports a coordination-centre
-explanation. It does not isolate an experimentally or electronically verified cause
-for every ligand's residual. Historical wording that the residual is entirely
-understood, confined to P–H ligands, or proves the kernel was never a limitation
-should be read with this qualification. Comparing geometric and actual LMO centres
-on matched conformers would provide a more direct test.
+contribution without identifying a unique cause. The independent audit's direct
+raw-vector versus unit-vector calculations provide stronger evidence on the
+largest buried-volume discrepancies. The historical electronic-LMO explanation,
+restriction to P–H ligands and claim that the kernel was never a limitation were
+incorrect. Remaining geometry/ensemble provenance questions are retained.

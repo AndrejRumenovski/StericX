@@ -1,0 +1,4072 @@
+{
+  "kind": "focused_independent_geometry_equations",
+  "global_scientific_pass": false,
+  "inputs": {
+    "docs/scientific_remediation/geometry/focused_v1/requests.jsonl": "fa2e675eb71c5c3d0b69fd308a3b0509118fa428606cb8e14d78fffdb9f2cca6",
+    "docs/scientific_remediation/geometry/focused_v1/before.jsonl": "d3b8965773ef3f0f9be2872030379b5a6203b97c25ff455c61af23b2f84ad7fb",
+    "docs/scientific_remediation/geometry/focused_v1/after.jsonl": "c958d54c1e0cbf6983d32501d37046e9007416a2c9702bddd04561eb7b275eac",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/scripts/geometry_reference.py": "e08724b2da8ef85eb78b86e4890e5ed180786bfe6ed02656ed1bbf1aa1aaa6d1",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/manifest_final.json": "c31b655641a352402b14dc2d4535261a9de9c9004979c5e571d78e45cac82f03",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/analyze_witnesses.py": "916bfcafebfe825e3bc66b58f1b4c5bd42941a49be5e2e93afaf34850e27486b",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/sealed_reference.py": "08cc7a2355ea5a9b732e8bb013ec4ae0b297880b3862aca5b8f1cc919f247dfb"
+  },
+  "coordinate_contract": "Identical input f32 coordinates and SUT-declared radii for supports; sealed independent Bondi radii and float64 grids for volume reference. Controlled current center.",
+  "cases": [
+    {
+      "id": "KRAKEN:963:48394__controlled",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 7.466572097313386,
+          "b1": 4.414228104822306,
+          "b5": 8.414960307418058
+        },
+        "before_residual": {
+          "l": 6.642222585284685e-07,
+          "b1": 0.010205603368611982,
+          "b5": -3.998863196130742e-07
+        },
+        "after_residual": {
+          "l": -2.894520578777815e-07,
+          "b1": 0.010205603368611982,
+          "b5": -3.998863196130742e-07
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 6.858277336508549,
+          "b1": 5.899157140626844,
+          "b5": 8.429719160524916
+        },
+        "before_residual": {
+          "l": 0.0017223201686968892,
+          "b1": 0.04165783129698397,
+          "b5": 0.00047760156004450494
+        },
+        "after_residual": {
+          "l": -1.564673279830231e-08,
+          "b1": 0.042376901731554284,
+          "b5": -1.8927247502631417e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.9329407862236234,
+          "pyr_alpha": 17.954875125476917
+        },
+        "morfeus": {
+          "pyr_p": 0.9329407862236235,
+          "pyr_alpha": 17.954875125476917
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -5.107137823756602e-09,
+          "pyr_alpha": 8.205680046557973e-07
+        }
+      }
+    },
+    {
+      "id": "KRAKEN:963:48394__minimal",
+      "explicit_errors": {
+        "pyramidalization": {
+          "error": "pyramidalization requires three distinct neighbors"
+        }
+      },
+      "sterimol_bond": {
+        "independent": {
+          "l": 6.251173469977362,
+          "b1": 1.2000000476837156,
+          "b5": 1.200000047683716
+        },
+        "before_residual": {
+          "l": -4.505681818756102e-07,
+          "b1": 2.220446049250313e-16,
+          "b5": -2.220446049250313e-16
+        },
+        "after_residual": {
+          "l": -4.505681818756102e-07,
+          "b1": 2.220446049250313e-16,
+          "b5": -2.220446049250313e-16
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 6.858277336508549,
+          "b1": 1.7999999523162842,
+          "b5": 4.955209036272595
+        },
+        "before_residual": {
+          "l": 0.0017223201686968892,
+          "b1": -0.000899195671081543,
+          "b5": -0.0025961593805048366
+        },
+        "after_residual": {
+          "l": -1.564673279830231e-08,
+          "b1": 0.0,
+          "b5": 2.1894591117899154e-07
+        }
+      }
+    },
+    {
+      "id": "KRAKEN:1075:49864__controlled",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 8.20033750049071,
+          "b1": 2.54752793772213,
+          "b5": 8.413334288616266
+        },
+        "before_residual": {
+          "l": -9.051756499900421e-08,
+          "b1": 0.004036755728797914,
+          "b5": -3.9579400024081224e-07
+        },
+        "after_residual": {
+          "l": -9.051756499900421e-08,
+          "b1": 0.0040369941473770155,
+          "b5": -3.9579400024081224e-07
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 8.16851153409678,
+          "b1": 5.029061654446711,
+          "b5": 7.114215709601416
+        },
+        "before_residual": {
+          "l": 0.001190042136130387,
+          "b1": 0.024138113619695645,
+          "b5": 0.0027696114435062924
+        },
+        "after_residual": {
+          "l": -1.4341074461299286e-07,
+          "b1": 0.0022903887051448635,
+          "b5": 1.4122866254240307e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.932072651990765,
+          "pyr_alpha": 18.07754501331225
+        },
+        "morfeus": {
+          "pyr_p": 0.932072651990765,
+          "pyr_alpha": 18.077545013312257
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -1.2525433024102028e-08,
+          "pyr_alpha": 1.5270337527795164e-07
+        }
+      }
+    },
+    {
+      "id": "KRAKEN:1075:49864__minimal",
+      "explicit_errors": {
+        "pyramidalization": {
+          "error": "pyramidalization requires three distinct neighbors"
+        }
+      },
+      "sterimol_bond": {
+        "independent": {
+          "l": 8.422331318280797,
+          "b1": 1.200000047683715,
+          "b5": 1.2000000476837167
+        },
+        "before_residual": {
+          "l": -4.619575548758803e-07,
+          "b1": -8.344650259672903e-07,
+          "b5": 8.344650259672903e-07
+        },
+        "after_residual": {
+          "l": -4.619575548758803e-07,
+          "b1": 8.881784197001252e-16,
+          "b5": -8.881784197001252e-16
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 7.625373457891246,
+          "b1": 1.7999999523162842,
+          "b5": 7.114215709601416
+        },
+        "before_residual": {
+          "l": -0.0025506963556019002,
+          "b1": -0.0010019540786743164,
+          "b5": 0.0027696114435062924
+        },
+        "after_residual": {
+          "l": 3.824407848185274e-07,
+          "b1": 0.0,
+          "b5": 1.4122866254240307e-07
+        }
+      }
+    },
+    {
+      "id": "KRAKEN:963:48394__controlled__rot90x",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 7.466572097313386,
+          "b1": 4.414228104822305,
+          "b5": 8.41496030741806
+        },
+        "before_residual": {
+          "l": -2.894520578777815e-07,
+          "b1": 0.014116621740194901,
+          "b5": -3.9988632138943103e-07
+        },
+        "after_residual": {
+          "l": -2.894520578777815e-07,
+          "b1": 0.014116621740194901,
+          "b5": -3.9988632138943103e-07
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 6.858277336508549,
+          "b1": 5.899157140626844,
+          "b5": 8.429719160524916
+        },
+        "before_residual": {
+          "l": -1.564673279830231e-08,
+          "b1": 0.04025497637755038,
+          "b5": -1.8927247502631417e-07
+        },
+        "after_residual": {
+          "l": -1.564673279830231e-08,
+          "b1": 0.040255930051866784,
+          "b5": -1.8927247502631417e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.9329407862236233,
+          "pyr_alpha": 17.9548751254769
+        },
+        "morfeus": {
+          "pyr_p": 0.9329407862236234,
+          "pyr_alpha": 17.954875125476924
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -5.1071377127343e-09,
+          "pyr_alpha": 8.205680224193657e-07
+        }
+      }
+    },
+    {
+      "id": "KRAKEN:963:48394__minimal__rot90x",
+      "explicit_errors": {
+        "pyramidalization": {
+          "error": "pyramidalization requires three distinct neighbors"
+        }
+      },
+      "sterimol_bond": {
+        "independent": {
+          "l": 6.251173469977362,
+          "b1": 1.2000000476837158,
+          "b5": 1.2000000476837158
+        },
+        "before_residual": {
+          "l": 5.031061345306398e-07,
+          "b1": 0.0,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": -4.505681818756102e-07,
+          "b1": 0.0,
+          "b5": 0.0
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 6.858277336508549,
+          "b1": 1.7999999523162842,
+          "b5": 4.955209036272595
+        },
+        "before_residual": {
+          "l": -1.564673279830231e-08,
+          "b1": -2.384185791015625e-07,
+          "b5": -2.5789124702413346e-07
+        },
+        "after_residual": {
+          "l": -1.564673279830231e-08,
+          "b1": 0.0,
+          "b5": 2.1894591117899154e-07
+        }
+      }
+    },
+    {
+      "id": "KRAKEN:1075:49864__controlled__rot90x",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 8.20033750049071,
+          "b1": 2.54752793772213,
+          "b5": 8.413334288616266
+        },
+        "before_residual": {
+          "l": -9.051756499900421e-08,
+          "b1": 0.004852147269325258,
+          "b5": -3.9579400024081224e-07
+        },
+        "after_residual": {
+          "l": -9.051756499900421e-08,
+          "b1": 0.004852147269325258,
+          "b5": -3.9579400024081224e-07
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 8.16851153409678,
+          "b1": 5.02906165444671,
+          "b5": 7.114215709601416
+        },
+        "before_residual": {
+          "l": 8.102635717932571e-07,
+          "b1": 0.024575850130927,
+          "b5": 1.094902978948653e-06
+        },
+        "after_residual": {
+          "l": -1.4341074461299286e-07,
+          "b1": 0.0245753732937688,
+          "b5": 1.4122866254240307e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.932072651990765,
+          "pyr_alpha": 18.077545013312253
+        },
+        "morfeus": {
+          "pyr_p": 0.932072651990765,
+          "pyr_alpha": 18.077545013312257
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -1.2525433024102028e-08,
+          "pyr_alpha": 1.5270337172523796e-07
+        }
+      }
+    },
+    {
+      "id": "KRAKEN:1075:49864__minimal__rot90x",
+      "explicit_errors": {
+        "pyramidalization": {
+          "error": "pyramidalization requires three distinct neighbors"
+        }
+      },
+      "sterimol_bond": {
+        "independent": {
+          "l": 8.422331318280797,
+          "b1": 1.200000047683715,
+          "b5": 1.2000000476837167
+        },
+        "before_residual": {
+          "l": -4.619575548758803e-07,
+          "b1": -7.152557364165091e-07,
+          "b5": 7.152557364165091e-07
+        },
+        "after_residual": {
+          "l": -4.619575548758803e-07,
+          "b1": 8.881784197001252e-16,
+          "b5": -8.881784197001252e-16
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 7.6253734578912455,
+          "b1": 1.7999999523162842,
+          "b5": 7.114215709601416
+        },
+        "before_residual": {
+          "l": 3.824407857067058e-07,
+          "b1": -1.1920928955078125e-07,
+          "b5": 1.094902978948653e-06
+        },
+        "after_residual": {
+          "l": 3.824407857067058e-07,
+          "b1": 0.0,
+          "b5": 1.4122866254240307e-07
+        }
+      }
+    },
+    {
+      "id": "minimal_b1_half_degree",
+      "explicit_errors": {
+        "center": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        },
+        "sterimol_coordination": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        },
+        "sterimol_dummy_raw": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        }
+      },
+      "sterimol_bond": {
+        "independent": {
+          "l": 2.700000047683716,
+          "b1": 1.700000047683716,
+          "b5": 4.7000000759872425
+        },
+        "before_residual": {
+          "l": 0.0,
+          "b1": 0.026179313659667747,
+          "b5": 2.1011505246804063e-07
+        },
+        "after_residual": {
+          "l": 0.0,
+          "b1": 0.026179313659667747,
+          "b5": 2.1011505246804063e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.0,
+          "pyr_alpha": 29.999999999999996
+        },
+        "morfeus": {
+          "pyr_p": 0.0,
+          "pyr_alpha": 29.999999999999996
+        },
+        "morfeus_warnings": [
+          "invalid value encountered in sqrt"
+        ],
+        "after_residual": {
+          "pyr_p": 0.0,
+          "pyr_alpha": 3.552713678800501e-15
+        }
+      }
+    },
+    {
+      "id": "tied_axis",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 6.069999933242798,
+          "b1": 1.7000000476837158,
+          "b5": 3.5
+        },
+        "before_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 0.0,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 0.0,
+          "b5": 0.0
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 6.405811129604819,
+          "b1": 2.434846951051874,
+          "b5": 5.225884223010588
+        },
+        "before_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        },
+        "after_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 0.0,
+          "pyr_alpha": 8.537736562175269e-07
+        }
+      }
+    },
+    {
+      "id": "tied_axis_permutation_123",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 6.069999933242798,
+          "b1": 1.7000000476837158,
+          "b5": 3.5
+        },
+        "before_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 0.0,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 0.0,
+          "b5": 0.0
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 6.405811129604819,
+          "b1": 2.434846951051874,
+          "b5": 5.225884223010588
+        },
+        "before_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        },
+        "after_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 0.0,
+          "pyr_alpha": 8.537736562175269e-07
+        }
+      }
+    },
+    {
+      "id": "tied_axis_permutation_132",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 6.069999933242798,
+          "b1": 1.7000000476837158,
+          "b5": 3.5
+        },
+        "before_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 0.0,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 0.0,
+          "b5": 0.0
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 6.405811129604819,
+          "b1": 2.434846951051874,
+          "b5": 5.225884223010588
+        },
+        "before_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        },
+        "after_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 0.0,
+          "pyr_alpha": 8.537736562175269e-07
+        }
+      }
+    },
+    {
+      "id": "tied_axis_permutation_213",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 3.5,
+          "b1": 1.7000000476837158,
+          "b5": 6.069999933242798
+        },
+        "before_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": -2.384185791015625e-07
+        },
+        "after_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": -2.384185791015625e-07
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 6.405811129604819,
+          "b1": 2.434846951051874,
+          "b5": 5.225884223010588
+        },
+        "before_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        },
+        "after_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 0.0,
+          "pyr_alpha": 8.537736562175269e-07
+        }
+      }
+    },
+    {
+      "id": "tied_axis_permutation_231",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 3.5,
+          "b1": 1.7000000476837158,
+          "b5": 6.069999933242798
+        },
+        "before_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": -2.384185791015625e-07
+        },
+        "after_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": -2.384185791015625e-07
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 6.405811129604819,
+          "b1": 2.434846951051874,
+          "b5": 5.225884223010588
+        },
+        "before_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        },
+        "after_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 0.0,
+          "pyr_alpha": 8.537736562175269e-07
+        }
+      }
+    },
+    {
+      "id": "tied_axis_permutation_312",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 3.5,
+          "b1": 1.7000000476837158,
+          "b5": 6.069999933242798
+        },
+        "before_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": -2.384185791015625e-07
+        },
+        "after_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": -2.384185791015625e-07
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 6.405811129604819,
+          "b1": 2.434846951051874,
+          "b5": 5.225884223010588
+        },
+        "before_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        },
+        "after_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 0.0,
+          "pyr_alpha": 8.537736562175269e-07
+        }
+      }
+    },
+    {
+      "id": "tied_axis_permutation_321",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 3.5,
+          "b1": 1.7000000476837158,
+          "b5": 6.069999933242798
+        },
+        "before_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": -2.384185791015625e-07
+        },
+        "after_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": -2.384185791015625e-07
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 6.405811129604819,
+          "b1": 2.434846951051874,
+          "b5": 5.225884223010588
+        },
+        "before_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        },
+        "after_residual": {
+          "l": 1.802096338821002e-07,
+          "b1": 1.6541846292739137e-07,
+          "b5": 2.145504467421233e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 0.0,
+          "pyr_alpha": 8.537736562175269e-07
+        }
+      }
+    },
+    {
+      "id": "tetrahedron",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 3.4320508552525935,
+          "b1": 1.7000000476837158,
+          "b5": 3.3329932095391683
+        },
+        "before_residual": {
+          "l": 8.812204033148419e-08,
+          "b1": 0.0,
+          "b5": 5.942750647136563e-08
+        },
+        "after_residual": {
+          "l": -1.5029653877007831e-07,
+          "b1": 0.0,
+          "b5": 5.942750647136563e-08
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.557350441132611,
+          "b1": 2.516496628611442,
+          "b5": 3.3329932095391674
+        },
+        "before_residual": {
+          "l": 6.712331117597614e-07,
+          "b1": 2.9713753235682816e-08,
+          "b5": 2.9784608646110655e-07
+        },
+        "after_residual": {
+          "l": -2.824412046464886e-07,
+          "b1": 2.9713753235682816e-08,
+          "b5": 5.942750735954405e-08
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.7698003589195014,
+          "pyr_alpha": 35.26438968275465
+        },
+        "morfeus": {
+          "pyr_p": 0.7698003589195013,
+          "pyr_alpha": 35.264389682754654
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 6.051659506844942e-09,
+          "pyr_alpha": -6.44668709526286e-07
+        }
+      }
+    },
+    {
+      "id": "orthogonal",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 2.700000047683716,
+          "b1": 1.7000000476837158,
+          "b5": 2.700000047683716
+        },
+        "before_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": 0.0
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.557350234656065,
+          "b1": 2.108248338147579,
+          "b5": 2.516496628611442
+        },
+        "before_residual": {
+          "l": -7.596465856352097e-08,
+          "b1": -1.0435241293293984e-07,
+          "b5": 2.9713753235682816e-08
+        },
+        "after_residual": {
+          "l": -7.596465856352097e-08,
+          "b1": -1.0435241293293984e-07,
+          "b5": 2.9713753235682816e-08
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus": {
+          "pyr_p": 1.0,
+          "pyr_alpha": 0.0
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 0.0,
+          "pyr_alpha": 0.0
+        }
+      }
+    },
+    {
+      "id": "acute",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 2.704987609944077,
+          "b1": 1.7000000476837158,
+          "b5": 1.8410709188413865
+        },
+        "before_residual": {
+          "l": -8.400413564757514e-08,
+          "b1": -1.1920928955078125e-07,
+          "b5": -2.8414750774530262e-08
+        },
+        "after_residual": {
+          "l": -8.400413564757514e-08,
+          "b1": 0.0,
+          "b5": -2.8414750774530262e-08
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.982776495271953,
+          "b1": 1.7999999523162842,
+          "b5": 1.8054034543599513
+        },
+        "before_residual": {
+          "l": 1.465737504702247e-07,
+          "b1": -2.384185791015625e-07,
+          "b5": 1.3584238023334194e-07
+        },
+        "after_residual": {
+          "l": 1.465737504702247e-07,
+          "b1": 0.0,
+          "b5": 1.6633090682560692e-08
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 1.9802962926846734,
+          "pyr_alpha": -82.7170017610818
+        },
+        "morfeus": {
+          "pyr_p": 1.9802962926846732,
+          "pyr_alpha": -82.7170017610818
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -3.8526653423076596e-08,
+          "pyr_alpha": -1.1075705401708547e-06
+        }
+      }
+    },
+    {
+      "id": "ph3_lens_0.1",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 2.5994285580548784,
+          "b1": 1.2000000476837156,
+          "b5": 2.59199397303505
+        },
+        "before_residual": {
+          "l": 9.566216263579008e-08,
+          "b1": 2.220446049250313e-16,
+          "b5": 3.125484462351835e-07
+        },
+        "after_residual": {
+          "l": 9.566216263579008e-08,
+          "b1": 2.220446049250313e-16,
+          "b5": 7.412986713362102e-08
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.200000047683716,
+          "b1": 1.8000000455674756,
+          "b5": 2.4000000953674316
+        },
+        "before_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 2.59580981154528e-08,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 2.59580981154528e-08,
+          "b5": 0.0
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.9828670521735277,
+          "pyr_alpha": 8.84181301840196
+        },
+        "morfeus": {
+          "pyr_p": 0.9828670521735277,
+          "pyr_alpha": 8.841813018401943
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 9.91829973706615e-09,
+          "pyr_alpha": 6.906141969409418e-08
+        }
+      },
+      "buried_volume": {
+        "per_plane_independent": [
+          {
+            "plane": 1,
+            "independent": {
+              "buried_volume": 33.28634386747494,
+              "percent_buried_volume": 18.53417899929528,
+              "quadrants": [
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "near_vbur": 31.817901973857253,
+              "far_vbur": 0.0,
+              "grid_count": 1419,
+              "octant_grid_counts": [
+                127,
+                127,
+                127,
+                127,
+                127,
+                127,
+                127,
+                127
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                45,
+                45,
+                45,
+                45
+              ],
+              "occupied_total": 263
+            },
+            "morfeus": {
+              "buried_volume": 33.28634386747494,
+              "percent_buried_volume": 18.53417899929528,
+              "quadrants": [
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "near_vbur": 31.817901973857253,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 2,
+            "independent": {
+              "buried_volume": 33.28634386747494,
+              "percent_buried_volume": 18.53417899929528,
+              "quadrants": [
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "near_vbur": 31.817901973857253,
+              "far_vbur": 0.0,
+              "grid_count": 1419,
+              "octant_grid_counts": [
+                127,
+                127,
+                127,
+                127,
+                127,
+                127,
+                127,
+                127
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                45,
+                45,
+                45,
+                45
+              ],
+              "occupied_total": 263
+            },
+            "morfeus": {
+              "buried_volume": 33.28634386747494,
+              "percent_buried_volume": 18.53417899929528,
+              "quadrants": [
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "near_vbur": 31.817901973857253,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 3,
+            "independent": {
+              "buried_volume": 33.28634386747494,
+              "percent_buried_volume": 18.53417899929528,
+              "quadrants": [
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "near_vbur": 31.817901973857253,
+              "far_vbur": 0.0,
+              "grid_count": 1419,
+              "octant_grid_counts": [
+                127,
+                127,
+                127,
+                127,
+                127,
+                127,
+                127,
+                127
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                45,
+                45,
+                45,
+                45
+              ],
+              "occupied_total": 263
+            },
+            "morfeus": {
+              "buried_volume": 33.28634386747494,
+              "percent_buried_volume": 18.53417899929528,
+              "quadrants": [
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313,
+                7.954475493464313
+              ],
+              "near_vbur": 31.817901973857253,
+              "far_vbur": 0.0
+            }
+          }
+        ],
+        "new_independent_mean": {
+          "buried_volume": 33.28634386747494,
+          "percent_buried_volume": 18.53417899929528,
+          "near_vbur": 31.81790197385725,
+          "far_vbur": 0.0
+        },
+        "new_mean_residual": {
+          "buried_volume": -1.2466253309639796e-06,
+          "percent_buried_volume": 6.882047216549836e-07,
+          "near_vbur": 4.853808994160328,
+          "far_vbur": 0.0
+        },
+        "old_first_frame_reference": {
+          "buried_volume": 33.28634386747494,
+          "percent_buried_volume": 18.53417899929528,
+          "near_vbur": 31.817901973857253,
+          "far_vbur": 0.0,
+          "qvbur_min": 7.954475493464313,
+          "qvbur_max": 7.954475493464313,
+          "ovbur_min": 0.0,
+          "ovbur_max": 7.954475493464313,
+          "max_delta_qvbur": 0.0
+        }
+      }
+    },
+    {
+      "id": "ph3_lens_0.01",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 2.5994285580548784,
+          "b1": 1.2000000476837156,
+          "b5": 2.59199397303505
+        },
+        "before_residual": {
+          "l": 9.566216263579008e-08,
+          "b1": 2.220446049250313e-16,
+          "b5": 3.125484462351835e-07
+        },
+        "after_residual": {
+          "l": 9.566216263579008e-08,
+          "b1": 2.220446049250313e-16,
+          "b5": 7.412986713362102e-08
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.200000047683716,
+          "b1": 1.8000000455674756,
+          "b5": 2.4000000953674316
+        },
+        "before_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 2.59580981154528e-08,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 2.59580981154528e-08,
+          "b5": 0.0
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.9828670521735277,
+          "pyr_alpha": 8.84181301840196
+        },
+        "morfeus": {
+          "pyr_p": 0.9828670521735277,
+          "pyr_alpha": 8.841813018401943
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 9.91829973706615e-09,
+          "pyr_alpha": 6.906141969409418e-08
+        }
+      },
+      "buried_volume": {
+        "per_plane_independent": [
+          {
+            "plane": 1,
+            "independent": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                685,
+                685,
+                685,
+                685
+              ],
+              "occupied_total": 2740
+            },
+            "morfeus": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 2,
+            "independent": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                685,
+                685,
+                685,
+                685
+              ],
+              "occupied_total": 2740
+            },
+            "morfeus": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 3,
+            "independent": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                685,
+                685,
+                685,
+                685
+              ],
+              "occupied_total": 2740
+            },
+            "morfeus": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0
+            }
+          }
+        ],
+        "new_independent_mean": {
+          "buried_volume": 31.937214517315244,
+          "percent_buried_volume": 17.782969885773625,
+          "near_vbur": 31.937214517315244,
+          "far_vbur": 0.0
+        },
+        "new_mean_residual": {
+          "buried_volume": -6.196101658417774e-07,
+          "percent_buried_volume": 5.426931721785877e-07,
+          "near_vbur": -6.196101658417774e-07,
+          "far_vbur": 0.0
+        },
+        "old_first_frame_reference": {
+          "buried_volume": 31.937214517315244,
+          "percent_buried_volume": 17.782969885773625,
+          "near_vbur": 31.937214517315244,
+          "far_vbur": 0.0,
+          "qvbur_min": 7.984303629328811,
+          "qvbur_max": 7.984303629328811,
+          "ovbur_min": 0.0,
+          "ovbur_max": 7.984303629328811,
+          "max_delta_qvbur": 0.0
+        }
+      }
+    },
+    {
+      "id": "ph3_lens_0.001",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 2.5994285580548784,
+          "b1": 1.2000000476837156,
+          "b5": 2.59199397303505
+        },
+        "before_residual": {
+          "l": 9.566216263579008e-08,
+          "b1": 2.220446049250313e-16,
+          "b5": 3.125484462351835e-07
+        },
+        "after_residual": {
+          "l": 9.566216263579008e-08,
+          "b1": 2.220446049250313e-16,
+          "b5": 7.412986713362102e-08
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.200000047683716,
+          "b1": 1.8000000455674756,
+          "b5": 2.4000000953674316
+        },
+        "before_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 2.59580981154528e-08,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 2.59580981154528e-08,
+          "b5": 0.0
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.9828670521735277,
+          "pyr_alpha": 8.84181301840196
+        },
+        "morfeus": {
+          "pyr_p": 0.9828670521735277,
+          "pyr_alpha": 8.841813018401943
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 9.91829973706615e-09,
+          "pyr_alpha": 6.906141969409418e-08
+        }
+      },
+      "buried_volume": {
+        "per_plane_independent": [
+          {
+            "plane": 1,
+            "independent": {
+              "buried_volume": 31.640707607354813,
+              "percent_buried_volume": 17.617871785314946,
+              "quadrants": [
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "near_vbur": 31.640707607354813,
+              "far_vbur": 0.0,
+              "grid_count": 171712,
+              "octant_grid_counts": [
+                21464,
+                21464,
+                21464,
+                21464,
+                21464,
+                21464,
+                21464,
+                21464
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                7563,
+                7563,
+                7563,
+                7563
+              ],
+              "occupied_total": 30252
+            },
+            "morfeus": {
+              "buried_volume": 31.640707607354813,
+              "percent_buried_volume": 17.617871785314946,
+              "quadrants": [
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "near_vbur": 31.640707607354813,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 2,
+            "independent": {
+              "buried_volume": 31.640707607354813,
+              "percent_buried_volume": 17.617871785314946,
+              "quadrants": [
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "near_vbur": 31.640707607354813,
+              "far_vbur": 0.0,
+              "grid_count": 171712,
+              "octant_grid_counts": [
+                21464,
+                21464,
+                21464,
+                21464,
+                21464,
+                21464,
+                21464,
+                21464
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                7563,
+                7563,
+                7563,
+                7563
+              ],
+              "occupied_total": 30252
+            },
+            "morfeus": {
+              "buried_volume": 31.640707607354813,
+              "percent_buried_volume": 17.617871785314946,
+              "quadrants": [
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "near_vbur": 31.640707607354813,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 3,
+            "independent": {
+              "buried_volume": 31.640707607354813,
+              "percent_buried_volume": 17.617871785314946,
+              "quadrants": [
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "near_vbur": 31.640707607354813,
+              "far_vbur": 0.0,
+              "grid_count": 171712,
+              "octant_grid_counts": [
+                21464,
+                21464,
+                21464,
+                21464,
+                21464,
+                21464,
+                21464,
+                21464
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                7563,
+                7563,
+                7563,
+                7563
+              ],
+              "occupied_total": 30252
+            },
+            "morfeus": {
+              "buried_volume": 31.640707607354813,
+              "percent_buried_volume": 17.617871785314946,
+              "quadrants": [
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703,
+                7.910176901838703
+              ],
+              "near_vbur": 31.640707607354813,
+              "far_vbur": 0.0
+            }
+          }
+        ],
+        "new_independent_mean": {
+          "buried_volume": 31.640707607354813,
+          "percent_buried_volume": 17.617871785314946,
+          "near_vbur": 31.640707607354813,
+          "far_vbur": 0.0
+        },
+        "new_mean_residual": {
+          "buried_volume": 1.3159850311694754e-06,
+          "percent_buried_volume": 4.5284423322300427e-07,
+          "near_vbur": 1.3159850311694754e-06,
+          "far_vbur": 0.0
+        },
+        "old_first_frame_reference": {
+          "buried_volume": 31.640707607354813,
+          "percent_buried_volume": 17.617871785314946,
+          "near_vbur": 31.640707607354813,
+          "far_vbur": 0.0,
+          "qvbur_min": 7.910176901838703,
+          "qvbur_max": 7.910176901838703,
+          "ovbur_min": 0.0,
+          "ovbur_max": 7.910176901838703,
+          "max_delta_qvbur": 0.0
+        }
+      }
+    },
+    {
+      "id": "ph3_lens_0.0001",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 2.5994285580548784,
+          "b1": 1.2000000476837156,
+          "b5": 2.59199397303505
+        },
+        "before_residual": {
+          "l": 9.566216263579008e-08,
+          "b1": 2.220446049250313e-16,
+          "b5": 3.125484462351835e-07
+        },
+        "after_residual": {
+          "l": 9.566216263579008e-08,
+          "b1": 2.220446049250313e-16,
+          "b5": 7.412986713362102e-08
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.200000047683716,
+          "b1": 1.8000000455674756,
+          "b5": 2.4000000953674316
+        },
+        "before_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 2.59580981154528e-08,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 2.59580981154528e-08,
+          "b5": 0.0
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.9828670521735277,
+          "pyr_alpha": 8.84181301840196
+        },
+        "morfeus": {
+          "pyr_p": 0.9828670521735277,
+          "pyr_alpha": 8.841813018401943
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 9.91829973706615e-09,
+          "pyr_alpha": 6.906141969409418e-08
+        }
+      }
+    },
+    {
+      "id": "nan_coordinate",
+      "explicit_errors": {
+        "buried_volume": {
+          "error": "atom has invalid coordinates or radius"
+        },
+        "sterimol_bond": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_coordination": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_dummy_raw": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        }
+      }
+    },
+    {
+      "id": "nan_radius",
+      "explicit_errors": {
+        "buried_volume": {
+          "error": "atom has invalid coordinates or radius"
+        },
+        "sterimol_bond": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_coordination": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_dummy_raw": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        }
+      }
+    },
+    {
+      "id": "positive_inf_coordinate",
+      "explicit_errors": {
+        "buried_volume": {
+          "error": "atom has invalid coordinates or radius"
+        },
+        "sterimol_bond": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_coordination": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_dummy_raw": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        }
+      }
+    },
+    {
+      "id": "positive_inf_radius",
+      "explicit_errors": {
+        "buried_volume": {
+          "error": "atom has invalid coordinates or radius"
+        },
+        "sterimol_bond": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_coordination": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_dummy_raw": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        }
+      }
+    },
+    {
+      "id": "negative_inf_coordinate",
+      "explicit_errors": {
+        "buried_volume": {
+          "error": "atom has invalid coordinates or radius"
+        },
+        "sterimol_bond": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_coordination": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_dummy_raw": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        }
+      }
+    },
+    {
+      "id": "negative_inf_radius",
+      "explicit_errors": {
+        "buried_volume": {
+          "error": "atom has invalid coordinates or radius"
+        },
+        "sterimol_bond": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_coordination": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        },
+        "sterimol_dummy_raw": {
+          "error": "atom has non-finite coordinates/radius or negative radius"
+        }
+      }
+    },
+    {
+      "id": "huge_finite_coordinate",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 9.863938905301434e+37,
+          "b1": 2.1438773302517693,
+          "b5": 1.6439899264273851e+37
+        },
+        "before_residual": {
+          "l": 2.866400821680285e+30,
+          "b1": 1.760043342180495e-07,
+          "b5": null
+        },
+        "after_residual": {
+          "l": 2.866400821680285e+30,
+          "b1": 1.760043342180495e-07,
+          "b5": 2.3406240883859958e+29
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.780000030994415,
+          "b1": 2.600000023841858,
+          "b5": 9.999999680285692e+37
+        },
+        "before_residual": {
+          "l": -2.980232238769531e-07,
+          "b1": 1.1920928955078125e-07,
+          "b5": null
+        },
+        "after_residual": {
+          "l": -2.980232238769531e-07,
+          "b1": 1.1920928955078125e-07,
+          "b5": 0.0
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.41557730098575596,
+          "pyr_alpha": 62.10272783470931
+        },
+        "morfeus": {
+          "pyr_p": 0.4155773009857559,
+          "pyr_alpha": 62.10272783470931
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -8.543434182328724e-09,
+          "pyr_alpha": -1.8520432973900824e-06
+        }
+      }
+    },
+    {
+      "id": "huge_finite_radius",
+      "explicit_errors": {
+        "buried_volume": {
+          "error": "aligned coordinate or squared radius exceeds finite f32 range"
+        }
+      },
+      "sterimol_bond": {
+        "independent": {
+          "l": 9.999999680285692e+37,
+          "b1": 9.999999680285692e+37,
+          "b5": 9.999999680285692e+37
+        },
+        "before_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": 0.0
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 9.999999680285692e+37,
+          "b1": 9.999999680285692e+37,
+          "b5": 9.999999680285692e+37
+        },
+        "before_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": 0.0
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.41557730098575596,
+          "pyr_alpha": 62.10272783470931
+        },
+        "morfeus": {
+          "pyr_p": 0.4155773009857559,
+          "pyr_alpha": 62.10272783470931
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -8.543434182328724e-09,
+          "pyr_alpha": -1.8520432973900824e-06
+        }
+      }
+    },
+    {
+      "id": "atom_center_sphere_boundary_inside",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 4.889340312299059,
+          "b1": 2.4194041734044553,
+          "b5": 4.524374615224593
+        },
+        "before_residual": {
+          "l": 8.839674148219956e-08,
+          "b1": 0.0037199015314577366,
+          "b5": 3.4662843440003144e-07
+        },
+        "after_residual": {
+          "l": 8.839674148219956e-08,
+          "b1": 0.003719663112878635,
+          "b5": -1.3020872380309356e-07
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.780000030994415,
+          "b1": 2.868806410768185,
+          "b5": 5.199999809265137
+        },
+        "before_residual": {
+          "l": -2.980232238769531e-07,
+          "b1": 0.012099932691898019,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": -2.980232238769531e-07,
+          "b1": 0.012099932691898019,
+          "b5": 0.0
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.41557730098575596,
+          "pyr_alpha": 62.10272783470931
+        },
+        "morfeus": {
+          "pyr_p": 0.4155773009857559,
+          "pyr_alpha": 62.10272783470931
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -8.543434182328724e-09,
+          "pyr_alpha": -1.8520432973900824e-06
+        }
+      }
+    },
+    {
+      "id": "atom_center_sphere_boundary_on",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 4.889340312299059,
+          "b1": 2.4194041734044553,
+          "b5": 4.5243746544203685
+        },
+        "before_residual": {
+          "l": 8.839674148219956e-08,
+          "b1": 0.0037199015314577366,
+          "b5": 3.0743265888588667e-07
+        },
+        "after_residual": {
+          "l": 8.839674148219956e-08,
+          "b1": 0.003719663112878635,
+          "b5": -1.6940449931723833e-07
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.780000030994415,
+          "b1": 2.868806434116647,
+          "b5": 5.200000047683716
+        },
+        "before_residual": {
+          "l": -2.980232238769531e-07,
+          "b1": 0.012099909343436188,
+          "b5": -2.384185791015625e-07
+        },
+        "after_residual": {
+          "l": -2.980232238769531e-07,
+          "b1": 0.012099909343436188,
+          "b5": -2.384185791015625e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.41557730098575596,
+          "pyr_alpha": 62.10272783470931
+        },
+        "morfeus": {
+          "pyr_p": 0.4155773009857559,
+          "pyr_alpha": 62.10272783470931
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -8.543434182328724e-09,
+          "pyr_alpha": -1.8520432973900824e-06
+        }
+      }
+    },
+    {
+      "id": "atom_center_sphere_boundary_outside",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 4.889340312299059,
+          "b1": 2.4194041734044553,
+          "b5": 4.524374693616144
+        },
+        "before_residual": {
+          "l": 8.839674148219956e-08,
+          "b1": 0.0037199015314577366,
+          "b5": 2.682368833717419e-07
+        },
+        "after_residual": {
+          "l": 8.839674148219956e-08,
+          "b1": 0.003719663112878635,
+          "b5": -2.086002748313831e-07
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.780000030994415,
+          "b1": 2.868806457465106,
+          "b5": 5.200000286102295
+        },
+        "before_residual": {
+          "l": -2.980232238769531e-07,
+          "b1": 0.012099885994977022,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": -2.980232238769531e-07,
+          "b1": 0.012099885994977022,
+          "b5": 0.0
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.41557730098575596,
+          "pyr_alpha": 62.10272783470931
+        },
+        "morfeus": {
+          "pyr_p": 0.4155773009857559,
+          "pyr_alpha": 62.10272783470931
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -8.543434182328724e-09,
+          "pyr_alpha": -1.8520432973900824e-06
+        }
+      }
+    },
+    {
+      "id": "methylphosphine",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 3.5343671257421074,
+          "b1": 1.7124550719998757,
+          "b5": 2.603110067727491
+        },
+        "before_residual": {
+          "l": -4.123893360130637e-08,
+          "b1": 0.0046398262240012755,
+          "b5": 2.4568803613789214e-07
+        },
+        "after_residual": {
+          "l": -4.123893360130637e-08,
+          "b1": 0.0046398262240012755,
+          "b5": 7.269457036329641e-09
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 5.459395549220056,
+          "b1": 1.8168162599358253,
+          "b5": 3.557127364919613
+        },
+        "before_residual": {
+          "l": -1.405896847828103e-07,
+          "b1": 0.008105705663234763,
+          "b5": 1.1081891226893958e-07
+        },
+        "after_residual": {
+          "l": -1.405896847828103e-07,
+          "b1": 0.008105705663234763,
+          "b5": 1.1081891226893958e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.9766611566738976,
+          "pyr_alpha": 10.337616603414315
+        },
+        "morfeus": {
+          "pyr_p": 0.9766611566738975,
+          "pyr_alpha": 10.337616603414315
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -1.0986794363176955e-08,
+          "pyr_alpha": 3.1705687675298577e-07
+        }
+      },
+      "buried_volume": {
+        "per_plane_independent": [
+          {
+            "plane": 0,
+            "independent": {
+              "buried_volume": 34.478204577452004,
+              "percent_buried_volume": 19.197819314641745,
+              "quadrants": [
+                9.25479865939719,
+                7.984303629328811,
+                7.984303629328811,
+                9.25479865939719
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.25479865939719,
+                7.984303629328811,
+                7.984303629328811,
+                9.25479865939719
+              ],
+              "near_vbur": 34.478204577452004,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                794,
+                685,
+                685,
+                794
+              ],
+              "occupied_total": 2958
+            },
+            "morfeus": {
+              "buried_volume": 34.478204577452004,
+              "percent_buried_volume": 19.197819314641745,
+              "quadrants": [
+                9.25479865939719,
+                7.984303629328811,
+                7.984303629328811,
+                9.25479865939719
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.25479865939719,
+                7.984303629328811,
+                7.984303629328811,
+                9.25479865939719
+              ],
+              "near_vbur": 34.478204577452004,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 5,
+            "independent": {
+              "buried_volume": 34.48986049515905,
+              "percent_buried_volume": 19.204309449636554,
+              "quadrants": [
+                8.275701572005044,
+                10.245551664496386,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                8.275701572005044,
+                10.245551664496386,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 34.48986049515905,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                710,
+                879,
+                685,
+                685
+              ],
+              "occupied_total": 2959
+            },
+            "morfeus": {
+              "buried_volume": 34.48986049515905,
+              "percent_buried_volume": 19.204309449636554,
+              "quadrants": [
+                8.275701572005044,
+                10.245551664496386,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                8.275701572005044,
+                10.245551664496386,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 34.48986049515905,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 6,
+            "independent": {
+              "buried_volume": 34.48986049515905,
+              "percent_buried_volume": 19.204309449636554,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                10.245551664496386,
+                8.275701572005044
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                10.245551664496386,
+                8.275701572005044
+              ],
+              "near_vbur": 34.48986049515905,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                685,
+                685,
+                879,
+                710
+              ],
+              "occupied_total": 2959
+            },
+            "morfeus": {
+              "buried_volume": 34.48986049515905,
+              "percent_buried_volume": 19.204309449636554,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                10.245551664496386,
+                8.275701572005044
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                10.245551664496386,
+                8.275701572005044
+              ],
+              "near_vbur": 34.48986049515905,
+              "far_vbur": 0.0
+            }
+          }
+        ],
+        "new_independent_mean": {
+          "buried_volume": 34.4859751892567,
+          "percent_buried_volume": 19.202146071304952,
+          "near_vbur": 34.4859751892567,
+          "far_vbur": 0.0
+        },
+        "new_mean_residual": {
+          "buried_volume": -1.8311024021500089e-06,
+          "percent_buried_volume": 4.588464150856453e-07,
+          "near_vbur": -1.8311024021500089e-06,
+          "far_vbur": 0.0
+        },
+        "old_first_frame_reference": {
+          "buried_volume": 34.478204577452004,
+          "percent_buried_volume": 19.197819314641745,
+          "near_vbur": 34.478204577452004,
+          "far_vbur": 0.0,
+          "qvbur_min": 7.984303629328811,
+          "qvbur_max": 10.245551664496386,
+          "ovbur_min": 0.0,
+          "ovbur_max": 10.245551664496386,
+          "max_delta_qvbur": 2.2612480351675748
+        }
+      }
+    },
+    {
+      "id": "dimethylphosphine",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 3.5345793672292443,
+          "b1": 1.7158638731404499,
+          "b5": 3.6450574661687045
+        },
+        "before_residual": {
+          "l": -9.019067004345516e-08,
+          "b1": 0.0020651324824139117,
+          "b5": -2.6478320647171927e-07
+        },
+        "after_residual": {
+          "l": -9.019067004345516e-08,
+          "b1": 0.002065013273124361,
+          "b5": -2.6364627370156768e-08
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 5.439850120704879,
+          "b1": 2.2253570247106387,
+          "b5": 3.5667133875783765
+        },
+        "before_residual": {
+          "l": -2.671892538330667e-07,
+          "b1": 0.0006246876306699178,
+          "b5": -2.928670728152838e-07
+        },
+        "after_residual": {
+          "l": -2.671892538330667e-07,
+          "b1": 0.0006246876306699178,
+          "b5": -5.444849371372129e-08
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.9615735274043152,
+          "pyr_alpha": 13.396838732376706
+        },
+        "morfeus": {
+          "pyr_p": 0.9615735274043151,
+          "pyr_alpha": 13.396838732376706
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 1.376008296194442e-08,
+          "pyr_alpha": 4.094689973754839e-07
+        }
+      },
+      "buried_volume": {
+        "per_plane_independent": [
+          {
+            "plane": 0,
+            "independent": {
+              "buried_volume": 37.2639689094368,
+              "percent_buried_volume": 20.74896157840083,
+              "quadrants": [
+                9.592820272901621,
+                10.385422676980978,
+                7.984303629328811,
+                9.301422330225387
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.592820272901621,
+                10.385422676980978,
+                7.984303629328811,
+                9.301422330225387
+              ],
+              "near_vbur": 37.2639689094368,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                823,
+                891,
+                685,
+                798
+              ],
+              "occupied_total": 3197
+            },
+            "morfeus": {
+              "buried_volume": 37.2639689094368,
+              "percent_buried_volume": 20.74896157840083,
+              "quadrants": [
+                9.592820272901621,
+                10.385422676980978,
+                7.984303629328811,
+                9.301422330225387
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.592820272901621,
+                10.385422676980978,
+                7.984303629328811,
+                9.301422330225387
+              ],
+              "near_vbur": 37.2639689094368,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 2,
+            "independent": {
+              "buried_volume": 37.2639689094368,
+              "percent_buried_volume": 20.74896157840083,
+              "quadrants": [
+                9.301422330225387,
+                7.984303629328811,
+                10.385422676980978,
+                9.592820272901621
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.301422330225387,
+                7.984303629328811,
+                10.385422676980978,
+                9.592820272901621
+              ],
+              "near_vbur": 37.2639689094368,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                798,
+                685,
+                891,
+                823
+              ],
+              "occupied_total": 3197
+            },
+            "morfeus": {
+              "buried_volume": 37.2639689094368,
+              "percent_buried_volume": 20.74896157840083,
+              "quadrants": [
+                9.301422330225387,
+                7.984303629328811,
+                10.385422676980978,
+                9.592820272901621
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.301422330225387,
+                7.984303629328811,
+                10.385422676980978,
+                9.592820272901621
+              ],
+              "near_vbur": 37.2639689094368,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 6,
+            "independent": {
+              "buried_volume": 37.27562482714385,
+              "percent_buried_volume": 20.75545171339564,
+              "quadrants": [
+                8.310669325126193,
+                10.32714308844573,
+                10.32714308844573,
+                8.310669325126193
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                8.310669325126193,
+                10.32714308844573,
+                10.32714308844573,
+                8.310669325126193
+              ],
+              "near_vbur": 37.275624827143844,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                713,
+                886,
+                886,
+                713
+              ],
+              "occupied_total": 3198
+            },
+            "morfeus": {
+              "buried_volume": 37.27562482714385,
+              "percent_buried_volume": 20.75545171339564,
+              "quadrants": [
+                8.310669325126193,
+                10.32714308844573,
+                10.32714308844573,
+                8.310669325126193
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                8.310669325126193,
+                10.32714308844573,
+                10.32714308844573,
+                8.310669325126193
+              ],
+              "near_vbur": 37.275624827143844,
+              "far_vbur": 0.0
+            }
+          }
+        ],
+        "new_independent_mean": {
+          "buried_volume": 37.26785421533915,
+          "percent_buried_volume": 20.751124956732436,
+          "near_vbur": 37.26785421533915,
+          "far_vbur": 0.0
+        },
+        "new_mean_residual": {
+          "buried_volume": -1.43213602399328e-06,
+          "percent_buried_volume": 3.7896092308642437e-07,
+          "near_vbur": -1.43213602399328e-06,
+          "far_vbur": 0.0
+        },
+        "old_first_frame_reference": {
+          "buried_volume": 37.2639689094368,
+          "percent_buried_volume": 20.74896157840083,
+          "near_vbur": 37.2639689094368,
+          "far_vbur": 0.0,
+          "qvbur_min": 7.984303629328811,
+          "qvbur_max": 10.385422676980978,
+          "ovbur_min": 0.0,
+          "ovbur_max": 10.385422676980978,
+          "max_delta_qvbur": 2.401119047652167
+        }
+      }
+    },
+    {
+      "id": "trimethylphosphine",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 3.534197587862804,
+          "b1": 1.7187300836705748,
+          "b5": 3.648409895702098
+        },
+        "before_residual": {
+          "l": 2.1944920769456644e-07,
+          "b1": 0.006622442040484788,
+          "b5": -5.225727361946042e-08
+        },
+        "after_residual": {
+          "l": -1.896937140699606e-08,
+          "b1": 0.00662268045906389,
+          "b5": -5.225727361946042e-08
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 5.4234241323089964,
+          "b1": 3.0668299033594892,
+          "b5": 3.572278664694812
+        },
+        "before_residual": {
+          "l": 5.884551637080904e-07,
+          "b1": 0.00880934453479787,
+          "b5": 3.117456177648137e-07
+        },
+        "after_residual": {
+          "l": -3.6521915269815963e-07,
+          "b1": 0.00880934453479787,
+          "b5": 7.332703866325119e-08
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.9480782849013967,
+          "pyr_alpha": 15.691025913131192
+        },
+        "morfeus": {
+          "pyr_p": 0.9480782849013966,
+          "pyr_alpha": 15.691025913131176
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -1.017452899709781e-08,
+          "pyr_alpha": -1.791834378650492e-07
+        }
+      },
+      "buried_volume": {
+        "per_plane_independent": [
+          {
+            "plane": 0,
+            "independent": {
+              "buried_volume": 40.28285159556258,
+              "percent_buried_volume": 22.429906542056074,
+              "quadrants": [
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "near_vbur": 40.28285159556258,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                832,
+                896,
+                896,
+                832
+              ],
+              "occupied_total": 3456
+            },
+            "morfeus": {
+              "buried_volume": 40.28285159556258,
+              "percent_buried_volume": 22.429906542056074,
+              "quadrants": [
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "near_vbur": 40.28285159556258,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 2,
+            "independent": {
+              "buried_volume": 40.28285159556258,
+              "percent_buried_volume": 22.429906542056074,
+              "quadrants": [
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "near_vbur": 40.28285159556258,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                832,
+                896,
+                896,
+                832
+              ],
+              "occupied_total": 3456
+            },
+            "morfeus": {
+              "buried_volume": 40.28285159556258,
+              "percent_buried_volume": 22.429906542056074,
+              "quadrants": [
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "near_vbur": 40.28285159556258,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 3,
+            "independent": {
+              "buried_volume": 40.28285159556258,
+              "percent_buried_volume": 22.429906542056074,
+              "quadrants": [
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "near_vbur": 40.28285159556258,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                832,
+                896,
+                896,
+                832
+              ],
+              "occupied_total": 3456
+            },
+            "morfeus": {
+              "buried_volume": 40.28285159556258,
+              "percent_buried_volume": 22.429906542056074,
+              "quadrants": [
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.697723532265066,
+                10.443702265516226,
+                10.443702265516226,
+                9.697723532265066
+              ],
+              "near_vbur": 40.28285159556258,
+              "far_vbur": 0.0
+            }
+          }
+        ],
+        "new_independent_mean": {
+          "buried_volume": 40.28285159556258,
+          "percent_buried_volume": 22.429906542056074,
+          "near_vbur": 40.28285159556258,
+          "far_vbur": 0.0
+        },
+        "new_mean_residual": {
+          "buried_volume": -3.23740828633845e-06,
+          "percent_buried_volume": -1.6043119330788613e-06,
+          "near_vbur": 5.772889792865499e-07,
+          "far_vbur": 0.0
+        },
+        "old_first_frame_reference": {
+          "buried_volume": 40.28285159556258,
+          "percent_buried_volume": 22.429906542056074,
+          "near_vbur": 40.28285159556258,
+          "far_vbur": 0.0,
+          "qvbur_min": 9.697723532265066,
+          "qvbur_max": 10.443702265516226,
+          "ovbur_min": 0.0,
+          "ovbur_max": 10.443702265516226,
+          "max_delta_qvbur": 0.7459787332511603
+        }
+      }
+    },
+    {
+      "id": "triethylphosphine",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 4.7235906056254064,
+          "b1": 2.5947162832422936,
+          "b5": 4.961019095549492
+        },
+        "before_residual": {
+          "l": 2.4520467167832294e-07,
+          "b1": 0.006031778891495421,
+          "b5": 4.2044171877364533e-07
+        },
+        "after_residual": {
+          "l": 2.4520467167832294e-07,
+          "b1": 0.006031063635758116,
+          "b5": -5.6395439429479666e-08
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 5.423466967309205,
+          "b1": 3.4958025939928477,
+          "b5": 4.871994301462424
+        },
+        "before_residual": {
+          "l": 6.68799193803693e-07,
+          "b1": 0.002838181687694341,
+          "b5": 6.707665800576024e-07
+        },
+        "after_residual": {
+          "l": -2.84875122602557e-07,
+          "b1": 0.0028379432691152395,
+          "b5": 1.9392942185447737e-07
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.9468508138659344,
+          "pyr_alpha": 15.884579947870499
+        },
+        "morfeus": {
+          "pyr_p": 0.9468508138659345,
+          "pyr_alpha": 15.884579947870499
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 2.2411073663519687e-08,
+          "pyr_alpha": -2.893621982025252e-07
+        }
+      },
+      "buried_volume": {
+        "per_plane_independent": [
+          {
+            "plane": 1,
+            "independent": {
+              "buried_volume": 49.9222955392924,
+              "percent_buried_volume": 27.797248182762203,
+              "quadrants": [
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "near_vbur": 49.922295539292406,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                1099,
+                1162,
+                1033,
+                989
+              ],
+              "occupied_total": 4283
+            },
+            "morfeus": {
+              "buried_volume": 49.9222955392924,
+              "percent_buried_volume": 27.797248182762203,
+              "quadrants": [
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "near_vbur": 49.922295539292406,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 3,
+            "independent": {
+              "buried_volume": 49.9222955392924,
+              "percent_buried_volume": 27.797248182762203,
+              "quadrants": [
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "near_vbur": 49.922295539292406,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                1099,
+                1162,
+                1033,
+                989
+              ],
+              "occupied_total": 4283
+            },
+            "morfeus": {
+              "buried_volume": 49.9222955392924,
+              "percent_buried_volume": 27.797248182762203,
+              "quadrants": [
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "near_vbur": 49.922295539292406,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 5,
+            "independent": {
+              "buried_volume": 49.9222955392924,
+              "percent_buried_volume": 27.797248182762203,
+              "quadrants": [
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "near_vbur": 49.922295539292406,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                1099,
+                1162,
+                1033,
+                989
+              ],
+              "occupied_total": 4283
+            },
+            "morfeus": {
+              "buried_volume": 49.9222955392924,
+              "percent_buried_volume": 27.797248182762203,
+              "quadrants": [
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                12.809853560047246,
+                13.544176375591354,
+                12.040562991381988,
+                11.527702612271815
+              ],
+              "near_vbur": 49.922295539292406,
+              "far_vbur": 0.0
+            }
+          }
+        ],
+        "new_independent_mean": {
+          "buried_volume": 49.9222955392924,
+          "percent_buried_volume": 27.797248182762203,
+          "near_vbur": 49.922295539292406,
+          "far_vbur": 0.0
+        },
+        "new_mean_residual": {
+          "buried_volume": -9.225931805190157e-07,
+          "percent_buried_volume": 6.575698279220887e-07,
+          "near_vbur": -9.225931876244431e-07,
+          "far_vbur": 0.0
+        },
+        "old_first_frame_reference": {
+          "buried_volume": 49.9222955392924,
+          "percent_buried_volume": 27.797248182762203,
+          "near_vbur": 49.922295539292406,
+          "far_vbur": 0.0,
+          "qvbur_min": 11.527702612271815,
+          "qvbur_max": 13.544176375591354,
+          "ovbur_min": 0.0,
+          "ovbur_max": 13.544176375591354,
+          "max_delta_qvbur": 1.5036133842093662
+        }
+      }
+    },
+    {
+      "id": "nearly_collinear",
+      "explicit_errors": {
+        "buried_volume": {
+          "error": "donor plane atom is collinear with the coordination axis"
+        },
+        "dump": {
+          "error": "donor plane atom is collinear with the coordination axis",
+          "plane": 1
+        }
+      },
+      "sterimol_bond": {
+        "independent": {
+          "l": 3.5,
+          "b1": 1.7000000476837158,
+          "b5": 1.7000100476834632
+        },
+        "before_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": 1.3580574886873364e-08
+        },
+        "after_residual": {
+          "l": 0.0,
+          "b1": 0.0,
+          "b5": 1.3580574886873364e-08
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 5.779999971460141,
+          "b1": 1.7999999523162842,
+          "b5": 1.7999999523162842
+        },
+        "before_residual": {
+          "l": 7.151853669284947e-07,
+          "b1": -2.384185791015625e-07,
+          "b5": 2.384185791015625e-07
+        },
+        "after_residual": {
+          "l": -2.3848894947775534e-07,
+          "b1": 0.0,
+          "b5": 0.0
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 3.0864197605765175e-11,
+          "pyr_alpha": 29.99992497364023
+        },
+        "morfeus": {
+          "pyr_p": 3.086419760576521e-11,
+          "pyr_alpha": 29.999924973640226
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": -9.906327746761675e-19,
+          "pyr_alpha": 6.397630905041751e-07
+        }
+      }
+    },
+    {
+      "id": "coincident_neighbor",
+      "explicit_errors": {
+        "buried_volume": {
+          "error": "invalid or coincident donor neighbor"
+        },
+        "center": {
+          "error": "invalid or coincident donor neighbor"
+        },
+        "dump": {
+          "error": "invalid or coincident donor neighbor"
+        },
+        "pyramidalization": {
+          "error": "invalid or degenerate pyramidalization geometry"
+        },
+        "sterimol_bond": {
+          "error": "Sterimol axis atoms coincide"
+        },
+        "sterimol_coordination": {
+          "error": "invalid or coincident donor neighbor"
+        },
+        "sterimol_dummy_raw": {
+          "error": "invalid or coincident donor neighbor"
+        }
+      }
+    },
+    {
+      "id": "short_axis_0.0003452669479884207",
+      "explicit_errors": {
+        "center": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        },
+        "pyramidalization": {
+          "error": "pyramidalization requires three distinct neighbors"
+        },
+        "sterimol_coordination": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        },
+        "sterimol_dummy_raw": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        }
+      },
+      "sterimol_bond": {
+        "independent": {
+          "l": 1.7003453146317042,
+          "b1": 1.7000000476837158,
+          "b5": 3.7560679584263035
+        },
+        "before_residual": {
+          "l": -1.7003453146317042,
+          "b1": -1.7000000476837158,
+          "b5": -3.7560679584263035
+        },
+        "after_residual": {
+          "l": -3.684544935822487e-08,
+          "b1": 0.0,
+          "b5": 3.283041039026102e-08
+        }
+      }
+    },
+    {
+      "id": "short_axis_0.0003452669770922512",
+      "explicit_errors": {
+        "center": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        },
+        "pyramidalization": {
+          "error": "pyramidalization requires three distinct neighbors"
+        },
+        "sterimol_coordination": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        },
+        "sterimol_dummy_raw": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        }
+      },
+      "sterimol_bond": {
+        "independent": {
+          "l": 1.700345314660808,
+          "b1": 1.7000000476837158,
+          "b5": 3.7560679584263035
+        },
+        "before_residual": {
+          "l": -1.700345314660808,
+          "b1": -1.7000000476837158,
+          "b5": -3.7560679584263035
+        },
+        "after_residual": {
+          "l": -3.68745531886816e-08,
+          "b1": 0.0,
+          "b5": 3.283041039026102e-08
+        }
+      }
+    },
+    {
+      "id": "short_axis_0.00034526700619608164",
+      "explicit_errors": {
+        "center": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        },
+        "pyramidalization": {
+          "error": "pyramidalization requires three distinct neighbors"
+        },
+        "sterimol_coordination": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        },
+        "sterimol_dummy_raw": {
+          "error": "donor must be trivalent for the quadrant frame, found 1 bonded substituents"
+        }
+      },
+      "sterimol_bond": {
+        "independent": {
+          "l": 1.700345314689912,
+          "b1": 1.7000000476837158,
+          "b5": 3.7560679584263035
+        },
+        "before_residual": {
+          "l": -3.6903657019138336e-08,
+          "b1": 0.0,
+          "b5": 3.283041039026102e-08
+        },
+        "after_residual": {
+          "l": -3.6903657019138336e-08,
+          "b1": 0.0,
+          "b5": 3.283041039026102e-08
+        }
+      }
+    },
+    {
+      "id": "phosphine_PH3",
+      "explicit_errors": {},
+      "sterimol_bond": {
+        "independent": {
+          "l": 2.5994285580548784,
+          "b1": 1.2000000476837156,
+          "b5": 2.59199397303505
+        },
+        "before_residual": {
+          "l": 9.566216263579008e-08,
+          "b1": 2.220446049250313e-16,
+          "b5": 3.125484462351835e-07
+        },
+        "after_residual": {
+          "l": 9.566216263579008e-08,
+          "b1": 2.220446049250313e-16,
+          "b5": 7.412986713362102e-08
+        }
+      },
+      "sterimol_dummy_raw": {
+        "independent": {
+          "l": 4.200000047683716,
+          "b1": 1.8000000455674756,
+          "b5": 2.4000000953674316
+        },
+        "before_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 2.59580981154528e-08,
+          "b5": 0.0
+        },
+        "after_residual": {
+          "l": -2.384185791015625e-07,
+          "b1": 2.59580981154528e-08,
+          "b5": 0.0
+        }
+      },
+      "pyramidalization": {
+        "independent": {
+          "pyr_p": 0.9828670521735277,
+          "pyr_alpha": 8.84181301840196
+        },
+        "morfeus": {
+          "pyr_p": 0.9828670521735277,
+          "pyr_alpha": 8.841813018401943
+        },
+        "morfeus_warnings": [],
+        "after_residual": {
+          "pyr_p": 9.91829973706615e-09,
+          "pyr_alpha": 6.906141969409418e-08
+        }
+      },
+      "buried_volume": {
+        "per_plane_independent": [
+          {
+            "plane": 1,
+            "independent": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                685,
+                685,
+                685,
+                685
+              ],
+              "occupied_total": 2740
+            },
+            "morfeus": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 2,
+            "independent": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                685,
+                685,
+                685,
+                685
+              ],
+              "occupied_total": 2740
+            },
+            "morfeus": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0
+            }
+          },
+          {
+            "plane": 3,
+            "independent": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0,
+              "grid_count": 15408,
+              "octant_grid_counts": [
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926,
+                1926
+              ],
+              "octant_occupied_counts": [
+                0,
+                0,
+                0,
+                0,
+                685,
+                685,
+                685,
+                685
+              ],
+              "occupied_total": 2740
+            },
+            "morfeus": {
+              "buried_volume": 31.937214517315244,
+              "percent_buried_volume": 17.782969885773625,
+              "quadrants": [
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "octants": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811,
+                7.984303629328811
+              ],
+              "near_vbur": 31.937214517315244,
+              "far_vbur": 0.0
+            }
+          }
+        ],
+        "new_independent_mean": {
+          "buried_volume": 31.937214517315244,
+          "percent_buried_volume": 17.782969885773625,
+          "near_vbur": 31.937214517315244,
+          "far_vbur": 0.0
+        },
+        "new_mean_residual": {
+          "buried_volume": -6.196101658417774e-07,
+          "percent_buried_volume": 5.426931721785877e-07,
+          "near_vbur": -6.196101658417774e-07,
+          "far_vbur": 0.0
+        },
+        "old_first_frame_reference": {
+          "buried_volume": 31.937214517315244,
+          "percent_buried_volume": 17.782969885773625,
+          "near_vbur": 31.937214517315244,
+          "far_vbur": 0.0,
+          "qvbur_min": 7.984303629328811,
+          "qvbur_max": 7.984303629328811,
+          "ovbur_min": 0.0,
+          "ovbur_max": 7.984303629328811,
+          "max_delta_qvbur": 0.0
+        }
+      }
+    }
+  ],
+  "ordinary_change_distribution": {
+    "sterimol_bond.b1": {
+      "count": 4,
+      "deltas": [
+        0.0,
+        -1.1920928955078125e-07,
+        2.384185791015625e-07,
+        -7.152557373046875e-07
+      ],
+      "max_abs": 7.152557373046875e-07,
+      "median_abs": 1.7881393432617188e-07
+    },
+    "sterimol_bond.b5": {
+      "count": 4,
+      "deltas": [
+        -2.384185791015625e-07,
+        2.384185791015625e-07,
+        0.0,
+        -4.76837158203125e-07
+      ],
+      "max_abs": 4.76837158203125e-07,
+      "median_abs": 2.384185791015625e-07
+    },
+    "sterimol_bond.l": {
+      "count": 4,
+      "deltas": [
+        0.0,
+        0.0,
+        -2.384185791015625e-07,
+        0.0
+      ],
+      "max_abs": 2.384185791015625e-07,
+      "median_abs": 0.0
+    },
+    "sterimol_dummy_raw.b1": {
+      "count": 4,
+      "deltas": [
+        0.0,
+        0.0,
+        0.0,
+        -2.384185791015625e-07
+      ],
+      "max_abs": 2.384185791015625e-07,
+      "median_abs": 0.0
+    },
+    "sterimol_dummy_raw.b5": {
+      "count": 4,
+      "deltas": [
+        0.0,
+        2.384185791015625e-07,
+        -2.384185791015625e-07,
+        -4.76837158203125e-07
+      ],
+      "max_abs": 4.76837158203125e-07,
+      "median_abs": 2.384185791015625e-07
+    },
+    "sterimol_dummy_raw.l": {
+      "count": 4,
+      "deltas": [
+        0.0,
+        0.0,
+        -9.5367431640625e-07,
+        -9.5367431640625e-07
+      ],
+      "max_abs": 9.5367431640625e-07,
+      "median_abs": 4.76837158203125e-07
+    },
+    "pyramidalization.pyr_alpha": {
+      "count": 4,
+      "deltas": [
+        -1.9073486328125e-06,
+        -2.86102294921875e-06,
+        4.76837158203125e-06,
+        2.86102294921875e-06
+      ],
+      "max_abs": 4.76837158203125e-06,
+      "median_abs": 2.86102294921875e-06
+    },
+    "pyramidalization.pyr_p": {
+      "count": 4,
+      "deltas": [
+        -1.1920928955078125e-07,
+        1.1920928955078125e-07,
+        1.1920928955078125e-07,
+        5.960464477539063e-08
+      ],
+      "max_abs": 1.1920928955078125e-07,
+      "median_abs": 1.1920928955078125e-07
+    },
+    "buried_volume.buried_volume": {
+      "count": 4,
+      "deltas": [
+        0.007770538330078125,
+        0.003887176513671875,
+        0.0,
+        0.0
+      ],
+      "max_abs": 0.007770538330078125,
+      "median_abs": 0.0019435882568359375
+    },
+    "buried_volume.far_vbur": {
+      "count": 4,
+      "deltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_abs": 0.0,
+      "median_abs": 0.0
+    },
+    "buried_volume.max_delta_qvbur": {
+      "count": 4,
+      "deltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_abs": 0.0,
+      "median_abs": 0.0
+    },
+    "buried_volume.near_vbur": {
+      "count": 4,
+      "deltas": [
+        0.007770538330078125,
+        0.00388336181640625,
+        0.0,
+        0.0
+      ],
+      "max_abs": 0.007770538330078125,
+      "median_abs": 0.001941680908203125
+    },
+    "buried_volume.ovbur_max": {
+      "count": 4,
+      "deltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_abs": 0.0,
+      "median_abs": 0.0
+    },
+    "buried_volume.ovbur_min": {
+      "count": 4,
+      "deltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_abs": 0.0,
+      "median_abs": 0.0
+    },
+    "buried_volume.percent_buried_volume": {
+      "count": 4,
+      "deltas": [
+        0.0043277740478515625,
+        0.0021648406982421875,
+        0.0,
+        0.0
+      ],
+      "max_abs": 0.0043277740478515625,
+      "median_abs": 0.0010824203491210938
+    },
+    "buried_volume.qvbur_max": {
+      "count": 4,
+      "deltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_abs": 0.0,
+      "median_abs": 0.0
+    },
+    "buried_volume.qvbur_min": {
+      "count": 4,
+      "deltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_abs": 0.0,
+      "median_abs": 0.0
+    }
+  }
+}

@@ -37,6 +37,7 @@ ANGSTROM_TO_BOHR: Final[float] = 1.889725989
 HARTREE_TO_KCAL_MOL: Final[float] = 627.5094740631
 GAS_CONSTANT_KCAL_MOL_K: Final[float] = 0.00198720425864083
 CACHE_SCHEMA_VERSION: Final[int] = 1
+CREST_POPULATION_POLICY: Final[str] = "temperature_checked_rotamer_populations_v2"
 NORMAL_TERMINATION: Final[str] = "CREST terminated normally."
 
 
@@ -409,34 +410,73 @@ def select_kraken_lmo_center(
     return center, selected_index, neighbors
 
 
-def parse_crest_summary(path: Path) -> list[dict[str, float | int | str | None]]:
-    """Parse CREST 2.12 conformer energies, populations, and degeneracies."""
-    text = path.read_text(encoding="utf-8", errors="replace")
-    rows: list[dict[str, float | int | str | None]] = []
+def parse_crest_summary(path: Path) -> list[dict[str, object]]:
+    """Parse CREST 2.12 conformer groups and their individual rotamer energies.
+
+    Group populations sum individual rotamer populations. Degeneracy alone
+    cannot justify multiplying a representative population by the group size.
+    """
+    rows: list[dict[str, object]] = []
     reading = False
-    for line in text.splitlines():
+    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
         if "T /K" in line and reading:
-            break
-        if reading:
-            fields = re.sub(r"\s+", " ", line).strip().split(" ")
-            if len(fields) not in {5, 8}:
-                continue
-            if len(fields) == 8:
-                try:
-                    rows.append(
-                        {
-                            "relative_energy_kcal_mol": float(fields[1]),
-                            "energy_hartree": float(fields[2]),
-                            "boltzmann_weight": float(fields[4]),
-                            "degeneracy": int(fields[6]),
-                            "origin": fields[7],
-                        }
-                    )
-                except ValueError:
-                    continue
+            reading = False
+            continue
         if "Erel/kcal" in line and "weight/tot" in line:
+            # CREST can print preliminary tables: retain the final complete one.
+            rows = []
             reading = True
+            continue
+        if not reading:
+            continue
+        fields = line.split()
+        if not fields or not fields[0].isdigit():
+            continue
+        try:
+            if len(fields) in {7, 8}:
+                relative = float(fields[1])
+                rows.append(
+                    {
+                        "relative_energy_kcal_mol": relative,
+                        "energy_hartree": float(fields[2]),
+                        "boltzmann_weight": float(fields[4]),
+                        "degeneracy": int(fields[6]),
+                        "origin": fields[7] if len(fields) == 8 else None,
+                        "rotamer_relative_energies_kcal_mol": [relative],
+                    }
+                )
+            elif len(fields) in {4, 5} and rows:
+                rows[-1]["rotamer_relative_energies_kcal_mol"].append(float(fields[1]))
+            else:
+                raise ValueError("unexpected population-table columns")
+        except (ValueError, TypeError) as exc:
+            raise QuantumBackendError(f"invalid CREST population row: {line}") from exc
     return rows
+
+
+def _normalized_populations(values: list[float]) -> list[float]:
+    if not values or any(not math.isfinite(value) or value < 0 for value in values):
+        raise QuantumBackendError("populations must be finite and non-negative")
+    scale = max(values)
+    if scale == 0:
+        raise QuantumBackendError("populations must have a positive total")
+    scaled = [value / scale for value in values]
+    total = math.fsum(scaled)
+    return [value / total for value in scaled]
+
+
+def _relative_energy_populations(
+    energies: list[float], temperature_k: float
+) -> list[float]:
+    if not energies or any(not math.isfinite(value) for value in energies):
+        raise QuantumBackendError("conformer energies must be finite")
+    minimum = min(energies)
+    # The minimum has exponent zero even at extremely small positive T.
+    raw = [
+        math.exp(-((value - minimum) / temperature_k) / GAS_CONSTANT_KCAL_MOL_K)
+        for value in energies
+    ]
+    return _normalized_populations(raw)
 
 
 class QuantumBackend:
@@ -796,6 +836,7 @@ class QuantumBackend:
         payload = {
             "schema_version": CACHE_SCHEMA_VERSION,
             "operation": "crest_ensemble",
+            "population_policy": CREST_POPULATION_POLICY,
             "input_sha256": input_sha,
             "charge": self.config.charge,
             "threads": self.config.threads,
@@ -837,18 +878,8 @@ class QuantumBackend:
                     result_dir,
                     cache_hit=True,
                 )
-            if legacy_donor_idx is not None:
-                migrated = self._migrate_legacy_ensemble(
-                    input_xyz,
-                    legacy_donor_idx,
-                    payload,
-                    cache_key,
-                    result_dir,
-                    work_dir,
-                )
-                if migrated is not None:
-                    return migrated
-
+            # Legacy combined caches did not establish the population temperature.
+            # Keep them intact, but never promote their weights into this policy.
             work_dir.mkdir(parents=False, exist_ok=False)
             input_copy = work_dir / "input.xyz"
             shutil.copy2(input_xyz, input_copy)
@@ -861,6 +892,8 @@ class QuantumBackend:
                 "-nozs",
                 "-T",
                 str(self.config.threads),
+                "--temp",
+                str(self.config.temperature_k),
                 "--chrg",
                 str(self.config.charge),
                 "-xnam",
@@ -914,15 +947,19 @@ class QuantumBackend:
                         ),
                         "boltzmann_weight": float(thermo["boltzmann_weight"]),
                         "degeneracy": int(thermo["degeneracy"]),
+                        "population_method": thermo["population_method"],
+                        "population_temperature_k": self.config.temperature_k,
                     }
                 )
             if not conformers:
                 raise QuantumBackendError(
                     "CREST produced no conformers in energy window"
                 )
-            weight_sum = sum(float(row["boltzmann_weight"]) for row in conformers)
-            for row in conformers:
-                row["boltzmann_weight"] = float(row["boltzmann_weight"]) / weight_sum
+            retained_weights = _normalized_populations(
+                [float(row["boltzmann_weight"]) for row in conformers]
+            )
+            for row, weight in zip(conformers, retained_weights, strict=True):
+                row["boltzmann_weight"] = weight
             manifest = {
                 **payload,
                 "cache_key": cache_key,
@@ -951,136 +988,92 @@ class QuantumBackend:
         finally:
             cache_lock.release()
 
-    def _migrate_legacy_ensemble(
-        self,
-        input_xyz: Path,
-        donor_idx: int,
-        crest_payload: dict[str, object],
-        crest_cache_key: str,
-        result_dir: Path,
-        work_dir: Path,
-    ) -> CrestEnsemble | None:
-        """Promote a valid schema-v1 combined cache into the split CREST stage."""
-        legacy_payload = {
-            "schema_version": CACHE_SCHEMA_VERSION,
-            "operation": "crest_xtb_ensemble",
-            "input_sha256": sha256_file(input_xyz),
-            "donor_idx": donor_idx,
-            "charge": self.config.charge,
-            "uhf": self.config.uhf,
-            "threads": self.config.threads,
-            "temperature_k": self.config.temperature_k,
-            "energy_window_kcal_mol": self.config.energy_window_kcal_mol,
-            "center_distance_angstrom": self.config.center_distance_angstrom,
-            "solvent": self.config.solvent,
-            "quick": self.config.quick,
-            "xtb": asdict(self.xtb),
-            "crest": asdict(self.crest),
-        }
-        legacy_key = _cache_key(legacy_payload)
-        legacy_dir = self.config.cache_dir / "ensembles" / legacy_key
-        legacy_manifest_path = legacy_dir / "manifest.json"
-        legacy = _load_valid_manifest(legacy_manifest_path, legacy_key)
-        if legacy is None or not isinstance(legacy.get("conformers"), list):
-            return None
-
-        work_dir.mkdir(parents=False, exist_ok=False)
-        conformer_dir = work_dir / "conformers"
-        conformer_dir.mkdir()
-        conformers: list[dict[str, object]] = []
-        for row in legacy["conformers"]:
-            if not isinstance(row, dict):
-                raise QuantumBackendError(
-                    f"invalid legacy ensemble manifest: {legacy_manifest_path}"
-                )
-            source = legacy_dir / str(row["xyz_path"])
-            destination = conformer_dir / Path(str(row["xyz_path"])).name
-            shutil.copy2(source, destination)
-            conformers.append(
-                {
-                    "index": int(row["index"]),
-                    "xyz_path": str(Path("conformers") / destination.name),
-                    "xyz_sha256": sha256_file(destination),
-                    "energy_hartree": float(row["energy_hartree"]),
-                    "relative_energy_kcal_mol": float(row["relative_energy_kcal_mol"]),
-                    "boltzmann_weight": float(row["boltzmann_weight"]),
-                    "degeneracy": int(row["degeneracy"]),
-                }
-            )
-        manifest = {
-            **crest_payload,
-            "cache_key": crest_cache_key,
-            "status": "complete",
-            "created_at_utc": datetime.now(UTC).isoformat(),
-            "elapsed_seconds": 0.0,
-            "command": legacy.get("command", []),
-            "conformers": conformers,
-            "migration": {
-                "source": "schema_v1_combined_ensemble",
-                "legacy_cache_key": legacy_key,
-                "legacy_manifest_path": str(legacy_manifest_path),
-                "legacy_manifest_sha256": sha256_file(legacy_manifest_path),
-                "legacy_artifacts": dict(legacy.get("artifacts", {})),
-            },
-            "artifacts": {
-                "migrated_conformer_count": len(conformers),
-            },
-        }
-        atomic_write_json(work_dir / "manifest.json", manifest)
-        os.rename(work_dir, result_dir)
-        return _crest_ensemble_from_manifest(
-            manifest,
-            result_dir,
-            cache_hit=False,
-        )
-
     def _conformer_thermodynamics(
         self,
         frames: list[XyzFrame],
         crest_log: Path,
-    ) -> list[dict[str, float | int]]:
+    ) -> list[dict[str, object]]:
+        if not frames:
+            raise QuantumBackendError("CREST ensemble is empty")
         summary = parse_crest_summary(crest_log)
-        if len(summary) == len(frames):
-            weights = np.asarray(
-                [float(row["boltzmann_weight"]) for row in summary],
-                dtype=float,
-            )
-            if np.isfinite(weights).all() and weights.sum() > 0.0:
-                weights /= weights.sum()
-                return [
-                    {
-                        "energy_hartree": float(row["energy_hartree"]),
-                        "relative_energy_kcal_mol": float(
-                            row["relative_energy_kcal_mol"]
-                        ),
-                        "boltzmann_weight": float(weight),
-                        "degeneracy": int(row["degeneracy"]),
-                    }
-                    for row, weight in zip(summary, weights, strict=True)
-                ]
-        if any(frame.energy_hartree is None for frame in frames):
+        if not summary and "weight/tot" in crest_log.read_text():
             raise QuantumBackendError(
-                "CREST population table is unavailable and XYZ comments lack energies"
+                "CREST population table contains no valid conformers"
             )
-        energies = np.asarray(
-            [float(frame.energy_hartree) for frame in frames],
-            dtype=float,
-        )
-        relative = (energies - energies.min()) * HARTREE_TO_KCAL_MOL
-        raw = np.exp(-relative / (GAS_CONSTANT_KCAL_MOL_K * self.config.temperature_k))
-        weights = raw / raw.sum()
+        temperature = self.config.temperature_k
+        if summary:
+            if len(summary) != len(frames):
+                raise QuantumBackendError(
+                    "CREST population table and conformer counts differ"
+                )
+            weights = _normalized_populations(
+                [float(row["boltzmann_weight"]) for row in summary]
+            )
+            for row in summary:
+                energies = row["rotamer_relative_energies_kcal_mol"]
+                if (
+                    not math.isfinite(float(row["energy_hartree"]))
+                    or any(not math.isfinite(value) or value < 0 for value in energies)
+                    or int(row["degeneracy"]) <= 0
+                ):
+                    raise QuantumBackendError("invalid CREST energy or degeneracy")
+            reported = re.findall(r"T /K\s*:?\s*([+\-\d.eE]+)", crest_log.read_text())
+            table_temperature = float(reported[-1]) if reported else None
+            # CREST v2.12 prints T with two decimals. Accept only exact agreement
+            # with the requested value; otherwise recompute from complete states.
+            if table_temperature == temperature:
+                method = "crest_group_populations_at_requested_temperature"
+            else:
+                if any(
+                    len(row["rotamer_relative_energies_kcal_mol"]) != row["degeneracy"]
+                    for row in summary
+                ):
+                    raise QuantumBackendError(
+                        "CREST population temperature differs or is unknown and "
+                        "complete rotamer energies are unavailable"
+                    )
+                all_energies = [
+                    value
+                    for row in summary
+                    for value in row["rotamer_relative_energies_kcal_mol"]
+                ]
+                individual = _relative_energy_populations(all_energies, temperature)
+                weights = []
+                offset = 0
+                for row in summary:
+                    count = int(row["degeneracy"])
+                    weights.append(math.fsum(individual[offset : offset + count]))
+                    offset += count
+                method = "reweighted_complete_printed_rotamer_energies"
+            return [
+                {
+                    "energy_hartree": float(row["energy_hartree"]),
+                    "relative_energy_kcal_mol": float(row["relative_energy_kcal_mol"]),
+                    "boltzmann_weight": weight,
+                    "degeneracy": int(row["degeneracy"]),
+                    "population_method": method,
+                }
+                for row, weight in zip(summary, weights, strict=True)
+            ]
+        energies = [frame.energy_hartree for frame in frames]
+        if any(value is None or not math.isfinite(value) for value in energies):
+            raise QuantumBackendError(
+                "CREST population table unavailable and XYZ comments "
+                "lack finite energies"
+            )
+        minimum = min(energies)
+        relative = [(value - minimum) * HARTREE_TO_KCAL_MOL for value in energies]
+        weights = _relative_energy_populations(relative, temperature)
         return [
             {
-                "energy_hartree": float(frame.energy_hartree),
-                "relative_energy_kcal_mol": float(energy),
-                "boltzmann_weight": float(weight),
+                "energy_hartree": energy,
+                "relative_energy_kcal_mol": relative_energy,
+                "boltzmann_weight": weight,
                 "degeneracy": 1,
+                "population_method": "xyz_electronic_energies_unit_degeneracy",
             }
-            for frame, energy, weight in zip(
-                frames,
-                relative,
-                weights,
-                strict=True,
+            for energy, relative_energy, weight in zip(
+                energies, relative, weights, strict=True
             )
         ]
 

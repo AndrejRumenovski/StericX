@@ -1,0 +1,72 @@
+{
+  "scope": "pre-fix ledger audit references only; not full manifest payload verification",
+  "records": [
+    {
+      "path": "docs/scientific_accuracy_audit/manifest_final.json",
+      "expected_sha256": "c31b655641a352402b14dc2d4535261a9de9c9004979c5e571d78e45cac82f03",
+      "observed_sha256": "c31b655641a352402b14dc2d4535261a9de9c9004979c5e571d78e45cac82f03",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/claims_models.md",
+      "expected_sha256": "16147fd2ed8566b22a1777d21fefbfb0e1a4cdf7ed74a380da5593412d0ecfcf",
+      "observed_sha256": "16147fd2ed8566b22a1777d21fefbfb0e1a4cdf7ed74a380da5593412d0ecfcf",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/REPORT.md",
+      "expected_sha256": "f6cf90e117d6dff2fcd697fb5e6e0a892967b0fefb6e3d8f36ad844e95d6d9ab",
+      "observed_sha256": "f6cf90e117d6dff2fcd697fb5e6e0a892967b0fefb6e3d8f36ad844e95d6d9ab",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/DISCREPANCIES.md",
+      "expected_sha256": "b946816fc06c23daf07c54e9ebc8501388e9a8e9962eaa143e65cca1b9eeccaf",
+      "observed_sha256": "b946816fc06c23daf07c54e9ebc8501388e9a8e9962eaa143e65cca1b9eeccaf",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/inputs/domain_requests.jsonl",
+      "expected_sha256": "c1214acf10304843073047558d75530bc8939ea9dcab0ebbc4b0c964484b8b05",
+      "observed_sha256": "c1214acf10304843073047558d75530bc8939ea9dcab0ebbc4b0c964484b8b05",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/raw/domain_observer.jsonl",
+      "expected_sha256": "ce80da00d4fec1feb77e1a5d837a449ecdd2754d77fcbe644423b960a985f6ae",
+      "observed_sha256": "ce80da00d4fec1feb77e1a5d837a449ecdd2754d77fcbe644423b960a985f6ae",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/results/evaluate_edge_cases.json",
+      "expected_sha256": "764ec2de5931728aa23ae4d4b5293f0e2b0756a7a76a9d78610d78904afe0f20",
+      "observed_sha256": "764ec2de5931728aa23ae4d4b5293f0e2b0756a7a76a9d78610d78904afe0f20",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/results/marginal_ci_counterexample.json",
+      "expected_sha256": "68e7177b5c83d5bfcda8769d1697d720a789b222c3626ceab48e22f9ca51f41b",
+      "observed_sha256": "68e7177b5c83d5bfcda8769d1697d720a789b222c3626ceab48e22f9ca51f41b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/results/study011_recalculated.json",
+      "expected_sha256": "bf8d0895cab36fe2d6ce13aaf3a0815e4e4b012c8ab7fc9be62e09cd405ee892",
+      "observed_sha256": "bf8d0895cab36fe2d6ce13aaf3a0815e4e4b012c8ab7fc9be62e09cd405ee892",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/results/crosscoupling_boundary_rows.csv",
+      "expected_sha256": "c62fceba142f7de7245f65ca9592804d95f1534b16e41038efc66ddcaf063852",
+      "observed_sha256": "c62fceba142f7de7245f65ca9592804d95f1534b16e41038efc66ddcaf063852",
+      "unchanged": true
+    },
+    {
+      "path": "docs/scientific_accuracy_audit/models/results/formula_identity_counterexample.json",
+      "expected_sha256": "71daf74b9a67952dcd66df44c26df08c49fd55fd5130262c174adbb527836058",
+      "observed_sha256": "71daf74b9a67952dcd66df44c26df08c49fd55fd5130262c174adbb527836058",
+      "unchanged": true
+    }
+  ],
+  "all_unchanged": true
+}

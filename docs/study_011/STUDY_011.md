@@ -67,8 +67,13 @@ Boltzmann-averaged conformer Sterimol descriptors in the sigpack, whereas `scree
 recomputes Sterimol from each candidate's representative `Ligand_XYZ_Path`. It is a
 real limitation of this experiment, not silently reconciled after target reveal.
 
-The response is published `ddG_abs` at 298.15 K and larger is treated as more useful
-enantioselectivity. Each candidate panel contains exactly three fully held-out
+The response is published `ddG_abs`, and larger is treated as more useful
+enantioselectivity. **Temperature correction (2026-09-21):** the historical
+workflow recorded 298.15 K, but the source reaction was run at 80 °C (353.15 K).
+The published targets are retained; their temperature metadata and resulting ee
+interpretation were incorrect. This note does not rewrite frozen predictions or
+the original protocol. Source target 2064 also has an unresolved provenance
+discrepancy documented in the independent audit. Each candidate panel contains exactly three fully held-out
 ligands. Native StericX descriptors and its constrained OLS/BIC training workflow
 were used without post-result model changes. The exact random comparator enumerates
 all six possible rankings for every panel; `random_baseline_metrics.csv` keeps every

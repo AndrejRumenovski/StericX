@@ -81,8 +81,9 @@ CONFORMER_RANGE_SLACK = 0.5
 # DFT_xyz_coodinates/{Name}/{Name}_free.xyz). This maps each supplied geometry
 # to its Kraken molecule id, read by hand from SI Table S1/S2 (name + Kraken ID#).
 # Keyed by the xyz filename stem (before "_free"). Every entry is verified in code
-# by matching the free.xyz molecular formula to the cached Kraken SDF, so a wrong
-# id (e.g. a positional isomer) is caught rather than silently compared. Ligands
+# by comparing the free.xyz molecular formula with the cached Kraken SDF.
+# This rejects composition mismatches, but cannot distinguish same-formula isomers.
+# Ligands
 # in the zip that are absent from Reactions I-V/RS1 (no published %Vbur(min) to
 # compare), or whose only same-formula table entry is a different isomer
 # (P4FPh3: the tables carry meta-F id 133, not the para-F geometry supplied), are
@@ -304,11 +305,11 @@ def single_node_threshold(vbur: np.ndarray, active: np.ndarray) -> dict:
 def reaction_arrays(
     reactions: dict[str, list[dict]], stericx: dict[int, float], name: str
 ) -> tuple[np.ndarray, np.ndarray]:
-    """StericX %Vbur(min) and active labels (paper y_cut) for one reaction."""
+    """Return %Vbur(min) and official inclusive labels (yield >= y_cut)."""
     rows = [r for r in reactions[name] if r["id"] in stericx]
     vbur = np.array([stericx[r["id"]] for r in rows])
     y_cut = PAPER[name]["y_cut"]
-    active = np.array([1 if r["yield"] > y_cut else 0 for r in rows])
+    active = np.array([1 if r["yield"] >= y_cut else 0 for r in rows])
     return vbur, active
 
 
@@ -339,7 +340,9 @@ def transferability(
     point across the six Ni reactions and fit ONE universal single-node threshold;
     report its in-sample accuracy/MCC. (2) Leave-one-reaction-out: fit the shared
     threshold on the other five reactions and predict the held-out reaction fully
-    out-of-sample. Each reaction keeps its own yield cutoff (so "active" is defined
+    with its targets withheld. Many ligand identities recur across reactions;
+    this is not unseen-ligand validation. Each reaction keeps its own yield cutoff
+    (so "active" is defined
     per reaction); the %Vbur(min) threshold is the single shared quantity tested.
     """
     per_reaction = {
@@ -501,7 +504,7 @@ def independent_geometry(
             text = archive.read(member).decode()
             sdfs = sorted((cache_dir / str(mid)).glob("*.sdf"))
             if not sdfs or _xyz_formula(text) != _sdf_formula(sdfs[0]):
-                # Formula guard: refuse to compare a mis-mapped/isomeric geometry.
+                # Composition only: equal formulas do not establish identity.
                 skipped.append(f"{stem}(formula)")
                 continue
             paper_geom = stericx_vbur_xyz(binary, text)
@@ -807,15 +810,15 @@ def _independent_geometry_section(independent: dict | None) -> list[str]:
         "the **paper's own DFT free-ligand geometries** (supplied in the SI, "
         "optimized by a different group with a different DFT stack) for the "
         f"**{independent['n']}** ligands that also appear in the reaction tables. "
-        "Every geometry is matched to its Kraken id by molecular formula before "
-        "comparison, so a mis-mapped or isomeric structure is rejected rather than "
-        "scored.",
+        "Every geometry is checked for molecular-formula consistency "
+        "with its Kraken id. "
+        "This rejects composition mismatches but does not establish isomer identity.",
         "",
-        "A free-ligand structure is a single conformer, so the fair published "
-        "reference is the Boltzmann-averaged %Vbur(boltz), not the ensemble "
-        f"extreme %Vbur(min) (the single geometry sits "
-        f"**{independent['offset_vs_min']:+.2f} %** above the min, as expected of a "
-        "ground-state rather than most-open conformer). Against %Vbur(boltz), "
+        "A free-ligand structure is one conformer. This sensitivity comparison uses "
+        "both published ensemble descriptors; suitability of either reference "
+        "depends on the geometry and conformer populations. The single geometry sits "
+        f"**{independent['offset_vs_min']:+.2f} %** above the minimum. "
+        "Against %Vbur(boltz), "
         "StericX on the authors' own geometries reproduces the published value at "
         f"**R2 = {independent['r2_vs_published']:.4f}** "
         f"(Pearson r = {independent['pearson_vs_published']:.4f}), MAE "
@@ -912,10 +915,9 @@ def write_report(
         "",
         f"StericX's classifier reaches a mean accuracy of **{mean_sx_acc:.2f}** "
         f"(mean MCC **{mean_sx_mcc:.2f}**) across the six reactions, against the "
-        f"paper's **{mean_pp_acc:.2f}** / **{mean_pp_mcc:.2f}** -- recovering the "
-        "same thresholds (near ~32% %Vbur(min) for the Ni datasets), the same "
-        "`Left` direction (active below the threshold), and matching both metrics "
-        "per reaction.",
+        f"paper's **{mean_pp_acc:.2f}** / **{mean_pp_mcc:.2f}**. These are "
+        "resubstitution comparisons, not exact publication reproduction or "
+        "unseen-ligand validation. Printed-yield/source-version differences remain.",
         "",
         "**Reading these numbers honestly.** Accuracy is a poor lens for imbalanced "
         "binary data: for Reactions III and IV the classifier's accuracy sits at "

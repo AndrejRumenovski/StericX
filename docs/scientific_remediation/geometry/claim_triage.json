@@ -1,0 +1,535 @@
+{
+  "created_utc": "2026-09-22T01:00:17.846216+00:00",
+  "historical_audit_immutable": true,
+  "claims_file": {
+    "path": "docs/scientific_accuracy_audit/claims.json",
+    "bytes": 152769,
+    "sha256": "0b4da057acfe1a56a55294b7f1fbb54b1dd0f478051b53f0f5c9a8853468494a"
+  },
+  "sealed_audit_inventory": {
+    "path": "docs/scientific_accuracy_audit/manifest_final.json",
+    "bytes": 13015961,
+    "sha256": "c31b655641a352402b14dc2d4535261a9de9c9004979c5e571d78e45cac82f03"
+  },
+  "claim_count": 28,
+  "claims": [
+    {
+      "historical_claim": {
+        "id": "G06",
+        "claim": "Default bond-axis descriptors are independent of atom ordering.",
+        "result": "L changes6.0699997\u21923.5 \u00c5 and B5 changes3.5\u21926.0699997 \u00c5 because the tie selects the first atom index.",
+        "status": "INCORRECT",
+        "confidence": "High",
+        "limitations": "The underlying explicitly selected-axis kernel is invariant to reordering within f32 limits. This falsifies an unrestricted auto-axis invariance claim, not the mathematics for a specified axis.",
+        "source": "Geometric invariance requirement; https://digital-chemistry-laboratory.github.io/morfeus/sterimol.html",
+        "convention": "Same chemical structure and chosen chemical axis should produce the same descriptor.",
+        "implementation": "src/descriptors.rs::detect_donor; src/geometry/buried_volume.rs::bonded_neighbors",
+        "method": "Frozen actual CLI on all six permutations of three equally distant chemically distinct substituents.",
+        "component": "Geometry"
+      },
+      "disposition": "implementation/API correction",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G12",
+        "claim": "All supported radii are exactly Morfeus Bondi radii.",
+        "result": "Br is1.85 \u00c5 in SUT vs1.83 in Morfeus; B1.92 in SUT vs Morfeus fallback2.0.",
+        "status": "INCORRECT",
+        "confidence": "High table difference",
+        "limitations": "The original Bondi table was not available for direct inspection, so the Br discrepancy was not adjudicated against that table; B has no Morfeus Bondi entry; Mantina et al., DOI 10.1021/jp8111556, explicitly gives the later 1.92 \u00c5 extension. Difference alone does not identify physical truth.",
+        "source": "https://doi.org/10.1021/j100785a001 ; frozen/reference_sources/morfeus/data.py",
+        "convention": "Declared table equality, not only the label Bondi-style.",
+        "implementation": "src/geometry/xyz.rs::van_der_waals_radius",
+        "method": "Read independent table; per-element synthetic witnesses.",
+        "component": "Geometry"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G13",
+        "claim": "Unknown-element radius fallbacks are chemically conservative.",
+        "result": "SUT1.8 \u00c5 can be both too large(He) and too small(Na/Xe); max observed BV difference6.072736800747158 \u00c5\u00b3,3.3813625981379403 percentage points.",
+        "status": "UNCERTAIN",
+        "confidence": "High numerical result; low chemical justification",
+        "limitations": "Morfeus also falls back2.0 for absent B/Fe entries; it is not ground truth. Broad chemical safety of either fallback lacks evidence.",
+        "source": "https://doi.org/10.1021/j100785a001",
+        "convention": "An arbitrary fallback must not be equated with an element-specific physical radius.",
+        "implementation": "src/geometry/xyz.rs::van_der_waals_radius/covalent_radius",
+        "method": "He/Xe/Na/Se/Fe toy witnesses; official/reference tables.",
+        "component": "Geometry"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G14",
+        "claim": "Audit proposition: the filled integration grid exactly reproduces Morfeus for every accepted density.",
+        "result": "Default n32 counts/membership agree for tested cases; odd grids reveal region-boundary differences, fine grids can differ at sphere lattice boundaries.",
+        "status": "INCORRECT",
+        "confidence": "High",
+        "limitations": "This rejects unrestricted exact all-density equivalence, not the shared continuum target or measured default-grid agreement. Floating-point sphere-boundary membership and region conventions differ; see convergence and partition records.",
+        "source": "https://digital-chemistry-laboratory.github.io/morfeus/buried_volume.html",
+        "convention": "Float64 linspace and norm\u2264R in Morfeus versus f32 SUT arithmetic; grid endpoints included.",
+        "implementation": "src/geometry/buried_volume.rs::integration_grid",
+        "method": "Four density levels plus odd-n grid and representable-float sphere-boundary perturbations.",
+        "basis": "Exact-compatibility audit question, not a quoted universal promise in the source. The documented SUT grid is evaluated against the independent reference grid.",
+        "component": "Geometry"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G17",
+        "claim": "Audit proposition: quadrants use exactly the same finite-grid regional convention as Morfeus at every accepted density.",
+        "result": "Default even-grid base values agree within f32 rounding. n5 qvbur_min differs9.621127681084193 \u00c5\u00b3; odd-grid assignment differs structurally.",
+        "status": "INCORRECT",
+        "confidence": "High",
+        "limitations": "Default even-grid agreement remains verified within the reported numerical limits. At odd grids SUT assigns zeros positive and directly normalizes quadrants; Morfeus excludes zero planes and sums octants. Both approximate the same continuum regions without exact numerical convention equivalence.",
+        "source": "https://digital-chemistry-laboratory.github.io/morfeus/buried_volume.html",
+        "convention": "Canonical xy signs (++),(-+),(--),(+-); Morfeus excludes zero planes.",
+        "implementation": "src/geometry/buried_volume.rs::quadrant_index/occupied_volumes",
+        "method": "Every individual quadrant in every orientation, independent/Morfeus comparison.",
+        "basis": "Reference-convention compatibility question, not an assertion that an open or closed continuum boundary is physically preferable.",
+        "component": "Geometry"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G18",
+        "claim": "Audit proposition: octants use exactly the same finite-grid regional convention as Morfeus at every accepted density.",
+        "result": "Even-grid agreement is strong; zero-plane regions at odd n differ.",
+        "status": "INCORRECT",
+        "confidence": "High",
+        "limitations": "Default even-grid numerical agreement remains favorable. Odd-grid zero-plane assignment differs. Negative-z numeric IDs also differ, but the harness correctly remaps them; this classification concerns the actual boundary convention, not a mistaken ID comparison.",
+        "source": "https://digital-chemistry-laboratory.github.io/morfeus/buried_volume.html",
+        "convention": "Four xy quadrants for positive and negative z; explicit Morfeus ID remapping.",
+        "implementation": "src/geometry/buried_volume.rs::octant_index/occupied_volumes",
+        "method": "Every individual octant per orientation compared, canonical signs preserved.",
+        "basis": "Reference-convention compatibility question; it does not identify either implementation as physical truth.",
+        "component": "Geometry"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G20",
+        "claim": "Audit proposition: each finite-grid regional partition adds exactly to the independently estimated total for all valid configurations.",
+        "result": "Triphenylphosphine coarse total53.1568947 versus near+far59.7332687 \u00c5\u00b3 (+12.37%); default even-grid error\u2264rounding.",
+        "status": "INCORRECT",
+        "confidence": "High",
+        "limitations": "Default even-grid additivity holds within rounding in the campaign. The odd-grid discrepancy is a finite-estimator limitation, not a failure of continuum volume additivity. At density 0.0001 near+far remains 0.5790825 \u00c5\u00b3 above total. Morfeus also has a coarse-grid gap of +3.4082601 \u00c5\u00b3.",
+        "source": "Continuum additivity of disjoint integrals; https://digital-chemistry-laboratory.github.io/morfeus/buried_volume.html",
+        "convention": "Regional volume sum should converge to total, with quantified finite-grid discrepancy.",
+        "implementation": "src/geometry/buried_volume.rs::occupied_volumes",
+        "method": "Independent conservation check across densities.",
+        "basis": "Numerical conservation audit question, distinct from exact additivity of the continuum integral; not a quoted all-grid guarantee.",
+        "component": "Geometry"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G22",
+        "claim": "A positive buried volume with zero quadrant asymmetry is unphysical/degenerate.",
+        "result": "PH3 correctly has31.937214517315244 \u00c5\u00b3 lattice volume,17.782969885773625%,zero asymmetry; SUT errors despite valid frame. Full-cover100% also errors.",
+        "status": "INCORRECT",
+        "confidence": "High, constructive counterexamples",
+        "limitations": "PH3 CLI separately rejects lack of heavy reference atom; public BV API accepts H as reference then hits invalid symmetry rejection. Small-sphere case also reproduces through CLI with config.",
+        "source": "Sphere intersection symmetry; independent analytic lens; https://digital-chemistry-laboratory.github.io/morfeus/buried_volume.html",
+        "convention": "An axisymmetric nonzero occupied set has equal quadrants and valid zero asymmetry.",
+        "implementation": "src/geometry/buried_volume.rs::compute_from_center final rejection",
+        "method": "PH3 with three chemically bonded H; full-cover toy; small sphere wholly inside ordinary donor radius.",
+        "component": "Geometry"
+      },
+      "disposition": "implementation/API correction",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G23",
+        "claim": "Audit proposition: default buried-volume precision supports scientific distinctions finer than its discretization error.",
+        "result": "Analytic31.669141713568127 \u00c5\u00b3; default error+0.2680721841369511 \u00c5\u00b3 or0.149265 percentage points; density.001 error\u22120.0284346976; .0001 error+0.0006218515 \u00c5\u00b3.",
+        "status": "UNCERTAIN",
+        "confidence": "High for the measured lens/convergence errors; insufficient evidence for scientific resolution below them",
+        "limitations": "The analytic lens has default error 0.2680722 \u00c5\u00b3, and four real/toy molecules differ from very fine totals by up to 0.1971054 \u00c5\u00b3. Error cancellation for a particular descriptor difference, experimental relevance, and a universal resolution guarantee are not established. Agreement with another finite grid cannot supply that missing evidence.",
+        "source": "Analytic two-sphere intersection formula",
+        "convention": "Compare lattice to continuum, not only another lattice implementation.",
+        "implementation": "src/geometry/buried_volume.rs::integration_grid/occupied_volumes",
+        "method": "Exact PH3 one-atom lens and four densities.",
+        "basis": "Scientific-resolution audit question; no explicit application-specific resolution guarantee was identified in the cited kernel. The measured numerical floor does not itself establish a useful chemical effect size.",
+        "component": "Geometry"
+      },
+      "disposition": "retained scientific/provenance limitation",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G26",
+        "claim": "Cordero covalent radii justify a universal1.3\u00d7 bond cutoff.",
+        "result": "Threshold behavior is deterministic and matches stated heuristic; scientific universality unsupported. Coincident atoms count as bonded before later geometry validation.",
+        "status": "UNCERTAIN",
+        "confidence": "High implementation; insufficient chemical universality",
+        "limitations": "No threshold retuning was performed. Stretching a synthetic bond beyond cutoff is not itself proof the chemistry is misclassified.",
+        "source": "https://doi.org/10.1039/B801115J",
+        "convention": "Cordero provides empirical atomic radii, not universal binary bonding truth at1.3\u00d7 sums.",
+        "implementation": "src/geometry/buried_volume.rs::BOND_TOLERANCE_FACTOR/bonded_neighbors",
+        "method": "Primary source interpretation, threshold nextafter witnesses, independent graphs.",
+        "component": "Geometry"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G29",
+        "claim": "The geometric virtual-metal placement exactly matches published Kraken.",
+        "result": "Conventions differ for unequal bond lengths; matching center-distance2.28 alone is insufficient.",
+        "status": "INCORRECT",
+        "confidence": "High",
+        "limitations": "Separate Kraken audit quantifies published-data consequences. Geometric placement is itself an approximation to actual coordination geometry.",
+        "source": "Official Kraken SI FigureS2/page10 and frozen DFT source audited in kraken/",
+        "convention": "Kraken DFT sums raw substituent displacements then normalizes; SUT sums unit bond directions.",
+        "implementation": "src/geometry/buried_volume.rs::infer_lone_pair_direction",
+        "method": "Primary code/SI comparison, independent center construction.",
+        "component": "Geometry"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G30",
+        "claim": "Planar fallback is a physically determined lone-pair direction.",
+        "result": "Fallback normal/maximum-clearance criterion is a StericX design choice; independent naive normalized-sum centers become unstable near exact planarity.",
+        "status": "UNCERTAIN",
+        "confidence": "High description; insufficient physical evidence",
+        "limitations": "Controlled-center kernel comparisons deliberately do not treat SUT-selected center as scientifically established.",
+        "source": "Geometric symmetry; no universal primary rule identified",
+        "convention": "Planar center has no unique opposite-bond-sum direction; plane normal sign is ambiguous without environment/electronics.",
+        "implementation": "src/geometry/buried_volume.rs::infer_lone_pair_direction/center_clearance",
+        "method": "Planar and nearly planar synthetic structures, rotations and permutations.",
+        "component": "Geometry"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G33",
+        "claim": "P=1 corresponds to an ideal tetrahedral apex.",
+        "result": "The comment saying1 for ideal tetrahedral-like apex is misleading; tests compute tetrahedral0.7698.",
+        "status": "TERMINOLOGY ISSUE",
+        "confidence": "High",
+        "limitations": "Tetrahedral-like is imprecise; no universal physical normalization to1 for tetrahedral geometry is established.",
+        "source": "Analytic tetrahedral unit vectors; https://doi.org/10.1007/BF00676621",
+        "convention": "Three tetrahedral directions determinant4/(3\u221a3)\u22480.76980036; orthogonal triad1.",
+        "implementation": "src/geometry/pyramidalization.rs::PyramidalizationParams documentation",
+        "method": "Analytic determinant and frozen directAPI.",
+        "component": "Geometry"
+      },
+      "disposition": "implementation/API correction",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G35",
+        "claim": "Invalid or nearly degenerate geometry produces an explicit scientific failure.",
+        "result": "Sterimol and pyramidalization direct APIs returnzero sentinels; BV errors. Near-collinear alpha29.999925\u00b0 becomes0\u00b0; short nonzeroaxis givesallzeroSterimol.",
+        "status": "INCORRECT",
+        "confidence": "High for unrestricted explicit-error claim",
+        "limitations": "Zero sentinel behavior is documented at kernel level. CLI combined-descriptor validation often rejects these cases; callers of public kernels remain exposed.",
+        "source": "Mathematical nondefinition of directions/plane normals",
+        "convention": "Do not silently interpret sentinel zero as a measured descriptor.",
+        "implementation": "src/geometry/sterimol.rs::compute; src/geometry/pyramidalization.rs::compute",
+        "method": "Coincident, short-axis, nearly collinear, NaN/Inf input witnesses.",
+        "component": "Geometry"
+      },
+      "disposition": "implementation/API correction",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G36",
+        "claim": "Finite input coordinates always produce finite scientific outputs.",
+        "result": "B5 becomes+Inf for wholly finite positions/radii; observer recordsnull plus explicitnonfinite map.",
+        "status": "INCORRECT",
+        "confidence": "High",
+        "limitations": "Deliberately extreme and not ordinary chemistry. It identifies an API validation limit, not evidence that f64 is needed for typical coordinates.",
+        "source": "IEEE754 finite arithmetic range; analytic norm",
+        "convention": "Overflow must be detected if finite output is promised.",
+        "implementation": "src/geometry/sterimol.rs::params_from_projection",
+        "method": "Frozen finite1e38 \u00c5 remote atom witness.",
+        "component": "Geometry"
+      },
+      "disposition": "implementation/API correction",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G37",
+        "claim": "f32 is sufficiently accurate for ordinary geometry in this audit.",
+        "result": "Restricted ordinary-case L/B5 errors are mostly 1e-6\u20131e-5 \u00c5 and default BV residuals a few 1e-6 \u00c5\u00b3. The targeted real near-Z cases instead have ~0.002 \u00c5 alignment errors. Scientific sufficiency requires an application-specific tolerance or effect-size assessment.",
+        "status": "UNCERTAIN",
+        "confidence": "High measured errors; insufficient evidence for universal scientific sufficiency",
+        "limitations": "Real near-axis Kraken geometries have larger alignment errors (G39), beyond ordinary rounding. Large translations 1e7\u20131e20 destroy coordinate detail; nearly degenerate axes amplify rounding. No blanket recommendation to switch f64 is made.",
+        "source": "Independent f64 equations and Morfeus under controlled protocol",
+        "convention": "Separate rounding error from grid/angle discretization and coordinate convention.",
+        "implementation": "src/geometry/*.rs",
+        "method": "Graph molecules, rigid campaign, f32-rounded input re-evaluated in f64.",
+        "component": "Geometry"
+      },
+      "disposition": "retained scientific/provenance limitation",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G38",
+        "claim": "Geometry descriptor agreement validates predictive/experimental chemistry.",
+        "result": "This geometry audit establishes no experimental predictive validity.",
+        "status": "OUT OF SCOPE",
+        "confidence": "High",
+        "limitations": "Requires held-out chemical/experimental evidence evaluated in model audit and prospective experiments.",
+        "source": "Scientific identifiability; held-out experimental validation required",
+        "convention": "Numerical descriptor compatibility and chemistry prediction are different hypotheses.",
+        "implementation": "README scientific summaries; studies002/004/005",
+        "method": "Separate scope of independent computation from model/generalization evidence.",
+        "component": "Geometry"
+      },
+      "disposition": "retained scientific/provenance limitation",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "G39",
+        "claim": "B5 is the exact radial support about the supplied attachment axis, apart from ordinary f32 arithmetic rounding.",
+        "result": "Full-case L is 6.859999656677246 versus independent 6.858277336508549 \u00c5 (963/48394). Full-case B5 is 7.116985321044922 versus independent 7.114215709601416 \u00c5 (1075/49864). Exact coordinate rotation reduces corresponding errors to 1.56e-8 and 1.09e-6 \u00c5; original minimized witnesses retain the failure.",
+        "status": "INCORRECT",
+        "confidence": "High, preserved full and minimized cases plus targeted invariance experiment",
+        "limitations": "The supplied axes are mathematically well defined and the source geometries are real DFT structures. glam documents approximate near-singular alignment (|dot| > 1\u22122 f32 EPSILON); this is a StericX accuracy-contract issue, not an undocumented glam defect. It is distinct from B1 angular discretization and does not prove a chemistry prediction is materially affected. See geometry/alignment/ and its rotation/ subdirectory.",
+        "source": "https://digital-chemistry-laboratory.github.io/morfeus/sterimol.html ; https://docs.rs/glam/0.30.10/src/glam/f32/sse2/quat.rs.html",
+        "convention": "Projection onto the supplied unit axis must remain invariant under a rigid change of global Cartesian coordinates; a near-Z axis must not be replaced by Z.",
+        "implementation": "src/geometry/sterimol.rs::compute/compute_with_dummy, Quat::from_rotation_arc in frozen glam 0.30.10",
+        "method": "Independent float64 dot/norm projections on identical SUT-rounded coordinates/radii/center; two real Kraken conformers minimized to donor plus active atom; exact 90-degree X coordinate permutation.",
+        "component": "Geometry"
+      },
+      "disposition": "implementation/API correction",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "K03",
+        "claim": "Study 004 describes the entire Kraken vbur family as reproduced.",
+        "result": "Eight absolute BV fields are a subset; even 56 current comparisons do not include source-energy Boltzmann or unimplemented distal/total families.",
+        "status": "TERMINOLOGY ISSUE",
+        "confidence": "High.",
+        "limitations": "Unimplemented source properties are OUT OF SCOPE for numerical SUT reproduction; missing weights remain UNCERTAIN rather than verified.",
+        "source": "Gensch et al., JACS (2022), [DOI 10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718); primary DFT code at immutable commit `4eaad505c1343e6083032b4a3fda47e004e19734`; frozen MolSSI API/SI inputs. See [Kraken report](kraken/REPORT.md) for sources and hashes.",
+        "convention": "Every claimed field/reduction must be checked separately; original source includes distal/total volumes, ratios and Boltzmann reductions beyond eight geometric fields.",
+        "implementation": "studies/study_004_vbur_family.py::FAMILY; primary source boltzproperties/mmproperties",
+        "method": "Enumerate primary properties and compare every implemented matching unweighted reduction: 56 metrics across 14 fields \u00d7 4 reductions.",
+        "component": "Kraken reproduction"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "K04",
+        "claim": "Study 004 reports six Sterimol extrema under matched Kraken coordination-axis convention.",
+        "result": "Strict matched-convention wording is false: native H radius 1.20 \u00c5, unit bond vector center and 360 directions differ. Six native extrema MAEs 0.0963\u20130.1124 \u00c5; max L error 0.98638 \u00c5 against published values.",
+        "status": "INCORRECT",
+        "confidence": "High for conventions and measurements.",
+        "limitations": "A different documented descriptor convention can be legitimate; choosing one requires scientific intent, not tuning against these outputs.",
+        "source": "Gensch et al., JACS (2022), [DOI 10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718); primary DFT code at immutable commit `4eaad505c1343e6083032b4a3fda47e004e19734`; frozen MolSSI API/SI inputs. See [Kraken report](kraken/REPORT.md) for sources and hashes.",
+        "convention": "Original virtual Pd\u2192P axis with raw bond vector center, H radius 1.09 \u00c5, 3,600 directions, +0.40 \u00c5 L.",
+        "implementation": "src/geometry/sterimol.rs; src/descriptors.rs; studies/study_004_sterimol.py",
+        "method": "All 31,721 conformers in independent primary-convention Morfeus; explicit same center/radii and radius-only variants; full minima/maxima/other reductions.",
+        "component": "Kraken reproduction"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "K06",
+        "claim": "STUDY 004_RESIDUAL attributes the Kraken DFT center to an xTB localized orbital and says it coincides with the geometric center for tertiary phosphines.",
+        "result": "Largest headline case ID 1796 has zero P\u2013H bonds, center angle\u2248 9.715 degrees and 4.55947 \u00c5\u00b3 discrepancy; original center/density resolves it to 0.00418 \u00c5\u00b3. Many major cases have no P\u2013H bonds.",
+        "status": "INCORRECT",
+        "confidence": "High.",
+        "limitations": "Finding is specific to this DFT path; other xTB/LMO workflows are not inferred identical.",
+        "source": "Gensch et al., JACS (2022), [DOI 10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718); primary DFT code at immutable commit `4eaad505c1343e6083032b4a3fda47e004e19734`; frozen MolSSI API/SI inputs. See [Kraken report](kraken/REPORT.md) for sources and hashes.",
+        "convention": "Actual published DFT code sums raw P \u2212 neighbor vectors then normalizes; native sums individually normalized vectors. Neither is an electronic orbital center in this DFT path.",
+        "implementation": "docs/study_004/STUDY_004_RESIDUAL.md; src/geometry/buried_volume.rs::lone_pair_direction",
+        "method": "Immutable source inspection plus original center/native center explicit comparisons across 590 diagnostic conformers, including all 20 headline ensembles.",
+        "component": "Kraken reproduction"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "K09",
+        "claim": "Study 005 interprets four extrema residuals as essentially export-coordinate/Rust-precision error.",
+        "result": "Native/published max alpha discrepancy 1.155986692 degrees is reproduced independently (1.156001260 degrees). Same geometry native error\u2264 4.89e\u22125 degrees; sampled rounding deviation\u2264 0.010351413 degrees overall and 0.008927286 degrees for worst ID 1290. Simple precision attribution is unsupported. A conservative continuous rounding-box bound gives maximum |\u0394P| of 0.000623445508668 across all 251 examined conformers, including both ID 1290 cases; its published P discrepancy is about 0.007218735, assuming unchanged ensemble and atom identity.",
+        "status": "UNCERTAIN",
+        "confidence": "High that tested numerical effects are insufficient; provenance cause uncertain.",
+        "limitations": "Corner sensitivity is not a rigorous interior bound. Original full precision logs/ensembles and historical software needed; do not simply blame published dataset.",
+        "source": "Gensch et al., JACS (2022), [DOI 10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718); primary DFT code at immutable commit `4eaad505c1343e6083032b4a3fda47e004e19734`; frozen MolSSI API/SI inputs. See [Kraken report](kraken/REPORT.md) for sources and hashes.",
+        "convention": "Any attribution must explain molecule-specific residual magnitude with independent matched-geometry calculations.",
+        "implementation": "docs/study_005; studies/study_005_pyramidalization.py",
+        "method": "Full corpus Morfeus and native; 1,028,096 rounding corner calculations on 251 major outlier conformers.",
+        "component": "Kraken reproduction"
+      },
+      "disposition": "retained scientific/provenance limitation",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "K10",
+        "claim": "Comments describe B5 as exact maximum radial support and imply an exact alignment for all valid finite axes.",
+        "result": "L error 0.0036931285331647246 \u00c5 at KRAKEN:16:31923; B5 error 0.004176904379527002 \u00c5 at KRAKEN:1407:54385. Near parallel/antiparallel approximation discards a small real tilt.",
+        "status": "INCORRECT",
+        "confidence": "High; exact original failing inputs and independent results retained.",
+        "limitations": "Most errors\u2248 5e\u22127 \u00c5; magnitude is small relative to many ligand differences but nonzero and larger than claimed exactness. No production fix made.",
+        "source": "Gensch et al., JACS (2022), [DOI 10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718); primary DFT code at immutable commit `4eaad505c1343e6083032b4a3fda47e004e19734`; frozen MolSSI API/SI inputs. See [Kraken report](kraken/REPORT.md) for sources and hashes.",
+        "convention": "L=max axial support+0.40; B5=max perpendicular distance+radius on intended axis.",
+        "implementation": "src/geometry/sterimol.rs::compute_with_dummy; glam0.30.10::Quat::from_rotation_arc",
+        "method": "Independent dot/perpendicular formulas on 31,713 successful native axes, corroborated with direct Morfeus on both worst real conformers.",
+        "component": "Kraken reproduction"
+      },
+      "disposition": "implementation/API correction",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "K11",
+        "claim": "Geometric proximity reliably supplies three bonded substituents for intended library phosphines.",
+        "result": "Eight conformers from IDs 1281/1907 get a fourth neighbor (P or Si); SDF and original primary connectivity have three. Both BV and coordination Sterimol error.",
+        "status": "INCORRECT",
+        "confidence": "High for explicit disagreement with two independent connectivity conventions.",
+        "limitations": "Chemical bond assignment still inferred; no experimental bond-order truth claimed. The historical prefilter mirrored native cutoff and hid this failure mode.",
+        "source": "Gensch et al., JACS (2022), [DOI 10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718); primary DFT code at immutable commit `4eaad505c1343e6083032b4a3fda47e004e19734`; frozen MolSSI API/SI inputs. See [Kraken report](kraken/REPORT.md) for sources and hashes.",
+        "convention": "Known molecular topology should not gain nonbonded nearby P/Si atoms solely because of generous radius cutoff.",
+        "implementation": "src/geometry/buried_volume.rs::donor_neighbor_indices; studies/study_004_scaled.py prefilter",
+        "method": "Fresh independent SDF graph and original Kraken connectivity compared with native; distances and element thresholds preserved for failures.",
+        "component": "Kraken reproduction"
+      },
+      "disposition": "implementation/API correction",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "K12",
+        "claim": "Native BV rejects nonzero occupancy with global max_delta_qvbur=0 as degenerate.",
+        "result": "Native raises symmetric-zero error for valid three-neighbor input; independent calculation succeeds.",
+        "status": "INCORRECT",
+        "confidence": "High with actual input and reference output.",
+        "limitations": "Do not infer every zero is valid; validate geometric degeneracy independently. Synthetic symmetric cases examined in geometry audit.",
+        "source": "Gensch et al., JACS (2022), [DOI 10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718); primary DFT code at immutable commit `4eaad505c1343e6083032b4a3fda47e004e19734`; frozen MolSSI API/SI inputs. See [Kraken report](kraken/REPORT.md) for sources and hashes.",
+        "convention": "A symmetrically occupied valid sphere can have zero anisotropy; finite grid zero does not prove an invalid frame.",
+        "implementation": "src/geometry/buried_volume.rs::compute_from_center",
+        "method": "Frozen actual PH3-like ligand 1299 conformer 54318; independent geometry/frame and Morfeus occupancy comparison.",
+        "component": "Kraken reproduction"
+      },
+      "disposition": "implementation/API correction",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "K13",
+        "claim": "Full reproduction could extend published ligand-level Boltzmann values from available geometries.",
+        "result": "Historical weights not recovered. API returns data:null; SI contains aggregate tables; updated repo 33 new ensembles aredifferentcalculations. Full corpus Boltzmann not reproduced.",
+        "status": "UNCERTAIN",
+        "confidence": "High in checked-source limitation, not universal absence.",
+        "limitations": "Obtain original source energies; synthetic Boltzmann verification elsewhere does not validate historical populations.",
+        "source": "Gensch et al., JACS (2022), [DOI 10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718); primary DFT code at immutable commit `4eaad505c1343e6083032b4a3fda47e004e19734`; frozen MolSSI API/SI inputs. See [Kraken report](kraken/REPORT.md) for sources and hashes.",
+        "convention": "Need per-conformer source corrected free energies/populations, temperature/degeneracy, selection and identity mapping. Published aggregates are comparison outputs only.",
+        "implementation": "studies/study_004_*; original read_ligand weighting",
+        "method": "Current/v2 API schemas/endpoints on five conformers, alternate exports, original repo/release tree, full SI archive, updated Sigman repo checked and frozen.",
+        "component": "Kraken reproduction"
+      },
+      "disposition": "retained scientific/provenance limitation",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "K14",
+        "claim": "Matching primaryconventions suffices to exactly reproduce all published Sterimol values fromcurrentAPI geometries.",
+        "result": "Remaining largest errors: L max 0.955032324 \u00c5 (ID 1290), B5 min 0.649228687 \u00c5 (ID 1805), B1 max 0.274270968 \u00c5 (ID 560). Bothnativeandindependentreferencedisagreewithsomepublished extrema.",
+        "status": "UNCERTAIN",
+        "confidence": "High in measured disagreement; attribution uncertain.",
+        "limitations": "Need original calculation provenance before declaring either the public table or current implementation wrong.",
+        "source": "Gensch et al., JACS (2022), [DOI 10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718); primary DFT code at immutable commit `4eaad505c1343e6083032b4a3fda47e004e19734`; frozen MolSSI API/SI inputs. See [Kraken report](kraken/REPORT.md) for sources and hashes.",
+        "convention": "Same original geometry/ensemble, axis, radii and historical dependency implementation are required.",
+        "implementation": "Primary API and original Kraken/SI artifacts; a provenance claim, not exclusively a native-code claim",
+        "method": "Contemporary Morfeus primary convention on all 31,721 geometries, complete ensembles, all outliers retained.",
+        "component": "Kraken reproduction"
+      },
+      "disposition": "retained scientific/provenance limitation",
+      "status": "planned; no production fix yet"
+    },
+    {
+      "historical_claim": {
+        "id": "K15",
+        "claim": "Study 005 says the native kernel agrees with Morfeus to 4.4e\u221216 for P and 2.8e\u221214 degrees for alpha.",
+        "result": "Measured maxima are 3.2010947048632943e\u22127 for P and 4.8856123654239525e\u22125 degrees for alpha. A Python algebraic identity at float64 precision cannot support the stated native-output precision.",
+        "status": "INCORRECT",
+        "confidence": "High, with full corpus native and independent records.",
+        "limitations": "The measured native errors are small in ordinary geometries; this finding corrects numerical-precision attribution, not every aspect of the underlying definition.",
+        "source": "Gensch et al., JACS (2022), [DOI 10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718); primary DFT code at immutable commit `4eaad505c1343e6083032b4a3fda47e004e19734`; frozen MolSSI API/SI inputs. See [Kraken report](kraken/REPORT.md) for sources and hashes.",
+        "convention": "Those numbers must describe native Rust f32 output if attributed to the native kernel, not a Python float64 identity check.",
+        "implementation": "docs/study_005/STUDY_005.md:21; src/geometry/pyramidalization.rs",
+        "method": "Actual native values and IEEE bits frozen for all 31,721 conformers, compared independently with Morfeus on the identical exported geometry.",
+        "component": "Kraken reproduction"
+      },
+      "disposition": "declared convention or unsupported wording; no matching/tuning",
+      "status": "planned; no production fix yet"
+    }
+  ],
+  "plan": {
+    "path": "docs/scientific_remediation/geometry/PLAN.md",
+    "bytes": 10014,
+    "sha256": "8110dd955bbf89f3604f64f8b1b06d709d87a32bd3b4bd406e58ae55337cf398"
+  },
+  "sources_before": [
+    {
+      "path": "src/descriptors.rs",
+      "bytes": 25813,
+      "sha256": "a3293207b03a9ecfe11cbdac6287d85d4cef4c4277a770a4d75da1e4af5d6950"
+    },
+    {
+      "path": "src/geometry/buried_volume.rs",
+      "bytes": 55102,
+      "sha256": "5f72a75ffa64d86a941d0ac46b004d607ff1a9b603db61bc72fb3b6bbee9a77c"
+    },
+    {
+      "path": "src/geometry/mod.rs",
+      "bytes": 578,
+      "sha256": "69fee9a746756656959c4723b80e7710822042b4c5cf36abdd8bfcf91df60160"
+    },
+    {
+      "path": "src/geometry/pyramidalization.rs",
+      "bytes": 8928,
+      "sha256": "ef9f0860bdeb986ba01292ec91f69f4c74f117b61df2c652c046e1e60ee3bbde"
+    },
+    {
+      "path": "src/geometry/sterimol.rs",
+      "bytes": 9667,
+      "sha256": "cd4ed347e9e4257c984514da42a4b76827555cc233d0e06236750fbc8b40f665"
+    },
+    {
+      "path": "src/geometry/xyz.rs",
+      "bytes": 14458,
+      "sha256": "a386da5beb2be029612e193403881f97cc882aa6fd8a81eeb7182603634741a2"
+    }
+  ]
+}

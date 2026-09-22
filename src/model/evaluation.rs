@@ -79,6 +79,12 @@ pub fn score_frozen_predictions(
             ));
         }
         let recomputed = predictor.predict(&records[index]);
+        if !frozen_row.predicted_ddg.is_finite() || !recomputed.is_finite() {
+            return Err(format!(
+                "frozen and recomputed predictions for {} must both be finite",
+                frozen_row.reaction_id
+            ));
+        }
         if (recomputed - frozen_row.predicted_ddg).abs() > 1.0e-4 {
             return Err(format!(
                 "frozen prediction for {} does not match the supplied model",
@@ -92,6 +98,13 @@ pub fn score_frozen_predictions(
                 frozen_row.reaction_id
             ));
         }
+        let residual = frozen_row.predicted_ddg - experimental;
+        if !residual.is_finite() {
+            return Err(format!(
+                "residual for {} is outside finite record precision",
+                frozen_row.reaction_id
+            ));
+        }
         actual.push(f64::from(experimental));
         predicted.push(f64::from(frozen_row.predicted_ddg));
         scored.push(ScoredPrediction {
@@ -100,7 +113,7 @@ pub fn score_frozen_predictions(
             dataset_split: frozen_row.dataset_split.clone(),
             predicted_ddg_kcal_mol: frozen_row.predicted_ddg,
             experimental_ddg_kcal_mol: experimental,
-            residual_kcal_mol: frozen_row.predicted_ddg - experimental,
+            residual_kcal_mol: residual,
             applicability_domain: frozen_row.applicability_domain.clone(),
         });
     }
@@ -115,7 +128,7 @@ pub fn score_frozen_predictions(
         .iter()
         .map(|actual| (actual - mean).powi(2))
         .sum::<f64>();
-    Ok(EvaluationSummary {
+    let summary = EvaluationSummary {
         evaluated_records: actual.len(),
         mae_kcal_mol: actual
             .iter()
@@ -130,7 +143,14 @@ pub fn score_frozen_predictions(
             .filter(|row| row.applicability_domain != "inside_training_range")
             .count(),
         scored_predictions: scored,
-    })
+    };
+    if !summary.mae_kcal_mol.is_finite()
+        || !summary.rmse_kcal_mol.is_finite()
+        || summary.r2.is_some_and(|value| !value.is_finite())
+    {
+        return Err("evaluation metrics are not finite".into());
+    }
+    Ok(summary)
 }
 
 #[cfg(test)]
@@ -218,6 +238,43 @@ mod tests {
         assert_eq!(
             score_frozen_predictions(&records, &labels, &trained.report, &tampered).unwrap_err(),
             "frozen prediction for R10 does not match the supplied model"
+        );
+    }
+
+    #[test]
+    fn rejects_nonfinite_frozen_and_recomputed_predictions() {
+        let (records, labels, trained) = fixture();
+        for invalid in [f32::NAN, f32::INFINITY, f32::NEG_INFINITY] {
+            let mut frozen = trained.frozen_predictions.clone();
+            frozen[0].predicted_ddg = invalid;
+            assert!(
+                score_frozen_predictions(&records, &labels, &trained.report, &frozen)
+                    .unwrap_err()
+                    .contains("must both be finite")
+            );
+            let mut model = trained.report.clone();
+            model.weights[0] = invalid;
+            assert!(
+                score_frozen_predictions(&records, &labels, &model, &trained.frozen_predictions)
+                    .unwrap_err()
+                    .contains("must both be finite")
+            );
+        }
+    }
+
+    #[test]
+    fn rejects_a_residual_that_overflows_record_precision() {
+        let (mut records, labels, trained) = fixture();
+        let mut model = trained.report.clone();
+        model.weights = [0.0; 8];
+        model.weights[0] = f32::MAX;
+        let mut frozen = trained.frozen_predictions.clone();
+        frozen[0].predicted_ddg = f32::MAX;
+        records[10].exp_ddg = -f32::MAX;
+        assert!(
+            score_frozen_predictions(&records, &labels, &model, &frozen)
+                .unwrap_err()
+                .contains("outside finite record precision")
         );
     }
 

@@ -1,0 +1,30 @@
+{
+  "finding": "Valid alpha near1 loses central mass when df/(df+t\u00b2) rounds to1; additional independent-review witness, not alteration of original audit",
+  "returncode": 0,
+  "files": [
+    {
+      "path": ".stericx/scientific_remediation/validated_build_v2/bin/stericx-audit-observer",
+      "sha256": "c87149d0fbdb8d7f75b9e1e84e9d705af13d2bdb8d5371fb8831fce9a18efbfc"
+    },
+    {
+      "path": ".stericx/scientific_remediation/validated_build_v2/manifest.json",
+      "sha256": "85a7521c14334f2d2fd01c3b9cc3a48e55dae4a840fe5222aca643f13e1c4ca4"
+    },
+    {
+      "path": "src/model/domain.rs",
+      "sha256": "75e0560639f84d491ce6bbdee2a12a1813ebf51df6589fabd72bce5659651db0"
+    },
+    {
+      "path": "docs/scientific_remediation/models/near_unit_alpha/requests.jsonl",
+      "sha256": "d9be53f53bb0b3a2181a5584f45dac694b318bf47f89a6340760d078bffae9bf"
+    },
+    {
+      "path": "docs/scientific_remediation/models/near_unit_alpha/before.jsonl",
+      "sha256": "97d513e5e42a1de42e7cc3239d1352f6e91e68b78c0a17321053d6e136725453"
+    },
+    {
+      "path": "docs/scientific_remediation/models/near_unit_alpha/before.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

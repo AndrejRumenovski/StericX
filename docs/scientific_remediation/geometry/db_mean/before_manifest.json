@@ -1,0 +1,58 @@
+{
+  "finding": "f32 sum before division overflows on four finite identical descriptors; arithmetic mean must equal each finite input",
+  "argv": [
+    ".stericx/scientific_remediation/validated_build_v3/bin/stericx",
+    "db",
+    "build",
+    "--source",
+    "docs/scientific_remediation/geometry/db_mean/inputs",
+    "--output",
+    "docs/scientific_remediation/geometry/db_mean/before.csv",
+    "--group-by-parent",
+    "--label-from",
+    "parent",
+    "--sterimol-axis",
+    "coordination",
+    "--density",
+    "1"
+  ],
+  "returncode": 0,
+  "files": [
+    {
+      "path": ".stericx/scientific_remediation/validated_build_v3/bin/stericx",
+      "sha256": "2dc6c7b981c324a0c15cf1d030349859014c5547a4bb800080e5fc7c98bce9ba"
+    },
+    {
+      "path": ".stericx/scientific_remediation/validated_build_v3/manifest.json",
+      "sha256": "5ae616ba13ee24839b7ba41af2508a5aa5fef381116a116e8ad6b527a9c60f4f"
+    },
+    {
+      "path": "src/commands/db.rs",
+      "sha256": "2203081d775d843fca1c809d7060538afb22a746e8eebb6193ac61effb238c6d"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/finite_mean/finite_mean_1.sdf",
+      "sha256": "a009aec9df96256880dd5721db8253e8ab98c192b6e5aac547f7112fa1a9c887"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_0.sdf",
+      "sha256": "a009aec9df96256880dd5721db8253e8ab98c192b6e5aac547f7112fa1a9c887"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_1.sdf",
+      "sha256": "a009aec9df96256880dd5721db8253e8ab98c192b6e5aac547f7112fa1a9c887"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_2.sdf",
+      "sha256": "a009aec9df96256880dd5721db8253e8ab98c192b6e5aac547f7112fa1a9c887"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_3.sdf",
+      "sha256": "a009aec9df96256880dd5721db8253e8ab98c192b6e5aac547f7112fa1a9c887"
+    },
+    {
+      "path": "docs/scientific_remediation/geometry/db_mean/before.csv",
+      "sha256": "76f5f93aaed0e59a72b16887ff6e3f09c27d7ac49b6df499fbd6f64dfd79640d"
+    }
+  ]
+}

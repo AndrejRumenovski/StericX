@@ -29,7 +29,9 @@ pub use domain::{
     TrainingGeometry, assess_applicability, student_t_two_sided_quantile,
 };
 pub use evaluation::{EvaluationSummary, ScoredPrediction, score_frozen_predictions};
-pub use features::{MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, expand_features};
+pub use features::{
+    DescriptorAggregation, MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, expand_features,
+};
 pub use fit::{
     BaselineReport, BootstrapEnsemble, CoefficientInterval, FeatureDomain, FitOptions,
     ModelMetrics, ScientificFitReport, fit_scientific_model, fit_scientific_model_grouped,

@@ -1,7 +1,7 @@
 //! Reusable end-to-end model training.
 //!
 //! [`train_scientific_model`] is the single entry point callers need: it takes a
-//! packed record matrix plus row labels, fits the mechanistically constrained
+//! packed record matrix plus row labels, fits the fixed-vocabulary
 //! model on the training partition, and returns both the diagnostic report and
 //! the frozen predictions for every non-training row. All scientific
 //! methodology lives in [`fit_scientific_model_grouped`]; this module only

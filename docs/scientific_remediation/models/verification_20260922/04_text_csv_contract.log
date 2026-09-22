@@ -1,0 +1,119 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.19s
+     Running tests/cli_screen.rs (target/debug/deps/cli_screen-39b548c9a407a7c9)
+
+running 74 tests
+test a_model_declaring_an_unknown_feature_space_is_refused ... ok
+test a_maximize_model_ranks_descending ... ok
+test a_minimize_model_ranks_ascending ... ok
+test a_legacy_model_reports_the_context_it_has_without_inventing_the_rest ... ok
+test a_model_without_an_ensemble_reports_no_interval_rather_than_inventing_one ... ok
+test a_model_without_a_direction_is_not_ranked_on_a_guess ... ok
+test a_portable_model_screens_through_its_stored_feature_space ... ok
+test a_file_without_an_identifier_column_is_refused_with_the_accepted_names ... ok
+test a_narrow_bootstrap_interval_does_not_make_a_candidate_in_domain ... ok
+test a_library_without_a_required_descriptor_is_refused_not_guessed ... ok
+test a_changed_library_changes_the_recorded_digest ... ok
+
+thread 'a_screening_run_reports_the_model_context_before_any_candidate' (144838) panicked at tests/cli_screen.rs:1732:9:
+context block is missing `validation`:
+model          mechanistically_constrained_ols (/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/study_001/stericx_portable_model.json)
+model id       mechanistically_constrained_ols   schema 2   fitted by stericx 0.2.0
+reaction       Ni-catalyzed homo-Diels-Alder
+target         ddg_double_dagger [kcal/mol]
+selected       B5_x_nbo_charge
+aggregation    unknown
+input method   legacy model did not record aggregation; only supplied descriptor values were accepted. The caller must establish consistency with training inputs; geometry substitution is disabled
+requires       sterimol_b5, nbo_charge
+trained on     10 ligands   training R² 0.3625   RMSE 0.550 kcal/mol
+fixed features LOO Q² 0.0020   LOO RMSE 0.688 kcal/mol   group-LOO Q² 0.0013
+stericx        0.3.0 (running)
+model sha256   c14dd63918d89efdaab5a04e70fff2dd4d13519f74e71664f27ce10a253fbe75 (156739 bytes)
+training data  reactions.sigpack sha256:6dd2d1190127ad88b3c883d025d24cbd365099060d943cdce498f4f226d406ae (704 bytes)
+training data  reactions_raw.csv sha256:88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f (7482 bytes)
+library sha256 8e2142bd937c972ab753ccb9f1bb4dc34eaf80e11a2d9950929661feae53f455 (the library file's exact bytes)
+library        11 members, 11 screened, 1 returned, 0 skipped, 11 inside the training domain
+ranking        descending (model records: maximize)
+temperature    298.15 K
+uncertainty    percentile_bootstrap_mean_response at 95% from 2000 bootstrap model(s)
+               coefficient uncertainty only - it excludes residual scatter and says nothing about extrapolation
+domain rule    max_neighbor (boundary 0.505 in standardized descriptor space)
+               threshold = max over training points of the distance to the nearest other training point, in standardized descriptor space
+domain census  interpolation 11
+leverage       warning h* = 0.600 (3p/n); 0 ligand(s) above it
+trust          inside_range:ordinary_leverage 1
+
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test a_screening_run_reports_the_model_context_before_any_candidate ... FAILED
+test a_real_gap_in_the_training_set_reports_sparse_interpolation ... ok
+test an_out_of_domain_candidate_is_never_dropped_or_altered_by_default ... ok
+test applicability_does_not_depend_on_how_good_the_prediction_looks ... ok
+test a_stricter_domain_rule_shrinks_the_boundary_without_moving_the_measurement ... ok
+test an_override_is_reported_and_only_applies_when_requested ... ok
+test csv_and_json_keep_full_precision ... ok
+test a_zero_diversity_weight_reproduces_the_ordinary_ranking ... ok
+test an_out_of_range_diversity_weight_is_refused ... ok
+test a_diverse_deck_records_why_each_candidate_was_selected ... ok
+test a_smiles_column_is_a_secondary_key_not_a_fuzzy_match ... ok
+test diverse_selection_explains_and_exposes_every_choice ... ok
+test an_unresolved_identifier_is_reported_and_never_silently_dropped ... ok
+test diverse_selection_needs_training_geometry_and_says_so ... ok
+test deck_export_preserves_machine_readable_stdout ... ok
+test blank_rows_and_an_empty_list_are_handled_without_excluding_anything ... ok
+test diverse_selection_increases_descriptor_space_coverage ... ok
+test every_output_format_carries_the_reported_fields ... ok
+test duplicate_entries_are_counted_once_and_reported ... ok
+test hits_carry_identifier_name_raw_prediction_and_descriptors ... ok
+test every_bootstrap_interval_is_ordered_and_brackets_its_point_estimate ... ok
+test deck_numbers_keep_full_round_trip_precision ... ok
+test excluding_everything_says_so_rather_than_reporting_an_empty_screen ... ok
+test ligands_missing_a_required_value_are_excluded_and_summarized ... ok
+test negative_predictions_rank_by_the_stated_direction ... ok
+test library_accepts_both_the_flag_and_positional_forms ... ok
+test diverse_selection_is_deterministic ... ok
+test filtering_every_candidate_explains_itself_rather_than_reporting_nothing ... ok
+test screened_candidates_carry_structured_applicability_information ... ok
+test screening_agrees_with_the_ordinary_inference_path ... ok
+test repeated_runs_are_byte_identical ... ok
+test diversity_never_hides_an_applicability_warning ... ok
+test study_001_blind_ligand_matches_its_frozen_prediction ... ok
+test no_exclusion_list_leaves_the_report_unchanged ... ok
+test ordinary_ranking_is_untouched_when_diverse_is_not_requested ... ok
+test in_domain_only_is_opt_in_and_reports_what_it_removed ... ok
+test a_higher_diversity_weight_spreads_the_selection_further ... ok
+test exclusion_removes_candidates_before_they_are_screened ... ok
+test repeated_inference_reproduces_the_same_intervals ... ok
+test identical_inputs_produce_an_identical_deck ... ok
+test the_deck_never_carries_a_blinded_experimental_value ... ok
+test the_deck_carries_every_field_an_experimental_review_needs ... ok
+test tested_ligands_are_excluded_by_stable_identifier ... ok
+test the_bootstrap_ensemble_survives_serialization ... ok
+test the_study_001_portable_artifact_is_a_strict_superset_of_the_legacy_model ... ok
+test exclusion_is_deterministic_and_order_independent ... ok
+test the_highest_predicted_candidate_can_still_be_flagged_out_of_domain ... ok
+test the_exclusion_list_is_recorded_for_provenance ... ok
+test the_deck_reflects_top_and_reports_where_it_was_written ... ok
+test the_domain_rule_cannot_change_a_prediction ... ok
+test the_model_context_reaches_the_csv_export ... ok
+test the_study_001_portable_artifact_validates_without_findings ... ok
+test ties_break_deterministically_by_identifier ... ok
+test the_study_001_portable_artifact_ranks_without_a_direction_flag ... ok
+test the_report_carries_cryptographic_identity_for_every_scientific_input ... ok
+test top_limits_output_after_ranking_and_counts_are_reported ... ok
+test the_study_001_portable_artifact_reproduces_the_frozen_blind_prediction ... ok
+test the_sidecar_carries_the_configuration_and_provenance_to_reproduce_the_deck ... ok
+test the_terminal_table_shows_the_domain_beside_the_prediction ... ok
+test the_domain_rule_is_reported_so_a_stricter_run_is_never_ambiguous ... ok
+test the_study_001_portable_artifact_reports_applicability_not_unknown ... ok
+test two_runs_over_identical_inputs_produce_identical_provenance ... ok
+test screening_the_shipped_kraken_library_agrees_with_the_predictor ... ok
+
+failures:
+
+failures:
+    a_screening_run_reports_the_model_context_before_any_candidate
+
+test result: FAILED. 73 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.86s
+
+error: test failed, to rerun pass `--test cli_screen`

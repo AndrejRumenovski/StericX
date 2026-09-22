@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "generator": "stericx 0.3.0",
+  "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/db_mean/inputs",
+  "grouping": "parent_directory_is_one_ligand",
+  "extensions": [
+    "xyz",
+    "sdf",
+    "mol"
+  ],
+  "label_from": "parent",
+  "donor_element": "P",
+  "sterimol_axis": "coordination",
+  "sphere_radius": 3.5,
+  "grid_density": 1.0,
+  "center_distance": 2.28,
+  "radii_scale": 1.17,
+  "ligands": 1,
+  "geometries_featurized": 4,
+  "geometries_skipped": 0,
+  "descriptor_columns": [
+    "sterimol_l",
+    "sterimol_b1",
+    "sterimol_b5",
+    "percent_buried_volume",
+    "buried_volume",
+    "qvbur_min",
+    "qvbur_max",
+    "max_delta_qvbur",
+    "max_delta_qvbur_min",
+    "pyr_p",
+    "pyr_alpha"
+  ],
+  "table": "database.csv",
+  "table_sha256": "6fbc4daa49c46ead6a5af64725f60cb1e8754b4e4de63a78280c6d4c6d9ac619",
+  "build_seconds": 0.001143441
+}

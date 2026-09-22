@@ -21,8 +21,9 @@ that opposite direction on the same descriptor:
 The point is directional generality: one steric number, fit the same way, capturing
 both the Ni regime (small = active) and the Pd regime (bulky = active). Reactions
 XI and XII are drawn by the paper from *other groups'* published datasets (Zhao et
-al., Science 2018; Stambuli et al.), so they are a genuinely independent test of
-the descriptor -- different labs, different substrates, different chemistry.
+al., Science 2018; Stambuli et al.). These extend the data provenance across
+laboratories and chemistry, but each classifier is fit and scored on its own
+reaction rows: these scores are resubstitution, not held-out transfer validation.
 
 Weighting. The Ni study (007) used {0:1, 1:20} class weighting to match the paper's
 Table S11. For this Pd/mixed family the paper's own mechanistically-preferred and
@@ -285,11 +286,11 @@ def bootstrap_ci(
 def reaction_arrays(
     reactions: dict[str, list[dict]], stericx: dict[int, float], name: str
 ) -> tuple[np.ndarray, np.ndarray]:
-    """StericX %Vbur(min) and active labels (paper y_cut) for one reaction."""
+    """Return %Vbur(min) and official inclusive labels (yield >= y_cut)."""
     rows = [r for r in reactions[name] if r["id"] in stericx]
     vbur = np.array([stericx[r["id"]] for r in rows])
     y_cut = PAPER[name]["y_cut"]
-    active = np.array([1 if r["yield"] > y_cut else 0 for r in rows])
+    active = np.array([1 if r["yield"] >= y_cut else 0 for r in rows])
     return vbur, active
 
 
@@ -453,8 +454,9 @@ def write_report(r2, mae, n, results, n_right, output: Path) -> None:
         "",
         "Two of the six reactions (XI, XII) are drawn by the paper from **other "
         "groups'** published datasets (Zhao et al., *Science* 2018; Stambuli et "
-        "al.), so they are a genuinely independent test -- different laboratories, "
-        "substrates, and chemistry, run through StericX's kernel. The classifier is "
+        "al.). Their data have different laboratory origins, but each classifier is "
+        "fit and scored on its own reaction rows: these are resubstitution scores, "
+        "not held-out transfer validation. The classifier is "
         "fit with the paper's own mechanistically-preferred **'balanced'** class "
         "weight (its Tables S12/S14, the weighting used for the main-text Fig. 6); "
         "Study 007's Ni set used {0:1, 1:20} to match Table S11. The paper's "
@@ -510,9 +512,10 @@ def write_report(r2, mae, n, results, n_right, output: Path) -> None:
         "the Ni 'Left' cliff, from the same one descriptor fit the same way. Its "
         f"classifier reaches a mean MCC of **{mean_sx_mcc:.2f}** (accuracy "
         f"{mean_sx_acc:.2f}) against the paper's **{mean_pp_mcc:.2f}** / "
-        f"{mean_pp_acc:.2f}. Where the classification is well-conditioned -- "
-        f"Reactions {', '.join(strong)} -- StericX recovers the paper's threshold "
-        "and MCC nearly exactly, including the two external-literature reactions.",
+        f"{mean_pp_acc:.2f}. Reactions {', '.join(strong)} meet this script's "
+        "MCC reporting cutoff. Agreement with displayed paper thresholds and "
+        "scores must be assessed per row; descriptor versions, rounded published "
+        "values and source conflicts remain limitations.",
         "",
         "![Reproduced MCC per reaction](pd_crosscoupling_mcc.png)",
         "",

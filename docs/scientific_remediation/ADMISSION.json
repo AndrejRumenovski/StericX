@@ -1,0 +1,184 @@
+{
+  "admitted_for_exact_optimization": true,
+  "build": {
+    "bytes": 29725,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/manifest.json",
+    "sha256": "d79fa7ec5c9e6c1254aa3bd1de665fe4338dde2aabe2401b7bf79a36b5a7bdd3"
+  },
+  "claim_resolutions": {
+    "bytes": 80747,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/claim_resolutions.json",
+    "sha256": "26f7cefb7b29766478a37a72003a4e1cc4eec2cc5542eafe1a1fda5652e1f61e"
+  },
+  "gates": {
+    "behavior": {
+      "artifact_roots": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/cli_v1"
+      ],
+      "evidence": [
+        {
+          "bytes": 2776,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/cli_v1/comparisons_v4/summary.json",
+          "sha256": "c8664bdaafba9adef7a22b63ed90ef1261ea7a5449778e8d38a1d51e840ae519"
+        },
+        {
+          "bytes": 37876,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/models/documented_commands_v4/receipt.json",
+          "sha256": "7ca171fe7e0031ec794e0d57c019264ef9cfb0424cc18ea9a77fbc8801b82ed2"
+        }
+      ],
+      "passed": true,
+      "reviewed_conclusion": "All93cases at1/2/4/6threads,279 exact comparisons; corrected validation and legacy input contracts retained."
+    },
+    "engineering": {
+      "artifact_roots": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/engineering_final_v4",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/engineering_harness_final_v4"
+      ],
+      "evidence": [
+        {
+          "bytes": 12803,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/engineering_final_v4/receipt.json",
+          "sha256": "818ff73802d3922e95be6017ba1d2f547377aa7536700d496a61c55e0468df01"
+        },
+        {
+          "bytes": 10860,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/engineering_harness_final_v4/receipt.json",
+          "sha256": "7fa166100f02779fcff52aaf014c50608fe3b08ae9ef526beb58353d0b53f413"
+        }
+      ],
+      "passed": true,
+      "reviewed_conclusion": "306 Rust tests,113 Python tests plus4 reference-integrity tests; Clippy/rustdoc/format pass. Test success alone is not scientific evidence."
+    },
+    "geometry": {
+      "artifact_roots": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/observations_v4",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/references_v4_inferred",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/references_v4_topology",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/buried_volume_reference_v4",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/fixed_reference_union_v4"
+      ],
+      "evidence": [
+        {
+          "bytes": 9973,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/results.json",
+          "sha256": "6bad2b13971ecfb248c02f88afddae676c2f3198904446d6fb2dcb8e862b61a7"
+        },
+        {
+          "bytes": 284539,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/final_review_v4_2/review.json",
+          "sha256": "b67bbce4e4cb900af62eeef098a78ee1e3ce4324e779864e985bf497800bf1b1"
+        },
+        {
+          "bytes": 2363,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/all_bins_reference_v4/complete.json",
+          "sha256": "eb718a2a705ff80790ff5c4ecd8706048470fce798ab5f2910742658c61b40cf"
+        },
+        {
+          "bytes": 23983,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/boundary_witnesses_v4/complete.json",
+          "sha256": "c6f2517047a0f96afaf630abd5491c45e452f8f92bae1c5b9440d9ec5883efdb"
+        },
+        {
+          "bytes": 2634,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/fixed_variant_comparison_v4/complete.json",
+          "sha256": "5f78646cd78cbf7240137127bf4f9ecf2f787d821c415ea199963efa66967877"
+        },
+        {
+          "bytes": 20236,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/references_v4_inferred/result.json",
+          "sha256": "c16c36f535780d93e14ba3b614514a9bd05d04ce02dfd91432f0936881f91b3a"
+        },
+        {
+          "bytes": 16502,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/references_v4_topology/result.json",
+          "sha256": "affec03b38edb63566fadfcd8b0f3a880f35dee87a9343a207f4566eadb3d67f"
+        },
+        {
+          "bytes": 220758,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/fixed_reference_union_v4/complete.json",
+          "sha256": "2c61aad0ba518dab166410dc1368f94223c5825077f741fe15f31c34d17a3639"
+        }
+      ],
+      "passed": true,
+      "reviewed_conclusion": "Demonstrated failures corrected; all original fixed cases replayed; default-grid residuals and radius/center/odd-grid conventions classified; no new unexplained regression in reviewed scope."
+    },
+    "models": {
+      "artifact_roots": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/models/reference_recheck_v4",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/models/reference_coverage_v4",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/models",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/demo/documented_commands_v4"
+      ],
+      "evidence": [
+        {
+          "bytes": 82062,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/models/reference_recheck_v4/manifest.json",
+          "sha256": "c40d88064a65a72a663a5af512e88adff886d8c6019d4babadab9b19b0460c4f"
+        },
+        {
+          "bytes": 3498,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/models/reference_coverage_v4/manifest.json",
+          "sha256": "88176550fa4ab8520c70b0bcb72012f2ada718fd10f3f3dede74f71e990ee678"
+        },
+        {
+          "bytes": 6810,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/models/REFERENCE_RECHECK.md",
+          "sha256": "2f8b7dbb2b39476f4fd09f7acdc8d56662f1b47bfdad1c2c87f90039f331bc62"
+        }
+      ],
+      "passed": true,
+      "reviewed_conclusion": "7624 independent numerical/completeness comparisons pass; unfavorable historical evidence and conditional model scope retained."
+    },
+    "thermodynamics": {
+      "artifact_roots": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/thermodynamics/final_v4",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/thermodynamics"
+      ],
+      "evidence": [
+        {
+          "bytes": 1802,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/thermodynamics/final_v4_build_binding.json",
+          "sha256": "dac4e878398726e782cab44cca1f803eae0702946307284398897bc66ec9b850"
+        },
+        {
+          "bytes": 4760,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/thermodynamics/final_v4/manifest.json",
+          "sha256": "e8260d0a7a5ceaa68dbd90a3283657c1a90e8cda0d6596526fafae8cffd36037"
+        },
+        {
+          "bytes": 463,
+          "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/thermodynamics/final_v4/summary.json",
+          "sha256": "33a55197d1d182a9f1d2792188935e4c5aabf9a97b6cd9826f468e7e8e3382bc"
+        }
+      ],
+      "passed": true,
+      "reviewed_conclusion": "Analytical scoped replay passes against exact final build; source targets/populations preserved and limits stated."
+    }
+  },
+  "kind": "reviewed_scientific_remediation_admission",
+  "observations": {
+    "bytes": 46035,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/observations_v4/manifest.json",
+    "sha256": "5120602e43e9d914587f94e0d2ea3caa396db2e189586f269ae36127e180ef30"
+  },
+  "optimization_equivalence_policy": "Zero tolerance: exact full outputs/IEEE bits/errors and complete record membership; independent references rerun separately; measured remediation residuals are not optimization tolerances.",
+  "original_audit_seal": {
+    "bytes": 13015961,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/manifest_final.json",
+    "sha256": "c31b655641a352402b14dc2d4535261a9de9c9004979c5e571d78e45cac82f03"
+  },
+  "retained_limitations": [
+    "360-direction B1 discretization and phase sensitivity",
+    "f32 lattice/boundary arithmetic and odd-grid regional normalization",
+    "native radius table/fallback and geometric-center differences from reference conventions",
+    "XYZ distance inference is not authoritative connectivity",
+    "supplied historical populations, conformer completeness and source-energy provenance",
+    "conditional fixed-feature diagnostics, failed folds and uncalibrated intervals",
+    "unresolved Ni-hDA2064 source conflict",
+    "no prospective experimental validation"
+  ],
+  "scientific_global_pass": false,
+  "scope": "Preserve the independently rechecked corrected v4 implementation and explicit supported input/scientific contracts. No claim of universal tool equality, complete thermodynamics or predictive/experimental validity."
+}

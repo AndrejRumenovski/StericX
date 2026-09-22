@@ -1,5 +1,5 @@
 use super::domain::{NeighborCalibration, TrainingGeometry, invert_matrix};
-use super::{MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, expand_features};
+use super::{DescriptorAggregation, MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, expand_features};
 use crate::storage::PackedReactionRecord;
 use serde::{Deserialize, Serialize};
 
@@ -45,7 +45,11 @@ pub struct BaselineReport {
     pub regularization: f64,
     pub weights: [f32; MODEL_FEATURE_COUNT],
     pub training: ModelMetrics,
+    /// Alpha and scaling are nested; the descriptor set remains fixed.
     pub nested_loo: ModelMetrics,
+    /// Scope of the legacy `nested_loo` field; it is not full-pipeline CV.
+    #[serde(default)]
+    pub validation_scope: String,
 }
 
 /// A percentile confidence interval for one raw-scale model coefficient.
@@ -68,7 +72,7 @@ pub struct CoefficientInterval {
 /// Storing the replicates rather than only the per-coefficient percentiles is
 /// what makes a *joint* interval possible: the marginal intervals discard the
 /// correlation between the intercept and the slopes, and recombining them by
-/// interval arithmetic is conservative rather than correct.
+/// interval arithmetic does not guarantee simultaneous coverage.
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub struct BootstrapEnsemble {
     /// How the replicates were generated.
@@ -104,6 +108,9 @@ pub struct FeatureDomain {
 pub struct ScientificFitReport {
     pub schema_version: u32,
     pub model: String,
+    /// Explicit input contract. Old artifacts retain unknown provenance.
+    #[serde(default)]
+    pub descriptor_aggregation: DescriptorAggregation,
     pub training_count: usize,
     pub training_group_count: usize,
     pub feature_names: Vec<String>,
@@ -146,7 +153,7 @@ struct Fit {
     predictions: Vec<f64>,
 }
 
-/// Fits a compact, mechanistically interpretable model to selected records.
+/// Fits a compact OLS model from a fixed descriptor vocabulary.
 ///
 /// Forward selection uses BIC, rejects candidate pairs with absolute
 /// correlation above 0.95, and caps the number of terms below one third of the
@@ -281,7 +288,8 @@ pub fn fit_scientific_model_grouped(
 
     Ok(ScientificFitReport {
         schema_version: 1,
-        model: "mechanistically_constrained_ols".into(),
+        model: "fixed_vocabulary_ols".into(),
+        descriptor_aggregation: DescriptorAggregation::SuppliedRecordValues,
         training_count: training_indices.len(),
         training_group_count,
         feature_names: MODEL_FEATURE_NAMES
@@ -305,6 +313,7 @@ pub fn fit_scientific_model_grouped(
             weights: ridge.weights,
             training: metrics(&targets, &ridge.predictions),
             nested_loo: metrics(&targets, &ridge_loo),
+            validation_scope: "fixed_feature_nested_alpha_loo".into(),
         },
         lasso_baseline: BaselineReport {
             model: "lasso".into(),
@@ -312,6 +321,7 @@ pub fn fit_scientific_model_grouped(
             weights: lasso.weights,
             training: metrics(&targets, &lasso.predictions),
             nested_loo: metrics(&targets, &lasso_loo),
+            validation_scope: "fixed_feature_nested_alpha_loo".into(),
         },
         coefficient_intervals,
         bootstrap_ensemble: Some(bootstrap_ensemble),
@@ -326,7 +336,7 @@ pub fn fit_scientific_model_grouped(
              beyond it a prediction is an extrapolation."
                 .into(),
             "Forward selection used BIC and rejected |r| > 0.95 descriptor pairs.".into(),
-            "LOO, bootstrap, and permutation diagnostics keep the selected descriptor set fixed."
+            "LOO, bootstrap, and permutation diagnostics keep the selected descriptor set fixed; regularized LOO nests alpha/scaling only, not feature selection."
                 .into(),
             "Group LOO holds out every row sharing the same ligand-group label.".into(),
             "A prospective claim still requires an experimentally untouched test set.".into(),

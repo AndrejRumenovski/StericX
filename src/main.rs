@@ -72,6 +72,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             metadata,
             output,
             predictions,
+            descriptor_aggregation,
             max_terms,
             bootstrap,
             permutations,
@@ -111,6 +112,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                 response_sign_convention,
                 omit_bootstrap_ensemble,
                 optimization: optimize.into(),
+                descriptor_aggregation,
             },
         ),
         Command::Evaluate {
@@ -135,6 +137,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             inputs,
             donor_element,
             donor_index,
+            reference_index,
             sterimol_axis,
             format,
             sphere_radius,
@@ -145,6 +148,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             &inputs,
             &donor_element,
             donor_index,
+            reference_index,
             sterimol_axis,
             format,
             BuriedVolumeConfig {

@@ -36,6 +36,36 @@ pub struct Molecule {
     pub atoms: Vec<Atom>,
 }
 
+/// Coordinates together with optional authoritative connectivity.
+/// XYZ has no bond records (`None`); V2000 supplies an explicit graph (`Some`),
+/// including an empty graph when its bond count is zero. Atom indices are zero-based.
+#[derive(Clone, Debug, PartialEq)]
+pub struct MolecularFrame {
+    pub molecule: Molecule,
+    pub bonds: Option<Vec<[usize; 2]>>,
+}
+
+impl MolecularFrame {
+    /// Bonded neighbors from an explicit graph, or `None` for coordinate-only input.
+    #[must_use]
+    pub fn bonded_neighbors(&self, donor: usize) -> Option<Vec<usize>> {
+        self.bonds.as_ref().map(|bonds| {
+            bonds
+                .iter()
+                .filter_map(|&[a, b]| {
+                    if a == donor {
+                        Some(b)
+                    } else if b == donor {
+                        Some(a)
+                    } else {
+                        None
+                    }
+                })
+                .collect()
+        })
+    }
+}
+
 impl Molecule {
     /// Loads one molecule from a standard XYZ coordinate file.
     ///
@@ -84,6 +114,16 @@ impl From<io::Error> for GeometryError {
 
 /// Parses all molecular frames supported by a `.xyz` or `.sdf` file.
 pub fn parse_coordinate_file(path: impl AsRef<Path>) -> Result<Vec<Molecule>, GeometryError> {
+    Ok(parse_coordinate_file_with_topology(path)?
+        .into_iter()
+        .map(|frame| frame.molecule)
+        .collect())
+}
+
+/// Parses coordinates and retains authoritative V2000 bond records.
+pub fn parse_coordinate_file_with_topology(
+    path: impl AsRef<Path>,
+) -> Result<Vec<MolecularFrame>, GeometryError> {
     crate::profile_scope!("file_parsing", "parse_coordinate_file");
     let path = path.as_ref();
     let contents = fs::read_to_string(path)?;
@@ -93,11 +133,13 @@ pub fn parse_coordinate_file(path: impl AsRef<Path>) -> Result<Vec<Molecule>, Ge
         .map(str::to_ascii_lowercase)
         .as_deref()
     {
-        Some("xyz") => Ok(vec![parse_xyz(&contents)?]),
-        Some("sdf") | Some("mol") => parse_sdf(&contents),
+        Some("xyz") => Ok(vec![MolecularFrame {
+            molecule: parse_xyz(&contents)?,
+            bonds: None,
+        }]),
+        Some("sdf") | Some("mol") => parse_sdf_with_topology(&contents),
         extension => Err(GeometryError::Format(format!(
-            "unsupported extension {:?} for {}",
-            extension,
+            "unsupported extension {extension:?} for {}",
             path.display()
         ))),
     }
@@ -132,6 +174,14 @@ pub fn parse_xyz(input: &str) -> Result<Molecule, GeometryError> {
 
 /// Parses one or more V2000 mol blocks from an SDF file.
 pub fn parse_sdf(input: &str) -> Result<Vec<Molecule>, GeometryError> {
+    Ok(parse_sdf_with_topology(input)?
+        .into_iter()
+        .map(|frame| frame.molecule)
+        .collect())
+}
+
+/// Parses V2000 frames with validated explicit connectivity (including zero bonds).
+pub fn parse_sdf_with_topology(input: &str) -> Result<Vec<MolecularFrame>, GeometryError> {
     crate::profile_scope!("file_parsing", "parse_sdf");
     let mut molecules = Vec::new();
     for (block_index, block) in input.split("$$$$").enumerate() {
@@ -162,7 +212,7 @@ pub fn parse_sdf(input: &str) -> Result<Vec<Molecule>, GeometryError> {
     Ok(molecules)
 }
 
-fn parse_mol_block(block: &str, block_number: usize) -> Result<Molecule, GeometryError> {
+fn parse_mol_block(block: &str, block_number: usize) -> Result<MolecularFrame, GeometryError> {
     crate::profile_scope!("file_parsing", "parse_mol_block");
     // The record separator has already been stripped by `parse_sdf`; keep the
     // header intact here (line 0 is the title, which may be blank).
@@ -200,7 +250,59 @@ fn parse_mol_block(block: &str, block_number: usize) -> Result<Molecule, Geometr
         .enumerate()
         .map(|(index, line)| parse_atom_fields(line, index + 5, "SDF"))
         .collect::<Result<Vec<_>, _>>()?;
-    Ok(Molecule { atoms })
+    let bond_count = counts
+        .get(3..6)
+        .unwrap_or("")
+        .trim()
+        .parse::<usize>()
+        .or_else(|_| counts.split_whitespace().nth(1).unwrap_or_default().parse())
+        .map_err(|_| {
+            GeometryError::Format(format!("SDF record {block_number} has invalid bond count"))
+        })?;
+    if lines.len() < 4 + atom_count + bond_count {
+        return Err(GeometryError::Format(format!(
+            "SDF record {block_number} has truncated bond records"
+        )));
+    }
+    let mut bonds = Vec::with_capacity(bond_count);
+    for line in &lines[4 + atom_count..4 + atom_count + bond_count] {
+        let parse_index = |start: usize, token: usize| -> Result<usize, GeometryError> {
+            line.get(start..start + 3)
+                .unwrap_or("")
+                .trim()
+                .parse::<usize>()
+                .or_else(|_| {
+                    line.split_whitespace()
+                        .nth(token)
+                        .unwrap_or_default()
+                        .parse()
+                })
+                .map_err(|_| {
+                    GeometryError::Format(format!(
+                        "SDF record {block_number} has invalid bond atom index"
+                    ))
+                })
+        };
+        let a = parse_index(0, 0)?;
+        let b = parse_index(3, 1)?;
+        if a == 0 || b == 0 || a > atom_count || b > atom_count || a == b {
+            return Err(GeometryError::Format(format!(
+                "SDF record {block_number} has out-of-range or self bond"
+            )));
+        }
+        let pair = [a.min(b) - 1, a.max(b) - 1];
+        if bonds.contains(&pair) {
+            return Err(GeometryError::Format(format!(
+                "SDF record {block_number} has duplicate bond"
+            )));
+        }
+        bonds.push(pair);
+    }
+    bonds.sort_unstable();
+    Ok(MolecularFrame {
+        molecule: Molecule { atoms },
+        bonds: Some(bonds),
+    })
 }
 
 fn parse_atom_fields(line: &str, line_number: usize, format: &str) -> Result<Atom, GeometryError> {
@@ -243,7 +345,7 @@ fn parse_atom_fields(line: &str, line_number: usize, format: &str) -> Result<Ato
 
 /// Returns a conventional van der Waals radius in ångströms.
 ///
-/// Unknown elements use a conservative 1.80 Å fallback instead of preventing
+/// Unknown elements use an unvalidated 1.80 Å fallback instead of preventing
 /// ingestion of otherwise valid coordinate data.
 #[must_use]
 pub fn van_der_waals_radius(element: &str) -> f32 {
@@ -267,7 +369,7 @@ pub fn van_der_waals_radius(element: &str) -> f32 {
 /// Returns a Cordero (2008) single-bond covalent radius in ångströms.
 ///
 /// Used to decide bonded connectivity from Cartesian geometry when explicit
-/// bond records are absent or unreliable. Two atoms are treated as bonded when
+/// bond records are absent. Two atoms are treated as bonded when
 /// their separation is within a small tolerance of the summed covalent radii.
 /// Unknown elements fall back to 0.77 Å (a carbon-like default) rather than
 /// rejecting otherwise valid coordinate data.
@@ -341,7 +443,7 @@ O  0.000000  -1.400000  0.250000
         let sdf = "water\n  stericx\n\n  3  2  0  0  0  0            999 V2000\n\
                    0.0000    0.0000    0.0000 O   0  0\n\
                    0.9500    0.0000    0.0000 H   0  0\n\
-                  -0.2500    0.9200    0.0000 H   0  0\nM  END\n$$$$\n";
+                  -0.2500    0.9200    0.0000 H   0  0\n  1  2  1  0\n  1  3  1  0\nM  END\n$$$$\n";
         let molecules = parse_sdf(sdf).unwrap();
         assert_eq!(molecules.len(), 1);
         assert_eq!(molecules[0].atoms[0].element, "O");
@@ -352,7 +454,7 @@ O  0.000000  -1.400000  0.250000
         // OpenBabel and RDKit routinely write an empty first (title) line.
         let sdf = "\n OpenBabel\n\n  2  1  0  0  0  0            999 V2000\n\
                    0.0000    0.0000    0.0000 P   0  0\n\
-                   0.0000    0.0000    1.4300 C   0  0\nM  END\n$$$$\n";
+                   0.0000    0.0000    1.4300 C   0  0\n  1  2  1  0\nM  END\n$$$$\n";
         let molecules = parse_sdf(sdf).unwrap();
         assert_eq!(molecules.len(), 1);
         assert_eq!(molecules[0].atoms.len(), 2);

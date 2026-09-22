@@ -1,0 +1,99 @@
+[
+  {
+    "name": "format",
+    "argv": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--check"
+    ],
+    "returncode": 0,
+    "seconds": 0.17830300331115723
+  },
+  {
+    "name": "clippy",
+    "argv": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--all-targets",
+      "--all-features",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "returncode": 0,
+    "seconds": 0.4620356559753418
+  },
+  {
+    "name": "rustdoc",
+    "argv": [
+      "cargo",
+      "doc",
+      "--locked",
+      "--no-deps",
+      "--all-features"
+    ],
+    "returncode": 0,
+    "seconds": 2.6463067531585693
+  },
+  {
+    "name": "rust_tests",
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--all-targets",
+      "--all-features"
+    ],
+    "returncode": 0,
+    "seconds": 4.3888256549835205
+  },
+  {
+    "name": "screening_regression",
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "--test",
+      "screening_regression",
+      "--",
+      "--nocapture"
+    ],
+    "returncode": 0,
+    "seconds": 6.940204381942749
+  },
+  {
+    "name": "python_tests",
+    "argv": [
+      "uv",
+      "run",
+      "--frozen",
+      "python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_*.py"
+    ],
+    "returncode": 0,
+    "seconds": 1.0142433643341064
+  },
+  {
+    "name": "study_011",
+    "argv": [
+      "uv",
+      "run",
+      "--frozen",
+      "--extra",
+      "science",
+      "python",
+      "studies/study_011_ligand_ranking.py",
+      "--verify-only"
+    ],
+    "returncode": 0,
+    "seconds": 0.873253583908081
+  }
+]

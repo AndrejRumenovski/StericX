@@ -1,0 +1,16 @@
+{
+  "reason": "Preserve validation header while naming fixed-feature scope; resolves failed header contract in 04, no numerical change",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--test",
+    "cli_screen",
+    "--",
+    "--nocapture"
+  ],
+  "returncode": 0,
+  "log_sha256": "1753c491179ca73106955b8fe2b6834d8f8ed44803e64980780d5fddba263c2d",
+  "source": "src/commands/screen.rs",
+  "source_sha256": "55a19624daedcbc093283f4521fe8c5cd4a2aadd995e32b469a8334bc5becb2d"
+}

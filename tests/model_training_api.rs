@@ -110,7 +110,14 @@ fn training_api_reproduces_the_pre_refactor_report() {
 
     // Artifact identity and descriptor selection.
     assert_eq!(actual.schema_version, expected.schema_version);
-    assert_eq!(actual.model, expected.model);
+    // The archived golden report used a mechanistic claim not imposed by its
+    // equations. The corrected name changes no fitted coefficient or statistic.
+    assert_eq!(actual.model, "fixed_vocabulary_ols");
+    assert_eq!(expected.model, "mechanistically_constrained_ols");
+    assert_eq!(
+        actual.descriptor_aggregation,
+        steric_x::model::DescriptorAggregation::SuppliedRecordValues
+    );
     assert_eq!(actual.training_count, expected.training_count);
     assert_eq!(actual.training_group_count, expected.training_group_count);
     assert_eq!(actual.feature_names, expected.feature_names);
@@ -119,7 +126,17 @@ fn training_api_reproduces_the_pre_refactor_report() {
         expected.selected_feature_indices
     );
     assert_eq!(actual.selected_features, expected.selected_features);
-    assert_eq!(actual.notes, expected.notes);
+    assert_eq!(actual.notes.len(), expected.notes.len());
+    for (index, (a, b)) in actual.notes.iter().zip(&expected.notes).enumerate() {
+        if index == 3 {
+            assert_eq!(
+                a,
+                "LOO, bootstrap, and permutation diagnostics keep the selected descriptor set fixed; regularized LOO nests alpha/scaling only, not feature selection."
+            );
+        } else {
+            assert_eq!(a, b);
+        }
+    }
 
     // Coefficients are f32 and must match exactly, not merely closely.
     assert_eq!(actual.weights, expected.weights, "raw-scale weights");

@@ -1,0 +1,40 @@
+{
+  "build": {
+    "bytes": 29725,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/manifest.json",
+    "sha256": "d79fa7ec5c9e6c1254aa3bd1de665fe4338dde2aabe2401b7bf79a36b5a7bdd3"
+  },
+  "hashed_runtime_caches_not_source": [
+    "scripts/__pycache__/prepare_data.cpython-312.pyc",
+    "scripts/__pycache__/stericx_quantum.cpython-312.pyc"
+  ],
+  "helper": {
+    "bytes": 17528,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/thermodynamics/recheck.py",
+    "sha256": "2c471c5d4a6bf96770cb3db6ce9c86e70b4b9eebfc95eaf4ab4ff79ca3b6d55a"
+  },
+  "kind": "thermodynamics_final_source_build_binding",
+  "native_and_observer_exact_build_match": true,
+  "passed": true,
+  "replay": {
+    "bytes": 4760,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/thermodynamics/final_v4/manifest.json",
+    "sha256": "e8260d0a7a5ceaa68dbd90a3283657c1a90e8cda0d6596526fafae8cffd36037"
+  },
+  "scope": "Binds the scoped independent numerical replay to the complete frozen v4 build; no chemical or sampling validity inferred. Import-generated pyc caches have receipt hashes but are not build source.",
+  "source_files_matched_to_built_snapshot": [
+    "scripts/prepare_data.py",
+    "scripts/stericx_quantum.py",
+    "src/commands/buried_volume.rs",
+    "src/commands/simulate.rs",
+    "src/geometry/buried_volume.rs",
+    "src/kinetics/eyring.rs",
+    "src/kinetics/mod.rs",
+    "src/reaction.rs"
+  ],
+  "summary": {
+    "bytes": 463,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/thermodynamics/final_v4/summary.json",
+    "sha256": "33a55197d1d182a9f1d2792188935e4c5aabf9a97b6cd9826f468e7e8e3382bc"
+  }
+}

@@ -13,17 +13,21 @@
 use crate::cli::{DescriptorFormat, SterimolAxis};
 use crate::descriptors::screening_descriptors_for_file;
 use crate::output::write_atomic_text;
+use crate::reaction::{resolve_xyz_path, weighted_sterimol};
 use rayon::prelude::*;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::error::Error;
 use std::path::{Path, PathBuf};
 use steric_x::model::{
-    BootstrapEnsemble, DatasetDigest, DomainRule, DomainVerdict, FeatureTransform, InferenceSpec,
-    MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, Optimization, PortableModel, assess_applicability,
-    expand_features,
+    BootstrapEnsemble, DatasetDigest, DescriptorAggregation, DomainRule, DomainVerdict,
+    FeatureTransform, InferenceSpec, MODEL_FEATURE_COUNT, MODEL_FEATURE_NAMES, Optimization,
+    PortableModel, assess_applicability, expand_features,
 };
-use steric_x::{BuriedVolumeConfig, EyringKineticLink, PackedReactionRecord, ScientificFitReport};
+use steric_x::{
+    BuriedVolumeConfig, EyringKineticLink, PackedReactionRecord, ScientificFitReport,
+    SterimolCalculator, parse_coordinate_file,
+};
 
 /// The only feature construction this build knows how to build descriptors for.
 const KNOWN_FEATURE_SPACE: &str = "stericx.physical_organic.v1";
@@ -173,9 +177,137 @@ struct Candidate {
     b5: Option<f32>,
     nbo_charge: Option<f32>,
     ir_frequency: Option<f32>,
+    ensemble: Option<ScreenConformerInputs>,
+    computed_steric: Vec<&'static str>,
+}
+
+/// Blinded screening needs geometry/weights/axis, never a fabricated response.
+#[derive(Clone, Debug, Default, Deserialize)]
+struct ScreenConformerInputs {
+    #[serde(rename = "Conformer_XYZ_Paths", alias = "conformer_xyz_paths", default)]
+    paths: Option<String>,
+    #[serde(
+        rename = "Conformer_Boltzmann_Weights",
+        alias = "conformer_boltzmann_weights",
+        default
+    )]
+    weights: Option<String>,
+    #[serde(rename = "Attach_Atom_Idx", alias = "attach_idx", default)]
+    attachment: Option<usize>,
+    #[serde(
+        rename = "Primary_Bond_Vector_Idx",
+        alias = "primary_bond_vector_idx",
+        alias = "axis_atom_idx",
+        default
+    )]
+    axis: Option<usize>,
+}
+
+fn supplied_weight_descriptors(
+    candidate: &Candidate,
+    base: &Path,
+) -> Result<(f32, f32, f32), String> {
+    let inputs = candidate
+        .ensemble
+        .as_ref()
+        .ok_or("supplied_weight_mean requires conformer metadata")?;
+    let paths = match inputs
+        .paths
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())
+    {
+        Some(value) => value
+            .split(';')
+            .map(str::trim)
+            .map(PathBuf::from)
+            .collect::<Vec<_>>(),
+        None => candidate.geometry.iter().cloned().collect(),
+    };
+    if paths.is_empty() || paths.iter().any(|path| path.as_os_str().is_empty()) {
+        return Err(
+            "supplied_weight_mean requires nonempty Conformer_XYZ_Paths or Ligand_XYZ_Path".into(),
+        );
+    }
+    let weights = inputs.weights.as_deref().filter(|value| !value.trim().is_empty())
+        .ok_or("supplied_weight_mean requires explicit Conformer_Boltzmann_Weights; no populations are inferred")?
+        .split(';').map(|value| value.trim().parse::<f32>().map_err(|_| "invalid supplied conformer weight".to_owned()))
+        .collect::<Result<Vec<_>, _>>()?;
+    let attachment = inputs
+        .attachment
+        .ok_or("supplied_weight_mean requires Attach_Atom_Idx")?;
+    let axis = inputs
+        .axis
+        .ok_or("supplied_weight_mean requires Primary_Bond_Vector_Idx")?;
+    let mut parameters = Vec::new();
+    for path in paths {
+        let resolved = resolve_xyz_path(base, &path)?;
+        let molecules = parse_coordinate_file(&resolved).map_err(|error| error.to_string())?;
+        if molecules.len() != 1 {
+            return Err("each weighted conformer path must contain exactly one geometry".into());
+        }
+        parameters.push(
+            SterimolCalculator::compute(&molecules[0], attachment, axis)
+                .map_err(|error| error.to_string())?,
+        );
+    }
+    let mean = weighted_sterimol(&parameters, &weights)?;
+    Ok((mean.l, mean.b1, mean.b5))
+}
+
+fn single_geometry_descriptors(
+    candidate: &Candidate,
+    base: &Path,
+    donor_element: &str,
+    sterimol_axis: SterimolAxis,
+    config: BuriedVolumeConfig,
+) -> Result<(f32, f32, f32), String> {
+    let inputs = candidate.ensemble.as_ref();
+    let conformer_path = inputs
+        .and_then(|inputs| inputs.paths.as_deref())
+        .filter(|paths| !paths.trim().is_empty());
+    let path = match conformer_path {
+        Some(paths) if paths.split(';').count() == 1 => PathBuf::from(paths.trim()),
+        Some(_) => return Err("single_geometry input lists multiple conformers".into()),
+        None => candidate
+            .geometry
+            .clone()
+            .ok_or("single_geometry requires a geometry path")?,
+    };
+    let path = resolve_xyz_path(base, &path)?;
+    match (inputs.and_then(|inputs| inputs.attachment), inputs.and_then(|inputs| inputs.axis)) {
+        (Some(attachment), Some(axis)) => {
+            let molecules = parse_coordinate_file(&path).map_err(|error| error.to_string())?;
+            if molecules.len() != 1 {
+                return Err("single_geometry requires exactly one geometry".into());
+            }
+            let values = SterimolCalculator::compute(&molecules[0], attachment, axis)
+                .map_err(|error| error.to_string())?;
+            Ok((values.l, values.b1, values.b5))
+        }
+        (None, None) => {
+            let values = screening_descriptors_for_file(&path, donor_element, None, sterimol_axis, config)?;
+            if values.conformers != 1 {
+                return Err("single_geometry requires exactly one geometry".into());
+            }
+            Ok((values.sterimol_l, values.sterimol_b1, values.sterimol_b5))
+        }
+        _ => Err("single_geometry requires both Attach_Atom_Idx and Primary_Bond_Vector_Idx when either is supplied".into()),
+    }
 }
 
 impl Candidate {
+    fn fill_steric(&mut self, values: (f32, f32, f32)) {
+        for (name, slot, value) in [
+            ("sterimol_l", &mut self.l, values.0),
+            ("sterimol_b1", &mut self.b1, values.1),
+            ("sterimol_b5", &mut self.b5, values.2),
+        ] {
+            if slot.is_none() {
+                *slot = Some(value);
+                self.computed_steric.push(name);
+            }
+        }
+    }
     fn to_record(&self) -> PackedReactionRecord {
         PackedReactionRecord {
             l: self.l.unwrap_or(0.0),
@@ -221,6 +353,12 @@ impl Candidate {
             value.map(|value| DescriptorValue {
                 name: name.to_owned(),
                 value: f64::from(value),
+                source: if self.computed_steric.contains(&name) {
+                    "computed_from_geometry_under_declared_aggregation"
+                } else {
+                    "supplied_value_caller_provenance"
+                }
+                .to_owned(),
             })
         })
         .collect()
@@ -322,6 +460,7 @@ fn resolve_order(
 struct DescriptorValue {
     name: String,
     value: f64,
+    source: String,
 }
 
 /// A library member that could not be screened, and why.
@@ -580,11 +719,11 @@ struct ScreenHit {
     predicted_ddg_kcal_mol: f64,
     /// The descriptor values this prediction consumed, in model order.
     descriptors: Vec<DescriptorValue>,
-    /// Conservative bounds from the bootstrap coefficient intervals. NOT an
-    /// OLS prediction interval — see the note emitted with the report.
+    /// Envelope of marginal bootstrap coefficient intervals, with no guaranteed
+    /// joint coverage. Not an OLS prediction interval.
     coefficient_band_low: Option<f64>,
     coefficient_band_high: Option<f64>,
-    /// True 95 % prediction interval `ŷ ± t·s·√(1+h)`, when the model carries
+    /// Nominal 95 % prediction interval `ŷ ± t·s·√(1+h)`, when the model carries
     /// the training geometry needed to compute one.
     prediction_interval_low: Option<f64>,
     prediction_interval_high: Option<f64>,
@@ -608,6 +747,7 @@ struct ScreenHit {
     nearest_training_ratio: Option<f64>,
     /// Mahalanobis distance, when the training covariance supports one.
     mahalanobis_distance: Option<f64>,
+    mahalanobis_unavailable: Option<String>,
     /// Largest range overshoot as a fraction of the training range width.
     maximum_extrapolation: f64,
     /// Percentile-bootstrap interval for the fitted mean response, when the
@@ -632,6 +772,8 @@ struct ScreenHit {
 struct ScreenReport {
     model_path: String,
     model: String,
+    descriptor_aggregation: DescriptorAggregation,
+    descriptor_aggregation_note: String,
     selected_features: Vec<String>,
     required_inputs: Vec<String>,
     training_count: usize,
@@ -897,6 +1039,8 @@ fn write_candidate_deck(path: &Path, report: &ScreenReport) -> Result<PathBuf, B
         "provenance": report.provenance,
         "model_context": {
             "model": report.model,
+            "descriptor_aggregation": report.descriptor_aggregation,
+            "descriptor_aggregation_note": report.descriptor_aggregation_note,
             "model_id": report.provenance.model_id,
             "target": report.target,
             "target_units": report.target_units,
@@ -1123,10 +1267,15 @@ fn load_library(
     donor_element: &str,
     sterimol_axis: SterimolAxis,
     config: BuriedVolumeConfig,
+    aggregation: DescriptorAggregation,
+    required: RequiredInputs,
 ) -> Result<LoadedLibrary, Box<dyn Error>> {
     steric_x::profile_scope!("orchestration", "commands::screen::load_library");
     let mut excluded = Vec::new();
     if library.is_dir() {
+        if aggregation != DescriptorAggregation::SingleGeometry {
+            return Err(format!("model descriptor_aggregation={} does not permit substituting a single-geometry library; supply matching precomputed descriptor columns, or explicitly declare a verified single_geometry training method. supplied_weight_mean requires a CSV with conformer paths, explicit weights and axis indices", aggregation.label()).into());
+        }
         let mut paths = Vec::new();
         collect_coordinate_files(library, &mut paths)?;
         paths.sort();
@@ -1147,13 +1296,21 @@ fn load_library(
                     sterimol_axis,
                     config,
                 ) {
-                    Ok(result) => Ok(Candidate {
+                    Ok(result) if result.conformers == 1 => Ok(Candidate {
                         library_index: 0,
                         label: result.file.clone(),
                         l: Some(result.sterimol_l),
                         b1: Some(result.sterimol_b1),
                         b5: Some(result.sterimol_b5),
+                        computed_steric: vec!["sterimol_l", "sterimol_b1", "sterimol_b5"],
                         ..Candidate::default()
+                    }),
+                    Ok(_) => Err(Exclusion {
+                        ligand: path.display().to_string(),
+                        reason: "aggregation_mismatch".to_owned(),
+                        missing_descriptors: Vec::new(),
+                        detail: "single_geometry model requires exactly one geometry per candidate"
+                            .to_owned(),
                     }),
                     Err(message) => Err(Exclusion {
                         ligand: path.display().to_string(),
@@ -1243,6 +1400,22 @@ fn load_library(
                 row + 2
             )
         })?;
+        if let Some(column) = headers
+            .iter()
+            .position(|name| name.eq_ignore_ascii_case("descriptor_aggregation"))
+            && let Some(declared) = record.get(column).filter(|value| !value.trim().is_empty())
+        {
+            let declared = DescriptorAggregation::from_label(declared)?;
+            if aggregation != DescriptorAggregation::Unknown && declared != aggregation {
+                return Err(format!(
+                    "library row {} declares aggregation {}, model requires {}",
+                    row + 2,
+                    declared.label(),
+                    aggregation.label()
+                )
+                .into());
+            }
+        }
         let label = columns["label"]
             .and_then(|index| record.get(index))
             .map(|value| value.trim().to_owned())
@@ -1266,6 +1439,15 @@ fn load_library(
             b5: number(&record, columns["b5"]),
             nbo_charge: number(&record, columns["nbo_charge"]),
             ir_frequency: number(&record, columns["ir_frequency"]),
+            ensemble: if matches!(
+                aggregation,
+                DescriptorAggregation::SuppliedWeightMean | DescriptorAggregation::SingleGeometry
+            ) {
+                Some(record.deserialize(Some(&headers))?)
+            } else {
+                None
+            },
+            computed_steric: Vec::new(),
         });
     }
     if candidates.is_empty() {
@@ -1278,45 +1460,68 @@ fn load_library(
     // the rows point at geometries, featurize them so a model mixing steric and
     // electronic terms can be screened from the CSV the user already has.
     let mut available = available;
-    if !(available.l && available.b1 && available.b5) && columns["geometry"].is_some() {
+    let needs_geometry = |candidate: &Candidate| {
+        (required.l && candidate.l.is_none())
+            || (required.b1 && candidate.b1.is_none())
+            || (required.b5 && candidate.b5.is_none())
+    };
+    if candidates.iter().any(needs_geometry)
+        && (columns["geometry"].is_some()
+            || headers
+                .iter()
+                .any(|header| header.eq_ignore_ascii_case("conformer_xyz_paths"))
+            || aggregation == DescriptorAggregation::SuppliedWeightMean)
+    {
+        if matches!(
+            aggregation,
+            DescriptorAggregation::Unknown | DescriptorAggregation::SuppliedRecordValues
+        ) {
+            return Err(format!("model descriptor_aggregation={} cannot infer descriptor populations from geometry; provide precomputed sterimol_l/sterimol_b1/sterimol_b5 columns matching training inputs. Declare single_geometry or supplied_weight_mean only when that method is established for the training records", aggregation.label()).into());
+        }
         let base = library.parent().unwrap_or(Path::new("."));
-        let featurized = candidates
-            .par_iter()
-            .map(|candidate| {
-                let path = candidate.geometry.as_ref()?;
-                let resolved = if path.is_file() {
-                    path.clone()
-                } else if base.join(path).is_file() {
-                    base.join(path)
-                } else {
-                    // Left unfeaturized; the screening loop reports the ligand
-                    // as missing whichever descriptors the model needs.
-                    return None;
-                };
-                match screening_descriptors_for_file(
-                    &resolved,
-                    donor_element,
-                    None,
-                    sterimol_axis,
-                    config,
-                ) {
-                    Ok(result) => Some((result.sterimol_l, result.sterimol_b1, result.sterimol_b5)),
-                    Err(_) => None,
-                }
+        if aggregation == DescriptorAggregation::SingleGeometry
+            && candidates.iter().any(|candidate| {
+                needs_geometry(candidate)
+                    && candidate
+                        .ensemble
+                        .as_ref()
+                        .and_then(|inputs| inputs.paths.as_deref())
+                        .is_some_and(|paths| {
+                            paths.split(';').filter(|p| !p.trim().is_empty()).count() > 1
+                        })
             })
-            .collect::<Vec<_>>();
-        if featurized.iter().any(Option::is_some) {
-            for (candidate, sterimol) in candidates.iter_mut().zip(featurized) {
-                if let Some((l, b1, b5)) = sterimol {
-                    candidate.l = candidate.l.or(Some(l));
-                    candidate.b1 = candidate.b1.or(Some(b1));
-                    candidate.b5 = candidate.b5.or(Some(b5));
+        {
+            return Err("single_geometry input lists multiple conformers; supply matching precomputed values or a correctly declared supplied_weight_mean model".into());
+        }
+        if aggregation == DescriptorAggregation::SuppliedWeightMean {
+            for candidate in &mut candidates {
+                if needs_geometry(candidate) {
+                    let (l, b1, b5) = supplied_weight_descriptors(candidate, base)
+                        .map_err(|message| format!("{}: {message}", candidate.label))?;
+                    candidate.fill_steric((l, b1, b5));
                 }
             }
             available.l = true;
             available.b1 = true;
             available.b5 = true;
+            return Ok((candidates, available, excluded));
         }
+        for candidate in &mut candidates {
+            if needs_geometry(candidate) {
+                let values = single_geometry_descriptors(
+                    candidate,
+                    base,
+                    donor_element,
+                    sterimol_axis,
+                    config,
+                )
+                .map_err(|message| format!("{}: {message}", candidate.label))?;
+                candidate.fill_steric(values);
+            }
+        }
+        available.l = true;
+        available.b1 = true;
+        available.b5 = true;
     }
     Ok((candidates, available, excluded))
 }
@@ -1420,11 +1625,10 @@ fn empirical_percentile(sorted: &[f64], probability: f64) -> Option<f64> {
 
 /// Propagate the bootstrap coefficient intervals through one feature vector.
 ///
-/// This is deliberately interval arithmetic over each coefficient's 95 % band,
-/// which ignores the correlation between coefficients and so is *conservative*
-/// (wider than a joint region). It is a parameter-uncertainty band, not a
-/// prediction interval: `model.json` does not carry the training design matrix
-/// an OLS prediction interval would need.
+/// This is an envelope from separate marginal 95% coefficient intervals.
+/// It discards coefficient dependence and has no universal joint coverage
+/// guarantee. It is not a prediction interval or a simultaneous confidence
+/// region; the separate joint bootstrap preserves coefficient dependence.
 fn coefficient_band(report: &ScientificFitReport, features: &[f32; 8]) -> Option<(f64, f64)> {
     steric_x::profile_scope!("uncertainty", "commands::screen::coefficient_band");
     if report.coefficient_intervals.is_empty() {
@@ -1483,12 +1687,12 @@ fn domain_exceedances(report: &ScientificFitReport, features: &[f32; 8]) -> Vec<
         .collect()
 }
 
-/// Grade how much a prediction deserves trust, from two independent signals:
+/// Describe range and leverage diagnostics without asserting calibrated reliability:
 /// whether every selected feature lies inside the training range (a 1-D box
 /// check) and whether the ligand's leverage stays under `h* = 3p/n` (a check in
 /// the correlated geometry the fit actually defines). They can disagree — a
 /// ligand can sit inside every 1-D range yet still be far from the training
-/// cloud — so both are reported and the worse one governs.
+/// cloud — so both are reported. Neither establishes chemical reliability.
 fn trust_grade(inside_range: bool, leverage_ratio: Option<f64>) -> String {
     match (inside_range, leverage_ratio) {
         (_, None) => {
@@ -1498,10 +1702,10 @@ fn trust_grade(inside_range: bool, leverage_ratio: Option<f64>) -> String {
                 "range_only:outside".to_owned()
             }
         }
-        (true, Some(ratio)) if ratio <= 1.0 => "reliable".to_owned(),
-        (true, Some(_)) => "caution:high_leverage".to_owned(),
-        (false, Some(ratio)) if ratio <= 1.0 => "caution:outside_range".to_owned(),
-        (false, Some(_)) => "do_not_trust:extrapolation".to_owned(),
+        (true, Some(ratio)) if ratio <= 1.0 => "inside_range:ordinary_leverage".to_owned(),
+        (true, Some(_)) => "inside_range:high_leverage".to_owned(),
+        (false, Some(ratio)) if ratio <= 1.0 => "outside_range:ordinary_leverage".to_owned(),
+        (false, Some(_)) => "outside_range:high_leverage".to_owned(),
     }
 }
 
@@ -1529,6 +1733,8 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         args.donor_element,
         args.sterimol_axis,
         args.config,
+        report.descriptor_aggregation,
+        required,
     )?;
     let library_size = candidates.len();
 
@@ -1722,6 +1928,7 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             nearest_training_threshold: applicability.nearest_training_threshold,
             nearest_training_ratio: applicability.nearest_training_ratio,
             mahalanobis_distance: applicability.mahalanobis_distance,
+            mahalanobis_unavailable: applicability.mahalanobis_unavailable,
             maximum_extrapolation: applicability.maximum_extrapolation,
             uncertainty,
             standardized_point: report
@@ -1892,6 +2099,13 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
     let report = ScreenReport {
         model_path: args.model.display().to_string(),
         model: report.model.clone(),
+        descriptor_aggregation: report.descriptor_aggregation,
+        descriptor_aggregation_note: match report.descriptor_aggregation {
+            DescriptorAggregation::Unknown => "legacy model did not record aggregation; only supplied descriptor values were accepted. The caller must establish consistency with training inputs; geometry substitution is disabled",
+            DescriptorAggregation::SuppliedRecordValues => "supplied descriptor values are used as recorded; their population/source provenance is not inferred. The caller must use the same descriptor definitions and aggregation as the training records",
+            DescriptorAggregation::SingleGeometry => "training declares one geometry per descriptor. Geometry inputs are restricted to one geometry. Explicit CSV bond-axis indices are honored; otherwise the declared CLI donor/axis convention is used. The caller must match training axes, radii and preparation; supplied/computed mixtures retain caller provenance",
+            DescriptorAggregation::SuppliedWeightMean => "geometry CSV inputs use every listed conformer, explicit supplied weights and explicit bond-axis indices through the reaction aggregation kernel. Weights are not asserted to be thermodynamic populations; any supplied descriptors, including mixtures with computed descriptors, retain caller provenance and are not verified means",
+        }.to_owned(),
         selected_features: report.selected_features.clone(),
         required_inputs: required_input_names(required),
         training_count: report.training_count,
@@ -2035,7 +2249,7 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
         } else {
             Some(
                 "the model carries no bootstrap ensemble, so no bootstrap interval is \
-                 reported; refit with a schema-2 portable model to record one"
+                 reported; refit with a schema-3 portable model to record one"
                     .to_owned(),
             )
         },
@@ -2043,16 +2257,18 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
             "prediction_interval is a 95% Student-t interval y ± t(0.975, n−p)·s·√(1+h): it \
              widens with leverage, so a ligand far from the training set is reported with a \
              correspondingly wider band. Leverage h is compared against the conventional \
-             warning leverage h* = 3p/n. coefficient_band remains the conservative bootstrap \
-             propagation and is the weaker of the two signals."
+             warning leverage h* = 3p/n. These are nominal intervals conditional on the fixed \
+             linear model and IID homoscedastic normal errors, not calibrated chemical \
+             reliability. coefficient_band is a marginal-coefficient envelope without a \
+             universal coverage guarantee."
                 .to_owned()
         } else {
             "this model predates the recorded training geometry, so no leverage or prediction \
              interval can be computed — the domain check falls back to a per-feature range test \
              only. Refit with `stericx fit` to enable leverage-based extrapolation detection. \
              coefficient_band propagates the bootstrap 95% coefficient intervals by interval \
-             arithmetic; it ignores coefficient correlation (so it is conservative) and is NOT \
-             an OLS prediction interval."
+             arithmetic; it ignores coefficient dependence and has no universal joint coverage \
+             guarantee. It is NOT an OLS prediction interval."
                 .to_owned()
         },
         hits,
@@ -2124,6 +2340,8 @@ fn print_screen_text(report: &ScreenReport) {
             .map_or_else(String::new, |units| format!(" [{units}]"))
     );
     println!("selected       {}", report.selected_features.join(", "));
+    println!("aggregation    {}", report.descriptor_aggregation.label());
+    println!("input method   {}", report.descriptor_aggregation_note);
     println!("requires       {}", report.required_inputs.join(", "));
     println!(
         "trained on     {} ligands   training R² {}   RMSE {:.3} kcal/mol",
@@ -2132,7 +2350,7 @@ fn print_screen_text(report: &ScreenReport) {
         report.training_rmse_kcal_mol
     );
     println!(
-        "validation     LOO Q² {}   LOO RMSE {:.3} kcal/mol   group-LOO Q² {}",
+        "validation     fixed-feature LOO Q² {}   LOO RMSE {:.3} kcal/mol   group-LOO Q² {}",
         quality(report.loo_q2),
         report.loo_rmse_kcal_mol,
         quality(report.group_loo_q2)
@@ -2365,14 +2583,19 @@ fn print_screen_text(report: &ScreenReport) {
             },
             match hit.mahalanobis_distance {
                 Some(distance) => format!("  mahalanobis {distance:.3}"),
-                None => String::new(),
+                None => format!(
+                    "  mahalanobis unavailable: {}",
+                    hit.mahalanobis_unavailable
+                        .as_deref()
+                        .unwrap_or("not estimable")
+                ),
             }
         );
     }
     let untrusted = report
         .hits
         .iter()
-        .filter(|hit| hit.trust.starts_with("do_not_trust"))
+        .filter(|hit| hit.trust == "outside_range:high_leverage")
         .collect::<Vec<_>>();
     if !untrusted.is_empty() {
         println!(
@@ -2493,7 +2716,8 @@ fn print_screen_csv(report: &ScreenReport) {
          bootstrap_lower,bootstrap_upper,bootstrap_method,bootstrap_level,bootstrap_replicates,\
          applicability,outside_features,\
          stericx_version,model_id,model_sha256,library_sha256,\
-         selection_step,selection_ranking_position,selection_separation,selection_objective"
+         selection_step,selection_ranking_position,selection_separation,selection_objective,\
+         mahalanobis_unavailable,descriptor_sources,descriptor_aggregation"
     );
     for hit in &report.hits {
         // Full round-trip precision: a screened prediction must reproduce the
@@ -2502,7 +2726,7 @@ fn print_screen_csv(report: &ScreenReport) {
             |value: Option<f64>| value.map_or_else(String::new, |value| format!("{value}"));
         println!(
             "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},\
-             {},{},{},{}",
+             {},{},{},{},{},{},{}",
             hit.rank,
             crate::descriptors::csv_field(&hit.ligand),
             crate::descriptors::csv_field(hit.ligand_name.as_deref().unwrap_or_default()),
@@ -2556,7 +2780,18 @@ fn print_screen_csv(report: &ScreenReport) {
             format_bound(hit.selection.as_ref().and_then(|s| s.separation)),
             hit.selection
                 .as_ref()
-                .map_or_else(String::new, |s| s.objective.to_string())
+                .map_or_else(String::new, |s| s.objective.to_string()),
+            crate::descriptors::csv_field(
+                hit.mahalanobis_unavailable.as_deref().unwrap_or_default()
+            ),
+            crate::descriptors::csv_field(
+                &hit.descriptors
+                    .iter()
+                    .map(|d| format!("{}={}", d.name, d.source))
+                    .collect::<Vec<_>>()
+                    .join("|")
+            ),
+            report.descriptor_aggregation.label(),
         );
     }
 }

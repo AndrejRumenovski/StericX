@@ -1,8 +1,8 @@
 # StericX Study 004 — Buried-Volume Descriptor Family
 
-## Reproducing the whole `vbur` family, not one descriptor
+## Historical comparison of eight absolute buried-volume fields
 
-Study 004 validated a single Kraken descriptor across the full set. The same buried-volume kernel run produces Kraken's entire `vbur` family, so this study compares all of it against Kraken's *published* values over 1541 ligands. Each descriptor is reduced to its minimum over the conformer ensemble, matching Kraken's `*_min` convention. StericX values are read from the committed per-conformer table; Kraken values come from the public MolSSI API. Nothing is recomputed.
+Study 004 validated a single Kraken descriptor across the full set. This study compares eight absolute buried-volume fields against Kraken's *published* values over 1541 ligands. It does not reproduce the full published vocabulary: distal/total molecular volumes, ratios and source-energy Boltzmann reductions are outside this comparison. Each descriptor is reduced to its minimum over the conformer ensemble, matching Kraken's `*_min` convention. StericX values are read from the committed per-conformer table; Kraken values come from the public MolSSI API. Nothing is recomputed.
 
 | Descriptor | Kraken property | R² | Pearson r | RMSE (Å³) | Median abs. err (Å³) |
 |---|---|---:|---:|---:|---:|
@@ -15,7 +15,7 @@ Study 004 validated a single Kraken descriptor across the full set. The same bur
 | far-hemisphere V_bur | `vbur_far_vbur` | 0.9940 | 0.9980 | 0.3707 | 0.0000 |
 | max Δ quadrant V_bur | `vbur_max_delta_qvbur` | 0.9852 | 0.9927 | 0.4906 | 0.1115 |
 
-Across the eight descriptors the mean R² is **0.9925**. The single buried-volume kernel reproduces not just the headline `max_delta_qvbur` but the buried volume itself, the quadrant and octant extremes, and the near/far hemispheres — each against Kraken's own published numbers, across the whole library. The near/far hemispheres match in the correct sense (no axis swap), confirming the octant partitioning is oriented as Kraken's.
+Across the eight descriptors the mean R² is **0.9925**. The single buried-volume kernel reproduces not just the headline `max_delta_qvbur` but the buried volume itself, the quadrant and octant extremes, and the near/far hemispheres — each against Kraken's own published numbers, across the whole library. The near/far comparison supports the sign convention on these structures; it does not prove identical regional grid definitions at every density. The independent audit found odd-grid boundary and normalization differences (G17–G20).
 
 ![Family parity](kraken_vbur_family_parity.png)
 

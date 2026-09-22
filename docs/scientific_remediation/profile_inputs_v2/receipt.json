@@ -1,0 +1,109 @@
+{
+  "manifest": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/corrected_workloads_v2/workloads/manifest.json",
+    "bytes": 22929020,
+    "sha256": "a1041cc07fc5583c33d2a7cf584dbc638866c64bdd0b64e3720ef83cc85e1e6a"
+  },
+  "build": {
+    "bytes": 29725,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/validated_build_v4/manifest.json",
+    "sha256": "d79fa7ec5c9e6c1254aa3bd1de665fe4338dde2aabe2401b7bf79a36b5a7bdd3"
+  },
+  "input_bundle": {
+    "bytes": 41080,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/ni_hda_response_metadata_v2/manifest.json",
+    "sha256": "1efaf1f478ac9129da619622a6b1aac832b4c0c411c6ee54d4afdcb1e6629b73"
+  },
+  "helper": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/prepare_corrected_profile.py",
+    "bytes": 28561,
+    "sha256": "2656a6051e9821d89c7db15f31324ad5660590b18a99a06a4e65b5c4113ce1f6"
+  },
+  "verifier": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/profile_inputs_v2/verify.py",
+    "bytes": 3603,
+    "sha256": "24985045da9b0f24c87ff5ab4e600a78615d9517eed8b179cc0e677e9176c1b2"
+  },
+  "tests": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/tests/test_corrected_profile_preparation.py",
+    "bytes": 7462,
+    "sha256": "6a59410eed6d3e654396bee0e7bd78481e118f608fb01e88f0dade0a105203f0"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_corrected_profile_preparation.py"
+      ],
+      "returncode": 0,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/profile_inputs_v2/tests.log",
+        "bytes": 106,
+        "sha256": "c6352adff70a6982c739a1cd77bbb43d2425eefd2dc2112b92b0ceebf2a6ca31"
+      }
+    },
+    {
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/ruff",
+        "check",
+        "scripts/prepare_corrected_profile.py",
+        "tests/test_corrected_profile_preparation.py"
+      ],
+      "returncode": 0,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/profile_inputs_v2/lint.log",
+        "bytes": 19,
+        "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+      }
+    },
+    {
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/ruff",
+        "format",
+        "--check",
+        "scripts/prepare_corrected_profile.py",
+        "tests/test_corrected_profile_preparation.py"
+      ],
+      "returncode": 0,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/profile_inputs_v2/format.log",
+        "bytes": 26,
+        "sha256": "3bc53bf3e981a98a34a852e175bf9b77af841edea74fca595d9aedcbaf9a4938"
+      }
+    }
+  ],
+  "all_checks_passed": true,
+  "manifest_files_reverified": 41718,
+  "source_copy_pairs": 74,
+  "native_preparation_returncodes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "selected_molecules": 1543,
+  "selected_conformers": 31618,
+  "excluded_molecules": 23,
+  "workload_expected_records": {
+    "conformers_56": 56,
+    "db_build_ensembles": 11,
+    "descriptors_10000": 10000,
+    "ensemble_sdf": 1,
+    "parse_ensembles_1000": 1000,
+    "predict_1000000": 1000000,
+    "screen_1000": 1000,
+    "search_database": 1543,
+    "single_large": 1,
+    "single_small": 1
+  },
+  "ensemble_molecule": 1170,
+  "ensemble_conformers": 86,
+  "benchmarks_run": false,
+  "scientific_acceptance": "pending independent final gates; input preparation does not establish scientific validity"
+}

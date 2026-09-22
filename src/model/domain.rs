@@ -1,8 +1,8 @@
 //! Applicability domain and predictive uncertainty for a fitted model.
 //!
-//! A regression can return a number for any input; whether that number deserves
-//! trust is a separate question. This module carries the training-set geometry
-//! needed to answer it honestly:
+//! A regression can return a number for any input. This module reports
+//! descriptor-space diagnostics and conditional model uncertainty; neither
+//! establishes chemical reliability:
 //!
 //! * **Leverage** `h = x'(X'X)⁻¹x` measures how far a candidate sits from the
 //!   centre of the training design, in the metric the fit itself defines. The
@@ -10,8 +10,8 @@
 //!   extrapolation supported by little or no nearby training data. This is the
 //!   same criterion the project's own Study 003 pre-registration applies.
 //! * **Prediction interval** `ŷ ± t(0.975, n−p)·s·√(1+h)` widens automatically
-//!   with leverage, so a distant ligand is reported with a correspondingly
-//!   honest error bar rather than a falsely precise one.
+//!   with leverage under the fixed linear model and IID homoscedastic normal
+//!   error assumptions. It does not guarantee empirical or chemical coverage.
 
 use crate::model::{FeatureDomain, MODEL_FEATURE_COUNT};
 use serde::{Deserialize, Serialize};
@@ -259,6 +259,9 @@ pub struct DescriptorExceedance {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub struct ApplicabilityAssessment {
     pub verdict: DomainVerdict,
+    /// The entire assessment is unavailable when its input metadata is invalid.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub unavailable: Option<String>,
     /// Euclidean distance in standardized descriptor space to the closest
     /// training observation.
     pub nearest_training_distance: Option<f64>,
@@ -279,14 +282,14 @@ pub struct ApplicabilityAssessment {
     pub mahalanobis_distance: Option<f64>,
     /// Why Mahalanobis was not reported, when it was not.
     pub mahalanobis_unavailable: Option<String>,
-    /// Descriptors outside their training range, empty when all are inside.
+    /// Descriptors outside their training range; empty also when assessment is unavailable.
     pub outside_range: Vec<DescriptorExceedance>,
     /// Largest `normalized_exceedance`, or zero when every descriptor is inside.
     pub maximum_extrapolation: f64,
 }
 
 fn euclidean(left: &[f64], right: &[f64]) -> Option<f64> {
-    if left.len() != right.len() {
+    if left.is_empty() || left.len() != right.len() {
         return None;
     }
     let squared = left
@@ -298,9 +301,92 @@ fn euclidean(left: &[f64], right: &[f64]) -> Option<f64> {
 }
 
 impl TrainingGeometry {
+    /// Validate persisted numerical geometry before it can be used for inference.
+    /// This checks structure and finiteness, not experimental applicability.
+    pub fn validate(&self) -> Result<(), String> {
+        let columns = self.feature_indices.len();
+        if self.observations == 0
+            || self.parameters != columns + 1
+            || self.means.len() != columns
+            || self.scales.len() != columns
+            || self
+                .feature_indices
+                .iter()
+                .any(|&i| i == 0 || i >= MODEL_FEATURE_COUNT)
+            || self
+                .feature_indices
+                .iter()
+                .enumerate()
+                .any(|(i, value)| self.feature_indices[..i].contains(value))
+        {
+            return Err("training geometry has inconsistent dimensions or feature indices".into());
+        }
+        if self.means.iter().any(|value| !value.is_finite())
+            || self
+                .scales
+                .iter()
+                .any(|value| !value.is_finite() || *value <= 0.0)
+            || !self.residual_standard_error.is_finite()
+            || self.residual_standard_error < 0.0
+            || !self.warning_leverage.is_finite()
+            || self.warning_leverage < 0.0
+        {
+            return Err("training geometry contains invalid scales or nonfinite statistics".into());
+        }
+        if self.xtx_inverse.len() != self.parameters
+            || self.xtx_inverse.iter().any(|row| {
+                row.len() != self.parameters || row.iter().any(|value| !value.is_finite())
+            })
+        {
+            return Err("stored design inverse is not a finite square parameter matrix".into());
+        }
+        for i in 0..self.parameters {
+            if self.xtx_inverse[i][i] <= 0.0 {
+                return Err("stored design inverse has a nonpositive diagonal".into());
+            }
+            for j in 0..i {
+                let (a, b) = (self.xtx_inverse[i][j], self.xtx_inverse[j][i]);
+                if (a - b).abs() > 1.0e-10 * a.abs().max(b.abs()).max(1.0) {
+                    return Err("stored design inverse is not symmetric".into());
+                }
+            }
+        }
+        if !self.standardized_training_points.is_empty()
+            && (self.standardized_training_points.len() != self.observations
+                || self
+                    .standardized_training_points
+                    .iter()
+                    .any(|row| row.len() != columns || row.iter().any(|value| !value.is_finite())))
+        {
+            return Err(
+                "training covariance is not estimable from inconsistent stored points".into(),
+            );
+        }
+        if !self.training_labels.is_empty() && self.training_labels.len() != self.observations {
+            return Err("training geometry labels do not match observations".into());
+        }
+        if let Some(calibration) = &self.neighbor_calibration
+            && [
+                calibration.mean,
+                calibration.standard_deviation,
+                calibration.median,
+                calibration.maximum,
+                calibration.threshold,
+            ]
+            .iter()
+            .any(|value| !value.is_finite() || *value < 0.0)
+        {
+            return Err("nearest-neighbor calibration must be finite and nonnegative".into());
+        }
+        Ok(())
+    }
+
     /// Standardized design vector for one expanded feature row.
     #[must_use]
     pub fn design_vector(&self, expanded: &[f32; MODEL_FEATURE_COUNT]) -> Vec<f64> {
+        if self.validate().is_err() {
+            return Vec::new();
+        }
         let mut design = Vec::with_capacity(self.parameters);
         design.push(1.0);
         for ((index, mean), scale) in self
@@ -310,7 +396,7 @@ impl TrainingGeometry {
             .zip(&self.scales)
         {
             let value = f64::from(expanded[*index]);
-            design.push((value - mean) / scale.max(EPSILON));
+            design.push((value - mean) / scale);
         }
         design
     }
@@ -319,7 +405,8 @@ impl TrainingGeometry {
     #[must_use]
     pub fn leverage(&self, expanded: &[f32; MODEL_FEATURE_COUNT]) -> Option<f64> {
         let design = self.design_vector(expanded);
-        if self.xtx_inverse.len() != design.len()
+        if design.len() != self.parameters
+            || self.xtx_inverse.len() != design.len()
             || self.xtx_inverse.iter().any(|row| row.len() != design.len())
         {
             return None;
@@ -330,7 +417,7 @@ impl TrainingGeometry {
                 leverage += left * value * right;
             }
         }
-        leverage.is_finite().then_some(leverage)
+        (leverage.is_finite() && leverage >= 0.0).then_some(leverage)
     }
 
     /// Residual degrees of freedom `n − p`.
@@ -346,13 +433,15 @@ impl TrainingGeometry {
     pub fn t_multiplier(&self) -> Option<f64> {
         self.degrees_of_freedom()
             .map(|df| student_t_two_sided_quantile(0.05, df as f64))
+            .filter(|value| value.is_finite())
     }
 
     /// 95 % prediction interval for a new observation: `ŷ ± t·s·√(1+h)`.
     ///
     /// This is the interval for an individual future measurement, so it carries
     /// both the parameter uncertainty (through `h`) and the residual scatter
-    /// (through `s`) — the honest band to quote for "what will this ligand do".
+    /// (through `s`), conditional on the fixed linear model and IID homoscedastic
+    /// normal errors. This does not establish chemical predictive coverage.
     #[must_use]
     pub fn prediction_interval(
         &self,
@@ -367,16 +456,17 @@ impl TrainingGeometry {
         let multiplier = self.t_multiplier()?;
         let half_width =
             multiplier * self.residual_standard_error * (1.0 + leverage.max(0.0)).sqrt();
-        half_width
-            .is_finite()
-            .then_some((prediction - half_width, prediction + half_width))
+        (half_width.is_finite()
+            && (prediction - half_width).is_finite()
+            && (prediction + half_width).is_finite())
+        .then_some((prediction - half_width, prediction + half_width))
     }
 
     /// Standardized descriptor coordinates of a candidate, without the
     /// intercept column.
     #[must_use]
     pub fn standardized_point(&self, expanded: &[f32; MODEL_FEATURE_COUNT]) -> Vec<f64> {
-        self.design_vector(expanded).split_off(1)
+        self.design_vector(expanded).into_iter().skip(1).collect()
     }
 
     /// Nearest training observation as `(index, distance)`.
@@ -427,62 +517,59 @@ impl TrainingGeometry {
             })
     }
 
-    /// Mahalanobis distance of a candidate in the training covariance.
+    /// Ordinary Mahalanobis distance from the stored points' sample covariance.
     ///
-    /// The standardized descriptor columns are centred on the training means by
-    /// construction, so `Z'Z` is block diagonal and leverage decomposes as
-    /// `h = 1/n + z'S⁻¹z` with `S = (n−1)·Cov`. The Mahalanobis distance is
-    /// therefore `√((n−1)(h − 1/n))`, recovered exactly from the geometry
-    /// already stored — no second covariance estimate, and nothing that can
-    /// disagree with the leverage the same model reports.
-    ///
-    /// Returns the reason instead of a number when that decomposition cannot be
-    /// trusted: a covariance estimated from too few observations, or a stored
-    /// matrix whose block structure has been disturbed, gives a figure that
-    /// looks authoritative and is not.
+    /// Reconstruct the unregularized covariance instead of deriving it from the
+    /// fitted design inverse, which can contain a ridge floor. A singular or
+    /// numerically non-invertible covariance has no ordinary distance here.
+    /// Legacy models without the training points report unavailability.
     pub fn mahalanobis_distance(
         &self,
         expanded: &[f32; MODEL_FEATURE_COUNT],
     ) -> Result<f64, String> {
-        let descriptors = self.parameters.saturating_sub(1);
-        if descriptors == 0 {
-            return Err("model has no descriptor columns".into());
+        self.validate()?;
+        let dimensions = self.feature_indices.len();
+        let points = &self.standardized_training_points;
+        if dimensions == 0 || self.observations <= dimensions || self.observations < 2 {
+            return Err("training covariance is not estimable from these dimensions".into());
         }
-        let observations = self.observations;
-        // The sample covariance of k descriptors is singular unless n − 1 ≥ k.
-        if observations < descriptors + 2 {
-            return Err(format!(
-                "covariance of {descriptors} descriptor(s) is not estimable from {observations} \
-                 observations"
-            ));
+        if points.is_empty() {
+            return Err("ordinary covariance unavailable: model carries no training points".into());
         }
-        if self.xtx_inverse.len() != self.parameters {
-            return Err("stored (X'X)^-1 does not match the parameter count".into());
+        let mut means = vec![0.0; dimensions];
+        for row in points {
+            for (mean, value) in means.iter_mut().zip(row) {
+                *mean += value / points.len() as f64;
+            }
         }
-        // Verify the block structure the decomposition relies on rather than
-        // assuming it: a hand-edited or differently-centred matrix must not be
-        // read as if it were centred.
-        let expected_intercept = 1.0 / observations as f64;
-        if (self.xtx_inverse[0][0] - expected_intercept).abs()
-            > 1.0e-6 * expected_intercept.max(1.0)
-        {
-            return Err("training design is not centred, so leverage does not decompose".into());
+        let mut covariance = vec![vec![0.0; dimensions]; dimensions];
+        for row in points {
+            for i in 0..dimensions {
+                for j in 0..dimensions {
+                    covariance[i][j] +=
+                        (row[i] - means[i]) * (row[j] - means[j]) / (points.len() - 1) as f64;
+                }
+            }
         }
-        if self.xtx_inverse[0]
+        let inverse = invert_matrix(&covariance).map_err(|_| {
+            "ordinary covariance is singular or numerically non-invertible".to_owned()
+        })?;
+        let point = self.standardized_point(expanded);
+        let delta = point
             .iter()
-            .skip(1)
-            .any(|value| value.abs() > 1.0e-6)
-        {
-            return Err("training design is not centred, so leverage does not decompose".into());
+            .zip(&means)
+            .map(|(x, mean)| x - mean)
+            .collect::<Vec<_>>();
+        let mut squared = 0.0;
+        for i in 0..dimensions {
+            for j in 0..dimensions {
+                squared += delta[i] * inverse[i][j] * delta[j];
+            }
         }
-        let leverage = self
-            .leverage(expanded)
-            .ok_or_else(|| "leverage could not be computed".to_string())?;
-        let squared = (observations - 1) as f64 * (leverage - expected_intercept);
-        if !squared.is_finite() || squared < -1.0e-9 {
-            return Err("leverage decomposition produced a negative squared distance".into());
+        if !squared.is_finite() || squared < 0.0 {
+            return Err("ordinary covariance distance is not finite and nonnegative".into());
         }
-        Ok(squared.max(0.0).sqrt())
+        Ok(squared.sqrt())
     }
 
     /// 95 % confidence interval for the fitted mean response: `ŷ ± t·s·√h`.
@@ -499,16 +586,21 @@ impl TrainingGeometry {
         let leverage = self.leverage(expanded)?;
         let multiplier = self.t_multiplier()?;
         let half_width = multiplier * self.residual_standard_error * leverage.max(0.0).sqrt();
-        half_width
-            .is_finite()
-            .then_some((prediction - half_width, prediction + half_width))
+        (half_width.is_finite()
+            && (prediction - half_width).is_finite()
+            && (prediction + half_width).is_finite())
+        .then_some((prediction - half_width, prediction + half_width))
     }
 }
 
 /// Invert a square matrix by Gauss-Jordan elimination with partial pivoting.
 pub(crate) fn invert_matrix(matrix: &[Vec<f64>]) -> Result<Vec<Vec<f64>>, String> {
     let size = matrix.len();
-    if size == 0 || matrix.iter().any(|row| row.len() != size) {
+    if size == 0
+        || matrix
+            .iter()
+            .any(|row| row.len() != size || row.iter().any(|value| !value.is_finite()))
+    {
         return Err("matrix to invert must be square and non-empty".into());
     }
     let mut work = matrix.to_vec();
@@ -549,6 +641,9 @@ pub(crate) fn invert_matrix(matrix: &[Vec<f64>]) -> Result<Vec<Vec<f64>>, String
                 inverse[row][column] -= factor * inverse[pivot][column];
             }
         }
+    }
+    if inverse.iter().flatten().any(|value| !value.is_finite()) {
+        return Err("matrix inverse is not finite".into());
     }
     Ok(inverse)
 }
@@ -656,21 +751,51 @@ fn student_t_two_sided_tail(t: f64, df: f64) -> f64 {
 
 /// The `t` for which `P(|T| > t) = alpha`, found by bisection on the tail.
 ///
-/// Bisection is used rather than an inverse-beta expansion because it is short,
-/// obviously correct, and this is called once per fit — never in a hot loop.
+/// A finite upper bracket is established before bisection. Invalid arguments,
+/// a nonfinite tail evaluation, or a quantile beyond the squared-argument range
+/// of the incomplete-beta calculation return `NaN` (numerically unavailable),
+/// never a silently truncated bracket endpoint.
 #[must_use]
 pub fn student_t_two_sided_quantile(alpha: f64, df: f64) -> f64 {
     crate::profile_scope!("uncertainty", "model::student_t_two_sided_quantile");
-    if !(0.0..1.0).contains(&alpha) || alpha <= 0.0 || df <= 0.0 {
+    if !(0.0..1.0).contains(&alpha) || alpha <= 0.0 || !df.is_finite() || df <= 0.0 {
         return f64::NAN;
     }
     let (mut low, mut high) = (0.0_f64, 1.0_f64);
-    while student_t_two_sided_tail(high, df) > alpha && high < 1.0e6 {
+    // Near alpha=1 the desired central mass is small. Evaluate its beta
+    // representation directly; df/(df+t²) rounds to 1 near t=0 and would
+    // destroy this information before the tail probability is calculated.
+    // The complementary branch preserves the usual small-alpha tail path.
+    let below_quantile = |t: f64| -> Option<bool> {
+        if alpha > 0.5 {
+            let squared = t * t;
+            let central = regularized_incomplete_beta(0.5, 0.5 * df, squared / (df + squared));
+            central.is_finite().then_some(central < 1.0 - alpha)
+        } else {
+            let tail = student_t_two_sided_tail(t, df);
+            tail.is_finite().then_some(tail > alpha)
+        }
+    };
+    loop {
+        // df + high² must remain finite: overflow must not masquerade as a
+        // zero tail and therefore a valid bracket for an extreme quantile.
+        if !(df + high * high).is_finite() {
+            return f64::NAN;
+        }
+        let Some(below) = below_quantile(high) else {
+            return f64::NAN;
+        };
+        if !below {
+            break;
+        }
         high *= 2.0;
     }
     for _ in 0..200 {
         let middle = 0.5 * (low + high);
-        if student_t_two_sided_tail(middle, df) > alpha {
+        let Some(below) = below_quantile(middle) else {
+            return f64::NAN;
+        };
+        if below {
             low = middle;
         } else {
             high = middle;
@@ -693,6 +818,48 @@ pub fn assess_applicability(
     rule: DomainRule,
 ) -> ApplicabilityAssessment {
     crate::profile_scope!("applicability", "model::assess_applicability");
+    let unavailable = |reason: String| ApplicabilityAssessment {
+        verdict: DomainVerdict::Unknown,
+        unavailable: Some(reason.clone()),
+        nearest_training_distance: None,
+        nearest_training_label: None,
+        nearest_training_threshold: None,
+        nearest_training_rule: rule,
+        nearest_training_ratio: None,
+        leverage: None,
+        leverage_ratio: None,
+        mahalanobis_distance: None,
+        mahalanobis_unavailable: Some(reason),
+        outside_range: Vec::new(),
+        maximum_extrapolation: 0.0,
+    };
+    if selected.len() != ranges.len()
+        || selected.iter().enumerate().any(|(i, &column)| {
+            column == 0 || column >= MODEL_FEATURE_COUNT || selected[..i].contains(&column)
+        })
+    {
+        return unavailable("invalid applicability range dimensions or feature indices".into());
+    }
+    if ranges.iter().any(|range| {
+        !range.minimum.is_finite() || !range.maximum.is_finite() || range.minimum > range.maximum
+    }) {
+        return unavailable("invalid applicability descriptor ranges".into());
+    }
+    if let Some(geometry) = geometry {
+        if let Err(reason) = geometry.validate() {
+            return unavailable(format!("invalid training geometry: {reason}"));
+        }
+        if geometry
+            .feature_indices
+            .iter()
+            .any(|&column| !expanded[column].is_finite())
+        {
+            return unavailable("applicability requires finite selected descriptors".into());
+        }
+    }
+    if selected.iter().any(|&column| !expanded[column].is_finite()) {
+        return unavailable("applicability requires finite selected descriptors".into());
+    }
     let outside_range = selected
         .iter()
         .zip(ranges)
@@ -729,6 +896,7 @@ pub fn assess_applicability(
 
     let Some(geometry) = geometry else {
         return ApplicabilityAssessment {
+            unavailable: None,
             verdict: if outside_range.is_empty() {
                 DomainVerdict::Unknown
             } else {
@@ -787,6 +955,7 @@ pub fn assess_applicability(
 
     ApplicabilityAssessment {
         verdict,
+        unavailable: None,
         nearest_training_distance: distance,
         nearest_training_label: geometry.nearest_training_label(expanded),
         nearest_training_threshold: threshold,
@@ -842,6 +1011,142 @@ mod tests {
         }
         // Large df converges on the normal critical value.
         assert!((student_t_two_sided_quantile(0.05, 1.0e6) - 1.959_964).abs() < 1e-3);
+    }
+
+    #[test]
+    fn brackets_extreme_cauchy_tail_without_silent_clipping() {
+        // df=1 is exactly the Cauchy distribution: t=cot(pi*alpha/2).
+        for alpha in [0.05, 1.0e-8, 1.0e-20, 1.0e-100] {
+            let expected = 1.0 / (std::f64::consts::PI * alpha / 2.0).tan();
+            let actual = student_t_two_sided_quantile(alpha, 1.0);
+            assert!(
+                (actual / expected - 1.0).abs() < 2.0e-12,
+                "{alpha}: {actual} vs {expected}"
+            );
+        }
+        assert!(student_t_two_sided_quantile(1.0e-300, 1.0).is_nan());
+        for df in [f64::NAN, f64::INFINITY, 0.0, -1.0] {
+            assert!(student_t_two_sided_quantile(0.05, df).is_nan());
+        }
+    }
+
+    #[test]
+    fn near_unit_alpha_preserves_small_central_mass() {
+        for alpha in [0.75, 0.999_999_99, f64::from_bits(1.0_f64.to_bits() - 1)] {
+            // Cauchy complement form avoids subtracting nearly equal angles.
+            let expected = (std::f64::consts::PI * (1.0 - alpha) / 2.0).tan();
+            let actual = student_t_two_sided_quantile(alpha, 1.0);
+            assert!(
+                (actual / expected - 1.0).abs() < 2.0e-12,
+                "alpha {alpha}: {actual} versus analytic Cauchy {expected}"
+            );
+        }
+        for alpha in [0.999_999_99, f64::from_bits(1.0_f64.to_bits() - 1)] {
+            let mass = 1.0 - alpha;
+            // Analytic t densities at zero. The central inverse is
+            // mass/(2*density) + O(mass³); for these dfs and masses the
+            // relative cubic contribution is below 2e-16.
+            for (df, density) in [
+                (2.0, 1.0 / (2.0 * 2.0_f64.sqrt())),
+                (3.0, 2.0 / (std::f64::consts::PI * 3.0_f64.sqrt())),
+                (4.0, 3.0 / 8.0),
+                (10.0, 315.0 / (256.0 * 10.0_f64.sqrt())),
+            ] {
+                let expected = mass / (2.0 * density);
+                let actual = student_t_two_sided_quantile(alpha, df);
+                assert!(
+                    (actual / expected - 1.0).abs() < 2.0e-12,
+                    "df {df}, alpha {alpha}: {actual} versus central limit {expected}"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn public_assessment_reports_malformed_metadata_without_panicking() {
+        for case in 0..4 {
+            let mut geometry = grid_geometry();
+            match case {
+                0 => geometry.feature_indices[0] = MODEL_FEATURE_COUNT,
+                1 => geometry.xtx_inverse[0].clear(),
+                2 => geometry.scales[0] = 0.0,
+                _ => geometry.standardized_training_points[0].clear(),
+            }
+            let assessment = assess_applicability(
+                Some(&geometry),
+                &grid_ranges(),
+                &geometry.feature_indices,
+                &at(0.0, 0.0),
+                DomainRule::default(),
+            );
+            assert_eq!(assessment.verdict, DomainVerdict::Unknown);
+            assert!(assessment.unavailable.is_some());
+            assert!(assessment.leverage.is_none());
+            assert!(assessment.nearest_training_distance.is_none());
+            assert!(assessment.mahalanobis_distance.is_none());
+        }
+        let assessment = assess_applicability(
+            None,
+            &grid_ranges(),
+            &[MODEL_FEATURE_COUNT, 3],
+            &at(0.0, 0.0),
+            DomainRule::default(),
+        );
+        assert_eq!(assessment.verdict, DomainVerdict::Unknown);
+        assert!(assessment.unavailable.is_some());
+        let assessment = assess_applicability(
+            Some(&grid_geometry()),
+            &grid_ranges(),
+            &[2, 3],
+            &at(f32::NAN, 0.0),
+            DomainRule::default(),
+        );
+        assert_eq!(assessment.verdict, DomainVerdict::Unknown);
+        assert!(assessment.unavailable.is_some());
+    }
+
+    #[test]
+    fn singular_covariance_is_not_a_regularized_mahalanobis_distance() {
+        let mut geometry = grid_geometry();
+        geometry.standardized_training_points =
+            (-4..=4).map(|x| vec![f64::from(x), f64::from(x)]).collect();
+        // A finite, positive regularized inverse must not hide rank-one points.
+        geometry.xtx_inverse = vec![
+            vec![1.0 / 9.0, 0.0, 0.0],
+            vec![0.0, 5.0e9, -5.0e9],
+            vec![0.0, -5.0e9, 5.0e9],
+        ];
+        let assessment = assess_applicability(
+            Some(&geometry),
+            &[],
+            &[],
+            &at(1.0, -1.0),
+            DomainRule::default(),
+        );
+        assert!(assessment.mahalanobis_distance.is_none());
+        assert!(
+            assessment
+                .mahalanobis_unavailable
+                .unwrap()
+                .contains("singular")
+        );
+    }
+
+    #[test]
+    fn malformed_geometry_declines_inference_without_panicking() {
+        for kind in 0..4 {
+            let mut geometry = grid_geometry();
+            match kind {
+                0 => geometry.feature_indices[0] = MODEL_FEATURE_COUNT,
+                1 => geometry.xtx_inverse[0].clear(),
+                2 => geometry.scales[0] = f64::NAN,
+                _ => geometry.standardized_training_points[0].clear(),
+            }
+            assert!(geometry.validate().is_err());
+            assert!(geometry.leverage(&at(0.0, 0.0)).is_none());
+            assert!(geometry.mahalanobis_distance(&at(0.0, 0.0)).is_err());
+            assert!(geometry.nearest_training_distance(&at(0.0, 0.0)).is_none());
+        }
     }
 
     /// A deliberately obvious 2-D descriptor space: nine training points on the
@@ -1120,6 +1425,7 @@ mod tests {
         }
         let mut geometry = grid_geometry();
         geometry.observations = points.len();
+        geometry.training_labels.clear();
         geometry.neighbor_calibration = NeighborCalibration::from_points(&points);
         geometry.standardized_training_points = points;
         let threshold = geometry.neighbor_calibration.as_ref().unwrap().threshold;
@@ -1190,7 +1496,7 @@ mod tests {
 
         let error = geometry.mahalanobis_distance(&at(1.0, 0.0)).unwrap_err();
 
-        assert!(error.contains("not centred"), "{error}");
+        assert!(error.contains("not symmetric"), "{error}");
     }
 
     #[test]

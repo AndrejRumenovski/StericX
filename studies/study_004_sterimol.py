@@ -177,10 +177,12 @@ def write_report(
         "",
         "## Reproducing Kraken's published Sterimol at full scale",
         "",
-        f"Kraken measures Sterimol along the coordination axis — a virtual metal "
-        f"2.28 Å from phosphorus along the lone pair, the same centre the buried "
-        f"volume uses, with the +0.40 Å Verloop `L` correction. StericX exposes "
-        f"this as `descriptors --sterimol-axis coordination`. Comparing StericX "
+        f"StericX uses a 2.28 Å geometric virtual-metal distance and +0.40 Å "
+        f"Verloop L correction with `descriptors --sterimol-axis coordination`. "
+        f"These settings do not establish full Kraken equivalence: the original "
+        f"DFT workflow sums raw bond vectors, uses H = 1.09 Å and 3,600 angular "
+        f"directions; StericX sums unit vectors, uses H = 1.20 Å and 360 directions. "
+        f"Comparing StericX "
         f"against Kraken's *published* `sterimol_L/B1/B5` across {ligands} ligands, "
         f"at each conformer-ensemble minimum and maximum:",
         "",
@@ -198,13 +200,11 @@ def write_report(
     mean_r2 = float(np.mean([m["r2"] for m in metrics.values()]))
     lines += [
         "",
-        f"Mean R² across the six comparisons is **{mean_r2:.4f}**. Once the axis "
-        "convention is matched, StericX reproduces Kraken's published Sterimol as "
-        "closely as it reproduces the buried-volume family — a second, independent "
-        "classical steric descriptor validated over the whole library. The "
-        "discovery that Sterimol shares the buried volume's 2.28 Å coordination "
-        "centre mirrors the §3.2 result and is not a fitted choice: it is the one "
-        "distance at which the published `L` values fall on the diagonal.",
+        f"Mean R² across the six comparisons is **{mean_r2:.4f}**. Absolute errors "
+        "remain material: this is approximate published-value agreement under "
+        "different conventions. The independent audit separates convention "
+        "effects from the demonstrated near-axis native alignment defect. "
+        "Cached historical values are not validation of a corrected build.",
         "",
         "![Sterimol parity](kraken_sterimol_parity.png)",
         "",

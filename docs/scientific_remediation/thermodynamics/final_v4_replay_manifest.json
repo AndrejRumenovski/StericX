@@ -1,0 +1,142 @@
+{
+  "files": [
+    {
+      "bytes": 7376,
+      "path": "aggregation_comparison.json",
+      "sha256": "f6b13007edefe47c6928b21168a08abb1b682307582762e9fc0a3f3e0ec9d43a"
+    },
+    {
+      "bytes": 196904,
+      "path": "kinetics_comparison.json",
+      "sha256": "32000fb5132e4f01e1400f048e320f6e0cda92bbc9623e7c03d364972a26a79e"
+    },
+    {
+      "bytes": 6257,
+      "path": "native/aggregation.jsonl",
+      "sha256": "261376e1d87baaaa258dca35378b107570979d404a3b69dc0ee136faa536f243"
+    },
+    {
+      "bytes": 0,
+      "path": "native/aggregation.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 16691,
+      "path": "native/cli_runs.json",
+      "sha256": "9a8e54a7a6a97ec4340471fb6288883c74d49be49b8835c774e77bd7e6aa0915"
+    },
+    {
+      "bytes": 88971,
+      "path": "native/kinetics.jsonl",
+      "sha256": "02baeb6dbdf7fd1547c85ee2731b05ee7d331febe437ae7088ae75807807750f"
+    },
+    {
+      "bytes": 0,
+      "path": "native/kinetics.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 64,
+      "path": "native/parse_provided.sigpack",
+      "sha256": "fd52dd07e6143be8f93503ad844e250ad609ca1d003f4bf5c463e8d28c30b5c7"
+    },
+    {
+      "bytes": 64,
+      "path": "native/parse_relative_offset.sigpack",
+      "sha256": "fd52dd07e6143be8f93503ad844e250ad609ca1d003f4bf5c463e8d28c30b5c7"
+    },
+    {
+      "bytes": 64,
+      "path": "native/parse_single.sigpack",
+      "sha256": "03607eecc63458439127da95869465320422d03faae3319e157a50d142c3a5c4"
+    },
+    {
+      "bytes": 64,
+      "path": "native/parse_tiny_weights.sigpack",
+      "sha256": "fd52dd07e6143be8f93503ad844e250ad609ca1d003f4bf5c463e8d28c30b5c7"
+    },
+    {
+      "bytes": 64,
+      "path": "native/parse_weights_missing.sigpack",
+      "sha256": "7ff3be322b584ae21cf87f57e878e8d3416118be27739db09ef5eac3aebc3e5d"
+    },
+    {
+      "bytes": 933376,
+      "path": "observer",
+      "sha256": "d6c5e20c8e012d1d9e5ff5afc5a8438697e0c1d11919b614ced69f0b8616ccc4"
+    },
+    {
+      "bytes": 10649,
+      "path": "python.json",
+      "sha256": "d64c30ae8de95d41d71353debc4a7f823a383495a59d629cba65d3e64f038a06"
+    },
+    {
+      "bytes": 17528,
+      "path": "recheck.py",
+      "sha256": "2c471c5d4a6bf96770cb3db6ce9c86e70b4b9eebfc95eaf4ab4ff79ca3b6d55a"
+    },
+    {
+      "bytes": 47363,
+      "path": "source/scripts/__pycache__/prepare_data.cpython-312.pyc",
+      "sha256": "32d7bc96b161b1b6d3039be8538b94ddf763b39edccc67acab2ac11168e6e11a"
+    },
+    {
+      "bytes": 71620,
+      "path": "source/scripts/__pycache__/stericx_quantum.cpython-312.pyc",
+      "sha256": "02a01ad2e48d20aff939cbc1753eedfde5ee99943ae742cd77cee6c5ce2c8ba8"
+    },
+    {
+      "bytes": 37529,
+      "path": "source/scripts/prepare_data.py",
+      "sha256": "6b9e49446c2b475a7093785ecb8993a29193dea0a0f1c26556275aeef7fe41f0"
+    },
+    {
+      "bytes": 58162,
+      "path": "source/scripts/stericx_quantum.py",
+      "sha256": "df26cf4b9544d09d41b96e5827b9aff06ad2afbe562f4e000d6d235bbbb28c32"
+    },
+    {
+      "bytes": 12402,
+      "path": "source/src/commands/buried_volume.rs",
+      "sha256": "6b2820a90f31d9f5ed3cfd01b53ead0634d8240fab17e72143ea286039b0d6af"
+    },
+    {
+      "bytes": 1825,
+      "path": "source/src/commands/simulate.rs",
+      "sha256": "76c55051f322942ebb24a25896b644bd70bcb977431c44cf81279a86f46a1c8a"
+    },
+    {
+      "bytes": 62412,
+      "path": "source/src/geometry/buried_volume.rs",
+      "sha256": "2215d2731a11d5328ddeaa949e3d557198a3b296436ffe50d1e06403ca0fd603"
+    },
+    {
+      "bytes": 8510,
+      "path": "source/src/kinetics/eyring.rs",
+      "sha256": "b86300a11dc8fe07430bbd480b51df448d47295080219e47bb1b3e9f08d4b454"
+    },
+    {
+      "bytes": 242,
+      "path": "source/src/kinetics/mod.rs",
+      "sha256": "273fad2c13d5cae69bf98a80be34594344c7872cf973c2c9184a40adbc82a3d2"
+    },
+    {
+      "bytes": 22196,
+      "path": "source/src/reaction.rs",
+      "sha256": "15815fc387aff99caa917625ea2b53670c4018816436af45b156228fba4c046e"
+    },
+    {
+      "bytes": 3393664,
+      "path": "stericx",
+      "sha256": "102b6883c639bfc9ef211a88abae02391419cbd277c498098fa2bdfc7008206f"
+    },
+    {
+      "bytes": 463,
+      "path": "summary.json",
+      "sha256": "33a55197d1d182a9f1d2792188935e4c5aabf9a97b6cd9826f468e7e8e3382bc"
+    }
+  ],
+  "historical_evidence_sha256": "c361f2ee25ee6d2f43936487520f297e64b9d3c765f1ba385e248d76a1bb53f9",
+  "python_version": "3.12.13 (main, Jul 18 2026, 17:02:19) [Clang 22.1.3 ]",
+  "scope": "Preserved audit inputs, copied Python source/executables; full build provenance is supplied by the coordinated final remediation freeze, not inferred from these source copies."
+}

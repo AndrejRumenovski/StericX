@@ -158,11 +158,12 @@ def write_report(
     lines = [
         "# StericX Study 004 — Buried-Volume Descriptor Family",
         "",
-        "## Reproducing the whole `vbur` family, not one descriptor",
+        "## Comparing eight absolute buried-volume fields",
         "",
         f"Study 004 validated a single Kraken descriptor across the full set. The "
-        f"same buried-volume kernel run produces Kraken's entire `vbur` family, so "
-        f"this study compares all of it against Kraken's *published* values over "
+        f"comparison covers eight absolute fields, not the entire Kraken vocabulary. "
+        f"Distal/total molecular volumes, ratios and source-energy Boltzmann "
+        f"reductions are outside its scope. It compares published values over "
         f"{ligands} ligands. Each descriptor is reduced to its minimum over the "
         f"conformer ensemble, matching Kraken's `*_min` convention. StericX values "
         f"are read from the committed per-conformer table; Kraken values come from "
@@ -186,8 +187,9 @@ def write_report(
         "buried-volume kernel reproduces not just the headline `max_delta_qvbur` but "
         "the buried volume itself, the quadrant and octant extremes, and the "
         "near/far hemispheres — each against Kraken's own published numbers, across "
-        "the whole library. The near/far hemispheres match in the correct sense "
-        "(no axis swap), confirming the octant partitioning is oriented as Kraken's.",
+        "the matched library. Near/far agreement supports the sign convention on "
+        "these structures, not identical finite-grid regional definitions at "
+        "every density. See independent audit claims G17-G20.",
         "",
         "![Family parity](kraken_vbur_family_parity.png)",
         "",

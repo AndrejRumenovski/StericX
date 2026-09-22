@@ -1,0 +1,149 @@
+{
+  "returncode": 0,
+  "equation_reference": "https://dlmf.nist.gov/8.17.E4",
+  "files": [
+    {
+      "path": ".stericx/scientific_remediation/validated_build_v3/bin/stericx-audit-observer",
+      "sha256": "cc502502c2e2fef00ac9133aa3fd46b4cfa353658c177dc77d485af1cb1e72f6"
+    },
+    {
+      "path": ".stericx/scientific_remediation/validated_build_v3/manifest.json",
+      "sha256": "5ae616ba13ee24839b7ba41af2508a5aa5fef381116a116e8ad6b527a9c60f4f"
+    },
+    {
+      "path": "docs/scientific_remediation/models/near_unit_alpha/requests.jsonl",
+      "sha256": "d9be53f53bb0b3a2181a5584f45dac694b318bf47f89a6340760d078bffae9bf"
+    },
+    {
+      "path": "docs/scientific_remediation/models/near_unit_alpha/after_v3.jsonl",
+      "sha256": "f95c0eb3272d1242b5f098b6e926c648de3e355bf6cb2f3d54ae5e4d34b1c107"
+    },
+    {
+      "path": "docs/scientific_remediation/models/near_unit_alpha/after_v3.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "results": [
+    {
+      "id": "df1.0_alpha0.99999999",
+      "df": 1.0,
+      "alpha": 0.99999999,
+      "observed": 1.5707963346877683e-08,
+      "reference": 1.57079633468777e-08,
+      "reference_method": "exact Cauchy central quantile",
+      "residual": -1.6543612251060553e-23,
+      "relative_residual": -1.0531990612486982e-15,
+      "existing_test_relative_bound": 2e-12,
+      "pass": true
+    },
+    {
+      "id": "df1.0_alpha0.9999999999999999",
+      "df": 1.0,
+      "alpha": 0.9999999999999999,
+      "observed": 1.7439342490043213e-16,
+      "reference": 1.743934249004316e-16,
+      "reference_method": "exact Cauchy central quantile",
+      "residual": 5.423418723394456e-31,
+      "relative_residual": 3.1098756885421053e-15,
+      "existing_test_relative_bound": 2e-12,
+      "pass": true
+    },
+    {
+      "id": "df2.0_alpha0.99999999",
+      "df": 2.0,
+      "alpha": 0.99999999,
+      "observed": 1.4142135694791727e-08,
+      "reference": 1.414213569479178e-08,
+      "reference_method": "exact df2 central quantile",
+      "residual": -5.293955920339377e-23,
+      "relative_residual": -3.743392111764999e-15,
+      "existing_test_relative_bound": 2e-12,
+      "pass": true
+    },
+    {
+      "id": "df2.0_alpha0.9999999999999999",
+      "df": 2.0,
+      "alpha": 0.9999999999999999,
+      "observed": 1.5700924586837818e-16,
+      "reference": 1.5700924586837752e-16,
+      "reference_method": "exact df2 central quantile",
+      "residual": 6.656013887802287e-31,
+      "relative_residual": 4.239249638446192e-15,
+      "existing_test_relative_bound": 2e-12,
+      "pass": true
+    },
+    {
+      "id": "df3.0_alpha0.99999999",
+      "df": 3.0,
+      "alpha": 0.99999999,
+      "observed": 1.3603495300110882e-08,
+      "reference": 1.3603495300110922e-08,
+      "reference_method": "analytic central-density inverse; omitted relative cubic term <2e-16 for these fixed masses/dfs",
+      "residual": -3.970466940254533e-23,
+      "relative_residual": -2.918710855306546e-15,
+      "existing_test_relative_bound": 2e-12,
+      "pass": true
+    },
+    {
+      "id": "df3.0_alpha0.9999999999999999",
+      "df": 3.0,
+      "alpha": 0.9999999999999999,
+      "observed": 1.510291362167476e-16,
+      "reference": 1.5102913621674744e-16,
+      "reference_method": "analytic central-density inverse; omitted relative cubic term <2e-16 for these fixed masses/dfs",
+      "residual": 1.7256332301709633e-31,
+      "relative_residual": 1.1425829964984e-15,
+      "existing_test_relative_bound": 2e-12,
+      "pass": true
+    },
+    {
+      "id": "df4.0_alpha0.99999999",
+      "df": 4.0,
+      "alpha": 0.99999999,
+      "observed": 1.3333333400330086e-08,
+      "reference": 1.3333333400330124e-08,
+      "reference_method": "analytic central-density inverse; omitted relative cubic term <2e-16 for these fixed masses/dfs",
+      "residual": -3.8050308177439273e-23,
+      "relative_residual": -2.8537730989684224e-15,
+      "existing_test_relative_bound": 2e-12,
+      "pass": true
+    },
+    {
+      "id": "df4.0_alpha0.9999999999999999",
+      "df": 4.0,
+      "alpha": 0.9999999999999999,
+      "observed": 1.4802973661668775e-16,
+      "reference": 1.4802973661668753e-16,
+      "reference_method": "analytic central-density inverse; omitted relative cubic term <2e-16 for these fixed masses/dfs",
+      "residual": 2.2186712959340957e-31,
+      "relative_residual": 1.4988010832439613e-15,
+      "existing_test_relative_bound": 2e-12,
+      "pass": true
+    },
+    {
+      "id": "df10.0_alpha0.99999999",
+      "df": 10.0,
+      "alpha": 0.99999999,
+      "observed": 1.2849890239220008e-08,
+      "reference": 1.2849890239220068e-08,
+      "reference_method": "analytic central-density inverse; omitted relative cubic term <2e-16 for these fixed masses/dfs",
+      "residual": -5.955700410381799e-23,
+      "relative_residual": -4.634825900850095e-15,
+      "existing_test_relative_bound": 2e-12,
+      "pass": true
+    },
+    {
+      "id": "df10.0_alpha0.9999999999999999",
+      "df": 10.0,
+      "alpha": 0.9999999999999999,
+      "observed": 1.426624393580378e-16,
+      "reference": 1.4266243935803738e-16,
+      "reference_method": "analytic central-density inverse; omitted relative cubic term <2e-16 for these fixed masses/dfs",
+      "residual": 4.190823558986625e-31,
+      "relative_residual": 2.9375801912856613e-15,
+      "existing_test_relative_bound": 2e-12,
+      "pass": true
+    }
+  ],
+  "all_pass": true
+}

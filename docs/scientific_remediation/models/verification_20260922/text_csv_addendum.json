@@ -1,0 +1,16 @@
+{
+  "reason": "Expose aggregation contract in text and CSV and label text CV scope; remaining science source unchanged",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--test",
+    "cli_screen",
+    "--",
+    "--nocapture"
+  ],
+  "returncode": 101,
+  "log_sha256": "276b9fbf6cc038613e9a8b2aa2c302fead1457f11fcde423f82b93c5403ddd2a",
+  "source": "src/commands/screen.rs",
+  "source_sha256": "02c220f335e88235882aedabefe651c7799c9fc56c79492ade77cc7ecc3ef797"
+}

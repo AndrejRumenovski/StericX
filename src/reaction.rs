@@ -93,15 +93,12 @@ pub(crate) fn sterimol_from_molecule(
                 molecule.atoms.len()
             )
         })?;
-    if (neighbor.position - attachment.position).length_squared() <= f32::EPSILON {
+    if neighbor.position == attachment.position {
         return Err("attachment and primary-vector atoms occupy the same position".into());
     }
 
-    Ok(SterimolCalculator::compute(
-        molecule,
-        row.attach_atom_idx,
-        row.primary_bond_vector_idx,
-    ))
+    SterimolCalculator::compute(molecule, row.attach_atom_idx, row.primary_bond_vector_idx)
+        .map_err(|error| error.to_string())
 }
 
 pub(crate) fn record_from_ensemble(
@@ -111,18 +108,10 @@ pub(crate) fn record_from_ensemble(
     row: &ReactionCsvRow,
 ) -> Result<PackedReactionRecord, String> {
     steric_x::profile_scope!("conformer_processing", "reaction::record_from_ensemble");
-    if conformers.is_empty() || conformers.len() != weights.len() {
-        return Err("conformer parameters and weights must have equal non-zero lengths".into());
+    if !energy_span.is_finite() || energy_span < 0.0 {
+        return Err("ensemble energy span must be finite and non-negative".into());
     }
-    let weighted = conformers.iter().zip(weights).fold(
-        SterimolParams::default(),
-        |mut total, (params, weight)| {
-            total.l += params.l * weight;
-            total.b1 += params.b1 * weight;
-            total.b5 += params.b5 * weight;
-            total
-        },
-    );
+    let weighted = weighted_sterimol(conformers, weights)?;
     let minimum = conformers.iter().fold(
         SterimolParams {
             l: f32::INFINITY,
@@ -137,12 +126,10 @@ pub(crate) fn record_from_ensemble(
     );
     let maximum = conformers
         .iter()
-        .fold(SterimolParams::default(), |maximum, params| {
-            SterimolParams {
-                l: maximum.l.max(params.l),
-                b1: maximum.b1.max(params.b1),
-                b5: maximum.b5.max(params.b5),
-            }
+        .fold(conformers[0], |maximum, params| SterimolParams {
+            l: maximum.l.max(params.l),
+            b1: maximum.b1.max(params.b1),
+            b5: maximum.b5.max(params.b5),
         });
     if [
         weighted.l,
@@ -180,6 +167,40 @@ pub(crate) fn record_from_ensemble(
     record.temp_k = row.temp_k;
     record.exp_ddg = row.exp_ddg;
     Ok(record)
+}
+
+/// Average supplied finite descriptors with explicit nonnegative weights.
+/// This operation does not infer thermodynamic provenance from the weights.
+pub(crate) fn weighted_sterimol(
+    conformers: &[SterimolParams],
+    weights: &[f32],
+) -> Result<SterimolParams, String> {
+    if conformers.is_empty() || conformers.len() != weights.len() {
+        return Err("conformer parameters and weights must have equal non-zero lengths".into());
+    }
+    if conformers
+        .iter()
+        .any(|p| !p.l.is_finite() || !p.b1.is_finite() || !p.b5.is_finite())
+    {
+        return Err("conformer descriptors must be finite".into());
+    }
+    let normalized = normalized_weights(weights)?;
+    let mean = |select: fn(&SterimolParams) -> f32| {
+        conformers
+            .iter()
+            .zip(&normalized)
+            .map(|(params, weight)| f64::from(select(params)) * weight)
+            .sum::<f64>() as f32
+    };
+    let result = SterimolParams {
+        l: mean(|p| p.l),
+        b1: mean(|p| p.b1),
+        b5: mean(|p| p.b5),
+    };
+    if !result.l.is_finite() || !result.b1.is_finite() || !result.b5.is_finite() {
+        return Err("ensemble aggregation exceeds the finite f32 descriptor range".into());
+    }
+    Ok(result)
 }
 
 pub(crate) fn conformer_paths(row: &ReactionCsvRow) -> Result<Vec<PathBuf>, String> {
@@ -225,16 +246,43 @@ fn parse_semicolon_floats(value: &str, label: &str) -> Result<Vec<f32>, String> 
         .collect()
 }
 
+/// Normalization is invariant to a positive common scale, including subnormal
+/// inputs. Convert before dividing so small ratios and large sums use f64.
+pub(crate) fn normalized_weights(weights: &[f32]) -> Result<Vec<f64>, String> {
+    if weights.is_empty()
+        || weights
+            .iter()
+            .any(|weight| !weight.is_finite() || *weight < 0.0)
+    {
+        return Err("conformer weights must be finite and non-negative".into());
+    }
+    let scale = weights.iter().copied().fold(0.0_f32, f32::max);
+    if scale == 0.0 {
+        return Err("conformer weights must have a positive sum".into());
+    }
+    let scaled = weights
+        .iter()
+        .map(|weight| f64::from(*weight) / f64::from(scale))
+        .collect::<Vec<_>>();
+    let total = scaled.iter().sum::<f64>();
+    Ok(scaled.into_iter().map(|weight| weight / total).collect())
+}
+
 pub(crate) fn conformer_weights(
     row: &ReactionCsvRow,
     conformer_count: usize,
 ) -> Result<Vec<f32>, String> {
     steric_x::profile_scope!("conformer_processing", "reaction::conformer_weights");
-    let mut weights = match row.conformer_boltzmann_weights.as_deref() {
+    if conformer_count == 0 {
+        return Err("conformer weights require at least one conformer".into());
+    }
+    let weights = match row.conformer_boltzmann_weights.as_deref() {
         Some(value) if !value.trim().is_empty() => {
             parse_semicolon_floats(value, "Conformer_Boltzmann_Weights")?
         }
-        _ => vec![1.0 / conformer_count as f32; conformer_count],
+        // Missing weights explicitly mean a uniform average, even when energy
+        // metadata is present. No thermodynamic provenance is inferred here.
+        _ => vec![1.0; conformer_count],
     };
     if weights.len() != conformer_count {
         return Err(format!(
@@ -242,17 +290,9 @@ pub(crate) fn conformer_weights(
             weights.len()
         ));
     }
-    if weights
-        .iter()
-        .any(|weight| !weight.is_finite() || *weight < 0.0)
-    {
-        return Err("conformer weights must be finite and non-negative".into());
-    }
-    let total = weights.iter().sum::<f32>();
-    if !total.is_finite() || total <= f32::EPSILON {
-        return Err("conformer weights must have a positive sum".into());
-    }
-    weights.iter_mut().for_each(|weight| *weight /= total);
+    // Preserve raw values until multiplication in f64. Serializing normalized
+    // probabilities as f32 first can erase small but meaningful contributions.
+    normalized_weights(&weights)?;
     Ok(weights)
 }
 
@@ -312,6 +352,9 @@ pub(crate) fn conformer_energy_span(
     conformer_count: usize,
 ) -> Result<f32, String> {
     steric_x::profile_scope!("conformer_processing", "reaction::conformer_energy_span");
+    if conformer_count == 0 {
+        return Err("ensemble energy span requires at least one conformer".into());
+    }
     let Some(value) = row.conformer_relative_energies.as_deref() else {
         return Ok(0.0);
     };
@@ -331,7 +374,9 @@ pub(crate) fn conformer_energy_span(
     {
         return Err("relative conformer energies must be finite and non-negative".into());
     }
-    Ok(energies.into_iter().fold(0.0_f32, f32::max))
+    let minimum = energies.iter().copied().fold(f32::INFINITY, f32::min);
+    let maximum = energies.iter().copied().fold(f32::NEG_INFINITY, f32::max);
+    Ok(maximum - minimum)
 }
 
 pub(crate) fn validate_reaction_row(
@@ -490,5 +535,116 @@ mod tests {
         assert_eq!(record.nbo_charge, -0.3);
         assert_eq!(record.exp_ddg, 1.2);
         assert_eq!(record.conformer_count(), 1);
+    }
+    #[test]
+    fn supplied_weights_keep_scale_and_small_contributions() {
+        let params = [
+            SterimolParams {
+                l: 2.0,
+                b1: 4.0,
+                b5: 6.0,
+            },
+            SterimolParams {
+                l: 6.0,
+                b1: 8.0,
+                b5: 10.0,
+            },
+        ];
+        for text in ["1;3", "1e-10;3e-10", "1e38;3e38"] {
+            let mut row = sample_row();
+            row.conformer_boltzmann_weights = Some(text.into());
+            let weights = conformer_weights(&row, 2).unwrap();
+            let mean = weighted_sterimol(&params, &weights).unwrap();
+            assert!((mean.l - 5.0).abs() < 1e-6);
+            assert!((mean.b1 - 7.0).abs() < 1e-6);
+            assert!((mean.b5 - 9.0).abs() < 1e-6);
+        }
+        let mut row = sample_row();
+        row.conformer_boltzmann_weights = Some("1.40129846e-45;2".into());
+        let weights = conformer_weights(&row, 2).unwrap();
+        let mean = weighted_sterimol(
+            &[
+                SterimolParams {
+                    l: f32::MAX,
+                    b1: 0.0,
+                    b5: 0.0,
+                },
+                SterimolParams::default(),
+            ],
+            &weights,
+        )
+        .unwrap();
+        assert_eq!(
+            mean.l,
+            (f64::from(f32::MAX) * f64::from(f32::from_bits(1)) / 2.0) as f32
+        );
+        assert!(mean.l > 0.0);
+    }
+
+    #[test]
+    fn invalid_weights_and_descriptors_are_not_silently_accepted() {
+        for weights in [
+            [-0.5, 1.5],
+            [0.0, 0.0],
+            [f32::NAN, 1.0],
+            [f32::INFINITY, 1.0],
+        ] {
+            assert!(weighted_sterimol(&[SterimolParams::default(); 2], &weights).is_err());
+        }
+        for bad in [f32::NAN, f32::INFINITY, f32::NEG_INFINITY] {
+            for p in [
+                SterimolParams {
+                    l: bad,
+                    ..SterimolParams::default()
+                },
+                SterimolParams {
+                    b1: bad,
+                    ..SterimolParams::default()
+                },
+                SterimolParams {
+                    b5: bad,
+                    ..SterimolParams::default()
+                },
+            ] {
+                assert!(weighted_sterimol(&[p], &[1.0]).is_err());
+            }
+        }
+    }
+
+    #[test]
+    fn energy_span_is_offset_invariant_and_missing_weights_remain_uniform() {
+        let mut row = sample_row();
+        for text in ["0;1", "1;2", "10;11"] {
+            row.conformer_relative_energies = Some(text.into());
+            assert_eq!(conformer_energy_span(&row, 2).unwrap(), 1.0);
+            assert_eq!(
+                normalized_weights(&conformer_weights(&row, 2).unwrap()).unwrap(),
+                vec![0.5, 0.5]
+            );
+        }
+        assert!(conformer_energy_span(&row, 0).is_err());
+        row.conformer_relative_energies = Some("-1;0".into());
+        assert!(conformer_energy_span(&row, 2).is_err());
+    }
+    #[test]
+    fn reaction_axis_validation_accepts_nonzero_short_and_subnormal_axes() {
+        let row = sample_row();
+        for length in [0.000_345_266_95_f32, f32::from_bits(1)] {
+            let molecule = Molecule {
+                atoms: vec![
+                    Atom::new("H", Vec3::ZERO),
+                    Atom::new("C", Vec3::new(0.0, 0.0, length)),
+                ],
+            };
+            let result = sterimol_from_molecule(&molecule, &row).unwrap();
+            // A sphere centered on the explicit +Z axis has L=z+r, B1=B5=r.
+            assert_eq!(result.l, length + 1.7_f32);
+            assert_eq!(result.b1, 1.7);
+            assert_eq!(result.b5, 1.7);
+        }
+        let coincident = Molecule {
+            atoms: vec![Atom::new("H", Vec3::ZERO), Atom::new("C", Vec3::ZERO)],
+        };
+        assert!(sterimol_from_molecule(&coincident, &row).is_err());
     }
 }

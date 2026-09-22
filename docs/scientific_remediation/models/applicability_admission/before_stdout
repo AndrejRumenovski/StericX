@@ -1,0 +1,20 @@
+{"id":"df1.0_alpha0.99999999","t_quantile":1.5707963346877683e-8}
+{"id":"df1.0_alpha0.9999999999999999","t_quantile":1.7439342490043213e-16}
+{"id":"df2.0_alpha0.99999999","t_quantile":1.4142135694791727e-8}
+{"id":"df2.0_alpha0.9999999999999999","t_quantile":1.5700924586837818e-16}
+{"id":"df3.0_alpha0.99999999","t_quantile":1.3603495300110882e-8}
+{"id":"df3.0_alpha0.9999999999999999","t_quantile":1.510291362167476e-16}
+{"id":"df4.0_alpha0.99999999","t_quantile":1.3333333400330086e-8}
+{"id":"df4.0_alpha0.9999999999999999","t_quantile":1.4802973661668775e-16}
+{"id":"df10.0_alpha0.99999999","t_quantile":1.2849890239220008e-8}
+{"id":"df10.0_alpha0.9999999999999999","t_quantile":1.426624393580378e-16}
+{"id":"df_zero","t_quantile":null}
+{"id":"df_negative","t_quantile":null}
+{"id":"alpha_zero","t_quantile":null}
+{"id":"alpha_one","t_quantile":null}
+{"id":"alpha_negative","t_quantile":null}
+{"id":"alpha_above_one","t_quantile":null}
+{"error":"observer caught panic; see stderr"}
+{"assessment":{"leverage":null,"leverage_ratio":null,"mahalanobis_distance":null,"mahalanobis_unavailable":"stored design inverse is not a finite square parameter matrix","maximum_extrapolation":0.0,"nearest_training_distance":null,"nearest_training_label":null,"nearest_training_ratio":null,"nearest_training_rule":"max_neighbor","nearest_training_threshold":1.4142135623730951,"outside_range":[],"verdict":"unknown"},"confidence_interval":null,"design":[],"id":"malformed_inverse_shape","leverage":null,"mahalanobis":{"Err":"stored design inverse is not a finite square parameter matrix"},"prediction_interval":null,"t_multiplier":2.4469118511449706}
+{"assessment":{"leverage":null,"leverage_ratio":null,"mahalanobis_distance":null,"mahalanobis_unavailable":"training geometry contains invalid scales or nonfinite statistics","maximum_extrapolation":0.0,"nearest_training_distance":null,"nearest_training_label":null,"nearest_training_ratio":null,"nearest_training_rule":"max_neighbor","nearest_training_threshold":1.4142135623730951,"outside_range":[],"verdict":"unknown"},"confidence_interval":null,"design":[],"id":"malformed_zero_scale","leverage":null,"mahalanobis":{"Err":"training geometry contains invalid scales or nonfinite statistics"},"prediction_interval":null,"t_multiplier":2.4469118511449706}
+{"assessment":{"leverage":null,"leverage_ratio":null,"mahalanobis_distance":null,"mahalanobis_unavailable":"training covariance is not estimable from inconsistent stored points","maximum_extrapolation":0.0,"nearest_training_distance":null,"nearest_training_label":null,"nearest_training_ratio":null,"nearest_training_rule":"max_neighbor","nearest_training_threshold":1.4142135623730951,"outside_range":[],"verdict":"unknown"},"confidence_interval":null,"design":[],"id":"malformed_point_shape","leverage":null,"mahalanobis":{"Err":"training covariance is not estimable from inconsistent stored points"},"prediction_interval":null,"t_multiplier":2.4469118511449706}

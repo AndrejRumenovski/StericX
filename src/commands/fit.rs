@@ -13,8 +13,8 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 use steric_x::model::{
-    CreationMetadata, DatasetDigest, ModelProvenance, Optimization, PortableModel,
-    ReactionProvenance, ResponseSpec, TrainingProvenance,
+    CreationMetadata, DatasetDigest, DescriptorAggregation, ModelProvenance, Optimization,
+    PortableModel, ReactionProvenance, ResponseSpec, TrainingProvenance,
 };
 use steric_x::{FitOptions, ScientificFitReport, SigPackReader, train_scientific_model};
 
@@ -31,6 +31,7 @@ pub(crate) struct PortableModelRequest {
     /// Drop the bootstrap replicates before writing the document.
     pub(crate) omit_bootstrap_ensemble: bool,
     pub(crate) optimization: Optimization,
+    pub(crate) descriptor_aggregation: String,
 }
 
 pub(crate) fn fit_command(
@@ -58,7 +59,12 @@ pub(crate) fn fit_command(
     let labels = load_reaction_metadata(metadata_path)?;
 
     let fit_started = Instant::now();
-    let trained = train_scientific_model(records, &labels, options)?;
+    let aggregation = DescriptorAggregation::from_label(&portable.descriptor_aggregation)?;
+    if aggregation == DescriptorAggregation::Unknown {
+        return Err("new fits require an explicit descriptor aggregation; use supplied_record_values when source provenance is unknown".into());
+    }
+    let mut trained = train_scientific_model(records, &labels, options)?;
+    trained.report.descriptor_aggregation = aggregation;
     let fit_time = fit_started.elapsed();
     let report = &trained.report;
 
@@ -77,6 +83,7 @@ pub(crate) fn fit_command(
 
     let total_time = total_started.elapsed();
     println!("command=fit");
+    println!("descriptor_aggregation={}", aggregation.label());
     println!("records_total={}", records.len());
     println!("training_records={}", report.training_count);
     println!("training_groups={}", report.training_group_count);

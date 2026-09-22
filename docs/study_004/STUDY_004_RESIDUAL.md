@@ -12,11 +12,22 @@ The scaled Study 004 reproduces Kraken's `vbur_max_delta_qvbur_min` across 1541 
 
 ## Interpretation
 
-**Tertiary phosphines — 1517 ligands, 98.4% of the set — are essentially unbiased** (mean residual -0.010 Å³, median -0.001 Å³; class `R^2` = 0.9869). The entire systematic bias lives in the 24 primary and secondary phosphines (1.6% of the set), and it is **monotonic in the number of P-H bonds**: roughly +0.7 Å³ per hydrogen (0 → ~0, 1 → +0.78, 2 → +1.46 Å³).
+**Tertiary phosphines — 1517 ligands, 98.4% of the set — are essentially unbiased** (mean residual -0.010 Å³, median -0.001 Å³; class `R^2` = 0.9869). The class means increase across the 24 primary and secondary phosphines (1.6% of the set), **monotonically with P-H count**: roughly +0.7 Å³ per hydrogen (0 → ~0, 1 → +0.78, 2 → +1.46 Å³).
 
-That monotonic signal points at a single, already-documented cause. The buried-volume centre is placed along a **geometrically inferred** lone-pair direction — the negated sum of the three P-substituent bond vectors — as a stand-in for Kraken's **xTB localized-molecular-orbital** centre. For a tertiary phosphine the three bulky substituents pin that direction tightly, and the two centres coincide. Each P-H bond replaces a heavy substituent with a short, light one: the geometric construction weights that P-H direction exactly like a P-C bond, whereas the true electronic lone pair (and Kraken's LMO centre) does not. The centre shifts, the integration sphere captures slightly more ligand, and the descriptor reads high — by an amount that scales with the count of P-H bonds, exactly as observed.
+**Scientific correction (2026-09-21).** The original electronic-LMO explanation
+was incorrect. The [original Kraken DFT implementation](https://github.com/the-matter-lab/kraken/blob/4eaad505c1343e6083032b4a3fda47e004e19734/conf_selection_and_DFT/PL_dft_library_201027.py)
+places its virtual center along the normalized sum of raw donor–substituent
+vectors. StericX instead sums individually normalized vectors. Both are geometric
+constructions. They can differ for tertiary phosphines as well as P–H donors.
+A near-zero class mean does not imply zero error or coincident centers.
 
-This is a genuine limit of the geometric-centre approximation, not a bug and not something to tune away: closing it would require the xTB LMO centre itself, which is outside the free, reproducible pipeline. It affects 1.6% of the library and none of the tertiary phosphines that make up the Ni-hDA reaction family. The honest headline is unchanged; this note simply shows the residual is understood down to its mechanism.
+The [independent audit](../scientific_accuracy_audit/kraken/REPORT.md) recalculated
+all conformers of the twenty largest headline discrepancies using the original
+center and density. Each resulting discrepancy was at most 0.006275429 Å³. This
+supports a convention explanation for those cases, without attributing every
+residual to one mechanism. Other published-value discrepancies remain unresolved;
+source geometry, ensemble membership and historical dependencies matter. The
+historical table and figure above are retained without rescoring.
 
 ![Residual by P-H count](residual_by_phosphine_class.png)
 

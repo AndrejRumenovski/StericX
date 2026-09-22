@@ -1,0 +1,45 @@
+{
+  "kind": "read-only additional public f32sum scan, unfixed finding",
+  "source_sha256": "b3dc343baf4997c5643d9c8be03a21f523a4abf4603a67a94fb65d70893c87ab",
+  "commands": [
+    {
+      "argv": [
+        ".stericx/scientific_remediation/validated_build_v3/bin/stericx",
+        "db",
+        "build",
+        "--source",
+        "docs/scientific_remediation/geometry/db_mean/inputs",
+        "--output",
+        "docs/scientific_remediation/geometry/db_mean/ungrouped.csv",
+        "--sterimol-axis",
+        "coordination",
+        "--density",
+        "1"
+      ],
+      "returncode": 0,
+      "stdout_sha256": "4e7d184ac698028075a11898e67c13f7899dde362a7ef4f486013ede5f214513",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        ".stericx/scientific_remediation/validated_build_v3/bin/stericx",
+        "search",
+        "--database",
+        "docs/scientific_remediation/geometry/db_mean/ungrouped.csv",
+        "--similar-to",
+        "docs/scientific_remediation/geometry/db_mean/inputs/ligand/conformer_0.sdf",
+        "--features",
+        "sterimol_l",
+        "--sterimol-axis",
+        "coordination",
+        "--density",
+        "1",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "stdout_sha256": "51469909d9a423bb6b99274a26fc521f2faafa062e30727518a23846e08f9b89",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

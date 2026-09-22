@@ -1,0 +1,1913 @@
+{
+  "inputs": {
+    "docs/scientific_accuracy_audit/geometry/requests.jsonl": "f6895aef132734008c575eb6707cee3040d4a2986acdd39370106817217d55fe",
+    ".stericx/scientific_remediation/observations_v2/geometry/stdout.jsonl": "f5c3fa428df83830bd0a4605430308790971406beb9661fe74069182f9f77f94"
+  },
+  "reports": {
+    "permutation": {
+      "counts": {
+        "methylphosphine": 20,
+        "trimethylphosphine": 20,
+        "triphenylphosphine": 20,
+        "asymmetric_phosphine": 20,
+        "trimethylamine": 20,
+        "planar_donor": 20
+      },
+      "changed_rows": {},
+      "acceptance_changes": [],
+      "observed_maxima_not_tolerances": {
+        "sterimol_bond.b1": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "sterimol_bond.b5": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "sterimol_bond.l": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "sterimol_dummy_raw.b1": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "sterimol_dummy_raw.b5": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "sterimol_dummy_raw.l": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "sterimol_coordination.b1": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "sterimol_coordination.b5": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "sterimol_coordination.l": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "pyramidalization.pyr_alpha": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "pyramidalization.pyr_p": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "buried_volume.buried_volume": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "buried_volume.far_vbur": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "buried_volume.max_delta_qvbur": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "buried_volume.near_vbur": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "buried_volume.ovbur_max": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "buried_volume.ovbur_min": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "buried_volume.percent_buried_volume": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "buried_volume.qvbur_max": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        },
+        "buried_volume.qvbur_min": {
+          "id": "methylphosphine__permutation_00",
+          "absolute_change": 0.0
+        }
+      }
+    },
+    "rigid": {
+      "counts": {
+        "methylphosphine": 103,
+        "trimethylphosphine": 103,
+        "triphenylphosphine": 103,
+        "asymmetric_phosphine": 103,
+        "trimethylamine": 103,
+        "planar_donor": 103
+      },
+      "changed_rows": {
+        "sterimol_bond": 618,
+        "sterimol_dummy_raw": 610,
+        "sterimol_coordination": 610,
+        "pyramidalization": 612,
+        "buried_volume": 95
+      },
+      "acceptance_changes": [
+        {
+          "id": "planar_donor__rigid_000",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_000",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_000",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_001",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_001",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_001",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_003",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_003",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_003",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_004",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_004",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_004",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_005",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_005",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_005",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_006",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_006",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_006",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_007",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_007",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_007",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_008",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_008",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_008",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_009",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_009",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_009",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_010",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_010",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_010",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_011",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_011",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_011",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_012",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_012",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_012",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_013",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_013",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_013",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_014",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_014",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_014",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_015",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_015",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_015",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_017",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_017",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_017",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_018",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_018",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_018",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_019",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_019",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_019",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_021",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_021",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_021",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_022",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_022",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_022",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_023",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_023",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_023",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_024",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_024",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_024",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_025",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_025",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_025",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_026",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_026",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_026",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_028",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_028",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_028",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_029",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_029",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_029",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_030",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_030",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_030",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_031",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_031",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_031",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_032",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_032",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_032",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_033",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_033",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_033",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_034",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_034",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_034",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_035",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_035",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_035",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_036",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_036",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_036",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_037",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_037",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_037",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_038",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_038",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_038",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_039",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_039",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_039",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_040",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_040",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_040",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_041",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_041",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_041",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_042",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_042",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_042",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_043",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_043",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_043",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_044",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_044",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_044",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_045",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_045",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_045",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_046",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_046",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_046",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_047",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_047",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_047",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_048",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_048",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_048",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_049",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_049",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_049",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_050",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_050",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_050",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_051",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_051",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_051",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_052",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_052",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_052",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_053",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_053",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_053",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_054",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_054",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_054",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_055",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_055",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_055",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_056",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_056",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_056",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_057",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_057",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_057",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_058",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_058",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_058",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_059",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_059",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_059",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_060",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_060",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_060",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_061",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_061",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_061",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_062",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_062",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_062",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_063",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_063",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_063",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_064",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_064",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_064",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_065",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_065",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_065",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_066",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_066",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_066",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_067",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_067",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_067",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_068",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_068",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_068",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_069",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_069",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_069",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_071",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_071",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_071",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_072",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_072",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_072",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_073",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_073",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_073",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_074",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_074",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_074",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_075",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_075",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_075",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_076",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_076",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_076",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_077",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_077",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_077",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_078",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_078",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_078",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_079",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_079",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_079",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_080",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_080",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_080",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_081",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_081",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_081",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_082",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_082",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_082",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_083",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_083",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_083",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_085",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_085",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_085",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_087",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_087",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_087",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_088",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_088",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_088",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_089",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_089",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_089",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_090",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_090",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_090",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_092",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_092",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_092",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_093",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_093",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_093",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_094",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_094",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_094",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_095",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_095",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_095",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_096",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_096",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_096",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_097",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_097",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_097",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_098",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_098",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_098",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_099",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_099",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_099",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_100",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_100",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_100",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_101",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_101",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_101",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_102",
+          "field": "sterimol_dummy_raw",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_102",
+          "field": "sterimol_coordination",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        },
+        {
+          "id": "planar_donor__rigid_102",
+          "field": "buried_volume",
+          "parent_error": "planar coordination direction is ambiguous; supply an explicit center",
+          "case_error": null
+        }
+      ],
+      "observed_maxima_not_tolerances": {
+        "sterimol_bond.b1": {
+          "id": "triphenylphosphine__rigid_088",
+          "absolute_change": 0.018358230590820312
+        },
+        "sterimol_bond.b5": {
+          "id": "methylphosphine__rigid_046",
+          "absolute_change": 4.5299530029296875e-06
+        },
+        "sterimol_bond.l": {
+          "id": "trimethylamine__rigid_003",
+          "absolute_change": 3.814697265625e-06
+        },
+        "sterimol_dummy_raw.b1": {
+          "id": "triphenylphosphine__rigid_064",
+          "absolute_change": 0.019944190979003906
+        },
+        "sterimol_dummy_raw.b5": {
+          "id": "asymmetric_phosphine__rigid_019",
+          "absolute_change": 4.291534423828125e-06
+        },
+        "sterimol_dummy_raw.l": {
+          "id": "triphenylphosphine__rigid_012",
+          "absolute_change": 9.5367431640625e-06
+        },
+        "sterimol_coordination.b1": {
+          "id": "triphenylphosphine__rigid_064",
+          "absolute_change": 0.019944190979003906
+        },
+        "sterimol_coordination.b5": {
+          "id": "asymmetric_phosphine__rigid_019",
+          "absolute_change": 4.291534423828125e-06
+        },
+        "sterimol_coordination.l": {
+          "id": "triphenylphosphine__rigid_012",
+          "absolute_change": 9.5367431640625e-06
+        },
+        "pyramidalization.pyr_alpha": {
+          "id": "planar_donor__rigid_058",
+          "absolute_change": 0.0002593994140625
+        },
+        "pyramidalization.pyr_p": {
+          "id": "planar_donor__rigid_058",
+          "absolute_change": 3.91562298318604e-06
+        },
+        "buried_volume.buried_volume": {
+          "id": "methylphosphine__rigid_000",
+          "absolute_change": 0.0
+        },
+        "buried_volume.far_vbur": {
+          "id": "methylphosphine__rigid_000",
+          "absolute_change": 0.0
+        },
+        "buried_volume.max_delta_qvbur": {
+          "id": "methylphosphine__rigid_000",
+          "absolute_change": 0.0
+        },
+        "buried_volume.near_vbur": {
+          "id": "methylphosphine__rigid_000",
+          "absolute_change": 0.0
+        },
+        "buried_volume.ovbur_max": {
+          "id": "methylphosphine__rigid_000",
+          "absolute_change": 0.0
+        },
+        "buried_volume.ovbur_min": {
+          "id": "methylphosphine__rigid_000",
+          "absolute_change": 0.0
+        },
+        "buried_volume.percent_buried_volume": {
+          "id": "methylphosphine__rigid_000",
+          "absolute_change": 0.0
+        },
+        "buried_volume.qvbur_max": {
+          "id": "methylphosphine__rigid_000",
+          "absolute_change": 0.0
+        },
+        "buried_volume.qvbur_min": {
+          "id": "methylphosphine__rigid_000",
+          "absolute_change": 0.0
+        }
+      }
+    }
+  }
+}

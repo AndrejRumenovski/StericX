@@ -1,0 +1,186 @@
+{
+  "created_utc": "2026-09-22T00:04:08.868763+00:00",
+  "purpose": "Bounded independent diagnosis; never changes observations or tolerances.",
+  "python": "3.12.13 (main, Jul 18 2026, 17:02:19) [Clang 22.1.3 ]",
+  "parent_result": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/independent_baseline_geometry_kraken/result.json",
+    "sha256": "36895ece87ce175d1a8fb3e34a9cb4b86e6b116f6ac745fdb45c5711757c8f88",
+    "bytes": 18928555
+  },
+  "parent_differences": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/independent_baseline_geometry_kraken/historical_value_differences.jsonl",
+    "sha256": "a66c8a08d2697bf6aeeff4c91832a54c4b4268a9171fab3d9d37ac71690e1eb3",
+    "bytes": 2003
+  },
+  "identities": [
+    {
+      "relative": "scripts/geometry_run.py",
+      "historical": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/scripts/geometry_run.py",
+        "sha256": "78d268a9a79ad27d3bc4278385bb31a0af20358e0da307092302a79d89b89d49",
+        "bytes": 6157
+      },
+      "new": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/independent_baseline_geometry_kraken/recalculation/scripts/geometry_run.py",
+        "sha256": "78d268a9a79ad27d3bc4278385bb31a0af20358e0da307092302a79d89b89d49",
+        "bytes": 6157
+      },
+      "byte_identical": true
+    },
+    {
+      "relative": "scripts/geometry_reference.py",
+      "historical": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/scripts/geometry_reference.py",
+        "sha256": "e08724b2da8ef85eb78b86e4890e5ed180786bfe6ed02656ed1bbf1aa1aaa6d1",
+        "bytes": 10112
+      },
+      "new": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/independent_baseline_geometry_kraken/recalculation/scripts/geometry_reference.py",
+        "sha256": "e08724b2da8ef85eb78b86e4890e5ed180786bfe6ed02656ed1bbf1aa1aaa6d1",
+        "bytes": 10112
+      },
+      "byte_identical": true
+    },
+    {
+      "relative": "kraken/scripts/kraken_analyze.py",
+      "historical": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/kraken/scripts/kraken_analyze.py",
+        "sha256": "2b4ef7a55655c651d23e6c688499bb1aa8371300cad1cfba78597b43b272d26d",
+        "bytes": 9993
+      },
+      "new": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/independent_baseline_geometry_kraken/recalculation/kraken/scripts/kraken_analyze.py",
+        "sha256": "2b4ef7a55655c651d23e6c688499bb1aa8371300cad1cfba78597b43b272d26d",
+        "bytes": 9993
+      },
+      "byte_identical": true
+    },
+    {
+      "relative": "kraken/scripts/kraken_interpret.py",
+      "historical": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/kraken/scripts/kraken_interpret.py",
+        "sha256": "5eb5132a34346cbdf244cf872f37df7816d12b83ff7d0ef8b659014267bc8a8e",
+        "bytes": 11234
+      },
+      "new": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/independent_baseline_geometry_kraken/recalculation/kraken/scripts/kraken_interpret.py",
+        "sha256": "5eb5132a34346cbdf244cf872f37df7816d12b83ff7d0ef8b659014267bc8a8e",
+        "bytes": 11234
+      },
+      "byte_identical": true
+    },
+    {
+      "relative": "kraken/interpretation/full_primary_conformers.csv",
+      "historical": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/kraken/interpretation/full_primary_conformers.csv",
+        "sha256": "d8cca972f19ce98c17e18edceb8d58052e9cac9c1e7db6ca5567a4497dc87f97",
+        "bytes": 28475413
+      },
+      "new": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/independent_baseline_geometry_kraken/recalculation/kraken/interpretation/full_primary_conformers.csv",
+        "sha256": "d8cca972f19ce98c17e18edceb8d58052e9cac9c1e7db6ca5567a4497dc87f97",
+        "bytes": 28475413
+      },
+      "byte_identical": true
+    },
+    {
+      "relative": "kraken/full_analytic_reference/reference_raw.jsonl",
+      "historical": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/kraken/full_analytic_reference/reference_raw.jsonl",
+        "sha256": "de4b4ba18fa5b46620b13837c7f3749eaf8a37067d2360485cb24ed99807cb88",
+        "bytes": 14969232
+      },
+      "new": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/independent_baseline_geometry_kraken/recalculation/kraken/full_analytic_reference/reference_raw.jsonl",
+        "sha256": "de4b4ba18fa5b46620b13837c7f3749eaf8a37067d2360485cb24ed99807cb88",
+        "bytes": 14969232
+      },
+      "byte_identical": true
+    }
+  ],
+  "geometry": {
+    "record": 793,
+    "id": "asymmetric_toy__translation_10000000.0",
+    "same_error": "undefined direction",
+    "same_exception_type": "ValueError",
+    "all_other_fields_exact": true,
+    "historical_traceback": "Traceback (most recent call last):\n  File \"/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/scripts/geometry_run.py\", line 43, in compare\n    try:row['buried_volume']=bv_refs(c,xyz,center=center)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/scripts/geometry_reference.py\", line 111, in bv_refs\n    z=unit(center-xyz[d]);x=unit((xyz[plane]-center)-np.dot(xyz[plane]-center,z)*z);y=np.cross(z,x)\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_accuracy_audit/scripts/geometry_reference.py\", line 22, in unit\n    if n==0 or not np.isfinite(n):raise ValueError('undefined direction')\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: undefined direction\n",
+    "new_traceback": "Traceback (most recent call last):\n  File \"/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/independent_baseline_geometry_kraken/recalculation/scripts/geometry_run.py\", line 139, in compare\n    row[\"buried_volume\"] = bv_refs(c, xyz, center=center)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/independent_baseline_geometry_kraken/recalculation/scripts/geometry_reference.py\", line 232, in bv_refs\n    x = unit((xyz[plane] - center) - np.dot(xyz[plane] - center, z) * z)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/independent_baseline_geometry_kraken/recalculation/scripts/geometry_reference.py\", line 30, in unit\n    raise ValueError(\"undefined direction\")\nValueError: undefined direction\n",
+    "diagnosis": "The stored traceback quotes compact source and old line numbers; the replay quotes formatted source at new line numbers. Both retain the same undefined-direction failure, and every other field is identical. The sealed/replayed source files are byte-identical. Earlier formatting of the captured traceback is an inference from its embedded source text."
+  },
+  "kraken": {
+    "rows": 31713,
+    "historical_r2": 0.9773894966180671,
+    "new_r2": 0.977389496618067,
+    "historical_hex": "0x1.f46c6566db647p-1",
+    "new_hex": "0x1.f46c6566db646p-1",
+    "absolute_difference": 1.1102230246251565e-16,
+    "ulp_difference": 1.0,
+    "openblas": [
+      {
+        "user_api": "blas",
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "filepath": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/lib/python3.12/site-packages/numpy.libs/libscipy_openblas64_-017048f4.so",
+        "version": "0.3.33.112.0",
+        "threading_layer": "pthreads",
+        "architecture": "Haswell"
+      }
+    ],
+    "controlled_thread_results": [
+      {
+        "threads": 1,
+        "sse": 404.69667502014073,
+        "sst": 17898.61411681418,
+        "r2": 0.977389496618067
+      },
+      {
+        "threads": 2,
+        "sse": 404.69667502014056,
+        "sst": 17898.61411681418,
+        "r2": 0.977389496618067
+      },
+      {
+        "threads": 3,
+        "sse": 404.6966750201405,
+        "sst": 17898.61411681418,
+        "r2": 0.9773894966180671
+      },
+      {
+        "threads": 4,
+        "sse": 404.69667502014033,
+        "sst": 17898.61411681418,
+        "r2": 0.9773894966180671
+      },
+      {
+        "threads": 6,
+        "sse": 404.6966750201404,
+        "sst": 17898.61411681418,
+        "r2": 0.9773894966180671
+      },
+      {
+        "threads": 8,
+        "sse": 404.6966750201404,
+        "sst": 17898.61411681418,
+        "r2": 0.9773894966180671
+      },
+      {
+        "threads": 16,
+        "sse": 404.69667502014045,
+        "sst": 17898.61411681418,
+        "r2": 0.9773894966180671
+      }
+    ],
+    "decimal80": {
+      "sse": "404.69667502014037736200679337145581723994834771179984538653806895244779973097661",
+      "sst": "17898.614116814181171549193392786619547453078477364612084510083728143224364869839",
+      "r2": "0.97738949661806702245632191367779470698103063437588478832211875363820256197675056",
+      "rounded_f64_r2": 0.9773894966180671
+    },
+    "diagnosis": "Identical descriptor rows give different final float64 rounding through the BLAS dot-product reduction. One thread reproduces the new value, while three or more tested threads reproduce the stored historical value. This isolates a reference-summary reduction effect; it does not establish the historical process thread count. No tolerance is added."
+  },
+  "original_exact_replay_gate_changed": false,
+  "scientific_pass_claimed": false,
+  "scope": "A source-formatting traceback difference and one-ULP independent summary difference are diagnosed. Original mismatch records, reference values and all negative scientific findings remain."
+}

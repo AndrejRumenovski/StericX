@@ -1,0 +1,38 @@
+{
+  "kind": "fixed_variant_mean_comparison",
+  "global_scientific_pass": false,
+  "thresholds_added": false,
+  "inputs": {
+    ".stericx/scientific_remediation/fixed_reference_union_v4/complete.json": "2c61aad0ba518dab166410dc1368f94223c5825077f741fe15f31c34d17a3639",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/geometry/summarize_fixed_variant_union.py": "acb33325736d63c738be625192d466f16e085d97c9fd0374e1f404d0746b4ae8",
+    ".stericx/scientific_remediation/fixed_reference_union_v4/inferred/mean_recombination.jsonl": "9ef2a4f64ef4ea314e002509c1ba08ff57dc4e4067ffc33106b202794fade6e8",
+    ".stericx/scientific_remediation/fixed_reference_union_v4/inferred/reference_raw.jsonl": "96ace544b2dfd6492bed4ed1a809da315fa778468dff52d40e2b23601f9b55d0",
+    ".stericx/scientific_remediation/fixed_reference_union_v4/inferred/selected_inputs.jsonl": "fb8e133339b415d83e6d0f281c00df31422c4c9f89965f4628d03004d92dacc9",
+    ".stericx/scientific_remediation/fixed_reference_union_v4/topology/mean_recombination.jsonl": "ef964983e2cd33317568c3fa64b3472817661a23cb846532221e2d75bd4b268a",
+    ".stericx/scientific_remediation/fixed_reference_union_v4/topology/reference_raw.jsonl": "be3bde0c745d9bbb8c795424e9ff18ed850db292a87f92576aea67c9837085ab",
+    ".stericx/scientific_remediation/fixed_reference_union_v4/topology/selected_inputs.jsonl": "6a172d62606fb2171e10a74701ce88deade0e81777b1218afd068507c98dbc12"
+  },
+  "status_counts": {
+    "inferred/matched_sut_001/compared": 2509,
+    "inferred/matched_sut_0001/compared": 2509,
+    "inferred/primary_001/compared": 2509,
+    "inferred/primary_0001/compared": 2509,
+    "inferred/matched_sut_001/missing_reference": 8,
+    "inferred/matched_sut_0001/missing_reference": 8,
+    "inferred/primary_001/sut_error": 8,
+    "inferred/primary_0001/sut_error": 8,
+    "topology/matched_sut_001/compared": 2509,
+    "topology/matched_sut_0001/compared": 2509,
+    "topology/primary_001/compared": 2517,
+    "topology/primary_0001/compared": 2517,
+    "topology/matched_sut_001/different_plane_set": 8,
+    "topology/matched_sut_0001/different_plane_set": 8
+  },
+  "artifacts": {
+    "exceptions.json": "332b99c978f339fb5321e15d6746328c03a7fdbba4c168155d55c02167b7b16a",
+    "metrics.json": "fbbeddb02cc9b1a455f6110c74971a9a29be5f67b706d393f9b98624194e3142",
+    "per_id_residuals.jsonl": "69a4ce9c8af1b13b6783fd07fc4b67e39dd3a60f2b07ddf1b50df649c8259948",
+    "summarize_fixed_variant_union.py": "acb33325736d63c738be625192d466f16e085d97c9fd0374e1f404d0746b4ae8",
+    "top20.json": "02c7c41f5d6b4b9d384212149f065baf052417ffe38929d41bdb4aa205f33f89"
+  }
+}

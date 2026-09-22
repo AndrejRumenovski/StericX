@@ -1,0 +1,7 @@
+# These benchmark programs are frozen evidence: their exact bytes are hashed in
+# preflight receipts and the evidence manifest. Reformatting changes that record.
+# CI verifies the archived evidence instead; repository support scripts continue
+# to use the normal lint and formatting rules.
+extend = "../../../pyproject.toml"
+extend-exclude = ["*.py"]
+cache-dir = "../../../.ruff_cache"

@@ -6,6 +6,11 @@
       "sha256": "723b10bf47f470c1956c15e2fdf4adecbb5206e8b9b9424314c39873226dea61"
     },
     {
+      "path": ".ruff.toml",
+      "bytes": 386,
+      "sha256": "e008bfcf17307cccc170b04048389f2468551766a4e5e3847242e24bd0799e81"
+    },
+    {
       "path": "BENCHMARK.md",
       "bytes": 28487,
       "sha256": "8f04046e03967262f3ba6c5883d7224669ff11db31aab7f6e17f8f15691c41b6"
@@ -5271,5 +5276,7 @@
       "sha256": "c88568d02ce5aa4d2a4640fa82f3019dde33418a6cdd90f334f46a164e3d5e33"
     }
   ],
-  "excluded": "Disposable target/venv/cache and regenerated repeated_10000; original 56 input files and manifests retained"
+  "excluded": "Disposable target/venv/cache and regenerated repeated_10000; original 56 input files and manifests retained",
+  "previous_manifest_sha256": "bbae821ea91ec858c4dccd9dba3f8aeaf1d7d769fcbc5ca9f5c9ba76d5d69911",
+  "revision_reason": "Add archive-specific Ruff configuration; every previously sealed artifact remains byte-identical. CI separately verifies evidence integrity."
 }

@@ -239,10 +239,11 @@ fn all_eight_audited_topology_failures_use_the_independently_verified_graph() {
         let r: Value = serde_json::from_str(line).unwrap();
         let id = r["id"].as_str().unwrap();
         let conformer = id.rsplit(':').next().unwrap();
-        let file = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(format!(
-            "docs/scientific_accuracy_audit/kraken/primary/conformers/{conformer}.body"
-        ));
-        let frames = parse_sdf_with_topology(&std::fs::read_to_string(file).unwrap()).unwrap();
+        let file = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join(format!("tests/data/topology/{conformer}.sdf"));
+        let sdf = std::fs::read_to_string(&file)
+            .unwrap_or_else(|error| panic!("could not read {}: {error}", file.display()));
+        let frames = parse_sdf_with_topology(&sdf).unwrap();
         let frame = &frames[0];
         let donor = r["donor"].as_u64().unwrap() as usize;
         let expected: Vec<usize> = r["neighbors"]

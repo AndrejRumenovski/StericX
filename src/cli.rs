@@ -14,10 +14,8 @@ pub(crate) struct Cli {
     pub(crate) command: Command,
 }
 
-// clap derives one variant per subcommand with its flags as flat fields, so the
-// variants are inherently uneven in size and cannot be boxed without giving up
-// the derive. The enum is constructed once per process, so the size spread costs
-// nothing measurable.
+// Parsed argument groups are uneven in size. The enum is constructed once per
+// process, so boxing its largest variants would add unnecessary indirection.
 #[allow(clippy::large_enum_variant)]
 #[derive(Debug, Subcommand)]
 pub(crate) enum Command {
@@ -73,73 +71,7 @@ pub(crate) enum Command {
         weights: PathBuf,
     },
     /// Fit and freeze an interpretable physical-organic regression model.
-    Fit {
-        /// Input `.sigpack` matrix.
-        #[arg(long)]
-        data: PathBuf,
-        /// Row-aligned CSV containing Reaction_ID, Dataset_Split, and Ligand_Group.
-        #[arg(long)]
-        metadata: PathBuf,
-        /// Destination model and scientific diagnostics JSON.
-        #[arg(long)]
-        output: PathBuf,
-        /// Frozen predictions for every non-training row.
-        #[arg(long)]
-        predictions: PathBuf,
-        /// Declared training descriptor method; sigpack does not infer populations.
-        #[arg(long, default_value = "supplied_record_values", value_parser = ["supplied_record_values", "single_geometry", "supplied_weight_mean"])]
-        descriptor_aggregation: String,
-        /// Maximum number of non-intercept model terms.
-        #[arg(long, default_value_t = 3)]
-        max_terms: usize,
-        /// Bootstrap coefficient-interval replicates.
-        #[arg(long, default_value_t = 1_000)]
-        bootstrap: usize,
-        /// Response-permutation null replicates.
-        #[arg(long, default_value_t = 500)]
-        permutations: usize,
-        /// Deterministic resampling seed.
-        #[arg(long, default_value_t = 20_260_725)]
-        seed: u64,
-        /// Optional destination for a schema-3 portable model document.
-        #[arg(long)]
-        portable_model: Option<PathBuf>,
-        /// Model identifier recorded in the portable document.
-        #[arg(long)]
-        model_id: Option<String>,
-        /// Reaction family this model applies to, recorded verbatim.
-        #[arg(long)]
-        reaction_family: Option<String>,
-        /// Catalyst metal this model applies to.
-        #[arg(long)]
-        catalyst_metal: Option<String>,
-        /// Ligand class this model applies to.
-        #[arg(long)]
-        ligand_class: Option<String>,
-        /// Provenance URL for the training data.
-        #[arg(long)]
-        source_url: Option<String>,
-        /// Temperature the response refers to, in kelvin.
-        #[arg(long)]
-        response_temp_k: Option<f32>,
-        /// Definition of the target's sign or magnitude, recorded in
-        /// the portable model. No R/S assignment is inferred from numeric data.
-        #[arg(long, requires = "portable_model")]
-        response_sign_convention: Option<String>,
-        /// Omit the bootstrap replicate ensemble from the portable model.
-        ///
-        /// The ensemble is what lets `screen` report an uncertainty interval
-        /// without refitting, but it is the bulk of the document: one row per
-        /// replicate per coefficient. Omit it when size matters more than
-        /// self-sufficiency; screening then reports no bootstrap interval
-        /// rather than inventing one.
-        #[arg(long)]
-        omit_bootstrap_ensemble: bool,
-        /// Which direction of the response counts as better. Recorded in the
-        /// portable model; screening refuses to rank without it.
-        #[arg(long, value_enum, default_value_t = OptimizeDirection::Unspecified)]
-        optimize: OptimizeDirection,
-    },
+    Fit(FitArgs),
     /// Reveal and score previously frozen non-training predictions.
     Evaluate {
         /// Input `.sigpack` matrix containing experimental targets.
@@ -222,96 +154,7 @@ pub(crate) enum Command {
     /// like "a less bulky ligand of similar shape" or "%Vbur between 30 and 35
     /// with B5 under 7 Å" are one command. The ranking is steric similarity,
     /// not a prediction of reactivity.
-    Search {
-        /// Query ligand geometry (`.xyz`, `.sdf`, `.mol`). Omit it to run a
-        /// pure constraint query, where the filters alone select the ligands.
-        #[arg(long = "similar-to", visible_alias = "ligand", value_name = "FILE")]
-        ligand: Option<PathBuf>,
-        /// Database to search: a `stericx db build` table, a descriptors CSV, or
-        /// a directory of geometries to featurize on the fly.
-        #[arg(long = "database", visible_alias = "library", value_name = "DB|DIR")]
-        library: PathBuf,
-        /// Number of hits to report.
-        #[arg(long, default_value_t = 10)]
-        top: usize,
-        /// Descriptor to order a constraint-only query by (default: the first
-        /// constrained descriptor). Ignored when --similar-to is given.
-        #[arg(long, value_name = "DESCRIPTOR")]
-        sort_by: Option<String>,
-        /// Sort a constraint-only query descending.
-        #[arg(long)]
-        descending: bool,
-        /// Comma-separated descriptors defining similarity (default: shape
-        /// envelope, %Vbur, quadrant asymmetry, and pyramidalization).
-        #[arg(long)]
-        features: Option<String>,
-        /// Constraint such as `vbur=30..35`, `b5<7`, or `l>=8`. Repeatable.
-        #[arg(long = "filter", value_name = "EXPR")]
-        filters: Vec<String>,
-        /// Keep ligands whose %Vbur falls in this range, e.g. `30:35`.
-        #[arg(long, value_name = "LOW:HIGH")]
-        vbur: Option<String>,
-        /// Keep ligands whose Sterimol L falls in this range.
-        #[arg(long, value_name = "LOW:HIGH")]
-        l: Option<String>,
-        /// Keep ligands whose Sterimol B1 falls in this range.
-        #[arg(long, value_name = "LOW:HIGH")]
-        b1: Option<String>,
-        /// Keep ligands whose Sterimol B5 falls in this range.
-        #[arg(long, value_name = "LOW:HIGH")]
-        b5: Option<String>,
-        /// Minimum %Vbur (inclusive).
-        #[arg(long)]
-        vbur_min: Option<f32>,
-        /// Maximum %Vbur (inclusive).
-        #[arg(long)]
-        vbur_max: Option<f32>,
-        /// Minimum Sterimol L (inclusive).
-        #[arg(long)]
-        l_min: Option<f32>,
-        /// Maximum Sterimol L (inclusive).
-        #[arg(long)]
-        l_max: Option<f32>,
-        /// Minimum Sterimol B1 (inclusive).
-        #[arg(long)]
-        b1_min: Option<f32>,
-        /// Maximum Sterimol B1 (inclusive).
-        #[arg(long)]
-        b1_max: Option<f32>,
-        /// Minimum Sterimol B5 (inclusive).
-        #[arg(long)]
-        b5_min: Option<f32>,
-        /// Maximum Sterimol B5 (inclusive).
-        #[arg(long)]
-        b5_max: Option<f32>,
-        /// Keep only candidates less buried than the query.
-        #[arg(long)]
-        less_bulky: bool,
-        /// Keep only candidates more buried than the query.
-        #[arg(long)]
-        more_bulky: bool,
-        /// Donor element to locate (defaults to phosphorus).
-        #[arg(long, default_value = "P")]
-        donor_element: String,
-        /// Sterimol axis used for both query and library.
-        #[arg(long, value_enum, default_value_t = SterimolAxis::Bond)]
-        sterimol_axis: SterimolAxis,
-        /// Output format.
-        #[arg(long, value_enum, default_value_t = DescriptorFormat::Text)]
-        format: DescriptorFormat,
-        /// Metal-centred integration sphere radius in ångströms.
-        #[arg(long, default_value_t = 3.5)]
-        sphere_radius: f32,
-        /// Grid density in Å³ per point.
-        #[arg(long, default_value_t = 0.01)]
-        density: f32,
-        /// Donor-to-virtual-metal distance in ångströms.
-        #[arg(long, default_value_t = 2.28)]
-        center_distance: f32,
-        /// Bondi radius scale factor used by Morfeus.
-        #[arg(long, default_value_t = 1.17)]
-        radii_scale: f32,
-    },
+    Search(SearchArgs),
     /// Rank a ligand library with a fitted reaction model.
     ///
     /// Reports predicted performance, a marginal-coefficient envelope from the
@@ -321,96 +164,7 @@ pub(crate) enum Command {
     /// selected an electronic term (`nbo_charge`, `ir_frequency`, or an
     /// interaction) cannot be screened from geometry alone, and `screen` says so
     /// rather than guessing the missing quantity.
-    Screen {
-        /// Fitted model JSON produced by `stericx fit`.
-        #[arg(value_name = "MODEL")]
-        model: PathBuf,
-        /// Library: a directory of geometries, a descriptors CSV, or a reaction
-        /// CSV carrying `NBO_Charge` / `IR_Frequency`. May also be given as
-        /// `--library`.
-        #[arg(value_name = "LIBRARY")]
-        library: Option<PathBuf>,
-        /// The library, named explicitly. Equivalent to the positional form.
-        #[arg(long = "library", value_name = "PATH", conflicts_with = "library")]
-        library_flag: Option<PathBuf>,
-        /// Report only the best N ligands (default: all).
-        #[arg(long)]
-        top: Option<usize>,
-        /// Temperature used to convert predicted ΔΔG‡ into an ee.
-        #[arg(long, default_value_t = 298.15)]
-        temperature: f32,
-        /// Keep only candidates the applicability domain calls `interpolation`.
-        ///
-        /// Off by default: an out-of-domain ligand is reported with its
-        /// prediction and a warning, never silently dropped. When this is set
-        /// the report states how many candidates were removed and why.
-        #[arg(long, visible_alias = "inside-domain-only")]
-        in_domain_only: bool,
-        /// Rank ascending (smallest predicted value first), overriding the
-        /// direction the model records.
-        #[arg(long)]
-        ascending: bool,
-        /// Write a candidate deck for experimental review to this CSV path.
-        ///
-        /// A sidecar `<path>.meta.json` is written alongside it carrying the
-        /// exact configuration and provenance needed to reproduce the deck.
-        /// The deck never contains an experimental response: it is built from
-        /// predictions and descriptors, so a blinded target cannot leak into it.
-        #[arg(long, value_name = "CSV")]
-        export_deck: Option<PathBuf>,
-        /// Exclude ligands already tested experimentally, named in a CSV.
-        ///
-        /// Matched by stable identifier first, using the same column names the
-        /// library accepts; a SMILES column is a secondary key applied only to
-        /// entries no identifier resolved. Identifiers that match nothing are
-        /// reported in full, never silently dropped.
-        #[arg(long, value_name = "CSV")]
-        exclude_tested: Option<PathBuf>,
-        /// Select a diverse subset instead of the plain top of the ranking.
-        ///
-        /// Greedy maximal-marginal-relevance over the ranked pool, balancing
-        /// predicted desirability against separation in the same standardized
-        /// descriptor space the applicability domain uses. Off by default;
-        /// ordinary ranking is untouched.
-        #[arg(long)]
-        diverse: bool,
-        /// How strongly `--diverse` weights separation over desirability.
-        ///
-        /// 0 reproduces the ordinary ranking exactly, 1 ignores desirability
-        /// after the first pick. Only meaningful with `--diverse`.
-        #[arg(long, default_value_t = 0.5, value_name = "0..1")]
-        diversity_weight: f64,
-        /// Which statistic of the training set's nearest-neighbour spacing
-        /// bounds the applicability domain. Every choice is derived from the
-        /// training distribution recorded in the model; none is a free cutoff.
-        #[arg(long, value_enum, default_value_t = DomainRuleArg::MaxNeighbor)]
-        domain_rule: DomainRuleArg,
-        /// Rank descending (largest predicted value first), overriding the
-        /// direction the model records.
-        #[arg(long, conflicts_with = "ascending")]
-        descending: bool,
-        /// Donor element to locate when featurizing a geometry library.
-        #[arg(long, default_value = "P")]
-        donor_element: String,
-        /// Sterimol axis used when featurizing a geometry library.
-        #[arg(long, value_enum, default_value_t = SterimolAxis::Bond)]
-        sterimol_axis: SterimolAxis,
-        /// Output format.
-        #[arg(long, value_enum, default_value_t = DescriptorFormat::Text)]
-        format: DescriptorFormat,
-        /// Metal-centred integration sphere radius in ångströms.
-        #[arg(long, default_value_t = 3.5)]
-        sphere_radius: f32,
-        /// Grid density in Å³ per point.
-        #[arg(long, default_value_t = 0.01)]
-        density: f32,
-        /// Donor-to-virtual-metal distance in ångströms.
-        #[arg(long, default_value_t = 2.28)]
-        center_distance: f32,
-        /// Bondi radius scale factor used by Morfeus.
-        #[arg(long, default_value_t = 1.17)]
-        radii_scale: f32,
-    },
+    Screen(ScreenArgs),
     /// Compare two or more ligands side by side.
     ///
     /// Prints every descriptor for each ligand, the spread across them, and —
@@ -506,6 +260,262 @@ pub(crate) enum DbCommand {
         #[arg(long, default_value_t = 1.17)]
         radii_scale: f32,
     },
+}
+
+// Keep the largest argument groups in separate generated parsers. Putting all
+// their flags directly in Command makes clap's debug-build stack frame too
+// large for the Windows main thread, even before a command is dispatched.
+#[derive(Debug, clap::Args)]
+pub(crate) struct SearchArgs {
+    /// Query ligand geometry (`.xyz`, `.sdf`, `.mol`). Omit it to run a
+    /// pure constraint query, where the filters alone select the ligands.
+    #[arg(long = "similar-to", visible_alias = "ligand", value_name = "FILE")]
+    pub(crate) ligand: Option<PathBuf>,
+    /// Database to search: a `stericx db build` table, a descriptors CSV, or
+    /// a directory of geometries to featurize on the fly.
+    #[arg(long = "database", visible_alias = "library", value_name = "DB|DIR")]
+    pub(crate) library: PathBuf,
+    /// Number of hits to report.
+    #[arg(long, default_value_t = 10)]
+    pub(crate) top: usize,
+    /// Descriptor to order a constraint-only query by (default: the first
+    /// constrained descriptor). Ignored when --similar-to is given.
+    #[arg(long, value_name = "DESCRIPTOR")]
+    pub(crate) sort_by: Option<String>,
+    /// Sort a constraint-only query descending.
+    #[arg(long)]
+    pub(crate) descending: bool,
+    /// Comma-separated descriptors defining similarity (default: shape
+    /// envelope, %Vbur, quadrant asymmetry, and pyramidalization).
+    #[arg(long)]
+    pub(crate) features: Option<String>,
+    /// Constraint such as `vbur=30..35`, `b5<7`, or `l>=8`. Repeatable.
+    #[arg(long = "filter", value_name = "EXPR")]
+    pub(crate) filters: Vec<String>,
+    /// Keep ligands whose %Vbur falls in this range, e.g. `30:35`.
+    #[arg(long, value_name = "LOW:HIGH")]
+    pub(crate) vbur: Option<String>,
+    /// Keep ligands whose Sterimol L falls in this range.
+    #[arg(long, value_name = "LOW:HIGH")]
+    pub(crate) l: Option<String>,
+    /// Keep ligands whose Sterimol B1 falls in this range.
+    #[arg(long, value_name = "LOW:HIGH")]
+    pub(crate) b1: Option<String>,
+    /// Keep ligands whose Sterimol B5 falls in this range.
+    #[arg(long, value_name = "LOW:HIGH")]
+    pub(crate) b5: Option<String>,
+    /// Minimum %Vbur (inclusive).
+    #[arg(long)]
+    pub(crate) vbur_min: Option<f32>,
+    /// Maximum %Vbur (inclusive).
+    #[arg(long)]
+    pub(crate) vbur_max: Option<f32>,
+    /// Minimum Sterimol L (inclusive).
+    #[arg(long)]
+    pub(crate) l_min: Option<f32>,
+    /// Maximum Sterimol L (inclusive).
+    #[arg(long)]
+    pub(crate) l_max: Option<f32>,
+    /// Minimum Sterimol B1 (inclusive).
+    #[arg(long)]
+    pub(crate) b1_min: Option<f32>,
+    /// Maximum Sterimol B1 (inclusive).
+    #[arg(long)]
+    pub(crate) b1_max: Option<f32>,
+    /// Minimum Sterimol B5 (inclusive).
+    #[arg(long)]
+    pub(crate) b5_min: Option<f32>,
+    /// Maximum Sterimol B5 (inclusive).
+    #[arg(long)]
+    pub(crate) b5_max: Option<f32>,
+    /// Keep only candidates less buried than the query.
+    #[arg(long)]
+    pub(crate) less_bulky: bool,
+    /// Keep only candidates more buried than the query.
+    #[arg(long)]
+    pub(crate) more_bulky: bool,
+    /// Donor element to locate (defaults to phosphorus).
+    #[arg(long, default_value = "P")]
+    pub(crate) donor_element: String,
+    /// Sterimol axis used for both query and library.
+    #[arg(long, value_enum, default_value_t = SterimolAxis::Bond)]
+    pub(crate) sterimol_axis: SterimolAxis,
+    /// Output format.
+    #[arg(long, value_enum, default_value_t = DescriptorFormat::Text)]
+    pub(crate) format: DescriptorFormat,
+    /// Metal-centred integration sphere radius in ångströms.
+    #[arg(long, default_value_t = 3.5)]
+    pub(crate) sphere_radius: f32,
+    /// Grid density in Å³ per point.
+    #[arg(long, default_value_t = 0.01)]
+    pub(crate) density: f32,
+    /// Donor-to-virtual-metal distance in ångströms.
+    #[arg(long, default_value_t = 2.28)]
+    pub(crate) center_distance: f32,
+    /// Bondi radius scale factor used by Morfeus.
+    #[arg(long, default_value_t = 1.17)]
+    pub(crate) radii_scale: f32,
+}
+
+#[derive(Debug, clap::Args)]
+pub(crate) struct FitArgs {
+    /// Input `.sigpack` matrix.
+    #[arg(long)]
+    pub(crate) data: PathBuf,
+    /// Row-aligned CSV containing Reaction_ID, Dataset_Split, and Ligand_Group.
+    #[arg(long)]
+    pub(crate) metadata: PathBuf,
+    /// Destination model and scientific diagnostics JSON.
+    #[arg(long)]
+    pub(crate) output: PathBuf,
+    /// Frozen predictions for every non-training row.
+    #[arg(long)]
+    pub(crate) predictions: PathBuf,
+    /// Declared training descriptor method; sigpack does not infer populations.
+    #[arg(long, default_value = "supplied_record_values", value_parser = ["supplied_record_values", "single_geometry", "supplied_weight_mean"])]
+    pub(crate) descriptor_aggregation: String,
+    /// Maximum number of non-intercept model terms.
+    #[arg(long, default_value_t = 3)]
+    pub(crate) max_terms: usize,
+    /// Bootstrap coefficient-interval replicates.
+    #[arg(long, default_value_t = 1_000)]
+    pub(crate) bootstrap: usize,
+    /// Response-permutation null replicates.
+    #[arg(long, default_value_t = 500)]
+    pub(crate) permutations: usize,
+    /// Deterministic resampling seed.
+    #[arg(long, default_value_t = 20_260_725)]
+    pub(crate) seed: u64,
+    /// Optional destination for a schema-3 portable model document.
+    #[arg(long)]
+    pub(crate) portable_model: Option<PathBuf>,
+    /// Model identifier recorded in the portable document.
+    #[arg(long)]
+    pub(crate) model_id: Option<String>,
+    /// Reaction family this model applies to, recorded verbatim.
+    #[arg(long)]
+    pub(crate) reaction_family: Option<String>,
+    /// Catalyst metal this model applies to.
+    #[arg(long)]
+    pub(crate) catalyst_metal: Option<String>,
+    /// Ligand class this model applies to.
+    #[arg(long)]
+    pub(crate) ligand_class: Option<String>,
+    /// Provenance URL for the training data.
+    #[arg(long)]
+    pub(crate) source_url: Option<String>,
+    /// Temperature the response refers to, in kelvin.
+    #[arg(long)]
+    pub(crate) response_temp_k: Option<f32>,
+    /// Definition of the target's sign or magnitude, recorded in
+    /// the portable model. No R/S assignment is inferred from numeric data.
+    #[arg(long, requires = "portable_model")]
+    pub(crate) response_sign_convention: Option<String>,
+    /// Omit the bootstrap replicate ensemble from the portable model.
+    ///
+    /// The ensemble is what lets `screen` report an uncertainty interval
+    /// without refitting, but it is the bulk of the document: one row per
+    /// replicate per coefficient. Omit it when size matters more than
+    /// self-sufficiency; screening then reports no bootstrap interval
+    /// rather than inventing one.
+    #[arg(long)]
+    pub(crate) omit_bootstrap_ensemble: bool,
+    /// Which direction of the response counts as better. Recorded in the
+    /// portable model; screening refuses to rank without it.
+    #[arg(long, value_enum, default_value_t = OptimizeDirection::Unspecified)]
+    pub(crate) optimize: OptimizeDirection,
+}
+
+#[derive(Debug, clap::Args)]
+pub(crate) struct ScreenArgs {
+    /// Fitted model JSON produced by `stericx fit`.
+    #[arg(value_name = "MODEL")]
+    pub(crate) model: PathBuf,
+    /// Library: a directory of geometries, a descriptors CSV, or a reaction
+    /// CSV carrying `NBO_Charge` / `IR_Frequency`. May also be given as
+    /// `--library`.
+    #[arg(value_name = "LIBRARY")]
+    pub(crate) library: Option<PathBuf>,
+    /// The library, named explicitly. Equivalent to the positional form.
+    #[arg(long = "library", value_name = "PATH", conflicts_with = "library")]
+    pub(crate) library_flag: Option<PathBuf>,
+    /// Report only the best N ligands (default: all).
+    #[arg(long)]
+    pub(crate) top: Option<usize>,
+    /// Temperature used to convert predicted ΔΔG‡ into an ee.
+    #[arg(long, default_value_t = 298.15)]
+    pub(crate) temperature: f32,
+    /// Keep only candidates the applicability domain calls `interpolation`.
+    ///
+    /// Off by default: an out-of-domain ligand is reported with its
+    /// prediction and a warning, never silently dropped. When this is set
+    /// the report states how many candidates were removed and why.
+    #[arg(long, visible_alias = "inside-domain-only")]
+    pub(crate) in_domain_only: bool,
+    /// Rank ascending (smallest predicted value first), overriding the
+    /// direction the model records.
+    #[arg(long)]
+    pub(crate) ascending: bool,
+    /// Write a candidate deck for experimental review to this CSV path.
+    ///
+    /// A sidecar `<path>.meta.json` is written alongside it carrying the
+    /// exact configuration and provenance needed to reproduce the deck.
+    /// The deck never contains an experimental response: it is built from
+    /// predictions and descriptors, so a blinded target cannot leak into it.
+    #[arg(long, value_name = "CSV")]
+    pub(crate) export_deck: Option<PathBuf>,
+    /// Exclude ligands already tested experimentally, named in a CSV.
+    ///
+    /// Matched by stable identifier first, using the same column names the
+    /// library accepts; a SMILES column is a secondary key applied only to
+    /// entries no identifier resolved. Identifiers that match nothing are
+    /// reported in full, never silently dropped.
+    #[arg(long, value_name = "CSV")]
+    pub(crate) exclude_tested: Option<PathBuf>,
+    /// Select a diverse subset instead of the plain top of the ranking.
+    ///
+    /// Greedy maximal-marginal-relevance over the ranked pool, balancing
+    /// predicted desirability against separation in the same standardized
+    /// descriptor space the applicability domain uses. Off by default;
+    /// ordinary ranking is untouched.
+    #[arg(long)]
+    pub(crate) diverse: bool,
+    /// How strongly `--diverse` weights separation over desirability.
+    ///
+    /// 0 reproduces the ordinary ranking exactly, 1 ignores desirability
+    /// after the first pick. Only meaningful with `--diverse`.
+    #[arg(long, default_value_t = 0.5, value_name = "0..1")]
+    pub(crate) diversity_weight: f64,
+    /// Which statistic of the training set's nearest-neighbour spacing
+    /// bounds the applicability domain. Every choice is derived from the
+    /// training distribution recorded in the model; none is a free cutoff.
+    #[arg(long, value_enum, default_value_t = DomainRuleArg::MaxNeighbor)]
+    pub(crate) domain_rule: DomainRuleArg,
+    /// Rank descending (largest predicted value first), overriding the
+    /// direction the model records.
+    #[arg(long, conflicts_with = "ascending")]
+    pub(crate) descending: bool,
+    /// Donor element to locate when featurizing a geometry library.
+    #[arg(long, default_value = "P")]
+    pub(crate) donor_element: String,
+    /// Sterimol axis used when featurizing a geometry library.
+    #[arg(long, value_enum, default_value_t = SterimolAxis::Bond)]
+    pub(crate) sterimol_axis: SterimolAxis,
+    /// Output format.
+    #[arg(long, value_enum, default_value_t = DescriptorFormat::Text)]
+    pub(crate) format: DescriptorFormat,
+    /// Metal-centred integration sphere radius in ångströms.
+    #[arg(long, default_value_t = 3.5)]
+    pub(crate) sphere_radius: f32,
+    /// Grid density in Å³ per point.
+    #[arg(long, default_value_t = 0.01)]
+    pub(crate) density: f32,
+    /// Donor-to-virtual-metal distance in ångströms.
+    #[arg(long, default_value_t = 2.28)]
+    pub(crate) center_distance: f32,
+    /// Bondi radius scale factor used by Morfeus.
+    #[arg(long, default_value_t = 1.17)]
+    pub(crate) radii_scale: f32,
 }
 
 #[derive(Debug, Subcommand)]
@@ -618,6 +628,18 @@ pub(crate) const STERIMOL_L_CORRECTION: f32 = 0.40;
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn clap_parses_with_a_small_stack() {
+        // Leave headroom below the Windows main thread's 1 MiB stack. The
+        // generated parser previously overflowed before any command could run.
+        std::thread::Builder::new()
+            .stack_size(768 * 1024)
+            .spawn(clap_accepts_all_command_contracts)
+            .unwrap()
+            .join()
+            .unwrap();
+    }
 
     #[test]
     fn clap_accepts_all_command_contracts() {

@@ -1,0 +1,464 @@
+{
+  "schema_version": 1,
+  "model": "mechanistically_constrained_ols",
+  "training_count": 32,
+  "training_group_count": 16,
+  "feature_names": [
+    "intercept",
+    "L_boltz",
+    "B1_boltz",
+    "B5_boltz",
+    "nbo_charge",
+    "B1_x_nbo_charge",
+    "B5_x_nbo_charge",
+    "ir_frequency"
+  ],
+  "selected_feature_indices": [
+    1,
+    2
+  ],
+  "selected_features": [
+    "L_boltz",
+    "B1_boltz"
+  ],
+  "weights": [
+    0.71122754,
+    1.9259423,
+    -0.7620035,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "standardized_means": [
+    0.0,
+    -0.04764069535303861,
+    0.029228880535811186,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "standardized_scales": [
+    1.0,
+    1.1754182875160777,
+    0.957822773560845,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "training": {
+    "count": 32,
+    "r2": 0.996692975692357,
+    "mae": 0.11734748943891889,
+    "rmse": 0.13884709318796903
+  },
+  "fixed_feature_loo": {
+    "count": 32,
+    "r2": 0.9959502831821767,
+    "mae": 0.12974429368536627,
+    "rmse": 0.15364924349939568
+  },
+  "fixed_feature_group_loo": {
+    "count": 32,
+    "r2": 0.9958475885375929,
+    "mae": 0.1304381339480968,
+    "rmse": 0.15558520238054638
+  },
+  "ridge_baseline": {
+    "model": "ridge",
+    "regularization": 0.01,
+    "weights": [
+      0.71119326,
+      1.9253484,
+      -0.76179916,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "training": {
+      "count": 32,
+      "r2": 0.9966928833512805,
+      "mae": 0.11727252623810101,
+      "rmse": 0.13884903166791038
+    },
+    "nested_loo": {
+      "count": 32,
+      "r2": 0.9959509525832826,
+      "mae": 0.12965575644731497,
+      "rmse": 0.15363654418870648
+    }
+  },
+  "lasso_baseline": {
+    "model": "lasso",
+    "regularization": 0.0001,
+    "weights": [
+      0.71122074,
+      1.925861,
+      -0.7619037,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "training": {
+      "count": 32,
+      "r2": 0.9966929724127538,
+      "mae": 0.1173464562139561,
+      "rmse": 0.1388471620358571
+    },
+    "nested_loo": {
+      "count": 32,
+      "r2": 0.995954634415123,
+      "mae": 0.129627510783201,
+      "rmse": 0.15356667682099978
+    }
+  },
+  "coefficient_intervals": [
+    {
+      "feature": "intercept",
+      "estimate": 0.711227536201477,
+      "lower_95": 0.6646842598915099,
+      "upper_95": 0.7564666122198105
+    },
+    {
+      "feature": "L_boltz",
+      "estimate": 1.925942301750183,
+      "lower_95": 1.883310043811798,
+      "upper_95": 1.9748345553874969
+    },
+    {
+      "feature": "B1_boltz",
+      "estimate": -0.762003481388092,
+      "lower_95": -0.8095150098204613,
+      "upper_95": -0.7080100700259209
+    }
+  ],
+  "response_permutation_p_value": 0.000999000999000999,
+  "correlation_matrix": [
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0,
+      -0.046254847238214034,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      -0.046254847238214034,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "variance_inflation_factors": [
+    null,
+    1.0021440982145164,
+    1.0021440982145162,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "applicability_domain": [
+    {
+      "feature": "L_boltz",
+      "minimum": -2.670093536376953,
+      "maximum": 2.653414726257324
+    },
+    {
+      "feature": "B1_boltz",
+      "minimum": -2.1981375217437744,
+      "maximum": 1.9068101644515991
+    }
+  ],
+  "training_geometry": {
+    "feature_indices": [
+      1,
+      2
+    ],
+    "means": [
+      -0.04764069535303861,
+      0.029228880535811186
+    ],
+    "scales": [
+      1.1754182875160777,
+      0.957822773560845
+    ],
+    "xtx_inverse": [
+      [
+        0.03125,
+        6.167360929757713e-19,
+        -7.304144869729433e-19
+      ],
+      [
+        6.167360929757713e-19,
+        0.03131700306920264,
+        0.0014485631929246042
+      ],
+      [
+        -7.304144869729432e-19,
+        0.0014485631929246042,
+        0.03131700306920266
+      ]
+    ],
+    "observations": 32,
+    "parameters": 3,
+    "residual_standard_error": 0.14585213215562956,
+    "warning_leverage": 0.28125,
+    "standardized_training_points": [
+      [
+        -0.30478043282418593,
+        -0.9465888794388571
+      ],
+      [
+        -0.210889035472773,
+        -0.26417039677156484
+      ],
+      [
+        0.2835067369125454,
+        -0.3140817991632674
+      ],
+      [
+        -0.7882434818279828,
+        1.4376755729996207
+      ],
+      [
+        -0.629988918427934,
+        1.7180795732788574
+      ],
+      [
+        -1.8196089873247032,
+        -0.1699899852320976
+      ],
+      [
+        1.6037121156835619,
+        0.5843401213409118
+      ],
+      [
+        -0.6574065270262748,
+        0.36148985763402025
+      ],
+      [
+        -1.575998036518474,
+        0.11978333687880352
+      ],
+      [
+        1.0312375271942242,
+        -0.07753707473541162
+      ],
+      [
+        1.0588868773177027,
+        0.9550690855013263
+      ],
+      [
+        -0.36877425764780214,
+        1.323775783962143
+      ],
+      [
+        -0.4625862949364492,
+        1.9602595968099688
+      ],
+      [
+        -0.14160500040761842,
+        -2.32544732048814
+      ],
+      [
+        2.2979525248992836,
+        0.23830663876204328
+      ],
+      [
+        0.8022109275521601,
+        0.874868767189244
+      ],
+      [
+        -0.0748650765431013,
+        0.15466452653422139
+      ],
+      [
+        -2.2310805173584165,
+        -0.5759865519125529
+      ],
+      [
+        0.19919856155584378,
+        -0.8798007186090945
+      ],
+      [
+        -0.05698010740745339,
+        -0.4474027939875323
+      ],
+      [
+        0.5246499447318914,
+        0.6901976440167796
+      ],
+      [
+        1.3552360127099923,
+        -1.232146897382426
+      ],
+      [
+        -0.04137447083491433,
+        0.945758150314357
+      ],
+      [
+        -1.1576949488772048,
+        -1.6445784563974846
+      ],
+      [
+        -0.39685136611598454,
+        1.1192617892374215
+      ],
+      [
+        -0.6224080294162301,
+        -0.6901970518660565
+      ],
+      [
+        0.015476780365195304,
+        -0.6876952471480537
+      ],
+      [
+        0.3450788374438216,
+        -0.41739607240451443
+      ],
+      [
+        1.390219043981926,
+        -0.5988300582855293
+      ],
+      [
+        0.21925913737064676,
+        -1.2108166832297416
+      ],
+      [
+        1.273869281315463,
+        -0.8761894276259555
+      ],
+      [
+        -0.8593588200667557,
+        0.8753249702185621
+      ]
+    ],
+    "training_labels": [
+      "synthetic_linear_0",
+      "synthetic_linear_1",
+      "synthetic_linear_2",
+      "synthetic_linear_3",
+      "synthetic_linear_4",
+      "synthetic_linear_5",
+      "synthetic_linear_6",
+      "synthetic_linear_7",
+      "synthetic_linear_8",
+      "synthetic_linear_9",
+      "synthetic_linear_10",
+      "synthetic_linear_11",
+      "synthetic_linear_12",
+      "synthetic_linear_13",
+      "synthetic_linear_14",
+      "synthetic_linear_15",
+      "synthetic_linear_16",
+      "synthetic_linear_17",
+      "synthetic_linear_18",
+      "synthetic_linear_19",
+      "synthetic_linear_20",
+      "synthetic_linear_21",
+      "synthetic_linear_22",
+      "synthetic_linear_23",
+      "synthetic_linear_24",
+      "synthetic_linear_25",
+      "synthetic_linear_26",
+      "synthetic_linear_27",
+      "synthetic_linear_28",
+      "synthetic_linear_29",
+      "synthetic_linear_30",
+      "synthetic_linear_31"
+    ],
+    "neighbor_calibration": {
+      "mean": 0.4101586477239456,
+      "standard_deviation": 0.23882734491264573,
+      "median": 0.33250261050599206,
+      "maximum": 1.1715905357459637,
+      "threshold": 1.1715905357459637,
+      "rule": "threshold = max over training points of the distance to the nearest other training point, in standardized descriptor space"
+    }
+  },
+  "notes": [
+    "Descriptors were standardized using training rows only.",
+    "Leverage h = x'(X'X)^-1 x is reported against the warning leverage h* = 3p/n; beyond it a prediction is an extrapolation.",
+    "Forward selection used BIC and rejected |r| > 0.95 descriptor pairs.",
+    "LOO, bootstrap, and permutation diagnostics keep the selected descriptor set fixed.",
+    "Group LOO holds out every row sharing the same ligand-group label.",
+    "A prospective claim still requires an experimentally untouched test set."
+  ]
+}

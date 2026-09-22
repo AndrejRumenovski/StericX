@@ -69,10 +69,10 @@ fn screen(model: &Path, library: &Path) -> Output {
 
 #[test]
 fn original_nan_infinity_and_mismatch_evaluation_witnesses_are_rejected() {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("docs/scientific_accuracy_audit/models");
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/data/model_evaluation");
     let temp = Workspace::new();
     for kind in ["nan", "infinity", "finite_mismatch"] {
-        let predictions = root.join(format!("inputs/evaluate_{kind}_predictions.csv"));
+        let predictions = root.join(format!("evaluate_{kind}_predictions.csv"));
         assert!(
             predictions.is_file(),
             "original witness missing: {}",
@@ -82,11 +82,11 @@ fn original_nan_infinity_and_mismatch_evaluation_witnesses_are_rejected() {
         let output = Command::new(EXE)
             .arg("evaluate")
             .arg("--data")
-            .arg(root.join("inputs/synthetic_linear.sigpack"))
+            .arg(root.join("synthetic_linear.sigpack"))
             .arg("--metadata")
-            .arg(root.join("inputs/synthetic_linear_labels.csv"))
+            .arg(root.join("synthetic_linear_labels.csv"))
             .arg("--model")
-            .arg(root.join("raw/synthetic_linear/report.json"))
+            .arg(root.join("report.json"))
             .arg("--predictions")
             .arg(predictions)
             .arg("--output")
@@ -98,9 +98,13 @@ fn original_nan_infinity_and_mismatch_evaluation_witnesses_are_rejected() {
             !output_path.exists(),
             "invalid evaluation wrote successful metrics"
         );
-        if kind == "nan" {
-            assert!(String::from_utf8_lossy(&output.stderr).contains("must both be finite"));
-        }
+        let expected = if kind == "finite_mismatch" {
+            "does not match the supplied model"
+        } else {
+            "must both be finite"
+        };
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        assert!(stderr.contains(expected), "{kind}: {stderr}");
     }
 }
 

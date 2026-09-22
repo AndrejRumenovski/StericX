@@ -67,7 +67,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             require_explicit_centers,
         ),
         Command::Predict { data, weights } => commands::predict::predict_command(&data, &weights),
-        Command::Fit {
+        Command::Fit(cli::FitArgs {
             data,
             metadata,
             output,
@@ -87,7 +87,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             response_sign_convention,
             omit_bootstrap_ensemble,
             optimize,
-        } => commands::fit::fit_command(
+        }) => commands::fit::fit_command(
             &data,
             &metadata,
             &output,
@@ -159,7 +159,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                 include_hydrogens: false,
             },
         ),
-        Command::Search {
+        Command::Search(cli::SearchArgs {
             ligand,
             library,
             top,
@@ -188,7 +188,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             density,
             center_distance,
             radii_scale,
-        } => {
+        }) => {
             let shorthand = commands::search::RangeFlags {
                 vbur,
                 l,
@@ -227,7 +227,7 @@ fn run() -> Result<(), Box<dyn Error>> {
                 },
             })
         }
-        Command::Screen {
+        Command::Screen(cli::ScreenArgs {
             model,
             library,
             library_flag,
@@ -248,7 +248,7 @@ fn run() -> Result<(), Box<dyn Error>> {
             density,
             center_distance,
             radii_scale,
-        } => {
+        }) => {
             let library = library
                 .or(library_flag)
                 .ok_or("a library is required: pass it positionally or as --library <PATH>")?;

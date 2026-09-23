@@ -1,0 +1,25 @@
+{
+  "started_utc": "2026-09-22T21:21:21.781186+00:00",
+  "policy": {
+    "policy": "EQUIVALENCE_POLICY.md",
+    "sha256": "b0243f8c566b973f01eb09b7cac7b26186b990c92afb895031c77bc8e34d1a61",
+    "frozen_utc": "2026-09-22T21:17:02.244163+00:00",
+    "prior_residual_exposure": true,
+    "prior_timings_admissible": false,
+    "classification_not_yet_run": true
+  },
+  "files": {
+    "revision_policy/reference.py": "dc17a8c57eb1f31ad369b2cb668a3539e260ad4f6eade4b666b9051972dac98e",
+    "revision_policy/evaluate.py": "b29c15de839ec36145766bcc94fb63703e9e29e2d9a4c61cd51cd4a9d3944261",
+    "revision_policy/selftest.py": "238a3422c0843d8837154b9c55afc98f264503b22bfe0028d2810c2c7061681a",
+    "revision_policy/selftest.json": "867e121abd43f9d6108cc7f6250ff18c3c40f4f55abfb0705899d274d4bcd94d",
+    "revision_policy/grid_append.rs": "3f42a0079e29a17efb9930fca2fe86e6c5daebbad7438f7fe001c1c0261a427e",
+    "revision_policy/policy-grid-observer": "a1dcc93cc947f3b4a3c4d14ca465512059b73190f2993ac610279e6a451fdd89",
+    "adapter/policy_copied_volume.rs": "5eee3583eb9cc9fb778bb20b0a3ea4f1e236bbdb0270dbbb1479f0e69176d8d7",
+    "adapter/src/bin/policy-grid-observer.rs": "d6f0ca822278ddff072e7225b23baefcb09cd9c4d7606c3eec9a058207c8e921",
+    "compare.py": "3c11455ba5789f4bf33c7ff7c7f19ac1243e581a455899e97ebfe303363be12d",
+    "morfeus_batch.py": "2380f944fb56390c79e81ed908c906e48b3203a0ff9a6e99a2fd1a0aeef6ca73",
+    "build/stericx": "b233501640e4d06555a36a278581fbf9cb011962311f205c81f3fc9a83ae89e6"
+  },
+  "classification_complete": false
+}

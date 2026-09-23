@@ -16,8 +16,8 @@ from freeze import HERE,ROOT,sha,write
 
 def main():
     p=argparse.ArgumentParser()
-    p.add_argument("--output",type=Path,required=True)
-    p.add_argument("--python",default="python3.12")
+    p.add_argument("output",type=Path)
+    p.add_argument("--python",default="3.12.13")
     p.add_argument("--prepare-only",action="store_true",help="Rebuild and run all scientific/preflight gates, then stop before timing")
     args=p.parse_args()
     out=args.output.resolve()
@@ -26,9 +26,13 @@ def main():
     for name,digest in frozen["source_sha256"].items(): assert sha(ROOT/name)==digest,name
     assert sha(ROOT/"scripts/profile_child.c")==sha(HERE/"build/profile_child.c"),"Changed measurement launcher source"
     out.mkdir(exist_ok=False)
-    for directory in ["build","environment","raw","inputs","adapter"]: (out/directory).mkdir()
+    for directory in ["build","environment","raw","inputs","adapter","revision_policy"]: (out/directory).mkdir()
     for src in HERE.glob("*.py"): shutil.copyfile(src,out/src.name)
     shutil.copyfile(HERE/".gitignore",out/".gitignore")
+    shutil.copyfile(HERE/"EQUIVALENCE_POLICY.md",out/"EQUIVALENCE_POLICY.md")
+    for name in ["reference.py","evaluate.py","selftest.py","grid_append.rs","run_admitted.py","cpython-3.12.13-bltinmodule.c","reference_revision.json"]:
+        shutil.copyfile(HERE/"revision_policy"/name,out/"revision_policy"/name)
+    write(out/"revision_policy/policy_freeze.json",dict(policy="EQUIVALENCE_POLICY.md",sha256=sha(out/"EQUIVALENCE_POLICY.md"),frozen_utc=datetime.now(timezone.utc).isoformat(),prior_residual_exposure=True,prior_timings_admissible=False,classification_not_yet_run=True,reproduced_policy=True))
     for src in (HERE/"adapter").rglob("*"):
         if src.is_file() and "target" not in src.relative_to(HERE/"adapter").parts:
             dst=out/src.relative_to(HERE);dst.parent.mkdir(exist_ok=True,parents=True);shutil.copyfile(src,dst)
@@ -57,19 +61,14 @@ def main():
     frozen.update(created_utc=datetime.now(timezone.utc).isoformat(),build_command=build,executable_sha256=sha(out/"build/stericx"),reproduced_from=str(HERE),original_freeze_sha256=sha(HERE/"freeze.json"),affinity_inherited=sorted(os.sched_getaffinity(0)))
     write(out/"freeze.json",frozen)
     for name,cmd in {"cpu":["lscpu","-J"],"kernel":["uname","-a"],"rustc":["rustc","-Vv"],"python":[python,"-VV"],"packages":["uv","pip","freeze","--python",python]}.items():run(name,cmd)
-    for name,cmd in [
-        ("compare",[python,str(out/"compare.py")]),
-        ("exact-gate",[python,str(out/"exact_volume_gate.py")]),
-        ("prepare",[python,str(out/"benchmark.py"),"prepare"]),
-        ("timing",[python,str(out/"benchmark.py"),"run"]),
-        ("summary",[python,str(out/"benchmark.py"),"summarize"]),
-        ("sterimol-diagnosis",[python,str(out/"diagnose_sterimol.py")]),
-        ("pyramid",[python,str(out/"pyramid_benchmark.py")]),
-        ("memory",[python,str(out/"memory.py")]),
-        ("protocol-review",[python,str(out/"protocol_review.py")]),
-    ]:
-        run(name,cmd)
-        if args.prepare_only and name=="prepare":break
+    run("interpreter-check",[python,"-c","import sys; assert sys.version_info[:3] == (3,12,13), sys.version"])
+    run("reference-selftest",[python,str(out/"revision_policy/selftest.py")])
+    shutil.copyfile(out/"raw/reference-selftest.stdout",out/"revision_policy/selftest.json")
+    run("scientific-evaluation",[python,str(out/"revision_policy/evaluate.py")])
+    gate=json.loads((out/"revision_policy/evaluation_2/scientific_gate.json").read_text())
+    assert gate["passed"] and not gate["failures"], "Scientific policy did not admit this reproduction; no timing authorized"
+    if not args.prepare_only:
+        run("admitted-campaign",[python,str(out/"revision_policy/run_admitted.py")])
     print(out)
 
 

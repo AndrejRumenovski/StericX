@@ -1,5 +1,16 @@
 {
-  "status": "pre_policy_exploratory",
-  "prospective_scientific_admission": false,
-  "original_gate_files": "Preserved byte-for-byte as historical numeric-check receipts, not prospective admission."
+  "status": "admitted_finite_grid_volume_after_frozen_policy",
+  "prospective_scientific_admission": true,
+  "policy_sha256": "b0243f8c566b973f01eb09b7cac7b26186b990c92afb895031c77bc8e34d1a61",
+  "scope": "Nine finite-lattice buried-volume outputs, three frames, 56 fixed conformers",
+  "excluded": [
+    "sterimol_l",
+    "sterimol_b1",
+    "sterimol_b5",
+    "pyr_p",
+    "pyr_alpha",
+    "combined",
+    "continuum_volume_accuracy"
+  ],
+  "prior_campaign_status": "pre_policy_exploratory"
 }

@@ -1,0 +1,10 @@
+{
+  "created_utc": "2026-09-22T21:22:39.951941+00:00",
+  "policy_unchanged": true,
+  "policy_sha256": "b0243f8c566b973f01eb09b7cac7b26186b990c92afb895031c77bc8e34d1a61",
+  "reason": "Reference implementation bug: the original rational model treated Python built-in sum as sequential additions. CPython 3.12.13 uses compensated summation. Correct the operation sequence to the frozen interpreter source, without changing exact-bit acceptance or introducing tolerance. All first-evaluation evidence is preserved. No occupancy/grid/region/native-output mismatch occurred.",
+  "source_url": "https://raw.githubusercontent.com/python/cpython/v3.12.13/Python/bltinmodule.c",
+  "source_sha256": "368b677db85bd846fc85271d6e7170ee8e529230bd1ea352d16ccef0a75787e0",
+  "prior_reference_sha256": "dc17a8c57eb1f31ad369b2cb668a3539e260ad4f6eade4b666b9051972dac98e",
+  "corrected_reference_sha256": "2542b27a36047b77068ab72e269fadbb87036940eeadf923e3b5e667dfbda401"
+}

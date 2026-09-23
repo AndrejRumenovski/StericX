@@ -1,4 +1,5 @@
-raise SystemExit("Archived pre-policy campaign: publication claim withdrawn. See BENCHMARK.md and EQUIVALENCE_POLICY.md.")
+if __name__ == "__main__":
+    raise SystemExit("Historical exploratory runner retired. Use reproduce.py and the frozen EQUIVALENCE_POLICY.md.")
 """Sequential continuation; never build/reference-check alongside native timing."""
 import json
 from pathlib import Path

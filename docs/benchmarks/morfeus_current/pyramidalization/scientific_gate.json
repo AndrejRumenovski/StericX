@@ -1,5 +1,4 @@
 {
-  "passed": true,
   "failures": [],
   "numerical_tolerance": null,
   "descriptors": [
@@ -54,5 +53,9 @@
     "morfeus_pyramid.py": "ee5af8d60bca078800575c8dc5c6795e67ad80cf275ac0f3f130bbf4856442fa",
     "pyramid_benchmark.py": "a55c9edf0d43059e5c35cee9486b6cbd4b00a63fbf6dad3ed5c37ca9dc75e4ca",
     "build/measure-child": "263dd817e87f3045fff1556e1db6281a084bf426a0c543ff33982f9bc2d2b8b1"
-  }
+  },
+  "exploratory_check_passed": true,
+  "passed": false,
+  "publication_status": "excluded_under_frozen_policy",
+  "reason": "Observed agreement after f32 rounding is not a prospectively derived certified error bound."
 }

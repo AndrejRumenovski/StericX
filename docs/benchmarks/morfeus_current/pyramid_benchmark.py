@@ -1,3 +1,5 @@
+if __name__ == "__main__":
+    raise SystemExit("Historical exploratory runner retired. Use reproduce.py and the frozen EQUIVALENCE_POLICY.md.")
 """Separate, exact-rounding-gated pyramidalization end-to-end experiment.
 
 Run only AFTER volume measurements and builds have finished. Reuses the same

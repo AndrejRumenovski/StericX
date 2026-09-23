@@ -1,7 +1,6 @@
 {
   "status": "complete",
   "scientific_gate": {
-    "passed": true,
     "failures": [],
     "numerical_tolerance": null,
     "descriptors": [
@@ -56,7 +55,11 @@
       "morfeus_pyramid.py": "ee5af8d60bca078800575c8dc5c6795e67ad80cf275ac0f3f130bbf4856442fa",
       "pyramid_benchmark.py": "a55c9edf0d43059e5c35cee9486b6cbd4b00a63fbf6dad3ed5c37ca9dc75e4ca",
       "build/measure-child": "263dd817e87f3045fff1556e1db6281a084bf426a0c543ff33982f9bc2d2b8b1"
-    }
+    },
+    "exploratory_check_passed": true,
+    "passed": false,
+    "publication_status": "excluded_under_frozen_policy",
+    "reason": "Observed agreement after f32 rounding is not a prospectively derived certified error bound."
   },
   "freeze": {
     "created_utc": "2026-09-22T18:34:04.459820+00:00",
@@ -1913,6 +1916,5 @@
   "raw_timings": "raw_timings.json",
   "memory_caveat": "wait4 peak_rss_bytes is a single-process/maximum-descendant high-water mark, NOT total multiprocessing memory. See separate process-tree samples.",
   "measurement_gate": true,
-  "publication_status": "pre_policy_exploratory_scientific_admission_withdrawn",
-  "prospective_policy_admitted": false
+  "publication_status": "withdrawn_exploratory_only"
 }

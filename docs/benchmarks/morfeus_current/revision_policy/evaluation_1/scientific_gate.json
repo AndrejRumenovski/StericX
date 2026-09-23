@@ -1,0 +1,469 @@
+{
+  "completed_utc": "2026-09-22T21:21:43.980904+00:00",
+  "policy_sha256": "b0243f8c566b973f01eb09b7cac7b26186b990c92afb895031c77bc8e34d1a61",
+  "structures": 56,
+  "frames": 168,
+  "points_per_frame": 15408,
+  "certified_point_decisions": 2588544,
+  "passed": false,
+  "failures": [
+    {
+      "filename": "inputs/SIG-NIHDA-1058_219b0b66/conf_000.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "far_vbur",
+      "actual": 21.318673486193276,
+      "expected": 21.318673486193273
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-1058_219b0b66/conf_001.xyz",
+      "kind": "morfeus_scalar_rounding",
+      "field": "near_vbur",
+      "actual": 72.48815222013995,
+      "expected": 72.48815222013997
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-1058_219b0b66/conf_001.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 72.51146405555406,
+      "expected": 72.51146405555407
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-1058_219b0b66/conf_001.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "far_vbur",
+      "actual": 19.022457697904553,
+      "expected": 19.02245769790455
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2062_d86f6436/conf_000.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 61.135288373473884,
+      "expected": 61.13528837347388
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2062_d86f6436/conf_002.xyz",
+      "kind": "morfeus_scalar_rounding",
+      "field": "near_vbur",
+      "actual": 61.39560386893132,
+      "expected": 61.395603868931325
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2062_d86f6436/conf_002.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 61.40337448073602,
+      "expected": 61.403374480736026
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2062_d86f6436/conf_002.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 61.39171856302897,
+      "expected": 61.39171856302896
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2062_d86f6436/conf_003.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 61.35675080990782,
+      "expected": 61.356750809907815
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2063_9978c6ba/conf_000.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 47.61442383329663,
+      "expected": 47.614423833296634
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2063_9978c6ba/conf_000.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 47.63773566871073,
+      "expected": 47.637735668710725
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2063_9978c6ba/conf_001.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 46.82182142921727,
+      "expected": 46.821821429217266
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2063_9978c6ba/conf_001.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 46.86844510004547,
+      "expected": 46.86844510004546
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2063_9978c6ba/conf_002.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 46.85678918233842,
+      "expected": 46.856789182338424
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2063_9978c6ba/conf_003.xyz",
+      "kind": "morfeus_scalar_rounding",
+      "field": "near_vbur",
+      "actual": 46.84124795872902,
+      "expected": 46.841247958729014
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2063_9978c6ba/conf_003.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 46.86844510004547,
+      "expected": 46.86844510004546
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2064_f0ba08d0/conf_002.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 52.76633945981245,
+      "expected": 52.76633945981244
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2064_f0ba08d0/conf_003.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 52.76633945981245,
+      "expected": 52.76633945981244
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2064_f0ba08d0/conf_004.xyz",
+      "kind": "morfeus_scalar_rounding",
+      "field": "near_vbur",
+      "actual": 50.454582447914326,
+      "expected": 50.45458244791431
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2064_f0ba08d0/conf_004.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 50.388532247574375,
+      "expected": 50.38853224757437
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2064_f0ba08d0/conf_005.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 50.50509142464487,
+      "expected": 50.505091424644874
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2064_f0ba08d0/conf_011.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 49.19962864145534,
+      "expected": 49.199628641455334
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_000.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 60.214470874616985,
+      "expected": 60.21447087461699
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_001.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 60.214470874616985,
+      "expected": 60.21447087461699
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_002.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 60.29606229856633,
+      "expected": 60.29606229856634
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_004.xyz",
+      "kind": "morfeus_scalar_rounding",
+      "field": "near_vbur",
+      "actual": 58.62538076055591,
+      "expected": 58.62538076055592
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_004.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 58.69920157270057,
+      "expected": 58.699201572700574
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_005.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 57.82500774467187,
+      "expected": 57.825007744671865
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_007.xyz",
+      "kind": "morfeus_scalar_rounding",
+      "field": "near_vbur",
+      "actual": 57.92991100403531,
+      "expected": 57.92991100403532
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_007.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 58.08143793422695,
+      "expected": 58.081437934226955
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_007.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 57.75507223842957,
+      "expected": 57.75507223842958
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_008.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "far_vbur",
+      "actual": 10.047401063476547,
+      "expected": 10.047401063476546
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_009.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 55.72694255740298,
+      "expected": 55.726942557402985
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_009.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 55.90178132300872,
+      "expected": 55.90178132300873
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_009.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 55.90178132300872,
+      "expected": 55.90178132300873
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-2067_1f828bfa/conf_010.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 59.64333090697157,
+      "expected": 59.64333090697156
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-401_9d42bff1/conf_003.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 45.62126190539119,
+      "expected": 45.621261905391194
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-401_9d42bff1/conf_004.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 45.62126190539119,
+      "expected": 45.621261905391194
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-401_9d42bff1/conf_005.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 45.62126190539119,
+      "expected": 45.621261905391194
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-498_7d70a0ce/conf_000.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 52.41666192860096,
+      "expected": 52.416661928600966
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-498_7d70a0ce/conf_001.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 52.416661928600966,
+      "expected": 52.41666192860096
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-498_7d70a0ce/conf_002.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 52.41666192860096,
+      "expected": 52.416661928600966
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-498_7d70a0ce/conf_003.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 52.416661928600966,
+      "expected": 52.41666192860096
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-498_7d70a0ce/conf_004.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 52.41666192860096,
+      "expected": 52.416661928600966
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-498_7d70a0ce/conf_005.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 52.41666192860096,
+      "expected": 52.416661928600966
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-498_7d70a0ce/conf_006.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 0,
+      "field": "near_vbur",
+      "actual": 52.41666192860096,
+      "expected": 52.416661928600966
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-498_7d70a0ce/conf_007.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 52.416661928600966,
+      "expected": 52.41666192860096
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-498_7d70a0ce/conf_008.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 52.416661928600966,
+      "expected": 52.41666192860096
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-723_1db84e66/conf_001.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 61.28681530366553,
+      "expected": 61.28681530366552
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-724_0d5c5a07/conf_000.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 1,
+      "field": "near_vbur",
+      "actual": 60.42427739334387,
+      "expected": 60.42427739334388
+    },
+    {
+      "filename": "inputs/SIG-NIHDA-785_fe24eb0f/conf_001.xyz",
+      "kind": "plane_rounding",
+      "tool": "morfeus",
+      "frame": 2,
+      "field": "near_vbur",
+      "actual": 47.591111997882535,
+      "expected": 47.59111199788253
+    }
+  ],
+  "admitted_descriptors": [],
+  "excluded": [
+    "sterimol_l",
+    "sterimol_b1",
+    "sterimol_b5",
+    "pyr_p",
+    "pyr_alpha",
+    "combined",
+    "continuum_volume_accuracy"
+  ],
+  "prior_timings_admissible": false
+}

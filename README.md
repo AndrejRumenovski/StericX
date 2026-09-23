@@ -66,42 +66,35 @@ per-parameter results are in the [study docs](#scientific-studies).
 | Compact native features fail to reproduce Ni-hDA selectivity in the reported fixed-feature check | **LOO Q² ≈ 0.002** · **10 training ligands** |
 | Retrospective top-1 ligand recovery, including failed screens | **0.158 vs 0.333 random** · **10/57 screens failed** |
 | Frozen forecast from the published-descriptor model; experimental outcomes pending | **10 ligands · SHA-256** |
-| Earlier exploratory buried-volume API-driver measurements vs `morfeus`; scientific admission withdrawn | 25.22× wall-time ratio at 1 core · 20.25× at equal 6 cores · [status and evidence](docs/benchmarks/morfeus_current/BENCHMARK.md) |
+| Current finite-grid buried-volume API drivers vs `morfeus`; 10,000 files repeating 56 conformers | **22.77× at 1 core** · **19.91× at equal 6 cores** · [policy and measurements](docs/benchmarks/morfeus_current/BENCHMARK.md) |
 
 ---
 
 ## Performance vs morfeus
 
-**Earlier measurements — pre-policy, exploratory.** On a Ryzen 5 5600G
-(six physical cores, Linux), end-to-end API drivers processed the same
-**10,000 XYZ files repeating 56 conformers from 11 ligands**, calculating nine
-buried-volume outputs over three donor-plane grids.
+On a Ryzen 5 5600G (six physical cores, Linux), StericX and morfeus 0.8.0
+processed the same **10,000 XYZ files repeating 56 conformers from 11 ligands**.
+Both calculated nine buried-volume outputs over three donor-plane grids, using
+the same finite-grid estimator, radii, center and hydrogen conventions.
 
-| Configuration | morfeus structures/s | StericX structures/s | Measured wall-time ratio |
+| Buried-volume API-driver benchmark | morfeus median time (files/s) | StericX median time (files/s) | Paired speedup |
 |---|---:|---:|---:|
-| 1 core: 1 process / 1 thread | 71.45 | 1,802.61 | 25.22× |
-| Equal 6 cores: 6 processes / 6 threads | 336.64 | 6,829.24 | 20.25× |
+| 1 core: 1 process / 1 thread | 128.515 s (78) | 5.607 s (1,783) | **22.77×** |
+| 6 cores: 6 processes / 6 threads | 29.114 s (343) | 1.476 s (6,773) | **19.91×** |
 
-The first row measures single-core runtime; the second measures equal-core batch
-throughput. Both include startup, parsing and JSON output. They are not timings
-of the full `stericx descriptors` command or universal speedups.
+The first row measures single-core implementation/runtime efficiency; the second
+measures equal-core batch throughput. Both include startup, parsing and JSON output.
+Before these fresh timings, the [frozen scientific policy](docs/benchmarks/morfeus_current/EQUIVALENCE_POLICY.md)
+passed all 56 geometries: pointwise occupancy matched a certified interval reference,
+and output differences were exactly accounted for by independent rounding models.
+This establishes the fixed finite-grid calculation, **not continuum-volume accuracy**.
+Sterimol, pyramidalization and combined-descriptor speedups remain excluded.
 
-**Scientific admission:** these measurements preceded a prospectively frozen
-acceptance policy. The earlier “scientific equivalence passed” publication claim
-was withdrawn: regional-count agreement and observed f32 rounding agreement alone
-do not establish that prospective gate. The figures above are preserved measurements,
-not admitted equivalent-work performance claims under the
-[new policy](docs/benchmarks/morfeus_current/EQUIVALENCE_POLICY.md).
-Sterimol, pyramidalization and combined-descriptor speedup claims remain excluded.
-
-The earlier exploratory pyramidalization ratios were 7.34× at one core and 4.51×
-at six cores. Sampled simultaneous summed RSS at 1 / 6 workers was 16.71 / 18.92 MiB
-for StericX and 97.36 / 551.99 MiB for morfeus; shared pages are counted per process
-and sampling can miss brief peaks.
-
-[Full earlier report, all raw measurements and reproduction evidence](docs/benchmarks/morfeus_current/BENCHMARK.md).
-The approximately 14× historical study and the separate native 5.46× optimization
-result are not combined with these measurements.
+These workload-specific timings use thin drivers of unchanged APIs, not the full
+shipping descriptor CLI. [Methodology, exclusions, raw evidence and reproduction](docs/benchmarks/morfeus_current/BENCHMARK.md).
+The initial pre-policy claims are withdrawn and archived; the older approximately
+14× study remains historical. Neither is combined with the separate native batch
+optimization result.
 
 ## Quick Start
 

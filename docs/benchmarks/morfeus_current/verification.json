@@ -1,18 +1,13 @@
 {
   "passed": true,
-  "published_files": 1055,
-  "samples": {
-    "volume": {
-      "launches": 120,
-      "measured": 96,
-      "warmups": 24
-    },
-    "pyramidalization": {
-      "launches": 120,
-      "measured": 96,
-      "warmups": 24
-    }
-  },
+  "published_files": 1707,
+  "policy_sha256": "b0243f8c566b973f01eb09b7cac7b26186b990c92afb895031c77bc8e34d1a61",
+  "scientific_structures": 56,
+  "certified_point_decisions": 2588544,
+  "new_timing_launches": 120,
+  "new_measured_launches": 96,
+  "new_warmups": 24,
   "memory_runs": 8,
-  "scope": "Historical evidence integrity, original regional-count/rounding checks and launch completeness only; scientific admission withdrawn; not a prospective scientific gate or benchmark rerun"
+  "prior_archive_verified": true,
+  "scope": "Artifact integrity, certified masks/model evidence, new timing completeness/output agreement and policy-before-evaluation-before-timing ordering; not a new geometry calculation or timing rerun"
 }

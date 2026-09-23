@@ -1,3 +1,5 @@
+if __name__ == "__main__":
+    raise SystemExit("Historical exploratory runner retired. Use reproduce.py and the frozen EQUIVALENCE_POLICY.md.")
 """Require exact discrete populations, then account for every f32 rounding step.
 
 No fitted tolerance or historical maximum is used. The volume estimator and

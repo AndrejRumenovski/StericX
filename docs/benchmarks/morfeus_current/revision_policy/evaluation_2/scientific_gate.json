@@ -1,0 +1,31 @@
+{
+  "completed_utc": "2026-09-22T21:23:21.448913+00:00",
+  "policy_sha256": "b0243f8c566b973f01eb09b7cac7b26186b990c92afb895031c77bc8e34d1a61",
+  "structures": 56,
+  "frames": 168,
+  "points_per_frame": 15408,
+  "certified_point_decisions": 2588544,
+  "passed": true,
+  "failures": [],
+  "admitted_descriptors": [
+    "buried_volume",
+    "near_vbur",
+    "far_vbur",
+    "qvbur_min",
+    "qvbur_max",
+    "ovbur_min",
+    "ovbur_max",
+    "max_delta_qvbur",
+    "percent_buried_volume"
+  ],
+  "excluded": [
+    "sterimol_l",
+    "sterimol_b1",
+    "sterimol_b5",
+    "pyr_p",
+    "pyr_alpha",
+    "combined",
+    "continuum_volume_accuracy"
+  ],
+  "prior_timings_admissible": false
+}

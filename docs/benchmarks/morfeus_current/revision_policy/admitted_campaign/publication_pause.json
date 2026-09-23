@@ -1,0 +1,6 @@
+{
+  "reason": "User requested immediate commit/push of earlier measurements before continuing. Scheduler alone was SIGSTOPed; its active measurement child was allowed to finish before git staging/compression/push. No timed child was stopped. All samples are retained.",
+  "scheduler_pid": 174963,
+  "resumed_utc": "2026-09-22T21:54:04.040739+00:00",
+  "pause_start_timestamp_not_recorded": true
+}

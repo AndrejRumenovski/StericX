@@ -1,0 +1,37 @@
+{
+  "checks": [
+    {
+      "command": [
+        "uv",
+        "run",
+        "--locked",
+        "ruff",
+        "check",
+        "--force-exclude",
+        "<git tracked Python paths>"
+      ],
+      "returncode": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "--locked",
+        "ruff",
+        "format",
+        "--check",
+        "--force-exclude",
+        "<git tracked Python paths>"
+      ],
+      "returncode": 0,
+      "stdout": "83 files already formatted\n",
+      "stderr": ""
+    }
+  ],
+  "github_ci": "https://github.com/AndrejRumenovski/StericX/actions/runs/35791044792",
+  "github_ci_commit": "aaf52ffc12b3579d175597c727a98ca59a1a0022",
+  "github_ci_conclusion": "success",
+  "full_working_tree_note": "An unrestricted local lint pass also encountered 13 pre-existing errors in untracked docs/media/{geom,render}.py. Those user files were left unchanged and are outside this benchmark/publication scope."
+}

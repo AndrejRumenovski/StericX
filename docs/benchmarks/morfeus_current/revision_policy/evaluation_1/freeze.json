@@ -1,0 +1,110 @@
+{
+  "created_utc": "2026-09-22T18:34:04.459820+00:00",
+  "stericx_commit": "0143f153f974cb66c723e3ad21e42cc51e211d58",
+  "source_sha256": {
+    "Cargo.lock": "6fc56998d9bf2a41e27fa9b91af0ce674cc77f1252e382ee6ab39b8985494463",
+    "Cargo.toml": "e14bfb53cf5980eac5118dd3e10230cb4736fb8842e46da66253e3c61d38c7a7",
+    "src/cli.rs": "b01560e0b7c71c109822285f431a71d4edf8edd5d085f2a4aaed2e896611c548",
+    "src/commands/buried_volume.rs": "6b2820a90f31d9f5ed3cfd01b53ead0634d8240fab17e72143ea286039b0d6af",
+    "src/commands/compare.rs": "f0abefdebd8d65195d152990551f281b2630b8d1a46b004e0183d40ae9f03d15",
+    "src/commands/db.rs": "89970a785131d7abf2c262a74c3c25a8eb3c86268186e8d30eef8e96bb8e2a2f",
+    "src/commands/evaluate.rs": "56b0cf34cf83936cfd2ab97cb69b66c6b035dbdb1ccc9145f8ee245be8c8c8d5",
+    "src/commands/fit.rs": "aeb75584d77a86278bdd729280d11149bf2d33986db564e0ada851baa825d3c0",
+    "src/commands/mod.rs": "b19f2005232ae1e0afc7490ad5e0b459d2cc8d5cdcf2a5ad55ca53ae24aebc93",
+    "src/commands/model.rs": "05b88f69b108a451d7058eb97fa0bf9f1c0e16faf4d78d92187713b3e394574f",
+    "src/commands/parse.rs": "0ce1d9d13f8a31f45fc43b78559084ac1b26791ff125c9037afc995cc8a391b9",
+    "src/commands/predict.rs": "756cde61b3e517063b8da117d92254362365d561f44085a515a90f97559f4ca8",
+    "src/commands/screen.rs": "0d41e6a5c3e846aff3ebb2383483196fc807c5596c78edafa7c9a6d233bbcef3",
+    "src/commands/search.rs": "fa4a370e823aa4f10a14cdc343cbeb1441decfabc0f3ce7e5315c27c50cd245b",
+    "src/commands/simulate.rs": "76c55051f322942ebb24a25896b644bd70bcb977431c44cf81279a86f46a1c8a",
+    "src/descriptors.rs": "2f4e0d958fba01d66b980e4d518eae39e5fd3ac0d2055d54f06c5f1d1d1fa35a",
+    "src/digest.rs": "7518ebda69a0404b286aba9d0573db123f609ee14ea8ff44e227aa52d790487d",
+    "src/geometry/buried_volume.rs": "2215d2731a11d5328ddeaa949e3d557198a3b296436ffe50d1e06403ca0fd603",
+    "src/geometry/buried_volume/aggregation_remediation_tests.rs": "37467d6b38843c76ca007444a187d7b3b7314148b9a4b1052d0628cf47eca880",
+    "src/geometry/mod.rs": "1892ea06b3bdb6e7a82645d777ecaf2c29c86439fb727fa2c4976a0de9e48948",
+    "src/geometry/pyramidalization.rs": "734f4834a1d51a507625eea2f9994603aa7d25b78166b8d395df74fd376142ac",
+    "src/geometry/sterimol.rs": "fd59bc1fc068e4802baf34361dd286cabbcbd60df265ddb3f4425d4ea160627d",
+    "src/geometry/xyz.rs": "eb6cc172f5467667d10ff8164e1ee06aa4635c2f80626ab97af63b5d962c59f3",
+    "src/kinetics/eyring.rs": "b86300a11dc8fe07430bbd480b51df448d47295080219e47bb1b3e9f08d4b454",
+    "src/kinetics/mod.rs": "273fad2c13d5cae69bf98a80be34594344c7872cf973c2c9184a40adbc82a3d2",
+    "src/lib.rs": "69e76c06fec62e98eee99b6654ab8e62b0a9d4844e0c4f2cdca9288403e0b080",
+    "src/main.rs": "f66dcf928f8c0cc681ad08aab50056ea25db6b130f92930be857c9a27543ecaa",
+    "src/model/dataset.rs": "09f0f42066d9df30cefeae885eb0beba69ae31cd2e6cce6880c85c5b83c14d37",
+    "src/model/domain.rs": "d906d970bf4f589552ba9683ec77ae7e2926e3b17ba78b785d689fd1b20441b4",
+    "src/model/domain_interval_cache_tests.rs": "9098b9cb5ead279d49a574b3214c9c4adffddf52faa05729b1b3f9d6bce30bde",
+    "src/model/evaluation.rs": "31c73c059c4f2f1457ddc43c808b5d5ad6a3fd6e34501ba30d14b9f7fb20616a",
+    "src/model/features.rs": "12a50e2f690a5975bd0eda62ce0910816414022bec8456b8cc6e1eea37d6ea4a",
+    "src/model/fit.rs": "0aa6ed82bfb7dc42da3c1a624c792dc5b387e73cc82bf78cb2a842881f9dafe2",
+    "src/model/mod.rs": "1928c62a747e041e92b5ec1e5d086e39f20d1eb990d8683e3e5545cdeb9963c3",
+    "src/model/portable.rs": "ab07d8d060d0cf7d794b56a8d03f64546594d19e306d603f3ee4c1b50faedfec",
+    "src/model/regress.rs": "c98d1b7ff1f926e3ca46b262ddde511eced72e4c91e0d1045a54a68793bee3b2",
+    "src/model/training.rs": "b7febe7066c552ca3ac5c995ebf6f32c17d259fc33e7495587c95c17c77f1abf",
+    "src/output.rs": "4b8b3f2d333573cf667afa3b914d79e1d67d5e56ee435bda3ca10350a8a296d6",
+    "src/profiling.rs": "26f501150d25b199502fcb9d5493c45c5f4e7944db7898153814f9b12411109d",
+    "src/reaction.rs": "15815fc387aff99caa917625ea2b53670c4018816436af45b156228fba4c046e",
+    "src/storage/mod.rs": "7b8516382aa1529d7132a13ca92485512e2fbbdf2fc34e598000832809896a5f",
+    "src/storage/pack.rs": "80ffbb1e2a690b19b61f312a102db25d3e226250c49f8753328ab74b19f5710d",
+    "src/storage/schema.rs": "8648a358ef6b76426b267efc94364130cff7651928319f441ef01c936dd4a633",
+    "src/test_support.rs": "9eeb77f25eedc057c210b7055fcb7a89e2614b895be2974db94944ae7d638b06"
+  },
+  "executable_sha256": "b233501640e4d06555a36a278581fbf9cb011962311f205c81f3fc9a83ae89e6",
+  "build_command": [
+    "cargo",
+    "build",
+    "--locked",
+    "--offline",
+    "--release",
+    "--bin",
+    "stericx",
+    "--target-dir",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/benchmarks/morfeus_current/build/target"
+  ],
+  "release": {
+    "opt_level": 3,
+    "lto": "thin",
+    "codegen_units": 1,
+    "cargo_features": [],
+    "target_cpu": "rustc default x86-64",
+    "rustflags": null
+  },
+  "morfeus_version": "0.8.0",
+  "installation": "Fresh uv virtual environment; PyPI morfeus-ml latest version resolved then pinned; environment/install.command.json",
+  "affinity_inherited": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "planned_affinities": {
+    "1": [
+      2
+    ],
+    "2": [
+      2,
+      3
+    ],
+    "4": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "6": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "input_manifest_sha256": "5caac20311ef752108f04f11f95890c6f989a81caa6b1a3cace13ada12dd760c"
+}

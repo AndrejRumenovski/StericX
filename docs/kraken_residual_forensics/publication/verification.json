@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "original_scientific_seal_sha256": "b76e8e68e21f51e77e48e33d07392080c10683a4a1bb84485da124e40a40acf7",
+  "local_verification": {
+    "passed": true,
+    "scope": "published evidence and recorded repository scientific source",
+    "checked_files": 2222,
+    "local_only_missing": [],
+    "failures": [],
+    "note": "Missing local-only source captures are declared publication exclusions. This is not a new scientific replay or a claim of recovered historical inputs."
+  },
+  "clean_restore_verification": {
+    "publication_manifest_sha256": "9cc8f7cdabdb051d31c27471084fc9529f3b42f541f1e41c7aad6dd52a9043b6",
+    "clean_restore": {
+      "restore": {
+        "command": "restore",
+        "scope": "published evidence",
+        "passed": true,
+        "restored": 1821,
+        "already_present": 0,
+        "next_step": "Run verify to check the restored evidence and current repository files."
+      },
+      "verify": {
+        "passed": true,
+        "scope": "published evidence and recorded repository scientific source",
+        "checked_files": 2207,
+        "local_only_missing": [
+          {
+            "path": "conventions/buried_volume.py.txt",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "conventions/data.py.txt",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "conventions/sterimol.py.txt",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "frozen/kraken_dft_source.py.txt",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "historical_dependencies/journal_buried_volume.py.body",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "historical_dependencies/journal_data.py.body",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "historical_dependencies/journal_geometry.py.body",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "historical_dependencies/journal_pyramidalization.py.body",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "historical_dependencies/journal_sterimol.py.body",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "historical_dependencies/journal_to_current_methods.diff",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "historical_dependencies/preprint_buried_volume.py.body",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "historical_dependencies/preprint_data.py.body",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "historical_dependencies/preprint_geometry.py.body",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "historical_dependencies/preprint_pyramidalization.py.body",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          },
+          {
+            "path": "historical_dependencies/preprint_sterimol.py.body",
+            "reason": "Downloaded third-party source or source excerpt; retained locally under the repository's existing source-publication policy. Acquisition URLs and original hashes remain published."
+          }
+        ],
+        "failures": [],
+        "note": "Missing local-only source captures are declared publication exclusions. This is not a new scientific replay or a claim of recovered historical inputs."
+      },
+      "repeat_restore": {
+        "command": "restore",
+        "scope": "published evidence",
+        "passed": true,
+        "restored": 0,
+        "already_present": 1821,
+        "next_step": "Run verify to check the restored evidence and current repository files."
+      }
+    }
+  },
+  "python_lint": "ruff check . --exclude docs/media: passed",
+  "python_format": "ruff format --check . --exclude docs/media: 194 files unchanged",
+  "note": "Packaging validation only; original scientific evidence and production source remain unchanged."
+}

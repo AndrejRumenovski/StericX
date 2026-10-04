@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/scripts/selection_boundary.py", line 91, in <module>
+    main()
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/scripts/selection_boundary.py", line 45, in main
+    r264 = (np.array([a["radius"] for a in req["atoms"]])[include] * 1.17)**2
+                      ~^^^^^^^^^^
+KeyError: 'radius'

@@ -1,0 +1,4 @@
+# Rebuildable compiler/cache files only. Scientific inputs, outputs, binaries,
+# manifests, failed attempts, and logs remain visible to version control.
+**/target/
+**/__pycache__/

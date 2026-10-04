@@ -1,0 +1,46 @@
+{
+  "boundary_cells": [
+    {
+      "center32": [
+        -2.2159883975982666,
+        1.65794837474823,
+        -2.7304062843322754
+      ],
+      "center64": [
+        -2.215989048636605,
+        1.6579484682615102,
+        -2.7304065529185237
+      ],
+      "grid_index": 23992,
+      "minimum_squared_distance_minus_radius_squared32": 0.0,
+      "minimum_squared_distance_minus_radius_squared64": 2.176178189650102e-06,
+      "nearest_heavy_atom32": 20,
+      "nearest_heavy_atom64": 20,
+      "occupied32": true,
+      "occupied64": false,
+      "point32": [
+        -1.8768116235733032,
+        1.0652174949645996,
+        -0.8623189926147461
+      ],
+      "point64": [
+        -1.8768115942028984,
+        1.0652173913043477,
+        -0.86231884057971
+      ],
+      "radius_squared32": 3.9561209678649902,
+      "radius_squared64": 3.9561209999999996
+    }
+  ],
+  "cell_volume": 0.0010459046544808546,
+  "classification": "Finite f32 grid/atom boundary decision, amplified by discontinuous argmin selection; no incorrect union-of-balls operation established.",
+  "grid_masks_identical": true,
+  "grid_points": 171712,
+  "independent_count_volume32": 52.5974991691877,
+  "independent_count_volume64": 52.59645326453322,
+  "minimal_witness": "Each differing cell and its nearest sphere is sufficient to reproduce the occupancy divergence; coordinates/radius/margins retained above.",
+  "native_dump_volume": 52.597496032714844,
+  "occupied32": 50289,
+  "occupied64": 50288
+}
+

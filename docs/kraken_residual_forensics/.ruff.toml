@@ -1,0 +1,5 @@
+# Preserve the bytes of executed scientific scripts and captured source.
+# The new publication helpers continue to follow repository style rules.
+extend = "../../pyproject.toml"
+extend-exclude = ["scripts", "candidates"]
+cache-dir = "../../.ruff_cache"

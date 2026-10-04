@@ -1,0 +1,39 @@
+baseline_replay: 1000/31611; 0.6s
+baseline_replay: 2000/31611; 0.9s
+baseline_replay: 3000/31611; 1.2s
+baseline_replay: 4000/31611; 1.8s
+baseline_replay: 5000/31611; 2.1s
+baseline_replay: 6000/31611; 2.4s
+baseline_replay: 7000/31611; 2.9s
+baseline_replay: 8000/31611; 3.2s
+baseline_replay: 9000/31611; 3.5s
+baseline_replay: 10000/31611; 3.8s
+baseline_replay: 11000/31611; 4.5s
+baseline_replay: 12000/31611; 4.8s
+baseline_replay: 13000/31611; 5.1s
+baseline_replay: 14000/31611; 5.4s
+baseline_replay: 15000/31611; 5.8s
+baseline_replay: 16000/31611; 6.1s
+baseline_replay: 17000/31611; 6.4s
+baseline_replay: 18000/31611; 6.8s
+baseline_replay: 19000/31611; 7.2s
+baseline_replay: 20000/31611; 7.7s
+baseline_replay: 21000/31611; 8.1s
+baseline_replay: 22000/31611; 8.5s
+baseline_replay: 23000/31611; 8.8s
+baseline_replay: 24000/31611; 9.2s
+baseline_replay: 25000/31611; 9.5s
+baseline_replay: 26000/31611; 9.8s
+baseline_replay: 27000/31611; 10.1s
+baseline_replay: 28000/31611; 10.4s
+baseline_replay: 29000/31611; 10.7s
+baseline_replay: 30000/31611; 11.0s
+baseline_replay: 31000/31611; 11.3s
+baseline_replay: 31611/31611; 11.6s
+Traceback (most recent call last):
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/scripts/run_native.py", line 157, in <module>
+    main()
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/scripts/run_native.py", line 151, in main
+    assert np.array_equal(values, original)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

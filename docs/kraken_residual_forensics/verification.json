@@ -1,0 +1,38 @@
+{
+  "checks": [
+    {
+      "authorized_changed_source": [
+        "src/geometry/sterimol.rs"
+      ],
+      "check": "All frozen files and source receipts intact",
+      "source_files": 3237
+    },
+    {
+      "check": "Full native and independent-reference input coverage",
+      "conformers": 31611,
+      "failures": 0,
+      "ligands": 1541
+    },
+    {
+      "check": "Both reference versions, all rankings/metrics/plots, all baseline/final top100 extremizers independently covered",
+      "independent_minimal_N": 5491,
+      "required_extremizers": 5265
+    },
+    {
+      "check": "Every residual has a dossier; variance identity closes; no fabricated historical exact subset",
+      "dossiers_per_reference": 86296,
+      "historical_exact_N": 0
+    },
+    {
+      "Python_tests": 124,
+      "Rust_tests": 322,
+      "check": "Scientific and generality acceptance",
+      "exact_scientific_records": 128021,
+      "optional_sampling_bound_failures": 0
+    }
+  ],
+  "created_utc": "2026-10-04T21:01:11.459457+00:00",
+  "limits": "Integrity/coverage acceptance, not an assertion that unavailable historical causes were resolved. No R2 threshold used.",
+  "passed": true,
+  "script_sha256": "39d377a4259544e5aa5232e585bfe188a66e6e5b083a9ed185a7f43cf62fde76"
+}

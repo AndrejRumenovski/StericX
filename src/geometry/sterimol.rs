@@ -49,6 +49,7 @@ impl SterimolCalculator {
             attachment.position,
             neighbor.position,
             Some(attach_idx),
+            None,
         )
     }
 
@@ -67,7 +68,38 @@ impl SterimolCalculator {
             .atoms
             .get(base_idx)
             .ok_or_else(|| DescriptorError("base index is out of bounds".into()))?;
-        project(molecule, dummy, base.position, None)
+        project(molecule, dummy, base.position, None, None)
+    }
+
+    /// Computes against a virtual dummy using an explicit angular sampling count.
+    ///
+    /// The `n_rot_vectors` directions include both zero and a full turn, matching
+    /// the endpoint convention of Morfeus's angular grid. At least two directions
+    /// are required. The transverse frame is the same as in
+    /// [`Self::compute_with_dummy`]; different frame phases can still give
+    /// different finite-scan `B1` values. `L` and `B5` do not depend on sampling.
+    ///
+    /// This option does not change the existing APIs' 360 one-degree directions.
+    /// For a maximum transverse atom distance `r`, the sampled `B1` exceeds the
+    /// continuous support minimum by at most `r * pi / (n_rot_vectors - 1)`,
+    /// apart from floating-point arithmetic. More samples reduce that bound,
+    /// but do not imply identity with a historical geometry or software version.
+    pub fn compute_with_dummy_with_sampling(
+        molecule: &Molecule,
+        base_idx: usize,
+        dummy: Vec3,
+        n_rot_vectors: usize,
+    ) -> Result<SterimolParams, DescriptorError> {
+        if n_rot_vectors < 2 {
+            return Err(DescriptorError(
+                "Sterimol endpoint-inclusive sampling requires at least two directions".into(),
+            ));
+        }
+        let base = molecule
+            .atoms
+            .get(base_idx)
+            .ok_or_else(|| DescriptorError("base index is out of bounds".into()))?;
+        project(molecule, dummy, base.position, None, Some(n_rot_vectors))
     }
 }
 
@@ -87,6 +119,7 @@ fn project(
     origin: Vec3,
     base: Vec3,
     excluded: Option<usize>,
+    n_rot_vectors: Option<usize>,
 ) -> Result<SterimolParams, DescriptorError> {
     if !origin.is_finite() || !base.is_finite() {
         return Err(DescriptorError(
@@ -144,12 +177,13 @@ fn project(
         b5 = b5.max(relative.cross(z).length() + f64::from(atom.vdw_radius));
         projected.push((xy, axial, atom.vdw_radius));
     }
-    params_from_projection(&projected, checked_f32(b5)?)
+    params_from_projection(&projected, checked_f32(b5)?, n_rot_vectors)
 }
 
 fn params_from_projection(
     projected: &[(Vec2, f32, f32)],
     b5: f32,
+    n_rot_vectors: Option<usize>,
 ) -> Result<SterimolParams, DescriptorError> {
     crate::profile_scope!("sterimol", "sterimol::params_from_projection");
     if projected.is_empty() {
@@ -161,16 +195,26 @@ fn params_from_projection(
         .iter()
         .map(|(_, z, radius)| z + radius)
         .fold(f32::NEG_INFINITY, f32::max);
-    let b1 = (0_u16..360)
-        .map(|degrees| {
-            let angle = f32::from(degrees).to_radians();
-            let scan = Vec2::new(angle.cos(), angle.sin());
-            projected
-                .iter()
-                .map(|(xy, _, radius)| xy.dot(scan) + radius)
-                .fold(0.0_f32, f32::max)
-        })
-        .fold(f32::INFINITY, f32::min);
+    let support = |angle: f32| {
+        let scan = Vec2::new(angle.cos(), angle.sin());
+        projected
+            .iter()
+            .map(|(xy, _, radius)| xy.dot(scan) + radius)
+            .fold(0.0_f32, f32::max)
+    };
+    let b1 = if let Some(count) = n_rot_vectors {
+        (0..count)
+            .map(|i| {
+                let angle = (std::f64::consts::TAU * i as f64 / (count - 1) as f64) as f32;
+                support(angle)
+            })
+            .fold(f32::INFINITY, f32::min)
+    } else {
+        // Preserve the established default angle arithmetic and endpoints.
+        (0_u16..360)
+            .map(|degrees| support(f32::from(degrees).to_radians()))
+            .fold(f32::INFINITY, f32::min)
+    };
     if !l.is_finite() || !b1.is_finite() {
         return Err(DescriptorError(
             "Sterimol descriptor exceeds finite f32 range".into(),

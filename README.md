@@ -12,7 +12,8 @@ Chemists use *steric descriptors* — numbers that capture how big and what shap
 is — as inputs to models of catalyst behavior. StericX independently implements
 **Sterimol**, **buried volume**, and **pyramidalization** in a native binary. It checks
 numerical agreement against `morfeus` and agreement with Kraken's published descriptors
-using the authors' DFT geometries. Descriptor agreement supports implementation fidelity;
+using publicly available DFT exports. Their exact historical geometry and ensemble identity
+remain unverified. Descriptor agreement supports implementation fidelity;
 reaction prediction is a separate validation task.
 
 **Scientific status:** the [independent audit](docs/scientific_accuracy_audit/SCIENTIFIC_ACCURACY_AUDIT.md)
@@ -21,6 +22,9 @@ independent rechecks are documented in the [scientific remediation report](docs/
 The [current optimization report](docs/performance/SCIENTIFICALLY_EXACT_OPTIMIZATION.md)
 compares the corrected implementation with the same independently checked scientific
 baseline. Historical studies and pre-remediation speed numbers retain their original scope.
+The [Kraken residual investigation](docs/kraken_residual_forensics/KRAKEN_RESIDUAL_FORENSICS.md)
+now separates documented convention differences, numerical effects and unresolved historical
+input provenance across all 1,541 ligands.
 
 **Current scientific scope:** the descriptor comparisons are the strongest result.
 The retrospective ligand-ranking experiment did not beat random selection (top-1 recovery
@@ -56,17 +60,67 @@ unfavorable results.
 
 These results have different scopes: descriptor agreement, retrospective reaction-model
 reproduction, ligand ranking, and compute throughput. Full error distributions and
-per-parameter results are in the [study docs](#scientific-studies).
+per-parameter results are in the [Kraken investigation](#kraken-residual-investigation)
+and [study docs](#scientific-studies).
 
 | What it means | Number |
 |---|---|
-| Buried-volume geometry agrees with `morfeus` on 56 conformers from 11 ligands; the separate 11-structure Sterimol check has a small B₁ scan residual | **R² = 1.000000**; B₁ RMSE **0.0105 Å** |
-| Kraken `vbur_max_delta_qvbur_min` on all matched published/DFT ligands | **R² = 0.9852** · **1,541 ligands** · median absolute error **0.11 Å³** |
+| StericX vs `morfeus` on identical available inputs under the documented reproduction profile: 14 direct per-conformer fields | **All R² ≥ 0.9999982** · **31,611 conformers**; limiting B₁ RMSE **0.001001 Å** |
+| Kraken historical `vbur_max_delta_qvbur_min`, using the documented reproduction profile | **R² = 0.9995483** · **1,541 ligands** · MAE **0.006894 Å³** |
 | Ni and Pd cross-coupling datasets from the same published study: descriptor agreement, separate from classifier performance | **descriptor R² ≈ 0.999** |
 | Compact native features fail to reproduce Ni-hDA selectivity in the reported fixed-feature check | **LOO Q² ≈ 0.002** · **10 training ligands** |
 | Retrospective top-1 ligand recovery, including failed screens | **0.158 vs 0.333 random** · **10/57 screens failed** |
 | Frozen forecast from the published-descriptor model; experimental outcomes pending | **10 ligands · SHA-256** |
 | Current finite-grid buried-volume API drivers vs `morfeus`; 10,000 files repeating 56 conformers | **22.77× at 1 core** · **19.91× at equal 6 cores** · [policy and measurements](docs/benchmarks/morfeus_current/BENCHMARK.md) |
+
+---
+
+## Kraken residual investigation
+
+The investigation retains **all 1,541 ligands and 31,611 conformers**, with no outlier
+removal, fitted corrections or constants tuned against Kraken values. It evaluates
+**14 descriptor fields × four ensemble reductions = 56 comparisons** separately;
+percent buried volume is derived from absolute volume, not an independent published value.
+
+For the original comparison descriptor, Kraken's `vbur_max_delta_qvbur_min`
+(`max_delta_qvbur_min` in StericX), the fixed historical-reference results are:
+
+| Stage | R² | MAE (Å³) | RMSE (Å³) | Maximum absolute error (Å³) |
+|---|---:|---:|---:|---:|
+| Frozen validated baseline | 0.9851575 | 0.270451 | 0.490605 | 4.559474 |
+| Documented reproduction profile | **0.9995483** | **0.006894** | **0.085587** | **2.786291** |
+
+The reproduction profile uses independently documented conventions for the virtual-metal
+direction, radii, integration density, plane aggregation and Sterimol sampling, plus
+recovered coordinate precision for 27 conformers of ligand 821. These results use explicit
+forensic drivers and settings. The production defaults remain unchanged; the library
+addition is the optional Rust API
+[`SterimolCalculator::compute_with_dummy_with_sampling`](src/geometry/sterimol.rs),
+which supports the source's 3,600-direction angular scan.
+
+Two results answer different questions:
+
+- **Historical-library reproduction:** the 56 individual R² values range from
+  **0.9973492 to 0.9999943**; only one reaches 0.99999. Large residuals remain visible:
+  the top three ligands account for **94.8011%** of squared error in the descriptor above.
+- **Algorithm agreement on identical available inputs:** all 14 direct per-conformer
+  StericX-versus-`morfeus` R² values exceed **0.99999**. The limiting field is B₁
+  (**R² = 0.9999982242**). Some ensemble reductions remain more sensitive because a
+  one-cell volume difference can change which conformer supplies another descriptor.
+
+**Verified exact historical input subset: N = 0; R² is undefined.** Public DFT exports
+do not establish the original coordinates, retained conformer membership or energies.
+Universal historical R² ≥ 0.99999 is therefore unsupported by the available evidence,
+and a universal attainable ceiling cannot be determined. Unresolved causes are explicitly
+marked **UNRESOLVABLE FROM AVAILABLE DATA**.
+
+Read the [full report](docs/kraken_residual_forensics/KRAKEN_RESIDUAL_FORENSICS.md),
+[historical metrics](docs/kraken_residual_forensics/historical_target/final/metrics.csv),
+[same-input metrics](docs/kraken_residual_forensics/results/exact_available_input_algorithm_metrics.csv)
+and [coverage audit](docs/kraken_residual_forensics/REQUIREMENTS_AUDIT.md).
+The [evidence guide](docs/kraken_residual_forensics/README.md) explains how to restore and
+verify the published archive parts, including frozen inputs, complete residual rankings,
+plots, provenance records and failed attempts.
 
 ---
 
@@ -134,8 +188,10 @@ Two comparisons assess different questions: **`morfeus`** checks numerical fidel
 matched geometries and conventions; **Kraken's published values** check descriptor
 reproduction on the available DFT library. Neither establishes predictive accuracy for
 a new reaction. Finite grids, angular scans, conformer selection, and coordination-frame
-conventions all affect agreement. Full per-parameter tables (R², RMSE, slope, intercept,
-median absolute error, and residual summaries) live in the study cards under `docs/`.
+conventions all affect agreement. Full per-parameter tables (N, R², Pearson r, MAE, RMSE,
+median/maximum absolute error, slope and intercept) are in the
+[forensic report and evidence](docs/kraken_residual_forensics/README.md), alongside the
+earlier study cards under `docs/`.
 
 The kernel is element-generic, not phosphorus-only: `--donor-element N` reproduces
 morfeus's pyramidalization, buried-volume, and Sterimol descriptors on nitrogen donors
@@ -157,15 +213,16 @@ reproduction matches a published descriptor definition.
 - **Telling the kernel apart from the input geometry.** When the native descriptor sat below
   Kraken's published values (R² ≈ 0.86), the real question was whether *my kernel* was wrong
   or *my geometries* were. Resolved by changing one variable at a time — RDKit/MMFF →
-  CREST/xTB → Kraken's own DFT structures — which showed that geometry and conformer
+  CREST/xTB → public Kraken DFT exports — which showed that geometry and conformer
   generation explain much of the shortfall ([Studies 002–004](docs/study_004/STUDY_004.md)).
-- **Distinguishing coordinate conventions.** StericX uses a 2.28 Å virtual-metal
-  distance and a +0.40 Å coordination-Sterimol *L* correction. Those shared settings
+- **Distinguishing coordinate conventions.** The Kraken comparison uses a 2.28 Å virtual-metal
+  distance and a +0.40 Å coordination-Sterimol *L* correction. The `descriptors` CLI also
+  defaults to 2.28 Å; the buried-volume library default is 2.1 Å. Those settings
   do not establish Kraken equivalence: the original DFT workflow sums raw bond
   displacements, whereas StericX sums unit bond vectors. Hydrogen radii, angular
   resolution and default integration density also differ. The
-  [independent comparison](docs/scientific_accuracy_audit/kraken/REPORT.md) isolates
-  these effects on identical structures.
+  [forensic investigation](docs/kraken_residual_forensics/KRAKEN_RESIDUAL_FORENSICS.md)
+  records both frames and measures each independently justified change.
 - **The phosphine frame bug — found only at scale.** The buried-volume frame took a donor's
   three *nearest heavy atoms* instead of its *covalently bonded* neighbors, silently
   discarding bonded hydrogens on primary/secondary phosphines. Eleven test ligands could
@@ -191,7 +248,9 @@ reproduction matches a published descriptor definition.
 Eleven studies cover a small published reaction family, the matched Kraken library,
 Ni and Pd cross-coupling datasets, numerical grid sensitivity, and retrospective ligand
 ranking. Study reports, comparisons, plots, and machine-readable results are under
-`docs/study_00N/`; prediction studies also retain frozen prediction artifacts.
+`docs/study_00N/`; prediction studies also retain frozen prediction artifacts. Their
+historical results remain preserved; the later [Kraken investigation](#kraken-residual-investigation)
+provides the current reproduction results and provenance assessment.
 
 <details>
 <summary><b>Expand the eleven studies</b></summary>
@@ -201,7 +260,7 @@ ranking. Study reports, comparisons, plots, and machine-readable results are und
 | **001** | Ni-hDA enantioselectivity model | Reproduces the published-descriptor relationship; compact native features give fixed-feature LOO Q² ≈ 0.002 on ten training ligands. | [STUDY_001](docs/study_001/STUDY_001.md) |
 | **002** | Coordination-aware buried-volume fidelity | Buried-volume geometry agrees with `morfeus` to reported numerical precision on matched structures; RDKit/MMFF conformers fall short against published descriptors. | [STUDY_002](docs/study_002/STUDY_002.md) |
 | **003** | Quantum geometry & frozen forecast | A checksum-pinned CREST/xTB backend and a hashed ten-candidate forecast; no prospective measurements are recorded. | [STUDY_003](docs/study_003/STUDY_003.md) · [PREREGISTRATION](docs/study_003/PREREGISTRATION.md) |
-| **004** | Reproducing Kraken's published descriptors on DFT geometries | Reproduces the published values on Kraken's own DFT geometries at library scale; a real kernel frame-bug found and fixed *without dropping a ligand*, and the remaining error distribution characterized. | [STUDY_004](docs/study_004/STUDY_004.md) · [scaled](docs/study_004/STUDY_004_SCALED.md) · [residual](docs/study_004/STUDY_004_RESIDUAL.md) |
+| **004** | Reproducing Kraken's published descriptors on available DFT exports | Historical library-scale comparison found and fixed a donor-frame bug without dropping a ligand. The later forensic investigation updates agreement and qualifies historical geometry identity. | [STUDY_004](docs/study_004/STUDY_004.md) · [scaled](docs/study_004/STUDY_004_SCALED.md) · [residual](docs/study_004/STUDY_004_RESIDUAL.md) |
 | **005** | Pyramidalization descriptors | Two donor-geometry descriptors (`pyr_P`, `pyr_alpha`) reproduced across 1,541 ligands, mean R² ≈ 0.99998. | [STUDY_005](docs/study_005/STUDY_005.md) |
 | **006** | Coordination-centre residual hypothesis | A descriptor comparison supports the coordination-centre explanation for P–H-dependent bias; it does not uniquely establish causality. | [STUDY_006](docs/study_006/STUDY_006.md) |
 | **007** | Second published study — Ni cross-coupling | Approximately reproduces the Newman-Stonebraker classifier; reaction-held-out checks reuse ligands, and a separate geometry check tests descriptor agreement. | [STUDY_007](docs/study_007/STUDY_007.md) |
@@ -218,6 +277,9 @@ A manuscript-style narrative of the reproduction studies is in [`docs/REPRODUCTI
 
 ## Documentation
 
+- 🔬 **[Kraken residual forensics](docs/kraken_residual_forensics/KRAKEN_RESIDUAL_FORENSICS.md)** —
+  all 1,541 ligands, descriptor metrics, residual causes and remaining uncertainty;
+  [restore and verify the evidence](docs/kraken_residual_forensics/README.md).
 - 🧪 **[Reaction-screening tutorial](docs/REACTION_SCREENING.md)** — fit an experimental
   model, read rankings and warnings, exclude tested ligands, diversify, and export a deck.
 - 📄 **[Manuscript write-up](docs/REPRODUCTION_REPORT.md)** — the full narrative.

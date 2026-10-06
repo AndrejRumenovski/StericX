@@ -30,7 +30,7 @@ input provenance across all 1,541 ligands.
 The retrospective ligand-ranking experiment did not beat random selection (top-1 recovery
 0.158 versus 0.333), and the ten-candidate forecast has no recorded experimental outcomes.
 
-🎓 [Five-minute research demo](docs/DEMO.md) · 🔬 [Scientific scope and corrections](docs/SCIENTIFIC_NOTES.md)
+🔬 [Scientific scope and corrections](docs/SCIENTIFIC_NOTES.md)
 
 📄 [Manuscript write-up](docs/REPRODUCTION_REPORT.md) · 🖼️ [One-page visual overview](docs/results.html) · 🔁 [Clone-to-results walkthrough](REPRODUCE.md)
 

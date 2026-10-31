@@ -1,0 +1,39 @@
+Ne_medium.cube/R=1.0
+Ne_medium.cube/R=1.5
+Ne_medium.cube/R=2.0
+benzene_coarse.cube/R=1.0
+benzene_coarse.cube/R=1.5
+benzene_coarse.cube/R=2.0
+CH2CMe3_100.cube/R=1.0
+CH2CMe3_100.cube/R=1.5
+CH2CMe3_100.cube/R=2.0
+gaussian_0.25.cube/R=0.9525189789792
+gaussian_0.125.cube/R=0.9525189789792
+gaussian_0.0625.cube/R=0.9525189789792
+Traceback (most recent call last):
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_density_volume.py", line 133, in <module>
+    if __name__=='__main__': raise SystemExit(main())
+                                              ^^^^^^
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_density_volume.py", line 127, in main
+    (out/'reference_raw.json').write_text(json.dumps(rows,indent=2,allow_nan=False)+'\n')
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrej-rumenovski/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/home/andrej-rumenovski/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/home/andrej-rumenovski/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 430, in _iterencode
+    yield from _iterencode_list(o, _current_indent_level)
+  File "/home/andrej-rumenovski/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 326, in _iterencode_list
+    yield from chunks
+  File "/home/andrej-rumenovski/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/home/andrej-rumenovski/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/home/andrej-rumenovski/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/home/andrej-rumenovski/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bool is not JSON serializable

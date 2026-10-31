@@ -1,0 +1,20 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.68s
+     Running tests/density_input.rs (target/debug/deps/density_input-15308262bcf8e54c)
+
+running 3 tests
+test oblique_grid_is_preserved_without_reinterpretation ... ok
+test preserves_field_geometry_and_order ... ok
+test rejects_incompatible_fields_units_and_bad_values ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/density_volume.rs (target/debug/deps/density_volume-a24bf21d1ad228c2)
+
+running 3 tests
+test unsupported_domains_and_parameters_fail_explicitly ... ok
+test independently_enumerable_occupation_and_strict_threshold ... ok
+test translation_and_repeatability_preserve_counts ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

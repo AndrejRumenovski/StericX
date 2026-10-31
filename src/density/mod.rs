@@ -6,6 +6,9 @@
 use serde::{Deserialize, Serialize};
 use std::{error::Error, fmt, path::Path};
 
+mod analysis;
+pub use analysis::DensityVolume;
+
 /// CODATA 2022 atomic unit of length in Å. Source: NIST allascii.txt.
 pub const BOHR_ANGSTROM: f64 = 0.529_177_210_544;
 

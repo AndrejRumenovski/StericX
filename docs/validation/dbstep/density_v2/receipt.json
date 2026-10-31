@@ -1,0 +1,28 @@
+{
+  "created_utc": "2026-10-31T20:29:30.369363+00:00",
+  "command": [
+    "scripts/validate_density_volume.py",
+    "--output",
+    "docs/validation/dbstep/density_v2"
+  ],
+  "controller_sha256": "2f37c3891fd214ad690e56d477f990fe1b8e50390b1e1ba4baee1a1e93ce7105",
+  "engine": "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/density_report",
+  "engine_sha256": "4ebcc34c2d4d338b9ee526dbf16f0c999055708e7336651a1509f19ff94e46ac",
+  "sources": {
+    "src/lib.rs": "c6fc543a7f93f014094ff01026c7112bc0657e6a1b91c32f01544763f97e2cb7",
+    "examples/density_report.rs": "a79aac11a37e8adc83a9ac520d307aedb8c72fb1f012a08eab1bd45ecf4feee7",
+    "src/density/analysis.rs": "4c98ed1229068f9b05ed293d39d75f9e87921d55d050243cd56d537b96d1f09d",
+    "src/density/mod.rs": "bc3cf6aff077b3d3aca3e0faf4a1961270ac672cd19dc5b2a330e3c02696a272"
+  },
+  "protocol_sha256": "3fee34dcfd033bd773d0e88d5ff62c09371bef53092759b2e56cece1eda7e55c",
+  "reference_environment_sha256": "64d2f07e6b6d30c940e863d1a0c0afd72072cc9a698e6112f7da61a3ea757c98",
+  "fixtures": {
+    "CH2CMe3_100.cube": "6d89b6f4a6dc0634afe538651c628d075e4dc65300e4ddd4e1320a2bfb8ad3e0",
+    "DBSTEP_LICENSE.txt": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+    "Ne_medium.cube": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+    "benzene_coarse.cube": "047ff0df567af2350d2fe82e9e0b8f3b3152462d03e090228a9edda551caa5c3",
+    "gaussian_0.0625.cube": "abe36ae9c291801b05433bfb7672af472d60a944d8918b12f1fac35e90ffdffd",
+    "gaussian_0.125.cube": "8044a4af5436c85b1e98494edb5c1e0e2d930e1aa6a9d02f2791efccf17c8d32",
+    "gaussian_0.25.cube": "af3ad49d81a77611a352603672a10edd7d0d81308b79598bfbc311bd86742c76"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "scripts/validate_volume_profiles.py",
+    "--output",
+    "docs/validation/dbstep/profiles_v1"
+  ],
+  "script_sha256": "36ba08ff15e11711e5a5c5690eb3745191a0caf99a7c5433f441b249e88ecd15",
+  "binary_sha256": "c3165d8ae013b14c7901253852adff452febf9c5cac2e140a3467fb1649fd410",
+  "sources": {
+    "src/profiles.rs": "5bb01751c8e3f013f5f7e57e154ecee8216cad8e91d0939807afd89c85a48396",
+    "examples/volume_profile.rs": "459cc81581f0cc1dfc5da750a290c8ad37a6565490ff6f6987769705a50f0080"
+  },
+  "inputs": {
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/density_v2/manifest.json": "9eca414ed0c9d87ce609e4164cc646ddb8dc6aaf90fc282448adf606fe119af6",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/volume_v2/manifest.json": "39dc6de000bd52185b22269cf3d153010d6f7fa607de6f5cf3315a87f76c6707"
+  }
+}

@@ -1,0 +1,10 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 17.99s
+     Running tests/volume_profiles.rs (target/debug/deps/volume_profiles-f175d42f876e8bf5)
+
+running 2 tests
+test density_scan_retains_out_of_grid_positions ... ok
+test hard_sphere_scan_keeps_center_order_duplicates_and_failures ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

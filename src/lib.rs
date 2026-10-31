@@ -6,6 +6,7 @@ pub mod ensemble;
 pub mod geometry;
 pub mod kinetics;
 pub mod model;
+pub mod profiles;
 #[cfg(feature = "profiling")]
 pub mod profiling;
 pub mod storage;

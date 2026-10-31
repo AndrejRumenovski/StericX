@@ -1,0 +1,12 @@
+create_environment
+install_base
+base_smoke
+install_test_adapters
+Traceback (most recent call last):
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_python_install.py", line 107, in <module>
+    main()
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_python_install.py", line 90, in main
+    run(
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_python_install.py", line 65, in run
+    raise RuntimeError(f"{name} failed; complete output retained")
+RuntimeError: install_test_adapters failed; complete output retained

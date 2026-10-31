@@ -1,0 +1,28 @@
+{
+  "created_utc": "2026-10-31T20:44:15.523411+00:00",
+  "command": [
+    "scripts/validate_python_install.py",
+    "--python",
+    "3.11",
+    "--artifact",
+    ".stericx/paton/python-wheels/manylinux_2_28/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+    "--environment",
+    ".stericx/paton/install-3.11",
+    "--output",
+    "docs/paton_recommendations/python/install-3.11"
+  ],
+  "controller_sha256": "47437fc0adf8cf9fe2bb17877fbdc8cd88b21be2f8bd3ccd9630fb25bb755b47",
+  "artifact": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-wheels/manylinux_2_28/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+    "sha256": "ac80e8f9106f1f6875aa593d3d0a524156d9ba84a8a3cb312f784ab7f3480b4f"
+  },
+  "tests": {
+    "data/DBSTEP_LICENSE.txt": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+    "data/Ne_medium.cube": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+    "data/density_goldens.json": "5441ce57cfe0a309edae5b0fdd61ba5962cffe6b04014177da334f867d78c156",
+    "data/native_goldens.json": "b8c7d46151e15a027345a1c7d5104623b65cfa0a7e6728a1032f9b60f7e44e22",
+    "test_advanced.py": "99521404afd9e51d6d8f72f34d00a31a31f4861d7b6bdaac752194bbbe730037",
+    "test_api.py": "37f081bf853f93e8f76af8aaffd32fc6e1e41fa39afddfdd21ebfaa068c1d168"
+  },
+  "commands": []
+}

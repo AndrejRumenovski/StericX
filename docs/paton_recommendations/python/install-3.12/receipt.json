@@ -1,0 +1,185 @@
+{
+  "created_utc": "2026-10-31T20:44:15.523239+00:00",
+  "command": [
+    "scripts/validate_python_install.py",
+    "--python",
+    "3.12",
+    "--artifact",
+    ".stericx/paton/python-wheels/manylinux_2_28/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+    "--environment",
+    ".stericx/paton/install-3.12",
+    "--output",
+    "docs/paton_recommendations/python/install-3.12"
+  ],
+  "controller_sha256": "47437fc0adf8cf9fe2bb17877fbdc8cd88b21be2f8bd3ccd9630fb25bb755b47",
+  "artifact": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-wheels/manylinux_2_28/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+    "sha256": "ac80e8f9106f1f6875aa593d3d0a524156d9ba84a8a3cb312f784ab7f3480b4f"
+  },
+  "tests": {
+    "data/DBSTEP_LICENSE.txt": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+    "data/Ne_medium.cube": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+    "data/density_goldens.json": "5441ce57cfe0a309edae5b0fdd61ba5962cffe6b04014177da334f867d78c156",
+    "data/native_goldens.json": "b8c7d46151e15a027345a1c7d5104623b65cfa0a7e6728a1032f9b60f7e44e22",
+    "test_advanced.py": "99521404afd9e51d6d8f72f34d00a31a31f4861d7b6bdaac752194bbbe730037",
+    "test_api.py": "37f081bf853f93e8f76af8aaffd32fc6e1e41fa39afddfdd21ebfaa068c1d168"
+  },
+  "commands": [
+    {
+      "name": "create_environment",
+      "argv": [
+        "uv",
+        "venv",
+        "--seed",
+        "--python",
+        "3.12",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/install-3.12"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/python/install-3.12/create_environment.log",
+      "sha256": "f789512b27000d8daf2e2d6e14d83408609becae5795f277158b8f0fd601af83"
+    },
+    {
+      "name": "install_base",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/install-3.12/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "--no-deps",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-wheels/manylinux_2_28/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/python/install-3.12/install_base.log",
+      "sha256": "090acb4a71f2ff0672af88982c3f4a7c7942c1cac18e357f9839275882581567"
+    },
+    {
+      "name": "base_smoke",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/install-3.12/bin/python",
+        "-I",
+        "-c",
+        "import importlib.util,json,sys,stericx\nassert all(importlib.util.find_spec(n) is None for n in ['numpy','pandas','rdkit'])\nm=stericx.Molecule.from_xyz_string('2\\naxis\\nC 0 0 0\\nC 0 0 1.5\\n')\nr=m.descriptors(stericx.DescriptorOptions(donor_index=0,reference_index=1))\nassert r.sterimol.require().l>3.19\nprint(json.dumps({'python':sys.version,'module':stericx.__file__,'version':stericx.__version__,'l':r.sterimol.value.l}))\n"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/python/install-3.12/base_smoke.log",
+      "sha256": "7c31907939b6ce5cea8f32a2fe837549e237067c49b784d6405484efd6e2be6e"
+    },
+    {
+      "name": "install_test_adapters",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/install-3.12/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "pytest",
+        "numpy",
+        "pandas",
+        "rdkit"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/python/install-3.12/install_test_adapters.log",
+      "sha256": "a1e0de39da238fae57a39516e76be9d09311cffa5a33bc2dcb5c2b668e1ac1b9"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/install-3.12/bin/python",
+        "-I",
+        "-m",
+        "pytest",
+        "-q",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/install-3.12-tests"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/python/install-3.12/tests.log",
+      "sha256": "908f490de95abef2a52fe5b071871a70b55fda4ea825ee32b1e0321d7fae7ef8"
+    },
+    {
+      "name": "pip_check",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/install-3.12/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/python/install-3.12/pip_check.log",
+      "sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09"
+    },
+    {
+      "name": "packages",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/install-3.12/bin/python",
+        "-m",
+        "pip",
+        "list",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/python/install-3.12/packages.log",
+      "sha256": "d144bfb0c3f9f7f248e751963e34a205c4e78da6c21e01ff1e93f33f953590a6"
+    }
+  ],
+  "packages": [
+    {
+      "name": "iniconfig",
+      "version": "2.3.1"
+    },
+    {
+      "name": "numpy",
+      "version": "2.5.4"
+    },
+    {
+      "name": "packaging",
+      "version": "26.3"
+    },
+    {
+      "name": "pandas",
+      "version": "3.1.0"
+    },
+    {
+      "name": "pillow",
+      "version": "13.0.0"
+    },
+    {
+      "name": "pip",
+      "version": "26.2.2"
+    },
+    {
+      "name": "pluggy",
+      "version": "1.7.0"
+    },
+    {
+      "name": "Pygments",
+      "version": "2.21.0"
+    },
+    {
+      "name": "pytest",
+      "version": "9.2.0"
+    },
+    {
+      "name": "python-dateutil",
+      "version": "3.0.0"
+    },
+    {
+      "name": "rdkit",
+      "version": "2026.9.1"
+    },
+    {
+      "name": "six",
+      "version": "1.17.0"
+    },
+    {
+      "name": "stericx",
+      "version": "0.4.0.dev0"
+    },
+    {
+      "name": "tzdata",
+      "version": "2026.6"
+    }
+  ],
+  "passed": true,
+  "artifact_unchanged": true
+}

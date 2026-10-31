@@ -7,7 +7,7 @@ name = "stericx"
 version = "0.4.0.dev0"
 description = "Conformer-aware molecular steric descriptors backed by validated Rust kernels"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.15"
 license = "MIT OR Apache-2.0"
 authors = [{name = "Andrej Rumenovski"}]
 classifiers = [
@@ -15,6 +15,10 @@ classifiers = [
   "Intended Audience :: Science/Research",
   "Topic :: Scientific/Engineering :: Chemistry",
   "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Programming Language :: Rust",
 ]
 

@@ -1,0 +1,10 @@
+Using CPython 3.11.15
+Creating virtual environment with seed packages at: .stericx/paton/install-3.11
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+ + packaging==26.3
+ + pip==26.2.2
+ + setuptools==84.2.1
+ + wheel==0.48.0
+Activate with: source .stericx/paton/install-3.11/bin/activate

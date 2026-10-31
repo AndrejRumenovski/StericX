@@ -1,0 +1,64 @@
+name: Python wheel validation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wheels:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest, macos-14]
+        python: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: PyO3/maturin-action@v1
+        with:
+          command: build
+          args: --release --locked --manifest-path python/Cargo.toml --out dist --interpreter python
+          manylinux: "2_28"
+      - name: Install wheel and optional adapters
+        run: |
+          python -m pip install pytest numpy pandas rdkit
+          python -c "import pathlib, subprocess, sys; wheels=list(pathlib.Path('dist').glob('*.whl')); assert len(wheels)==1; subprocess.check_call([sys.executable, '-m', 'pip', 'install', str(wheels[0])])"
+      - name: Validate installed wheel
+        run: python -I -m pytest -q python/tests
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheel-${{ matrix.os }}-py${{ matrix.python }}
+          path: dist/*.whl
+
+  source-distribution:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build source archive
+        run: |
+          python -m pip install 'maturin>=1.9,<2'
+          maturin sdist --manifest-path python/Cargo.toml --out dist
+      - name: Install only from source archive
+        run: |
+          python -m pip install pytest numpy pandas rdkit
+          python -c "import pathlib, subprocess, sys; archives=list(pathlib.Path('dist').glob('*.tar.gz')); assert len(archives)==1; subprocess.check_call([sys.executable, '-m', 'pip', 'install', str(archives[0])])"
+          python -I -m pytest -q python/tests
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-distribution
+          path: dist/*.tar.gz

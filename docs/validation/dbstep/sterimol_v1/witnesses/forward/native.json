@@ -1,0 +1,702 @@
+{
+  "descriptors": {
+    "conformers": [
+      {
+        "buried_volume": {
+          "status": "success",
+          "value": {
+            "center": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "orientations": [
+              {
+                "axes": [
+                  [
+                    -0.5001347064971924,
+                    0.8659476041793823,
+                    0.0
+                  ],
+                  [
+                    0.8659476041793823,
+                    0.5001347064971924,
+                    -0.0
+                  ],
+                  [
+                    -0.0,
+                    -0.0,
+                    -1.0
+                  ]
+                ],
+                "buried_volume": 78.1529312133789,
+                "far_vbur": 8.648691177368164,
+                "near_vbur": 69.50423431396484,
+                "octants": [
+                  2.0281295776367188,
+                  2.296215772628784,
+                  2.296215772628784,
+                  2.0281295776367188,
+                  16.44649887084961,
+                  18.299789428710938,
+                  18.299789428710938,
+                  16.458154678344727
+                ],
+                "plane_atom_index": 2,
+                "quadrants": [
+                  18.474628448486328,
+                  20.596006393432617,
+                  20.596006393432617,
+                  18.486284255981445
+                ]
+              },
+              {
+                "axes": [
+                  [
+                    -0.5001347064971924,
+                    -0.8659476041793823,
+                    0.0
+                  ],
+                  [
+                    -0.8659476041793823,
+                    0.5001347064971924,
+                    0.0
+                  ],
+                  [
+                    -0.0,
+                    -0.0,
+                    -1.0
+                  ]
+                ],
+                "buried_volume": 78.1529312133789,
+                "far_vbur": 8.648691177368164,
+                "near_vbur": 69.50422668457031,
+                "octants": [
+                  2.0281295776367188,
+                  2.296215772628784,
+                  2.296215772628784,
+                  2.0281295776367188,
+                  16.458154678344727,
+                  18.299789428710938,
+                  18.299789428710938,
+                  16.44649887084961
+                ],
+                "plane_atom_index": 3,
+                "quadrants": [
+                  18.486284255981445,
+                  20.596006393432617,
+                  20.596006393432617,
+                  18.474628448486328
+                ]
+              },
+              {
+                "axes": [
+                  [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    -1.0,
+                    0.0
+                  ],
+                  [
+                    -0.0,
+                    -0.0,
+                    -1.0
+                  ]
+                ],
+                "buried_volume": 78.14127349853516,
+                "far_vbur": 8.648691177368164,
+                "near_vbur": 69.4925765991211,
+                "octants": [
+                  2.0281295776367188,
+                  2.296215772628784,
+                  2.296215772628784,
+                  2.0281295776367188,
+                  16.44649887084961,
+                  18.299789428710938,
+                  18.299789428710938,
+                  16.44649887084961
+                ],
+                "plane_atom_index": 1,
+                "quadrants": [
+                  18.474628448486328,
+                  20.596006393432617,
+                  20.596006393432617,
+                  18.474628448486328
+                ]
+              }
+            ],
+            "summary": {
+              "buried_volume": 78.1490478515625,
+              "far_vbur": 8.648691177368164,
+              "max_delta_qvbur": 2.121377944946289,
+              "near_vbur": 69.5003433227539,
+              "ovbur_max": 18.299789428710938,
+              "ovbur_min": 2.0281295776367188,
+              "percent_buried_volume": 43.51419448852539,
+              "qvbur_max": 20.596006393432617,
+              "qvbur_min": 18.474628448486328
+            }
+          }
+        },
+        "energy": null,
+        "energy_error": null,
+        "geometry": {
+          "status": "success",
+          "value": {
+            "bonds": null,
+            "coordinates_angstrom": [
+              [
+                0.0,
+                0.0,
+                1.0
+              ],
+              [
+                1.399999976158142,
+                0.0,
+                1.4500000476837158
+              ],
+              [
+                -0.699999988079071,
+                1.2120000123977661,
+                1.4500000476837158
+              ],
+              [
+                -0.699999988079071,
+                -1.2120000123977661,
+                1.4500000476837158
+              ]
+            ],
+            "elements": [
+              "P",
+              "C",
+              "C",
+              "C"
+            ],
+            "radii_angstrom": [
+              1.7999999523162842,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158
+            ]
+          }
+        },
+        "identifier": "synthetic support witness: forward",
+        "index": 0,
+        "properties": [],
+        "pyramidalization": {
+          "status": "success",
+          "value": {
+            "pyr_alpha": 39.43819808959961,
+            "pyr_p": 0.7206798791885376
+          }
+        },
+        "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz",
+        "source_format": "xyz",
+        "source_geometry": "4\nsynthetic support witness: forward\nP 0.0000000000 0.0000000000 1.0000000000\nC 1.4000000000 0.0000000000 1.4500000000\nC -0.7000000000 1.2120000000 1.4500000000\nC -0.7000000000 -1.2120000000 1.4500000000\n",
+        "sterimol": {
+          "status": "success",
+          "value": {
+            "b1": 2.3999998569488525,
+            "b5": 3.0999999046325684,
+            "l": 3.5500001907348633
+          }
+        }
+      }
+    ],
+    "options": {
+      "angular_samples": null,
+      "axis": "coordination",
+      "center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "donor_element": "P",
+      "donor_index": 0,
+      "l_correction": null,
+      "reference_index": null,
+      "volume": {
+        "center_distance": 2.2799999713897705,
+        "density": 0.009999999776482582,
+        "include_hydrogens": false,
+        "radii_scale": 1.1699999570846558,
+        "sphere_radius": 3.5
+      }
+    }
+  },
+  "sensitivity": {
+    "ligand_id": "forward",
+    "ranges": {
+      "buried_volume": 0.0,
+      "far_vbur": 0.0,
+      "max_delta_qvbur": 0.0,
+      "near_vbur": 0.0,
+      "ovbur_max": 0.0,
+      "ovbur_min": 0.0,
+      "percent_buried_volume": 0.0,
+      "pyr_alpha": 0.0,
+      "pyr_p": 0.0,
+      "qvbur_max": 0.0,
+      "qvbur_min": 0.0,
+      "sterimol_b1": 0.0,
+      "sterimol_b5": 0.0,
+      "sterimol_l": 0.0
+    },
+    "regional_ranges": {},
+    "statistics": {
+      "descriptor_options": {
+        "angular_samples": null,
+        "axis": "coordination",
+        "center": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "donor_element": "P",
+        "donor_index": 0,
+        "l_correction": null,
+        "reference_index": null,
+        "volume": {
+          "center_distance": 2.2799999713897705,
+          "density": 0.009999999776482582,
+          "include_hydrogens": false,
+          "radii_scale": 1.1699999570846558,
+          "sphere_radius": 3.5
+        }
+      },
+      "descriptors": {
+        "buried_volume": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 78.1490478515625,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 78.1490478515625,
+          "median": 78.1490478515625,
+          "minimum": 78.1490478515625,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": null
+        },
+        "far_vbur": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 8.648691177368164,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 8.648691177368164,
+          "median": 8.648691177368164,
+          "minimum": 8.648691177368164,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": null
+        },
+        "max_delta_qvbur": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 2.121377944946289,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 2.121377944946289,
+          "median": 2.121377944946289,
+          "minimum": 2.121377944946289,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": null
+        },
+        "near_vbur": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 69.5003433227539,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 69.5003433227539,
+          "median": 69.5003433227539,
+          "minimum": 69.5003433227539,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": null
+        },
+        "ovbur_max": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 18.299789428710938,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 18.299789428710938,
+          "median": 18.299789428710938,
+          "minimum": 18.299789428710938,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": null
+        },
+        "ovbur_min": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 2.0281295776367188,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 2.0281295776367188,
+          "median": 2.0281295776367188,
+          "minimum": 2.0281295776367188,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": null
+        },
+        "percent_buried_volume": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 43.51419448852539,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 43.51419448852539,
+          "median": 43.51419448852539,
+          "minimum": 43.51419448852539,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "percent",
+          "weighted_mean": null
+        },
+        "pyr_alpha": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 39.43819808959961,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 39.43819808959961,
+          "median": 39.43819808959961,
+          "minimum": 39.43819808959961,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "degree",
+          "weighted_mean": null
+        },
+        "pyr_p": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 0.7206798791885376,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 0.7206798791885376,
+          "median": 0.7206798791885376,
+          "minimum": 0.7206798791885376,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "dimensionless",
+          "weighted_mean": null
+        },
+        "qvbur_max": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 20.596006393432617,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 20.596006393432617,
+          "median": 20.596006393432617,
+          "minimum": 20.596006393432617,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": null
+        },
+        "qvbur_min": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 18.474628448486328,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 18.474628448486328,
+          "median": 18.474628448486328,
+          "minimum": 18.474628448486328,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": null
+        },
+        "sterimol_b1": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 2.3999998569488525,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 2.3999998569488525,
+          "median": 2.3999998569488525,
+          "minimum": 2.3999998569488525,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom",
+          "weighted_mean": null
+        },
+        "sterimol_b5": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 3.0999999046325684,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 3.0999999046325684,
+          "median": 3.0999999046325684,
+          "minimum": 3.0999999046325684,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom",
+          "weighted_mean": null
+        },
+        "sterimol_l": {
+          "boltzmann_mean": null,
+          "complete": true,
+          "maximum": 3.5500001907348633,
+          "maximum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "mean": 3.5500001907348633,
+          "median": 3.5500001907348633,
+          "minimum": 3.5500001907348633,
+          "minimum_conformers": [
+            {
+              "identifier": "synthetic support witness: forward",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward/input.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": null,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom",
+          "weighted_mean": null
+        }
+      },
+      "options": {
+        "missing": "require_complete"
+      },
+      "population": null,
+      "regional_unavailable_reason": "regional statistics require complete matching element order and explicit adjacency; raw per-conformer regions remain available",
+      "regions": {},
+      "structural_correspondence": "element_order_checked_where_available_topology_unverified"
+    }
+  }
+}

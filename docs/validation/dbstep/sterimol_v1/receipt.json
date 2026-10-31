@@ -1,0 +1,81 @@
+{
+  "created_utc": "2026-10-31T20:00:49.741396+00:00",
+  "command": [
+    "scripts/validate_dbstep_sterimol.py",
+    "--engine",
+    "target/debug/examples/ensemble_report",
+    "--output",
+    "docs/validation/dbstep/sterimol_v1"
+  ],
+  "script_sha256": "40583298f1a6046aa4a11249b2bc0b6338d9123a3c491d5710e7b40edf9ac9e4",
+  "protocol_sha256": "bf1da7308798ebad22c122a73a5c285403bd78b83a3e49080a4c8538785afc5f",
+  "reference_environment_sha256": "64d2f07e6b6d30c940e863d1a0c0afd72072cc9a698e6112f7da61a3ea757c98",
+  "input_manifest_sha256": "d26be28e6b9d470f270293b85a234e0b77c8b48193afa742139d75f7c2e757e6",
+  "engine": "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+  "engine_sha256": "f33923b3096f7a80fa942a80768c1e4c8231f6ec040c6a7edb8e05a1f7ee2e54",
+  "witnesses": [
+    {
+      "id": "forward",
+      "directory": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/forward",
+      "atom_mapping_to_original": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "input_sha256": "930d49d97dda7d3f7a10f045133c3ada46ee9d96ff15968377afe8bb8c64ddb7",
+      "options_sha256": "562aa2a5abb7596ce625278e0bde1b0c11b2227102139455f42ba8d71a818c4b"
+    },
+    {
+      "id": "backward",
+      "directory": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/backward",
+      "atom_mapping_to_original": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "input_sha256": "fdb1b498b4bde8ef683d8e97002a89258ad1ad6b02dddfee3b6fadff06fd0de3",
+      "options_sha256": "562aa2a5abb7596ce625278e0bde1b0c11b2227102139455f42ba8d71a818c4b"
+    },
+    {
+      "id": "symmetric",
+      "directory": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/symmetric",
+      "atom_mapping_to_original": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "input_sha256": "8413bd7e94d082ab63bb7ded04d6b5654bc50b7cade4dc8ff9b2832b842b93a7",
+      "options_sha256": "562aa2a5abb7596ce625278e0bde1b0c11b2227102139455f42ba8d71a818c4b"
+    },
+    {
+      "id": "rotated_backward",
+      "directory": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/rotated_backward",
+      "atom_mapping_to_original": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "input_sha256": "7ab4198d3db37138d436270e78df649b01a7aee206c4f9367d2e6a0d6b25ed54",
+      "options_sha256": "f128b626f53fdfc50a7491e210162a20a0321344488c8a6493c285f0e5d43360"
+    },
+    {
+      "id": "permuted_backward",
+      "directory": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/sterimol_v1/witnesses/permuted_backward",
+      "atom_mapping_to_original": [
+        4,
+        2,
+        0,
+        3,
+        1
+      ],
+      "input_sha256": "924c35fbfcafa23841f20026f1da9dca8c0e7f3389336aefff73b961ced6840d",
+      "options_sha256": "156f4e291cb6895e8dd7df55a9eaec256b75773039e10935fef2c3bbf8f0819a"
+    }
+  ]
+}

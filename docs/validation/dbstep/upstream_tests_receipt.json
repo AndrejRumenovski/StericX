@@ -1,0 +1,17 @@
+{
+  "created_utc": "2026-10-31T19:56:24.218530+00:00",
+  "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 ../venv/bin/python -m pytest -q tests",
+  "cwd": ".stericx/paton/reference/DBSTEP",
+  "passed": 413,
+  "skipped": 3,
+  "skip_scope": [
+    "two optional RDKit tests",
+    "optional PyMOL module"
+  ],
+  "checkout_clean_after_tests": true,
+  "hashes": {
+    "environment.json": "64d2f07e6b6d30c940e863d1a0c0afd72072cc9a698e6112f7da61a3ea757c98",
+    "requirements.lock": "c27aff3968d6329717c14f363c16eedfba5d116ba3b5d24e36c3e579780d0da4",
+    "upstream_tests.log": "ea2497bb9d7beff240b859df2a8288201a7a5597b564ae051841830d41097f2e"
+  }
+}

@@ -1,0 +1,29 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.13, pytest-9.2.0, pluggy-1.7.0
+rootdir: /run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP
+configfile: pyproject.toml
+collected 415 items / 1 skipped
+
+tests/test_api.py ss.                                                    [  0%]
+tests/test_calculator.py ............................................... [ 12%]
+.......                                                                  [ 13%]
+tests/test_cli.py ................                                       [ 17%]
+tests/test_cone.py ...........                                           [ 20%]
+tests/test_cpk.py ....................................                   [ 28%]
+tests/test_crop.py ...........................                           [ 35%]
+tests/test_cube.py ....                                                  [ 36%]
+tests/test_dbstep.py ................................................... [ 48%]
+.............................................                            [ 59%]
+tests/test_decompose.py ............                                     [ 62%]
+tests/test_ensemble.py ....................                              [ 67%]
+tests/test_examples.py .                                                 [ 67%]
+tests/test_from_coords.py ....                                           [ 68%]
+tests/test_parse_data.py ..............                                  [ 71%]
+tests/test_pdb_parser.py .............................                   [ 78%]
+tests/test_protein.py ...................................                [ 87%]
+tests/test_qm_ensemble.py .........                                      [ 89%]
+tests/test_residue_all.py ..........                                     [ 91%]
+tests/test_review_fixes.py ..........                                    [ 94%]
+tests/test_trajectory.py ........................                        [100%]
+
+================== 413 passed, 3 skipped in 93.96s (0:01:33) ===================

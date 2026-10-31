@@ -38,8 +38,18 @@ The freezer verifies **every Rust source file and both Cargo files** against
 that observation provider's source snapshot before reuse, and verifies every
 raw output hash. Thus the freeze covers all 13 lanes, all 128,021 rows, their
 errors, input IDs, IEEE bits and regional bins without duplicating the large
-tracked corpus. The fresh replay is additional evidence; its ongoing log is
-excluded from the immutable manifest until completion.
+tracked corpus. The fresh replay subsequently completed successfully. Its
+[separate comparison receipt](fresh_replay_comparison.json) rehashes both sets
+of raw streams and verifies exact input/output equality in all 13 lanes and
+128,021 records. `observe.log` and `fresh_replay_comparison.log` preserve the
+fresh execution. The original immutable baseline manifest remains unchanged.
+
+```bash
+.venv/bin/python scripts/compare_paton_replays.py \
+  --baseline docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/manifest.json \
+  --candidate .stericx/paton/baseline/observations/manifest.json \
+  --output docs/paton_recommendations/baseline/fresh_replay_comparison.json
+```
 
 This receipt is not a global scientific PASS. The known limitations, historical
 failures, reference-convention differences, missing historical energies and

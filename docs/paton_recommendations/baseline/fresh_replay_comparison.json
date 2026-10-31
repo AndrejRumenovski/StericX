@@ -1,0 +1,155 @@
+{
+  "created_utc": "2026-10-31T19:39:09.733207+00:00",
+  "command": [
+    "scripts/compare_paton_replays.py",
+    "--baseline",
+    "docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/manifest.json",
+    "--candidate",
+    ".stericx/paton/baseline/observations/manifest.json",
+    "--output",
+    "docs/paton_recommendations/baseline/fresh_replay_comparison.json"
+  ],
+  "script_sha256": "f6a50efe6ab1376aa5f7c08e28b173b35ac7518effea2c8e176323d445549781",
+  "baseline_manifest_sha256": "6bef8a30c5bc646aad47aa2df9708e26b40ca44e6665bcaccda05194123a9eab",
+  "candidate_manifest_sha256": "15ffbd3192bc0615d94ff2e5a048837aed92dd25cb3a627a345836f45763fa35",
+  "total_rows": 128021,
+  "lanes": {
+    "aggregation": {
+      "rows": 11,
+      "exact_match": true,
+      "stdout_sha256": "261376e1d87baaaa258dca35378b107570979d404a3b69dc0ee136faa536f243"
+    },
+    "geometry": {
+      "rows": 844,
+      "exact_match": true,
+      "stdout_sha256": "247b5dc7e4da8495ef1c83a8ecad8b4a72ea86dc3a7f3dbd40d0526e9e1dfcda"
+    },
+    "geometry_alignment": {
+      "rows": 4,
+      "exact_match": true,
+      "stdout_sha256": "5800b2c21af5115e7aead8a449de189d95ec7161b442f1b6b098a6f914007298"
+    },
+    "geometry_alignment_rotation": {
+      "rows": 4,
+      "exact_match": true,
+      "stdout_sha256": "20f7cd72330506e1f38fa28daa609aee87b6f594903ba9b9c38f8469061de8e2"
+    },
+    "geometry_focused": {
+      "rows": 15,
+      "exact_match": true,
+      "stdout_sha256": "f4ceb0d13fcb35a2ea99dcc6b3d40f5815c6a7220b1832086a2a95092446dfe5"
+    },
+    "geometry_historical": {
+      "rows": 20,
+      "exact_match": true,
+      "stdout_sha256": "70f29ca5007266ff9be1d7839dddbf5652453a3ee2bd77fcda973b98f96a6e28"
+    },
+    "geometry_numerical": {
+      "rows": 11,
+      "exact_match": true,
+      "stdout_sha256": "2eb682c0b4a4fc3f85c001a65ded4e3f306c1c5add271371f0402ed767d9c47a"
+    },
+    "kinetics": {
+      "rows": 195,
+      "exact_match": true,
+      "stdout_sha256": "02baeb6dbdf7fd1547c85ee2731b05ee7d331febe437ae7088ae75807807750f"
+    },
+    "kraken": {
+      "rows": 31721,
+      "exact_match": true,
+      "stdout_sha256": "52fe6770aae4cf278a6ce1ac4679ac42740fceb918603331362bbfe5e1c41cf3"
+    },
+    "kraken_all_bins": {
+      "rows": 31721,
+      "exact_match": true,
+      "stdout_sha256": "ba3ee7847d9ff4e27c56527a047144c13f493d5e305dba62bddcd46e69fafaf5"
+    },
+    "kraken_topology": {
+      "rows": 31721,
+      "exact_match": true,
+      "stdout_sha256": "e84d7f64172e682c6ab94021684afacad90ec98e9b549aa9ca9bf63218f9cc61"
+    },
+    "kraken_topology_all_bins": {
+      "rows": 31721,
+      "exact_match": true,
+      "stdout_sha256": "b8be0be5fed86ea9d317b66434c1b17266fb6aafd8009ce7110cd8479c0c9de2"
+    },
+    "model_domain": {
+      "rows": 33,
+      "exact_match": true,
+      "stdout_sha256": "74ea3ded68e843dedb3c0eb2c46772300bbfda56aa8040ace6362e1d0b57d9b0"
+    }
+  },
+  "verified_files": {
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/aggregation.jsonl": "a4652822c4b3d7dd80df75086f6e9d14dd58f7a1e8c50d672a5009351cc483de",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/aggregation/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/aggregation/stdout.jsonl": "261376e1d87baaaa258dca35378b107570979d404a3b69dc0ee136faa536f243",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry.jsonl": "f6895aef132734008c575eb6707cee3040d4a2986acdd39370106817217d55fe",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry/stdout.jsonl": "247b5dc7e4da8495ef1c83a8ecad8b4a72ea86dc3a7f3dbd40d0526e9e1dfcda",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry_alignment.jsonl": "66cb9e1f0bf5984e95d6b7d6a231f57b105dbefebec600d9983f92467fa0d8e4",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry_alignment/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry_alignment/stdout.jsonl": "5800b2c21af5115e7aead8a449de189d95ec7161b442f1b6b098a6f914007298",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry_alignment_rotation.jsonl": "49f06bc2005ebb377e2ecd133176b7492a6227a495b4539109839293b5982f70",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry_alignment_rotation/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry_alignment_rotation/stdout.jsonl": "20f7cd72330506e1f38fa28daa609aee87b6f594903ba9b9c38f8469061de8e2",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry_focused.jsonl": "4166fb55f75e534d0dcc4a61ae13064c40ac9c6e0e5298b2bf13f8bca409824e",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry_focused/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry_focused/stdout.jsonl": "f4ceb0d13fcb35a2ea99dcc6b3d40f5815c6a7220b1832086a2a95092446dfe5",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry_historical.jsonl": "c1ab972a2d878359ff9166a0274fe07b904b966201c13d5730eb1d1468a0ddeb",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry_historical/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry_historical/stdout.jsonl": "70f29ca5007266ff9be1d7839dddbf5652453a3ee2bd77fcda973b98f96a6e28",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry_numerical.jsonl": "09b28ce361516f9aed8c43d9c0b77b278daec5c88e0bb2de0e436d10d58cc2b0",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry_numerical/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/geometry_numerical/stdout.jsonl": "2eb682c0b4a4fc3f85c001a65ded4e3f306c1c5add271371f0402ed767d9c47a",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/kinetics.jsonl": "6de8561820f3eec76b9e49ce35d8496cc5381ee43640d48199d1e219c20abe12",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/kinetics/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/kinetics/stdout.jsonl": "02baeb6dbdf7fd1547c85ee2731b05ee7d331febe437ae7088ae75807807750f",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/kraken.jsonl": "550fa29a8cb17bf3e0c82a94842d060e8b7de9c8e29f210e12030f15a04a4cda",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/kraken/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/kraken/stdout.jsonl": "52fe6770aae4cf278a6ce1ac4679ac42740fceb918603331362bbfe5e1c41cf3",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/kraken_all_bins.jsonl": "92e1101f7fc289d0fc382f825a764ec48170a7bfcba28bb84b2eabf61df9af8f",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/kraken_all_bins/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/kraken_all_bins/stdout.jsonl": "ba3ee7847d9ff4e27c56527a047144c13f493d5e305dba62bddcd46e69fafaf5",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/derived_requests/kraken_topology.jsonl": "a057e37bd8e25c671d22a2f59a329e42a1e1fcd72748446bc98215a4dff71ff0",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/kraken_topology/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/kraken_topology/stdout.jsonl": "e84d7f64172e682c6ab94021684afacad90ec98e9b549aa9ca9bf63218f9cc61",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/derived_requests/kraken_topology_all_bins.jsonl": "c9e10bbf57c4285c9974a9b95e3ae5bf346a3ca5b47c12742f56a8fd33eb1016",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/kraken_topology_all_bins/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/kraken_topology_all_bins/stdout.jsonl": "b8be0be5fed86ea9d317b66434c1b17266fb6aafd8009ce7110cd8479c0c9de2",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/model_domain.jsonl": "c1214acf10304843073047558d75530bc8939ea9dcab0ebbc4b0c964484b8b05",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/model_domain/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/kraken_residual_forensics/candidates/angular_sampling/full_observations/model_domain/stdout.jsonl": "74ea3ded68e843dedb3c0eb2c46772300bbfda56aa8040ace6362e1d0b57d9b0",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/aggregation/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/aggregation/stdout.jsonl": "261376e1d87baaaa258dca35378b107570979d404a3b69dc0ee136faa536f243",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry/stdout.jsonl": "247b5dc7e4da8495ef1c83a8ecad8b4a72ea86dc3a7f3dbd40d0526e9e1dfcda",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry_alignment/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry_alignment/stdout.jsonl": "5800b2c21af5115e7aead8a449de189d95ec7161b442f1b6b098a6f914007298",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry_alignment_rotation/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry_alignment_rotation/stdout.jsonl": "20f7cd72330506e1f38fa28daa609aee87b6f594903ba9b9c38f8469061de8e2",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry_focused/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry_focused/stdout.jsonl": "f4ceb0d13fcb35a2ea99dcc6b3d40f5815c6a7220b1832086a2a95092446dfe5",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry_historical/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry_historical/stdout.jsonl": "70f29ca5007266ff9be1d7839dddbf5652453a3ee2bd77fcda973b98f96a6e28",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry_numerical/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/geometry_numerical/stdout.jsonl": "2eb682c0b4a4fc3f85c001a65ded4e3f306c1c5add271371f0402ed767d9c47a",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/kinetics/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/kinetics/stdout.jsonl": "02baeb6dbdf7fd1547c85ee2731b05ee7d331febe437ae7088ae75807807750f",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/kraken/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/kraken/stdout.jsonl": "52fe6770aae4cf278a6ce1ac4679ac42740fceb918603331362bbfe5e1c41cf3",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/kraken_all_bins/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/kraken_all_bins/stdout.jsonl": "ba3ee7847d9ff4e27c56527a047144c13f493d5e305dba62bddcd46e69fafaf5",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/derived_requests/kraken_topology.jsonl": "a057e37bd8e25c671d22a2f59a329e42a1e1fcd72748446bc98215a4dff71ff0",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/kraken_topology/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/kraken_topology/stdout.jsonl": "e84d7f64172e682c6ab94021684afacad90ec98e9b549aa9ca9bf63218f9cc61",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/derived_requests/kraken_topology_all_bins.jsonl": "c9e10bbf57c4285c9974a9b95e3ae5bf346a3ca5b47c12742f56a8fd33eb1016",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/kraken_topology_all_bins/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/kraken_topology_all_bins/stdout.jsonl": "b8be0be5fed86ea9d317b66434c1b17266fb6aafd8009ce7110cd8479c0c9de2",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/model_domain/stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/observations/model_domain/stdout.jsonl": "74ea3ded68e843dedb3c0eb2c46772300bbfda56aa8040ace6362e1d0b57d9b0"
+  },
+  "failures": [],
+  "exact_legacy_replay_pass": true,
+  "interpretation": "Raw numerical preservation only; not independent physical or predictive validation."
+}

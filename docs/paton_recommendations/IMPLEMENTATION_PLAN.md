@@ -148,6 +148,13 @@ source-bound native/observer build. `baseline/manifest.json` seals the existing
 complete 128,021-record capture **after exact equality of all 44 Rust/Cargo
 source files and every observation stream is verified**. This is reuse of the
 same-source archived outputs, not a claim that a new reference campaign finished.
+
+The additional fresh baseline replay has now completed: all 128,021 records in
+13 lanes match the archived same-source inputs and outputs byte for byte after
+both sets of raw files were rehashed. The separate
+`baseline/fresh_replay_comparison.json` receipt preserves that result without
+altering the original seal. This verifies the frozen baseline, not the later
+extensions or unresolved historical scientific claims.
 The simultaneously started fresh replay remains under
 `.stericx/paton/baseline/observations/`; its receipt will be added separately on
 completion. `baseline/observe.log` is live and is deliberately not part of the

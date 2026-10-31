@@ -1,0 +1,205 @@
+E501 Line too long (98 > 88)
+  --> python/tests/test_advanced.py:11:89
+   |
+10 | def grid(path=None):
+11 |     return sx.DensityGrid.from_cube(path or DATA/'Ne_medium.cube', field='total_electron_density',
+   |                                                                                         ^^^^^^^^^^
+12 |         density_unit='electrons_per_bohr_cubed', provenance='official DBSTEP total SCF fixture; method not inferred')
+   |
+
+E501 Line too long (117 > 88)
+  --> python/tests/test_advanced.py:12:89
+   |
+10 | def grid(path=None):
+11 |     return sx.DensityGrid.from_cube(path or DATA/'Ne_medium.cube', field='total_electron_density',
+12 |         density_unit='electrons_per_bohr_cubed', provenance='official DBSTEP total SCF fixture; method not inferred')
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | @pytest.mark.parametrize('expected',DENSITY,ids=lambda r:str(r['radius_angstrom']))
+   |
+
+E701 Multiple statements on one line (colon)
+  --> python/tests/test_advanced.py:27:34
+   |
+26 | def test_density_requires_explicit_field_units_threshold_and_coverage():
+27 |     with pytest.raises(TypeError):sx.DensityGrid.from_cube(DATA/'Ne_medium.cube')
+   |                                  ^
+28 |     with pytest.raises(sx.InputError):sx.DensityGrid.from_cube(DATA/'Ne_medium.cube',field='orbital',density_unit='electrons_per_bohr_…
+29 |     with pytest.raises(sx.DensityError):grid().buried_volume(center_angstrom=(0,0,0),radius_angstrom=3.5,threshold_electrons_per_bohr3…
+   |
+
+E701 Multiple statements on one line (colon)
+  --> python/tests/test_advanced.py:28:38
+   |
+26 | def test_density_requires_explicit_field_units_threshold_and_coverage():
+27 |     with pytest.raises(TypeError):sx.DensityGrid.from_cube(DATA/'Ne_medium.cube')
+28 |     with pytest.raises(sx.InputError):sx.DensityGrid.from_cube(DATA/'Ne_medium.cube',field='orbital',density_unit='electrons_per_bohr_…
+   |                                      ^
+29 |     with pytest.raises(sx.DensityError):grid().buried_volume(center_angstrom=(0,0,0),radius_angstrom=3.5,threshold_electrons_per_bohr3…
+30 |     with pytest.raises(sx.DensityError):grid().buried_volume(center_angstrom=(0,0,0),radius_angstrom=1.,threshold_electrons_per_bohr3=…
+   |
+
+E501 Line too long (156 > 88)
+  --> python/tests/test_advanced.py:28:89
+   |
+26 | …_and_coverage():
+27 | …be(DATA/'Ne_medium.cube')
+28 | …m_cube(DATA/'Ne_medium.cube',field='orbital',density_unit='electrons_per_bohr_cubed',provenance='x')
+   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+29 | …lume(center_angstrom=(0,0,0),radius_angstrom=3.5,threshold_electrons_per_bohr3=.0016)
+30 | …lume(center_angstrom=(0,0,0),radius_angstrom=1.,threshold_electrons_per_bohr3=0.)
+   |
+
+E701 Multiple statements on one line (colon)
+  --> python/tests/test_advanced.py:29:40
+   |
+27 |     with pytest.raises(TypeError):sx.DensityGrid.from_cube(DATA/'Ne_medium.cube')
+28 |     with pytest.raises(sx.InputError):sx.DensityGrid.from_cube(DATA/'Ne_medium.cube',field='orbital',density_unit='electrons_per_bohr_…
+29 |     with pytest.raises(sx.DensityError):grid().buried_volume(center_angstrom=(0,0,0),radius_angstrom=3.5,threshold_electrons_per_bohr3…
+   |                                        ^
+30 |     with pytest.raises(sx.DensityError):grid().buried_volume(center_angstrom=(0,0,0),radius_angstrom=1.,threshold_electrons_per_bohr3=…
+   |
+
+E501 Line too long (141 > 88)
+  --> python/tests/test_advanced.py:29:89
+   |
+27 | ….from_cube(DATA/'Ne_medium.cube')
+28 | …Grid.from_cube(DATA/'Ne_medium.cube',field='orbital',density_unit='electrons_per_bohr_cubed',provenance='x')
+29 | …uried_volume(center_angstrom=(0,0,0),radius_angstrom=3.5,threshold_electrons_per_bohr3=.0016)
+   |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+30 | …uried_volume(center_angstrom=(0,0,0),radius_angstrom=1.,threshold_electrons_per_bohr3=0.)
+   |
+
+E701 Multiple statements on one line (colon)
+  --> python/tests/test_advanced.py:30:40
+   |
+28 |     with pytest.raises(sx.InputError):sx.DensityGrid.from_cube(DATA/'Ne_medium.cube',field='orbital',density_unit='electrons_per_bohr_…
+29 |     with pytest.raises(sx.DensityError):grid().buried_volume(center_angstrom=(0,0,0),radius_angstrom=3.5,threshold_electrons_per_bohr3…
+30 |     with pytest.raises(sx.DensityError):grid().buried_volume(center_angstrom=(0,0,0),radius_angstrom=1.,threshold_electrons_per_bohr3=…
+   |                                        ^
+   |
+
+E501 Line too long (137 > 88)
+  --> python/tests/test_advanced.py:30:89
+   |
+28 | …tyGrid.from_cube(DATA/'Ne_medium.cube',field='orbital',density_unit='electrons_per_bohr_cubed',provenance='x')
+29 | ….buried_volume(center_angstrom=(0,0,0),radius_angstrom=3.5,threshold_electrons_per_bohr3=.0016)
+30 | ….buried_volume(center_angstrom=(0,0,0),radius_angstrom=1.,threshold_electrons_per_bohr3=0.)
+   |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+
+B905 `zip()` without an explicit `strict=` parameter
+  --> python/tests/test_advanced.py:39:28
+   |
+37 |     assert p.samples[3].outcome.error
+38 |     assert p.samples[0].outcome.value==p.samples[4].outcome.value
+39 |     for sample,expected in zip(p.samples,DENSITY):
+   |                            ^^^^^^^^^^^^^^^^^^^^^^
+40 |         assert sample.outcome.value.occupied_nodes==expected['occupied_nodes']
+41 |         assert sample.outcome.value.sphere_nodes==expected['sphere_nodes']
+   |
+help: Add explicit value for parameter `strict=`
+
+E702 Multiple statements on one line (semicolon)
+  --> python/tests/test_advanced.py:46:33
+   |
+44 | def test_hard_sphere_profiles_use_existing_kernel_and_fixed_center():
+45 |     golden=json.loads((DATA/'native_goldens.json').read_text())[0]
+46 |     opts=dict(golden['options']);opts['volume']=sx.VolumeOptions(**opts['volume']);opts=sx.DescriptorOptions(**opts)
+   |                                 ^
+47 |     m=sx.Molecule.from_xyz_string(golden['xyz']);p=m.buried_volume_scan([3.5,-1.,2.5,4.5,3.5],options=opts)
+48 |     assert p.samples[0].outcome.value==m.descriptors(opts).buried_volume.value
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> python/tests/test_advanced.py:46:83
+   |
+44 | def test_hard_sphere_profiles_use_existing_kernel_and_fixed_center():
+45 |     golden=json.loads((DATA/'native_goldens.json').read_text())[0]
+46 |     opts=dict(golden['options']);opts['volume']=sx.VolumeOptions(**opts['volume']);opts=sx.DescriptorOptions(**opts)
+   |                                                                                   ^
+47 |     m=sx.Molecule.from_xyz_string(golden['xyz']);p=m.buried_volume_scan([3.5,-1.,2.5,4.5,3.5],options=opts)
+48 |     assert p.samples[0].outcome.value==m.descriptors(opts).buried_volume.value
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> python/tests/test_advanced.py:47:49
+   |
+45 |     golden=json.loads((DATA/'native_goldens.json').read_text())[0]
+46 |     opts=dict(golden['options']);opts['volume']=sx.VolumeOptions(**opts['volume']);opts=sx.DescriptorOptions(**opts)
+47 |     m=sx.Molecule.from_xyz_string(golden['xyz']);p=m.buried_volume_scan([3.5,-1.,2.5,4.5,3.5],options=opts)
+   |                                                 ^
+48 |     assert p.samples[0].outcome.value==m.descriptors(opts).buried_volume.value
+49 |     assert p.samples[1].outcome.error
+   |
+
+E501 Line too long (100 > 88)
+  --> python/tests/test_advanced.py:51:89
+   |
+49 |     assert p.samples[1].outcome.error
+50 |     assert p.samples[0].outcome.value==p.samples[-1].outcome.value
+51 |     assert all(s.outcome.value.center==p.center_angstrom for s in p.samples if s.outcome.successful)
+   |                                                                                         ^^^^^^^^^^^^
+52 |     assert p.samples[2].outcome.value.summary.buried_volume==pytest.approx(16.43008804321289,abs=0.)
+53 |     with pytest.raises(sx.CalculationError):m.buried_volume_scan([float('nan')],options=opts)
+   |
+
+E501 Line too long (100 > 88)
+  --> python/tests/test_advanced.py:52:89
+   |
+50 |     assert p.samples[0].outcome.value==p.samples[-1].outcome.value
+51 |     assert all(s.outcome.value.center==p.center_angstrom for s in p.samples if s.outcome.successful)
+52 |     assert p.samples[2].outcome.value.summary.buried_volume==pytest.approx(16.43008804321289,abs=0.)
+   |                                                                                         ^^^^^^^^^^^^
+53 |     with pytest.raises(sx.CalculationError):m.buried_volume_scan([float('nan')],options=opts)
+   |
+
+E701 Multiple statements on one line (colon)
+  --> python/tests/test_advanced.py:53:44
+   |
+51 |     assert all(s.outcome.value.center==p.center_angstrom for s in p.samples if s.outcome.successful)
+52 |     assert p.samples[2].outcome.value.summary.buried_volume==pytest.approx(16.43008804321289,abs=0.)
+53 |     with pytest.raises(sx.CalculationError):m.buried_volume_scan([float('nan')],options=opts)
+   |                                            ^
+   |
+
+E501 Line too long (93 > 88)
+  --> python/tests/test_advanced.py:53:89
+   |
+51 |     assert all(s.outcome.value.center==p.center_angstrom for s in p.samples if s.outcome.successful)
+52 |     assert p.samples[2].outcome.value.summary.buried_volume==pytest.approx(16.43008804321289,abs=0.)
+53 |     with pytest.raises(sx.CalculationError):m.buried_volume_scan([float('nan')],options=opts)
+   |                                                                                         ^^^^^
+   |
+
+E501 Line too long (111 > 88)
+  --> python/tests/test_advanced.py:59:89
+   |
+57 |     xyz='2\ntest\nC 0 0 0\nC 0 0 1.5\n'
+58 |     e=sx.Ensemble.from_xyz_string(xyz+xyz)
+59 |     e.set_energies([sx.Energy(0,'kcal_mol','gibbs_free_energy','same method','source',temperature_k=298.15)]*2)
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^
+60 |     with pytest.raises(sx.PopulationError):e.descriptors(population=sx.Boltzmann(300,'explicit states'))
+   |
+
+E701 Multiple statements on one line (colon)
+  --> python/tests/test_advanced.py:60:43
+   |
+58 |     e=sx.Ensemble.from_xyz_string(xyz+xyz)
+59 |     e.set_energies([sx.Energy(0,'kcal_mol','gibbs_free_energy','same method','source',temperature_k=298.15)]*2)
+60 |     with pytest.raises(sx.PopulationError):e.descriptors(population=sx.Boltzmann(300,'explicit states'))
+   |                                           ^
+   |
+
+E501 Line too long (104 > 88)
+  --> python/tests/test_advanced.py:60:89
+   |
+58 |     e=sx.Ensemble.from_xyz_string(xyz+xyz)
+59 |     e.set_energies([sx.Energy(0,'kcal_mol','gibbs_free_energy','same method','source',temperature_k=298.15)]*2)
+60 |     with pytest.raises(sx.PopulationError):e.descriptors(population=sx.Boltzmann(300,'explicit states'))
+   |                                                                                         ^^^^^^^^^^^^^^^^
+   |
+
+Found 21 errors (1 fixed, 20 remaining).
+No fixes available (1 hidden fix can be enabled with the `--unsafe-fixes` option).
+2 files reformatted, 2 files left unchanged

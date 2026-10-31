@@ -155,6 +155,22 @@ class Ensemble:
         )
         return ensemble_result(json.loads(raw))
 
+    def buried_volume_scan(
+        self,
+        radii_angstrom: Sequence[float],
+        *,
+        conformer_index: int = 0,
+        options: DescriptorOptions | None = None,
+    ) -> VolumeProfile[BuriedVolume]:
+        return profile(
+            json.loads(
+                self._engine.volume_scan(
+                    conformer_index, list(radii_angstrom), _options(options)
+                )
+            ),
+            volume,
+        )
+
 
 class Molecule:
     """One source conformer. Use Ensemble explicitly for multirecord input."""
@@ -194,6 +210,72 @@ class Molecule:
     def descriptors(self, options: DescriptorOptions | None = None) -> ConformerResult:
         raw = json.loads(self._ensemble._engine.descriptors(_options(options)))
         return conformer(raw["conformers"][0])
+
+    def buried_volume_scan(
+        self,
+        radii_angstrom: Sequence[float],
+        *,
+        options: DescriptorOptions | None = None,
+    ) -> VolumeProfile[BuriedVolume]:
+        return self._ensemble.buried_volume_scan(radii_angstrom, options=options)
+
+
+class DensityGrid:
+    """Declared total electron density; separate from hard-sphere molecular volume."""
+
+    def __init__(self, engine):
+        self._engine = engine
+
+    @classmethod
+    def from_cube(
+        cls,
+        path: str | PathLike[str],
+        *,
+        field: str,
+        density_unit: str,
+        provenance: str,
+    ) -> DensityGrid:
+        declaration = {"field": field, "unit": density_unit, "provenance": provenance}
+        return cls(_native.DensityEngine.from_file(str(path), _json(declaration)))
+
+    @property
+    def metadata(self) -> dict:
+        return json.loads(self._engine.metadata())
+
+    def buried_volume(
+        self,
+        *,
+        center_angstrom: Sequence[float],
+        radius_angstrom: float,
+        threshold_electrons_per_bohr3: float,
+    ) -> DensityVolume:
+        return density_volume(
+            json.loads(
+                self._engine.volume(
+                    tuple(center_angstrom),
+                    radius_angstrom,
+                    threshold_electrons_per_bohr3,
+                )
+            )
+        )
+
+    def buried_volume_scan(
+        self,
+        radii_angstrom: Sequence[float],
+        *,
+        center_angstrom: Sequence[float],
+        threshold_electrons_per_bohr3: float,
+    ) -> VolumeProfile[DensityVolume]:
+        return profile(
+            json.loads(
+                self._engine.scan(
+                    tuple(center_angstrom),
+                    list(radii_angstrom),
+                    threshold_electrons_per_bohr3,
+                )
+            ),
+            density_volume,
+        )
 
 
 def calculate_files(
@@ -235,6 +317,7 @@ __all__ = [
     "CalculationError",
     "ConformerResult",
     "DensityError",
+    "DensityGrid",
     "DensityVolume",
     "DescriptorOptions",
     "DescriptorStatistics",

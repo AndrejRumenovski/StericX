@@ -1,6 +1,7 @@
 //! High-performance molecular steric featurization, packed storage, regression,
 //! and kinetic simulation.
 
+pub mod density;
 pub mod ensemble;
 pub mod geometry;
 pub mod kinetics;

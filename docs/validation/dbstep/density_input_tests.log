@@ -1,0 +1,9 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+error[E0432]: unresolved import `steric_x::density`
+ --> tests/density_input.rs:1:15
+  |
+1 | use steric_x::density::*;
+  |               ^^^^^^^ could not find `density` in `steric_x`
+
+For more information about this error, try `rustc --explain E0432`.
+error: could not compile `steric_x` (test "density_input") due to 1 previous error

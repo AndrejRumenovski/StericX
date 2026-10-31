@@ -1,0 +1,423 @@
+{
+  "case_id": "SIG-NIHDA-401/0/sphere_radius=2.5",
+  "native_sphere_count": 5565,
+  "dbstep_sphere_count": 5533,
+  "boundary_points": [
+    {
+      "point_index": 114,
+      "point": [
+        -2.045454502105713,
+        -0.4545454978942871,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 166,
+      "point": [
+        -2.045454502105713,
+        0.4545454978942871,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 194,
+      "point": [
+        -2.045454502105713,
+        1.3636364936828613,
+        -0.4545454978942871
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 198,
+      "point": [
+        -2.045454502105713,
+        1.3636364936828613,
+        0.4545454978942871
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 402,
+      "point": [
+        -1.5909090042114258,
+        -1.3636363744735718,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.2500001083721059558229171670973300933837890625",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "1.083721059558229171670973300933837890625E-7"
+    },
+    {
+      "point_index": 625,
+      "point": [
+        -1.3636363744735718,
+        -1.5909090042114258,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.2500001083721059558229171670973300933837890625",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "1.083721059558229171670973300933837890625E-7"
+    },
+    {
+      "point_index": 834,
+      "point": [
+        -1.3636363744735718,
+        1.3636364936828613,
+        -1.5909090042114258
+      ],
+      "exact_squared_distance": "6.2500001083721059558229171670973300933837890625",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "1.083721059558229171670973300933837890625E-7"
+    },
+    {
+      "point_index": 848,
+      "point": [
+        -1.3636363744735718,
+        1.3636364936828613,
+        1.5909090042114258
+      ],
+      "exact_squared_distance": "6.2500001083721059558229171670973300933837890625",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "1.083721059558229171670973300933837890625E-7"
+    },
+    {
+      "point_index": 861,
+      "point": [
+        -1.3636363744735718,
+        1.5909090042114258,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.2500001083721059558229171670973300933837890625",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "1.083721059558229171670973300933837890625E-7"
+    },
+    {
+      "point_index": 1872,
+      "point": [
+        -0.4545454978942871,
+        -2.045454502105713,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 2151,
+      "point": [
+        -0.4545454978942871,
+        1.3636364936828613,
+        -2.045454502105713
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 2169,
+      "point": [
+        -0.4545454978942871,
+        1.3636364936828613,
+        2.045454502105713
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 2214,
+      "point": [
+        -0.4545454978942871,
+        2.045454502105713,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 3368,
+      "point": [
+        0.4545454978942871,
+        -2.045454502105713,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 3647,
+      "point": [
+        0.4545454978942871,
+        1.3636364936828613,
+        -2.045454502105713
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 3665,
+      "point": [
+        0.4545454978942871,
+        1.3636364936828613,
+        2.045454502105713
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 3710,
+      "point": [
+        0.4545454978942871,
+        2.045454502105713,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 4695,
+      "point": [
+        1.3636364936828613,
+        -2.045454502105713,
+        -0.4545454978942871
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 4699,
+      "point": [
+        1.3636364936828613,
+        -2.045454502105713,
+        0.4545454978942871
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 4720,
+      "point": [
+        1.3636364936828613,
+        -1.3636363744735718,
+        -1.5909090042114258
+      ],
+      "exact_squared_distance": "6.2500001083721059558229171670973300933837890625",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "1.083721059558229171670973300933837890625E-7"
+    },
+    {
+      "point_index": 4734,
+      "point": [
+        1.3636364936828613,
+        -1.3636363744735718,
+        1.5909090042114258
+      ],
+      "exact_squared_distance": "6.2500001083721059558229171670973300933837890625",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "1.083721059558229171670973300933837890625E-7"
+    },
+    {
+      "point_index": 4784,
+      "point": [
+        1.3636364936828613,
+        -0.4545454978942871,
+        -2.045454502105713
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 4802,
+      "point": [
+        1.3636364936828613,
+        -0.4545454978942871,
+        2.045454502105713
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 4860,
+      "point": [
+        1.3636364936828613,
+        0.4545454978942871,
+        -2.045454502105713
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 4878,
+      "point": [
+        1.3636364936828613,
+        0.4545454978942871,
+        2.045454502105713
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 4961,
+      "point": [
+        1.3636364936828613,
+        2.045454502105713,
+        -0.4545454978942871
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 4965,
+      "point": [
+        1.3636364936828613,
+        2.045454502105713,
+        0.4545454978942871
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 4992,
+      "point": [
+        1.5909090042114258,
+        -1.3636363744735718,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.2500001083721059558229171670973300933837890625",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "1.083721059558229171670973300933837890625E-7"
+    },
+    {
+      "point_index": 5410,
+      "point": [
+        2.045454502105713,
+        -0.4545454978942871,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 5462,
+      "point": [
+        2.045454502105713,
+        0.4545454978942871,
+        1.3636364936828613
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 5490,
+      "point": [
+        2.045454502105713,
+        1.3636364936828613,
+        -0.4545454978942871
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    },
+    {
+      "point_index": 5494,
+      "point": [
+        2.045454502105713,
+        1.3636364936828613,
+        0.4545454978942871
+      ],
+      "exact_squared_distance": "6.250000216744183489936403930187225341796875",
+      "radius_squared": "6.25",
+      "excess_squared_distance": "2.16744183489936403930187225341796875E-7"
+    }
+  ],
+  "frames": [
+    {
+      "plane": 15,
+      "dbstep_full_grid_occupied": 1396,
+      "dbstep_sphere_occupied": 1390,
+      "native_ieee_model_occupied": 1396,
+      "atom_occupancy_disagreement_indices": [],
+      "outside_occupied_indices": [
+        834,
+        2151,
+        3647,
+        4720,
+        4784,
+        4860
+      ],
+      "native_public_volume": 16.41832733154297,
+      "morfeus_sphere_count": 5575,
+      "morfeus_occupied_count": 1399,
+      "morfeus_volume": 16.42409612246682
+    },
+    {
+      "plane": 13,
+      "dbstep_full_grid_occupied": 1398,
+      "dbstep_sphere_occupied": 1392,
+      "native_ieee_model_occupied": 1398,
+      "atom_occupancy_disagreement_indices": [],
+      "outside_occupied_indices": [
+        834,
+        2151,
+        3647,
+        4720,
+        4784,
+        4860
+      ],
+      "native_public_volume": 16.441848754882812,
+      "morfeus_sphere_count": 5575,
+      "morfeus_occupied_count": 1399,
+      "morfeus_volume": 16.42409612246682
+    },
+    {
+      "plane": 10,
+      "dbstep_full_grid_occupied": 1397,
+      "dbstep_sphere_occupied": 1391,
+      "native_ieee_model_occupied": 1397,
+      "atom_occupancy_disagreement_indices": [],
+      "outside_occupied_indices": [
+        834,
+        2151,
+        3647,
+        4720,
+        4784,
+        4860
+      ],
+      "native_public_volume": 16.43008804321289,
+      "morfeus_sphere_count": 5575,
+      "morfeus_occupied_count": 1399,
+      "morfeus_volume": 16.42409612246682
+    }
+  ],
+  "classification": "numerical integration difference",
+  "earliest_divergence": "f32 versus f64 evaluation-sphere membership before atom occupancy",
+  "production_change_justified": false,
+  "original_gate_remains_failed": true,
+  "failures": []
+}

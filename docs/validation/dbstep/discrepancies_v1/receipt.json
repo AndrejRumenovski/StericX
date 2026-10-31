@@ -1,0 +1,19 @@
+{
+  "command": [
+    "scripts/investigate_dbstep_discrepancies.py",
+    "--output",
+    "docs/validation/dbstep/discrepancies_v1"
+  ],
+  "script_sha256": "2704dbc6fe1aec9fb7d93787102445ea3a9ef61b4fa1b13594dcaf6027e4aed8",
+  "source_manifest_sha256": "39dc6de000bd52185b22269cf3d153010d6f7fa607de6f5cf3315a87f76c6707",
+  "observer": {
+    "bytes": 936264,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/dbstep_build_v2/bin/stericx-audit-observer",
+    "sha256": "fe018089f8e7435d0eb01e318f94c690607aad572eb67a33271a942c14267d6f"
+  },
+  "reference_environment_sha256": "64d2f07e6b6d30c940e863d1a0c0afd72072cc9a698e6112f7da61a3ea757c98",
+  "helpers": {
+    "validate_dbstep_volume.py": "cb1c83fef5f71d00611c109852d183103f6414b90c921d7facf08344743b3edd",
+    "study_conformer_ensembles.py": "fd4d92a1eead6768e3da4a9666d79ffbac8e38555594cb0031382866455745c1"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "cases": 69,
+  "boundary_points": 32,
+  "frames": [
+    {
+      "plane": 15,
+      "dbstep_full_grid_occupied": 1396,
+      "dbstep_sphere_occupied": 1390,
+      "native_ieee_model_occupied": 1396,
+      "atom_occupancy_disagreement_indices": [],
+      "outside_occupied_indices": [
+        834,
+        2151,
+        3647,
+        4720,
+        4784,
+        4860
+      ],
+      "native_public_volume": 16.41832733154297,
+      "morfeus_sphere_count": 5575,
+      "morfeus_occupied_count": 1399,
+      "morfeus_volume": 16.42409612246682
+    },
+    {
+      "plane": 13,
+      "dbstep_full_grid_occupied": 1398,
+      "dbstep_sphere_occupied": 1392,
+      "native_ieee_model_occupied": 1398,
+      "atom_occupancy_disagreement_indices": [],
+      "outside_occupied_indices": [
+        834,
+        2151,
+        3647,
+        4720,
+        4784,
+        4860
+      ],
+      "native_public_volume": 16.441848754882812,
+      "morfeus_sphere_count": 5575,
+      "morfeus_occupied_count": 1399,
+      "morfeus_volume": 16.42409612246682
+    },
+    {
+      "plane": 10,
+      "dbstep_full_grid_occupied": 1397,
+      "dbstep_sphere_occupied": 1391,
+      "native_ieee_model_occupied": 1397,
+      "atom_occupancy_disagreement_indices": [],
+      "outside_occupied_indices": [
+        834,
+        2151,
+        3647,
+        4720,
+        4784,
+        4860
+      ],
+      "native_public_volume": 16.43008804321289,
+      "morfeus_sphere_count": 5575,
+      "morfeus_occupied_count": 1399,
+      "morfeus_volume": 16.42409612246682
+    }
+  ],
+  "failures": []
+}

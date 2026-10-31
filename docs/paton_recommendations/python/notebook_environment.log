@@ -1,0 +1,50 @@
+Using Python 3.12.13 environment at: .stericx/paton/python-build
+Resolved 46 packages in 3.90s
+Downloading jedi (4.7MiB)
+Downloading debugpy (3.8MiB)
+ Downloaded debugpy
+ Downloaded jedi
+Prepared 28 packages in 789ms
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 39 packages in 1m 23s
+ + asttokens==3.0.2
+ + attrs==26.1.0
+ + comm==0.2.3
+ + contourpy==1.4.0
+ + cycler==0.12.1
+ + debugpy==1.8.22
+ + executing==2.3.0
+ + fastjsonschema==2.22.2
+ + fonttools==4.68.0
+ + ipykernel==7.4.0
+ + ipython==9.18.0
+ + ipython-pygments-lexers==1.1.1
+ + jedi==0.20.1
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + jupyter-client==8.10.0
+ + jupyter-core==5.9.1
+ + kiwisolver==1.5.1
+ + matplotlib==3.11.2
+ + matplotlib-inline==0.2.2
+ + nbclient==0.11.0
+ + nbformat==5.11.1
+ + nest-asyncio2==1.7.4
+ + parso==0.8.7
+ + pexpect==4.9.0
+ + platformdirs==4.14.2
+ + prompt-toolkit==3.0.53
+ + psutil==7.2.2
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.4
+ + pyparsing==3.3.3
+ + pyzmq==27.2.0
+ + referencing==0.37.0
+ + rpds-py==2026.9.1
+ + stack-data==0.6.3
+ + tornado==6.6
+ + traitlets==5.16.1
+ + typing-extensions==4.16.0
+ + wcwidth==0.9.4

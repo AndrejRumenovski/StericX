@@ -1,0 +1,10 @@
+Using Python 3.12.13 environment at: .stericx/paton/python-build
+Resolved 1 package in 1ms
+Prepared 1 package in 23ms
+Uninstalled 1 package in 44ms
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 1 package in 36ms
+ - stericx==0.4.0.dev0 (from file:///run/media/andrej-rumenovski/New%20Volume/Code/StericX/.stericx/paton/python-wheels/advanced/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_35_x86_64.whl)
+ + stericx==0.4.0.dev0 (from file:///run/media/andrej-rumenovski/New%20Volume/Code/StericX/.stericx/paton/python-wheels/manylinux_2_28/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl)

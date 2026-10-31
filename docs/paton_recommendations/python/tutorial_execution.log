@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/python/examples/research_workflow.py", line 111, in <module>
+    main()
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/python/examples/research_workflow.py", line 22, in main
+    settings["volume"] = sx.VolumeOptions(**settings["volume"])
+                                            ~~~~~~~~^^^^^^^^^^
+KeyError: 'volume'

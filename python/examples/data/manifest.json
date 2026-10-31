@@ -1,0 +1,36 @@
+{
+  "ligand_401_ensemble.xyz": {
+    "source": "docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-401/ensemble.xyz",
+    "sha256": "e211d56a66328a0dd5c7557bbf90a7bc6f656891c6f915867d00ac33435eddfb"
+  },
+  "ligand_401_energies.json": {
+    "source": "docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-401/energies.json",
+    "sha256": "29cb0e636be0b33e161f14e005ad848dbbaeacfa71c9156d6bfd6b51d9be31f5"
+  },
+  "ligand_401_options.json": {
+    "source": "docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-401/options.json",
+    "sha256": "f55139d0031ff5fb189f4a9fc10ac92fc73e24b6b9ac851d5dae7e4f74864ba7"
+  },
+  "ligand_401_conformer_0.xyz": {
+    "source": "docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-401/report.json",
+    "record": 0,
+    "sha256": "2a9004125083657f2145291b7da1b31a468edd08204e5334bd20813b790e9002"
+  },
+  "ligand_401_conformer_1.xyz": {
+    "source": "docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-401/report.json",
+    "record": 1,
+    "sha256": "f1c434b4c525016be23c6205f43c9db49fe67bd1bc3ed387f3e97808e7bc73f9"
+  },
+  "mapped_ligand.sdf": {
+    "source": "tests/data/topology/63296.sdf",
+    "sha256": "be97f2cfc149030f93621c22801d2e56331b33bc967295c2721e6f99a12e2cf5"
+  },
+  "Ne_medium.cube": {
+    "source": "python/tests/data/Ne_medium.cube",
+    "sha256": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861"
+  },
+  "DBSTEP_LICENSE.txt": {
+    "source": "python/tests/data/DBSTEP_LICENSE.txt",
+    "sha256": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543"
+  }
+}

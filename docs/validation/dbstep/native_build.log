@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/replay_scientific_remediation.py", line 480, in <module>
+    main()
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/replay_scientific_remediation.py", line 476, in main
+    args.run(args)
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/replay_scientific_remediation.py", line 271, in build
+    commands[label] = execute(
+                      ^^^^^^^^
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/replay_scientific_remediation.py", line 181, in execute
+    raise RuntimeError(f"Command failed; retained logs: {output}")
+RuntimeError: Command failed; retained logs: /run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/dbstep_build/observer-build

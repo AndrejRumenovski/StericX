@@ -14,6 +14,7 @@ import json
 import os
 import shutil
 import subprocess
+import tomllib
 from itertools import zip_longest
 from pathlib import Path
 
@@ -48,6 +49,28 @@ def load_manifest(path: Path) -> dict:
 
 def executing_helpers() -> list[Path]:
     return [Path(__file__), Path(oracle.__file__), Path(refs.__file__)]
+
+
+def bind_observer_dependencies(cargo: str, lock: str, source_lock: str, prefix: bytes):
+    """Add only the direct crate needed by the copied current-source derives.
+
+    The immutable historical adapter has serde transitively, but copied source
+    now names serde directly. Keep every registry version/checksum unchanged.
+    """
+    if b"serde::" not in prefix:
+        return cargo, lock, []
+    packages = tomllib.loads(source_lock)["package"]
+    versions = [p["version"] for p in packages if p["name"] == "serde"]
+    if len(versions) != 1:
+        raise ValueError("copied source must have one pinned serde version")
+    anchor = '\nserde_json = '
+    package_anchor = 'name = "stericx-audit-observer"\nversion = "0.1.0"\ndependencies = [\n "glam",\n'
+    if cargo.count(anchor) != 1 or lock.count(package_anchor) != 1:
+        raise ValueError("unknown immutable observer dependency template")
+    cargo = cargo.replace(anchor, f'\nserde = {{ version = "={versions[0]}", features = ["derive"] }}' + anchor)
+    lock = lock.replace(package_anchor, package_anchor + ' "serde",\n')
+    return cargo, lock, [{"crate": "serde", "version": versions[0],
+                          "reason": "direct dependency for byte-identical copied source derives"}]
 
 
 def verify_build(path: Path) -> tuple[dict, dict]:
@@ -206,15 +229,19 @@ def build(args) -> None:
     crate = output / "observer"
     shutil.copytree(adapter_source, crate)
     cargo = (AUDIT / "observer/Cargo.toml").read_text()
+    prefix = (source / "src/geometry/buried_volume.rs").read_bytes()
+    cargo, observer_lock, dependency_adjustments = bind_observer_dependencies(
+        cargo, (AUDIT / "observer/Cargo.lock").read_text(),
+        (source / "Cargo.lock").read_text(), prefix,
+    )
     old = 'steric_x = { path = "../frozen/repository" }'
     if cargo.count(old) != 1:
         raise ValueError("Unknown audited dependency declaration")
     (crate / "Cargo.toml").write_text(
         cargo.replace(old, "steric_x = { path = " + json.dumps(str(source)) + " }")
     )
-    shutil.copyfile(AUDIT / "observer/Cargo.lock", crate / "Cargo.lock")
+    (crate / "Cargo.lock").write_text(observer_lock)
     oracle.check_dependency_locks(source / "Cargo.lock", crate / "Cargo.lock")
-    prefix = (source / "src/geometry/buried_volume.rs").read_bytes()
     append = (AUDIT / "geometry/observer_append.rs").read_bytes()
     (crate / "src/observed_buried_volume.rs").write_bytes(prefix + append)
     helper = output / "helpers"
@@ -241,6 +268,7 @@ def build(args) -> None:
         "reference_evidence": prepared["evidence_lock"],
         "bv_prefix_bytes": len(prefix),
         "bv_prefix_sha256": oracle.sha(source / "src/geometry/buried_volume.rs"),
+        "observer_dependency_adjustments": dependency_adjustments,
         "unchanged_private_adapter": oracle.file_record(
             AUDIT / "geometry/observer_append.rs"
         ),

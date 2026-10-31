@@ -1,0 +1,77 @@
+/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/venv/lib/python3.12/site-packages/cclib/method/volume.py:16: SyntaxWarning: invalid escape sequence '\p'
+  \psi (x, y, z) = x^a * y^b * z^c * exp(-\lambda * r^2)
+Reference SIG-NIHDA-401
+Reference SIG-NIHDA-498
+Reference SIG-NIHDA-723
+Reference SIG-NIHDA-724
+Reference SIG-NIHDA-785
+Reference SIG-NIHDA-1057
+Reference SIG-NIHDA-1058
+Reference SIG-NIHDA-2062
+Reference SIG-NIHDA-2063
+Reference SIG-NIHDA-2064
+Reference SIG-NIHDA-2067
+{
+  "ligands": 11,
+  "conformers": 56,
+  "failed_reference_calls": 0,
+  "conformer_investigations": 0,
+  "ensemble_investigations": 0,
+  "historical_metrics": {
+    "single": {
+      "n": 11,
+      "missing_pairs": 0,
+      "mae": 3.4563919375815875,
+      "rmse": 4.982277236940622,
+      "maximum_absolute_error": 13.296080222900391,
+      "median_absolute_error": 2.6748588487500005,
+      "r_squared": 0.5193607117704827,
+      "slope": 0.967300716509327,
+      "intercept": 3.054639068003155
+    },
+    "arithmetic": {
+      "n": 11,
+      "missing_pairs": 0,
+      "mae": 3.663044965470745,
+      "rmse": 4.425431122360844,
+      "maximum_absolute_error": 9.380750203036223,
+      "median_absolute_error": 3.066698036368164,
+      "r_squared": 0.6207944724211925,
+      "slope": 0.9287885946568383,
+      "intercept": 3.421457126730777
+    },
+    "boltzmann": {
+      "n": 11,
+      "missing_pairs": 0,
+      "mae": 3.7173897748351776,
+      "rmse": 5.0940572761250875,
+      "maximum_absolute_error": 13.450513033476161,
+      "median_absolute_error": 3.066698036368164,
+      "r_squared": 0.4975519844698584,
+      "slope": 0.9283798066951565,
+      "intercept": 3.7500031712774557
+    },
+    "minimum": {
+      "n": 11,
+      "missing_pairs": 0,
+      "mae": 2.5375164078075283,
+      "rmse": 3.0187374112542713,
+      "maximum_absolute_error": 5.821313335244142,
+      "median_absolute_error": 2.0930556610717774,
+      "r_squared": 0.8235530475193269,
+      "slope": 1.018342216818754,
+      "intercept": 0.5861772728891488
+    },
+    "maximum": {
+      "n": 11,
+      "missing_pairs": 0,
+      "mae": 5.022523009192472,
+      "rmse": 6.649180022504983,
+      "maximum_absolute_error": 16.618013969238284,
+      "median_absolute_error": 3.9446517958256835,
+      "r_squared": 0.14394893769512385,
+      "slope": 0.8316285404144398,
+      "intercept": 6.13764416048218
+    }
+  }
+}

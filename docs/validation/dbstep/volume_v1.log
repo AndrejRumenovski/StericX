@@ -1,0 +1,111 @@
+DBSTEP volume SIG-NIHDA-401/0
+DBSTEP volume SIG-NIHDA-401/1
+DBSTEP volume SIG-NIHDA-401/2
+DBSTEP volume SIG-NIHDA-401/3
+DBSTEP volume SIG-NIHDA-401/4
+DBSTEP volume SIG-NIHDA-401/5
+DBSTEP volume SIG-NIHDA-498/0
+DBSTEP volume SIG-NIHDA-498/1
+DBSTEP volume SIG-NIHDA-498/2
+DBSTEP volume SIG-NIHDA-498/3
+DBSTEP volume SIG-NIHDA-498/4
+DBSTEP volume SIG-NIHDA-498/5
+DBSTEP volume SIG-NIHDA-498/6
+DBSTEP volume SIG-NIHDA-498/7
+DBSTEP volume SIG-NIHDA-498/8
+DBSTEP volume SIG-NIHDA-723/0
+DBSTEP volume SIG-NIHDA-723/1
+DBSTEP volume SIG-NIHDA-724/0
+DBSTEP volume SIG-NIHDA-724/1
+DBSTEP volume SIG-NIHDA-785/0
+DBSTEP volume SIG-NIHDA-785/1
+DBSTEP volume SIG-NIHDA-1057/0
+DBSTEP volume SIG-NIHDA-1058/0
+DBSTEP volume SIG-NIHDA-1058/1
+DBSTEP volume SIG-NIHDA-2062/0
+DBSTEP volume SIG-NIHDA-2062/1
+DBSTEP volume SIG-NIHDA-2062/2
+DBSTEP volume SIG-NIHDA-2062/3
+DBSTEP volume SIG-NIHDA-2063/0
+DBSTEP volume SIG-NIHDA-2063/1
+DBSTEP volume SIG-NIHDA-2063/2
+DBSTEP volume SIG-NIHDA-2063/3
+DBSTEP volume SIG-NIHDA-2063/4
+DBSTEP volume SIG-NIHDA-2064/0
+DBSTEP volume SIG-NIHDA-2064/1
+DBSTEP volume SIG-NIHDA-2064/2
+DBSTEP volume SIG-NIHDA-2064/3
+DBSTEP volume SIG-NIHDA-2064/4
+DBSTEP volume SIG-NIHDA-2064/5
+DBSTEP volume SIG-NIHDA-2064/6
+DBSTEP volume SIG-NIHDA-2064/7
+DBSTEP volume SIG-NIHDA-2064/8
+DBSTEP volume SIG-NIHDA-2064/9
+DBSTEP volume SIG-NIHDA-2064/10
+DBSTEP volume SIG-NIHDA-2064/11
+DBSTEP volume SIG-NIHDA-2067/0
+DBSTEP volume SIG-NIHDA-2067/1
+DBSTEP volume SIG-NIHDA-2067/2
+DBSTEP volume SIG-NIHDA-2067/3
+DBSTEP volume SIG-NIHDA-2067/4
+DBSTEP volume SIG-NIHDA-2067/5
+DBSTEP volume SIG-NIHDA-2067/6
+DBSTEP volume SIG-NIHDA-2067/7
+DBSTEP volume SIG-NIHDA-2067/8
+DBSTEP volume SIG-NIHDA-2067/9
+DBSTEP volume SIG-NIHDA-2067/10
+DBSTEP volume forward
+DBSTEP volume backward
+DBSTEP volume symmetric
+DBSTEP volume rotated_backward
+DBSTEP volume permuted_backward
+DBSTEP volume SIG-NIHDA-401/0/include_hydrogens=True
+DBSTEP volume SIG-NIHDA-498/0/include_hydrogens=True
+DBSTEP volume SIG-NIHDA-2067/0/include_hydrogens=True
+DBSTEP volume forward/density=0.08
+DBSTEP volume forward/density=0.00125
+DBSTEP volume SIG-NIHDA-401/0/sphere_radius=2.5
+DBSTEP volume SIG-NIHDA-401/0/sphere_radius=4.5
+DBSTEP volume SIG-NIHDA-401/0/radii_scale=1.0
+{
+  "cases": 69,
+  "frames": 207,
+  "errors": [
+    {
+      "case_id": "SIG-NIHDA-401/0/sphere_radius=2.5",
+      "plane": 15,
+      "error": "sphere denominator differs",
+      "native": 5565,
+      "dbstep": 5533
+    },
+    {
+      "case_id": "SIG-NIHDA-401/0/sphere_radius=2.5",
+      "plane": 13,
+      "error": "sphere denominator differs",
+      "native": 5565,
+      "dbstep": 5533
+    },
+    {
+      "case_id": "SIG-NIHDA-401/0/sphere_radius=2.5",
+      "plane": 10,
+      "error": "sphere denominator differs",
+      "native": 5565,
+      "dbstep": 5533
+    },
+    {
+      "case_id": "SIG-NIHDA-401/0/sphere_radius=2.5",
+      "error": "ValueError('public fraction does not reconstruct an integer occupied count on the declared grid')",
+      "stdout": "Warning! Option: [ radius : 2.5 ] provided but no option exists, try -h to see available options.\n",
+      "stderr": ""
+    },
+    {
+      "case_id": "SIG-NIHDA-401/0/sphere_radius=4.5",
+      "error": "ValueError('public fraction does not reconstruct an integer occupied count on the declared grid')",
+      "stdout": "Warning! Option: [ radius : 4.5 ] provided but no option exists, try -h to see available options.\n",
+      "stderr": ""
+    }
+  ],
+  "failed_matched_frames": 3,
+  "failed_matched_summaries": 2,
+  "finite_lattice_gate_pass": false
+}

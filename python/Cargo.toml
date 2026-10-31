@@ -1,0 +1,24 @@
+[package]
+name = "stericx-python"
+version = "0.4.0-dev.0"
+edition = "2024"
+rust-version = "1.85"
+publish = false
+license = "MIT OR Apache-2.0"
+description = "Python bindings to the StericX scientific descriptor engine"
+
+[lib]
+name = "_native"
+path = "rust/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+steric_x = { path = ".." }
+pyo3 = { version = "=0.28.2", features = ["extension-module", "abi3-py311"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0", features = ["float_roundtrip"] }
+rayon = "1.10"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

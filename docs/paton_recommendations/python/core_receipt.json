@@ -1,0 +1,73 @@
+{
+  "sources": {
+    "python/stericx/_types.py": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+    "python/stericx/__init__.py": "67d1a0a2fd5ae4e6c46ad5a0b38ffded9e3d34b1bfc869a8f5960911ff45db3a",
+    "python/rust/lib.rs": "eed8efe9c61d1ebb9e5919a3b8caaf4a6fa2d0584d4ab317d552e1d5e8310796",
+    "python/Cargo.toml": "709c705971807629f48399984d26457b8735728ed867eb47f2c9cbac7ed74b1b",
+    "python/Cargo.lock": "376bcc0bae17d75fbea73ec0f7bf37586875b4263477a8479c03f85b0b8738c1",
+    "python/pyproject.toml": "67c080b78917b70b0f91ccec9b3aa7e44a454c42e6b48158b0012c65aa7f99ec"
+  },
+  "wheels": {
+    ".stericx/paton/python-wheels/core/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_35_x86_64.whl": "f0e8ecf8095370725f5da35c6a83c25095325d845130bfee517156916a1ace5e"
+  },
+  "unchanged_root_registry_packages": 43,
+  "changed_root_registry_packages": [],
+  "packages": [
+    {
+      "name": "iniconfig",
+      "version": "2.3.1"
+    },
+    {
+      "name": "maturin",
+      "version": "1.16.0"
+    },
+    {
+      "name": "numpy",
+      "version": "2.5.4"
+    },
+    {
+      "name": "packaging",
+      "version": "26.3"
+    },
+    {
+      "name": "pandas",
+      "version": "3.1.0"
+    },
+    {
+      "name": "pillow",
+      "version": "13.0.0"
+    },
+    {
+      "name": "pluggy",
+      "version": "1.7.0"
+    },
+    {
+      "name": "pygments",
+      "version": "2.21.0"
+    },
+    {
+      "name": "pytest",
+      "version": "9.2.0"
+    },
+    {
+      "name": "python-dateutil",
+      "version": "3.0.0"
+    },
+    {
+      "name": "rdkit",
+      "version": "2026.9.1"
+    },
+    {
+      "name": "six",
+      "version": "1.17.0"
+    },
+    {
+      "name": "stericx",
+      "version": "0.4.0.dev0"
+    },
+    {
+      "name": "tzdata",
+      "version": "2026.6"
+    }
+  ]
+}

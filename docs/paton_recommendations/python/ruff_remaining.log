@@ -1,0 +1,64 @@
+E501 Line too long (89 > 88)
+  --> python/stericx/__init__.py:89:89
+   |
+87 |     @classmethod
+88 |     def from_rdkit(cls, molecule) -> Ensemble:
+89 |         """Use existing RDKit conformers/atom order; never embed or optimize geometry."""
+   |                                                                                         ^
+90 |         conformers = list(molecule.GetConformers())
+91 |         if not conformers:
+   |
+
+E501 Line too long (90 > 88)
+   --> python/stericx/__init__.py:131:89
+    |
+130 |     def set_energies(self, energies: Sequence[Energy | None]) -> None:
+131 |         """Assign explicit energies transactionally in source order; no unit inference."""
+    |                                                                                         ^^
+132 |         self._engine.set_energies(
+133 |             _json([asdict(e) if e is not None else None for e in energies])
+    |
+
+E501 Line too long (98 > 88)
+   --> python/stericx/__init__.py:181:89
+    |
+179 |         if len(ensemble) != 1:
+180 |             raise InputError(
+181 |                 f"Molecule requires exactly one conformer, received {len(ensemble)}; use Ensemble"
+    |                                                                                         ^^^^^^^^^^
+182 |             )
+183 |         self._ensemble = ensemble
+    |
+
+E741 Ambiguous variable name: `l`
+  --> python/stericx/_types.py:83:5
+   |
+81 | @dataclass(frozen=True)
+82 | class Sterimol:
+83 |     l: float
+   |     ^
+84 |     b1: float
+85 |     b5: float
+   |
+
+E501 Line too long (94 > 88)
+   --> python/stericx/_types.py:297:89
+    |
+295 |                 else "f8"
+296 |                 if key in numeric
+297 |                 else f"U{max(1, max((len(str(row[key] or '')) for row in rows), default=1))}",
+    |                                                                                         ^^^^^^
+298 |             )
+299 |             for key in keys
+    |
+
+E501 Line too long (181 > 88)
+  --> python/tests/test_api.py:10:89
+   |
+ 9 | …2 .45\n"
+10 | … 0 0 P\n1.4 0 .45 C\n-.7 1.212 .45 C\n-.7 -1.212 .45 C\n  1  2  1  0\n  1  3  1  0\n  1  4  1  0\nM  END\n$$$$\n"
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+11 | …
+   |
+
+Found 6 errors.

@@ -1,0 +1,803 @@
+E501 Line too long (89 > 88)
+  --> python/stericx/__init__.py:87:89
+   |
+85 |     @classmethod
+86 |     def from_rdkit(cls, molecule) -> Ensemble:
+87 |         """Use existing RDKit conformers/atom order; never embed or optimize geometry."""
+   |                                                                                         ^
+88 |         conformers = list(molecule.GetConformers())
+89 |         if not conformers:
+   |
+
+E501 Line too long (108 > 88)
+  --> python/stericx/__init__.py:93:89
+   |
+91 |         records = []
+92 |         for conf in conformers:
+93 |             identifier = molecule.GetProp("_Name") if molecule.HasProp("_Name") else f"rdkit:{conf.GetId()}"
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^
+94 |             lines = [str(molecule.GetNumAtoms()), f"RDKit conformer {conf.GetId()}"]
+95 |             for atom in molecule.GetAtoms():
+   |
+
+E501 Line too long (104 > 88)
+  --> python/stericx/__init__.py:97:89
+   |
+95 |             for atom in molecule.GetAtoms():
+96 |                 point = conf.GetAtomPosition(atom.GetIdx())
+97 |                 lines.append(atom.GetSymbol() + " " + " ".join(format(float(x), ".17g") for x in point))
+   |                                                                                         ^^^^^^^^^^^^^^^^
+98 |             records.append({"xyz": "\n".join(lines) + "\n", "identifier": identifier, "conformer_id": conf.GetId()})
+99 |         bonds = [[bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()] for bond in molecule.GetBonds()]
+   |
+
+E501 Line too long (116 > 88)
+   --> python/stericx/__init__.py:98:89
+    |
+ 96 |                 point = conf.GetAtomPosition(atom.GetIdx())
+ 97 |                 lines.append(atom.GetSymbol() + " " + " ".join(format(float(x), ".17g") for x in point))
+ 98 |             records.append({"xyz": "\n".join(lines) + "\n", "identifier": identifier, "conformer_id": conf.GetId()})
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 99 |         bonds = [[bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()] for bond in molecule.GetBonds()]
+100 |         return cls(_native.EnsembleEngine.from_coordinate_records(_json(records), _json(bonds)))
+    |
+
+E501 Line too long (96 > 88)
+   --> python/stericx/__init__.py:99:89
+    |
+ 97 |                 lines.append(atom.GetSymbol() + " " + " ".join(format(float(x), ".17g") for x in point))
+ 98 |             records.append({"xyz": "\n".join(lines) + "\n", "identifier": identifier, "conformer_id": conf.GetId()})
+ 99 |         bonds = [[bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()] for bond in molecule.GetBonds()]
+    |                                                                                         ^^^^^^^^
+100 |         return cls(_native.EnsembleEngine.from_coordinate_records(_json(records), _json(bonds)))
+    |
+
+E501 Line too long (96 > 88)
+   --> python/stericx/__init__.py:100:89
+    |
+ 98 |             records.append({"xyz": "\n".join(lines) + "\n", "identifier": identifier, "conformer_id": conf.GetId()})
+ 99 |         bonds = [[bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()] for bond in molecule.GetBonds()]
+100 |         return cls(_native.EnsembleEngine.from_coordinate_records(_json(records), _json(bonds)))
+    |                                                                                         ^^^^^^^^
+101 |
+102 |     def __len__(self) -> int:
+    |
+
+E501 Line too long (90 > 88)
+   --> python/stericx/__init__.py:110:89
+    |
+109 |     def set_energies(self, energies: Sequence[Energy | None]) -> None:
+110 |         """Assign explicit energies transactionally in source order; no unit inference."""
+    |                                                                                         ^^
+111 |         self._engine.set_energies(_json([asdict(e) if e is not None else None for e in energies]))
+    |
+
+E501 Line too long (98 > 88)
+   --> python/stericx/__init__.py:111:89
+    |
+109 |     def set_energies(self, energies: Sequence[Energy | None]) -> None:
+110 |         """Assign explicit energies transactionally in source order; no unit inference."""
+111 |         self._engine.set_energies(_json([asdict(e) if e is not None else None for e in energies]))
+    |                                                                                         ^^^^^^^^^^
+112 |
+113 |     def descriptors(self, options: DescriptorOptions | None = None, *,
+    |
+
+E501 Line too long (103 > 88)
+   --> python/stericx/__init__.py:115:89
+    |
+113 |     def descriptors(self, options: DescriptorOptions | None = None, *,
+114 |                     population: Boltzmann | SuppliedWeights | None = None,
+115 |                     missing: str = "require_complete", ligand_id: str | None = None) -> EnsembleResult:
+    |                                                                                         ^^^^^^^^^^^^^^^
+116 |         if population is not None and not isinstance(population, (Boltzmann, SuppliedWeights)):
+117 |             raise PopulationError("population must be Boltzmann, SuppliedWeights or None")
+    |
+
+E501 Line too long (95 > 88)
+   --> python/stericx/__init__.py:116:89
+    |
+114 |                     population: Boltzmann | SuppliedWeights | None = None,
+115 |                     missing: str = "require_complete", ligand_id: str | None = None) -> EnsembleResult:
+116 |         if population is not None and not isinstance(population, (Boltzmann, SuppliedWeights)):
+    |                                                                                         ^^^^^^^
+117 |             raise PopulationError("population must be Boltzmann, SuppliedWeights or None")
+118 |         raw = self._engine.analyze(_options(options), _json({"missing": missing}),
+    |
+
+E501 Line too long (90 > 88)
+   --> python/stericx/__init__.py:117:89
+    |
+115 |                     missing: str = "require_complete", ligand_id: str | None = None) -> EnsembleResult:
+116 |         if population is not None and not isinstance(population, (Boltzmann, SuppliedWeights)):
+117 |             raise PopulationError("population must be Boltzmann, SuppliedWeights or None")
+    |                                                                                         ^^
+118 |         raw = self._engine.analyze(_options(options), _json({"missing": missing}),
+119 |                                   _json(asdict(population) if population else None), ligand_id)
+    |
+
+E501 Line too long (95 > 88)
+   --> python/stericx/__init__.py:119:89
+    |
+117 |             raise PopulationError("population must be Boltzmann, SuppliedWeights or None")
+118 |         raw = self._engine.analyze(_options(options), _json({"missing": missing}),
+119 |                                   _json(asdict(population) if population else None), ligand_id)
+    |                                                                                         ^^^^^^^
+120 |         return ensemble_result(json.loads(raw))
+    |
+
+E501 Line too long (94 > 88)
+   --> python/stericx/__init__.py:122:89
+    |
+120 |         return ensemble_result(json.loads(raw))
+121 |
+122 |     def buried_volume_scan(self, radii_angstrom: Sequence[float], *, conformer_index: int = 0,
+    |                                                                                         ^^^^^^
+123 |                            options: DescriptorOptions | None = None) -> VolumeProfile[BuriedVolume]:
+124 |         return profile(json.loads(self._engine.volume_scan(conformer_index, list(radii_angstrom), _options(options))), volume)
+    |
+
+E501 Line too long (100 > 88)
+   --> python/stericx/__init__.py:123:89
+    |
+122 |     def buried_volume_scan(self, radii_angstrom: Sequence[float], *, conformer_index: int = 0,
+123 |                            options: DescriptorOptions | None = None) -> VolumeProfile[BuriedVolume]:
+    |                                                                                         ^^^^^^^^^^^^
+124 |         return profile(json.loads(self._engine.volume_scan(conformer_index, list(radii_angstrom), _options(options))), volume)
+    |
+
+E501 Line too long (126 > 88)
+   --> python/stericx/__init__.py:124:89
+    |
+122 |     def buried_volume_scan(self, radii_angstrom: Sequence[float], *, conformer_index: int = 0,
+123 |                            options: DescriptorOptions | None = None) -> VolumeProfile[BuriedVolume]:
+124 |         return profile(json.loads(self._engine.volume_scan(conformer_index, list(radii_angstrom), _options(options))), volume)
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+
+E501 Line too long (112 > 88)
+   --> python/stericx/__init__.py:131:89
+    |
+129 |     def __init__(self, ensemble: Ensemble):
+130 |         if len(ensemble) != 1:
+131 |             raise InputError(f"Molecule requires exactly one conformer, received {len(ensemble)}; use Ensemble")
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^
+132 |         self._ensemble = ensemble
+    |
+
+E501 Line too long (100 > 88)
+   --> python/stericx/__init__.py:162:89
+    |
+161 |     def buried_volume_scan(self, radii_angstrom: Sequence[float], *,
+162 |                            options: DescriptorOptions | None = None) -> VolumeProfile[BuriedVolume]:
+    |                                                                                         ^^^^^^^^^^^^
+163 |         return self._ensemble.buried_volume_scan(radii_angstrom, options=options)
+    |
+
+E501 Line too long (134 > 88)
+   --> python/stericx/__init__.py:183:89
+    |
+181 |     def buried_volume(self, *, center_angstrom: Sequence[float], radius_angstrom: float,
+182 |                       threshold_electrons_per_bohr3: float) -> DensityVolume:
+183 |         return density_volume(json.loads(self._engine.volume(tuple(center_angstrom), radius_angstrom, threshold_electrons_per_bohr3)))
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+184 |
+185 |     def buried_volume_scan(self, radii_angstrom: Sequence[float], *, center_angstrom: Sequence[float],
+    |
+
+E501 Line too long (102 > 88)
+   --> python/stericx/__init__.py:185:89
+    |
+183 |         return density_volume(json.loads(self._engine.volume(tuple(center_angstrom), radius_angstrom, threshold_electrons_per_bohr3)))
+184 |
+185 |     def buried_volume_scan(self, radii_angstrom: Sequence[float], *, center_angstrom: Sequence[float],
+    |                                                                                         ^^^^^^^^^^^^^^
+186 |                            threshold_electrons_per_bohr3: float) -> VolumeProfile[DensityVolume]:
+187 |         return profile(json.loads(self._engine.scan(tuple(center_angstrom), list(radii_angstrom), threshold_electrons_per_bohr3)), de…
+    |
+
+E501 Line too long (97 > 88)
+   --> python/stericx/__init__.py:186:89
+    |
+185 |     def buried_volume_scan(self, radii_angstrom: Sequence[float], *, center_angstrom: Sequence[float],
+186 |                            threshold_electrons_per_bohr3: float) -> VolumeProfile[DensityVolume]:
+    |                                                                                         ^^^^^^^^^
+187 |         return profile(json.loads(self._engine.scan(tuple(center_angstrom), list(radii_angstrom), threshold_electrons_per_bohr3)), de…
+    |
+
+E501 Line too long (146 > 88)
+   --> python/stericx/__init__.py:187:89
+    |
+185 | …quence[float], *, center_angstrom: Sequence[float],
+186 | …bohr3: float) -> VolumeProfile[DensityVolume]:
+187 | …(tuple(center_angstrom), list(radii_angstrom), threshold_electrons_per_bohr3)), density_volume)
+    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+
+E501 Line too long (102 > 88)
+   --> python/stericx/__init__.py:190:89
+    |
+190 | def calculate_files(paths: Sequence[str | PathLike[str]], options: DescriptorOptions | None = None, *,
+    |                                                                                         ^^^^^^^^^^^^^^
+191 |                     threads: int | None = None) -> tuple[BatchItem, ...]:
+192 |     """Ordered native batch; unreadable files and failed conformers remain records."""
+    |
+
+E501 Line too long (89 > 88)
+   --> python/stericx/__init__.py:193:89
+    |
+191 |                     threads: int | None = None) -> tuple[BatchItem, ...]:
+192 |     """Ordered native batch; unreadable files and failed conformers remain records."""
+193 |     rows = json.loads(_native.batch([str(p) for p in paths], _options(options), threads))
+    |                                                                                         ^
+194 |     results = []
+195 |     for row in rows:
+    |
+
+E501 Line too long (103 > 88)
+   --> python/stericx/__init__.py:198:89
+    |
+196 |         result = row["result"]
+197 |         if result["status"] == "error":
+198 |             results.append(BatchItem(row["path"], (), Failure("input_error", result["message"]), None))
+    |                                                                                         ^^^^^^^^^^^^^^^
+199 |         else:
+200 |             data = result["value"]
+    |
+
+E501 Line too long (122 > 88)
+   --> python/stericx/__init__.py:201:89
+    |
+199 |         else:
+200 |             data = result["value"]
+201 |             results.append(BatchItem(row["path"], tuple(conformer(c) for c in data["conformers"]), None, data["options"]))
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+202 |     return tuple(results)
+    |
+
+E501 Line too long (96 > 88)
+   --> python/stericx/__init__.py:206:89
+    |
+204 | __all__ = [
+205 |     "BatchItem", "Boltzmann", "BuriedVolume", "CalculationError", "ConformerResult",
+206 |     "DensityError", "DensityGrid", "DensityVolume", "DescriptorOptions", "DescriptorStatistics",
+    |                                                                                         ^^^^^^^^
+207 |     "Energy", "Ensemble", "EnsembleResult", "Failure", "Geometry", "InputError", "Molecule",
+208 |     "Outcome", "Population", "PopulationError", "Pyramidalization", "RadiusSample", "RegionalVolume",
+    |
+
+E501 Line too long (92 > 88)
+   --> python/stericx/__init__.py:207:89
+    |
+205 |     "BatchItem", "Boltzmann", "BuriedVolume", "CalculationError", "ConformerResult",
+206 |     "DensityError", "DensityGrid", "DensityVolume", "DescriptorOptions", "DescriptorStatistics",
+207 |     "Energy", "Ensemble", "EnsembleResult", "Failure", "Geometry", "InputError", "Molecule",
+    |                                                                                         ^^^^
+208 |     "Outcome", "Population", "PopulationError", "Pyramidalization", "RadiusSample", "RegionalVolume",
+209 |     "Sterimol", "SuppliedWeights", "VolumeOptions", "VolumeProfile", "calculate_files",
+    |
+
+E501 Line too long (101 > 88)
+   --> python/stericx/__init__.py:208:89
+    |
+206 |     "DensityError", "DensityGrid", "DensityVolume", "DescriptorOptions", "DescriptorStatistics",
+207 |     "Energy", "Ensemble", "EnsembleResult", "Failure", "Geometry", "InputError", "Molecule",
+208 |     "Outcome", "Population", "PopulationError", "Pyramidalization", "RadiusSample", "RegionalVolume",
+    |                                                                                         ^^^^^^^^^^^^^
+209 |     "Sterimol", "SuppliedWeights", "VolumeOptions", "VolumeProfile", "calculate_files",
+210 | ]
+    |
+
+E741 Ambiguous variable name: `l`
+  --> python/stericx/_types.py:73:5
+   |
+71 | @dataclass(frozen=True)
+72 | class Sterimol:
+73 |     l: float
+   |     ^
+74 |     b1: float
+75 |     b5: float
+   |
+
+E501 Line too long (111 > 88)
+   --> python/stericx/_types.py:138:89
+    |
+136 |         values: dict[str, float | None] = {}
+137 |         for key in ("l", "b1", "b5"):
+138 |             values[f"sterimol_{key}"] = getattr(self.sterimol.value, key) if self.sterimol.successful else None
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^
+139 |         for key in VolumeSummary.__dataclass_fields__:
+140 |             values[key] = getattr(self.buried_volume.value.summary, key) if self.buried_volume.successful else None
+    |
+
+E501 Line too long (115 > 88)
+   --> python/stericx/_types.py:140:89
+    |
+138 |             values[f"sterimol_{key}"] = getattr(self.sterimol.value, key) if self.sterimol.successful else None
+139 |         for key in VolumeSummary.__dataclass_fields__:
+140 |             values[key] = getattr(self.buried_volume.value.summary, key) if self.buried_volume.successful else None
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+141 |         for key in ("pyr_p", "pyr_alpha"):
+142 |             values[key] = getattr(self.pyramidalization.value, key) if self.pyramidalization.successful else None
+    |
+
+E501 Line too long (113 > 88)
+   --> python/stericx/_types.py:142:89
+    |
+140 |             values[key] = getattr(self.buried_volume.value.summary, key) if self.buried_volume.successful else None
+141 |         for key in ("pyr_p", "pyr_alpha"):
+142 |             values[key] = getattr(self.pyramidalization.value, key) if self.pyramidalization.successful else None
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+143 |         return values
+    |
+
+E501 Line too long (92 > 88)
+   --> python/stericx/_types.py:216:89
+    |
+215 |     def to_records(self) -> list[dict[str, Any]]:
+216 |         return [{"conformer_index": c.index, "identifier": c.identifier, "source": c.source,
+    |                                                                                         ^^^^
+217 |                  **c.descriptor_values(),
+218 |                  **{f"{family}_error": getattr(c, family).error.message if getattr(c, family).error else None
+    |
+
+E501 Line too long (109 > 88)
+   --> python/stericx/_types.py:218:89
+    |
+216 |         return [{"conformer_index": c.index, "identifier": c.identifier, "source": c.source,
+217 |                  **c.descriptor_values(),
+218 |                  **{f"{family}_error": getattr(c, family).error.message if getattr(c, family).error else None
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^
+219 |                     for family in ("geometry", "sterimol", "buried_volume", "pyramidalization")},
+220 |                  "energy_error": c.energy_error} for c in self.conformers]
+    |
+
+E501 Line too long (97 > 88)
+   --> python/stericx/_types.py:219:89
+    |
+217 |                  **c.descriptor_values(),
+218 |                  **{f"{family}_error": getattr(c, family).error.message if getattr(c, family).error else None
+219 |                     for family in ("geometry", "sterimol", "buried_volume", "pyramidalization")},
+    |                                                                                         ^^^^^^^^^
+220 |                  "energy_error": c.energy_error} for c in self.conformers]
+    |
+
+E501 Line too long (106 > 88)
+   --> python/stericx/_types.py:227:89
+    |
+225 |         table = pd.DataFrame.from_records(self.to_records())
+226 |         table.attrs.update(units={k: s.unit for k, s in self.statistics.items()},
+227 |                            descriptor_options=self.descriptor_options, missing_policy=self.missing_policy)
+    |                                                                                         ^^^^^^^^^^^^^^^^^^
+228 |         return table
+    |
+
+E501 Line too long (89 > 88)
+   --> python/stericx/_types.py:234:89
+    |
+232 |         import numpy as np
+233 |         rows = self.to_records()
+234 |         numeric = list(self.conformers[0].descriptor_values()) if self.conformers else []
+    |                                                                                         ^
+235 |         keys = list(rows[0]) if rows else ["conformer_index"]
+236 |         dtype = [(key, "i8" if key == "conformer_index" else "f8" if key in numeric else
+    |
+
+E501 Line too long (108 > 88)
+   --> python/stericx/_types.py:237:89
+    |
+235 |         keys = list(rows[0]) if rows else ["conformer_index"]
+236 |         dtype = [(key, "i8" if key == "conformer_index" else "f8" if key in numeric else
+237 |                   f"U{max(1, max((len(str(row[key] or '')) for row in rows), default=1))}") for key in keys]
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^
+238 |         array = np.empty(len(rows), dtype=dtype)
+239 |         for i, row in enumerate(rows):
+    |
+
+E501 Line too long (119 > 88)
+   --> python/stericx/_types.py:241:89
+    |
+239 |         for i, row in enumerate(rows):
+240 |             for key in keys:
+241 |                 array[key][i] = np.nan if key in numeric and row[key] is None else "" if row[key] is None else row[key]
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+242 |         return array
+    |
+
+E501 Line too long (117 > 88)
+   --> python/stericx/_types.py:289:89
+    |
+287 | def volume(row):
+288 |     frames = tuple(RegionalVolume(**{**f, "axes": tuple(map(tuple, f["axes"])),
+289 |                    "quadrants": tuple(f["quadrants"]), "octants": tuple(f["octants"])}) for f in row["orientations"])
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+290 |     return BuriedVolume(VolumeSummary(**row["summary"]), tuple(row["center"]), frames)
+    |
+
+E501 Line too long (91 > 88)
+   --> python/stericx/_types.py:295:89
+    |
+293 | def conformer(row):
+294 |     def geometry(g):
+295 |         return Geometry(tuple(g["elements"]), tuple(map(tuple, g["coordinates_angstrom"])),
+    |                                                                                         ^^^
+296 |                         tuple(g["radii_angstrom"]), tuple(map(tuple, g["bonds"])) if g["bonds"] is not None else None)
+297 |     return ConformerResult(**{**row, "properties": tuple(row["properties"]),
+    |
+
+E501 Line too long (118 > 88)
+   --> python/stericx/_types.py:296:89
+    |
+294 |     def geometry(g):
+295 |         return Geometry(tuple(g["elements"]), tuple(map(tuple, g["coordinates_angstrom"])),
+296 |                         tuple(g["radii_angstrom"]), tuple(map(tuple, g["bonds"])) if g["bonds"] is not None else None)
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+297 |     return ConformerResult(**{**row, "properties": tuple(row["properties"]),
+298 |         "geometry": outcome(row["geometry"], geometry, "geometry_error"),
+    |
+
+E501 Line too long (95 > 88)
+   --> python/stericx/_types.py:302:89
+    |
+300 |         "sterimol": outcome(row["sterimol"], lambda s: Sterimol(**s)),
+301 |         "buried_volume": outcome(row["buried_volume"], volume),
+302 |         "pyramidalization": outcome(row["pyramidalization"], lambda s: Pyramidalization(**s))})
+    |                                                                                         ^^^^^^^
+    |
+
+E501 Line too long (108 > 88)
+   --> python/stericx/_types.py:307:89
+    |
+305 | def ensemble_result(row):
+306 |     stat = row["statistics"]
+307 |     error = Failure("ensemble_correspondence_error", stat["message"]) if stat["status"] == "error" else None
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^
+308 |     data = stat.get("value", {})
+309 |     def statistics(s):
+    |
+
+E501 Line too long (93 > 88)
+   --> python/stericx/_types.py:310:89
+    |
+308 |     data = stat.get("value", {})
+309 |     def statistics(s):
+310 |         return DescriptorStatistics(**{**s, **{k: tuple(ConformerIdentity(**v) for v in s[k])
+    |                                                                                         ^^^^^
+311 |             for k in ("missing_conformers", "minimum_conformers", "maximum_conformers")}})
+312 |     pop = data.get("population")
+    |
+
+E501 Line too long (90 > 88)
+   --> python/stericx/_types.py:311:89
+    |
+309 |     def statistics(s):
+310 |         return DescriptorStatistics(**{**s, **{k: tuple(ConformerIdentity(**v) for v in s[k])
+311 |             for k in ("missing_conformers", "minimum_conformers", "maximum_conformers")}})
+    |                                                                                         ^^
+312 |     pop = data.get("population")
+313 |     return EnsembleResult(tuple(conformer(c) for c in row["descriptors"]["conformers"]),
+    |
+
+E501 Line too long (106 > 88)
+   --> python/stericx/_types.py:314:89
+    |
+312 |     pop = data.get("population")
+313 |     return EnsembleResult(tuple(conformer(c) for c in row["descriptors"]["conformers"]),
+314 |         row["descriptors"]["options"], {k: statistics(s) for k, s in data.get("descriptors", {}).items()},
+    |                                                                                         ^^^^^^^^^^^^^^^^^^
+315 |         {k: statistics(s) for k, s in data.get("regions", {}).items()}, error,
+316 |         Population(tuple(pop["weights"]), pop["origin"]) if pop else None,
+    |
+
+E501 Line too long (101 > 88)
+   --> python/stericx/_types.py:317:89
+    |
+315 |         {k: statistics(s) for k, s in data.get("regions", {}).items()}, error,
+316 |         Population(tuple(pop["weights"]), pop["origin"]) if pop else None,
+317 |         data.get("options", {}).get("missing", "unavailable"), data.get("structural_correspondence"),
+    |                                                                                         ^^^^^^^^^^^^^
+318 |         data.get("regional_unavailable_reason"), row.get("sensitivity"), row.get("sensitivity_csv"), row)
+    |
+
+E501 Line too long (105 > 88)
+   --> python/stericx/_types.py:318:89
+    |
+316 |         Population(tuple(pop["weights"]), pop["origin"]) if pop else None,
+317 |         data.get("options", {}).get("missing", "unavailable"), data.get("structural_correspondence"),
+318 |         data.get("regional_unavailable_reason"), row.get("sensitivity"), row.get("sensitivity_csv"), row)
+    |                                                                                         ^^^^^^^^^^^^^^^^^
+    |
+
+E501 Line too long (110 > 88)
+   --> python/stericx/_types.py:326:89
+    |
+325 | def profile(row, convert):
+326 |     return VolumeProfile(row["definition"], tuple(row["center_angstrom"]) if row["center_angstrom"] else None,
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^
+327 |         tuple(RadiusSample(s["requested_radius_angstrom"], s["evaluated_radius_angstrom"], outcome(s["outcome"], convert)) for s in r…
+328 |         {k: v for k, v in row.items() if k != "samples"})
+    |
+
+E501 Line too long (148 > 88)
+   --> python/stericx/_types.py:327:89
+    |
+325 | …
+326 | …w["center_angstrom"]) if row["center_angstrom"] else None,
+327 | …rom"], s["evaluated_radius_angstrom"], outcome(s["outcome"], convert)) for s in row["samples"]),
+    |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+328 | …es"})
+    |
+
+E501 Line too long (181 > 88)
+  --> python/tests/test_api.py:10:89
+   |
+ 9 | …2 .45\n"
+10 | … 0 0 P\n1.4 0 .45 C\n-.7 1.212 .45 C\n-.7 -1.212 .45 C\n  1  2  1  0\n  1  3  1  0\n  1  4  1  0\nM  END\n$$$$\n"
+   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+11 | …
+   |
+
+E701 Multiple statements on one line (colon)
+  --> python/tests/test_api.py:24:44
+   |
+22 |     assert d.sterimol.value.unit == "angstrom"
+23 |     assert d.buried_volume.error.code == "descriptor_error"
+24 |     with pytest.raises(sx.CalculationError): d.buried_volume.require()
+   |                                            ^
+25 |     with pytest.raises(sx.InputError): sx.Molecule.from_xyz_string(XYZ + XYZ)
+   |
+
+E701 Multiple statements on one line (colon)
+  --> python/tests/test_api.py:25:38
+   |
+23 |     assert d.buried_volume.error.code == "descriptor_error"
+24 |     with pytest.raises(sx.CalculationError): d.buried_volume.require()
+25 |     with pytest.raises(sx.InputError): sx.Molecule.from_xyz_string(XYZ + XYZ)
+   |                                      ^
+   |
+
+E701 Multiple statements on one line (colon)
+  --> python/tests/test_api.py:45:43
+   |
+43 | def test_thermodynamic_metadata_and_analytical_degeneracy():
+44 |     e = sx.Ensemble.from_sdf_string(SDF * 2)
+45 |     with pytest.raises(sx.PopulationError): e.descriptors(COORD, population=sx.Boltzmann(298.15, "enumerated states"))
+   |                                           ^
+46 |     energies = [sx.Energy(0, "kcal_mol", "electronic", "test method", "calculation 1"),
+47 |                 sx.Energy(0, "kcal_mol", "electronic", "test method", "calculation 2", degeneracy=3)]
+   |
+
+E501 Line too long (118 > 88)
+  --> python/tests/test_api.py:45:89
+   |
+43 | def test_thermodynamic_metadata_and_analytical_degeneracy():
+44 |     e = sx.Ensemble.from_sdf_string(SDF * 2)
+45 |     with pytest.raises(sx.PopulationError): e.descriptors(COORD, population=sx.Boltzmann(298.15, "enumerated states"))
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+46 |     energies = [sx.Energy(0, "kcal_mol", "electronic", "test method", "calculation 1"),
+47 |                 sx.Energy(0, "kcal_mol", "electronic", "test method", "calculation 2", degeneracy=3)]
+   |
+
+E501 Line too long (101 > 88)
+  --> python/tests/test_api.py:47:89
+   |
+45 |     with pytest.raises(sx.PopulationError): e.descriptors(COORD, population=sx.Boltzmann(298.15, "enumerated states"))
+46 |     energies = [sx.Energy(0, "kcal_mol", "electronic", "test method", "calculation 1"),
+47 |                 sx.Energy(0, "kcal_mol", "electronic", "test method", "calculation 2", degeneracy=3)]
+   |                                                                                         ^^^^^^^^^^^^^
+48 |     e.set_energies(energies)
+49 |     r = e.descriptors(COORD, population=sx.Boltzmann(298.15, "two states, second represents three microstates"), ligand_id="test")
+   |
+
+E501 Line too long (130 > 88)
+  --> python/tests/test_api.py:49:89
+   |
+47 |                 sx.Energy(0, "kcal_mol", "electronic", "test method", "calculation 2", degeneracy=3)]
+48 |     e.set_energies(energies)
+49 |     r = e.descriptors(COORD, population=sx.Boltzmann(298.15, "two states, second represents three microstates"), ligand_id="test")
+   |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+50 |     assert r.population.weights == pytest.approx((.25, .75), abs=1e-15)
+51 |     assert r.population.origin["energy_kind"] == "electronic"
+   |
+
+E701 Multiple statements on one line (colon)
+  --> python/tests/test_api.py:57:43
+   |
+55 |     assert "standard_deviation" in r.sensitivity_csv
+56 |     before = e.records
+57 |     with pytest.raises(sx.PopulationError): e.set_energies([energies[0]])
+   |                                           ^
+58 |     assert e.records == before
+59 |     r = e.descriptors(COORD, population=sx.SuppliedWeights((1, 3), "external empirical frequencies"))
+   |
+
+E501 Line too long (101 > 88)
+  --> python/tests/test_api.py:59:89
+   |
+57 |     with pytest.raises(sx.PopulationError): e.set_energies([energies[0]])
+58 |     assert e.records == before
+59 |     r = e.descriptors(COORD, population=sx.SuppliedWeights((1, 3), "external empirical frequencies"))
+   |                                                                                         ^^^^^^^^^^^^^
+60 |     assert r.sterimol_b5.weighted_mean is not None
+61 |     assert r.sterimol_b5.boltzmann_mean is None
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> python/tests/test_api.py:73:33
+   |
+72 | def test_tables_keep_errors_and_float_values():
+73 |     pytest.importorskip("numpy");pytest.importorskip("pandas")
+   |                                 ^
+74 |     r = sx.Ensemble.from_sdf_string(SDF + "bad\n$$$$\n").descriptors(COORD)
+75 |     n = r.to_numpy();p = r.to_pandas()
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> python/tests/test_api.py:75:21
+   |
+73 |     pytest.importorskip("numpy");pytest.importorskip("pandas")
+74 |     r = sx.Ensemble.from_sdf_string(SDF + "bad\n$$$$\n").descriptors(COORD)
+75 |     n = r.to_numpy();p = r.to_pandas()
+   |                     ^
+76 |     assert len(n) == len(p) == 2
+77 |     assert n['sterimol_b5'][0] == r.conformers[0].sterimol.value.b5
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> python/tests/test_api.py:85:32
+   |
+84 | def test_batch_is_ordered_and_preserves_unreadable_files(tmp_path):
+85 |     p = tmp_path / 'ligand.xyz';p.write_text(XYZ)
+   |                                ^
+86 |     rows = sx.calculate_files([p, tmp_path / 'missing.xyz', p], COORD, threads=2)
+87 |     assert [r.path for r in rows] == [str(p), str(tmp_path / 'missing.xyz'), str(p)]
+   |
+
+E701 Multiple statements on one line (colon)
+  --> python/tests/test_api.py:90:38
+   |
+88 |     assert rows[0].conformers[0].sterimol.value == rows[2].conformers[0].sterimol.value
+89 |     assert rows[1].error.code == 'input_error'
+90 |     with pytest.raises(sx.InputError): sx.calculate_files([p], threads=0)
+   |                                      ^
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> python/tests/test_api.py:97:30
+   |
+95 |     m = Chem.MolFromSmiles('P(C)(C)C')
+96 |     for identity, x in [(7,1.234567891), (19,1.456789123)]:
+97 |         c = Chem.Conformer(4);c.SetId(identity)
+   |                              ^
+98 |         for i, pos in enumerate([(0,0,0),(x,0,.45),(-.7,1.212,.45),(-.7,-1.212,.45)]): c.SetAtomPosition(i,pos)
+99 |         m.AddConformer(c, assignId=False)
+   |
+
+E701 Multiple statements on one line (colon)
+   --> python/tests/test_api.py:98:86
+    |
+ 96 |     for identity, x in [(7,1.234567891), (19,1.456789123)]:
+ 97 |         c = Chem.Conformer(4);c.SetId(identity)
+ 98 |         for i, pos in enumerate([(0,0,0),(x,0,.45),(-.7,1.212,.45),(-.7,-1.212,.45)]): c.SetAtomPosition(i,pos)
+    |                                                                                      ^
+ 99 |         m.AddConformer(c, assignId=False)
+100 |     e = sx.Ensemble.from_rdkit(m);r=e.descriptors(COORD)
+    |
+
+E501 Line too long (111 > 88)
+   --> python/tests/test_api.py:98:89
+    |
+ 96 |     for identity, x in [(7,1.234567891), (19,1.456789123)]:
+ 97 |         c = Chem.Conformer(4);c.SetId(identity)
+ 98 |         for i, pos in enumerate([(0,0,0),(x,0,.45),(-.7,1.212,.45),(-.7,-1.212,.45)]): c.SetAtomPosition(i,pos)
+    |                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^
+ 99 |         m.AddConformer(c, assignId=False)
+100 |     e = sx.Ensemble.from_rdkit(m);r=e.descriptors(COORD)
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> python/tests/test_api.py:100:34
+    |
+ 98 |         for i, pos in enumerate([(0,0,0),(x,0,.45),(-.7,1.212,.45),(-.7,-1.212,.45)]): c.SetAtomPosition(i,pos)
+ 99 |         m.AddConformer(c, assignId=False)
+100 |     e = sx.Ensemble.from_rdkit(m);r=e.descriptors(COORD)
+    |                                  ^
+101 |     assert [c.properties[0]['value'] for c in r.conformers] == ['7','19']
+102 |     assert r.conformers[0].geometry.value.coordinates_angstrom[1][0] == f32(1.234567891)
+    |
+
+E501 Line too long (97 > 88)
+   --> python/tests/test_api.py:105:89
+    |
+103 |     assert r.conformers[0].geometry.value.bonds == ((0,1),(0,2),(0,3))
+104 |     assert [c.GetId() for c in m.GetConformers()] == [7,19]
+105 |     assert sx.Molecule.from_rdkit(m, conformer_id=19).descriptors(COORD).identifier == 'rdkit:19'
+    |                                                                                         ^^^^^^^^^
+106 |     with pytest.raises(sx.InputError): sx.Molecule.from_rdkit(m)
+    |
+
+E701 Multiple statements on one line (colon)
+   --> python/tests/test_api.py:106:38
+    |
+104 |     assert [c.GetId() for c in m.GetConformers()] == [7,19]
+105 |     assert sx.Molecule.from_rdkit(m, conformer_id=19).descriptors(COORD).identifier == 'rdkit:19'
+106 |     with pytest.raises(sx.InputError): sx.Molecule.from_rdkit(m)
+    |                                      ^
+    |
+
+E701 Multiple statements on one line (colon)
+   --> python/tests/test_api.py:111:38
+    |
+109 | def test_invalid_options_and_unknown_fields_fail():
+110 |     e=sx.Ensemble.from_xyz_string(XYZ)
+111 |     with pytest.raises(sx.InputError): e.descriptors({'axis':'coordination'})
+    |                                      ^
+112 |     with pytest.raises(sx.InputError): e.descriptors(sx.DescriptorOptions(center=(math.nan,0,0)))
+113 |     with pytest.raises(sx.InputError): e.descriptors(missing='silently_drop')
+    |
+
+E701 Multiple statements on one line (colon)
+   --> python/tests/test_api.py:112:38
+    |
+110 |     e=sx.Ensemble.from_xyz_string(XYZ)
+111 |     with pytest.raises(sx.InputError): e.descriptors({'axis':'coordination'})
+112 |     with pytest.raises(sx.InputError): e.descriptors(sx.DescriptorOptions(center=(math.nan,0,0)))
+    |                                      ^
+113 |     with pytest.raises(sx.InputError): e.descriptors(missing='silently_drop')
+114 |     with pytest.raises(TypeError): sx.VolumeOptions(radius=3.5)
+    |
+
+E501 Line too long (97 > 88)
+   --> python/tests/test_api.py:112:89
+    |
+110 |     e=sx.Ensemble.from_xyz_string(XYZ)
+111 |     with pytest.raises(sx.InputError): e.descriptors({'axis':'coordination'})
+112 |     with pytest.raises(sx.InputError): e.descriptors(sx.DescriptorOptions(center=(math.nan,0,0)))
+    |                                                                                         ^^^^^^^^^
+113 |     with pytest.raises(sx.InputError): e.descriptors(missing='silently_drop')
+114 |     with pytest.raises(TypeError): sx.VolumeOptions(radius=3.5)
+    |
+
+E701 Multiple statements on one line (colon)
+   --> python/tests/test_api.py:113:38
+    |
+111 |     with pytest.raises(sx.InputError): e.descriptors({'axis':'coordination'})
+112 |     with pytest.raises(sx.InputError): e.descriptors(sx.DescriptorOptions(center=(math.nan,0,0)))
+113 |     with pytest.raises(sx.InputError): e.descriptors(missing='silently_drop')
+    |                                      ^
+114 |     with pytest.raises(TypeError): sx.VolumeOptions(radius=3.5)
+    |
+
+E701 Multiple statements on one line (colon)
+   --> python/tests/test_api.py:114:34
+    |
+112 |     with pytest.raises(sx.InputError): e.descriptors(sx.DescriptorOptions(center=(math.nan,0,0)))
+113 |     with pytest.raises(sx.InputError): e.descriptors(missing='silently_drop')
+114 |     with pytest.raises(TypeError): sx.VolumeOptions(radius=3.5)
+    |                                  ^
+    |
+
+E702 Multiple statements on one line (semicolon)
+   --> python/tests/test_api.py:120:36
+    |
+118 | @pytest.mark.parametrize('golden',GOLDENS,ids=[g['id'] for g in GOLDENS])
+119 | def test_binding_preserves_frozen_native_descriptor_bits(golden):
+120 |     options=dict(golden['options']);options['volume']=sx.VolumeOptions(**options['volume'])
+    |                                    ^
+121 |     r=sx.Molecule.from_xyz_string(golden['xyz']).descriptors(sx.DescriptorOptions(**options))
+122 |     expected=golden['expected']
+    |
+
+E501 Line too long (91 > 88)
+   --> python/tests/test_api.py:124:89
+    |
+122 |     expected=golden['expected']
+123 |     for name in ('l','b1','b5'):
+124 |         assert getattr(r.sterimol.require(),name)==f32(expected['sterimol']['value'][name])
+    |                                                                                         ^^^
+125 |     for name,value in expected['buried_volume']['value']['summary'].items():
+126 |         assert getattr(r.buried_volume.require().summary,name)==f32(value)
+    |
+
+Found 82 errors (5 fixed, 77 remaining).
+3 files reformatted

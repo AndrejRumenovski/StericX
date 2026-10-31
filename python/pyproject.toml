@@ -1,0 +1,38 @@
+[build-system]
+requires = ["maturin>=1.9,<2"]
+build-backend = "maturin"
+
+[project]
+name = "stericx"
+version = "0.4.0.dev0"
+description = "Conformer-aware molecular steric descriptors backed by validated Rust kernels"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT OR Apache-2.0"
+authors = [{name = "Andrej Rumenovski"}]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Chemistry",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Rust",
+]
+
+[project.optional-dependencies]
+tables = ["numpy>=1.24", "pandas>=2.0"]
+rdkit = ["rdkit>=2024.3"]
+test = ["pytest>=8"]
+notebook = ["jupyter>=1.1", "matplotlib>=3.8", "numpy>=1.24", "pandas>=2.0", "rdkit>=2024.3"]
+
+[project.urls]
+Repository = "https://github.com/AndrejRumenovski/StericX"
+
+[tool.maturin]
+manifest-path = "Cargo.toml"
+python-source = "."
+module-name = "stericx._native"
+features = ["pyo3/extension-module"]
+include = [{path = "tests/**", format = "sdist"}]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

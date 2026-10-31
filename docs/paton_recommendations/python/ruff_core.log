@@ -1,0 +1,37 @@
+F401 `._types.density_volume` imported but unused; consider removing, adding to `__all__`, or using a redundant alias
+  --> python/stericx/__init__.py:39:5
+   |
+37 |     VolumeProfile,
+38 |     conformer,
+39 |     density_volume,
+   |     ^^^^^^^^^^^^^^
+40 |     ensemble_result,
+41 |     profile,
+   |
+help: Add unused import `density_volume` to __all__
+
+F401 `._types.profile` imported but unused; consider removing, adding to `__all__`, or using a redundant alias
+  --> python/stericx/__init__.py:41:5
+   |
+39 |     density_volume,
+40 |     ensemble_result,
+41 |     profile,
+   |     ^^^^^^^
+42 |     volume,
+43 | )
+   |
+help: Add unused import `profile` to __all__
+
+F401 `._types.volume` imported but unused; consider removing, adding to `__all__`, or using a redundant alias
+  --> python/stericx/__init__.py:42:5
+   |
+40 |     ensemble_result,
+41 |     profile,
+42 |     volume,
+   |     ^^^^^^
+43 | )
+   |
+help: Add unused import `volume` to __all__
+
+Found 3 errors.
+1 file reformatted, 2 files left unchanged

@@ -1,0 +1,66 @@
+    Updating crates.io index
+     Locking 8 packages to latest Rust 1.85 compatible versions
+      Adding once_cell v1.21.4
+      Adding portable-atomic v1.15.0
+      Adding pyo3 v0.28.2 (available: v0.28.3)
+      Adding pyo3-build-config v0.28.2 (available: v0.28.3)
+      Adding pyo3-ffi v0.28.2 (available: v0.28.3)
+      Adding pyo3-macros v0.28.2 (available: v0.28.3)
+      Adding pyo3-macros-backend v0.28.2 (available: v0.28.3)
+      Adding target-lexicon v0.13.5
+ Downloading crates ...
+  Downloaded pyo3-build-config v0.28.2
+  Downloaded pyo3-macros v0.28.2
+  Downloaded target-lexicon v0.13.5
+  Downloaded pyo3-macros-backend v0.28.2
+  Downloaded pyo3-ffi v0.28.2
+  Downloaded pyo3 v0.28.2
+   Compiling target-lexicon v0.13.5
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.24
+   Compiling crossbeam-utils v0.8.22
+   Compiling heck v0.5.0
+   Compiling serde_core v1.0.229
+   Compiling libc v0.2.189
+   Compiling crossbeam-epoch v0.9.20
+   Compiling crossbeam-deque v0.8.7
+    Checking utf8parse v0.2.2
+   Compiling zmij v1.0.23
+    Checking anstyle-parse v1.0.0
+   Compiling rayon-core v1.13.0
+    Checking is_terminal_polyfill v1.70.2
+    Checking anstyle-query v1.1.5
+    Checking anstyle v1.0.14
+    Checking memchr v2.8.3
+    Checking colorchoice v1.0.5
+   Compiling serde v1.0.229
+    Checking strsim v0.11.1
+    Checking itoa v1.0.18
+    Checking clap_lex v1.1.0
+   Compiling serde_json v1.0.151
+    Checking anstream v1.0.0
+    Checking either v1.17.0
+    Checking ryu v1.0.23
+    Checking clap_builder v4.6.2
+    Checking once_cell v1.21.4
+    Checking glam v0.30.10
+    Checking csv-core v0.1.13
+   Compiling pyo3-build-config v0.28.2
+   Compiling syn v2.0.119
+   Compiling syn v3.0.3
+    Checking rayon v1.12.0
+    Checking csv v1.4.0
+   Compiling pyo3-ffi v0.28.2
+   Compiling pyo3-macros-backend v0.28.2
+   Compiling pyo3 v0.28.2
+    Checking memmap2 v0.9.11
+   Compiling clap_derive v4.6.4
+   Compiling serde_derive v1.0.229
+   Compiling bytemuck_derive v1.11.0
+    Checking clap v4.6.4
+    Checking bytemuck v1.25.2
+   Compiling pyo3-macros v0.28.2
+    Checking steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+    Checking stericx-python v0.4.0-dev.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX/python)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 10.07s

@@ -243,3 +243,51 @@ fn energy_weighting_requires_opt_in_and_matches_ordered_provenance() {
             .contains("provenance")
     );
 }
+
+#[test]
+fn sensitivity_reports_preserve_ranges_extremizers_and_csv_identity() {
+    let mut result = descriptors(&[Some(1.0), Some(1.0), Some(7.0)]);
+    result.conformers[0].identifier = "comma, quote\" and\nnewline".into();
+    let statistics = result
+        .statistics(&StatisticsOptions::default(), None)
+        .unwrap();
+    let report = statistics.sensitivity("ligand,\"A\"");
+    assert_eq!(report.ranges["sterimol_b5"], Some(6.0));
+    assert_eq!(
+        report.statistics.descriptors["sterimol_b5"]
+            .minimum_conformers
+            .len(),
+        2
+    );
+    for range in report.regional_ranges.values() {
+        assert_eq!(*range, Some(0.0));
+    }
+    let text = report.to_csv().unwrap();
+    let mut reader = csv::Reader::from_reader(text.as_bytes());
+    let headers = reader.headers().unwrap().clone();
+    let column = |name: &str| headers.iter().position(|h| h == name).unwrap();
+    let rows = reader.records().collect::<Result<Vec<_>, _>>().unwrap();
+    assert_eq!(rows.len(), 50);
+    let b5 = rows
+        .iter()
+        .find(|r| &r[column("descriptor")] == "sterimol_b5")
+        .unwrap();
+    assert_eq!(&b5[column("ligand_id")], "ligand,\"A\"");
+    assert_eq!(&b5[column("range")], "6");
+    assert_eq!(&b5[column("boltzmann_mean")], "");
+    let ids: serde_json::Value = serde_json::from_str(&b5[column("minimum_conformers")]).unwrap();
+    assert_eq!(ids[0]["identifier"], result.conformers[0].identifier);
+    assert_eq!(ids[1]["index"], 1);
+    result.conformers[1].sterimol = DescriptorOutcome::Error {
+        message: "failed state".into(),
+    };
+    let incomplete = result
+        .statistics(&StatisticsOptions::default(), None)
+        .unwrap()
+        .sensitivity("incomplete");
+    assert_eq!(incomplete.ranges["sterimol_b5"], None);
+    assert_eq!(
+        incomplete.statistics.descriptors["sterimol_b5"].missing_conformers[0].index,
+        1
+    );
+}

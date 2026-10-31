@@ -1,0 +1,38 @@
+[
+  {
+    "value": 0.0,
+    "unit": "kcal_mol",
+    "kind": "force_field",
+    "model": "MMFF94 retained ETKDGv3 geometries; repository prepare_data workflow",
+    "provenance": "data/reactions_raw.csv#SIG-NIHDA-2062/Conformer_Relative_Energies_kcal_mol[0]; geometry=data/conformers/SIG-NIHDA-2062_d86f6436/conf_000.xyz",
+    "temperature_k": null,
+    "degeneracy": 1
+  },
+  {
+    "value": 1.66813571,
+    "unit": "kcal_mol",
+    "kind": "force_field",
+    "model": "MMFF94 retained ETKDGv3 geometries; repository prepare_data workflow",
+    "provenance": "data/reactions_raw.csv#SIG-NIHDA-2062/Conformer_Relative_Energies_kcal_mol[1]; geometry=data/conformers/SIG-NIHDA-2062_d86f6436/conf_001.xyz",
+    "temperature_k": null,
+    "degeneracy": 1
+  },
+  {
+    "value": 3.20384417,
+    "unit": "kcal_mol",
+    "kind": "force_field",
+    "model": "MMFF94 retained ETKDGv3 geometries; repository prepare_data workflow",
+    "provenance": "data/reactions_raw.csv#SIG-NIHDA-2062/Conformer_Relative_Energies_kcal_mol[2]; geometry=data/conformers/SIG-NIHDA-2062_d86f6436/conf_002.xyz",
+    "temperature_k": null,
+    "degeneracy": 1
+  },
+  {
+    "value": 4.2688129,
+    "unit": "kcal_mol",
+    "kind": "force_field",
+    "model": "MMFF94 retained ETKDGv3 geometries; repository prepare_data workflow",
+    "provenance": "data/reactions_raw.csv#SIG-NIHDA-2062/Conformer_Relative_Energies_kcal_mol[3]; geometry=data/conformers/SIG-NIHDA-2062_d86f6436/conf_003.xyz",
+    "temperature_k": null,
+    "degeneracy": 1
+  }
+]

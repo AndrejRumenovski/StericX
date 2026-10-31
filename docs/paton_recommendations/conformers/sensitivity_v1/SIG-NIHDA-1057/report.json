@@ -1,0 +1,1038 @@
+{
+  "descriptors": {
+    "conformers": [
+      {
+        "buried_volume": {
+          "status": "success",
+          "value": {
+            "center": [
+              -0.6424010992050171,
+              0.4850071668624878,
+              2.853015899658203
+            ],
+            "orientations": [
+              {
+                "axes": [
+                  [
+                    0.9647926092147827,
+                    -0.14664892852306366,
+                    -0.21833302080631256
+                  ],
+                  [
+                    0.022168077528476715,
+                    0.8725132942199707,
+                    -0.48808714747428894
+                  ],
+                  [
+                    0.26207587122917175,
+                    0.46606287360191345,
+                    0.8450453281402588
+                  ]
+                ],
+                "buried_volume": 85.18144226074219,
+                "far_vbur": 19.710155487060547,
+                "near_vbur": 65.4712905883789,
+                "octants": [
+                  7.506410598754883,
+                  0.0,
+                  0.0,
+                  12.20374584197998,
+                  18.987489700317383,
+                  16.44649887084961,
+                  12.588391304016113,
+                  17.44890785217285
+                ],
+                "plane_atom_index": 15,
+                "quadrants": [
+                  26.493900299072266,
+                  16.44649887084961,
+                  12.588391304016113,
+                  29.65265464782715
+                ]
+              },
+              {
+                "axes": [
+                  [
+                    -0.37927600741386414,
+                    -0.755448043346405,
+                    0.5342734456062317
+                  ],
+                  [
+                    0.8873928785324097,
+                    -0.4605255722999573,
+                    -0.02121824026107788
+                  ],
+                  [
+                    0.26207587122917175,
+                    0.46606287360191345,
+                    0.8450453281402588
+                  ]
+                ],
+                "buried_volume": 85.13481903076172,
+                "far_vbur": 19.74512481689453,
+                "near_vbur": 65.38969421386719,
+                "octants": [
+                  7.879400253295898,
+                  11.865723609924316,
+                  0.0,
+                  0.0,
+                  16.00357437133789,
+                  20.514415740966797,
+                  16.469810485839844,
+                  12.401896476745605
+                ],
+                "plane_atom_index": 21,
+                "quadrants": [
+                  23.88297462463379,
+                  32.3801383972168,
+                  16.469810485839844,
+                  12.401896476745605
+                ]
+              },
+              {
+                "axes": [
+                  [
+                    -0.537639856338501,
+                    0.7976861596107483,
+                    -0.27320367097854614
+                  ],
+                  [
+                    -0.8014110326766968,
+                    -0.38272997736930847,
+                    0.45962825417518616
+                  ],
+                  [
+                    0.26207587122917175,
+                    0.46606287360191345,
+                    0.8450453281402588
+                  ]
+                ],
+                "buried_volume": 85.19309997558594,
+                "far_vbur": 19.7451229095459,
+                "near_vbur": 65.4479751586914,
+                "octants": [
+                  0.0,
+                  1.4336777925491333,
+                  16.248348236083984,
+                  2.0630974769592285,
+                  13.707358360290527,
+                  13.847229957580566,
+                  20.84078025817871,
+                  17.0526065826416
+                ],
+                "plane_atom_index": 17,
+                "quadrants": [
+                  13.707358360290527,
+                  15.28090763092041,
+                  37.08913040161133,
+                  19.115703582763672
+                ]
+              }
+            ],
+            "summary": {
+              "buried_volume": 85.16978454589844,
+              "far_vbur": 19.73346710205078,
+              "max_delta_qvbur": 21.808223724365234,
+              "near_vbur": 65.43631744384766,
+              "ovbur_max": 20.84078025817871,
+              "ovbur_min": 0.0,
+              "percent_buried_volume": 47.42341232299805,
+              "qvbur_max": 37.08913040161133,
+              "qvbur_min": 12.401896476745605
+            }
+          }
+        },
+        "energy": {
+          "degeneracy": 1,
+          "kind": "force_field",
+          "model": "MMFF94 retained ETKDGv3 geometries; repository prepare_data workflow",
+          "provenance": "data/reactions_raw.csv#SIG-NIHDA-1057/Conformer_Relative_Energies_kcal_mol[0]; geometry=data/conformers/SIG-NIHDA-1057_be992081/conf_000.xyz",
+          "temperature_k": null,
+          "unit": "kcal_mol",
+          "value": 0.0
+        },
+        "energy_error": null,
+        "geometry": {
+          "status": "success",
+          "value": {
+            "bonds": null,
+            "coordinates_angstrom": [
+              [
+                1.6352461576461792,
+                2.6862168312072754,
+                -3.0076522827148438
+              ],
+              [
+                1.5812104940414429,
+                1.523349642753601,
+                -2.1940345764160156
+              ],
+              [
+                1.9951119422912598,
+                1.6329306364059448,
+                -0.8869816064834595
+              ],
+              [
+                2.5630173683166504,
+                2.7936272621154785,
+                -0.34753742814064026
+              ],
+              [
+                2.980073928833008,
+                2.8242993354797363,
+                0.9820125102996826
+              ],
+              [
+                2.841926336288452,
+                1.6956816911697388,
+                1.7846357822418213
+              ],
+              [
+                2.2640271186828613,
+                0.5312129855155945,
+                1.2677569389343262
+              ],
+              [
+                2.175234317779541,
+                -0.6282534599304199,
+                2.0030713081359863
+              ],
+              [
+                1.902540683746338,
+                -0.45400112867355347,
+                3.3886961936950684
+              ],
+              [
+                1.8232606649398804,
+                0.4816616475582123,
+                -0.07705225050449371
+              ],
+              [
+                1.2246607542037964,
+                -0.7573521733283997,
+                -0.6291751861572266
+              ],
+              [
+                1.9647914171218872,
+                -1.510105013847351,
+                -1.5679858922958374
+              ],
+              [
+                1.4919606447219849,
+                -2.723254680633545,
+                -2.0835459232330322
+              ],
+              [
+                0.2715618312358856,
+                -3.2315235137939453,
+                -1.6551018953323364
+              ],
+              [
+                -0.4638981223106384,
+                -2.5079612731933594,
+                -0.7273787260055542
+              ],
+              [
+                -0.027219315990805626,
+                -1.260074257850647,
+                -0.23858223855495453
+              ],
+              [
+                -1.2399340867996216,
+                -0.5776162147521973,
+                0.9263125658035278
+              ],
+              [
+                -2.3666372299194336,
+                0.4996490180492401,
+                -0.14118190109729767
+              ],
+              [
+                -1.6680541038513184,
+                1.8472601175308228,
+                -0.4020710587501526
+              ],
+              [
+                -2.7581920623779297,
+                -0.11654918640851974,
+                -1.4916441440582275
+              ],
+              [
+                -3.6499619483947754,
+                0.7944648861885071,
+                0.6672782301902771
+              ],
+              [
+                -2.1010255813598633,
+                -2.232754945755005,
+                0.8371087312698364
+              ],
+              [
+                -1.8562538623809814,
+                -3.029088020324707,
+                2.1194944381713867
+              ],
+              [
+                -1.6551088094711304,
+                -3.0391759872436523,
+                -0.27497348189353943
+              ],
+              [
+                2.6691439151763916,
+                3.0125670433044434,
+                -3.1594855785369873
+              ],
+              [
+                1.2219570875167847,
+                2.427544593811035,
+                -3.9872963428497314
+              ],
+              [
+                1.020970106124878,
+                3.4911019802093506,
+                -2.590651273727417
+              ],
+              [
+                2.705570936203003,
+                3.6904079914093018,
+                -0.9408105611801147
+              ],
+              [
+                3.432027816772461,
+                3.725796937942505,
+                1.3880428075790405
+              ],
+              [
+                3.2161340713500977,
+                1.7356047630310059,
+                2.8022642135620117
+              ],
+              [
+                2.8200008869171143,
+                -0.21017010509967804,
+                3.933131217956543
+              ],
+              [
+                1.528143286705017,
+                -1.406098484992981,
+                3.7771196365356445
+              ],
+              [
+                1.1312229633331299,
+                0.30438268184661865,
+                3.5631165504455566
+              ],
+              [
+                2.9371814727783203,
+                -1.1460659503936768,
+                -1.896445393562317
+              ],
+              [
+                2.090191602706909,
+                -3.2744765281677246,
+                -2.8037571907043457
+              ],
+              [
+                -0.09546550363302231,
+                -4.182223796844482,
+                -2.0269696712493896
+              ],
+              [
+                -1.3092899322509766,
+                2.3146729469299316,
+                0.5225027203559875
+              ],
+              [
+                -2.3512277603149414,
+                2.55729079246521,
+                -0.8836352229118347
+              ],
+              [
+                -0.816187858581543,
+                1.7290393114089966,
+                -1.0744891166687012
+              ],
+              [
+                -3.4165592193603516,
+                0.5612753629684448,
+                -2.048818349838257
+              ],
+              [
+                -3.301724910736084,
+                -1.059738278388977,
+                -1.3791320323944092
+              ],
+              [
+                -1.8870826959609985,
+                -0.3018858730792999,
+                -2.1289846897125244
+              ],
+              [
+                -4.310345649719238,
+                1.4764666557312012,
+                0.11819782108068466
+              ],
+              [
+                -3.42384934425354,
+                1.2668378353118896,
+                1.6310514211654663
+              ],
+              [
+                -4.227962017059326,
+                -0.11300670355558395,
+                0.8720427751541138
+              ],
+              [
+                -3.181243658065796,
+                -2.1005921363830566,
+                0.7290838360786438
+              ],
+              [
+                -2.3630595207214355,
+                -3.9990453720092773,
+                2.063152313232422
+              ],
+              [
+                -2.225806474685669,
+                -2.4980742931365967,
+                3.003115177154541
+              ],
+              [
+                -0.7910782694816589,
+                -3.2442562580108643,
+                2.2661871910095215
+              ]
+            ],
+            "elements": [
+              "C",
+              "O",
+              "C",
+              "C",
+              "C",
+              "C",
+              "C",
+              "O",
+              "C",
+              "C",
+              "C",
+              "C",
+              "C",
+              "C",
+              "C",
+              "C",
+              "P",
+              "C",
+              "C",
+              "C",
+              "C",
+              "C",
+              "C",
+              "O",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H",
+              "H"
+            ],
+            "radii_angstrom": [
+              1.7000000476837158,
+              1.5199999809265137,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.5199999809265137,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7999999523162842,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.7000000476837158,
+              1.5199999809265137,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158,
+              1.2000000476837158
+            ]
+          }
+        },
+        "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+        "index": 0,
+        "properties": [],
+        "pyramidalization": {
+          "status": "success",
+          "value": {
+            "pyr_alpha": 14.844343185424805,
+            "pyr_p": 0.9479392170906067
+          }
+        },
+        "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz",
+        "source_format": "xyz",
+        "source_geometry": "49\nSIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000\nC    1.6352461896  2.6862168745 -3.0076521816\nO    1.5812104432  1.5233496926 -2.1940345303\nC    1.9951119204  1.6329306097 -0.8869816346\nC    2.5630172570  2.7936273294 -0.3475374272\nC    2.9800740160  2.8242994084  0.9820124974\nC    2.8419262877  1.6956817171  1.7846357896\nC    2.2640270109  0.5312130034  1.2677569650\nO    2.1752342795 -0.6282534351  2.0030712901\nC    1.9025406714 -0.4540011411  3.3886960992\nC    1.8232606687  0.4816616533 -0.0770522516\nC    1.2246607326 -0.7573521615 -0.6291751681\nC    1.9647914296 -1.5101049614 -1.5679858359\nC    1.4919606486 -2.7232546469 -2.0835459603\nC    0.2715618285 -3.2315234150 -1.6551018988\nC   -0.4638981158 -2.5079611588 -0.7273787026\nC   -0.0272193157 -1.2600742378 -0.2385822448\nP   -1.2399340923 -0.5776162349  0.9263125384\nC   -2.3666373042  0.4996490068 -0.1411818990\nC   -1.6680540702  1.8472600708 -0.4020710706\nC   -2.7581919994 -0.1165491871 -1.4916441179\nC   -3.6499618944  0.7944649137  0.6672782123\nC   -2.1010256877 -2.2327550101  0.8371087062\nC   -1.8562538453 -3.0290881075  2.1194944110\nO   -1.6551087876 -3.0391759649 -0.2749734945\nH    2.6691439131  3.0125670672 -3.1594855984\nH    1.2219570932  2.4275445472 -3.9872964439\nH    1.0209700939  3.4911019671 -2.5906512783\nH    2.7055710503  3.6904080534 -0.9408105590\nH    3.4320278229  3.7257969122  1.3880428004\nH    3.2161339725  1.7356047622  2.8022641698\nH    2.8200007774 -0.2101701087  3.9331311668\nH    1.5281432446 -1.4060984624  3.7771195943\nH    1.1312230050  0.3043826739  3.5631166274\nH    2.9371815770 -1.1460658974 -1.8964453805\nH    2.0901916865 -3.2744764167 -2.8037571067\nH   -0.0954655070 -4.1822238791 -2.0269697550\nH   -1.3092899096  2.3146730140  0.5225027144\nH   -2.3512277277  2.5572907903 -0.8836351992\nH   -0.8161878642  1.7290392984 -1.0744891695\nH   -3.4165592773  0.5612753741 -2.0488184162\nH   -3.3017248474 -1.0597382500 -1.3791320474\nH   -1.8870827383 -0.3018858856 -2.1289847583\nH   -4.3103455278  1.4764666183  0.1181978179\nH   -3.4238493885  1.2668378437  1.6310514287\nH   -4.2279619067 -0.1130067023  0.8720427646\nH   -3.1812436094 -2.1005920791  0.7290838592\nH   -2.3630595038 -3.9990452995  2.0631522039\nH   -2.2258064412 -2.4980743346  3.0031152497\nH   -0.7910782585 -3.2442562241  2.2661872236\n",
+        "sterimol": {
+          "status": "success",
+          "value": {
+            "b1": 3.632925033569336,
+            "b5": 7.855380535125732,
+            "l": 7.7556939125061035
+          }
+        }
+      }
+    ],
+    "options": {
+      "angular_samples": null,
+      "axis": "coordination",
+      "center": null,
+      "donor_element": "P",
+      "donor_index": 16,
+      "l_correction": null,
+      "reference_index": null,
+      "volume": {
+        "center_distance": 2.2799999713897705,
+        "density": 0.009999999776482582,
+        "include_hydrogens": false,
+        "radii_scale": 1.1699999570846558,
+        "sphere_radius": 3.5
+      }
+    }
+  },
+  "sensitivity": {
+    "ligand_id": "SIG-NIHDA-1057",
+    "ranges": {
+      "buried_volume": 0.0,
+      "far_vbur": 0.0,
+      "max_delta_qvbur": 0.0,
+      "near_vbur": 0.0,
+      "ovbur_max": 0.0,
+      "ovbur_min": 0.0,
+      "percent_buried_volume": 0.0,
+      "pyr_alpha": 0.0,
+      "pyr_p": 0.0,
+      "qvbur_max": 0.0,
+      "qvbur_min": 0.0,
+      "sterimol_b1": 0.0,
+      "sterimol_b5": 0.0,
+      "sterimol_l": 0.0
+    },
+    "regional_ranges": {},
+    "statistics": {
+      "descriptor_options": {
+        "angular_samples": null,
+        "axis": "coordination",
+        "center": null,
+        "donor_element": "P",
+        "donor_index": 16,
+        "l_correction": null,
+        "reference_index": null,
+        "volume": {
+          "center_distance": 2.2799999713897705,
+          "density": 0.009999999776482582,
+          "include_hydrogens": false,
+          "radii_scale": 1.1699999570846558,
+          "sphere_radius": 3.5
+        }
+      },
+      "descriptors": {
+        "buried_volume": {
+          "boltzmann_mean": 85.16978454589844,
+          "complete": true,
+          "maximum": 85.16978454589844,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 85.16978454589844,
+          "median": 85.16978454589844,
+          "minimum": 85.16978454589844,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": 85.16978454589844
+        },
+        "far_vbur": {
+          "boltzmann_mean": 19.73346710205078,
+          "complete": true,
+          "maximum": 19.73346710205078,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 19.73346710205078,
+          "median": 19.73346710205078,
+          "minimum": 19.73346710205078,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": 19.73346710205078
+        },
+        "max_delta_qvbur": {
+          "boltzmann_mean": 21.808223724365234,
+          "complete": true,
+          "maximum": 21.808223724365234,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 21.808223724365234,
+          "median": 21.808223724365234,
+          "minimum": 21.808223724365234,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": 21.808223724365234
+        },
+        "near_vbur": {
+          "boltzmann_mean": 65.43631744384766,
+          "complete": true,
+          "maximum": 65.43631744384766,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 65.43631744384766,
+          "median": 65.43631744384766,
+          "minimum": 65.43631744384766,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": 65.43631744384766
+        },
+        "ovbur_max": {
+          "boltzmann_mean": 20.84078025817871,
+          "complete": true,
+          "maximum": 20.84078025817871,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 20.84078025817871,
+          "median": 20.84078025817871,
+          "minimum": 20.84078025817871,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": 20.84078025817871
+        },
+        "ovbur_min": {
+          "boltzmann_mean": 0.0,
+          "complete": true,
+          "maximum": 0.0,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 0.0,
+          "median": 0.0,
+          "minimum": 0.0,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": 0.0
+        },
+        "percent_buried_volume": {
+          "boltzmann_mean": 47.42341232299805,
+          "complete": true,
+          "maximum": 47.42341232299805,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 47.42341232299805,
+          "median": 47.42341232299805,
+          "minimum": 47.42341232299805,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "percent",
+          "weighted_mean": 47.42341232299805
+        },
+        "pyr_alpha": {
+          "boltzmann_mean": 14.844343185424805,
+          "complete": true,
+          "maximum": 14.844343185424805,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 14.844343185424805,
+          "median": 14.844343185424805,
+          "minimum": 14.844343185424805,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "degree",
+          "weighted_mean": 14.844343185424805
+        },
+        "pyr_p": {
+          "boltzmann_mean": 0.9479392170906067,
+          "complete": true,
+          "maximum": 0.9479392170906067,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 0.9479392170906067,
+          "median": 0.9479392170906067,
+          "minimum": 0.9479392170906067,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "dimensionless",
+          "weighted_mean": 0.9479392170906067
+        },
+        "qvbur_max": {
+          "boltzmann_mean": 37.08913040161133,
+          "complete": true,
+          "maximum": 37.08913040161133,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 37.08913040161133,
+          "median": 37.08913040161133,
+          "minimum": 37.08913040161133,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": 37.08913040161133
+        },
+        "qvbur_min": {
+          "boltzmann_mean": 12.401896476745605,
+          "complete": true,
+          "maximum": 12.401896476745605,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 12.401896476745605,
+          "median": 12.401896476745605,
+          "minimum": 12.401896476745605,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom^3",
+          "weighted_mean": 12.401896476745605
+        },
+        "sterimol_b1": {
+          "boltzmann_mean": 3.632925033569336,
+          "complete": true,
+          "maximum": 3.632925033569336,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 3.632925033569336,
+          "median": 3.632925033569336,
+          "minimum": 3.632925033569336,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom",
+          "weighted_mean": 3.632925033569336
+        },
+        "sterimol_b5": {
+          "boltzmann_mean": 7.855380535125732,
+          "complete": true,
+          "maximum": 7.855380535125732,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 7.855380535125732,
+          "median": 7.855380535125732,
+          "minimum": 7.855380535125732,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom",
+          "weighted_mean": 7.855380535125732
+        },
+        "sterimol_l": {
+          "boltzmann_mean": 7.7556939125061035,
+          "complete": true,
+          "maximum": 7.7556939125061035,
+          "maximum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "mean": 7.7556939125061035,
+          "median": 7.7556939125061035,
+          "minimum": 7.7556939125061035,
+          "minimum_conformers": [
+            {
+              "identifier": "SIG-NIHDA-1057 | MMFF94/ETKDGv3 ensemble | attach_idx=16 axis_idx=15 relative_energy_kcal_mol=0.00000000 boltzmann_weight=1.0000000000",
+              "index": 0,
+              "source": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz"
+            }
+          ],
+          "missing_conformers": [],
+          "retained_population_mass": 1.0,
+          "standard_deviation": 0.0,
+          "successful_count": 1,
+          "total_count": 1,
+          "unavailable_reason": null,
+          "unit": "angstrom",
+          "weighted_mean": 7.7556939125061035
+        }
+      },
+      "options": {
+        "missing": "require_complete"
+      },
+      "population": {
+        "origin": {
+          "assumptions": "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established.",
+          "energies": [
+            {
+              "degeneracy": 1,
+              "kind": "force_field",
+              "model": "MMFF94 retained ETKDGv3 geometries; repository prepare_data workflow",
+              "provenance": "data/reactions_raw.csv#SIG-NIHDA-1057/Conformer_Relative_Energies_kcal_mol[0]; geometry=data/conformers/SIG-NIHDA-1057_be992081/conf_000.xyz",
+              "temperature_k": null,
+              "unit": "kcal_mol",
+              "value": 0.0
+            }
+          ],
+          "energy_kind": "force_field",
+          "kind": "boltzmann",
+          "temperature_k": 298.15
+        },
+        "weights": [
+          1.0
+        ]
+      },
+      "regional_unavailable_reason": "regional statistics require complete matching element order and explicit adjacency; raw per-conformer regions remain available",
+      "regions": {},
+      "structural_correspondence": "element_order_checked_where_available_topology_unverified"
+    }
+  }
+}

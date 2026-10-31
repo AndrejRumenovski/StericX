@@ -63,6 +63,7 @@ pub struct DescriptorStatistics {
 
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct EnsembleStatistics {
+    pub descriptor_options: super::DescriptorOptions,
     pub options: StatisticsOptions,
     pub population: Option<Population>,
     /// Scalar statistics assume supplied records represent the intended species.
@@ -182,6 +183,7 @@ impl EnsembleDescriptors {
             None
         };
         Ok(EnsembleStatistics {
+            descriptor_options: self.options.clone(),
             options: options.clone(),
             population: population.cloned(),
             structural_correspondence: if ordered_graph {

@@ -1,0 +1,595 @@
+{
+  "created_utc": "2026-10-31T19:44:27.637862+00:00",
+  "command": [
+    "scripts/report_conformer_sensitivity.py",
+    "--engine",
+    "target/debug/examples/ensemble_report",
+    "--output",
+    "docs/paton_recommendations/conformers/sensitivity_v1"
+  ],
+  "script_sha256": "692d6ed2c647aeb202ee56d3b7bd79de3f3b5bdd4f36506a19a77acd4e79c01b",
+  "engine_sha256": "f33923b3096f7a80fa942a80768c1e4c8231f6ec040c6a7edb8e05a1f7ee2e54",
+  "source": "data/reactions_raw.csv",
+  "source_sha256": "88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f",
+  "interpretation": "Retained-state MMFF-energy approximation, not experimental or historical Kraken populations.",
+  "ligands": [
+    {
+      "ligand_id": "SIG-NIHDA-401",
+      "status": "success",
+      "inputs": [
+        {
+          "path": "data/conformers/SIG-NIHDA-401_9d42bff1/conf_000.xyz",
+          "sha256": "2a9004125083657f2145291b7da1b31a468edd08204e5334bd20813b790e9002"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-401_9d42bff1/conf_001.xyz",
+          "sha256": "f1c434b4c525016be23c6205f43c9db49fe67bd1bc3ed387f3e97808e7bc73f9"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-401_9d42bff1/conf_002.xyz",
+          "sha256": "734c9325f5dfd6c838336b4e812d68c2ea1c84c872360c1865edbb74faaaf997"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-401_9d42bff1/conf_003.xyz",
+          "sha256": "8df1871cf960128ca7c31ad531a75f757b7d4b01635bdb0541f431f34f4b3507"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-401_9d42bff1/conf_004.xyz",
+          "sha256": "eabcbdb53af25d53156f04d0d75950aec3c4907c884a7b5f33ba98c398f03d82"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-401_9d42bff1/conf_005.xyz",
+          "sha256": "e2167d1ce44451cf2d88fb7bfdada0b4628d769e3b409dfd25853e7e88622216"
+        }
+      ],
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-401/ensemble.xyz",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-401/report",
+        "--ligand-id",
+        "SIG-NIHDA-401",
+        "--options",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-401/options.json",
+        "--energies",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-401/energies.json",
+        "--temperature",
+        "298.15",
+        "--population-assumptions",
+        "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established."
+      ],
+      "returncode": 0,
+      "conformer_count": 6,
+      "files": {
+        "energies.json": "29cb0e636be0b33e161f14e005ad848dbbaeacfa71c9156d6bfd6b51d9be31f5",
+        "ensemble.xyz": "e211d56a66328a0dd5c7557bbf90a7bc6f656891c6f915867d00ac33435eddfb",
+        "options.json": "f55139d0031ff5fb189f4a9fc10ac92fc73e24b6b9ac851d5dae7e4f74864ba7",
+        "report.csv": "7f6800473634c087ad15fa805d1864a58e9fdcb33ccec7b4b515031ff126a638",
+        "report.json": "0490a5775ad2fc84e55afb60d23c96ef590069a89bbf0b1c589b0ce9cf8eda00",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "ligand_id": "SIG-NIHDA-498",
+      "status": "success",
+      "inputs": [
+        {
+          "path": "data/conformers/SIG-NIHDA-498_7d70a0ce/conf_000.xyz",
+          "sha256": "48cdc4f39b5ab08563d3361d0e3155e405772982af34e921919fe2f455deb5e5"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-498_7d70a0ce/conf_001.xyz",
+          "sha256": "d45c07998315a9435ca5279e06f35f2f548fdbf7ef7a3af6217db94276bacdb0"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-498_7d70a0ce/conf_002.xyz",
+          "sha256": "1a7a98006a7f85007aef1d914bad6c78369d0f26fab51cade30990f7b1b9f885"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-498_7d70a0ce/conf_003.xyz",
+          "sha256": "883f928e7359e7f168b6d7588e952398dae37b83bb01651f4b0f6c2ad9b13e13"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-498_7d70a0ce/conf_004.xyz",
+          "sha256": "34dfe70d42f52dc23241046de3a83021c5d299e0a4f9935af57ed14dd0157fba"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-498_7d70a0ce/conf_005.xyz",
+          "sha256": "a9e64e53599eb064437ed660f11489ddf7ae321d1b8d4748d0a7eaebf60c01ef"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-498_7d70a0ce/conf_006.xyz",
+          "sha256": "50df4ea0ff795dd96082386b9da3808665002ffe8c407a1f215a47c423f26e71"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-498_7d70a0ce/conf_007.xyz",
+          "sha256": "fa187278d1e5514e466da68f102810b6fe8238d4ba124393946cade23dc2fb5c"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-498_7d70a0ce/conf_008.xyz",
+          "sha256": "77cd5f9c9cc16b54ddee7c87efc6b887e17acb8b523cbad829715f489a1ca8f0"
+        }
+      ],
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-498/ensemble.xyz",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-498/report",
+        "--ligand-id",
+        "SIG-NIHDA-498",
+        "--options",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-498/options.json",
+        "--energies",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-498/energies.json",
+        "--temperature",
+        "298.15",
+        "--population-assumptions",
+        "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established."
+      ],
+      "returncode": 0,
+      "conformer_count": 9,
+      "files": {
+        "energies.json": "ff5009dc9350fab19bdf574def663b660e265221ac765f62c93f6481c8bb5c21",
+        "ensemble.xyz": "848ff0b5a93791411f93a77378b14d0aca4d23aa9625f6dc41b87d8be6aa6915",
+        "options.json": "91ee79bca8fb6cf3f4a9a86285e03bc2b793730b66eb4b845a846beea243298e",
+        "report.csv": "774fe898b00c1b113ac4ec6a91211be5701c821ea032f34d802ee062b72d757b",
+        "report.json": "f755e71523ccb00af9c4ef37015301d8b9eff783f19f5fc578d335482957aa28",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "ligand_id": "SIG-NIHDA-723",
+      "status": "success",
+      "inputs": [
+        {
+          "path": "data/conformers/SIG-NIHDA-723_1db84e66/conf_000.xyz",
+          "sha256": "b2470e7ad89bbfc34caa4389b726c308e3a9169240ded730fa393e4373602ba1"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-723_1db84e66/conf_001.xyz",
+          "sha256": "8ccc2e64592d2e52fcc9fbb7560ca56dde100826603a6b2a678ba235b0c4393f"
+        }
+      ],
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-723/ensemble.xyz",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-723/report",
+        "--ligand-id",
+        "SIG-NIHDA-723",
+        "--options",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-723/options.json",
+        "--energies",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-723/energies.json",
+        "--temperature",
+        "298.15",
+        "--population-assumptions",
+        "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established."
+      ],
+      "returncode": 0,
+      "conformer_count": 2,
+      "files": {
+        "energies.json": "c49a8ac7232bb4e8de5a448f32701677dc690ed380ae27f0725f6e9c0f03304f",
+        "ensemble.xyz": "a3d5dba3d4dee65d3fde956aa3e1cc0b5919a3a4a29f5dce60c03935d49f4771",
+        "options.json": "fd9b612d0d4e11363a28dd6ccff5761e28fe0207f615505c36f338afd0a5a5f2",
+        "report.csv": "fd700377635f87eaad52a654975f88cc0a5b37321f150e0b48aa7164a032d91c",
+        "report.json": "a32f4bb121c34e174c27e6598f8b2a15e6ed3b0a55437980d1717248a7a64230",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "ligand_id": "SIG-NIHDA-724",
+      "status": "success",
+      "inputs": [
+        {
+          "path": "data/conformers/SIG-NIHDA-724_0d5c5a07/conf_000.xyz",
+          "sha256": "aaf6db5fcdba03324b6ce8c45cd46084150f9b66d6b0f91283d4a77ea72e71f7"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-724_0d5c5a07/conf_001.xyz",
+          "sha256": "628e6a272d6e60b4279fb18a79a703ac0b8f50db15ba9ad70f7f0a709d9e2d30"
+        }
+      ],
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-724/ensemble.xyz",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-724/report",
+        "--ligand-id",
+        "SIG-NIHDA-724",
+        "--options",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-724/options.json",
+        "--energies",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-724/energies.json",
+        "--temperature",
+        "298.15",
+        "--population-assumptions",
+        "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established."
+      ],
+      "returncode": 0,
+      "conformer_count": 2,
+      "files": {
+        "energies.json": "8517397da0607afa683c7df13ff70c6ebd5b7dc0b68812ab6c9ed38822ceb598",
+        "ensemble.xyz": "7003bfbe4af45c08474e9f235620be45ae682dbe27c0faa89ab21422a182e497",
+        "options.json": "c7cad2bbb2b21d24c756ae95aefaedd72992ba51f595a44dedcfee09040eefd3",
+        "report.csv": "b24148afeb0bfacff618d0c6c3698f242205ba206fe6b6fcfaf569c81801108c",
+        "report.json": "6ed950009bf5e7f0f20954d72d6e197e9e83a6758e3ecc4a75e83d1fe5ceb401",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "ligand_id": "SIG-NIHDA-785",
+      "status": "success",
+      "inputs": [
+        {
+          "path": "data/conformers/SIG-NIHDA-785_fe24eb0f/conf_000.xyz",
+          "sha256": "0da7eb39328cf134e353bd272810e70fce98f9e04c08772a9fb279477653dff4"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-785_fe24eb0f/conf_001.xyz",
+          "sha256": "46b49a2ac55d009759a56c46a06f3714944f91e57353b42c6447c5045ef71c13"
+        }
+      ],
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-785/ensemble.xyz",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-785/report",
+        "--ligand-id",
+        "SIG-NIHDA-785",
+        "--options",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-785/options.json",
+        "--energies",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-785/energies.json",
+        "--temperature",
+        "298.15",
+        "--population-assumptions",
+        "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established."
+      ],
+      "returncode": 0,
+      "conformer_count": 2,
+      "files": {
+        "energies.json": "1b68a37a5c00e45bd04482cee5b6bf4d26e4f672375357601be97929a998c1ac",
+        "ensemble.xyz": "99ec8f301fae5cd1d66b7f80b7c5c090a31d99b88cf59d0950c294cebeea8441",
+        "options.json": "2773d8660e1913d07ffa2647d1e167666761ea927cd4fd1a81303798c311e553",
+        "report.csv": "cf37d085d592f334fdf1df4cc4dc853cb28bd2bf37152f7a5812c7ee140499af",
+        "report.json": "20d1848a1c2d11acdb696f5695fa0d2521c7e66608f45edb1b7ddc9023fcb6e4",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "ligand_id": "SIG-NIHDA-1057",
+      "status": "success",
+      "inputs": [
+        {
+          "path": "data/conformers/SIG-NIHDA-1057_be992081/conf_000.xyz",
+          "sha256": "7f21df98438d64492c93415dfd2d555e0ce6facc56e41c3c302c96ed36a28e30"
+        }
+      ],
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/ensemble.xyz",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/report",
+        "--ligand-id",
+        "SIG-NIHDA-1057",
+        "--options",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/options.json",
+        "--energies",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1057/energies.json",
+        "--temperature",
+        "298.15",
+        "--population-assumptions",
+        "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established."
+      ],
+      "returncode": 0,
+      "conformer_count": 1,
+      "files": {
+        "energies.json": "ce23b78612774386378d77779d44cbc283c24a6a39a1dcfbf5300720c0307630",
+        "ensemble.xyz": "7f21df98438d64492c93415dfd2d555e0ce6facc56e41c3c302c96ed36a28e30",
+        "options.json": "fd9b612d0d4e11363a28dd6ccff5761e28fe0207f615505c36f338afd0a5a5f2",
+        "report.csv": "d6d22a12d4d0765c7c39a26c13719971503fbcd7d368bf1722f32100ee772dc8",
+        "report.json": "3a1578ef87bccfc3b1bd1a69d0cc8b5d69586a0ff791a832d29b7502c0a467a7",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "ligand_id": "SIG-NIHDA-1058",
+      "status": "success",
+      "inputs": [
+        {
+          "path": "data/conformers/SIG-NIHDA-1058_219b0b66/conf_000.xyz",
+          "sha256": "0048a6b47e6c8c8ec0f118c69563583cbcfbda1a2b1b7223bacd396b8bf08385"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-1058_219b0b66/conf_001.xyz",
+          "sha256": "9e066be19f91c6c8e6f978980f3ecb6ea7727682df934b25966a6a8d31eddfa2"
+        }
+      ],
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1058/ensemble.xyz",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1058/report",
+        "--ligand-id",
+        "SIG-NIHDA-1058",
+        "--options",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1058/options.json",
+        "--energies",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-1058/energies.json",
+        "--temperature",
+        "298.15",
+        "--population-assumptions",
+        "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established."
+      ],
+      "returncode": 0,
+      "conformer_count": 2,
+      "files": {
+        "energies.json": "6b2db9ea682ef60ab48ba23a94031ff5f8d3667818b8d72392a3f863185216d4",
+        "ensemble.xyz": "370b1732ed7c1d515c98760403f2b9f862e39a7421368631abe8727e6223400b",
+        "options.json": "fd9b612d0d4e11363a28dd6ccff5761e28fe0207f615505c36f338afd0a5a5f2",
+        "report.csv": "7d436987a3d569e5c2c07a42f1242b6af78e67d426942bc6855ef04dfb0cdd24",
+        "report.json": "43d04b5349f2975759b28f93dcd7085d909398b77f8712ea4d911422d15f110d",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "ligand_id": "SIG-NIHDA-2062",
+      "status": "success",
+      "inputs": [
+        {
+          "path": "data/conformers/SIG-NIHDA-2062_d86f6436/conf_000.xyz",
+          "sha256": "45d4a1c899c636d26cb9738a739a74174ffa163f63c0a0223c31ffdf3dca0296"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2062_d86f6436/conf_001.xyz",
+          "sha256": "3f2c4dd559e901a5f9da71d108177f1cfe16bb0a6b913d2393380a4ea1261566"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2062_d86f6436/conf_002.xyz",
+          "sha256": "3308c904f74c37fcc1309207b5207f7583c812f55baa2e555e7b3e95cb974a23"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2062_d86f6436/conf_003.xyz",
+          "sha256": "1fa41f0155f2d71ea6cd0eb4c3bc0105bbcfda9dfc764d3b6b05c070fbe8bf8d"
+        }
+      ],
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2062/ensemble.xyz",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2062/report",
+        "--ligand-id",
+        "SIG-NIHDA-2062",
+        "--options",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2062/options.json",
+        "--energies",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2062/energies.json",
+        "--temperature",
+        "298.15",
+        "--population-assumptions",
+        "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established."
+      ],
+      "returncode": 0,
+      "conformer_count": 4,
+      "files": {
+        "energies.json": "df4d6a5d32af14a1e0592ff86bff76f7c2f76bb08688c1f000c9d55c8b2a5db4",
+        "ensemble.xyz": "94aed21dd4bdba493d44aa782cfb6d3032691e6ad19ed85c2ac27b39ae0478b4",
+        "options.json": "91ee79bca8fb6cf3f4a9a86285e03bc2b793730b66eb4b845a846beea243298e",
+        "report.csv": "61562677704147a3b6a2f32d3877e8befcfd8bbb77d729b377625b427fb088c4",
+        "report.json": "911f4ee41152065a27d5b77a06c4e1564d55b06166e28311a848445347eae90a",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "ligand_id": "SIG-NIHDA-2063",
+      "status": "success",
+      "inputs": [
+        {
+          "path": "data/conformers/SIG-NIHDA-2063_9978c6ba/conf_000.xyz",
+          "sha256": "d5c43e72a842ff82669318f7367a861c1ac251eabb72ae047ab7af0fa631a0a3"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2063_9978c6ba/conf_001.xyz",
+          "sha256": "6d2b034c7577efa95027639bfe5dee12413da5f2bea8c6d182b910749d198143"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2063_9978c6ba/conf_002.xyz",
+          "sha256": "146a1c665053b691b59cd855ea9bc11c8df8d2052fa3f01695e771b11a87b173"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2063_9978c6ba/conf_003.xyz",
+          "sha256": "3744471da7fbb2825be7f846b756b3e1abc7da9b463609689310019b83abb754"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2063_9978c6ba/conf_004.xyz",
+          "sha256": "e3d158fa5264d0ba46ee7eae0302069e6ef66c55b473b5dab7d95403f72130bb"
+        }
+      ],
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2063/ensemble.xyz",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2063/report",
+        "--ligand-id",
+        "SIG-NIHDA-2063",
+        "--options",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2063/options.json",
+        "--energies",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2063/energies.json",
+        "--temperature",
+        "298.15",
+        "--population-assumptions",
+        "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established."
+      ],
+      "returncode": 0,
+      "conformer_count": 5,
+      "files": {
+        "energies.json": "d21909fb5624633736c98ace53a4ffa0e9a111c6dfb04058b5ac111baf619ff4",
+        "ensemble.xyz": "5e8f503342d8e2b6f122c9c7fe5c89f14fff58c9469ed865537418d00455102f",
+        "options.json": "6403f8bf438a447e0fee422786b086c0e607f92d0093e2ef105c301e9fdbcaf7",
+        "report.csv": "cdbb7a9697023621033ec6a901b4095e13a12c14a6602b6977616bf5791c890c",
+        "report.json": "5ba5ce65dacb5a54ef1b77a86ed139d00460b8005ba089d9f6f87a544873d4d7",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "ligand_id": "SIG-NIHDA-2064",
+      "status": "success",
+      "inputs": [
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_000.xyz",
+          "sha256": "edd16adb5487c4242d09dccf5433a6c250f77c37881712cfbef24db1a9a7d463"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_001.xyz",
+          "sha256": "81c4bc1dd6999556bbf2b7e4d0a58f594eccaa1dc1ab7efa3cac1eef5a3310f4"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_002.xyz",
+          "sha256": "3a4bc895f4dba5f849b7dfc44b251ec809badc056edc070fb02742d3d176780a"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_003.xyz",
+          "sha256": "dd56c3a688e0b3ee67be85ae7aa53d7c1e231addd75e7fa2aa9751522ae0a81d"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_004.xyz",
+          "sha256": "1210a30a2974b7c17dc21325bde23fde3a9a950e400d8a27dccc3193e6b41065"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_005.xyz",
+          "sha256": "a093d0c24698f0f2103f978585d4eb90e2b631023c187e475d0f2dcae9dba245"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_006.xyz",
+          "sha256": "ac9fa2a4a111bc8f8e0ce8112b4835875f5d2a20a55a958bfc2b858171b0524e"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_007.xyz",
+          "sha256": "b280e7619b98508d746fc796682e7a92b0eeec04b3185ef2983f9c17b409fb0d"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_008.xyz",
+          "sha256": "3885e0e1f55cfe2698187f9a7004173889b388ec5268e9bee2a503e295a1e190"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_009.xyz",
+          "sha256": "06a3afb44586f8b3f4d3f170f2e3ec9e1dadd5252b057d49b4ad113ab270d7c8"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_010.xyz",
+          "sha256": "c04d9ffe49d09123080b8c8e0d0fed321e96dc0078385560ccb55e60801e2be5"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2064_f0ba08d0/conf_011.xyz",
+          "sha256": "e5291bcff37b246d6cf8b6bc54aac3a90ea874e15edf8cdf6b6046d99142b170"
+        }
+      ],
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2064/ensemble.xyz",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2064/report",
+        "--ligand-id",
+        "SIG-NIHDA-2064",
+        "--options",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2064/options.json",
+        "--energies",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2064/energies.json",
+        "--temperature",
+        "298.15",
+        "--population-assumptions",
+        "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established."
+      ],
+      "returncode": 0,
+      "conformer_count": 12,
+      "files": {
+        "energies.json": "fc2557df0c1514505649ac5240afcc95c2942794820abbe6a2f1d80feb470872",
+        "ensemble.xyz": "9c5d939d8074cd8349374148c3e4b4dbd0a801535b1886dc33ea951c621eb7e8",
+        "options.json": "95fbdcbea170614cb9ccbaa50eac23d037f80e2415bd5c2a7da8b9cccb0cb4fe",
+        "report.csv": "11c40e5b2e3bf7a9ad63cdb9ca66fa532e0635428dbd1381464ecfaf0aaab36f",
+        "report.json": "0652e2bfc603dcade3a65d2186bb0de95435963c57bea965ea0e3639f5e10a2f",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "ligand_id": "SIG-NIHDA-2067",
+      "status": "success",
+      "inputs": [
+        {
+          "path": "data/conformers/SIG-NIHDA-2067_1f828bfa/conf_000.xyz",
+          "sha256": "d868473cb537c8c7753382e7610e717ccaeb5eef9a90e8cacdd80574359336da"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2067_1f828bfa/conf_001.xyz",
+          "sha256": "b547adcb916a9bd41a5299cc6cea731351c3cf558560315aa62e02a431cc60d4"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2067_1f828bfa/conf_002.xyz",
+          "sha256": "4260a659e1b7667e7ecdd84dfc56cf28d8731570038303aa85f9832c1735e82d"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2067_1f828bfa/conf_003.xyz",
+          "sha256": "cfcaeda33b601b6583fe9ca3db0c30527e7026aaf0219047cb697b999c2b327e"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2067_1f828bfa/conf_004.xyz",
+          "sha256": "c8cb5c2ee1738eefb0cde56423e77391c3d74786e3a94062b49b427e7ce93d2e"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2067_1f828bfa/conf_005.xyz",
+          "sha256": "b26d726af630e01c7f80d6a2dc44161cec60cea5efe393fb2e539b6713ed2d4a"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2067_1f828bfa/conf_006.xyz",
+          "sha256": "33ac5c4b71e3310f61f727aa4d2d18c8571a06822e9cbbc077098c5c2e03722a"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2067_1f828bfa/conf_007.xyz",
+          "sha256": "456c50a6a97df953e59dd2b25c9f42012a612afcc1c7a446010b0665b791f598"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2067_1f828bfa/conf_008.xyz",
+          "sha256": "459ac2af0ada4c843c4c17e6f4c7f1659a5f4e7920bbe239b38af92e9e30bb37"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2067_1f828bfa/conf_009.xyz",
+          "sha256": "d962112422e1604b297587eb8e9c33bc13530f4726b229f5f5b2f82ee818951a"
+        },
+        {
+          "path": "data/conformers/SIG-NIHDA-2067_1f828bfa/conf_010.xyz",
+          "sha256": "10a47e634e1191b3dda5f2514b552d026c9a83f7ebe768f2b7f98bb3f610e3b1"
+        }
+      ],
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/debug/examples/ensemble_report",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2067/ensemble.xyz",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2067/report",
+        "--ligand-id",
+        "SIG-NIHDA-2067",
+        "--options",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2067/options.json",
+        "--energies",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/paton_recommendations/conformers/sensitivity_v1/SIG-NIHDA-2067/energies.json",
+        "--temperature",
+        "298.15",
+        "--population-assumptions",
+        "Retained records at unit multiplicity; no merging or symmetry correction. MMFF electronic-like energy approximation; completeness, distinct-state membership and thermochemical entropy not established."
+      ],
+      "returncode": 0,
+      "conformer_count": 11,
+      "files": {
+        "energies.json": "ede41db5cf4edc993a3f98f8882201d295891448121aaddc0b65dd4efcb31f65",
+        "ensemble.xyz": "06b4a9ed3169b502642b807afb09cf9ac19e6c585e7d6e6622616f52f637751e",
+        "options.json": "91ee79bca8fb6cf3f4a9a86285e03bc2b793730b66eb4b845a846beea243298e",
+        "report.csv": "77d8ee36f064ffc132ea4be7edc79fb7707ea947e7ff4d89e3c0d9a9c45a0e19",
+        "report.json": "6b6fb4de089851e8eebbaf2df7914e21606847283d6b7f4d01825dd845c3f125",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "failures": [],
+  "sensitivity_csv_sha256": "fcfa54b4e140475ad391d6a18cd64a0ac7e192a2b1ad1b2ddff338ed21d5e0c1"
+}

@@ -6,6 +6,7 @@
 
 mod input;
 mod population;
+mod sensitivity;
 mod statistics;
 
 use crate::geometry::{
@@ -18,6 +19,7 @@ use serde::{Deserialize, Serialize};
 
 pub use input::{Conformer, Ensemble, SourceProperty};
 pub use population::{Population, PopulationOrigin};
+pub use sensitivity::SensitivityReport;
 pub use statistics::{
     ConformerIdentity, DescriptorStatistics, EnsembleStatistics, MissingConformerPolicy,
     StatisticsOptions,

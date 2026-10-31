@@ -1,0 +1,20 @@
+[
+  {
+    "value": 0.0,
+    "unit": "kcal_mol",
+    "kind": "force_field",
+    "model": "MMFF94 retained ETKDGv3 geometries; repository prepare_data workflow",
+    "provenance": "data/reactions_raw.csv#SIG-NIHDA-1058/Conformer_Relative_Energies_kcal_mol[0]; geometry=data/conformers/SIG-NIHDA-1058_219b0b66/conf_000.xyz",
+    "temperature_k": null,
+    "degeneracy": 1
+  },
+  {
+    "value": 0.26599945,
+    "unit": "kcal_mol",
+    "kind": "force_field",
+    "model": "MMFF94 retained ETKDGv3 geometries; repository prepare_data workflow",
+    "provenance": "data/reactions_raw.csv#SIG-NIHDA-1058/Conformer_Relative_Energies_kcal_mol[1]; geometry=data/conformers/SIG-NIHDA-1058_219b0b66/conf_001.xyz",
+    "temperature_k": null,
+    "degeneracy": 1
+  }
+]

@@ -1,0 +1,14 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 56.75s
+     Running tests/ensemble_statistics.rs (target/debug/deps/ensemble_statistics-08f2e8573128f7ed)
+
+running 6 tests
+test correspondence_checks_include_later_supplied_graphs ... ok
+test energy_weighting_requires_opt_in_and_matches_ordered_provenance ... ok
+test population_validation_scale_invariance_and_input_length ... ok
+test independently_known_statistics_and_supplied_weights ... ok
+test ties_singletons_nonfinite_values_and_empty_ensembles_are_explicit ... ok
+test failures_require_explicit_conditioning_and_expose_lost_mass ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

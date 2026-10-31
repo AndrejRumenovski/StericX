@@ -5,6 +5,8 @@
 //! does not infer energies, populations, atom mapping or ensemble completeness.
 
 mod input;
+mod population;
+mod statistics;
 
 use crate::geometry::{
     BuriedVolumeCalculator, BuriedVolumeConfig, BuriedVolumeDetails, MolecularFrame,
@@ -15,6 +17,11 @@ use glam::Vec3;
 use serde::{Deserialize, Serialize};
 
 pub use input::{Conformer, Ensemble, SourceProperty};
+pub use population::{Population, PopulationOrigin};
+pub use statistics::{
+    ConformerIdentity, DescriptorStatistics, EnsembleStatistics, MissingConformerPolicy,
+    StatisticsOptions,
+};
 
 /// Energy units must be declared by the source or caller, never guessed.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]

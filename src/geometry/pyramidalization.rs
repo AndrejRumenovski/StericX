@@ -8,7 +8,7 @@ use glam::Vec3;
 /// Reproduces Kraken's published `pyr_P` and `pyr_alpha` (Gensch et al., *J. Am.
 /// Chem. Soc.* **2022**, *144*, 1205), which are computed by `morfeus`'
 /// `Pyramidalization` class from the three donor→substituent unit vectors.
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde::Serialize)]
 pub struct PyramidalizationParams {
     /// Radhakrishnan pyramidalization `P` (dimensionless).
     ///

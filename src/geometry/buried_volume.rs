@@ -5,7 +5,7 @@ use std::f32::consts::PI;
 use std::fmt::{Display, Formatter};
 
 /// Geometric settings for a metal-centred buried-volume scan.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct BuriedVolumeConfig {
     /// Radius of the integration sphere in ångströms.
     pub sphere_radius: f32,
@@ -32,7 +32,7 @@ impl Default for BuriedVolumeConfig {
 }
 
 /// Buried-volume descriptors for one conformer.
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde::Serialize)]
 pub struct BuriedVolumeParams {
     /// Mean ligand-occupied volume over the three donor-plane grids in Å³.
     pub buried_volume: f32,
@@ -52,6 +52,33 @@ pub struct BuriedVolumeParams {
     pub near_vbur: f32,
     /// Mean occupied volume in the distal hemisphere over three planes.
     pub far_vbur: f32,
+}
+
+/// One explicitly oriented finite-grid volume estimate. Volumes are in Å³.
+/// Quadrants are (++), (-+), (--), (+-) in the local XY plane. Octants use
+/// the same order at z >= 0 followed by z < 0. Zero belongs to the positive side.
+/// Each region is normalized by its own sampled point count, so regional sums
+/// need not equal the separately normalized total on an odd grid.
+#[derive(Clone, Debug, PartialEq, serde::Serialize)]
+pub struct RegionalBuriedVolume {
+    pub plane_atom_index: usize,
+    /// Local X, Y, Z unit vectors, expressed in the source coordinate system.
+    /// Negative Z faces the donor from the evaluation center.
+    pub axes: [[f32; 3]; 3],
+    pub buried_volume: f32,
+    pub quadrants: [f32; 4],
+    pub octants: [f32; 8],
+    pub near_vbur: f32,
+    pub far_vbur: f32,
+}
+
+/// The unchanged native summary plus all three source-identified plane estimates.
+#[derive(Clone, Debug, PartialEq, serde::Serialize)]
+pub struct BuriedVolumeDetails {
+    pub summary: BuriedVolumeParams,
+    /// Evaluation center in source coordinates (Å).
+    pub center: [f32; 3],
+    pub orientations: Vec<RegionalBuriedVolume>,
 }
 
 /// Conformer-ensemble aggregation used by Kraken-style descriptor tables.
@@ -211,6 +238,51 @@ impl BuriedVolumeCalculator {
         center: Vec3,
         config: BuriedVolumeConfig,
     ) -> Result<BuriedVolumeParams, BuriedVolumeError> {
+        Self::compute_from_center_recording(
+            molecule,
+            donor_idx,
+            neighbor_indices,
+            center,
+            config,
+            None,
+        )
+    }
+
+    /// Expose every regional estimate without changing the established summary
+    /// arithmetic. Atom indices and axes identify each orientation explicitly.
+    pub fn compute_detailed_with_center_and_neighbors(
+        molecule: &Molecule,
+        donor_idx: usize,
+        neighbors: [usize; 3],
+        center: Vec3,
+        config: BuriedVolumeConfig,
+    ) -> Result<BuriedVolumeDetails, BuriedVolumeError> {
+        validate_config(config)?;
+        validate_neighbors(molecule, donor_idx, neighbors)?;
+        let mut orientations = Vec::with_capacity(3);
+        let summary = Self::compute_from_center_recording(
+            molecule,
+            donor_idx,
+            neighbors,
+            center,
+            config,
+            Some(&mut orientations),
+        )?;
+        Ok(BuriedVolumeDetails {
+            summary,
+            center: center.to_array(),
+            orientations,
+        })
+    }
+
+    fn compute_from_center_recording(
+        molecule: &Molecule,
+        donor_idx: usize,
+        neighbor_indices: [usize; 3],
+        center: Vec3,
+        config: BuriedVolumeConfig,
+        mut orientations: Option<&mut Vec<RegionalBuriedVolume>>,
+    ) -> Result<BuriedVolumeParams, BuriedVolumeError> {
         crate::profile_scope!(
             "buried_volume",
             "BuriedVolumeCalculator::compute_from_center"
@@ -234,6 +306,17 @@ impl BuriedVolumeCalculator {
             let basis = coordinate_basis(molecule, donor_idx, plane_idx, center)?;
             let atoms = aligned_atoms(molecule, center, basis, config)?;
             let volumes = occupied_volumes(&sphere, &atoms, config.sphere_radius);
+            if let Some(regions) = orientations.as_mut() {
+                regions.push(RegionalBuriedVolume {
+                    plane_atom_index: plane_idx,
+                    axes: [basis.x.to_array(), basis.y.to_array(), basis.z.to_array()],
+                    buried_volume: volumes.buried_volume,
+                    quadrants: volumes.quadrants,
+                    octants: volumes.octants,
+                    near_vbur: volumes.near_vbur,
+                    far_vbur: volumes.far_vbur,
+                });
+            }
             totals[orientation_index] = volumes.buried_volume;
             near[orientation_index] = volumes.near_vbur;
             far[orientation_index] = volumes.far_vbur;

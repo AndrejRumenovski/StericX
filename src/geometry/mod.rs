@@ -1,14 +1,17 @@
 //! Molecular-coordinate parsing and three-dimensional steric descriptors.
 
 mod buried_volume;
+mod donor;
 mod pyramidalization;
 mod sterimol;
 mod xyz;
 
 pub use buried_volume::{
-    BuriedVolumeCalculator, BuriedVolumeConfig, BuriedVolumeEnsembleParams, BuriedVolumeError,
-    BuriedVolumeParams, bonded_neighbors, coordination_center, coordination_center_with_neighbors,
+    BuriedVolumeCalculator, BuriedVolumeConfig, BuriedVolumeDetails, BuriedVolumeEnsembleParams,
+    BuriedVolumeError, BuriedVolumeParams, RegionalBuriedVolume, bonded_neighbors,
+    coordination_center, coordination_center_with_neighbors,
 };
+pub use donor::{DonorTopology, detect_trivalent_donor};
 pub use pyramidalization::{PyramidalizationCalculator, PyramidalizationParams};
 pub use sterimol::{SterimolCalculator, SterimolParams};
 pub use xyz::{

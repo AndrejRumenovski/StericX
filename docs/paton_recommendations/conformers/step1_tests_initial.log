@@ -1,0 +1,11 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+error[E0433]: cannot find module or crate `steric_x` in this scope
+  --> src/geometry/donor.rs:29:5
+   |
+29 |     steric_x::profile_scope!("donor_bond_detection", "descriptors::detect_donor");
+   |     ^^^^^^^^ use of unresolved module or unlinked crate `steric_x`
+
+For more information about this error, try `rustc --explain E0433`.
+error: could not compile `steric_x` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `steric_x` (lib test) due to 1 previous error

@@ -2,7 +2,7 @@ use super::{DescriptorError, Molecule};
 use glam::{DVec3, Vec2, Vec3};
 
 /// Three-dimensional Sterimol dimensions in ångströms.
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, serde::Serialize)]
 pub struct SterimolParams {
     /// Longitudinal extent along the attachment axis.
     pub l: f32,

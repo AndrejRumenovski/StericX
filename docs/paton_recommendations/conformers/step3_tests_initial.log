@@ -1,0 +1,9 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+error[E0689]: can't call method `exp` on ambiguous numeric type `{float}`
+   --> tests/conformer_populations.rs:113:72
+    |
+113 |     let expected = (-2.0 / (1.380_649e-23 * 6.022_140_76e23 / 1000.0)).exp();
+    |                                                                        ^^^
+
+For more information about this error, try `rustc --explain E0689`.
+error: could not compile `steric_x` (test "conformer_populations") due to 1 previous error

@@ -155,6 +155,15 @@ fn normalize(values: &[f64]) -> Result<Vec<f64>, String> {
         return Err("weights must have a positive total".into());
     }
     let scaled: Vec<f64> = values.iter().map(|w| w / scale).collect();
-    let sum: f64 = scaled.iter().sum();
+    // Compensate accumulation so thousands of unequal conformer weights do not
+    // progressively consume the normalization error budget.
+    let mut sum = 0.0;
+    let mut correction = 0.0;
+    for value in &scaled {
+        let adjusted = value - correction;
+        let next = sum + adjusted;
+        correction = (next - sum) - adjusted;
+        sum = next;
+    }
     Ok(scaled.iter().map(|w| w / sum).collect())
 }

@@ -1,0 +1,27 @@
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2m 17s
+     Running tests/conformer_populations.rs (target/debug/deps/conformer_populations-be26f0095282a656)
+
+running 4 tests
+test extreme_inputs_remain_normalized_without_overflow ... ok
+test invalid_thermodynamic_metadata_and_nonfinite_inputs_fail ... ok
+test multiplicity_and_explicit_degeneracy_are_not_merged ... ok
+test two_state_analytic_ratios_and_temperature_response ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/ensemble_statistics.rs (target/debug/deps/ensemble_statistics-08f2e8573128f7ed)
+
+running 6 tests
+test population_validation_scale_invariance_and_input_length ... ok
+test energy_weighting_requires_opt_in_and_matches_ordered_provenance ... ok
+test correspondence_checks_include_later_supplied_graphs ... ok
+test independently_known_statistics_and_supplied_weights ... ok
+test failures_require_explicit_conditioning_and_expose_lost_mass ... ok
+test ties_singletons_nonfinite_values_and_empty_ensembles_are_explicit ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

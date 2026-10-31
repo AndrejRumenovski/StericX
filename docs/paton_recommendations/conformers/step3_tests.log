@@ -1,0 +1,12 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.85s
+     Running tests/conformer_populations.rs (target/debug/deps/conformer_populations-be26f0095282a656)
+
+running 4 tests
+test extreme_inputs_remain_normalized_without_overflow ... ok
+test invalid_thermodynamic_metadata_and_nonfinite_inputs_fail ... ok
+test two_state_analytic_ratios_and_temperature_response ... ok
+test multiplicity_and_explicit_degeneracy_are_not_merged ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -63,14 +63,26 @@ def bind_observer_dependencies(cargo: str, lock: str, source_lock: str, prefix: 
     versions = [p["version"] for p in packages if p["name"] == "serde"]
     if len(versions) != 1:
         raise ValueError("copied source must have one pinned serde version")
-    anchor = '\nserde_json = '
-    package_anchor = 'name = "stericx-audit-observer"\nversion = "0.1.0"\ndependencies = [\n "glam",\n'
+    anchor = "\nserde_json = "
+    package_anchor = 'name = "stericx-audit-observer"\nversion = "0.1.0"\ndependencies = [\n "glam",\n'  # noqa: E501
     if cargo.count(anchor) != 1 or lock.count(package_anchor) != 1:
         raise ValueError("unknown immutable observer dependency template")
-    cargo = cargo.replace(anchor, f'\nserde = {{ version = "={versions[0]}", features = ["derive"] }}' + anchor)
+    cargo = cargo.replace(
+        anchor,
+        f'\nserde = {{ version = "={versions[0]}", features = ["derive"] }}' + anchor,
+    )
     lock = lock.replace(package_anchor, package_anchor + ' "serde",\n')
-    return cargo, lock, [{"crate": "serde", "version": versions[0],
-                          "reason": "direct dependency for byte-identical copied source derives"}]
+    return (
+        cargo,
+        lock,
+        [
+            {
+                "crate": "serde",
+                "version": versions[0],
+                "reason": "direct dependency for byte-identical copied source derives",
+            }
+        ],
+    )
 
 
 def verify_build(path: Path) -> tuple[dict, dict]:
@@ -231,8 +243,10 @@ def build(args) -> None:
     cargo = (AUDIT / "observer/Cargo.toml").read_text()
     prefix = (source / "src/geometry/buried_volume.rs").read_bytes()
     cargo, observer_lock, dependency_adjustments = bind_observer_dependencies(
-        cargo, (AUDIT / "observer/Cargo.lock").read_text(),
-        (source / "Cargo.lock").read_text(), prefix,
+        cargo,
+        (AUDIT / "observer/Cargo.lock").read_text(),
+        (source / "Cargo.lock").read_text(),
+        prefix,
     )
     old = 'steric_x = { path = "../frozen/repository" }'
     if cargo.count(old) != 1:

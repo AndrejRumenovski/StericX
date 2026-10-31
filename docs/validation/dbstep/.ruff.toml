@@ -1,0 +1,4 @@
+# Frozen failed-run controllers retain the exact bytes named in their receipts.
+# Maintained validation scripts in /scripts use the repository rules.
+extend = "../../../pyproject.toml"
+extend-exclude = ["controllers"]

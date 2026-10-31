@@ -1,9 +1,10 @@
 """Closed-form checks on reporting metrics, separate from descriptor chemistry."""
+
 import importlib.util
 import math
-from pathlib import Path
 import sys
 import unittest
+from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 HAS_REFERENCE = importlib.util.find_spec("morfeus") is not None
@@ -11,7 +12,9 @@ if HAS_REFERENCE:
     from study_conformer_ensembles import metrics
 
 
-@unittest.skipUnless(HAS_REFERENCE, "requires the scientific Morfeus reference environment")
+@unittest.skipUnless(
+    HAS_REFERENCE, "requires the scientific Morfeus reference environment"
+)
 class ConformerStudyMetrics(unittest.TestCase):
     def test_closed_form_residuals_not_squared_correlation(self):
         rows = [{"reference": x, "native": 2 * x + 1} for x in [1, 2, 3]]
@@ -33,7 +36,9 @@ class ConformerStudyMetrics(unittest.TestCase):
         self.assertIsNone(result["slope"])
         self.assertIsNone(result["intercept"])
         self.assertEqual(result["mae"], 0.5)
-        self.assertEqual(metrics([{"reference": None, "native": None}]), {"n": 0, "missing_pairs": 1})
+        self.assertEqual(
+            metrics([{"reference": None, "native": None}]), {"n": 0, "missing_pairs": 1}
+        )
 
 
 if __name__ == "__main__":

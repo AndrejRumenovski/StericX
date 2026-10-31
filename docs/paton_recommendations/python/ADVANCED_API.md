@@ -30,12 +30,14 @@ reports retained population mass. The default requires completeness per field.
 from stericx import DensityGrid
 
 grid = DensityGrid.from_cube(
-    "density.cube", field="total_electron_density",
+    "density.cube",
+    field="total_electron_density",
     density_unit="electrons_per_bohr_cubed",
     provenance="method/basis, charge, calculation and file identifier",
 )
 profile = grid.buried_volume_scan(
-    [1.0, 1.5, 2.0], center_angstrom=(0.0, 0.0, 0.0),
+    [1.0, 1.5, 2.0],
+    center_angstrom=(0.0, 0.0, 0.0),
     threshold_electrons_per_bohr3=0.0016,
 )
 for sample in profile.samples:

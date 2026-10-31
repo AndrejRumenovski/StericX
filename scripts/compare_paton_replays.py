@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Verify raw receipts and require exact equality of legacy scientific streams."""
+
 import argparse
-from datetime import datetime, timezone
 import hashlib
 import json
-from pathlib import Path
 import sys
+from datetime import UTC, datetime
+from pathlib import Path
 
 
 def digest(path):
@@ -24,7 +25,7 @@ def main():
     manifests = [json.loads(p.read_text()) for p in (args.baseline, args.candidate)]
     failures, lanes = [], {}
     checked = {}
-    for label, manifest in zip(["baseline", "candidate"], manifests):
+    for label, manifest in zip(["baseline", "candidate"], manifests, strict=True):
         if not manifest.get("complete_capture"):
             failures.append(f"{label}: incomplete capture")
         for name, lane in manifest["lanes"].items():
@@ -36,7 +37,9 @@ def main():
                     if path not in checked:
                         checked[path] = digest(path)
                     if checked[path] != record["sha256"]:
-                        failures.append(f"{label}/{name}/{field}: recorded hash invalid")
+                        failures.append(
+                            f"{label}/{name}/{field}: recorded hash invalid"
+                        )
     baseline, candidate = manifests
     if baseline["lanes"].keys() != candidate["lanes"].keys():
         failures.append("lane membership changed")
@@ -49,18 +52,34 @@ def main():
             same = same and old[field]["sha256"] == new[field]["sha256"]
         if not same:
             failures.append(f"{name}: input or output stream changed")
-        lanes[name] = {"rows": new["rows"], "exact_match": same,
-                       "stdout_sha256": new["stdout"]["sha256"]}
-    report = {"created_utc": datetime.now(timezone.utc).isoformat(), "command": sys.argv,
-              "script_sha256": digest(__file__), "baseline_manifest_sha256": digest(args.baseline),
-              "candidate_manifest_sha256": digest(args.candidate),
-              "total_rows": sum(l["rows"] for l in lanes.values()), "lanes": lanes,
-              "verified_files": checked, "failures": failures,
-              "exact_legacy_replay_pass": not failures,
-              "interpretation": "Raw numerical preservation only; not independent physical or predictive validation."}
+        lanes[name] = {
+            "rows": new["rows"],
+            "exact_match": same,
+            "stdout_sha256": new["stdout"]["sha256"],
+        }
+    report = {
+        "created_utc": datetime.now(UTC).isoformat(),
+        "command": sys.argv,
+        "script_sha256": digest(__file__),
+        "baseline_manifest_sha256": digest(args.baseline),
+        "candidate_manifest_sha256": digest(args.candidate),
+        "total_rows": sum(lane["rows"] for lane in lanes.values()),
+        "lanes": lanes,
+        "verified_files": checked,
+        "failures": failures,
+        "exact_legacy_replay_pass": not failures,
+        "interpretation": "Raw numerical preservation only; not independent physical or predictive validation.",  # noqa: E501
+    }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n")
-    print(json.dumps({k: report[k] for k in ["total_rows", "failures", "exact_legacy_replay_pass"]}))
+    print(
+        json.dumps(
+            {
+                k: report[k]
+                for k in ["total_rows", "failures", "exact_legacy_replay_pass"]
+            }
+        )
+    )
     return bool(failures)
 
 

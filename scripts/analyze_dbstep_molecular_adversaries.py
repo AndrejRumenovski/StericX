@@ -1,0 +1,331 @@
+#!/usr/bin/env python3
+"""Frozen molecular transformation witnesses for the DBSTEP investigation."""
+
+from __future__ import annotations
+
+import argparse
+import copy
+import json
+from pathlib import Path
+
+import numpy as np
+from analyze_dbstep_point_domains import Observer, record, run_case, save
+from validate_dbstep_volume import load_cases, request
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def from_request(payload):
+    return {
+        "id": payload["id"],
+        "options": {"donor_index": payload["donor"], "volume": payload["config"]},
+        "row": {
+            "geometry": {
+                "value": {
+                    "elements": [a["element"] for a in payload["atoms"]],
+                    "coordinates_angstrom": [a["position"] for a in payload["atoms"]],
+                    "radii_angstrom": [a["radius"] for a in payload["atoms"]],
+                }
+            },
+            "buried_volume": {
+                "value": {
+                    "center": payload["center"],
+                    "orientations": [
+                        {"plane_atom_index": n} for n in payload["neighbors"]
+                    ],
+                }
+            },
+        },
+    }
+
+
+def inputs():
+    rng = np.random.default_rng(20261102)
+    config = {
+        "sphere_radius": 3.5,
+        "density": 0.01,
+        "radii_scale": 1.17,
+        "center_distance": 2.28,
+        "include_hydrogens": False,
+    }
+    positions = [[0, 0, 0], [1.5, 0, 0.5], [-0.75, 1.25, 0.5], [-0.75, -1.25, 0.5]]
+    bases = []
+    for heavy in range(4):
+        elements = ["P", *["C" if j < heavy else "H" for j in range(3)]]
+        atoms = [
+            {"element": e, "position": p, "radius": {"P": 1.8, "C": 1.7, "H": 1.2}[e]}
+            for e, p in zip(elements, positions, strict=True)
+        ]
+        if heavy:
+            atoms.append({"element": "C", "position": [2.75, 0.75, 1.0], "radius": 1.7})
+        for include_h in (False, True):
+            name = ["PH3", "primary", "secondary", "tertiary"][heavy]
+            bases.append(
+                {
+                    "id": f"{name}/H={include_h}",
+                    "op": "geometry_topology",
+                    "atoms": atoms,
+                    "donor": 0,
+                    "neighbors": [1, 2, 3],
+                    "center": [0, 0, -2.25],
+                    "config": {**config, "include_hydrogens": include_h},
+                }
+            )
+    original = next(
+        c for c in load_cases() if c["id"] == "SIG-NIHDA-401/0/sphere_radius=2.5"
+    )
+    bases.append(request(original, True))
+    axis, _ = np.linalg.qr(rng.normal(size=(3, 3)))
+    if np.linalg.det(axis) < 0:
+        axis[:, 0] *= -1
+    cases = []
+    for base in bases:
+        for kind in [
+            "identity",
+            "permutation",
+            "signed_axis_rotation",
+            "general_rotation",
+            "translation",
+        ]:
+            value = copy.deepcopy(base)
+            value["id"] += "/" + kind
+            permutation = np.arange(len(base["atoms"]))
+            transform, shift = np.eye(3), np.zeros(3)
+            if kind == "permutation":
+                permutation = rng.permutation(len(base["atoms"]))
+                inverse = np.argsort(permutation)
+                value["atoms"] = [value["atoms"][i] for i in permutation]
+                value["donor"] = int(inverse[base["donor"]])
+                value["neighbors"] = [int(inverse[n]) for n in base["neighbors"]]
+            elif kind == "signed_axis_rotation":
+                transform = np.array([[0, -1, 0], [1, 0, 0], [0, 0, 1]])
+            elif kind == "general_rotation":
+                transform = axis
+            elif kind == "translation":
+                shift = np.array([8.0, -4.0, 2.0])
+            for atom in value["atoms"]:
+                atom["position"] = (transform @ atom["position"] + shift).tolist()
+            value["center"] = (transform @ value["center"] + shift).tolist()
+            cases.append(
+                {
+                    "base_id": base["id"],
+                    "kind": kind,
+                    "request": value,
+                    "permutation": permutation.tolist(),
+                    "rotation": transform.tolist(),
+                    "translation": shift.tolist(),
+                    "expected_error": False,
+                }
+            )
+    for offset in [0.0, 2.0**-24, 2.0**-16, 2.0**-8]:
+        value = copy.deepcopy(bases[-2])
+        value["id"] = f"near_degenerate/{offset.hex()}"
+        value["center"] = [0, 0, -2.25]
+        for n in [1, 2, 3]:
+            value["atoms"][n]["position"] = [offset, 0, 1.0 + n / 4]
+        cases.append(
+            {
+                "base_id": value["id"],
+                "kind": "near_degenerate",
+                "request": value,
+                "permutation": list(range(len(value["atoms"]))),
+                # Exact cross-product magnitude is 2.25*abs(offset). Every
+                # positive offset defines a valid plane; no arbitrary minimum
+                # angle is part of the scientific contract.
+                "expected_error": offset == 0.0,
+            }
+        )
+    return cases
+
+
+class CapturingObserver(Observer):
+    def call(self, payload):
+        value = super().call(payload)
+        if payload["op"] == "geometry_topology":
+            self.geometry = value
+            self.frames = {}
+        elif payload["op"] == "raw_point_decisions":
+            self.frames[int(payload["id"].rsplit("/", 1)[-1])] = value
+        return value
+
+
+def transform_difference(base, current, metadata):
+    permutation = metadata["permutation"]
+    base_geometry, base_frames = base
+    geometry, frames = current
+    errors, comparisons = [], []
+    if metadata["kind"] == "permutation" and (
+        base_geometry["buried_volume"]["_bits"] != geometry["buried_volume"]["_bits"]
+    ):
+        errors.append("permutation changed public summary bits")
+    include_h = metadata["request"]["config"]["include_hydrogens"]
+    original_retained = [
+        i
+        for i, atom in enumerate(base_geometry["atoms"])
+        if include_h or atom["element"] != "H"
+    ]
+    transformed_retained = [
+        permutation[i]
+        for i, atom in enumerate(geometry["atoms"])
+        if include_h or atom["element"] != "H"
+    ]
+    reordered = [transformed_retained.index(i) for i in original_retained]
+    for plane, current_frame in frames.items():
+        old = base_frames[permutation[plane]]
+        p0 = np.asarray([a["position"] for a in old["atoms"]], dtype=np.float32).astype(
+            float
+        )
+        p1 = np.asarray(
+            [a["position"] for a in current_frame["atoms"]], dtype=np.float32
+        ).astype(float)[reordered]
+        deltas = np.linalg.norm(p1 - p0, axis=1)
+        before_mask = np.asarray(old["occupied_mask"], dtype=bool)
+        after_mask = np.asarray(current_frame["occupied_mask"], dtype=bool)
+        changed = np.flatnonzero(before_mask != after_mask)
+        points = np.asarray(geometry["dump"]["points"], dtype=np.float32).astype(float)
+        witnesses = []
+        # The predicate-distance change from moving center a to b is bounded by
+        # 2*|p-a|*|b-a| + |b-a|^2. Add separately derived binary32 roundoff bands
+        # for both calculations. This is a conservative witness, not a new
+        # descriptor tolerance or an exact-rational certificate.
+        r2 = np.float32([a["radius_squared"] for a in old["atoms"]]).astype(float)
+        u = 2.0**-24
+        gamma = 5 * u / (1 - 5 * u)
+        for index in changed:
+            s0 = np.sum((points[index] - p0) ** 2, axis=1)
+            s1 = np.sum((points[index] - p1) ** 2, axis=1)
+            movement_bound = 2 * np.sqrt(s0) * deltas + deltas**2
+            arithmetic_bound = gamma * (s0 + s1) + 2 * u * r2
+            eligible = abs(s0 - r2) <= np.nextafter(
+                movement_bound + arithmetic_bound, np.inf
+            )
+            explained = bool(np.any(eligible))
+            witnesses.append(
+                {
+                    "point_index": int(index),
+                    "point": points[index].tolist(),
+                    "before": bool(before_mask[index]),
+                    "after": bool(after_mask[index]),
+                    "near_changed_boundary": explained,
+                    "eligible_atom_indices": np.flatnonzero(eligible).tolist(),
+                }
+            )
+            if not explained:
+                errors.append(f"unexplained transformed point {index}")
+        if metadata["kind"] == "permutation" and not np.array_equal(
+            before_mask, after_mask
+        ):
+            errors.append("permutation changed occupancy")
+        comparisons.append(
+            {
+                "original_plane": permutation[plane],
+                "new_plane": plane,
+                "maximum_aligned_atom_displacement": float(deltas.max(initial=0)),
+                "changed_point_count": len(changed),
+                "witnesses": witnesses,
+                "volume_difference": current_frame["aggregate"]["buried_volume"]
+                - old["aggregate"]["buried_volume"],
+            }
+        )
+    return comparisons, errors
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--observer", required=True, type=Path)
+    parser.add_argument("--output", required=True, type=Path)
+    args = parser.parse_args()
+    args.output.mkdir(parents=True, exist_ok=False)
+    cases = inputs()
+    save(args.output / "inputs.json", cases)
+    source_paths = [
+        Path(__file__),
+        ROOT / "scripts/analyze_dbstep_point_domains.py",
+        ROOT / "scripts/dbstep_resolution_reference.py",
+        args.observer,
+    ]
+    sources = [record(p) for p in source_paths]
+    save(args.output / "pre_execution.json", {"sources": sources, "cases": len(cases)})
+    observer = CapturingObserver(args.observer.resolve(), args.output / "native")
+    results, identities = [], {}
+    try:
+        for index, item in enumerate(cases):
+            row = {"id": item["request"]["id"], "kind": item["kind"], "errors": []}
+            try:
+                rows = run_case(
+                    from_request(item["request"]),
+                    observer,
+                    args.output / "cases" / f"{index:03d}",
+                )
+                row["frame_count"] = len(rows)
+                row["atomic_disputes"] = sum(len(r["disputed_points"]) for r in rows)
+                row["unexplained_atomic_points"] = sum(
+                    r["unexplained_count"] for r in rows
+                )
+                row["arithmetic_errors"] = sum(
+                    len(r["arithmetic_errors"]) for r in rows
+                )
+                row["summary"] = observer.geometry["buried_volume"]
+                current = copy.deepcopy((observer.geometry, observer.frames))
+                if item["kind"] == "identity":
+                    identities[item["base_id"]] = current
+                elif item["base_id"] in identities:
+                    row["transformation_comparison"], row["errors"] = (
+                        transform_difference(identities[item["base_id"]], current, item)
+                    )
+                if item["expected_error"]:
+                    row["errors"].append("expected degenerate geometry accepted")
+            except Exception as error:
+                native_error = observer.geometry.get("buried_volume", {}).get("error")
+                row["exception"] = repr(error)
+                row["native_error"] = native_error
+                row["expected_error_observed"] = bool(
+                    item["expected_error"] and native_error
+                )
+                if not row["expected_error_observed"]:
+                    row["errors"].append("unexpected failed comparison")
+            results.append(row)
+            save(args.output / "results.json", results)
+            print(
+                json.dumps(
+                    {
+                        "completed": index + 1,
+                        "total": len(cases),
+                        "id": row["id"],
+                        "errors": row["errors"],
+                    }
+                ),
+                flush=True,
+            )
+    finally:
+        observer.close()
+    summary = {
+        "case_count": len(cases),
+        "completed_comparisons": sum("summary" in r for r in results),
+        "expected_errors": sum(
+            r.get("expected_error_observed", False) for r in results
+        ),
+        "errors": [
+            {"id": r["id"], "errors": r["errors"]} for r in results if r["errors"]
+        ],
+        "unexplained_atomic_points": sum(
+            r.get("unexplained_atomic_points", 0) for r in results
+        ),
+        "arithmetic_errors": sum(r.get("arithmetic_errors", 0) for r in results),
+        "sources_unchanged": sources == [record(p) for p in source_paths],
+        "release_admission_scored": False,
+    }
+    save(args.output / "summary.json", summary)
+    save(
+        args.output / "manifest.json",
+        [record(p) for p in sorted(args.output.rglob("*")) if p.is_file()],
+    )
+    print(json.dumps(summary, indent=2))
+    return int(
+        bool(summary["errors"])
+        or bool(summary["unexplained_atomic_points"] + summary["arithmetic_errors"])
+    )
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

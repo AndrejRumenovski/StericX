@@ -1,0 +1,79 @@
+{
+  "verified_final_raw_artifacts": 151,
+  "raw_manifest": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/molecular_adversaries_v2/manifest.json",
+    "bytes": 38047,
+    "sha256": "a82ee485775bd3accf33bdb11b5ecc08d836ea051596ed2f701b4557888f8d94"
+  },
+  "raw_bytes_verified": 200231568,
+  "sources": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/analyze_dbstep_molecular_adversaries.py",
+      "bytes": 13315,
+      "sha256": "7358ac8243cc835c2256213047f4476a44716da2445559f4ec4a0812ae17356e"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/analyze_dbstep_point_domains.py",
+      "bytes": 16129,
+      "sha256": "9bfb40456eb0a69ea9071c78541a580e246f99664ad8464455916cea2bf9fb89"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/tests/test_dbstep_point_domains.py",
+      "bytes": 6567,
+      "sha256": "6482f7f88c1af6719a7cb9ccad1faf140007cc0fc297a550195353214f9aaecc"
+    }
+  ],
+  "copied_records": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/molecular_adversaries_v2/first_attempt_executed_controller.py.txt",
+      "bytes": 12902,
+      "sha256": "9a29af3efe9d4996a4d191d2a10fedc6f425dd00d0190e66ec621c2ccd5139c8"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/molecular_adversaries_v2/first_attempt_pre_execution.json",
+      "bytes": 985,
+      "sha256": "ef166540df60a31831f83c0dea349919a0e3838ba0c2f99af844ecf23b12fd22"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/molecular_adversaries_v2/first_attempt_results.json",
+      "bytes": 70242,
+      "sha256": "1a5056de0d33adb3d052d995d5c2cae836fbc8c88ad1a41334aa169be8d7f193"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/molecular_adversaries_v2/first_attempt_summary.json",
+      "bytes": 362,
+      "sha256": "0a0f9b3866da1d0ed709e3547d30b6fef2532256fd963ad2b30a052670a847b6"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/molecular_adversaries_v2/inputs.json",
+      "bytes": 127946,
+      "sha256": "0bb092c83d56e456b6ed68cb6c153e3e575d10dcc78e2c0e28d79002db65a4e2"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/molecular_adversaries_v2/manifest.json",
+      "bytes": 38047,
+      "sha256": "a82ee485775bd3accf33bdb11b5ecc08d836ea051596ed2f701b4557888f8d94"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/molecular_adversaries_v2/point_regressions.log",
+      "bytes": 1072,
+      "sha256": "4ab58b0b881c5fcb5fa6357e2c6322847e79816438458ea3325ac15601b7ff96"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/molecular_adversaries_v2/pre_execution.json",
+      "bytes": 985,
+      "sha256": "b0db2df14cc810a3192a0b9129443fbbe4d0ac1e8684cff79e157a5da62f7469"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/molecular_adversaries_v2/results.json",
+      "bytes": 70191,
+      "sha256": "750853f1036a22bde3404bc65dacedc7e9b88d6e7ef557a770d2a19a9f35d0ce"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/molecular_adversaries_v2/summary.json",
+      "bytes": 220,
+      "sha256": "2217a0f43abd8c1630e0eefb517ed97ca123b8fdbaeb8d1be87ea870ba0576f6"
+    }
+  ],
+  "release_admission_scored": false
+}

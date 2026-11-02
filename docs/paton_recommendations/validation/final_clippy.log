@@ -1,0 +1,13 @@
+    Checking steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+error: unused `std::result::Result` in tuple element 1 that must be used
+  --> examples/paton_ensemble_allocations.rs:21:9
+   |
+21 |         black_box((descriptors, statistics));
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: this `Result` may be an `Err` variant, which should be handled
+   = note: `-D unused-must-use` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(unused_must_use)]`
+
+error: could not compile `steric_x` (example "paton_ensemble_allocations") due to 1 previous error
+warning: build failed, waiting for other jobs to finish...

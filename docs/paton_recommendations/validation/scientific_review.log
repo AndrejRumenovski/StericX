@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/review_paton_science.py", line 321, in <module>
+    main()
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/review_paton_science.py", line 232, in main
+    require(
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/review_paton_science.py", line 28, in require
+    raise ValueError(message)
+ValueError: DBSTEP volume result or failure set changed

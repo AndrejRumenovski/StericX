@@ -1,0 +1,1664 @@
+{
+  "created_utc": "2026-11-02T04:01:44.112218+00:00",
+  "run": {
+    "conclusion": "success",
+    "databaseId": 41384461108,
+    "headSha": "aa78ecb09d337488255937f6eb85e9027f0984db",
+    "jobs": [
+      {
+        "completedAt": "2026-11-02T03:42:40Z",
+        "conclusion": "success",
+        "databaseId": 125082112343,
+        "name": "source-distribution",
+        "startedAt": "2026-11-02T03:41:32Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:33Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:32Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:41:57Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:41:57Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:41:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:00Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:41:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:03Z",
+            "conclusion": "success",
+            "name": "Build source archive",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:00Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:37Z",
+            "conclusion": "success",
+            "name": "Install only from source archive",
+            "number": 6,
+            "startedAt": "2026-11-02T03:42:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:39Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 7,
+            "startedAt": "2026-11-02T03:42:37Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:39Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 13,
+            "startedAt": "2026-11-02T03:42:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:39Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-11-02T03:42:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:39Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-11-02T03:42:39Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112343"
+      },
+      {
+        "completedAt": "2026-11-02T03:44:57Z",
+        "conclusion": "success",
+        "databaseId": 125082112587,
+        "name": "macos-14 / Python 3.12",
+        "startedAt": "2026-11-02T03:41:33Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:36Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:34Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:34Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:43:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:44Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:43:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:38Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:43:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:49Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:44:38Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:51Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:44:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:53Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:44:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:53Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:44:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:54Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:44:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:54Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:44:54Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112587"
+      },
+      {
+        "completedAt": "2026-11-02T03:43:18Z",
+        "conclusion": "success",
+        "databaseId": 125082112594,
+        "name": "macos-14 / Python 3.14",
+        "startedAt": "2026-11-02T03:41:33Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:35Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:17Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:35Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:17Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:42:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:25Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:42:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:04Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:13Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:43:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:15Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:43:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:16Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:43:15Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:16Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:43:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:16Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:43:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:17Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:43:16Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112594"
+      },
+      {
+        "completedAt": "2026-11-02T03:43:15Z",
+        "conclusion": "success",
+        "databaseId": 125082112612,
+        "name": "macos-14 / Python 3.11",
+        "startedAt": "2026-11-02T03:41:33Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:35Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:10Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:35Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:10Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:42:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:18Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:42:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:59Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:09Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:42:59Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:10Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:43:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:12Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:43:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:12Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:43:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:13Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:43:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:13Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:43:13Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112612"
+      },
+      {
+        "completedAt": "2026-11-02T03:43:47Z",
+        "conclusion": "success",
+        "databaseId": 125082112652,
+        "name": "ubuntu-24.04 / Python 3.14",
+        "startedAt": "2026-11-02T03:41:32Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:34Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:01Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:01Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:42:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:01Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:42:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:21Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:42Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:43:21Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:45Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:43:42Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:46Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:43:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:46Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:43:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:46Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:43:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:46Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:43:46Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112652"
+      },
+      {
+        "completedAt": "2026-11-02T03:44:49Z",
+        "conclusion": "success",
+        "databaseId": 125082112663,
+        "name": "windows-latest / Python 3.11",
+        "startedAt": "2026-11-02T03:41:33Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:36Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:16Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:17Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:42:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:24Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:42:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:06Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:40Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:44:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:43Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:44:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:45Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:44:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:45Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:44:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:47Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:44:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:48Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:44:47Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112663"
+      },
+      {
+        "completedAt": "2026-11-02T03:43:38Z",
+        "conclusion": "success",
+        "databaseId": 125082112668,
+        "name": "ubuntu-24.04 / Python 3.11",
+        "startedAt": "2026-11-02T03:41:32Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:34Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:01Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:01Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:42:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:01Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:42:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:21Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:33Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:43:21Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:34Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:43:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:36Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:43:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:36Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:43:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:36Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:43:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:36Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:43:36Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112668"
+      },
+      {
+        "completedAt": "2026-11-02T03:44:09Z",
+        "conclusion": "success",
+        "databaseId": 125082112689,
+        "name": "windows-latest / Python 3.13",
+        "startedAt": "2026-11-02T03:41:32Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:34Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:12Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:13Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:42:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:18Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:42:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:38Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:02Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:43:38Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:05Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:44:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:06Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:44:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:06Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:44:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:08Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:44:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:08Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:44:08Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112689"
+      },
+      {
+        "completedAt": "2026-11-02T03:43:32Z",
+        "conclusion": "success",
+        "databaseId": 125082112693,
+        "name": "windows-latest / Python 3.12",
+        "startedAt": "2026-11-02T03:41:32Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:34Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:06Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:06Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:42:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:11Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:42:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:07Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:25Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:43:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:27Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:43:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:28Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:43:27Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:28Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:43:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:30Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:43:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:30Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:43:30Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112693"
+      },
+      {
+        "completedAt": "2026-11-02T03:43:38Z",
+        "conclusion": "success",
+        "databaseId": 125082112742,
+        "name": "ubuntu-24.04 / Python 3.12",
+        "startedAt": "2026-11-02T03:41:32Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:34Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:04Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:04Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:42:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:07Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:42:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:24Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:34Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:43:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:35Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:43:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:36Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:43:35Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:36Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:43:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:36Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:43:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:36Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:43:36Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112742"
+      },
+      {
+        "completedAt": "2026-11-02T03:44:17Z",
+        "conclusion": "success",
+        "databaseId": 125082112746,
+        "name": "windows-latest / Python 3.14",
+        "startedAt": "2026-11-02T03:41:32Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:34Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:12Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:12Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:42:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:19Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:42:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:45Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:19Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:10Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:43:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:13Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:44:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:14Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:44:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:14Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:44:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:17Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:44:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:44:17Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:44:17Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112746"
+      },
+      {
+        "completedAt": "2026-11-02T03:43:10Z",
+        "conclusion": "success",
+        "databaseId": 125082112784,
+        "name": "macos-14 / Python 3.13",
+        "startedAt": "2026-11-02T03:41:32Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:34Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:32Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:15Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:15Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:42:15Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:22Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:42:15Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:55Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:22Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:06Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:42:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:07Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:43:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:08Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:43:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:08Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:43:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:08Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:43:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:09Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:43:08Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112784"
+      },
+      {
+        "completedAt": "2026-11-02T03:43:43Z",
+        "conclusion": "success",
+        "databaseId": 125082112817,
+        "name": "ubuntu-24.04 / Python 3.13",
+        "startedAt": "2026-11-02T03:41:32Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T03:41:34Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T03:41:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:01Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T03:41:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:01Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T03:42:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:42:02Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T03:42:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:22Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T03:42:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:39Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T03:43:22Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:40Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T03:43:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:41Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T03:43:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:42Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T03:43:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:42Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T03:43:42Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T03:43:42Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T03:43:42Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108/job/125082112817"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108"
+  },
+  "logs": [
+    {
+      "name": "0_macos-14 _ Python 3.13.txt",
+      "sha256": "6812950240cb7dab92608e61281881ac9be16a8c4f581b916a1657186f410d68",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:42:40.7749060Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (/Users/runner/work/StericX/StericX)",
+        "2026-11-02T03:42:58.1826740Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:43:06.6358760Z 3.13.15 (v3.13.15:4061bc4c35f, Aug  5 2026, 09:08:51) [Clang 21.0.0 (clang-2100.1.1.101)]",
+        "2026-11-02T03:43:06.6359340Z macOS-14.8.9-arm64-arm-64bit-Mach-O",
+        "2026-11-02T03:43:07.6072620Z 71 passed in 0.49s"
+      ]
+    },
+    {
+      "name": "1_ubuntu-24.04 _ Python 3.14.txt",
+      "sha256": "d99fb2a1494cc19c6f6205279bd6626e0f91a40b61da89a3be4364967cdfe396",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:43:02.7094017Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (/home/runner/work/StericX/StericX)",
+        "2026-11-02T03:43:26.6584617Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:43:42.7274814Z 3.14.9 (main, Oct 21 2026, 14:50:29) [GCC 13.3.0]",
+        "2026-11-02T03:43:42.7275283Z Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+        "2026-11-02T03:43:45.0828153Z 71 passed in 0.80s"
+      ]
+    },
+    {
+      "name": "2_ubuntu-24.04 _ Python 3.13.txt",
+      "sha256": "286bd6d1b3bb0b4c8ebee40df45b9be762654cc55dd315eb3abcc75de4d24103",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:43:03.7155919Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (/home/runner/work/StericX/StericX)",
+        "2026-11-02T03:43:25.3032994Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:43:39.0732852Z 3.13.17 (main, Oct 22 2026, 02:40:32) [GCC 13.3.0]",
+        "2026-11-02T03:43:39.0733536Z Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+        "2026-11-02T03:43:40.8120958Z 71 passed in 0.81s"
+      ]
+    },
+    {
+      "name": "3_windows-latest _ Python 3.14.txt",
+      "sha256": "2290c6f322bbc4aa14af12f3fad6377f06e35ce45421a3311f87c9517e82728a",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:43:15.8491213Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (D:\\a\\StericX\\StericX)",
+        "2026-11-02T03:43:49.0102109Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:44:11.1100237Z 3.14.10 (tags/v3.14.10:b703b2c, Oct 25 2026, 17:36:52) [MSC v.1944 64 bit (AMD64)]",
+        "2026-11-02T03:44:11.1100709Z Windows-2025Server-10.0.26100-SP0",
+        "2026-11-02T03:44:13.4708495Z 71 passed in 0.88s"
+      ]
+    },
+    {
+      "name": "4_ubuntu-24.04 _ Python 3.12.txt",
+      "sha256": "3202892a0b33d68729943f9ed1b007fe3ca071a3bbd9d22acef28cdad6acf73c",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:43:08.0237199Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (/home/runner/work/StericX/StericX)",
+        "2026-11-02T03:43:26.7081271Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:43:34.1364270Z 3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]",
+        "2026-11-02T03:43:34.1364594Z Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+        "2026-11-02T03:43:35.2434973Z 71 passed in 0.49s"
+      ]
+    },
+    {
+      "name": "5_windows-latest _ Python 3.12.txt",
+      "sha256": "9d8022508fa47f4f7881794886dafc238188ed22454da98ee0a866e858e795a9",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:42:49.8162843Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (D:\\a\\StericX\\StericX)",
+        "2026-11-02T03:43:09.2727557Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:43:25.5486876Z 3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+        "2026-11-02T03:43:25.5487240Z Windows-2025Server-10.0.26100-SP0",
+        "2026-11-02T03:43:26.9957388Z 71 passed in 0.64s"
+      ]
+    },
+    {
+      "name": "6_windows-latest _ Python 3.13.txt",
+      "sha256": "1d4e86f7f6ca0d0bbfb8a103fa7d2fa6590ebd9975279ef1b8a167778948ddb1",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:43:09.1570081Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (D:\\a\\StericX\\StericX)",
+        "2026-11-02T03:43:41.0225202Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:44:02.7297467Z 3.13.16 (tags/v3.13.16:cbc944f, Sep 30 2026, 19:17:50) [MSC v.1944 64 bit (AMD64)]",
+        "2026-11-02T03:44:02.7297954Z Windows-2025Server-10.0.26100-SP0",
+        "2026-11-02T03:44:04.8452379Z 71 passed in 0.92s"
+      ]
+    },
+    {
+      "name": "7_ubuntu-24.04 _ Python 3.11.txt",
+      "sha256": "f277d2db1e74dc76f499bd8904d5ee99384304c7fe86fd075939844857dd8319",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:43:03.3314522Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (/home/runner/work/StericX/StericX)",
+        "2026-11-02T03:43:23.1598758Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:43:33.4848409Z 3.11.17 (main, Oct  1 2026, 14:32:31) [GCC 13.3.0]",
+        "2026-11-02T03:43:33.4849208Z Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+        "2026-11-02T03:43:34.9018490Z 71 passed in 0.67s"
+      ]
+    },
+    {
+      "name": "8_macos-14 _ Python 3.12.txt",
+      "sha256": "198f2a3e5962b49d9c241bdf67daf6f97736b5e00b9a2e6b4e10acec9b9dc4f0",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:44:13.4965590Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (/Users/runner/work/StericX/StericX)",
+        "2026-11-02T03:44:39.9189960Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:44:50.1145170Z 3.12.10 (v3.12.10:0cc81280367, Apr  8 2025, 08:46:59) [Clang 13.0.0 (clang-1300.0.29.30)]",
+        "2026-11-02T03:44:50.1145980Z macOS-14.8.9-arm64-arm-64bit",
+        "2026-11-02T03:44:51.5535070Z 71 passed in 0.69s"
+      ]
+    },
+    {
+      "name": "9_macos-14 _ Python 3.11.txt",
+      "sha256": "0996b9b9b4c831a4b6fa9c76134091142b189ddb7fc2e5237eba36f14468a584",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:42:39.9796540Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (/Users/runner/work/StericX/StericX)",
+        "2026-11-02T03:43:00.5324820Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:43:09.5203290Z 3.11.9 (v3.11.9:de54cf5be3, Apr  2 2024, 07:12:50) [Clang 13.0.0 (clang-1300.0.29.30)]",
+        "2026-11-02T03:43:09.5204070Z macOS-14.8.9-arm64-arm-64bit",
+        "2026-11-02T03:43:10.7061310Z 71 passed in 0.63s"
+      ]
+    },
+    {
+      "name": "10_windows-latest _ Python 3.11.txt",
+      "sha256": "b491e85b66375836759f7f2b9f6dbb4d04cc8de8e9623b2f9360e425536f26a0",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:43:32.6141809Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (D:\\a\\StericX\\StericX)",
+        "2026-11-02T03:44:10.0937252Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:44:41.3555990Z 3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+        "2026-11-02T03:44:41.3556438Z Windows-10-10.0.26100-SP0",
+        "2026-11-02T03:44:43.5764628Z 71 passed in 0.97s"
+      ]
+    },
+    {
+      "name": "11_macos-14 _ Python 3.14.txt",
+      "sha256": "1f652b333ab06dcad21147346bf45769b726f87826e65aa6aac7b77b54833879",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:42:46.7900980Z \u001b[1m\u001b[92m   Compiling\u001b[0m steric_x v0.3.0 (/Users/runner/work/StericX/StericX)",
+        "2026-11-02T03:43:05.2651010Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:43:13.7706260Z 3.14.7 (v3.14.7:823f0323ee6, Aug  5 2026, 07:07:01) [Clang 21.0.0 (clang-2100.1.1.101)]",
+        "2026-11-02T03:43:13.7706880Z macOS-14.8.9-arm64-arm-64bit-Mach-O",
+        "2026-11-02T03:43:15.0486270Z 71 passed in 0.61s"
+      ]
+    },
+    {
+      "name": "12_source-distribution.txt",
+      "sha256": "308d7979bbab39984093add1de5ef9621aa7a909e37c3dbe286e618a84e5cec6",
+      "test_result": "71 passed",
+      "environment_and_result_lines": [
+        "2026-11-02T03:41:58.6733281Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+        "2026-11-02T03:41:58.9641552Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+        "2026-11-02T03:42:00.4407165Z rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+        "2026-11-02T03:42:04.6300505Z Collecting python-dateutil>=2.9.0 (from pandas)",
+        "2026-11-02T03:42:37.6093189Z 71 passed in 0.38s"
+      ]
+    }
+  ],
+  "raw_log_archives": [
+    {
+      "path": "docs/paton_recommendations/python/ci/validated_logs.zip",
+      "bytes": 449173,
+      "sha256": "7b9f31a4f5c25f73cda85711a96546b54dedb08ed01872e14b99743af8f2c37e"
+    },
+    {
+      "path": "docs/paton_recommendations/python/ci/initial_logs.zip",
+      "bytes": 425185,
+      "sha256": "74eb3eebb64d9c16fbd783bd54260d0e46a8022c238c7d2d56329b7c32098fa9"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".stericx/paton/ci/artifacts/source-distribution/stericx-0.4.0.dev0.tar.gz",
+      "bytes": 1500357,
+      "sha256": "773eafc0b4ece0679c48a5bc9a36be8944e539ccffd89a5f18b5e4ee3e817ca1"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-macos-14-py3.11/stericx-0.4.0.dev0-cp311-abi3-macosx_11_0_arm64.whl",
+      "bytes": 558619,
+      "sha256": "524984f5fd0d10b547ed9906799c5712222f3c42b854baa5eadc62fbded4121f",
+      "members": {
+        "stericx/__init__.py": "ac275d6ef4cff8b15e007e0cec8a4bab5146d9b29edd5049d6cc9422a07887fb",
+        "stericx/_native.abi3.so": "193f7c90e4ae22180cb855341473afeb41bcccd168ebaf79f6b9d9b3e1d1958d",
+        "stericx/_types.py": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "eb5f75ec18dc73577a8abe7438c469795f2eab98a44868a3bb0ae7fa24697a08",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "7d39b8b6f1fe8983fc49cc94c3df2ddf2d56a771bfbe0cdcade78d8151e9cc48",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "93875c63134390ef286082c8078e9efe2dfe24c2aeb678973a6c42b4804783b2",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "0a701c58872209799f724d30b240de5f9261dc75503d980f2016d85d4d0ff483"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-macosx_11_0_arm64\n"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-macos-14-py3.12/stericx-0.4.0.dev0-cp311-abi3-macosx_11_0_arm64.whl",
+      "bytes": 558619,
+      "sha256": "4da2b4d718bd70cb2f25db50087202ea94d1cc9b6b9bc58636cb7df608169187",
+      "members": {
+        "stericx/__init__.py": "ac275d6ef4cff8b15e007e0cec8a4bab5146d9b29edd5049d6cc9422a07887fb",
+        "stericx/_native.abi3.so": "193f7c90e4ae22180cb855341473afeb41bcccd168ebaf79f6b9d9b3e1d1958d",
+        "stericx/_types.py": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "eb5f75ec18dc73577a8abe7438c469795f2eab98a44868a3bb0ae7fa24697a08",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "7d39b8b6f1fe8983fc49cc94c3df2ddf2d56a771bfbe0cdcade78d8151e9cc48",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "7f47b7ead8e2be095750e770ef3b94c79c5d08c1cc6476db7473ff2ae41e68c0",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "fe71d3c77aeaa74cb96d49ad9ebe6c2e40a47364a9bc0bb9ddc2b839c5d1cc9a"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-macosx_11_0_arm64\n"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-macos-14-py3.13/stericx-0.4.0.dev0-cp311-abi3-macosx_11_0_arm64.whl",
+      "bytes": 558621,
+      "sha256": "aaea5dcaed95dc33979d6d8be43b33559679b044d2e094863bf5d43912637c99",
+      "members": {
+        "stericx/__init__.py": "ac275d6ef4cff8b15e007e0cec8a4bab5146d9b29edd5049d6cc9422a07887fb",
+        "stericx/_native.abi3.so": "193f7c90e4ae22180cb855341473afeb41bcccd168ebaf79f6b9d9b3e1d1958d",
+        "stericx/_types.py": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "eb5f75ec18dc73577a8abe7438c469795f2eab98a44868a3bb0ae7fa24697a08",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "7d39b8b6f1fe8983fc49cc94c3df2ddf2d56a771bfbe0cdcade78d8151e9cc48",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "73a243bfbb8eae6293e48f682943abcfebb83bbfa4f3a3e076a0fd55ab617818",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "cc833c09c2aa0fc82c9092b9a5ce3d30d73dd77300dcbd54b844ada107790bb0"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-macosx_11_0_arm64\n"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-macos-14-py3.14/stericx-0.4.0.dev0-cp311-abi3-macosx_11_0_arm64.whl",
+      "bytes": 558622,
+      "sha256": "a977e3488fe01e455f47573309ebaa34a1755a967f699f97de20fd7fb6d640e6",
+      "members": {
+        "stericx/__init__.py": "ac275d6ef4cff8b15e007e0cec8a4bab5146d9b29edd5049d6cc9422a07887fb",
+        "stericx/_native.abi3.so": "193f7c90e4ae22180cb855341473afeb41bcccd168ebaf79f6b9d9b3e1d1958d",
+        "stericx/_types.py": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "eb5f75ec18dc73577a8abe7438c469795f2eab98a44868a3bb0ae7fa24697a08",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "7d39b8b6f1fe8983fc49cc94c3df2ddf2d56a771bfbe0cdcade78d8151e9cc48",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "4c5c473ba7a6e0f6fddbf25749f05252523db4aaf603ec1da23db2ba83766907",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "43dafb3d1f9c2650353264fb203394e481a70ac31e053951b7ff310bf242ced2"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-macosx_11_0_arm64\n"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-ubuntu-24.04-py3.11/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+      "bytes": 629061,
+      "sha256": "8f7797d41e3f5cf2e5ad6b6b1a34a240ad28dc1fca806211f544721d3cc9374b",
+      "members": {
+        "stericx/__init__.py": "ac275d6ef4cff8b15e007e0cec8a4bab5146d9b29edd5049d6cc9422a07887fb",
+        "stericx/_native.abi3.so": "2097a833c2dc60c420799549cf1a9669b2a0cec0ca1407174dd3111cd6ac1151",
+        "stericx/_types.py": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "eb5f75ec18dc73577a8abe7438c469795f2eab98a44868a3bb0ae7fa24697a08",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "3c28fbf76289ba662b4106ee629fc8b1f89cc57bb068fe14dd465193bd88d111",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "07c37332c2f1e25725346f291de49e7b5a8cc787e30b84047f4278d48b3ae79c",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "90af1b9f52ec986ab6869c12d968c1c01310fb817c16dace5fa9947143c6f259"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-manylinux_2_28_x86_64\n"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-ubuntu-24.04-py3.12/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+      "bytes": 629063,
+      "sha256": "36cc53bad1263949559450a3b9980c982d7eefaac9ad72a13f893e69984a53e7",
+      "members": {
+        "stericx/__init__.py": "ac275d6ef4cff8b15e007e0cec8a4bab5146d9b29edd5049d6cc9422a07887fb",
+        "stericx/_native.abi3.so": "2097a833c2dc60c420799549cf1a9669b2a0cec0ca1407174dd3111cd6ac1151",
+        "stericx/_types.py": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "eb5f75ec18dc73577a8abe7438c469795f2eab98a44868a3bb0ae7fa24697a08",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "3c28fbf76289ba662b4106ee629fc8b1f89cc57bb068fe14dd465193bd88d111",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "332e017a56d026575d98a4d50b1272216fe7e1002b480fb2114057a1ebe09e85",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "04e88b8d6b51ae66aff80f38b6d45f4a7ff0ffe1d54b6a6e9a3588cb1bf1206c"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-manylinux_2_28_x86_64\n"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-ubuntu-24.04-py3.13/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+      "bytes": 629067,
+      "sha256": "d5b7c92ba8e7ab343b5a4bd0a24d433e85189f8993710551e20a08047a255584",
+      "members": {
+        "stericx/__init__.py": "ac275d6ef4cff8b15e007e0cec8a4bab5146d9b29edd5049d6cc9422a07887fb",
+        "stericx/_native.abi3.so": "2097a833c2dc60c420799549cf1a9669b2a0cec0ca1407174dd3111cd6ac1151",
+        "stericx/_types.py": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "eb5f75ec18dc73577a8abe7438c469795f2eab98a44868a3bb0ae7fa24697a08",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "3c28fbf76289ba662b4106ee629fc8b1f89cc57bb068fe14dd465193bd88d111",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "e2cd3b37efd90043abc3b9c100b50b02f143515ee9191565849e89a425a07544",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "f9d8f55f0ba76339121e9c49aa51abb8c8ca217ce120ce44b7135ff9daa8eac8"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-manylinux_2_28_x86_64\n"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-ubuntu-24.04-py3.14/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+      "bytes": 629063,
+      "sha256": "281fce200463caff595e9bb7fc4df4f4f9d1b7e6563436f510506d67b90da042",
+      "members": {
+        "stericx/__init__.py": "ac275d6ef4cff8b15e007e0cec8a4bab5146d9b29edd5049d6cc9422a07887fb",
+        "stericx/_native.abi3.so": "2097a833c2dc60c420799549cf1a9669b2a0cec0ca1407174dd3111cd6ac1151",
+        "stericx/_types.py": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "eb5f75ec18dc73577a8abe7438c469795f2eab98a44868a3bb0ae7fa24697a08",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "3c28fbf76289ba662b4106ee629fc8b1f89cc57bb068fe14dd465193bd88d111",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "a7ef025b2fe8d337388b8aeb5d034c70c5ee0359607896ec003233a2929f827c",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "4dbe79752faa17e5ca2907b74c3f1b02af6ac38d9e34789ed35ff63fc3e7b73f"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-manylinux_2_28_x86_64\n"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-windows-latest-py3.11/stericx-0.4.0.dev0-cp311-abi3-win_amd64.whl",
+      "bytes": 494280,
+      "sha256": "3c6301801e7c8f3d420ea0937443109626a07528d069cbb8365ce34cf5afbe2f",
+      "members": {
+        "stericx/__init__.py": "2fc929c30590596830f7f624046dca9353db6896b65e5cf7cc9deed8f5fc96ee",
+        "stericx/_native.pyd": "c50a12713b8c56168e1ac1aece70ebeb453b0e8df0b7746c0b210e1c0603b36a",
+        "stericx/_types.py": "da740cfda697159670f09694f8018825a7e9f696f5b64a657d71c341cac6596a",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "bbee6091b393879e2a8af96de7a10b427cddbc5b5c8f46c34a74ad5e3f429965",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "0d182eccefc91e425372b5c3c1eb87c8cebab15c0cd3471a05867727fccc9f4c",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "bd77af8f9e38b2cadc39fb76b782008ce090ff730e0d9f0389676c31dcba1c61",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "285b933e84b432adedea18368f6ccabe55db7a80d6ac3b2d49146a1b61ec412e"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-win_amd64\n"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-windows-latest-py3.12/stericx-0.4.0.dev0-cp311-abi3-win_amd64.whl",
+      "bytes": 494289,
+      "sha256": "c40462b00346117fd586e6557fadba81461eb4d8db815e234b8bf53827deb3f0",
+      "members": {
+        "stericx/__init__.py": "2fc929c30590596830f7f624046dca9353db6896b65e5cf7cc9deed8f5fc96ee",
+        "stericx/_native.pyd": "faf0b95ce6f161278fb5da3513521b37ed0b57cdf50ed79bd5bb6ef7f6014cb3",
+        "stericx/_types.py": "da740cfda697159670f09694f8018825a7e9f696f5b64a657d71c341cac6596a",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "bbee6091b393879e2a8af96de7a10b427cddbc5b5c8f46c34a74ad5e3f429965",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "0d182eccefc91e425372b5c3c1eb87c8cebab15c0cd3471a05867727fccc9f4c",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "9aead92c0f170c8bf379ad21c7936e631609f9ad0e4e57fcf0b4a68fcfb77274",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "a5206e372adda7c84df3831589b2c2acf8b566cea94c032f50a6cb4c1b340482"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-win_amd64\n"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-windows-latest-py3.13/stericx-0.4.0.dev0-cp311-abi3-win_amd64.whl",
+      "bytes": 494286,
+      "sha256": "602985ca6da2b60bdd629ea78268162c14a7e88c91ea6a1e1751c2bc8bf322b7",
+      "members": {
+        "stericx/__init__.py": "2fc929c30590596830f7f624046dca9353db6896b65e5cf7cc9deed8f5fc96ee",
+        "stericx/_native.pyd": "c2160a8fa69461cf4e980ff3bf60667e33231d1f6c0a1bc73e2b45ebf542dffb",
+        "stericx/_types.py": "da740cfda697159670f09694f8018825a7e9f696f5b64a657d71c341cac6596a",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "bbee6091b393879e2a8af96de7a10b427cddbc5b5c8f46c34a74ad5e3f429965",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "0d182eccefc91e425372b5c3c1eb87c8cebab15c0cd3471a05867727fccc9f4c",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "d6d0fad81a9964aafefca2578be01def8ebd36d668947e8417e42514d6d32efe",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "b026d71b7c892b5c5be4fc08be4dba908154f3e9cc75e8179d138bfdb516d591"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-win_amd64\n"
+    },
+    {
+      "path": ".stericx/paton/ci/artifacts/wheel-windows-latest-py3.14/stericx-0.4.0.dev0-cp311-abi3-win_amd64.whl",
+      "bytes": 494281,
+      "sha256": "d8f5ae2e10a1607bef3b32bfbc8d802e1ef89493a34d816b032f815344acf0e5",
+      "members": {
+        "stericx/__init__.py": "2fc929c30590596830f7f624046dca9353db6896b65e5cf7cc9deed8f5fc96ee",
+        "stericx/_native.pyd": "046b935c333512d546abf7f65eb42ffeba79fa1257f794a1619c814929ad1c17",
+        "stericx/_types.py": "da740cfda697159670f09694f8018825a7e9f696f5b64a657d71c341cac6596a",
+        "stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stericx-0.4.0.dev0.dist-info/METADATA": "bbee6091b393879e2a8af96de7a10b427cddbc5b5c8f46c34a74ad5e3f429965",
+        "stericx-0.4.0.dev0.dist-info/WHEEL": "0d182eccefc91e425372b5c3c1eb87c8cebab15c0cd3471a05867727fccc9f4c",
+        "stericx-0.4.0.dev0.dist-info/sboms/stericx-python.cyclonedx.json": "ef559b72126f6df4c643218b6bbb62fcc1d4f19430cad9424de47ac27f72cacf",
+        "stericx-0.4.0.dev0.dist-info/RECORD": "892a2d0b77b7303f653f1a6c81aea3b0478a7ece95bc08f66ae8d2402792eaf4"
+      },
+      "wheel_metadata": "Wheel-Version: 1.0\nGenerator: maturin (1.16.0)\nRoot-Is-Purelib: false\nTag: cp311-abi3-win_amd64\n"
+    }
+  ],
+  "publication": "GitHub CI artifacts only; no PyPI upload or release candidate",
+  "source_identity": "aa78ecb09d337488255937f6eb85e9027f0984db",
+  "reference": "https://github.com/PyO3/maturin-action/blob/main/README.md",
+  "initial_failure": "Bare python selected CPython 3.9 inside manylinux, yielding cp39 wheel; explicit pythonX.Y fixes interpreter selection."
+}

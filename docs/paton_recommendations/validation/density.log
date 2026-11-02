@@ -1,0 +1,45 @@
+Ne_medium.cube/R=1.0
+Ne_medium.cube/R=1.5
+Ne_medium.cube/R=2.0
+benzene_coarse.cube/R=1.0
+benzene_coarse.cube/R=1.5
+benzene_coarse.cube/R=2.0
+CH2CMe3_100.cube/R=1.0
+CH2CMe3_100.cube/R=1.5
+CH2CMe3_100.cube/R=2.0
+gaussian_0.25.cube/R=0.9525189789792
+gaussian_0.125.cube/R=0.9525189789792
+gaussian_0.0625.cube/R=0.9525189789792
+{
+  "cases": 12,
+  "completed": 12,
+  "failures": [],
+  "convergence": [
+    {
+      "spacing_bohr": 0.25,
+      "native": 0.5811619141220876,
+      "analytic": 0.620714666650393,
+      "absolute_error": 0.03955275252830537,
+      "boundary_layer_bound": 0.8189309423051706,
+      "passed": true
+    },
+    {
+      "spacing_bohr": 0.125,
+      "native": 0.6086571242025649,
+      "analytic": 0.620714666650393,
+      "absolute_error": 0.012057542447828085,
+      "boundary_layer_bound": 0.4047408695623629,
+      "passed": true
+    },
+    {
+      "spacing_bohr": 0.0625,
+      "native": 0.61759306747872,
+      "analytic": 0.620714666650393,
+      "absolute_error": 0.003121599171672984,
+      "boundary_layer_bound": 0.20177985958240366,
+      "passed": true
+    }
+  ],
+  "admitted": true,
+  "scope": "declared scalar cubic grids, covered spheres, explicit threshold; no physical threshold validation"
+}

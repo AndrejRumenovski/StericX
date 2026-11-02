@@ -1,0 +1,17 @@
+unformatted: File would be reformatted
+  --> README.md:1:1
+   |
+36 |
+   - print(result.sterimol.require())              # L, B1, B5 in Å
+   - print(result.buried_volume.require().summary) # volume in Å³, fraction in %
+37 + print(result.sterimol.require())  # L, B1, B5 in Å
+38 + print(result.buried_volume.require().summary)  # volume in Å³, fraction in %
+39 | print(result.pyramidalization.require())
+--------------------------------------------------------------------------------
+70 | print(results.sterimol_b5.median)
+   - print(results.sterimol_b5.boltzmann_mean)      # None without valid energies
+71 + print(results.sterimol_b5.boltzmann_mean)  # None without valid energies
+72 |
+   |
+
+1 file would be reformatted, 243 files already formatted

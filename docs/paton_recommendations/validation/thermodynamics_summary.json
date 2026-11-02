@@ -1,0 +1,20 @@
+{
+  "aggregation_scalar_or_rejection_comparisons": 51,
+  "cli_cases": 14,
+  "ee_max_abs_error": 3.6928646096612283e-06,
+  "kinetic_scalar_comparisons": 744,
+  "ni_hda": {
+    "published_targets_preserved": true,
+    "row_count": 1566,
+    "temperatures": [
+      353.15
+    ]
+  },
+  "python_cases": {
+    "crest": 6,
+    "ee": 24,
+    "mmff": 11
+  },
+  "rate_max_relative_error_normal": 5.2921798585206193e-08,
+  "status": "PASS scoped numerical/domain replay"
+}

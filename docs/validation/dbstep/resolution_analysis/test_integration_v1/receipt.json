@@ -1,0 +1,138 @@
+{
+  "kind": "convergence_unittest_integration",
+  "historical_commit": "156f0cd0",
+  "historical_campaign_manifest": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_v2/manifest.json",
+    "bytes": 402142,
+    "sha256": "98bd1710923391997dd8700151d0e699703af3cb80fb08840f24b714513cad92"
+  },
+  "historical_test_binding": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/tests/test_dbstep_volume_convergence.py",
+    "bytes": 3718,
+    "sha256": "b4d6b22f62da8a31aa921fbaf9467a3cf1d87ddd4dec1c7cf53ca729683d7a96"
+  },
+  "historical_source_copy": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_test_integration_v1/old_test.py",
+    "bytes": 3718,
+    "sha256": "b4d6b22f62da8a31aa921fbaf9467a3cf1d87ddd4dec1c7cf53ca729683d7a96"
+  },
+  "historical_manifest_bound_snapshot": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_v2/source_snapshots/9_test_dbstep_volume_convergence.py",
+    "bytes": 3718,
+    "sha256": "b4d6b22f62da8a31aa921fbaf9467a3cf1d87ddd4dec1c7cf53ca729683d7a96"
+  },
+  "current_test": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/tests/test_dbstep_volume_convergence.py",
+    "bytes": 4510,
+    "sha256": "360e33a456667e9fa81384a62485fa762062252ccf844513fd240f5fbec997a2"
+  },
+  "assertion_equivalence": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_test_integration_v1/assertion_equivalence.json",
+    "bytes": 1212,
+    "sha256": "c7b5504b7cc9a3c6b27b41112b44d494d461d4a32f302deec14a86e33e35dc88"
+  },
+  "same_seven_tests_and_numerical_assertions": true,
+  "exception_assertion_equivalent": true,
+  "scientific_controller_helper_proof_and_engine_unchanged": true,
+  "unchanged_scientific_bindings": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/analyze_dbstep_volume_convergence.py",
+      "bytes": 42145,
+      "sha256": "c4440d55010ef964a4ff1aa3740e7fece5492eb26d3e4636fc92a24b09bcbc91"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/dbstep_resolution_reference.py",
+      "bytes": 16847,
+      "sha256": "5996e7f23a04208b431789270cd6a6c15fe5f2bd2fdb7297525a6c6b917ba7bf"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/ANALYSIS_PROTOCOL.md",
+      "bytes": 5511,
+      "sha256": "219f9d4667a6affb0cd2651022d8b73e31b26cd0980c0edb27c5b245bf77c2f0"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_build_v2/bin/stericx-audit-observer",
+      "bytes": 959992,
+      "sha256": "40c7953b3ec9253247613a5f76b436601b99a567a58b65b642a3a228965f00a0"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/dbstep/sterics.py",
+      "bytes": 20584,
+      "sha256": "e3f1318eda340097aa21753e701498ac2bb497f8a973dcd12e298e27d9e7d48c"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/venv/lib/python3.12/site-packages/dbstep/sterics.py",
+      "bytes": 20584,
+      "sha256": "e3f1318eda340097aa21753e701498ac2bb497f8a973dcd12e298e27d9e7d48c"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/venv/lib/python3.12/site-packages/morfeus/buried_volume.py",
+      "bytes": 22784,
+      "sha256": "3b8865df53a71561cd6c1ab2382306e87d0bab6df3265feb5b8f143b35f4dfc3"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/venv/lib/python3.12/site-packages/morfeus/geometry.py",
+      "bytes": 29640,
+      "sha256": "212bf88dbb3640da17972b52808fccf2b6be30bac31b32968a6777d3ceb6e8f9"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_build_v2/manifest.json",
+      "bytes": 39603,
+      "sha256": "23c3f53933b5dae8b7731460f7d94b3a486f8d2f6fca35800e41eb77fc1a619c"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/CONVERGENCE_CELL_BOUNDS.md",
+      "bytes": 5390,
+      "sha256": "eeac39c2a828a24251725820919eac08ecc08856cd0c530c61f0c50ef9b8f9ac"
+    }
+  ],
+  "runs": {
+    "project": {
+      "command": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_test_integration_v1/project_final_command.json",
+        "bytes": 188,
+        "sha256": "b3497649e6141a275dc4a25fa42246c1d71d319d71cff5c5626647f3cc47f1d4"
+      },
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_test_integration_v1/project_final_stdout.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_test_integration_v1/project_final_stderr.txt",
+        "bytes": 1918,
+        "sha256": "499456255809c65bc18668ff30a78fd6491dc90d93b95cdb7d4d726a7016c4c3"
+      },
+      "returncode": 0,
+      "discovered_tests": 7,
+      "executed_tests": 0,
+      "skipped_tests": 7
+    },
+    "reference": {
+      "command": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_test_integration_v1/reference_final_command.json",
+        "bytes": 212,
+        "sha256": "4116959b3627afd6003986f00318e3d2c86c5cccded6b4ee440fec0125e77e54"
+      },
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_test_integration_v1/reference_final_stdout.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_test_integration_v1/reference_final_stderr.txt",
+        "bytes": 1304,
+        "sha256": "07396707a57a49a4eece1256e9c786142ea87dacf17754838b9f2fae0e54414e"
+      },
+      "returncode": 0,
+      "discovered_tests": 7,
+      "executed_tests": 7,
+      "skipped_tests": 0
+    }
+  },
+  "original_project_discovery_failure": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/final_python_tests.stderr.log",
+    "bytes": 1240,
+    "sha256": "ee572cf986d607c1cba45409295f84abfc8ee7c1f9d59d2412e67cdfe6228a26"
+  }
+}

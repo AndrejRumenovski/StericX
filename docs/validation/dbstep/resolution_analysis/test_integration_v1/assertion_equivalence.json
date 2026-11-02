@@ -1,0 +1,24 @@
+{
+  "same_test_names": [
+    "test_analytical_primitive_limits_and_overlap_are_independent",
+    "test_arbitrary_mask_defect_is_charged_and_truth_still_enclosed",
+    "test_empty_union_normalization_is_exact_zero",
+    "test_equal_sphere_nonuniform_axis_with_exact_point_reference",
+    "test_finite_endpoint_coverage_is_mandatory",
+    "test_native_circle_boundary_trace_has_rational_explanation",
+    "test_shell_contains_exact_inner_outer_ball_difference"
+  ],
+  "test_count": 7,
+  "all_assert_expression_asts_identical": true,
+  "assertion_count_by_test": {
+    "test_equal_sphere_nonuniform_axis_with_exact_point_reference": 2,
+    "test_arbitrary_mask_defect_is_charged_and_truth_still_enclosed": 2,
+    "test_finite_endpoint_coverage_is_mandatory": 0,
+    "test_shell_contains_exact_inner_outer_ball_difference": 1,
+    "test_analytical_primitive_limits_and_overlap_are_independent": 6,
+    "test_empty_union_normalization_is_exact_zero": 3,
+    "test_native_circle_boundary_trace_has_rational_explanation": 4
+  },
+  "exception_context_change": "pytest.raises(ValueError, match=\"do not cover\") -> self.assertRaisesRegex(ValueError, \"do not cover\")",
+  "historical_source_matches_commit": "156f0cd0"
+}

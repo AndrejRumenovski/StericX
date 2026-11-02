@@ -1,0 +1,872 @@
+﻿2026-11-02T03:35:47.0982765Z Current runner version: '2.338.2'
+2026-11-02T03:35:47.0999604Z ##[group]Runner Image Provisioner
+2026-11-02T03:35:47.1000207Z Hosted Compute Agent
+2026-11-02T03:35:47.1000621Z Version: 20261021.618
+2026-11-02T03:35:47.1001267Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-11-02T03:35:47.1001770Z Build Date: 2026-10-21T00:45:21Z
+2026-11-02T03:35:47.1002182Z Worker ID: {16a46477-7f3e-4b5c-94ad-a7d5fbae2185}
+2026-11-02T03:35:47.1002594Z Region: centralus
+2026-11-02T03:35:47.1003012Z Cloud: Azure
+2026-11-02T03:35:47.1003373Z ##[endgroup]
+2026-11-02T03:35:47.1004260Z ##[group]Operating System
+2026-11-02T03:35:47.1004642Z Ubuntu
+2026-11-02T03:35:47.1004953Z 24.04.5
+2026-11-02T03:35:47.1005347Z LTS
+2026-11-02T03:35:47.1005667Z ##[endgroup]
+2026-11-02T03:35:47.1006020Z ##[group]Runner Image
+2026-11-02T03:35:47.1006394Z Image: ubuntu-24.04
+2026-11-02T03:35:47.1006742Z Version: 20261025.353.1
+2026-11-02T03:35:47.1007570Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-02T03:35:47.1008468Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-11-02T03:35:47.1009047Z ##[endgroup]
+2026-11-02T03:35:47.1009775Z ##[group]GITHUB_TOKEN Permissions
+2026-11-02T03:35:47.1011132Z Contents: read
+2026-11-02T03:35:47.1011505Z Metadata: read
+2026-11-02T03:35:47.1011937Z ##[endgroup]
+2026-11-02T03:35:47.1013246Z Secret source: Actions
+2026-11-02T03:35:47.1013877Z Cache mode: write
+2026-11-02T03:35:47.1014304Z Prepare workflow directory
+2026-11-02T03:35:47.1227069Z Prepare all required actions
+2026-11-02T03:35:47.1258891Z Getting action download info
+2026-11-02T03:35:47.4146146Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-02T03:35:47.5554876Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-02T03:35:47.6822144Z Download action repository 'dtolnay/rust-toolchain@stable' (SHA:b725eda525362e7cf34af9a7243cac1e3f01a7ec)
+2026-11-02T03:35:47.8222755Z Download action repository 'PyO3/maturin-action@v1' (SHA:e83996d129638aa358a18fbd1dfb82f0b0fb5d3b)
+2026-11-02T03:35:48.1369911Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-02T03:35:48.3476017Z Complete job name: ubuntu-24.04 / Python 3.11
+2026-11-02T03:35:48.4007286Z ##[group]Run actions/checkout@v4
+2026-11-02T03:35:48.4007730Z with:
+2026-11-02T03:35:48.4008010Z   repository: AndrejRumenovski/StericX
+2026-11-02T03:35:48.4010284Z   token: ***
+2026-11-02T03:35:48.4010536Z   ssh-strict: true
+2026-11-02T03:35:48.4010796Z   ssh-user: git
+2026-11-02T03:35:48.4011193Z   persist-credentials: true
+2026-11-02T03:35:48.4011481Z   clean: true
+2026-11-02T03:35:48.4011749Z   sparse-checkout-cone-mode: true
+2026-11-02T03:35:48.4012056Z   fetch-depth: 1
+2026-11-02T03:35:48.4012313Z   fetch-tags: false
+2026-11-02T03:35:48.4012578Z   show-progress: true
+2026-11-02T03:35:48.4012854Z   lfs: false
+2026-11-02T03:35:48.4013132Z   submodules: false
+2026-11-02T03:35:48.4013401Z   set-safe-directory: true
+2026-11-02T03:35:48.4013702Z   allow-unsafe-pr-checkout: false
+2026-11-02T03:35:48.4014091Z ##[endgroup]
+2026-11-02T03:35:48.6557670Z Syncing repository: AndrejRumenovski/StericX
+2026-11-02T03:35:48.6558867Z ##[group]Getting Git version info
+2026-11-02T03:35:48.6559366Z Working directory is '/home/runner/work/StericX/StericX'
+2026-11-02T03:35:48.6559920Z [command]/usr/bin/git version
+2026-11-02T03:35:48.6662865Z git version 2.56.0
+2026-11-02T03:35:48.6675331Z ##[endgroup]
+2026-11-02T03:35:48.6686323Z Temporarily overriding HOME='/home/runner/work/_temp/063cbcee-94ce-46f9-a9b7-655d8ec81262' before making global git config changes
+2026-11-02T03:35:48.6687980Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-02T03:35:48.6689940Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/StericX/StericX
+2026-11-02T03:35:48.6909569Z Deleting the contents of '/home/runner/work/StericX/StericX'
+2026-11-02T03:35:48.6911547Z ##[group]Initializing the repository
+2026-11-02T03:35:48.6912240Z [command]/usr/bin/git init /home/runner/work/StericX/StericX
+2026-11-02T03:35:48.8192810Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-02T03:35:48.8193702Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-02T03:35:48.8194251Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-02T03:35:48.8194681Z hint: call:
+2026-11-02T03:35:48.8194923Z hint:
+2026-11-02T03:35:48.8195246Z hint: 	git config --global init.defaultBranch <name>
+2026-11-02T03:35:48.8195605Z hint:
+2026-11-02T03:35:48.8195940Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-02T03:35:48.8196498Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-02T03:35:48.8196923Z hint:
+2026-11-02T03:35:48.8197171Z hint: 	git branch -m <name>
+2026-11-02T03:35:48.8197477Z hint:
+2026-11-02T03:35:48.8197847Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-02T03:35:48.8201513Z Initialized empty Git repository in /home/runner/work/StericX/StericX/.git/
+2026-11-02T03:35:48.8211206Z [command]/usr/bin/git remote add origin https://github.com/AndrejRumenovski/StericX
+2026-11-02T03:35:48.8294256Z ##[endgroup]
+2026-11-02T03:35:48.8294710Z ##[group]Disabling automatic garbage collection
+2026-11-02T03:35:48.8296656Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-02T03:35:48.8330495Z ##[endgroup]
+2026-11-02T03:35:48.8331109Z ##[group]Setting up auth
+2026-11-02T03:35:48.8335850Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-02T03:35:48.8373222Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-02T03:35:48.8693814Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-02T03:35:48.8728344Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-02T03:35:48.8916643Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-02T03:35:48.8952583Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-02T03:35:48.9142284Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-02T03:35:48.9182186Z ##[endgroup]
+2026-11-02T03:35:48.9182722Z ##[group]Fetching the repository
+2026-11-02T03:35:48.9191353Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +8d794d0d433f89956eeb4e087795081aa61c2efe:refs/remotes/origin/paton-descriptor-validation-20261102
+2026-11-02T03:36:52.7634732Z From https://github.com/AndrejRumenovski/StericX
+2026-11-02T03:36:52.7635404Z  * [new ref]           8d794d0d433f89956eeb4e087795081aa61c2efe -> origin/paton-descriptor-validation-20261102
+2026-11-02T03:36:52.7637391Z ##[endgroup]
+2026-11-02T03:36:52.7637785Z ##[group]Determining the checkout info
+2026-11-02T03:36:52.7643976Z ##[endgroup]
+2026-11-02T03:36:52.7645406Z [command]/usr/bin/git sparse-checkout disable
+2026-11-02T03:36:52.7699603Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-02T03:36:52.7734493Z ##[group]Checking out the ref
+2026-11-02T03:36:52.7737361Z [command]/usr/bin/git checkout --progress --force -B paton-descriptor-validation-20261102 refs/remotes/origin/paton-descriptor-validation-20261102
+2026-11-02T03:36:54.3864397Z Updating files:  11% (2480/21284)
+2026-11-02T03:36:54.3992742Z Updating files:  12% (2555/21284)
+2026-11-02T03:36:54.4349138Z Updating files:  13% (2767/21284)
+2026-11-02T03:36:54.4674873Z Updating files:  14% (2980/21284)
+2026-11-02T03:36:54.4921963Z Updating files:  15% (3193/21284)
+2026-11-02T03:36:54.5175524Z Updating files:  16% (3406/21284)
+2026-11-02T03:36:54.5402785Z Updating files:  17% (3619/21284)
+2026-11-02T03:36:54.5660002Z Updating files:  18% (3832/21284)
+2026-11-02T03:36:54.5953856Z Updating files:  19% (4044/21284)
+2026-11-02T03:36:54.6279432Z Updating files:  20% (4257/21284)
+2026-11-02T03:36:54.6580483Z Updating files:  21% (4470/21284)
+2026-11-02T03:36:54.6840337Z Updating files:  22% (4683/21284)
+2026-11-02T03:36:54.7141640Z Updating files:  23% (4896/21284)
+2026-11-02T03:36:54.7370558Z Updating files:  24% (5109/21284)
+2026-11-02T03:36:54.7588048Z Updating files:  25% (5321/21284)
+2026-11-02T03:36:54.7813883Z Updating files:  26% (5534/21284)
+2026-11-02T03:36:54.8097975Z Updating files:  27% (5747/21284)
+2026-11-02T03:36:54.8146863Z Updating files:  27% (5916/21284)
+2026-11-02T03:36:54.8531739Z Updating files:  28% (5960/21284)
+2026-11-02T03:36:54.8831065Z Updating files:  29% (6173/21284)
+2026-11-02T03:36:54.8951124Z Updating files:  30% (6386/21284)
+2026-11-02T03:36:54.9014128Z Updating files:  31% (6599/21284)
+2026-11-02T03:36:54.9071658Z Updating files:  32% (6811/21284)
+2026-11-02T03:36:54.9132254Z Updating files:  33% (7024/21284)
+2026-11-02T03:36:54.9198164Z Updating files:  34% (7237/21284)
+2026-11-02T03:36:54.9254572Z Updating files:  35% (7450/21284)
+2026-11-02T03:36:54.9316315Z Updating files:  36% (7663/21284)
+2026-11-02T03:36:54.9379939Z Updating files:  37% (7876/21284)
+2026-11-02T03:36:54.9429293Z Updating files:  38% (8088/21284)
+2026-11-02T03:36:54.9477127Z Updating files:  39% (8301/21284)
+2026-11-02T03:36:54.9542341Z Updating files:  40% (8514/21284)
+2026-11-02T03:36:54.9602020Z Updating files:  41% (8727/21284)
+2026-11-02T03:36:54.9656855Z Updating files:  42% (8940/21284)
+2026-11-02T03:36:54.9709051Z Updating files:  43% (9153/21284)
+2026-11-02T03:36:54.9847818Z Updating files:  44% (9365/21284)
+2026-11-02T03:36:55.0001860Z Updating files:  45% (9578/21284)
+2026-11-02T03:36:55.0057423Z Updating files:  46% (9791/21284)
+2026-11-02T03:36:55.0106948Z Updating files:  47% (10004/21284)
+2026-11-02T03:36:55.0228010Z Updating files:  48% (10217/21284)
+2026-11-02T03:36:55.0274215Z Updating files:  49% (10430/21284)
+2026-11-02T03:36:55.0329022Z Updating files:  50% (10642/21284)
+2026-11-02T03:36:55.0379816Z Updating files:  51% (10855/21284)
+2026-11-02T03:36:55.0436498Z Updating files:  52% (11068/21284)
+2026-11-02T03:36:55.0487903Z Updating files:  53% (11281/21284)
+2026-11-02T03:36:55.0631138Z Updating files:  54% (11494/21284)
+2026-11-02T03:36:55.0693197Z Updating files:  55% (11707/21284)
+2026-11-02T03:36:55.0745855Z Updating files:  56% (11920/21284)
+2026-11-02T03:36:55.0798781Z Updating files:  57% (12132/21284)
+2026-11-02T03:36:55.0851592Z Updating files:  58% (12345/21284)
+2026-11-02T03:36:55.0901573Z Updating files:  59% (12558/21284)
+2026-11-02T03:36:55.0961303Z Updating files:  60% (12771/21284)
+2026-11-02T03:36:55.1018252Z Updating files:  61% (12984/21284)
+2026-11-02T03:36:55.1170495Z Updating files:  62% (13197/21284)
+2026-11-02T03:36:55.1225596Z Updating files:  63% (13409/21284)
+2026-11-02T03:36:55.1278534Z Updating files:  64% (13622/21284)
+2026-11-02T03:36:55.1332323Z Updating files:  65% (13835/21284)
+2026-11-02T03:36:55.1382225Z Updating files:  66% (14048/21284)
+2026-11-02T03:36:55.1433381Z Updating files:  67% (14261/21284)
+2026-11-02T03:36:55.1491597Z Updating files:  68% (14474/21284)
+2026-11-02T03:36:55.1579017Z Updating files:  69% (14686/21284)
+2026-11-02T03:36:55.1739951Z Updating files:  70% (14899/21284)
+2026-11-02T03:36:55.1886690Z Updating files:  71% (15112/21284)
+2026-11-02T03:36:55.1947333Z Updating files:  72% (15325/21284)
+2026-11-02T03:36:55.1999445Z Updating files:  73% (15538/21284)
+2026-11-02T03:36:55.2065249Z Updating files:  74% (15751/21284)
+2026-11-02T03:36:55.2115731Z Updating files:  75% (15963/21284)
+2026-11-02T03:36:55.2257198Z Updating files:  76% (16176/21284)
+2026-11-02T03:36:55.2320778Z Updating files:  77% (16389/21284)
+2026-11-02T03:36:55.2378380Z Updating files:  78% (16602/21284)
+2026-11-02T03:36:55.2437112Z Updating files:  79% (16815/21284)
+2026-11-02T03:36:55.2497550Z Updating files:  80% (17028/21284)
+2026-11-02T03:36:55.2604377Z Updating files:  81% (17241/21284)
+2026-11-02T03:36:55.2669255Z Updating files:  82% (17453/21284)
+2026-11-02T03:36:55.2724460Z Updating files:  83% (17666/21284)
+2026-11-02T03:36:55.2878145Z Updating files:  84% (17879/21284)
+2026-11-02T03:36:55.2942571Z Updating files:  85% (18092/21284)
+2026-11-02T03:36:55.3086707Z Updating files:  86% (18305/21284)
+2026-11-02T03:36:55.3156849Z Updating files:  87% (18518/21284)
+2026-11-02T03:36:55.3221099Z Updating files:  88% (18730/21284)
+2026-11-02T03:36:55.3277799Z Updating files:  89% (18943/21284)
+2026-11-02T03:36:55.3334933Z Updating files:  90% (19156/21284)
+2026-11-02T03:36:55.3403513Z Updating files:  91% (19369/21284)
+2026-11-02T03:36:55.3469785Z Updating files:  92% (19582/21284)
+2026-11-02T03:36:55.3531846Z Updating files:  93% (19795/21284)
+2026-11-02T03:36:55.3585868Z Updating files:  94% (20007/21284)
+2026-11-02T03:36:55.3652441Z Updating files:  95% (20220/21284)
+2026-11-02T03:36:55.8021311Z Updating files:  96% (20433/21284)
+2026-11-02T03:36:56.0045328Z Updating files:  96% (20628/21284)
+2026-11-02T03:36:56.0686453Z Updating files:  97% (20646/21284)
+2026-11-02T03:36:56.2255209Z Updating files:  98% (20859/21284)
+2026-11-02T03:36:56.2603409Z Updating files:  99% (21072/21284)
+2026-11-02T03:36:56.2603754Z Updating files: 100% (21284/21284)
+2026-11-02T03:36:56.2609203Z Updating files: 100% (21284/21284), done.
+2026-11-02T03:36:56.3209968Z Switched to a new branch 'paton-descriptor-validation-20261102'
+2026-11-02T03:36:56.3212123Z branch 'paton-descriptor-validation-20261102' set up to track 'origin/paton-descriptor-validation-20261102'.
+2026-11-02T03:36:56.3538167Z ##[endgroup]
+2026-11-02T03:36:56.3585706Z [command]/usr/bin/git log -1 --format=%H
+2026-11-02T03:36:56.3630100Z 8d794d0d433f89956eeb4e087795081aa61c2efe
+2026-11-02T03:36:56.4434729Z ##[group]Run actions/setup-python@v5
+2026-11-02T03:36:56.4434882Z with:
+2026-11-02T03:36:56.4434998Z   python-version: 3.11
+2026-11-02T03:36:56.4435132Z   check-latest: false
+2026-11-02T03:36:56.4436526Z   token: ***
+2026-11-02T03:36:56.4436644Z   update-environment: true
+2026-11-02T03:36:56.4436784Z   allow-prereleases: false
+2026-11-02T03:36:56.4436914Z   freethreaded: false
+2026-11-02T03:36:56.4437034Z ##[endgroup]
+2026-11-02T03:36:56.5322703Z ##[group]Installed versions
+2026-11-02T03:36:56.5584337Z (node:2109) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-02T03:36:56.5585250Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-02T03:36:56.5585575Z Successfully set up CPython (3.11.17)
+2026-11-02T03:36:56.5585867Z ##[endgroup]
+2026-11-02T03:36:56.6223311Z ##[group]Run dtolnay/rust-toolchain@stable
+2026-11-02T03:36:56.6223487Z with:
+2026-11-02T03:36:56.6223601Z   toolchain: stable
+2026-11-02T03:36:56.6223735Z env:
+2026-11-02T03:36:56.6223888Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.6224140Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:56.6224381Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.6224596Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.6224919Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.6225297Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:56.6225563Z ##[endgroup]
+2026-11-02T03:36:56.6270586Z ##[start-action display=Parse toolchain version;id=__dtolnay_rust-toolchain.parse]
+2026-11-02T03:36:56.6837327Z ##[group]Run if [[ -z $toolchain ]]; then
+2026-11-02T03:36:56.6837611Z [36;1mif [[ -z $toolchain ]]; then[0m
+2026-11-02T03:36:56.6837930Z [36;1m  # GitHub does not enforce `required: true` inputs itself. https://github.com/actions/runner/issues/1070[0m
+2026-11-02T03:36:56.6838404Z [36;1m  echo "'toolchain' is a required input" >&2[0m
+2026-11-02T03:36:56.6838573Z [36;1m  exit 1[0m
+2026-11-02T03:36:56.6838766Z [36;1melif [[ $toolchain =~ ^stable' '[0-9]+' '(year|month|week|day)s?' 'ago$ ]]; then[0m
+2026-11-02T03:36:56.6838998Z [36;1m  if [[ Linux == macOS ]]; then[0m
+2026-11-02T03:36:56.6839302Z [36;1m    echo "toolchain=1.$((($(date -v-$(sed 's/stable \([0-9]*\) \(.\).*/\1\2/' <<< $toolchain) +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT[0m
+2026-11-02T03:36:56.6839580Z [36;1m  else[0m
+2026-11-02T03:36:56.6839805Z [36;1m    echo "toolchain=1.$((($(date --date "${toolchain#stable }" +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT[0m
+2026-11-02T03:36:56.6840050Z [36;1m  fi[0m
+2026-11-02T03:36:56.6840220Z [36;1melif [[ $toolchain =~ ^stable' 'minus' '[0-9]+' 'releases?$ ]]; then[0m
+2026-11-02T03:36:56.6840513Z [36;1m  echo "toolchain=1.$((($(date +%s)/60/60/24-16569)/7/6-${toolchain//[^0-9]/}))" >> $GITHUB_OUTPUT[0m
+2026-11-02T03:36:56.6840764Z [36;1melif [[ $toolchain =~ ^1\.[0-9]+$ ]]; then[0m
+2026-11-02T03:36:56.6841278Z [36;1m  echo "toolchain=1.$((i=${toolchain#1.}, c=($(date +%s)/60/60/24-16569)/7/6, i+9*i*(10*i<=c)+90*i*(100*i<=c)))" >> $GITHUB_OUTPUT[0m
+2026-11-02T03:36:56.6841544Z [36;1melse[0m
+2026-11-02T03:36:56.6841660Z [36;1m  delimiter=EOF[0m
+2026-11-02T03:36:56.6841833Z [36;1m  while [[ $toolchain == *$delimiter* ]]; do delimiter+=_; done[0m
+2026-11-02T03:36:56.6842112Z [36;1m  printf 'toolchain<<%s\n%s\n%s\n' "$delimiter" "$toolchain" "$delimiter" >> $GITHUB_OUTPUT[0m
+2026-11-02T03:36:56.6842334Z [36;1mfi[0m
+2026-11-02T03:36:56.6901407Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T03:36:56.6901609Z env:
+2026-11-02T03:36:56.6901770Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.6902015Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:56.6902248Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.6902461Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.6902677Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.6902891Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:56.6903071Z   toolchain: stable
+2026-11-02T03:36:56.6903193Z ##[endgroup]
+2026-11-02T03:36:56.8194715Z ##[end-action id=__dtolnay_rust-toolchain.parse;outcome=success;conclusion=success;duration_ms=192]
+2026-11-02T03:36:56.8197602Z ##[start-action display=Set $CARGO_HOME;id=__dtolnay_rust-toolchain.__run]
+2026-11-02T03:36:56.9020127Z ##[group]Run echo CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV
+2026-11-02T03:36:56.9020423Z [36;1mecho CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV[0m
+2026-11-02T03:36:56.9038525Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T03:36:56.9038943Z env:
+2026-11-02T03:36:56.9039096Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9039332Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:56.9039573Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9039785Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9039990Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9040201Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:56.9040383Z ##[endgroup]
+2026-11-02T03:36:56.9130568Z ##[end-action id=__dtolnay_rust-toolchain.__run;outcome=success;conclusion=success;duration_ms=93]
+2026-11-02T03:36:56.9132353Z ##[start-action display=Install rustup if needed;id=__dtolnay_rust-toolchain.__run_2]
+2026-11-02T03:36:56.9209100Z ##[group]Run if ! command -v rustup &>/dev/null; then
+2026-11-02T03:36:56.9209328Z [36;1mif ! command -v rustup &>/dev/null; then[0m
+2026-11-02T03:36:56.9209759Z [36;1m  curl --proto '=https' --tlsv1.2 --retry 10 --retry-connrefused --location --silent --show-error --fail https://sh.rustup.rs | sh -s -- --default-toolchain none -y[0m
+2026-11-02T03:36:56.9210298Z [36;1m  echo "$CARGO_HOME/bin" >> $GITHUB_PATH[0m
+2026-11-02T03:36:56.9210459Z [36;1mfi[0m
+2026-11-02T03:36:56.9226160Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T03:36:56.9226341Z env:
+2026-11-02T03:36:56.9226493Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9226727Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:56.9226960Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9227175Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9227385Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9227600Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:56.9227795Z   CARGO_HOME: /home/runner/.cargo
+2026-11-02T03:36:56.9227936Z ##[endgroup]
+2026-11-02T03:36:56.9326496Z ##[end-action id=__dtolnay_rust-toolchain.__run_2;outcome=success;conclusion=success;duration_ms=19]
+2026-11-02T03:36:56.9327870Z ##[start-action display=Install rustup if needed on windows;id=__dtolnay_rust-toolchain.__run_3]
+2026-11-02T03:36:56.9331517Z ##[end-action id=__dtolnay_rust-toolchain.__run_3;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-11-02T03:36:56.9339826Z ##[start-action display=rustup toolchain install stable;id=__dtolnay_rust-toolchain.__run_4]
+2026-11-02T03:36:56.9414043Z ##[group]Run set -f  # split targets and components on commas and whitespace, without glob expansion
+2026-11-02T03:36:56.9414430Z [36;1mset -f  # split targets and components on commas and whitespace, without glob expansion[0m
+2026-11-02T03:36:56.9414692Z [36;1mflags=()[0m
+2026-11-02T03:36:56.9414852Z [36;1mfor t in ${targets//,/ }; do flags+=(--target "$t"); done[0m
+2026-11-02T03:36:56.9415090Z [36;1mfor c in ${components//,/ }; do flags+=(--component "$c"); done[0m
+2026-11-02T03:36:56.9415366Z [36;1mif [[ $toolchain == nightly && -n $components ]]; then flags+=(--allow-downgrade); fi[0m
+2026-11-02T03:36:56.9415602Z [36;1mlog=$(mktemp)[0m
+2026-11-02T03:36:56.9415735Z [36;1mtrap 'rm -f "$log"' EXIT[0m
+2026-11-02T03:36:56.9415886Z [36;1mfor attempt in 1 2 3 4 5; do[0m
+2026-11-02T03:36:56.9416197Z [36;1m  if rustup toolchain install "$toolchain" "${flags[@]}" --profile minimal --no-self-update --force-non-host 2>&1 | tee "$log"; then[0m
+2026-11-02T03:36:56.9416501Z [36;1m    break[0m
+2026-11-02T03:36:56.9416616Z [36;1m  else[0m
+2026-11-02T03:36:56.9416732Z [36;1m    status=$?[0m
+2026-11-02T03:36:56.9416852Z [36;1m  fi[0m
+2026-11-02T03:36:56.9417015Z [36;1m  if [[ $attempt == 5 ]] || ! grep -Fq 'checksum failed for ' "$log" \[0m
+2026-11-02T03:36:56.9417315Z [36;1m      || ! grep -Fq 'this is likely due to an ongoing update of the official release server' "$log"; then[0m
+2026-11-02T03:36:56.9417682Z [36;1m    exit "$status"[0m
+2026-11-02T03:36:56.9417812Z [36;1m  fi[0m
+2026-11-02T03:36:56.9418011Z [36;1m  echo "Retrying rustup toolchain install in 30 seconds (retry $attempt of 4)" >&2[0m
+2026-11-02T03:36:56.9418241Z [36;1m  sleep 30[0m
+2026-11-02T03:36:56.9418356Z [36;1mdone[0m
+2026-11-02T03:36:56.9433888Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T03:36:56.9434067Z env:
+2026-11-02T03:36:56.9434215Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9434449Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:56.9434682Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9434891Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9435100Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:56.9435311Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:56.9435507Z   CARGO_HOME: /home/runner/.cargo
+2026-11-02T03:36:56.9435648Z   toolchain: stable
+2026-11-02T03:36:56.9435762Z   targets: 
+2026-11-02T03:36:56.9435872Z   components: 
+2026-11-02T03:36:56.9436094Z   RUSTUP_PERMIT_COPY_RENAME: 1
+2026-11-02T03:36:56.9436229Z ##[endgroup]
+2026-11-02T03:36:57.1273283Z info: syncing channel updates for stable-x86_64-unknown-linux-gnu
+2026-11-02T03:36:57.2843716Z 
+2026-11-02T03:36:57.2916725Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.99.1 (58cf8f9c3 2026-10-13)
+2026-11-02T03:36:57.2916958Z 
+2026-11-02T03:36:57.3340825Z ##[end-action id=__dtolnay_rust-toolchain.__run_4;outcome=success;conclusion=success;duration_ms=400]
+2026-11-02T03:36:57.3345823Z ##[start-action display=rustup default stable;id=__dtolnay_rust-toolchain.__run_5]
+2026-11-02T03:36:57.3918156Z ##[group]Run rustup default "$toolchain" --force-non-host
+2026-11-02T03:36:57.3918404Z [36;1mrustup default "$toolchain" --force-non-host[0m
+2026-11-02T03:36:57.3936038Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T03:36:57.3936218Z env:
+2026-11-02T03:36:57.3936368Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:57.3936605Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:57.3936846Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:57.3937055Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:57.3937262Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:57.3937473Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:57.3937656Z   CARGO_HOME: /home/runner/.cargo
+2026-11-02T03:36:57.3937798Z   toolchain: stable
+2026-11-02T03:36:57.3937915Z ##[endgroup]
+2026-11-02T03:36:57.4580787Z info: using existing install for stable-x86_64-unknown-linux-gnu
+2026-11-02T03:36:57.7041528Z info: default toolchain set to stable-x86_64-unknown-linux-gnu
+2026-11-02T03:36:57.7041821Z 
+2026-11-02T03:36:57.7099926Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.99.1 (58cf8f9c3 2026-10-13)
+2026-11-02T03:36:57.7100226Z 
+2026-11-02T03:36:57.7117074Z ##[end-action id=__dtolnay_rust-toolchain.__run_5;outcome=success;conclusion=success;duration_ms=377]
+2026-11-02T03:36:57.7120743Z ##[start-action display=Create cachekey;id=__dtolnay_rust-toolchain.rustc-version]
+2026-11-02T03:36:57.8257614Z ##[group]Run DATE=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')
+2026-11-02T03:36:57.8258224Z [36;1mDATE=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')[0m
+2026-11-02T03:36:57.8258589Z [36;1mHASH=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-hash: //p')[0m
+2026-11-02T03:36:57.8260414Z [36;1mecho "cachekey=$(echo $DATE$HASH | head -c12)" >> $GITHUB_OUTPUT[0m
+2026-11-02T03:36:57.8297326Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T03:36:57.8297505Z env:
+2026-11-02T03:36:57.8299225Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:57.8299459Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:57.8301662Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:57.8301872Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:57.8302081Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:57.8302314Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:57.8302497Z   CARGO_HOME: /home/runner/.cargo
+2026-11-02T03:36:57.8302642Z   toolchain: stable
+2026-11-02T03:36:57.8302767Z ##[endgroup]
+2026-11-02T03:36:57.9925199Z ##[end-action id=__dtolnay_rust-toolchain.rustc-version;outcome=success;conclusion=success;duration_ms=280]
+2026-11-02T03:36:57.9927192Z ##[start-action display=Disable incremental compilation;id=__dtolnay_rust-toolchain.__run_6]
+2026-11-02T03:36:58.0627008Z ##[group]Run if [ -z "${CARGO_INCREMENTAL+set}" ]; then
+2026-11-02T03:36:58.0627390Z [36;1mif [ -z "${CARGO_INCREMENTAL+set}" ]; then[0m
+2026-11-02T03:36:58.0627669Z [36;1m  echo CARGO_INCREMENTAL=0 >> $GITHUB_ENV[0m
+2026-11-02T03:36:58.0628085Z [36;1mfi[0m
+2026-11-02T03:36:58.0645814Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T03:36:58.0646004Z env:
+2026-11-02T03:36:58.0646156Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.0646395Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:58.0646635Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.0646847Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.0647060Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.0647279Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:58.0647467Z   CARGO_HOME: /home/runner/.cargo
+2026-11-02T03:36:58.0647611Z ##[endgroup]
+2026-11-02T03:36:58.1249675Z ##[end-action id=__dtolnay_rust-toolchain.__run_6;outcome=success;conclusion=success;duration_ms=132]
+2026-11-02T03:36:58.1251608Z ##[start-action display=Enable colors in Cargo output;id=__dtolnay_rust-toolchain.__run_7]
+2026-11-02T03:36:58.2428310Z ##[group]Run if [ -z "${CARGO_TERM_COLOR+set}" ]; then
+2026-11-02T03:36:58.2428720Z [36;1mif [ -z "${CARGO_TERM_COLOR+set}" ]; then[0m
+2026-11-02T03:36:58.2429008Z [36;1m  echo CARGO_TERM_COLOR=always >> $GITHUB_ENV[0m
+2026-11-02T03:36:58.2429260Z [36;1mfi[0m
+2026-11-02T03:36:58.2450072Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T03:36:58.2450256Z env:
+2026-11-02T03:36:58.2450411Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.2450651Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:58.2451061Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.2451293Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.2451521Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.2451742Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:58.2451943Z   CARGO_HOME: /home/runner/.cargo
+2026-11-02T03:36:58.2452084Z   CARGO_INCREMENTAL: 0
+2026-11-02T03:36:58.2452479Z ##[endgroup]
+2026-11-02T03:36:58.3675614Z ##[end-action id=__dtolnay_rust-toolchain.__run_7;outcome=success;conclusion=success;duration_ms=242]
+2026-11-02T03:36:58.3678889Z ##[start-action display=Enable Cargo sparse registry;id=__dtolnay_rust-toolchain.__run_8]
+2026-11-02T03:36:58.4832890Z ##[group]Run # implemented in 1.66, stabilized in 1.68, made default in 1.70
+2026-11-02T03:36:58.4833345Z [36;1m# implemented in 1.66, stabilized in 1.68, made default in 1.70[0m
+2026-11-02T03:36:58.4833935Z [36;1mif [ -z "${CARGO_REGISTRIES_CRATES_IO_PROTOCOL+set}" -o -f "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol ]; then[0m
+2026-11-02T03:36:58.4834723Z [36;1m  if rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.6[89]\.'; then[0m
+2026-11-02T03:36:58.4835215Z [36;1m    touch "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true[0m
+2026-11-02T03:36:58.4835678Z [36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse >> $GITHUB_ENV[0m
+2026-11-02T03:36:58.4836085Z [36;1m  elif rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.6[67]\.'; then[0m
+2026-11-02T03:36:58.4836544Z [36;1m    touch "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true[0m
+2026-11-02T03:36:58.4836955Z [36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=git >> $GITHUB_ENV[0m
+2026-11-02T03:36:58.4837235Z [36;1m  fi[0m
+2026-11-02T03:36:58.4837391Z [36;1mfi[0m
+2026-11-02T03:36:58.4856564Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T03:36:58.4856744Z env:
+2026-11-02T03:36:58.4856891Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.4857127Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:58.4857355Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.4857564Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.4857882Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.4858094Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:58.4858279Z   CARGO_HOME: /home/runner/.cargo
+2026-11-02T03:36:58.4858435Z   CARGO_INCREMENTAL: 0
+2026-11-02T03:36:58.4858560Z   CARGO_TERM_COLOR: always
+2026-11-02T03:36:58.4858685Z   toolchain: stable
+2026-11-02T03:36:58.4858804Z ##[endgroup]
+2026-11-02T03:36:58.6373991Z ##[end-action id=__dtolnay_rust-toolchain.__run_8;outcome=success;conclusion=success;duration_ms=269]
+2026-11-02T03:36:58.6377486Z ##[start-action display=Work around spurious network errors in curl 8.0;id=__dtolnay_rust-toolchain.__run_9]
+2026-11-02T03:36:58.7331091Z ##[group]Run # https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation
+2026-11-02T03:36:58.7331764Z [36;1m# https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation[0m
+2026-11-02T03:36:58.7332304Z [36;1mif rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.7[01]\.'; then[0m
+2026-11-02T03:36:58.7332702Z [36;1m  echo CARGO_HTTP_MULTIPLEXING=false >> $GITHUB_ENV[0m
+2026-11-02T03:36:58.7332966Z [36;1mfi[0m
+2026-11-02T03:36:58.7351343Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T03:36:58.7351523Z env:
+2026-11-02T03:36:58.7351676Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.7351914Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:58.7352145Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.7352353Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.7352562Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.7352776Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:58.7352960Z   CARGO_HOME: /home/runner/.cargo
+2026-11-02T03:36:58.7353103Z   CARGO_INCREMENTAL: 0
+2026-11-02T03:36:58.7353231Z   CARGO_TERM_COLOR: always
+2026-11-02T03:36:58.7353361Z   toolchain: stable
+2026-11-02T03:36:58.7353481Z ##[endgroup]
+2026-11-02T03:36:58.8668326Z ##[end-action id=__dtolnay_rust-toolchain.__run_9;outcome=success;conclusion=success;duration_ms=229]
+2026-11-02T03:36:58.8673240Z ##[start-action display=rustc +stable --version --verbose;id=__dtolnay_rust-toolchain.__run_10]
+2026-11-02T03:36:58.9154793Z ##[group]Run rustc +"$toolchain" --version --verbose
+2026-11-02T03:36:58.9155119Z [36;1mrustc +"$toolchain" --version --verbose[0m
+2026-11-02T03:36:58.9173696Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T03:36:58.9173874Z env:
+2026-11-02T03:36:58.9174018Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.9174447Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:58.9174673Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.9174875Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.9175083Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:58.9175285Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:58.9175465Z   CARGO_HOME: /home/runner/.cargo
+2026-11-02T03:36:58.9175603Z   CARGO_INCREMENTAL: 0
+2026-11-02T03:36:58.9175723Z   CARGO_TERM_COLOR: always
+2026-11-02T03:36:58.9175843Z   toolchain: stable
+2026-11-02T03:36:58.9175953Z ##[endgroup]
+2026-11-02T03:36:59.0452134Z rustc 1.99.1 (58cf8f9c3 2026-10-13)
+2026-11-02T03:36:59.0452412Z binary: rustc
+2026-11-02T03:36:59.0452649Z commit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67
+2026-11-02T03:36:59.0452937Z commit-date: 2026-10-13
+2026-11-02T03:36:59.0453155Z host: x86_64-unknown-linux-gnu
+2026-11-02T03:36:59.0453368Z release: 1.99.1
+2026-11-02T03:36:59.0454974Z LLVM version: 23.1.1
+2026-11-02T03:36:59.0474501Z ##[end-action id=__dtolnay_rust-toolchain.__run_10;outcome=success;conclusion=success;duration_ms=180]
+2026-11-02T03:36:59.1541057Z ##[group]Run PyO3/maturin-action@v1
+2026-11-02T03:36:59.1541291Z with:
+2026-11-02T03:36:59.1541448Z   command: build
+2026-11-02T03:36:59.1541764Z   args: --release --locked --manifest-path python/Cargo.toml --out dist --interpreter python
+2026-11-02T03:36:59.1542124Z   manylinux: 2_28
+2026-11-02T03:36:59.1544148Z   token: ***
+2026-11-02T03:36:59.1544312Z   sccache: false
+2026-11-02T03:36:59.1544465Z env:
+2026-11-02T03:36:59.1544666Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:59.1544990Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:36:59.1545314Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:59.1545605Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:59.1545894Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:36:59.1546190Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:36:59.1546494Z   CARGO_HOME: /home/runner/.cargo
+2026-11-02T03:36:59.1546712Z   CARGO_INCREMENTAL: 0
+2026-11-02T03:36:59.1546897Z   CARGO_TERM_COLOR: always
+2026-11-02T03:36:59.1547083Z ##[endgroup]
+2026-11-02T03:36:59.2315204Z Found maturin version requirement maturin>=1.9,<2 specified in pyproject.toml
+2026-11-02T03:37:00.0230843Z Found maturin release from manifest: v1.16.0
+2026-11-02T03:37:00.1190312Z ##[group]Pull Docker image
+2026-11-02T03:37:00.1190571Z Using quay.io/pypa/manylinux_2_28_x86_64:latest Docker image
+2026-11-02T03:37:00.1200430Z [command]/usr/bin/docker pull quay.io/pypa/manylinux_2_28_x86_64:latest
+2026-11-02T03:37:00.8317621Z latest: Pulling from pypa/manylinux_2_28_x86_64
+2026-11-02T03:37:00.8320095Z 4f7a0ebc0d0a: Pulling fs layer
+2026-11-02T03:37:00.8320485Z 2b6d235a5cf6: Pulling fs layer
+2026-11-02T03:37:00.8320714Z 68515a7dea4f: Pulling fs layer
+2026-11-02T03:37:00.8321246Z ea407f7da3ba: Pulling fs layer
+2026-11-02T03:37:00.8321461Z a7e8c535a6b6: Pulling fs layer
+2026-11-02T03:37:00.8321698Z 13b7792d582b: Pulling fs layer
+2026-11-02T03:37:00.8321917Z 940591893a02: Pulling fs layer
+2026-11-02T03:37:00.8322136Z ea407f7da3ba: Waiting
+2026-11-02T03:37:00.8322336Z 0418dff33926: Pulling fs layer
+2026-11-02T03:37:00.8322565Z 7752cdd56dee: Pulling fs layer
+2026-11-02T03:37:00.8322772Z a7e8c535a6b6: Waiting
+2026-11-02T03:37:00.8322971Z e1c351d31153: Pulling fs layer
+2026-11-02T03:37:00.8323177Z 5e0ed406d08c: Pulling fs layer
+2026-11-02T03:37:00.8323374Z 13b7792d582b: Waiting
+2026-11-02T03:37:00.8323564Z 8eb9ee4d9688: Pulling fs layer
+2026-11-02T03:37:00.8323770Z 940591893a02: Waiting
+2026-11-02T03:37:00.8323956Z ac2dd1fadd47: Pulling fs layer
+2026-11-02T03:37:00.8324166Z be8bdc8fe88d: Pulling fs layer
+2026-11-02T03:37:00.8324367Z 7752cdd56dee: Waiting
+2026-11-02T03:37:00.8324559Z 0418dff33926: Waiting
+2026-11-02T03:37:00.8324735Z e1c351d31153: Waiting
+2026-11-02T03:37:00.8324923Z 56f37dc166d8: Pulling fs layer
+2026-11-02T03:37:00.8325125Z 5e0ed406d08c: Waiting
+2026-11-02T03:37:00.8325312Z c4fdcddd6507: Pulling fs layer
+2026-11-02T03:37:00.8325525Z 4f4fb700ef54: Pulling fs layer
+2026-11-02T03:37:00.8325725Z 8eb9ee4d9688: Waiting
+2026-11-02T03:37:00.8325914Z a83455dc8442: Pulling fs layer
+2026-11-02T03:37:00.8326112Z ac2dd1fadd47: Waiting
+2026-11-02T03:37:00.8326322Z c341f232427e: Pulling fs layer
+2026-11-02T03:37:00.8326523Z be8bdc8fe88d: Waiting
+2026-11-02T03:37:00.8326709Z 74ccc3d69c9e: Pulling fs layer
+2026-11-02T03:37:00.8326908Z 56f37dc166d8: Waiting
+2026-11-02T03:37:00.8327023Z c4fdcddd6507: Waiting
+2026-11-02T03:37:00.8327138Z 06a1464f7e20: Pulling fs layer
+2026-11-02T03:37:00.8327270Z f9cf5f87d509: Pulling fs layer
+2026-11-02T03:37:00.8327400Z b9c66f2583bc: Pulling fs layer
+2026-11-02T03:37:00.8327531Z 8d3cc048ee59: Pulling fs layer
+2026-11-02T03:37:00.8327656Z 4f4fb700ef54: Waiting
+2026-11-02T03:37:00.8327768Z 06a1464f7e20: Waiting
+2026-11-02T03:37:00.8327882Z a83455dc8442: Waiting
+2026-11-02T03:37:00.8327992Z f9cf5f87d509: Waiting
+2026-11-02T03:37:00.8328102Z b9c66f2583bc: Waiting
+2026-11-02T03:37:00.8328548Z 8d3cc048ee59: Waiting
+2026-11-02T03:37:00.8328768Z 74ccc3d69c9e: Waiting
+2026-11-02T03:37:00.8328879Z c341f232427e: Waiting
+2026-11-02T03:37:01.1149857Z 68515a7dea4f: Verifying Checksum
+2026-11-02T03:37:01.1150131Z 68515a7dea4f: Download complete
+2026-11-02T03:37:01.1475176Z 2b6d235a5cf6: Download complete
+2026-11-02T03:37:01.3051239Z ea407f7da3ba: Verifying Checksum
+2026-11-02T03:37:01.3055027Z ea407f7da3ba: Download complete
+2026-11-02T03:37:01.3457316Z a7e8c535a6b6: Verifying Checksum
+2026-11-02T03:37:01.3457746Z a7e8c535a6b6: Download complete
+2026-11-02T03:37:01.4514980Z 13b7792d582b: Verifying Checksum
+2026-11-02T03:37:01.4515398Z 13b7792d582b: Download complete
+2026-11-02T03:37:01.5040798Z 940591893a02: Verifying Checksum
+2026-11-02T03:37:01.5041514Z 940591893a02: Download complete
+2026-11-02T03:37:01.6737738Z 0418dff33926: Verifying Checksum
+2026-11-02T03:37:01.6738077Z 0418dff33926: Download complete
+2026-11-02T03:37:01.8840087Z e1c351d31153: Download complete
+2026-11-02T03:37:01.9367247Z 4f7a0ebc0d0a: Verifying Checksum
+2026-11-02T03:37:01.9367805Z 4f7a0ebc0d0a: Download complete
+2026-11-02T03:37:02.0956997Z 8eb9ee4d9688: Verifying Checksum
+2026-11-02T03:37:02.0957338Z 8eb9ee4d9688: Download complete
+2026-11-02T03:37:02.1075104Z 5e0ed406d08c: Verifying Checksum
+2026-11-02T03:37:02.1075839Z 5e0ed406d08c: Download complete
+2026-11-02T03:37:02.3088703Z be8bdc8fe88d: Verifying Checksum
+2026-11-02T03:37:02.3090105Z be8bdc8fe88d: Download complete
+2026-11-02T03:37:02.4256887Z ac2dd1fadd47: Verifying Checksum
+2026-11-02T03:37:02.4257832Z ac2dd1fadd47: Download complete
+2026-11-02T03:37:02.5218962Z 56f37dc166d8: Verifying Checksum
+2026-11-02T03:37:02.5220651Z 56f37dc166d8: Download complete
+2026-11-02T03:37:02.5602593Z c4fdcddd6507: Verifying Checksum
+2026-11-02T03:37:02.5602914Z c4fdcddd6507: Download complete
+2026-11-02T03:37:02.6984455Z 4f4fb700ef54: Download complete
+2026-11-02T03:37:02.7617670Z a83455dc8442: Verifying Checksum
+2026-11-02T03:37:02.7619260Z a83455dc8442: Download complete
+2026-11-02T03:37:02.9293745Z c341f232427e: Verifying Checksum
+2026-11-02T03:37:02.9294364Z c341f232427e: Download complete
+2026-11-02T03:37:03.0626411Z 74ccc3d69c9e: Verifying Checksum
+2026-11-02T03:37:03.0626757Z 74ccc3d69c9e: Download complete
+2026-11-02T03:37:03.2485000Z f9cf5f87d509: Verifying Checksum
+2026-11-02T03:37:03.2485482Z f9cf5f87d509: Download complete
+2026-11-02T03:37:03.4247962Z 06a1464f7e20: Verifying Checksum
+2026-11-02T03:37:03.4248778Z 06a1464f7e20: Download complete
+2026-11-02T03:37:03.5589208Z 8d3cc048ee59: Verifying Checksum
+2026-11-02T03:37:03.5589465Z 8d3cc048ee59: Download complete
+2026-11-02T03:37:03.6486751Z 4f7a0ebc0d0a: Pull complete
+2026-11-02T03:37:04.2312820Z 2b6d235a5cf6: Pull complete
+2026-11-02T03:37:04.8728910Z 7752cdd56dee: Verifying Checksum
+2026-11-02T03:37:04.8729158Z 7752cdd56dee: Download complete
+2026-11-02T03:37:05.3107392Z b9c66f2583bc: Verifying Checksum
+2026-11-02T03:37:05.3107682Z b9c66f2583bc: Download complete
+2026-11-02T03:37:13.7645984Z 68515a7dea4f: Pull complete
+2026-11-02T03:37:13.7738910Z ea407f7da3ba: Pull complete
+2026-11-02T03:37:13.7846046Z a7e8c535a6b6: Pull complete
+2026-11-02T03:37:13.7939478Z 13b7792d582b: Pull complete
+2026-11-02T03:37:13.8031466Z 940591893a02: Pull complete
+2026-11-02T03:37:13.8112014Z 0418dff33926: Pull complete
+2026-11-02T03:37:21.0088540Z 7752cdd56dee: Pull complete
+2026-11-02T03:37:21.0169028Z e1c351d31153: Pull complete
+2026-11-02T03:37:21.0623153Z 5e0ed406d08c: Pull complete
+2026-11-02T03:37:21.0737635Z 8eb9ee4d9688: Pull complete
+2026-11-02T03:37:21.1122869Z ac2dd1fadd47: Pull complete
+2026-11-02T03:37:21.1207288Z be8bdc8fe88d: Pull complete
+2026-11-02T03:37:21.1797057Z 56f37dc166d8: Pull complete
+2026-11-02T03:37:21.1854918Z c4fdcddd6507: Pull complete
+2026-11-02T03:37:21.1920216Z 4f4fb700ef54: Pull complete
+2026-11-02T03:37:21.2044555Z a83455dc8442: Pull complete
+2026-11-02T03:37:21.2131638Z c341f232427e: Pull complete
+2026-11-02T03:37:21.2623064Z 74ccc3d69c9e: Pull complete
+2026-11-02T03:37:21.5417755Z 06a1464f7e20: Pull complete
+2026-11-02T03:37:21.5575287Z f9cf5f87d509: Pull complete
+2026-11-02T03:37:34.1566979Z b9c66f2583bc: Pull complete
+2026-11-02T03:37:34.1669024Z 8d3cc048ee59: Pull complete
+2026-11-02T03:37:34.1694797Z Digest: sha256:7e41b1c7fd64dfc69703a1124b43c404382973ee06ec5d764b85c34d2221fded
+2026-11-02T03:37:34.1705323Z Status: Downloaded newer image for quay.io/pypa/manylinux_2_28_x86_64:latest
+2026-11-02T03:37:34.1713286Z quay.io/pypa/manylinux_2_28_x86_64:latest
+2026-11-02T03:37:34.1732527Z ##[endgroup]
+2026-11-02T03:37:34.9953069Z ##[group]Cleanup build scripts artifact directory
+2026-11-02T03:37:34.9953549Z ##[endgroup]
+2026-11-02T03:37:34.9971342Z [command]/usr/bin/docker run --rm --workdir /home/runner/work/StericX/StericX -e DEBIAN_FRONTEND=noninteractive -e ARCHFLAGS -e _PYTHON_SYSCONFIGDATA_NAME -e GITHUB_ACTIONS -e ACTIONS_RUNNER_RETURN_JOB_RESULT_FOR_HOSTED -e ACTIONS_RUNNER_ACTION_ARCHIVE_CACHE -e LD_LIBRARY_PATH -e CARGO_INCREMENTAL -e CARGO_TERM_COLOR -e GITHUB_JOB -e GITHUB_REF -e GITHUB_SHA -e GITHUB_REPOSITORY -e GITHUB_REPOSITORY_OWNER -e GITHUB_REPOSITORY_OWNER_ID -e GITHUB_RUN_ID -e GITHUB_RUN_NUMBER -e GITHUB_RETENTION_DAYS -e GITHUB_RUN_ATTEMPT -e GITHUB_ACTOR_ID -e GITHUB_ACTOR -e GITHUB_WORKFLOW -e GITHUB_HEAD_REF -e GITHUB_BASE_REF -e GITHUB_EVENT_NAME -e GITHUB_SERVER_URL -e GITHUB_API_URL -e GITHUB_GRAPHQL_URL -e GITHUB_REF_NAME -e GITHUB_REF_PROTECTED -e GITHUB_REF_TYPE -e GITHUB_WORKFLOW_REF -e GITHUB_WORKFLOW_SHA -e GITHUB_REPOSITORY_ID -e GITHUB_TRIGGERING_ACTOR -e GITHUB_WORKSPACE -e GITHUB_ACTION -e GITHUB_EVENT_PATH -e GITHUB_ACTION_REPOSITORY -e GITHUB_ACTION_REF -e GITHUB_PATH -e GITHUB_ENV -e GITHUB_STEP_SUMMARY -e GITHUB_STATE -e GITHUB_OUTPUT -e GITHUB_ARTIFACTS -e GITHUB_ARTIFACTS_LIST -e ACTIONS_RUNTIME_URL -e ACTIONS_RUNTIME_TOKEN -e ACTIONS_CACHE_URL -e ACTIONS_RESULTS_URL -e ACTIONS_CACHE_SERVICE_V2 -e ACTIONS_CACHE_MODE -e ACTIONS_ORCHESTRATION_ID -v /home/runner/work/_temp/run-maturin-action.sh:/home/runner/work/_temp/run-maturin-action.sh -v /home/runner/work/StericX/StericX:/home/runner/work/StericX/StericX quay.io/pypa/manylinux_2_28_x86_64:latest /home/runner/work/_temp/run-maturin-action.sh
+2026-11-02T03:37:35.7499224Z ##[group]Install Rust
+2026-11-02T03:37:35.9474057Z info: downloading installer
+2026-11-02T03:37:36.3776714Z info: profile set to minimal
+2026-11-02T03:37:36.3777202Z info: default host tuple is x86_64-unknown-linux-gnu
+2026-11-02T03:37:36.3784016Z info: syncing channel updates for stable-x86_64-unknown-linux-gnu
+2026-11-02T03:37:36.6055564Z info: latest update on 2026-10-15 for version 1.99.1 (58cf8f9c3 2026-10-13)
+2026-11-02T03:37:36.6056296Z info: downloading 3 components
+2026-11-02T03:37:43.1168833Z 
+2026-11-02T03:37:43.1169907Z info: default toolchain set to stable-x86_64-unknown-linux-gnu
+2026-11-02T03:37:43.1237385Z   stable-x86_64-unknown-linux-gnu installed - rustc 1.99.1 (58cf8f9c3 2026-10-13)
+2026-11-02T03:37:43.1237721Z 
+2026-11-02T03:37:43.1237727Z 
+2026-11-02T03:37:43.1240834Z Rust is installed now. Great!
+2026-11-02T03:37:43.1241172Z 
+2026-11-02T03:37:43.1241362Z To get started you may need to restart your current shell.
+2026-11-02T03:37:43.1241617Z This would reload your PATH environment variable to include
+2026-11-02T03:37:43.1241896Z Cargo's bin directory ($HOME/.cargo/bin).
+2026-11-02T03:37:43.1242012Z 
+2026-11-02T03:37:43.1242108Z To configure your current shell, you need to source the
+2026-11-02T03:37:43.1242291Z corresponding env file under $HOME/.cargo.
+2026-11-02T03:37:43.1242397Z 
+2026-11-02T03:37:43.1242505Z Consider running the right command for your shell (note the leading DOT):
+2026-11-02T03:37:43.1242816Z . "$HOME/.cargo/env" # For sh/ash/dash/pdksh/bash
+2026-11-02T03:37:43.1243014Z cargo:rerun-if-env-changed=CC_x86_64-unknown-linux-gnu
+2026-11-02T03:37:43.1243198Z CC_x86_64-unknown-linux-gnu = None
+2026-11-02T03:37:43.1243406Z cargo:rerun-if-env-changed=CC_x86_64_unknown_linux_gnu
+2026-11-02T03:37:43.1243625Z CC_x86_64_unknown_linux_gnu = None
+2026-11-02T03:37:43.1243774Z cargo:rerun-if-env-changed=HOST_CC
+2026-11-02T03:37:43.1243909Z HOST_CC = None
+2026-11-02T03:37:43.1244479Z cargo:rerun-if-env-changed=CC
+2026-11-02T03:37:43.1244617Z CC = None
+2026-11-02T03:37:43.1244766Z cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+2026-11-02T03:37:43.1322345Z cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+2026-11-02T03:37:43.1322630Z CRATE_CC_NO_DEFAULTS = None
+2026-11-02T03:37:43.1341876Z cargo:rerun-if-env-changed=CFLAGS
+2026-11-02T03:37:43.1342125Z CFLAGS = None
+2026-11-02T03:37:43.1342320Z cargo:rerun-if-env-changed=HOST_CFLAGS
+2026-11-02T03:37:43.1342551Z HOST_CFLAGS = None
+2026-11-02T03:37:43.1342714Z cargo:rerun-if-env-changed=CFLAGS_x86_64_unknown_linux_gnu
+2026-11-02T03:37:43.1342910Z CFLAGS_x86_64_unknown_linux_gnu = None
+2026-11-02T03:37:43.1343092Z cargo:rerun-if-env-changed=CFLAGS_x86_64-unknown-linux-gnu
+2026-11-02T03:37:43.1343280Z CFLAGS_x86_64-unknown-linux-gnu = None
+2026-11-02T03:37:43.1509273Z Install Rust toolchain stable
+2026-11-02T03:37:43.1857257Z info: syncing channel updates for stable-x86_64-unknown-linux-gnu
+2026-11-02T03:37:43.2627787Z 
+2026-11-02T03:37:43.2695570Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.99.1 (58cf8f9c3 2026-10-13)
+2026-11-02T03:37:43.2695819Z 
+2026-11-02T03:37:43.2757854Z info: override toolchain for /home/runner/work/StericX/StericX set to stable-x86_64-unknown-linux-gnu
+2026-11-02T03:37:43.3190771Z info: downloading component llvm-tools
+2026-11-02T03:37:46.1427868Z ##[endgroup]
+2026-11-02T03:37:46.1428444Z ##[group]Install maturin
+2026-11-02T03:37:46.1469148Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+2026-11-02T03:37:46.1469442Z                                  Dload  Upload   Total   Spent    Left  Speed
+2026-11-02T03:37:46.1469578Z 
+2026-11-02T03:37:46.2500741Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-11-02T03:37:46.2501293Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-11-02T03:37:46.3032956Z 
+2026-11-02T03:37:46.5134669Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-11-02T03:37:46.5135104Z 100  9.9M  100  9.9M    0     0  27.2M      0 --:--:-- --:--:-- --:--:-- 47.6M
+2026-11-02T03:37:46.5239365Z maturin 1.16.0
+2026-11-02T03:37:46.5338112Z /usr/bin/python3: No module named pip
+2026-11-02T03:37:46.5355170Z ##[endgroup]
+2026-11-02T03:37:46.5625606Z [1m[92m    Updating[0m crates.io index
+2026-11-02T03:37:47.3649297Z [1m[92m Downloading[0m crates ...
+2026-11-02T03:37:47.4597276Z [1m[92m  Downloaded[0m anstyle-query v1.1.5
+2026-11-02T03:37:47.4644872Z [1m[92m  Downloaded[0m anstyle-parse v1.0.0
+2026-11-02T03:37:47.4745035Z [1m[92m  Downloaded[0m anstyle-wincon v3.0.11
+2026-11-02T03:37:47.4773538Z [1m[92m  Downloaded[0m anstream v1.0.0
+2026-11-02T03:37:47.4796580Z [1m[92m  Downloaded[0m anstyle v1.0.14
+2026-11-02T03:37:47.4885487Z [1m[92m  Downloaded[0m pyo3-ffi v0.28.2
+2026-11-02T03:37:47.4976859Z [1m[92m  Downloaded[0m colorchoice v1.0.5
+2026-11-02T03:37:47.4986898Z [1m[92m  Downloaded[0m crossbeam-deque v0.8.7
+2026-11-02T03:37:47.5011832Z [1m[92m  Downloaded[0m strsim v0.11.1
+2026-11-02T03:37:47.5027311Z [1m[92m  Downloaded[0m once_cell_polyfill v1.70.2
+2026-11-02T03:37:47.5048950Z [1m[92m  Downloaded[0m windows-link v0.2.1
+2026-11-02T03:37:47.5073742Z [1m[92m  Downloaded[0m itoa v1.0.18
+2026-11-02T03:37:47.5078716Z [1m[92m  Downloaded[0m clap_lex v1.1.0
+2026-11-02T03:37:47.5091150Z [1m[92m  Downloaded[0m is_terminal_polyfill v1.70.2
+2026-11-02T03:37:47.5101236Z [1m[92m  Downloaded[0m heck v0.5.0
+2026-11-02T03:37:47.5116405Z [1m[92m  Downloaded[0m pyo3-macros v0.28.2
+2026-11-02T03:37:47.5125304Z [1m[92m  Downloaded[0m utf8parse v0.2.2
+2026-11-02T03:37:47.5179427Z [1m[92m  Downloaded[0m either v1.17.0
+2026-11-02T03:37:47.5202919Z [1m[92m  Downloaded[0m bytemuck_derive v1.11.0
+2026-11-02T03:37:47.5218911Z [1m[92m  Downloaded[0m csv-core v0.1.13
+2026-11-02T03:37:47.5233581Z [1m[92m  Downloaded[0m zmij v1.0.23
+2026-11-02T03:37:47.5252868Z [1m[92m  Downloaded[0m quote v1.0.47
+2026-11-02T03:37:47.5294034Z [1m[92m  Downloaded[0m crossbeam-utils v0.8.22
+2026-11-02T03:37:47.5329973Z [1m[92m  Downloaded[0m target-lexicon v0.13.5
+2026-11-02T03:37:47.5351324Z [1m[92m  Downloaded[0m crossbeam-epoch v0.9.20
+2026-11-02T03:37:47.5381100Z [1m[92m  Downloaded[0m memmap2 v0.9.11
+2026-11-02T03:37:47.5401086Z [1m[92m  Downloaded[0m clap_derive v4.6.4
+2026-11-02T03:37:47.5430798Z [1m[92m  Downloaded[0m pyo3-build-config v0.28.2
+2026-11-02T03:37:47.5448520Z [1m[92m  Downloaded[0m once_cell v1.21.4
+2026-11-02T03:37:47.5486862Z [1m[92m  Downloaded[0m serde_derive v1.0.229
+2026-11-02T03:37:47.5528884Z [1m[92m  Downloaded[0m unicode-ident v1.0.24
+2026-11-02T03:37:47.5566167Z [1m[92m  Downloaded[0m ryu v1.0.23
+2026-11-02T03:37:47.5613579Z [1m[92m  Downloaded[0m proc-macro2 v1.0.107
+2026-11-02T03:37:47.5652402Z [1m[92m  Downloaded[0m rayon-core v1.13.0
+2026-11-02T03:37:47.5696257Z [1m[92m  Downloaded[0m serde_core v1.0.229
+2026-11-02T03:37:47.5726476Z [1m[92m  Downloaded[0m clap v4.6.4
+2026-11-02T03:37:47.5848238Z [1m[92m  Downloaded[0m bytemuck v1.25.2
+2026-11-02T03:37:47.5884622Z [1m[92m  Downloaded[0m pyo3-macros-backend v0.28.2
+2026-11-02T03:37:47.5914875Z [1m[92m  Downloaded[0m serde v1.0.229
+2026-11-02T03:37:47.5953632Z [1m[92m  Downloaded[0m memchr v2.8.3
+2026-11-02T03:37:47.6020027Z [1m[92m  Downloaded[0m rayon v1.12.0
+2026-11-02T03:37:47.6134881Z [1m[92m  Downloaded[0m serde_json v1.0.151
+2026-11-02T03:37:47.6221278Z [1m[92m  Downloaded[0m clap_builder v4.6.2
+2026-11-02T03:37:47.6292844Z [1m[92m  Downloaded[0m portable-atomic v1.15.0
+2026-11-02T03:37:47.6375698Z [1m[92m  Downloaded[0m syn v2.0.119
+2026-11-02T03:37:47.6490301Z [1m[92m  Downloaded[0m syn v3.0.3
+2026-11-02T03:37:47.6604760Z [1m[92m  Downloaded[0m glam v0.30.10
+2026-11-02T03:37:47.6903703Z [1m[92m  Downloaded[0m libc v0.2.189
+2026-11-02T03:37:47.7464189Z [1m[92m  Downloaded[0m csv v1.4.0
+2026-11-02T03:37:47.7627932Z [1m[92m  Downloaded[0m pyo3 v0.28.2
+2026-11-02T03:37:47.7946339Z [1m[92m  Downloaded[0m windows-sys v0.61.2
+2026-11-02T03:37:47.9372159Z 🍹 Building a mixed python/rust project
+2026-11-02T03:37:48.0488303Z 🐍 Found CPython 3.9 at /opt/python/cp39-cp39/bin/python
+2026-11-02T03:37:48.0488737Z 🔗 Found pyo3 bindings with abi3-py3.11 support
+2026-11-02T03:37:48.0489076Z 📡 Using build options features from pyproject.toml
+2026-11-02T03:37:48.0553814Z ⚠️ Warning: abi3 does not yet support CPython 3.9 at /opt/python/cp39-cp39/bin/python so the build artifacts will be version-specific.
+2026-11-02T03:37:48.1064853Z [1m[92m   Compiling[0m proc-macro2 v1.0.107
+2026-11-02T03:37:48.1065290Z [1m[92m   Compiling[0m target-lexicon v0.13.5
+2026-11-02T03:37:48.1065740Z [1m[92m   Compiling[0m unicode-ident v1.0.24
+2026-11-02T03:37:48.1065997Z [1m[92m   Compiling[0m quote v1.0.47
+2026-11-02T03:37:48.1508800Z [1m[92m   Compiling[0m crossbeam-utils v0.8.22
+2026-11-02T03:37:48.2192588Z [1m[92m   Compiling[0m crossbeam-epoch v0.9.20
+2026-11-02T03:37:48.2533433Z [1m[92m   Compiling[0m heck v0.5.0
+2026-11-02T03:37:48.3012507Z [1m[92m   Compiling[0m libc v0.2.189
+2026-11-02T03:37:48.3399089Z [1m[92m   Compiling[0m serde_core v1.0.229
+2026-11-02T03:37:48.4731055Z [1m[92m   Compiling[0m utf8parse v0.2.2
+2026-11-02T03:37:48.4876382Z [1m[92m   Compiling[0m pyo3-build-config v0.28.2
+2026-11-02T03:37:48.5053517Z [1m[92m   Compiling[0m crossbeam-deque v0.8.7
+2026-11-02T03:37:48.6621979Z [1m[92m   Compiling[0m anstyle-parse v1.0.0
+2026-11-02T03:37:48.6998137Z [1m[92m   Compiling[0m syn v2.0.119
+2026-11-02T03:37:48.7644226Z [1m[92m   Compiling[0m syn v3.0.3
+2026-11-02T03:37:49.3881991Z [1m[92m   Compiling[0m pyo3-ffi v0.28.2
+2026-11-02T03:37:49.5001097Z [1m[92m   Compiling[0m pyo3-macros-backend v0.28.2
+2026-11-02T03:37:49.6897301Z [1m[92m   Compiling[0m anstyle v1.0.14
+2026-11-02T03:37:49.8084527Z [1m[92m   Compiling[0m memchr v2.8.3
+2026-11-02T03:37:50.4109794Z [1m[92m   Compiling[0m rayon-core v1.13.0
+2026-11-02T03:37:50.4774375Z [1m[92m   Compiling[0m is_terminal_polyfill v1.70.2
+2026-11-02T03:37:50.5196747Z [1m[92m   Compiling[0m zmij v1.0.23
+2026-11-02T03:37:50.6184483Z [1m[92m   Compiling[0m colorchoice v1.0.5
+2026-11-02T03:37:50.6516072Z [1m[92m   Compiling[0m anstyle-query v1.1.5
+2026-11-02T03:37:50.6878876Z [1m[92m   Compiling[0m anstream v1.0.0
+2026-11-02T03:37:51.0317665Z [1m[92m   Compiling[0m strsim v0.11.1
+2026-11-02T03:37:51.1614536Z [1m[92m   Compiling[0m clap_lex v1.1.0
+2026-11-02T03:37:51.1999117Z [1m[92m   Compiling[0m serde v1.0.229
+2026-11-02T03:37:51.2936647Z [1m[92m   Compiling[0m itoa v1.0.18
+2026-11-02T03:37:51.3092699Z [1m[92m   Compiling[0m serde_json v1.0.151
+2026-11-02T03:37:51.3803656Z [1m[92m   Compiling[0m clap_builder v4.6.2
+2026-11-02T03:37:51.3858031Z [1m[92m   Compiling[0m clap_derive v4.6.4
+2026-11-02T03:37:51.3890581Z [1m[92m   Compiling[0m serde_derive v1.0.229
+2026-11-02T03:37:51.7701527Z [1m[92m   Compiling[0m bytemuck_derive v1.11.0
+2026-11-02T03:37:53.2059855Z [1m[92m   Compiling[0m csv-core v0.1.13
+2026-11-02T03:37:53.2497480Z [1m[92m   Compiling[0m pyo3 v0.28.2
+2026-11-02T03:37:53.3279918Z [1m[92m   Compiling[0m either v1.17.0
+2026-11-02T03:37:53.3669401Z [1m[92m   Compiling[0m ryu v1.0.23
+2026-11-02T03:37:53.4261422Z [1m[92m   Compiling[0m rayon v1.12.0
+2026-11-02T03:37:53.4746988Z [1m[92m   Compiling[0m csv v1.4.0
+2026-11-02T03:37:55.1066803Z [1m[92m   Compiling[0m clap v4.6.4
+2026-11-02T03:37:55.1344222Z [1m[92m   Compiling[0m bytemuck v1.25.2
+2026-11-02T03:37:55.1564098Z [1m[92m   Compiling[0m pyo3-macros v0.28.2
+2026-11-02T03:37:55.4203206Z [1m[92m   Compiling[0m memmap2 v0.9.11
+2026-11-02T03:37:55.5095320Z [1m[92m   Compiling[0m once_cell v1.21.4
+2026-11-02T03:37:55.5565107Z [1m[92m   Compiling[0m glam v0.30.10
+2026-11-02T03:37:58.6417802Z [1m[92m   Compiling[0m steric_x v0.3.0 (/home/runner/work/StericX/StericX)
+2026-11-02T03:38:05.0340753Z [1m[92m   Compiling[0m stericx-python v0.4.0-dev.0 (/home/runner/work/StericX/StericX/python)
+2026-11-02T03:38:10.4771597Z [1m[92m    Finished[0m `release` profile [optimized] target(s) in 22.41s
+2026-11-02T03:38:10.5151496Z 📦 Built wheel for CPython 3.9 to dist/stericx-0.4.0.dev0-cp39-cp39-manylinux_2_28_x86_64.whl
+2026-11-02T03:38:16.0867036Z ##[group]Fix file permissions
+2026-11-02T03:38:16.0867506Z Fixing file permissions for target directory: /home/runner/work/StericX/StericX/python/target
+2026-11-02T03:38:16.0875971Z [command]/usr/bin/sudo chown 1001:1001 -R /home/runner/work/StericX/StericX/python/target
+2026-11-02T03:38:16.1054180Z Fixing file permissions for output directory: dist
+2026-11-02T03:38:16.1061290Z [command]/usr/bin/sudo chown 1001:1001 -R dist
+2026-11-02T03:38:16.1179712Z ##[endgroup]
+2026-11-02T03:38:16.1359352Z ##[group]Run python -m pip install pytest numpy pandas rdkit
+2026-11-02T03:38:16.1359627Z [36;1mpython -m pip install pytest numpy pandas rdkit[0m
+2026-11-02T03:38:16.1360088Z [36;1mpython -c "import pathlib, subprocess, sys; wheels=list(pathlib.Path('dist').glob('*.whl')); assert len(wheels)==1; subprocess.check_call([sys.executable, '-m', 'pip', 'install', str(wheels[0])])"[0m
+2026-11-02T03:38:16.1377645Z shell: /usr/bin/bash -e {0}
+2026-11-02T03:38:16.1377785Z env:
+2026-11-02T03:38:16.1377936Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:38:16.1378174Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-11-02T03:38:16.1378402Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:38:16.1378610Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:38:16.1378821Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-11-02T03:38:16.1379067Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-11-02T03:38:16.1379253Z   CARGO_HOME: /home/runner/.cargo
+2026-11-02T03:38:16.1379394Z   CARGO_INCREMENTAL: 0
+2026-11-02T03:38:16.1379520Z   CARGO_TERM_COLOR: always
+2026-11-02T03:38:16.1379648Z ##[endgroup]
+2026-11-02T03:38:16.7443766Z Collecting pytest
+2026-11-02T03:38:16.8139235Z   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+2026-11-02T03:38:16.9659670Z Collecting numpy
+2026-11-02T03:38:16.9789036Z   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-11-02T03:38:17.0516257Z Collecting pandas
+2026-11-02T03:38:17.0648152Z   Downloading pandas-3.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (18 kB)
+2026-11-02T03:38:17.1194349Z Collecting rdkit
+2026-11-02T03:38:17.1333703Z   Downloading rdkit-2026.9.1-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+2026-11-02T03:38:17.1546854Z Collecting iniconfig>=2 (from pytest)
+2026-11-02T03:38:17.1677117Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-11-02T03:38:17.1901976Z Collecting packaging>=24 (from pytest)
+2026-11-02T03:38:17.2028821Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-11-02T03:38:17.2243429Z Collecting pluggy<2,>=1.6 (from pytest)
+2026-11-02T03:38:17.2371496Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-11-02T03:38:17.2618348Z Collecting pygments>=2.15 (from pytest)
+2026-11-02T03:38:17.2755706Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-11-02T03:38:17.3017286Z Collecting python-dateutil>=2.9.0 (from pandas)
+2026-11-02T03:38:17.3153787Z   Downloading python_dateutil-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+2026-11-02T03:38:17.4412150Z Collecting Pillow (from rdkit)
+2026-11-02T03:38:17.4541402Z   Downloading pillow-13.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+2026-11-02T03:38:17.4775624Z Collecting tzdata (from python-dateutil>=2.9.0->pandas)
+2026-11-02T03:38:17.4899619Z   Downloading tzdata-2026.6-py2.py3-none-any.whl.metadata (1.4 kB)
+2026-11-02T03:38:17.5048904Z Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+2026-11-02T03:38:17.5553955Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-11-02T03:38:17.5692357Z Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2026-11-02T03:38:17.7259034Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 109.3 MB/s  0:00:00
+2026-11-02T03:38:17.7386069Z Downloading pandas-3.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (12.3 MB)
+2026-11-02T03:38:17.8256812Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.3/12.3 MB 141.1 MB/s  0:00:00
+2026-11-02T03:38:17.8482445Z Downloading rdkit-2026.9.1-cp311-cp311-manylinux_2_28_x86_64.whl (31.8 MB)
+2026-11-02T03:38:18.1591036Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 31.8/31.8 MB 102.1 MB/s  0:00:00
+2026-11-02T03:38:18.1717282Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-11-02T03:38:18.1855748Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+2026-11-02T03:38:18.1995995Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-11-02T03:38:18.2060776Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 201.2 MB/s  0:00:00
+2026-11-02T03:38:18.2185151Z Downloading python_dateutil-4.0.0-py3-none-any.whl (92 kB)
+2026-11-02T03:38:18.2324982Z Downloading pillow-13.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+2026-11-02T03:38:18.2754471Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 165.9 MB/s  0:00:00
+2026-11-02T03:38:18.2883967Z Downloading tzdata-2026.6-py2.py3-none-any.whl (348 kB)
+2026-11-02T03:38:18.3994399Z Installing collected packages: tzdata, pygments, pluggy, Pillow, packaging, numpy, iniconfig, rdkit, python-dateutil, pytest, pandas
+2026-11-02T03:38:23.9161969Z 
+2026-11-02T03:38:23.9170313Z Successfully installed Pillow-13.0.0 iniconfig-2.3.1 numpy-2.4.6 packaging-26.3 pandas-3.1.0 pluggy-1.7.0 pygments-2.21.0 pytest-9.2.0 python-dateutil-4.0.0 rdkit-2026.9.1 tzdata-2026.6
+2026-11-02T03:38:24.1853529Z ERROR: stericx-0.4.0.dev0-cp39-cp39-manylinux_2_28_x86_64.whl is not a supported wheel on this platform.
+2026-11-02T03:38:24.2152798Z Traceback (most recent call last):
+2026-11-02T03:38:24.2159768Z   File "<string>", line 1, in <module>
+2026-11-02T03:38:24.2160152Z   File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/subprocess.py", line 413, in check_call
+2026-11-02T03:38:24.2273497Z     raise CalledProcessError(retcode, cmd)
+2026-11-02T03:38:24.2274282Z subprocess.CalledProcessError: Command '['/opt/hostedtoolcache/Python/3.11.17/x64/bin/python', '-m', 'pip', 'install', 'dist/stericx-0.4.0.dev0-cp39-cp39-manylinux_2_28_x86_64.whl']' returned non-zero exit status 1.
+2026-11-02T03:38:24.2328958Z ##[error]Process completed with exit code 1.
+2026-11-02T03:38:24.2406705Z Post job cleanup.
+2026-11-02T03:38:24.3004033Z [command]/usr/bin/git version
+2026-11-02T03:38:24.3038989Z git version 2.56.0
+2026-11-02T03:38:24.3061584Z Temporarily overriding HOME='/home/runner/work/_temp/6df324e4-4ce6-403a-97e4-cdb790a944e5' before making global git config changes
+2026-11-02T03:38:24.3062632Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-02T03:38:24.3064757Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/StericX/StericX
+2026-11-02T03:38:24.3097370Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-02T03:38:24.3126371Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-02T03:38:24.3367378Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-02T03:38:24.3392134Z http.https://github.com/.extraheader
+2026-11-02T03:38:24.3412574Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-02T03:38:24.3437879Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-02T03:38:24.3678141Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-02T03:38:24.3717097Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-02T03:38:24.4131202Z Cleaning up orphan processes
+2026-11-02T03:38:24.4362851Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

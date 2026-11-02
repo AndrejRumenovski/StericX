@@ -27,14 +27,22 @@ jobs:
       - uses: PyO3/maturin-action@v1
         with:
           command: build
-          args: --release --locked --manifest-path python/Cargo.toml --out dist --interpreter python
+          # setup-python selects the host interpreter. The manylinux container
+          # needs its own explicit version; bare `python` can select Python 3.9.
+          args: >-
+            --release --locked --manifest-path python/Cargo.toml --out dist
+            --interpreter ${{ runner.os == 'Linux' && format('python{0}', matrix.python) || 'python' }}
           manylinux: "2_28"
       - name: Install wheel and optional adapters
         run: |
           python -m pip install pytest numpy pandas rdkit
-          python -c "import pathlib, subprocess, sys; wheels=list(pathlib.Path('dist').glob('*.whl')); assert len(wheels)==1; subprocess.check_call([sys.executable, '-m', 'pip', 'install', str(wheels[0])])"
+          python -c "import pathlib, subprocess, sys; wheels=list(pathlib.Path('dist').glob('*.whl')); assert len(wheels)==1; assert '-cp311-abi3-' in wheels[0].name, wheels[0]; subprocess.check_call([sys.executable, '-m', 'pip', 'install', str(wheels[0])])"
       - name: Validate installed wheel
-        run: python -I -m pytest -q python/tests
+        run: |
+          python -c "import platform, sys, stericx; print(sys.version); print(platform.platform()); print(stericx.__file__)"
+          python -m pip freeze
+          python -m pip check
+          python -I -m pytest -q python/tests
       - uses: actions/upload-artifact@v4
         with:
           name: wheel-${{ matrix.os }}-py${{ matrix.python }}

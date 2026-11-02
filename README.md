@@ -34,8 +34,8 @@ mol = Molecule.from_file("ligand.xyz")
 options = DescriptorOptions(axis="coordination", donor_index=0)
 result = mol.descriptors(options)
 
-print(result.sterimol.require())              # L, B1, B5 in Å
-print(result.buried_volume.require().summary) # volume in Å³, fraction in %
+print(result.sterimol.require())  # L, B1, B5 in Å
+print(result.buried_volume.require().summary)  # volume in Å³, fraction in %
 print(result.pyramidalization.require())
 ```
 
@@ -68,7 +68,7 @@ print(results.sterimol_b5.mean)
 print(results.sterimol_b5.minimum, results.sterimol_b5.maximum)
 print(results.sterimol_b5.standard_deviation)  # population SD, divisor n
 print(results.sterimol_b5.median)
-print(results.sterimol_b5.boltzmann_mean)      # None without valid energies
+print(results.sterimol_b5.boltzmann_mean)  # None without valid energies
 
 for conformer in results.conformers:
     print(conformer.index, conformer.identifier, conformer.sterimol)

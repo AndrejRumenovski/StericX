@@ -1,0 +1,20 @@
+{
+  "created_utc": "2026-11-02T16:55:12.196776+00:00",
+  "reviewer": "independent_method agent",
+  "argv": [
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_dbstep_volume_convergence.py"
+  ],
+  "returncode": 0,
+  "source_hashes": {
+    "scripts/analyze_dbstep_volume_convergence.py": "19ae363510a7d0b20746204668380484a4995bb661af81a9db992f5e741e9025",
+    "scripts/dbstep_resolution_reference.py": "5996e7f23a04208b431789270cd6a6c15fe5f2bd2fdb7297525a6c6b917ba7bf",
+    "tests/test_dbstep_volume_convergence.py": "b4d6b22f62da8a31aa921fbaf9467a3cf1d87ddd4dec1c7cf53ca729683d7a96",
+    "docs/validation/dbstep/resolution_analysis/CONVERGENCE_CELL_BOUNDS.md": "eeac39c2a828a24251725820919eac08ecc08856cd0c530c61f0c50ef9b8f9ac"
+  },
+  "source_unchanged": true,
+  "scope": "Independent review of finite tensor-cell coverage, reference binary64 radial envelope, count-weight conversion, ratio normalization and actual-estimator rounding/clamp charge. Does not alone admit a release or establish fine accuracy."
+}

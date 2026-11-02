@@ -1,0 +1,47 @@
+{
+  "kind": "convergence_evidence_summary",
+  "release_gate_scored": false,
+  "controller": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/summarize_convergence.py",
+    "bytes": 16168,
+    "sha256": "771146b98198f5de2efd46aa1d4a776e5b42d62db94d8329e00df77e447d4f3e"
+  },
+  "campaign_manifest": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_v2/manifest.json",
+    "bytes": 402142,
+    "sha256": "98bd1710923391997dd8700151d0e699703af3cb80fb08840f24b714513cad92"
+  },
+  "campaign_summary": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_v2/summary.json",
+    "bytes": 349,
+    "sha256": "8edb02c52da3f5dc75d909aca2ed3a9f633f8640d069e7dd3c3dd98e3313ab7d"
+  },
+  "committed_outputs": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/convergence_v2/CONVERGENCE_REPORT.md",
+      "bytes": 7215,
+      "sha256": "eadf8b86e77fc0e3ed39735048cae884dc8760de26f5d68dd1cffa64041ff70c"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/convergence_v2/convergence_residuals.csv",
+      "bytes": 113219,
+      "sha256": "678d9c875d1efd68d61bb605217963de4bb62f33b587cd1bffd561b2c9e7301c"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/convergence_v2/convergence_results.json",
+      "bytes": 1157263,
+      "sha256": "d1bc30f57716a0959f9ae869b09099387a33d914ad1178ee4d011ed8f8a2a98c"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/convergence_v2/convergence_summary.json",
+      "bytes": 349,
+      "sha256": "8edb02c52da3f5dc75d909aca2ed3a9f633f8640d069e7dd3c3dd98e3313ab7d"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/convergence_v2/convergence_trends.json",
+      "bytes": 14696,
+      "sha256": "d6855d0cdb859b3db78d15a72e284b5258aaf9a2b6ad298cfec496119e5c4d39"
+    }
+  ],
+  "raw_evidence_count": 1437
+}

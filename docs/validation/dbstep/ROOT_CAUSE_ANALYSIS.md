@@ -128,8 +128,81 @@ tolerance cannot by itself bound that change. This identifies a potential
 **reference comparison error**, alongside the demonstrated **numerical
 integration difference**; it does not yet authorize changing a release gate.
 
-New independent checks must test the complete native predicates, analytic
-limits, convergence and adversarial cases. They must also inspect DBSTEP's own
-denominator/numerator consistency rather than assuming f64 reference output is
-ground truth. Any revised acceptance policy will be separately documented before
-it is applied, with original failures retained as failures of the original lane.
+## Independent reproduction and classification
+
+The new observation adapter calls the unchanged Rust kernel for each node and
+separately for the complete grid. Its production source prefix and legacy
+responses match the frozen baseline exactly. It is a measurement of the engine,
+not the independent reference. The independent research implementation uses
+direct union predicates, exact rational boundary witnesses, analytical sphere
+intersections and adaptive continuous-volume bounds.
+
+Across **69 cases / 207 frames / 3,545,298 sampled occupancy decisions**, Rust,
+unmodified DBSTEP occupancy and the independent reference give **exactly equal
+atomic masks**. Counts reconstruct all native aggregate/quadrant/octant bits.
+The maximum common-domain volume residual across all frames is
+**7.86485133e-6 Å³**, within the unchanged original arithmetic tolerance in every
+case. All **138** public mean-volume/percentage comparisons also satisfy their
+unchanged arithmetic criteria.
+
+| Original witness | Rust, unchanged Å³ | DBSTEP same-domain derived Å³ | Residual Å³ |
+|---|---:|---:|---:|
+| Plane 15 | 16.4183273315 | 16.4183263867 | 9.44858e-7 |
+| Plane 13 | 16.4418487549 | 16.4418483443 | 4.10624e-7 |
+| Plane 10 | 16.4300880432 | 16.4300873655 | 6.77741e-7 |
+| Three-frame mean | 16.4300880432 | 16.4300873655 | 6.77741e-7 |
+
+The percentage comparison is 25.1033248901% native versus 25.1033243486% on the
+same domain, a 5.41529e-7 percentage-point residual. These values use unchanged
+geometries/radii and normalization, without a fitted integration parameter.
+
+**Classification of every original strict failure:** reference comparison error
+(the purported common finite domain was clipped again), together with a
+finite-precision numerical integration difference (binary32 versus binary64
+sphere membership). The first divergent operation is the second sphere test,
+not atom mapping, coordinate transformation or atomic occupancy. The original
+three frame failures and two public-summary failures, and their repeated profile
+witness, remain reproduced in the historical lane. No production Rust error is
+established by these results. The smallest justified correction is the separate
+common-domain comparison implemented in `analyze_dbstep_point_domains.py`.
+
+Full evidence and reconstruction commands are in
+[POINT_DOMAIN_RESULTS.md](resolution_analysis/POINT_DOMAIN_RESULTS.md). The
+[molecular adversary study](resolution_analysis/MOLECULAR_ADVERSARIES.md) adds
+49 requests, explicit hydrogens, primary/secondary phosphines, permutations,
+rotations, translations and nearly degenerate frames. All 48 mathematically
+valid requests succeed; the exactly collinear frame returns a structured error.
+An initially incorrect test expectation for a small nonzero plane was corrected
+using its exact nonzero cross product, with the unsuccessful attempt retained.
+
+## Separate DBSTEP reference implementation defect
+
+Official DBSTEP's volume-only fast path counts sphere denominator points using
+successive subtraction of coordinate squares, while its occupied numerator uses
+a summed-square comparison. Those floating-point predicates can disagree.
+Independent exact rational witnesses and analytical sphere intersections confirm
+that this can produce more occupied points than denominator points; its public
+API then clamps the percentage to 100%.
+
+For the frozen Bq-center/carbon test at R=1 Å, carbon center (0.8,0,0), Bondi
+radius 1.7 Å and spacing 0.2 Å, the unmodified public API counts 510 occupied
+nodes over 491 denominator nodes. Its unclamped ratio is 103.86965%, clamped to
+100%, despite five unoccupied nodes in its own 515-point summed-square sphere.
+The analytical continuum result is 98.42890625%. The exact rational finite-grid
+ratio is a different quantity, 490/491, or 99.79633401%.
+
+This is a **confirmed DBSTEP internal predicate inconsistency**. It is separate
+from the original ligand-401 failure, which used the tree path. The source is
+unmodified; this defective public fraction is not used as an exact finite-set
+oracle. [Source review and all 12 public probes](resolution_analysis/DBSTEP_SOURCE_REVIEW.md)
+preserve the settings, counts, alternative finite definitions and continuum truth.
+
+## Release-policy status
+
+The [separate-lane policy](ACCEPTANCE_POLICY.md) was explicitly
+[approved by the user](POLICY_APPROVAL.md) before final release-gate evaluation.
+It preserves the historical failed equality lane and original tolerances, and
+requires independent boundary and continuum analysis plus complete scientific,
+engineering and performance evidence. Approval of the policy is not a release
+pass. Convergence results and the final source-bound gate decision are reported
+separately when complete.

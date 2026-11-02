@@ -1,0 +1,568 @@
+{
+  "analytical_aggregate_statistics": [
+    {
+      "method": "dbstep_fast_common_radii",
+      "level": 0,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.744061417955479,
+      "mean_absolute_error_upper": 0.21681301882516504,
+      "maximum_cell_error_bound": 249.17250146104234
+    },
+    {
+      "method": "dbstep_fast_common_radii",
+      "level": 1,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.41766194166472737,
+      "mean_absolute_error_upper": 0.10649065209748475,
+      "maximum_cell_error_bound": 124.19447006784797
+    },
+    {
+      "method": "dbstep_fast_common_radii",
+      "level": 2,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.049944807181713013,
+      "mean_absolute_error_upper": 0.012545539627517503,
+      "maximum_cell_error_bound": 62.15448360768382
+    },
+    {
+      "method": "dbstep_fast_common_radii",
+      "level": 3,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.019857461825376177,
+      "mean_absolute_error_upper": 0.006966122235931707,
+      "maximum_cell_error_bound": 31.03063813007189
+    },
+    {
+      "method": "dbstep_tree_common_radii",
+      "level": 0,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.744061417955479,
+      "mean_absolute_error_upper": 0.21681301882516504,
+      "maximum_cell_error_bound": 249.17250146104234
+    },
+    {
+      "method": "dbstep_tree_common_radii",
+      "level": 1,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.41766194166472737,
+      "mean_absolute_error_upper": 0.10649065209748475,
+      "maximum_cell_error_bound": 124.19447006784797
+    },
+    {
+      "method": "dbstep_tree_common_radii",
+      "level": 2,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.05244677537646103,
+      "mean_absolute_error_upper": 0.01422325137551091,
+      "maximum_cell_error_bound": 62.04826245109108
+    },
+    {
+      "method": "dbstep_tree_common_radii",
+      "level": 3,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.02050400418293208,
+      "mean_absolute_error_upper": 0.007175879499269876,
+      "maximum_cell_error_bound": 31.018009652693582
+    },
+    {
+      "method": "morfeus_public_common_radii",
+      "level": 0,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 1.2653637076958901,
+      "mean_absolute_error_upper": 0.2895723650080079,
+      "maximum_cell_error_bound": 283.4964318095187
+    },
+    {
+      "method": "morfeus_public_common_radii",
+      "level": 1,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.1080069223207255,
+      "mean_absolute_error_upper": 0.03473217711606419,
+      "maximum_cell_error_bound": 141.2672267185951
+    },
+    {
+      "method": "morfeus_public_common_radii",
+      "level": 2,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.09019978907365722,
+      "mean_absolute_error_upper": 0.013740467381345954,
+      "maximum_cell_error_bound": 68.9467684256481
+    },
+    {
+      "method": "morfeus_public_common_radii",
+      "level": 3,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.013682265960980544,
+      "mean_absolute_error_upper": 0.003885963588889543,
+      "maximum_cell_error_bound": 33.716914598107785
+    },
+    {
+      "method": "stericx_native",
+      "level": 0,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 1.265364286638171,
+      "mean_absolute_error_upper": 0.2895731765262114,
+      "maximum_cell_error_bound": 283.49652737435315
+    },
+    {
+      "method": "stericx_native",
+      "level": 1,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.10631915993072871,
+      "mean_absolute_error_upper": 0.031290837828216955,
+      "maximum_cell_error_bound": 141.92516823909858
+    },
+    {
+      "method": "stericx_native",
+      "level": 2,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.09020006392088575,
+      "mean_absolute_error_upper": 0.01374125342628283,
+      "maximum_cell_error_bound": 68.9474601982216
+    },
+    {
+      "method": "stericx_native",
+      "level": 3,
+      "analytical_case_count": 16,
+      "maximum_absolute_error_upper": 0.013579728864761442,
+      "mean_absolute_error_upper": 0.003862304011995465,
+      "maximum_cell_error_bound": 33.71950481587273
+    }
+  ],
+  "nonmonotonic_error_steps": [
+    {
+      "case": "concentric",
+      "method": "dbstep_fast_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.005033754462658635,
+        0.005033754462659523
+      ],
+      "next_absolute_error": [
+        0.010938139797584512,
+        0.0109381397975854
+      ]
+    },
+    {
+      "case": "enclosed",
+      "method": "dbstep_fast_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.009047912726341423,
+        0.009047912726342311
+      ],
+      "next_absolute_error": [
+        0.01143846638241719,
+        0.011438466382418078
+      ]
+    },
+    {
+      "case": "internal_tangent",
+      "method": "dbstep_fast_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.009047912726341423,
+        0.009047912726342311
+      ],
+      "next_absolute_error": [
+        0.01143846638241719,
+        0.011438466382418078
+      ]
+    },
+    {
+      "case": "external_tangent",
+      "method": "dbstep_fast_common_radii",
+      "from_level": 1,
+      "to_level": 2,
+      "previous_absolute_error": [
+        -0.0,
+        0.0
+      ],
+      "next_absolute_error": [
+        0.00100353956592078,
+        0.00100353956592078
+      ]
+    },
+    {
+      "case": "external_tangent_below",
+      "method": "dbstep_fast_common_radii",
+      "from_level": 1,
+      "to_level": 2,
+      "previous_absolute_error": [
+        1.2755632813837082e-13,
+        1.2755632813837084e-13
+      ],
+      "next_absolute_error": [
+        0.0010035395657932236,
+        0.0010035395657932238
+      ]
+    },
+    {
+      "case": "coincident",
+      "method": "dbstep_fast_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.005033754462657747,
+        0.005033754462660411
+      ],
+      "next_absolute_error": [
+        0.010938139797583624,
+        0.010938139797586288
+      ]
+    },
+    {
+      "case": "concentric",
+      "method": "dbstep_tree_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.008110658711597551,
+        0.00811065871159844
+      ],
+      "next_absolute_error": [
+        0.011321352071726132,
+        0.01132135207172702
+      ]
+    },
+    {
+      "case": "external_tangent",
+      "method": "dbstep_tree_common_radii",
+      "from_level": 1,
+      "to_level": 2,
+      "previous_absolute_error": [
+        -0.0,
+        0.0
+      ],
+      "next_absolute_error": [
+        0.0010028015222055152,
+        0.0010028015222055152
+      ]
+    },
+    {
+      "case": "external_tangent_below",
+      "method": "dbstep_tree_common_radii",
+      "from_level": 1,
+      "to_level": 2,
+      "previous_absolute_error": [
+        1.2755632813837082e-13,
+        1.2755632813837084e-13
+      ],
+      "next_absolute_error": [
+        0.0010028015220779588,
+        0.001002801522077959
+      ]
+    },
+    {
+      "case": "coincident",
+      "method": "dbstep_tree_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.008110658711596663,
+        0.008110658711599328
+      ],
+      "next_absolute_error": [
+        0.011321352071725244,
+        0.011321352071727908
+      ]
+    },
+    {
+      "case": "enclosed",
+      "method": "morfeus_public_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.0021999948554549675,
+        0.0021999948554558557
+      ],
+      "next_absolute_error": [
+        0.0023752239002767794,
+        0.0023752239002776676
+      ]
+    },
+    {
+      "case": "equal_spheres",
+      "method": "morfeus_public_common_radii",
+      "from_level": 0,
+      "to_level": 1,
+      "previous_absolute_error": [
+        -0.0,
+        1.4210854715202004e-14
+      ],
+      "next_absolute_error": [
+        0.046959531443803826,
+        0.04695953144381804
+      ]
+    },
+    {
+      "case": "equal_spheres",
+      "method": "morfeus_public_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        -0.0,
+        1.4210854715202004e-14
+      ],
+      "next_absolute_error": [
+        0.0006422995944461718,
+        0.0006422995944603827
+      ]
+    },
+    {
+      "case": "internal_tangent",
+      "method": "morfeus_public_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.0021999948554549675,
+        0.0021999948554558557
+      ],
+      "next_absolute_error": [
+        0.006871321061428404,
+        0.006871321061429292
+      ]
+    },
+    {
+      "case": "internal_tangent_below",
+      "method": "morfeus_public_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.0021999948554549675,
+        0.0021999948554558557
+      ],
+      "next_absolute_error": [
+        0.006710746162815973,
+        0.006710746162816861
+      ]
+    },
+    {
+      "case": "internal_tangent_above",
+      "method": "morfeus_public_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.0021999948555295745,
+        0.0021999948555304627
+      ],
+      "next_absolute_error": [
+        0.006871321061503011,
+        0.006871321061503899
+      ]
+    },
+    {
+      "case": "external_tangent_below",
+      "method": "morfeus_public_common_radii",
+      "from_level": 0,
+      "to_level": 1,
+      "previous_absolute_error": [
+        1.2755632813837082e-13,
+        1.2755632813837084e-13
+      ],
+      "next_absolute_error": [
+        0.011739882860820847,
+        0.011739882860820849
+      ]
+    },
+    {
+      "case": "external_tangent_below",
+      "method": "morfeus_public_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        1.2755632813837082e-13,
+        1.2755632813837084e-13
+      ],
+      "next_absolute_error": [
+        0.00016057489848501284,
+        0.00016057489848501287
+      ]
+    },
+    {
+      "case": "separated",
+      "method": "morfeus_public_common_radii",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.0021999948554549675,
+        0.0021999948554551896
+      ],
+      "next_absolute_error": [
+        0.006993357984374393,
+        0.006993357984374615
+      ]
+    },
+    {
+      "case": "overlapping",
+      "method": "morfeus_public_common_radii",
+      "from_level": 1,
+      "to_level": 2,
+      "previous_absolute_error": [
+        0.012913871147041789,
+        0.012913871147044453
+      ],
+      "next_absolute_error": [
+        0.026399938265458722,
+        0.026399938265461387
+      ]
+    },
+    {
+      "case": "enclosed",
+      "method": "stericx_native",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.0022002432116554616,
+        0.0022002432116563497
+      ],
+      "next_absolute_error": [
+        0.0024782392748878834,
+        0.0024782392748887716
+      ]
+    },
+    {
+      "case": "crossing",
+      "method": "stericx_native",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.002048431137613882,
+        0.002048431137614326
+      ],
+      "next_absolute_error": [
+        0.0021070821080728663,
+        0.0021070821080733104
+      ]
+    },
+    {
+      "case": "internal_tangent",
+      "method": "stericx_native",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.0022002432116554616,
+        0.0022002432116563497
+      ],
+      "next_absolute_error": [
+        0.006974813676743352,
+        0.00697481367674424
+      ]
+    },
+    {
+      "case": "external_tangent",
+      "method": "stericx_native",
+      "from_level": 0,
+      "to_level": 1,
+      "previous_absolute_error": [
+        -0.0,
+        0.0
+      ],
+      "next_absolute_error": [
+        0.01176097895950079,
+        0.01176097895950079
+      ]
+    },
+    {
+      "case": "external_tangent",
+      "method": "stericx_native",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        -0.0,
+        0.0
+      ],
+      "next_absolute_error": [
+        0.000160578842042014,
+        0.000160578842042014
+      ]
+    },
+    {
+      "case": "internal_tangent_below",
+      "method": "stericx_native",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.0022002432116554616,
+        0.0022002432116563497
+      ],
+      "next_absolute_error": [
+        0.006813642717270696,
+        0.006813642717271584
+      ]
+    },
+    {
+      "case": "internal_tangent_above",
+      "method": "stericx_native",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.0022002432117300685,
+        0.0022002432117309567
+      ],
+      "next_absolute_error": [
+        0.006974813676817959,
+        0.006974813676818847
+      ]
+    },
+    {
+      "case": "external_tangent_below",
+      "method": "stericx_native",
+      "from_level": 0,
+      "to_level": 1,
+      "previous_absolute_error": [
+        1.2755632813837082e-13,
+        1.2755632813837084e-13
+      ],
+      "next_absolute_error": [
+        0.011760978959373232,
+        0.011760978959373234
+      ]
+    },
+    {
+      "case": "external_tangent_below",
+      "method": "stericx_native",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        1.2755632813837082e-13,
+        1.2755632813837084e-13
+      ],
+      "next_absolute_error": [
+        0.00016057884191445767,
+        0.0001605788419144577
+      ]
+    },
+    {
+      "case": "separated",
+      "method": "stericx_native",
+      "from_level": 2,
+      "to_level": 3,
+      "previous_absolute_error": [
+        0.0021998590884433344,
+        0.0021998590884435565
+      ],
+      "next_absolute_error": [
+        0.006967753833316381,
+        0.006967753833316603
+      ]
+    },
+    {
+      "case": "overlapping",
+      "method": "stericx_native",
+      "from_level": 1,
+      "to_level": 2,
+      "previous_absolute_error": [
+        0.00023458599451409157,
+        0.0002345859945167561
+      ],
+      "next_absolute_error": [
+        0.0264005839883934,
+        0.026400583988396065
+      ]
+    }
+  ]
+}

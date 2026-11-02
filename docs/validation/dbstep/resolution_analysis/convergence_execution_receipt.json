@@ -1,0 +1,118 @@
+{
+  "kind": "convergence_execution_history",
+  "accepted_run": ".stericx/dbstep_resolution/convergence_v2",
+  "accepted_exit_code": 0,
+  "release_gate_scored": false,
+  "test_command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 taskset -c 0,1 .stericx/paton/reference/venv/bin/python -m pytest tests/test_dbstep_resolution_reference.py tests/test_dbstep_volume_convergence.py -q",
+  "final_test_result": "22 passed, 10 subtests passed",
+  "preflight_rejection": {
+    "run": ".stericx/dbstep_resolution/convergence_v1",
+    "reason": "Imported DBSTEP source file was installed under site-packages rather than inside Git checkout; byte hashes were identical. Path-equality guard was corrected to installed/check-out hash equality, both files now bound. No numerical work ran in this attempt."
+  },
+  "smoke_run": {
+    "run": ".stericx/dbstep_resolution/convergence_smoke_v1",
+    "cases": [
+      "empty",
+      "crossing"
+    ],
+    "comparisons": 32,
+    "controller_preserved_separately": true
+  },
+  "records": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/analyze_dbstep_volume_convergence.py",
+      "bytes": 42145,
+      "sha256": "c4440d55010ef964a4ff1aa3740e7fece5492eb26d3e4636fc92a24b09bcbc91"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/tests/test_dbstep_volume_convergence.py",
+      "bytes": 3718,
+      "sha256": "b4d6b22f62da8a31aa921fbaf9467a3cf1d87ddd4dec1c7cf53ca729683d7a96"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/summarize_convergence.py",
+      "bytes": 16168,
+      "sha256": "771146b98198f5de2efd46aa1d4a776e5b42d62db94d8329e00df77e447d4f3e"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/CONVERGENCE_CELL_BOUNDS.md",
+      "bytes": 5390,
+      "sha256": "eeac39c2a828a24251725820919eac08ecc08856cd0c530c61f0c50ef9b8f9ac"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_smoke_v1_controller.py",
+      "bytes": 36277,
+      "sha256": "dc2832f2c0f2dc84157326c6884ca1c27a8412c14f665a32799de3dd60396f80"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_smoke_v1/manifest.json",
+      "bytes": 41422,
+      "sha256": "56b7e88c4b5a61eb616d7c8ce9785f140096116ffae3197ccb56d5ce8ba17b1e"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_smoke_v1_stdout.txt",
+      "bytes": 780,
+      "sha256": "1676a6d7c971f5301b8ebd97e9e953a5c34f0224a5f6a1cfc9fac48be580ed69"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_smoke_v1_stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_v1_controller.py",
+      "bytes": 42095,
+      "sha256": "19ae363510a7d0b20746204668380484a4995bb661af81a9db992f5e741e9025"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_v1_stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_v1_stderr.txt",
+      "bytes": 402,
+      "sha256": "f62f490743596bf8459c71811d4f08fd5df8580a8d002c629e26d49f901bf624"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_v2/manifest.json",
+      "bytes": 402142,
+      "sha256": "98bd1710923391997dd8700151d0e699703af3cb80fb08840f24b714513cad92"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_v2_stdout.txt",
+      "bytes": 5737,
+      "sha256": "c506dfb3251bb1d23e619cf89c1ca56cbfedb03d859f092f81085760cb692d9e"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_v2_stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_reference_tests_final_stdout.txt",
+      "bytes": 109,
+      "sha256": "8d5218f17fcd27b103824b0eb33e17e1f4dd6b834e43015269c2a69540df24fd"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_reference_tests_final_stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_summary_v2_stdout.txt",
+      "bytes": 204,
+      "sha256": "3b60cdca0292acbb40e82c4daea12f7c06edb58e9b1158d9534346ae4c1c041f"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/convergence_summary_v2_stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/convergence_v2/convergence_receipt.json",
+      "bytes": 2255,
+      "sha256": "95e1fd197b3e7b0631239bcf9a08ebb98dd2f40eda4ec566d9e72a5916d659e6"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "phase": "references",
+  "started_utc": "2026-11-02T16:35:01.900859+00:00",
+  "command": [
+    "scripts/replay_dbstep_resolution_science.py",
+    "--build",
+    ".stericx/dbstep_resolution/baseline/build",
+    "--output",
+    ".stericx/dbstep_resolution/science_v1",
+    "--logs",
+    "docs/validation/dbstep/resolution_validation",
+    "--phase",
+    "references"
+  ],
+  "build": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/manifest.json",
+    "bytes": 37600,
+    "sha256": "4717d77fbef9687651ab5895aa9c0a4380cee338d5def531c072a33ffff39757"
+  },
+  "controller": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/references/controller.py",
+    "bytes": 13930,
+    "sha256": "33da13e49ed84484e801cda924ccad0ce6ac7f2e9db78540fc9f1d637adc2d45"
+  },
+  "complete": true,
+  "scientific_global_pass": false,
+  "runs": [
+    {
+      "name": "references_inferred",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/replay_scientific_remediation.py",
+        "references",
+        "--observations",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations",
+        "--components",
+        "geometry",
+        "kraken",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/references_inferred"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:35:02.029635+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 752.3419067350001,
+      "completed_utc": "2026-11-02T16:47:34.456976+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/references_inferred.stdout.log",
+        "bytes": 346,
+        "sha256": "dffc9a05ce1e2923ea2015b86082c6fa028fac8734e5035f047393eee7c5b917"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/references_inferred.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "references_topology",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/replay_scientific_remediation.py",
+        "references",
+        "--observations",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations",
+        "--components",
+        "kraken",
+        "--kraken-lane",
+        "kraken_topology",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/references_topology"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:47:34.469423+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 722.3685113439997,
+      "completed_utc": "2026-11-02T16:59:36.838373+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/references_topology.stdout.log",
+        "bytes": 278,
+        "sha256": "54bb07b77be8372ef820359800681de9b7eed2da0fffa13b1cf97ab326b0682d"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/references_topology.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "interpretation": "Execution receipt only; independent artifact review is required.",
+  "completed_utc": "2026-11-02T16:59:46.611158+00:00"
+}

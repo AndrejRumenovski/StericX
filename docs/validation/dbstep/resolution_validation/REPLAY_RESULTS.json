@@ -1,0 +1,703 @@
+{
+  "kind": "dbstep_resolution_scientific_replay_summary",
+  "created_utc": "2026-11-02T17:08:40.642353+00:00",
+  "build": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/manifest.json",
+    "bytes": 37600,
+    "sha256": "4717d77fbef9687651ab5895aa9c0a4380cee338d5def531c072a33ffff39757"
+  },
+  "review": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/review/review.json",
+    "bytes": 13252,
+    "sha256": "cd704259edf3875664eef7be683867fbd227adbad8a415c0d6182c2d8346fa31"
+  },
+  "source_commit": "f04b156f7b8b31700e1c6ab978e337b00cc734e0",
+  "legacy_reference_preservation_pass": true,
+  "scientific_global_pass": false,
+  "release_admitted": false,
+  "scope": {
+    "observations": 128021,
+    "lanes": 13,
+    "full_volume_conformers": 31721,
+    "volume_reference_errors": 0,
+    "frames": 95163,
+    "regional_bins": 1141956,
+    "fixed_union_cases_per_lane": 2517,
+    "fixed_union_lanes": 2,
+    "cli_cases_per_thread_count": 93,
+    "cli_threads": [
+      1,
+      2,
+      4,
+      6
+    ],
+    "model_checks": 7175,
+    "model_supplement_checks": 449
+  },
+  "engineering": {
+    "rust_tests_passed": 348,
+    "research_tests_passed_at_first_engineering_run": 143,
+    "official_dbstep_tests_passed": 413,
+    "official_dbstep_tests_skipped": 3
+  },
+  "command_durations_seconds": {
+    "engineering": {
+      "rust_format": 0.24947905599992737,
+      "clippy": 88.61892257399995,
+      "rustdoc": 625.741016129,
+      "rust_tests": 9.856020168999748,
+      "screening_regression": 1.799492052000005,
+      "python_tests": 21.799163743999998,
+      "dbstep_upstream_tests": 82.9232250709997,
+      "archived_morfeus_evidence": 6.449559788999977,
+      "retrospective_screening": 1.022450447999745
+    },
+    "cli": {
+      "cli_prepare": 0.3023682389998612,
+      "cli_1": 14.482003685000109,
+      "cli_2": 16.68591559100014,
+      "cli_4": 21.998484339000242,
+      "cli_6": 15.198170859000129,
+      "cli_compare_2": 29.351958796999952,
+      "cli_compare_4": 33.78347053100015,
+      "cli_compare_6": 29.008609763000095
+    },
+    "models_thermo": {
+      "model_demo": 19.969172397999955,
+      "models": 85.3866652859997,
+      "model_supplement": 16.45814700900064,
+      "thermodynamics": 0.793280928999593
+    },
+    "references": {
+      "references_inferred": 752.3419067350001,
+      "references_topology": 722.3685113439997
+    },
+    "volume": {
+      "volume_reference": 223.17616715700024,
+      "all_bins": 15.252263423999466,
+      "fixed_union": 48.291339256000356
+    }
+  },
+  "receipt_copies": [
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/engineering/journal.json",
+        "bytes": 10313,
+        "sha256": "67eb09c876eb47f8a3d1aac20b5383511411a32fb0175f4c9e00a1592208d7d9"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/engineering_journal.json",
+        "bytes": 10313,
+        "sha256": "67eb09c876eb47f8a3d1aac20b5383511411a32fb0175f4c9e00a1592208d7d9"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/engineering/controller.py",
+        "bytes": 13640,
+        "sha256": "ce071b841935b86f6592b8cf753638d84d1f680d535314e9f2ee73299e1add6a"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/controllers/ce071b841935b86f6592b8cf753638d84d1f680d535314e9f2ee73299e1add6a.py.txt",
+        "bytes": 13640,
+        "sha256": "ce071b841935b86f6592b8cf753638d84d1f680d535314e9f2ee73299e1add6a"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/cli/journal.json",
+        "bytes": 11939,
+        "sha256": "1557ca6b136ef3efc673783b05165e6597023ab20bd6f6c29e5e683bb858ff73"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/cli_journal.json",
+        "bytes": 11939,
+        "sha256": "1557ca6b136ef3efc673783b05165e6597023ab20bd6f6c29e5e683bb858ff73"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/cli/controller.py",
+        "bytes": 13930,
+        "sha256": "33da13e49ed84484e801cda924ccad0ce6ac7f2e9db78540fc9f1d637adc2d45"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/controllers/33da13e49ed84484e801cda924ccad0ce6ac7f2e9db78540fc9f1d637adc2d45.py.txt",
+        "bytes": 13930,
+        "sha256": "33da13e49ed84484e801cda924ccad0ce6ac7f2e9db78540fc9f1d637adc2d45"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/models_thermo/journal.json",
+        "bytes": 7506,
+        "sha256": "c0d3dfd9f097c6697009fe61088b89740681673f637f7ac89b1f386164d36b93"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/models_thermo_journal.json",
+        "bytes": 7506,
+        "sha256": "c0d3dfd9f097c6697009fe61088b89740681673f637f7ac89b1f386164d36b93"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/references/journal.json",
+        "bytes": 4041,
+        "sha256": "05127a9a6301d0281bc873fbe5171e43f6ee8e7bc5f7e6e1d986e34134db9997"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/references_journal.json",
+        "bytes": 4041,
+        "sha256": "05127a9a6301d0281bc873fbe5171e43f6ee8e7bc5f7e6e1d986e34134db9997"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/volume/journal.json",
+        "bytes": 5915,
+        "sha256": "21430c88930fc273650c2dc0e39c988cd6aa1488d35cb4b5b19b054e890caa03"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/volume_journal.json",
+        "bytes": 5915,
+        "sha256": "21430c88930fc273650c2dc0e39c988cd6aa1488d35cb4b5b19b054e890caa03"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/engineering/controller_archive.json",
+        "bytes": 749,
+        "sha256": "21da009357972e73a58048851ae4d73799554e1912606a2ca327117588ba8b99"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/engineering_controller_archive.json",
+        "bytes": 749,
+        "sha256": "21da009357972e73a58048851ae4d73799554e1912606a2ca327117588ba8b99"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/manifest.json",
+        "bytes": 37600,
+        "sha256": "4717d77fbef9687651ab5895aa9c0a4380cee338d5def531c072a33ffff39757"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/build_manifest.json",
+        "bytes": 37600,
+        "sha256": "4717d77fbef9687651ab5895aa9c0a4380cee338d5def531c072a33ffff39757"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/manifest.json",
+        "bytes": 46101,
+        "sha256": "f62300910e88b1641ad9a43420e39d539a7d2d8baa1f35cba1e708de6f593a9e"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/observations_manifest.json",
+        "bytes": 46101,
+        "sha256": "f62300910e88b1641ad9a43420e39d539a7d2d8baa1f35cba1e708de6f593a9e"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/legacy_comparison.json",
+        "bytes": 16742,
+        "sha256": "d0cb2012fb490b56fa0cd51dd05d3d48ea6545dec308dea7a8aa27ffadd8983c"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/legacy_comparison.json",
+        "bytes": 16742,
+        "sha256": "d0cb2012fb490b56fa0cd51dd05d3d48ea6545dec308dea7a8aa27ffadd8983c"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/references_inferred/result.json",
+        "bytes": 20444,
+        "sha256": "1bf159bbc99e24327054a70dcb42b6d250ca39f3b2a657f21e0d8b206af5e03d"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/references_inferred_result.json",
+        "bytes": 20444,
+        "sha256": "1bf159bbc99e24327054a70dcb42b6d250ca39f3b2a657f21e0d8b206af5e03d"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/references_topology/result.json",
+        "bytes": 16670,
+        "sha256": "09f3cba1b9544e57f503fe9cf7c203e4e0c48edc680c9541e6ee596ee68fd90c"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/references_topology_result.json",
+        "bytes": 16670,
+        "sha256": "09f3cba1b9544e57f503fe9cf7c203e4e0c48edc680c9541e6ee596ee68fd90c"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/volume_reference/complete.json",
+        "bytes": 3216,
+        "sha256": "d0962f8ca7a6c41dddff55911db6e1fc6f33f4be5c689b20c11fa977a21c315b"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/volume_complete.json",
+        "bytes": 3216,
+        "sha256": "d0962f8ca7a6c41dddff55911db6e1fc6f33f4be5c689b20c11fa977a21c315b"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/all_bins/complete.json",
+        "bytes": 2523,
+        "sha256": "524d5ea52f6a82074946a2d5f04f59230e19e2df58cc78576279e1a318c1c8b2"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/all_bins_complete.json",
+        "bytes": 2523,
+        "sha256": "524d5ea52f6a82074946a2d5f04f59230e19e2df58cc78576279e1a318c1c8b2"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/fixed_union/complete.json",
+        "bytes": 221933,
+        "sha256": "57253709a79cb2e459501ebcaa17d79e870a9a72147284f18028ac644ac2e1ac"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/fixed_union_complete.json",
+        "bytes": 221933,
+        "sha256": "57253709a79cb2e459501ebcaa17d79e870a9a72147284f18028ac644ac2e1ac"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/models/manifest.json",
+        "bytes": 69095,
+        "sha256": "ddf484cba97425011012178e2a75e08150d91b0154808c2f81595bddceb23cb3"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/models_manifest.json",
+        "bytes": 69095,
+        "sha256": "ddf484cba97425011012178e2a75e08150d91b0154808c2f81595bddceb23cb3"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_supplement/manifest.json",
+        "bytes": 3680,
+        "sha256": "bdc43c0b14537e4649bfd7547b66edf796f96f5fd90ef578fd556a9ba80a2240"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/model_supplement_manifest.json",
+        "bytes": 3680,
+        "sha256": "bdc43c0b14537e4649bfd7547b66edf796f96f5fd90ef578fd556a9ba80a2240"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/thermodynamics/summary.json",
+        "bytes": 463,
+        "sha256": "33a55197d1d182a9f1d2792188935e4c5aabf9a97b6cd9826f468e7e8e3382bc"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/thermodynamics_summary.json",
+        "bytes": 463,
+        "sha256": "33a55197d1d182a9f1d2792188935e4c5aabf9a97b6cd9826f468e7e8e3382bc"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/review/review.json",
+        "bytes": 13252,
+        "sha256": "cd704259edf3875664eef7be683867fbd227adbad8a415c0d6182c2d8346fa31"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/review.json",
+        "bytes": 13252,
+        "sha256": "cd704259edf3875664eef7be683867fbd227adbad8a415c0d6182c2d8346fa31"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/review/differences.json",
+        "bytes": 3,
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/differences.json",
+        "bytes": 3,
+        "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/review/inferred/comparison.json",
+        "bytes": 32537,
+        "sha256": "ab8ed7a741368cdb40da9deb53fa27c007dc76fd4ed92fe84b008721eebf40b3"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/inferred_comparison.json",
+        "bytes": 32537,
+        "sha256": "ab8ed7a741368cdb40da9deb53fa27c007dc76fd4ed92fe84b008721eebf40b3"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/review/topology/comparison.json",
+        "bytes": 27234,
+        "sha256": "931b1454afdf79804bf4dafe47a5b023b51f74da11439116ea93259689f8634d"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/topology_comparison.json",
+        "bytes": 27234,
+        "sha256": "931b1454afdf79804bf4dafe47a5b023b51f74da11439116ea93259689f8634d"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_2/manifest.json",
+        "bytes": 4352,
+        "sha256": "a3ddd05aa82c97f46071244acc80b3830b4d26682d5396944685b00c8ed2489e"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/cli_comparison_2.json",
+        "bytes": 4352,
+        "sha256": "a3ddd05aa82c97f46071244acc80b3830b4d26682d5396944685b00c8ed2489e"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_4/manifest.json",
+        "bytes": 4352,
+        "sha256": "a5ac1f361c68285baa7bd01494e273fa44187a7dc074c33c2c0dd8c67af79080"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/cli_comparison_4.json",
+        "bytes": 4352,
+        "sha256": "a5ac1f361c68285baa7bd01494e273fa44187a7dc074c33c2c0dd8c67af79080"
+      }
+    },
+    {
+      "original": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_6/manifest.json",
+        "bytes": 4352,
+        "sha256": "2e4136767cfb6b9554f047d857248941a74c644bb8144a986aa2c3ee84e91a5a"
+      },
+      "committed_copy": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/cli_comparison_6.json",
+        "bytes": 4352,
+        "sha256": "2e4136767cfb6b9554f047d857248941a74c644bb8144a986aa2c3ee84e91a5a"
+      }
+    }
+  ],
+  "logs": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/all_bins.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/all_bins.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/archived_morfeus_evidence.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/archived_morfeus_evidence.stdout.log",
+      "bytes": 549,
+      "sha256": "b2abfb53a5e6f09cd4752f38bea3a64b41fc3678633ed51161f8b71ba387e701"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli.log",
+      "bytes": 556,
+      "sha256": "d314b1faef7be44ff1210351cb4402d7c5602ea53a3f2c8c2a86b58cb6f42cf2"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_1.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_1.stdout.log",
+      "bytes": 136,
+      "sha256": "bcbfa522d44ad42e705fdbe40ec6d78c4423ad0688e22f46ba995465e92e3e2b"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_2.stdout.log",
+      "bytes": 136,
+      "sha256": "ffd6dbc42d2549656f528c2da9f01dd329b3bd21f1729467acd0b2c468e431f2"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_4.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_4.stdout.log",
+      "bytes": 136,
+      "sha256": "459b8d6afa15b23a4ec1c2230de7c814fff48e4f601cb2205c66fa8f5c543c43"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_6.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_6.stdout.log",
+      "bytes": 136,
+      "sha256": "8d4ab84b7a5c93825382b40504c5f57ad32a033fa07417532995ce8c9b9248cf"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_2.stdout.log",
+      "bytes": 153,
+      "sha256": "c02888d0d7e6c6084fdc4e3e1160af4fe65a82d352ac33588c6cc5875ecae47a"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_4.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_4.stdout.log",
+      "bytes": 153,
+      "sha256": "1b313a0b696c343382834ea1da3303f40a3777ed282a5ff16f5b583717dcbd86"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_6.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_6.stdout.log",
+      "bytes": 153,
+      "sha256": "6fa082c639906bf158931ff965260ad7704f2d901aaa2c8a80a63f455c83b0dd"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_prepare.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_prepare.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/clippy.stderr.log",
+      "bytes": 73,
+      "sha256": "25dc52e278335eea296c7acf4209524ff7d46bec71bf1b301f6675a7e80c1cd7"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/clippy.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/dbstep_upstream_tests.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/dbstep_upstream_tests.stdout.log",
+      "bytes": 2058,
+      "sha256": "08c5ab269468f5c0d342c8f914348627ef0693f3504529db42ac1edce03ca67d"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/engineering.log",
+      "bytes": 673,
+      "sha256": "e1759a2fe62c19fda84e909ea1efa0d572d32bf466660a288925c68f441876e2"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/fixed_union.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/fixed_union.stdout.log",
+      "bytes": 430,
+      "sha256": "c8ee182dd392ff1720152fd3dfa96936a57e9f1d57e7fd31d98def59f6192f5c"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/legacy_comparison.log",
+      "bytes": 73,
+      "sha256": "8fe8d859087c31937dad2cd92eedd4b5f51309dc5f33f07a3920539f24525526"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/model_demo.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/model_demo.stdout.log",
+      "bytes": 665,
+      "sha256": "e954b10f8673fd6ba1071c5b85dba0b0becd68877ef424028926069c649769d4"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/model_supplement.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/model_supplement.stdout.log",
+      "bytes": 155,
+      "sha256": "d267d51a175bf55979869a106935b6a0846adf26727680dab41fb94ca5223604"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/models.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/models.stdout.log",
+      "bytes": 146,
+      "sha256": "5bb459707cb07e7a5b393f9cc237f2f3a5391c06757bb115cc8073fe17d9602b"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/models_thermo.log",
+      "bytes": 286,
+      "sha256": "d1ac28f2047132b38364a331ade95c838663791f3fe09a8465d798b1df855bce"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/observations.log",
+      "bytes": 469,
+      "sha256": "3b5576ec1bee2e3fe306af9a0abd3cd855214de53a140ab94b2ef9590b882e31"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/python_tests.stderr.log",
+      "bytes": 243,
+      "sha256": "168e7377bc4667dcebbd6187acb2b7e24d96ae8e97addf5e664557fd34b3f15f"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/python_tests.stdout.log",
+      "bytes": 377,
+      "sha256": "e69a36f66ff4b849a030c258e300c3bbb5aeb64a9465e449108f896951a256ab"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/references.log",
+      "bytes": 158,
+      "sha256": "1158d16d013b26057ae291e48826199e7a019be1443e4ef904d916b6c2ca8f3a"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/references_inferred.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/references_inferred.stdout.log",
+      "bytes": 346,
+      "sha256": "dffc9a05ce1e2923ea2015b86082c6fa028fac8734e5035f047393eee7c5b917"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/references_topology.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/references_topology.stdout.log",
+      "bytes": 278,
+      "sha256": "54bb07b77be8372ef820359800681de9b7eed2da0fffa13b1cf97ab326b0682d"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/retrospective_screening.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/retrospective_screening.stdout.log",
+      "bytes": 218,
+      "sha256": "0ac7a115209da037696f5eb8fed009749c8bddbdaa0448e0a02184f4a013023c"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/review.log",
+      "bytes": 83,
+      "sha256": "0a37dc8834c5704429c102dcaa4d6829bf13592d630acac1819caa0919d8ae8d"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rust_format.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rust_format.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rust_tests.stderr.log",
+      "bytes": 2964,
+      "sha256": "47aee8cdd964065fc65c167cb4ac6dd2487c3eaec8ca49a3de8a46b19c4d4711"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rust_tests.stdout.log",
+      "bytes": 29346,
+      "sha256": "9b57453340c150b5d8839b5e7eed7242d3a82903094591cc872033b4e46d304e"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rustdoc.stderr.log",
+      "bytes": 272,
+      "sha256": "f36c6a17dcd184023b1763a50232a6e81e0bde5015d8d1eff2cd447b99605a99"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rustdoc.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/screening_regression.stderr.log",
+      "bytes": 258,
+      "sha256": "e8b783a850c0fe2643955fa99c3c8a7923524787f8aedebc3f5def7c4a57bd81"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/screening_regression.stdout.log",
+      "bytes": 1711,
+      "sha256": "57c8f1feb3753f3d0512de4144e78dfc540a887f47628a68dcd12e096c7ec61b"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/thermodynamics.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/thermodynamics.stdout.log",
+      "bytes": 768,
+      "sha256": "ced970469c9f89a9b274479a0706b213b6a3d2c714ec347b676c028376558033"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/volume.log",
+      "bytes": 218,
+      "sha256": "a9ebc9dcc75c0971d576a62eb3703f891800dfc9b5f4d2b490ff417f18e688b4"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/volume_reference.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/volume_reference.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "upstream_environment": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/upstream_environment.json",
+    "bytes": 196730,
+    "sha256": "2a3ca3558a470848273957d29f2efa8becc54d0918552df6c6c014dc4da1a741"
+  },
+  "interpretation": "Fresh unchanged legacy references preserve every prior scientific value, structure and negative finding. This is not DBSTEP policy admission, predictive validation, a performance result or release admission. Final research/style checks after new analysis files settle are separate."
+}

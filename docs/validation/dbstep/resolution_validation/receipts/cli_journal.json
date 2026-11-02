@@ -1,0 +1,286 @@
+{
+  "phase": "cli",
+  "started_utc": "2026-11-02T16:34:16.926912+00:00",
+  "command": [
+    "scripts/replay_dbstep_resolution_science.py",
+    "--build",
+    ".stericx/dbstep_resolution/baseline/build",
+    "--output",
+    ".stericx/dbstep_resolution/science_v1",
+    "--logs",
+    "docs/validation/dbstep/resolution_validation",
+    "--phase",
+    "cli"
+  ],
+  "build": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/manifest.json",
+    "bytes": 37600,
+    "sha256": "4717d77fbef9687651ab5895aa9c0a4380cee338d5def531c072a33ffff39757"
+  },
+  "controller": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/cli/controller.py",
+    "bytes": 13930,
+    "sha256": "33da13e49ed84484e801cda924ccad0ce6ac7f2e9db78540fc9f1d637adc2d45"
+  },
+  "complete": true,
+  "scientific_global_pass": false,
+  "runs": [
+    {
+      "name": "cli_prepare",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/capture_remediation_cli.py",
+        "--root",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli",
+        "prepare",
+        "--historical",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/cli_oracle_v5"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:34:16.927237+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 0.3023682389998612,
+      "completed_utc": "2026-11-02T16:34:17.229803+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_prepare.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_prepare.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "cli_1",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/capture_remediation_cli.py",
+        "--root",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli",
+        "observe",
+        "--build",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build",
+        "--label",
+        "current_1",
+        "--threads",
+        "1"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:34:17.230299+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 14.482003685000109,
+      "completed_utc": "2026-11-02T16:34:31.712502+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_1.stdout.log",
+        "bytes": 136,
+        "sha256": "bcbfa522d44ad42e705fdbe40ec6d78c4423ad0688e22f46ba995465e92e3e2b"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_1.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "cli_2",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/capture_remediation_cli.py",
+        "--root",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli",
+        "observe",
+        "--build",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build",
+        "--label",
+        "current_2",
+        "--threads",
+        "2"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:34:31.713070+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 16.68591559100014,
+      "completed_utc": "2026-11-02T16:34:48.399220+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_2.stdout.log",
+        "bytes": 136,
+        "sha256": "ffd6dbc42d2549656f528c2da9f01dd329b3bd21f1729467acd0b2c468e431f2"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_2.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "cli_4",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/capture_remediation_cli.py",
+        "--root",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli",
+        "observe",
+        "--build",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build",
+        "--label",
+        "current_4",
+        "--threads",
+        "4"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:34:48.400048+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 21.998484339000242,
+      "completed_utc": "2026-11-02T16:35:10.398876+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_4.stdout.log",
+        "bytes": 136,
+        "sha256": "459b8d6afa15b23a4ec1c2230de7c814fff48e4f601cb2205c66fa8f5c543c43"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_4.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "cli_6",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/capture_remediation_cli.py",
+        "--root",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli",
+        "observe",
+        "--build",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build",
+        "--label",
+        "current_6",
+        "--threads",
+        "6"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:35:10.436819+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 15.198170859000129,
+      "completed_utc": "2026-11-02T16:35:25.636277+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_6.stdout.log",
+        "bytes": 136,
+        "sha256": "8d4ab84b7a5c93825382b40504c5f57ad32a033fa07417532995ce8c9b9248cf"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_6.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "cli_compare_2",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/compare_corrected_cli.py",
+        "--root",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli",
+        "--baseline",
+        "current_1",
+        "--candidate",
+        "current_2",
+        "--mode",
+        "threads",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_2"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:35:25.637011+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 29.351958796999952,
+      "completed_utc": "2026-11-02T16:35:54.989308+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_2.stdout.log",
+        "bytes": 153,
+        "sha256": "c02888d0d7e6c6084fdc4e3e1160af4fe65a82d352ac33588c6cc5875ecae47a"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_2.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "cli_compare_4",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/compare_corrected_cli.py",
+        "--root",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli",
+        "--baseline",
+        "current_1",
+        "--candidate",
+        "current_4",
+        "--mode",
+        "threads",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_4"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:35:55.025183+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 33.78347053100015,
+      "completed_utc": "2026-11-02T16:36:28.809212+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_4.stdout.log",
+        "bytes": 153,
+        "sha256": "1b313a0b696c343382834ea1da3303f40a3777ed282a5ff16f5b583717dcbd86"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_4.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "cli_compare_6",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/compare_corrected_cli.py",
+        "--root",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli",
+        "--baseline",
+        "current_1",
+        "--candidate",
+        "current_6",
+        "--mode",
+        "threads",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_6"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:36:28.821518+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 29.008609763000095,
+      "completed_utc": "2026-11-02T16:36:57.831234+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_6.stdout.log",
+        "bytes": 153,
+        "sha256": "6fa082c639906bf158931ff965260ad7704f2d901aaa2c8a80a63f455c83b0dd"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/cli_compare_6.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "interpretation": "Execution receipt only; independent artifact review is required.",
+  "completed_utc": "2026-11-02T16:37:05.083538+00:00"
+}

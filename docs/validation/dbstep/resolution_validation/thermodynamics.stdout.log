@@ -1,0 +1,21 @@
+  Source note: mapped `nbo_P_boltz` to the generic donor-charge field; the 1650.0 cm^-1 IR value is an explicit missing-data placeholder and is excluded from scientific feature selection; reaction temperature is 353.15 K. Published ddG values are retained without resolving source ee/ddG inconsistencies.
+{
+  "kinetic_scalar_comparisons": 744,
+  "aggregation_scalar_or_rejection_comparisons": 51,
+  "rate_max_relative_error_normal": 5.2921798585206193e-08,
+  "ee_max_abs_error": 3.6928646096612283e-06,
+  "python_cases": {
+    "crest": 6,
+    "mmff": 11,
+    "ee": 24
+  },
+  "cli_cases": 14,
+  "ni_hda": {
+    "row_count": 1566,
+    "temperatures": [
+      353.15
+    ],
+    "published_targets_preserved": true
+  },
+  "status": "PASS scoped numerical/domain replay"
+}

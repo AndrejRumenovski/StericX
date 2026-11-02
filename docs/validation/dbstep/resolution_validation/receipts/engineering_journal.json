@@ -1,0 +1,263 @@
+{
+  "phase": "engineering",
+  "started_utc": "2026-11-02T16:19:24.244448+00:00",
+  "command": [
+    "scripts/replay_dbstep_resolution_science.py",
+    "--build",
+    ".stericx/dbstep_resolution/baseline/build",
+    "--output",
+    ".stericx/dbstep_resolution/science_v1",
+    "--logs",
+    "docs/validation/dbstep/resolution_validation",
+    "--phase",
+    "engineering"
+  ],
+  "build": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/manifest.json",
+    "bytes": 37600,
+    "sha256": "4717d77fbef9687651ab5895aa9c0a4380cee338d5def531c072a33ffff39757"
+  },
+  "controller": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/replay_dbstep_resolution_science.py",
+    "bytes": 13640,
+    "sha256": "ce071b841935b86f6592b8cf753638d84d1f680d535314e9f2ee73299e1add6a"
+  },
+  "complete": true,
+  "scientific_global_pass": false,
+  "runs": [
+    {
+      "name": "rust_format",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:19:24.310236+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 0.24947905599992737,
+      "completed_utc": "2026-11-02T16:19:24.653516+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rust_format.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rust_format.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:19:24.804867+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 88.61892257399995,
+      "completed_utc": "2026-11-02T16:20:53.445880+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/clippy.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/clippy.stderr.log",
+        "bytes": 73,
+        "sha256": "25dc52e278335eea296c7acf4209524ff7d46bec71bf1b301f6675a7e80c1cd7"
+      }
+    },
+    {
+      "name": "rustdoc",
+      "argv": [
+        "cargo",
+        "doc",
+        "--no-deps",
+        "--all-features"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:20:53.494581+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 625.741016129,
+      "completed_utc": "2026-11-02T16:31:19.236986+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rustdoc.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rustdoc.stderr.log",
+        "bytes": 272,
+        "sha256": "f36c6a17dcd184023b1763a50232a6e81e0bde5015d8d1eff2cd447b99605a99"
+      }
+    },
+    {
+      "name": "rust_tests",
+      "argv": [
+        "cargo",
+        "test",
+        "--all-targets",
+        "--all-features"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:31:19.252730+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 9.856020168999748,
+      "completed_utc": "2026-11-02T16:31:29.109561+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rust_tests.stdout.log",
+        "bytes": 29346,
+        "sha256": "9b57453340c150b5d8839b5e7eed7242d3a82903094591cc872033b4e46d304e"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/rust_tests.stderr.log",
+        "bytes": 2964,
+        "sha256": "47aee8cdd964065fc65c167cb4ac6dd2487c3eaec8ca49a3de8a46b19c4d4711"
+      }
+    },
+    {
+      "name": "screening_regression",
+      "argv": [
+        "cargo",
+        "test",
+        "--test",
+        "screening_regression",
+        "--",
+        "--nocapture"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:31:29.161027+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 1.799492052000005,
+      "completed_utc": "2026-11-02T16:31:30.962909+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/screening_regression.stdout.log",
+        "bytes": 1711,
+        "sha256": "57c8f1feb3753f3d0512de4144e78dfc540a887f47628a68dcd12e096c7ec61b"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/screening_regression.stderr.log",
+        "bytes": 258,
+        "sha256": "e8b783a850c0fe2643955fa99c3c8a7923524787f8aedebc3f5def7c4a57bd81"
+      }
+    },
+    {
+      "name": "python_tests",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:31:30.970017+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 21.799163743999998,
+      "completed_utc": "2026-11-02T16:31:52.769584+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/python_tests.stdout.log",
+        "bytes": 377,
+        "sha256": "e69a36f66ff4b849a030c258e300c3bbb5aeb64a9465e449108f896951a256ab"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/python_tests.stderr.log",
+        "bytes": 243,
+        "sha256": "168e7377bc4667dcebbd6187acb2b7e24d96ae8e97addf5e664557fd34b3f15f"
+      }
+    },
+    {
+      "name": "dbstep_upstream_tests",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP",
+      "started_utc": "2026-11-02T16:31:52.778443+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 82.9232250709997,
+      "completed_utc": "2026-11-02T16:33:15.703550+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/dbstep_upstream_tests.stdout.log",
+        "bytes": 2058,
+        "sha256": "08c5ab269468f5c0d342c8f914348627ef0693f3504529db42ac1edce03ca67d"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/dbstep_upstream_tests.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "archived_morfeus_evidence",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "docs/benchmarks/morfeus_current/verify.py"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:33:15.718814+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 6.449559788999977,
+      "completed_utc": "2026-11-02T16:33:22.176541+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/archived_morfeus_evidence.stdout.log",
+        "bytes": 549,
+        "sha256": "b2abfb53a5e6f09cd4752f38bea3a64b41fc3678633ed51161f8b71ba387e701"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/archived_morfeus_evidence.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "retrospective_screening",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "studies/study_011_ligand_ranking.py",
+        "--verify-only"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:33:22.187864+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 1.022450447999745,
+      "completed_utc": "2026-11-02T16:33:23.211482+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/retrospective_screening.stdout.log",
+        "bytes": 218,
+        "sha256": "0ac7a115209da037696f5eb8fed009749c8bddbdaa0448e0a02184f4a013023c"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/retrospective_screening.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "interpretation": "Execution receipt only; independent artifact review is required.",
+  "completed_utc": "2026-11-02T16:33:30.362186+00:00"
+}

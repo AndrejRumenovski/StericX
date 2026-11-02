@@ -1,0 +1,488 @@
+
+running 111 tests
+test geometry::buried_volume::aggregation_remediation_tests::common_weight_scale_preserves_analytic_means_and_extrema ... ok
+test geometry::buried_volume::aggregation_remediation_tests::invalid_probabilities_and_nonfinite_descriptor_fields_are_rejected ... ok
+test geometry::buried_volume::tests::ensemble_aggregation_tracks_vbur_minimum_conformer ... ok
+test geometry::buried_volume::aggregation_remediation_tests::tiny_weight_is_not_rounded_before_multiplication ... ok
+test geometry::buried_volume::tests::rejects_invalid_inputs ... ok
+test geometry::buried_volume::tests::non_trivalent_donor_is_rejected ... ok
+test geometry::buried_volume::tests::row_occupancy_preserves_adjacent_float_boundary_decisions ... ok
+test geometry::buried_volume::tests::row_occupancy_handles_lazy_extension_row_resets_and_dense_first_hits ... ok
+test geometry::buried_volume::tests::descriptor_is_finite_and_volume_is_partitioned ... ok
+test geometry::pyramidalization::tests::descriptors_are_invariant_to_neighbor_order ... ok
+test geometry::pyramidalization::tests::descriptors_are_translation_invariant ... ok
+test geometry::pyramidalization::tests::invalid_inputs_return_errors ... ok
+test geometry::pyramidalization::tests::planar_center_is_unpyramidalized ... ok
+test geometry::pyramidalization::tests::tetrahedral_apex_matches_morfeus_reference ... ok
+test geometry::sterimol::tests::attachment_dummy_radius_is_excluded ... ok
+test geometry::sterimol::tests::computes_known_off_axis_widths ... ok
+test geometry::sterimol::tests::computes_linear_geometry_after_axis_alignment ... ok
+test geometry::sterimol::tests::descriptors_are_translation_and_rotation_invariant ... ok
+test geometry::sterimol::tests::dummy_axis_measures_length_from_the_virtual_origin ... ok
+test geometry::sterimol::tests::invalid_inputs_return_errors ... ok
+test geometry::xyz::tests::loads_molecule_from_xyz_file ... ok
+test geometry::buried_volume::tests::primary_phosphine_uses_bonded_hydrogens_not_distal_heavy_atoms ... ok
+test geometry::xyz::tests::parses_multi_atom_xyz_string ... ok
+test geometry::xyz::tests::parses_multi_record_sdf_with_blank_titles ... ok
+test geometry::xyz::tests::parses_sdf_with_blank_title_line ... ok
+test geometry::xyz::tests::parses_v2000_sdf ... ok
+test geometry::xyz::tests::rejects_non_finite_xyz_coordinates ... ok
+test geometry::xyz::tests::rejects_non_finite_sdf_coordinates ... ok
+test geometry::xyz::tests::rejects_truncated_xyz ... ok
+test kinetics::eyring::tests::approximately_2_17_kcal_gives_95_percent_ee_at_room_temperature ... ok
+test kinetics::eyring::tests::builds_inclusive_temperature_series ... ok
+test kinetics::eyring::tests::ddg_1_82_gives_about_95_percent_major_at_room_temperature ... ok
+test kinetics::eyring::tests::positive_ddg_favors_r ... ok
+test kinetics::eyring::tests::zero_barrier_uses_eyring_prefactor ... ok
+test kinetics::eyring::tests::zero_ddg_is_racemic ... ok
+test model::dataset::tests::recognizes_supported_splits_case_insensitively ... ok
+test model::dataset::tests::partitions_rows_and_falls_back_to_reaction_id_groups ... ok
+test model::dataset::tests::rejects_a_dataset_without_frozen_rows ... ok
+test geometry::buried_volume::tests::row_occupancy_preserves_signed_zero_subnormal_and_nonfinite_arithmetic ... ok
+test model::domain::interval_cache_tests::candidate_arithmetic_failures_recover_with_the_same_evaluator ... ok
+test model::domain::interval_cache_tests::invalid_leverage_is_lazy_and_later_valid_candidate_initializes ... ok
+test geometry::buried_volume::tests::descriptor_is_rotation_and_translation_invariant ... ok
+test model::domain::interval_cache_tests::unavailable_multiplier_is_cached_but_leverage_is_still_checked ... ok
+test model::domain::interval_cache_tests::nonfinite_prediction_and_endpoint_failure_do_not_cache_interval_failure ... ok
+test model::domain::tests::a_gap_inside_the_range_is_sparse_interpolation ... ok
+test model::domain::tests::a_model_without_calibration_cannot_claim_interpolation ... ok
+test model::domain::tests::a_model_without_geometry_reports_unknown_but_still_checks_ranges ... ok
+test geometry::buried_volume::tests::sterimol_validation_checks_later_frames_after_an_occupancy_witness ... ok
+test model::domain::tests::a_point_between_training_points_interpolates ... ok
+test model::domain::interval_cache_tests::unchecked_zero_parameter_edge_matches_public_method_without_endorsement ... ok
+test geometry::buried_volume::tests::accepts_an_explicit_quantum_coordination_center ... ok
+test model::domain::interval_cache_tests::interleaved_models_and_new_contexts_keep_their_own_multiplier ... ok
+test geometry::buried_volume::tests::row_occupancy_matches_random_atoms_and_non_grid_point_order ... ok
+test geometry::buried_volume::tests::sterimol_validation_accepts_valid_symmetric_and_empty_occupancy ... ok
+test geometry::buried_volume::tests::sterimol_validation_preserves_configuration_and_atom_error_order ... ok
+test geometry::buried_volume::tests::sterimol_validation_matches_extreme_but_bounded_grid_configurations ... ok
+test model::domain::interval_cache_tests::cached_intervals_match_frozen_c1b_endpoints_and_uncached_method ... ok
+test geometry::buried_volume::tests::sterimol_validation_matches_deterministic_perturbed_geometries ... ok
+test model::domain::tests::a_rule_never_yields_a_negative_boundary ... ok
+test model::domain::tests::a_point_outside_a_descriptor_range_extrapolates ... ok
+test model::domain::tests::a_stricter_rule_reclassifies_a_point_the_default_accepts ... ok
+test model::domain::tests::a_training_point_is_zero_distance_and_interpolating ... ok
+test model::domain::tests::a_uniform_training_set_collapses_every_rule_onto_one_boundary ... ok
+test model::domain::tests::a_zero_width_training_range_never_reports_a_finite_fraction ... ok
+test model::domain::tests::both_descriptors_outside_are_both_reported ... ok
+test model::domain::tests::applicability_ignores_the_prediction_entirely ... ok
+test model::domain::tests::calibration_measures_the_training_spacing ... ok
+test model::domain::tests::calibration_needs_at_least_two_points ... ok
+test model::domain::tests::degrees_of_freedom_guard_against_saturated_fits ... ok
+test model::domain::tests::each_rule_derives_its_threshold_from_the_calibration ... ok
+test model::domain::tests::inverts_a_known_matrix ... ok
+test model::domain::tests::leverage_grows_with_distance_from_the_training_centre ... ok
+test model::domain::tests::mahalanobis_is_declined_when_the_covariance_is_not_estimable ... ok
+test model::domain::tests::mahalanobis_is_declined_when_the_design_is_not_centred ... ok
+test model::domain::tests::mahalanobis_matches_a_hand_computed_value ... ok
+test model::domain::tests::malformed_geometry_declines_inference_without_panicking ... ok
+test model::domain::tests::rejects_a_singular_matrix ... ok
+test model::domain::tests::public_assessment_reports_malformed_metadata_without_panicking ... ok
+test model::domain::tests::singular_covariance_is_not_a_regularized_mahalanobis_distance ... ok
+test model::features::tests::creates_exact_physical_organic_interactions ... ok
+test model::domain::tests::prediction_interval_widens_with_leverage ... ok
+test model::domain::tests::brackets_extreme_cauchy_tail_without_silent_clipping ... ok
+test model::portable::tests::formats_known_utc_timestamps ... ok
+test model::regress::tests::parallel_batch_preserves_order ... ok
+test model::regress::tests::prediction_matches_known_dot_product ... ok
+test model::domain::tests::near_unit_alpha_preserves_small_central_mass ... ok
+test model::domain::tests::reproduces_published_student_t_quantiles ... ok
+test model::regress::tests::avx2_matches_scalar_fallback ... ok
+test model::training::tests::rejects_misaligned_labels ... ok
+test model::evaluation::tests::rejects_training_rows_and_unknown_reactions ... ok
+test profiling::tests::allocator_preserves_data_and_counts_grow_shrink_and_free ... ok
+test profiling::tests::nested_scopes_partition_elapsed_time_without_double_counting ... ok
+test profiling::tests::scope_capacity_refuses_extra_frames_without_corrupting_stack ... ok
+test model::evaluation::tests::rejects_a_residual_that_overflows_record_precision ... ok
+test storage::pack::tests::rejects_partial_records ... ok
+test storage::pack::tests::supports_empty_matrices ... ok
+test model::evaluation::tests::rejects_nonfinite_frozen_and_recomputed_predictions ... ok
+test model::evaluation::tests::rejects_predictions_that_do_not_match_the_model ... ok
+test model::evaluation::tests::scores_revealed_targets ... ok
+test model::evaluation::tests::rejects_an_empty_frozen_set ... ok
+test model::training::tests::flags_records_outside_the_training_descriptor_range ... ok
+test model::training::tests::frozen_predictions_match_the_reported_weights ... ok
+test model::training::tests::trains_and_freezes_every_non_training_row ... ok
+test model::regress::tests::processes_one_hundred_thousand_records_at_high_throughput ... ok
+test storage::schema::tests::ensemble_metadata_round_trips_through_reserved_slots ... ok
+test storage::schema::tests::record_is_exactly_one_cache_line_and_pod_castable ... ok
+test storage::schema::tests::version_two_layout_is_header_plus_two_cache_lines_per_record ... ok
+test storage::pack::tests::version_two_reader_rejects_legacy_files ... ok
+test storage::pack::tests::version_two_round_trip_is_zero_copy ... ok
+test model::fit::tests::recovers_a_sparse_interpretable_model ... ok
+test geometry::buried_volume::tests::row_occupancy_matches_all_real_conformer_orientations_bitwise ... ok
+
+test result: ok. 111 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.37s
+
+
+running 42 tests
+test commands::compare::tests::shortens_paths_to_readable_labels ... ok
+test commands::db::tests::aggregation_averages_but_takes_the_minimum_of_the_kraken_min_descriptor ... ok
+test commands::db::tests::labels_derive_from_the_requested_component ... ok
+test commands::db::tests::a_finite_database_mean_does_not_overflow_before_division ... ok
+test commands::db::tests::matches_published_sha256_vectors ... ok
+test commands::screen::tests::candidate_reports_whether_it_satisfies_the_model ... ok
+test commands::screen::tests::geometry_only_models_do_not_require_electronics ... ok
+test commands::screen::tests::header_lookup_accepts_descriptor_and_reaction_column_names ... ok
+test commands::screen::tests::missing_inputs_are_named_precisely ... ok
+test commands::predict::tests::weight_loader_accepts_array_and_object_json ... ok
+test commands::screen::tests::interaction_terms_pull_in_both_of_their_inputs ... ok
+test commands::search::tests::constant_descriptors_are_reported_as_degenerate ... ok
+test commands::search::tests::filters_select_the_intended_range ... ok
+test commands::search::tests::large_finite_standardization_matches_exact_one_sigma_distances ... ok
+test commands::search::tests::large_identical_inputs_remain_constant_and_invalid_distances_fail ... ok
+test commands::search::tests::parses_every_supported_filter_form ... ok
+test commands::search::tests::rejects_malformed_filters ... ok
+test commands::search::tests::resolves_short_aliases_to_canonical_descriptors ... ok
+test commands::search::tests::standardized_distance_is_scale_invariant_and_self_zero ... ok
+test descriptors::tests::csv_field_quotes_only_when_required ... ok
+test commands::parse::tests::parse_command_packs_csv_and_xyz_geometry ... ok
+test descriptors::tests::coordination_mode_does_not_require_a_heavy_bond_axis ... ok
+test descriptors::tests::detect_donor_counts_bonded_hydrogens_as_substituents ... ok
+test descriptors::tests::detect_donor_finds_the_single_phosphine ... ok
+test descriptors::tests::detect_donor_rejects_a_non_trivalent_donor ... ok
+test descriptors::tests::detect_donor_reports_missing_and_ambiguous_donors ... ok
+test descriptors::tests::detect_donor_supports_a_non_phosphorus_element ... ok
+test commands::parse::tests::parse_command_boltzmann_averages_conformer_envelopes ... ok
+test digest::tests::matches_published_sha256_vectors ... ok
+test reaction::tests::energy_span_is_offset_invariant_and_missing_weights_remain_uniform ... ok
+test reaction::tests::creates_record_from_csv_row ... ok
+test reaction::tests::invalid_weights_and_descriptors_are_not_silently_accepted ... ok
+test reaction::tests::supplied_weights_keep_scale_and_small_contributions ... ok
+test reaction::tests::reaction_axis_validation_accepts_nonzero_short_and_subnormal_axes ... ok
+test descriptors::tests::screening_preserves_file_conformer_and_configuration_errors ... ok
+test commands::buried_volume::tests::buried_volume_command_writes_version_two_and_audit_csv ... ok
+test cli::tests::clap_parses_with_a_small_stack ... ok
+test cli::tests::clap_accepts_all_command_contracts ... ok
+test descriptors::tests::descriptors_for_file_featurizes_an_xyz_geometry ... ok
+test descriptors::tests::repeating_finite_extreme_conformers_preserves_the_mean ... ok
+test descriptors::tests::tied_bond_axes_require_explicit_reference_for_all_atom_orders ... ok
+test descriptors::tests::screening_preserves_full_precision_sterimol_for_real_conformers ... ok
+
+test result: ok. 42 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.52s
+
+
+running 17 tests
+test a_missing_file_is_reported_clearly ... ok
+test validate_names_a_missing_required_field ... ok
+test inspect_emits_machine_readable_json ... ok
+test validate_emits_machine_readable_json ... ok
+test inspect_reports_the_full_scientific_summary ... ok
+test validate_rejects_a_missing_descriptor ... ok
+test validate_rejects_an_unsupported_schema_version ... ok
+test validate_explains_a_syntax_error_instead_of_a_decoder_dump ... ok
+test validate_accepts_a_well_formed_model ... ok
+test validate_rejects_invalid_numerical_values ... ok
+test validate_rejects_dimension_mismatches ... ok
+test validate_rejects_malformed_hashes ... ok
+test validate_reports_every_problem_at_once ... ok
+test a_legacy_model_is_readable_but_reported_as_incomplete ... ok
+test validate_rejects_missing_provenance ... ok
+test validate_rejects_zero_and_negative_scaling ... ok
+test validate_rejects_inconsistent_metadata ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+
+
+running 78 tests
+test a_maximize_model_ranks_descending ... ok
+test a_minimize_model_ranks_ascending ... ok
+test a_narrow_bootstrap_interval_does_not_make_a_candidate_in_domain ... ok
+test a_real_gap_in_the_training_set_reports_sparse_interpolation ... ok
+test a_changed_library_changes_the_recorded_digest ... ok
+test a_model_declaring_an_unknown_feature_space_is_refused ... ok
+test a_legacy_model_reports_the_context_it_has_without_inventing_the_rest ... ok
+test a_model_without_an_ensemble_reports_no_interval_rather_than_inventing_one ... ok
+test a_portable_model_screens_through_its_stored_feature_space ... ok
+test a_model_without_a_direction_is_not_ranked_on_a_guess ... ok
+test a_file_without_an_identifier_column_is_refused_with_the_accepted_names ... ok
+test applicability_does_not_depend_on_how_good_the_prediction_looks ... ok
+test an_override_is_reported_and_only_applies_when_requested ... ok
+test an_out_of_domain_candidate_is_never_dropped_or_altered_by_default ... ok
+test a_screening_run_reports_the_model_context_before_any_candidate ... ok
+test csv_and_json_keep_full_precision ... ok
+test a_stricter_domain_rule_shrinks_the_boundary_without_moving_the_measurement ... ok
+test a_library_without_a_required_descriptor_is_refused_not_guessed ... ok
+test an_out_of_range_diversity_weight_is_refused ... ok
+test a_zero_diversity_weight_reproduces_the_ordinary_ranking ... ok
+test a_smiles_column_is_a_secondary_key_not_a_fuzzy_match ... ok
+test an_unresolved_identifier_is_reported_and_never_silently_dropped ... ok
+test blank_rows_and_an_empty_list_are_handled_without_excluding_anything ... ok
+test a_diverse_deck_records_why_each_candidate_was_selected ... ok
+test diverse_selection_explains_and_exposes_every_choice ... ok
+test deck_export_preserves_machine_readable_stdout ... ok
+test diverse_selection_increases_descriptor_space_coverage ... ok
+test deck_numbers_keep_full_round_trip_precision ... ok
+test diverse_selection_needs_training_geometry_and_says_so ... ok
+test every_output_format_carries_the_reported_fields ... ok
+test hits_carry_identifier_name_raw_prediction_and_descriptors ... ok
+test diverse_selection_is_deterministic ... ok
+test duplicate_entries_are_counted_once_and_reported ... ok
+test a_higher_diversity_weight_spreads_the_selection_further ... ok
+test every_bootstrap_interval_is_ordered_and_brackets_its_point_estimate ... ok
+test excluding_everything_says_so_rather_than_reporting_an_empty_screen ... ok
+test filtering_every_candidate_explains_itself_rather_than_reporting_nothing ... ok
+test ligands_missing_a_required_value_are_excluded_and_summarized ... ok
+test diversity_never_hides_an_applicability_warning ... ok
+test negative_predictions_rank_by_the_stated_direction ... ok
+test library_accepts_both_the_flag_and_positional_forms ... ok
+test interval_cache_preserves_temperature_then_model_error_precedence ... ok
+test screened_candidates_carry_structured_applicability_information ... ok
+test screening_agrees_with_the_ordinary_inference_path ... ok
+test repeated_runs_are_byte_identical ... ok
+test in_domain_only_is_opt_in_and_reports_what_it_removed ... ok
+test study_001_blind_ligand_matches_its_frozen_prediction ... ok
+test ordinary_ranking_is_untouched_when_diverse_is_not_requested ... ok
+test no_exclusion_list_leaves_the_report_unchanged ... ok
+test interval_cache_keeps_student_t_and_bootstrap_channels_independent ... ok
+test identical_inputs_produce_an_identical_deck ... ok
+test exclusion_removes_candidates_before_they_are_screened ... ok
+test interval_cache_keeps_nonfinite_prediction_exclusions_and_later_valid_interval ... ok
+test tested_ligands_are_excluded_by_stable_identifier ... ok
+test repeated_inference_reproduces_the_same_intervals ... ok
+test interval_cache_saturated_model_keeps_predictions_without_student_t_bounds ... ok
+test the_deck_carries_every_field_an_experimental_review_needs ... ok
+test the_deck_never_carries_a_blinded_experimental_value ... ok
+test exclusion_is_deterministic_and_order_independent ... ok
+test the_deck_reflects_top_and_reports_where_it_was_written ... ok
+test the_study_001_portable_artifact_is_a_strict_superset_of_the_legacy_model ... ok
+test the_bootstrap_ensemble_survives_serialization ... ok
+test the_highest_predicted_candidate_can_still_be_flagged_out_of_domain ... ok
+test the_study_001_portable_artifact_validates_without_findings ... ok
+test the_domain_rule_cannot_change_a_prediction ... ok
+test the_exclusion_list_is_recorded_for_provenance ... ok
+test ties_break_deterministically_by_identifier ... ok
+test the_terminal_table_shows_the_domain_beside_the_prediction ... ok
+test the_model_context_reaches_the_csv_export ... ok
+test the_study_001_portable_artifact_reproduces_the_frozen_blind_prediction ... ok
+test the_domain_rule_is_reported_so_a_stricter_run_is_never_ambiguous ... ok
+test the_sidecar_carries_the_configuration_and_provenance_to_reproduce_the_deck ... ok
+test the_report_carries_cryptographic_identity_for_every_scientific_input ... ok
+test the_study_001_portable_artifact_ranks_without_a_direction_flag ... ok
+test the_study_001_portable_artifact_reports_applicability_not_unknown ... ok
+test top_limits_output_after_ranking_and_counts_are_reported ... ok
+test two_runs_over_identical_inputs_produce_identical_provenance ... ok
+test screening_the_shipped_kraken_library_agrees_with_the_predictor ... ok
+
+test result: ok. 78 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.63s
+
+
+running 7 tests
+test explicit_bond_support_survives_unavailable_trivalent_descriptors ... ok
+test multi_xyz_preserves_bad_frames_and_unknown_boundaries ... ok
+test failed_volume_settings_do_not_erase_other_descriptor_results ... ok
+test source_blank_titles_crlf_and_explicit_empty_records_are_not_dropped ... ok
+test regional_output_preserves_native_summary_and_defines_every_frame ... ok
+test malformed_middle_records_and_duplicate_identifiers_are_retained ... ok
+test typed_energy_is_preserved_and_invalid_metadata_is_explicit ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 4 tests
+test extreme_inputs_remain_normalized_without_overflow ... ok
+test invalid_thermodynamic_metadata_and_nonfinite_inputs_fail ... ok
+test multiplicity_and_explicit_degeneracy_are_not_merged ... ok
+test two_state_analytic_ratios_and_temperature_response ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+
+running 3 tests
+test oblique_grid_is_preserved_without_reinterpretation ... ok
+test preserves_field_geometry_and_order ... ok
+test rejects_incompatible_fields_units_and_bad_values ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test unsupported_domains_and_parameters_fail_explicitly ... ok
+test independently_enumerable_occupation_and_strict_threshold ... ok
+test translation_and_repeatability_preserve_counts ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test all_failed_inputs_emit_every_skip_in_order_then_one_terminal_error ... ok
+test batch_explicit_indices_are_rejected_before_reading_any_input ... ok
+test mixed_ensemble_batch_keeps_checked_means_and_single_file_results ... ok
+test mixed_batch_preserves_values_input_order_duplicates_and_skip_order_in_all_formats ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+
+
+running 7 tests
+test population_validation_scale_invariance_and_input_length ... ok
+test energy_weighting_requires_opt_in_and_matches_ordered_provenance ... ok
+test correspondence_checks_include_later_supplied_graphs ... ok
+test independently_known_statistics_and_supplied_weights ... ok
+test failures_require_explicit_conditioning_and_expose_lost_mass ... ok
+test ties_singletons_nonfinite_values_and_empty_ensembles_are_explicit ... ok
+test sensitivity_reports_preserve_ranges_extremizers_and_csv_identity ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 8 tests
+test nearly_collinear_pyramidalization_matches_frozen_independent_equations ... ok
+test explicit_sdf_bonds_do_not_include_a_close_nonbonded_contact ... ok
+test audited_near_axis_supports_match_direct_geometry_and_exact_rotation ... ok
+test rounded_planar_rotations_remain_ambiguous_at_input_precision ... ok
+test planar_sign_ties_require_an_explicit_center ... ok
+test short_nonzero_axes_and_finite_extreme_coordinates_do_not_become_zero_or_inf ... ok
+test valid_symmetric_volume_and_permuted_triad_are_accepted ... ok
+test all_eight_audited_topology_failures_use_the_independently_verified_graph ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+
+running 4 tests
+test absolute_barriers_have_independent_rates_even_at_identical_selectivity ... ok
+test extreme_rates_have_explicit_range_errors_and_finite_log_rates ... ok
+test tiny_selectivity_and_minority_are_not_erased_by_subtraction ... ok
+test difference_only_cli_does_not_invent_an_absolute_rate ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test weighted_screen_uses_exactly_the_descriptors_written_by_parse ... ok
+test original_nan_infinity_and_mismatch_evaluation_witnesses_are_rejected ... ok
+test single_geometry_honors_explicit_row_axes_and_identifies_supplied_mixtures ... ok
+test geometry_substitution_requires_the_declared_aggregation_and_explicit_weights ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 6 tests
+test training_split_reproduces_the_previous_inline_partition ... ok
+test forward_selection_still_rejects_strongly_correlated_descriptors ... ok
+test frozen_predictions_round_trip_into_evaluation ... ok
+test training_api_reproduces_the_pre_refactor_report ... ok
+test frozen_predictions_keep_the_study_001_csv_schema ... ok
+test training_api_matches_the_previous_cli_composition_bit_for_bit ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s
+
+
+running 19 tests
+test checked_in_study_001_model_still_loads_as_legacy ... ok
+test json_floats_survive_a_round_trip_bit_for_bit ... ok
+test inference_reproduces_predictions_without_the_training_process ... ok
+test feature_space_describes_every_interaction_term ... ok
+test a_document_without_an_ensemble_still_loads ... ok
+test future_schema_versions_are_rejected ... ok
+test new_schema_requires_aggregation_and_old_models_keep_unknown_provenance ... ok
+test portable_document_round_trips_without_drift ... ok
+test serialization_is_deterministic_across_repeated_writes ... ok
+test missing_required_fit_fields_are_rejected ... ok
+test portable_document_is_a_superset_of_the_version_1_artifact ... ok
+test malformed_scaling_information_is_rejected ... ok
+test malformed_coefficients_are_rejected ... ok
+test structurally_inconsistent_documents_are_rejected ... ok
+test rejects_malformed_or_inconsistent_training_geometry ... ok
+test the_fit_report_never_serializes_the_ensemble_into_a_legacy_artifact ... ok
+test the_bootstrap_ensemble_round_trips_without_drift ... ok
+test unknown_chemistry_context_is_reported_not_filled_in ... ok
+test version_2_documents_must_carry_every_section ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+
+running 1 test
+test diagnostic_report_partitions_serial_wall_time_and_preserves_stdout ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 2 tests
+test empty_convention_fails_before_any_artifacts_are_written ... ok
+test explicit_magnitude_is_inspectable_without_changing_fit_or_predictions ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 22 tests
+test study_009_published_metrics_are_unchanged ... ok
+test study_007_published_metrics_are_unchanged ... ok
+test the_legacy_artifact_reports_no_interval_rather_than_inventing_one ... ok
+test legacy_unknown_aggregation_refuses_geometry_substitution ... ok
+test applicability_agrees_with_the_published_training_domain ... ok
+test the_neighbour_calibration_is_derived_from_the_published_training_points ... ok
+test study_001_models_load_in_both_published_schema_versions ... ok
+test the_published_evaluation_error_still_follows_from_the_frozen_prediction ... ok
+test the_published_model_still_selects_the_descriptor_the_study_reports ... ok
+test the_screening_feature_space_still_cannot_express_a_buried_volume_classifier ... ok
+test the_study_thresholds_remain_inside_the_committed_descriptor_distribution ... ok
+test screening_reproduces_the_engine_kernel_for_every_published_ligand ... ok
+test ranking_follows_the_direction_the_published_model_records ... ok
+test standardization_matches_the_constants_the_published_model_records ... ok
+test a_library_missing_a_required_descriptor_is_refused_not_guessed ... ok
+test the_frozen_blind_prediction_is_reproduced_within_the_published_tolerance ... ok
+test the_legacy_artifact_still_refuses_to_rank_without_a_direction ... ok
+test the_published_model_carries_a_usable_bootstrap_ensemble ... ok
+test an_exported_deck_is_reproducible_from_the_published_model ... ok
+test the_model_drives_which_library_columns_are_required ... ok
+test filtering_accounts_for_every_published_candidate ... ok
+test every_output_format_is_byte_identical_across_runs ... ok
+
+test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.30s
+
+
+running 1 test
+test round_trips_one_thousand_records_with_identical_floats ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test optional_sampling_validates_count_and_geometry ... ok
+test explicit_sampling_bounds_the_independent_three_sphere_envelope ... ok
+test sampled_envelope_preserves_atom_order_and_bounds_rigid_transform_error ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 2 tests
+test density_scan_retains_out_of_grid_positions ... ok
+test hard_sphere_scan_keeps_center_order_duplicates_and_failures ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

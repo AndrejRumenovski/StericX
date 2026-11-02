@@ -1,0 +1,157 @@
+{
+  "phase": "models_thermo",
+  "started_utc": "2026-11-02T16:37:46.590386+00:00",
+  "command": [
+    "scripts/replay_dbstep_resolution_science.py",
+    "--build",
+    ".stericx/dbstep_resolution/baseline/build",
+    "--output",
+    ".stericx/dbstep_resolution/science_v1",
+    "--logs",
+    "docs/validation/dbstep/resolution_validation",
+    "--phase",
+    "models_thermo"
+  ],
+  "build": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/manifest.json",
+    "bytes": 37600,
+    "sha256": "4717d77fbef9687651ab5895aa9c0a4380cee338d5def531c072a33ffff39757"
+  },
+  "controller": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/models_thermo/controller.py",
+    "bytes": 13930,
+    "sha256": "33da13e49ed84484e801cda924ccad0ce6ac7f2e9db78540fc9f1d637adc2d45"
+  },
+  "complete": true,
+  "scientific_global_pass": false,
+  "runs": [
+    {
+      "name": "model_demo",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/replay_paton_model_demo.py",
+        "--build",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_demo"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:37:46.598541+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 19.969172397999955,
+      "completed_utc": "2026-11-02T16:38:06.568036+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/model_demo.stdout.log",
+        "bytes": 665,
+        "sha256": "e954b10f8673fd6ba1071c5b85dba0b0becd68877ef424028926069c649769d4"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/model_demo.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "models",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "docs/scientific_remediation/models/recheck.py",
+        "--build",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build",
+        "--observations",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations",
+        "--cli-run",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli/runs/current_1",
+        "--demo",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_demo/demo",
+        "--input-bundle",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/scientific_remediation/ni_hda_response_metadata_v2",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/models"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:38:06.576434+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 85.3866652859997,
+      "completed_utc": "2026-11-02T16:39:31.964092+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/models.stdout.log",
+        "bytes": 146,
+        "sha256": "5bb459707cb07e7a5b393f9cc237f2f3a5391c06757bb115cc8073fe17d9602b"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/models.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "model_supplement",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "scripts/replay_paton_model_supplement.py",
+        "--reference-run",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/models",
+        "--build",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build",
+        "--cli-run",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli/runs/current_1",
+        "--cli-plan",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli",
+        "--demo",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_demo/demo",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_supplement"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:39:31.974050+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 16.45814700900064,
+      "completed_utc": "2026-11-02T16:39:48.433247+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/model_supplement.stdout.log",
+        "bytes": 155,
+        "sha256": "d267d51a175bf55979869a106935b6a0846adf26727680dab41fb94ca5223604"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/model_supplement.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "thermodynamics",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "docs/scientific_remediation/thermodynamics/recheck.py",
+        "--binary",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/bin/stericx",
+        "--observer",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/bin/stericx-audit-observer",
+        "--out",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/thermodynamics"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T16:39:48.438714+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 0.793280928999593,
+      "completed_utc": "2026-11-02T16:39:49.233079+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/thermodynamics.stdout.log",
+        "bytes": 768,
+        "sha256": "ced970469c9f89a9b274479a0706b213b6a3d2c714ec347b676c028376558033"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/thermodynamics.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "interpretation": "Execution receipt only; independent artifact review is required.",
+  "completed_utc": "2026-11-02T16:39:56.764766+00:00"
+}

@@ -1,0 +1,92 @@
+{
+  "baseline": {
+    "bytes": 120674,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli/runs/current_1/manifest.json",
+    "sha256": "27a4d1d95e9d4c18c293971c40038a8036517c908934665f1692eadf13c753f9"
+  },
+  "baseline_threads": 1,
+  "candidate": {
+    "bytes": 120674,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli/runs/current_2/manifest.json",
+    "sha256": "f000ddc4be00ee8763237b6f8894e44b64b99a8ffb469cc4502198439753d3dc"
+  },
+  "candidate_threads": 2,
+  "cases": 93,
+  "comparison": "Exact return codes, ordered stdout/stderr bytes, and every artifact; only declared process metrics and portable.created_utc omitted.",
+  "complete": true,
+  "differences": [],
+  "exact_equivalence": true,
+  "executing_helpers": [
+    {
+      "bytes": 9481,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/compare_corrected_cli.py",
+      "sha256": "d03c21525693549eee45238b5b422c8a81993e5017af19bc2dbef819606bbed2"
+    },
+    {
+      "bytes": 6200,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/capture_remediation_cli.py",
+      "sha256": "3dbce5fd6326e3626954caff67169ec0da0882cdc5143023d2cf64b939bc2f28"
+    },
+    {
+      "bytes": 28983,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/check_scientific_cli_equivalence.py",
+      "sha256": "57e88df9967edf3c6fc736e7e256524029793d6777a8963f1bb2b7b9f655b32a"
+    },
+    {
+      "bytes": 20732,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/replay_scientific_remediation.py",
+      "sha256": "5fe4dcb15b7616ba0367debcbaa8129da526f0cf2aac43f84801f9ca3189258c"
+    },
+    {
+      "bytes": 57148,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/check_current_scientific_equivalence.py",
+      "sha256": "b20f5e9767ed0f9fa1a2a60de2b021a7a69a6a15b2f322a4595d9dda93c3f102"
+    },
+    {
+      "bytes": 34461,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/recheck_current_scientific_references.py",
+      "sha256": "362b9636b44fb35367e03437757c3e9f6c594a0e715efafb9900997636c437b1"
+    }
+  ],
+  "files": [
+    {
+      "bytes": 6200,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_2/capture_remediation_cli.py",
+      "sha256": "3dbce5fd6326e3626954caff67169ec0da0882cdc5143023d2cf64b939bc2f28"
+    },
+    {
+      "bytes": 57148,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_2/check_current_scientific_equivalence.py",
+      "sha256": "b20f5e9767ed0f9fa1a2a60de2b021a7a69a6a15b2f322a4595d9dda93c3f102"
+    },
+    {
+      "bytes": 28983,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_2/check_scientific_cli_equivalence.py",
+      "sha256": "57e88df9967edf3c6fc736e7e256524029793d6777a8963f1bb2b7b9f655b32a"
+    },
+    {
+      "bytes": 9481,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_2/compare_corrected_cli.py",
+      "sha256": "d03c21525693549eee45238b5b422c8a81993e5017af19bc2dbef819606bbed2"
+    },
+    {
+      "bytes": 34461,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_2/recheck_current_scientific_references.py",
+      "sha256": "362b9636b44fb35367e03437757c3e9f6c594a0e715efafb9900997636c437b1"
+    },
+    {
+      "bytes": 20732,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli_comparison_2/replay_scientific_remediation.py",
+      "sha256": "5fe4dcb15b7616ba0367debcbaa8129da526f0cf2aac43f84801f9ca3189258c"
+    }
+  ],
+  "kind": "corrected_cli_exact_comparison",
+  "mode": "threads",
+  "plan": {
+    "bytes": 534590,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/cli/manifest.json",
+    "sha256": "302d4e9e5f8c99b5ac17bfed756f77ade4fb33482e70c7e56fa3bac322a138a1"
+  },
+  "python_scope": "Separately checked by corrected thermodynamics receipt; not included in these 93 CLI cases.",
+  "scientific_global_pass": false
+}

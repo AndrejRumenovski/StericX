@@ -1,0 +1,32 @@
+{
+  "kind": "final_research_and_style_check_summary",
+  "receipt": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/final_checks_v2/journal.json",
+    "bytes": 183705,
+    "sha256": "4bac36731e956d97970bea58bdbf8d641b044f5a27a73c30c4355bca1ae4362e"
+  },
+  "committed_receipt": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/final_checks_v2.json",
+    "bytes": 183705,
+    "sha256": "4bac36731e956d97970bea58bdbf8d641b044f5a27a73c30c4355bca1ae4362e"
+  },
+  "passed": true,
+  "main_discovered": 156,
+  "main_passed": 143,
+  "main_reference_environment_skips": 13,
+  "frozen_reference_discovered": 28,
+  "frozen_reference_passed": 28,
+  "frozen_reference_skips": 0,
+  "source_records_unchanged": 382,
+  "first_failed_attempt": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/receipts/failed_final_checks_v1.json",
+    "bytes": 92761,
+    "sha256": "41a9f7a7c380498502549452cfcbb866139c022ae92d744b0658972ac21f5d71"
+  },
+  "repair_receipt": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_analysis/test_integration_v1/receipt.json",
+    "bytes": 6727,
+    "sha256": "c9d5b4903b72f8d8806215f7a75f9c3c1a243a8c7f2ae87140c941996f01dace"
+  },
+  "interpretation": "All newly introduced integration regressions run in the frozen DBSTEP environment; none is counted as a reference pass because it skipped in the general environment. Test-integration repair changes discovery/import handling only; numerical assertions are retained."
+}

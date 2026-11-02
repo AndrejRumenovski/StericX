@@ -1,0 +1,74 @@
+{
+  "build": {
+    "bytes": 37600,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/manifest.json",
+    "sha256": "4717d77fbef9687651ab5895aa9c0a4380cee338d5def531c072a33ffff39757"
+  },
+  "comparisons": 449,
+  "complete": true,
+  "corrected_screen_cases": 3,
+  "failed": [],
+  "files": [
+    {
+      "bytes": 103616,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_supplement/comparisons.json",
+      "sha256": "c4327dac5111a5e1db0af9f739ed78002f4adc8948d6227dc660665b608ead97"
+    },
+    {
+      "bytes": 12360,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_supplement/independent_results.json",
+      "sha256": "4ec11fd7c6ec8c4b8aee14019d99f18ada4adce6a3373a2600e818fbd80900c9"
+    },
+    {
+      "bytes": 21459,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_supplement/reference/scripts/__pycache__/models_audit.cpython-312.pyc",
+      "sha256": "b4066d3a3780882ab7f551d5ab2cb21155c95bde756e4f09c358f3e8409e8bb0"
+    },
+    {
+      "bytes": 9092,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_supplement/reference/scripts/models_audit.py",
+      "sha256": "5454bf8ae6159f41a2d502f9ac0c2bfa8a4c9f51fefe876f37a0aa6ee2c12ad9"
+    },
+    {
+      "bytes": 3345,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_supplement/reference/scripts/models_domain.py",
+      "sha256": "a2ac7ee9ab522430a6687fa97e9b65eb67b644859f08c7c1b79bba97fdca73c1"
+    },
+    {
+      "bytes": 4947,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_supplement/reference/scripts/models_screen.py",
+      "sha256": "9dcc81ca55ab0f49840fa42505e3fad6ec139be1b6c77995c057ef4440c7f51b"
+    },
+    {
+      "bytes": 5667,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/model_supplement/supplement_recheck.py",
+      "sha256": "f59fea5f77b736c557cae3280651ceb78456e12f6afaa2505a80a0ff73402b6d"
+    }
+  ],
+  "fitted_geometry_cases": 8,
+  "helper": {
+    "bytes": 5667,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/replay_paton_model_supplement.py",
+    "sha256": "f59fea5f77b736c557cae3280651ceb78456e12f6afaa2505a80a0ff73402b6d"
+  },
+  "kind": "corrected_model_reference_coverage_supplement",
+  "limitations": "Same numerical scope as original receipt; no new experimental validity claim.",
+  "numerical_contract_checks_passed": true,
+  "reference_receipt": {
+    "bytes": 69095,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/models/manifest.json",
+    "sha256": "ddf484cba97425011012178e2a75e08150d91b0154808c2f81595bddceb23cb3"
+  },
+  "scientific_global_pass": false,
+  "source_reference": {
+    "bytes": 48435,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/models/recheck.py",
+    "sha256": "02bba637f05a64b42537fd317b1b34f12d768fd4e2e248b28572cf791214dcf5"
+  },
+  "tolerance_policy": "Original receipt f64 equation bounds: atol1e-12,rtol2e-12; exact schema,identities,counts,portable-vs-fit geometry.",
+  "unchanged_supplement_helper": {
+    "bytes": 13667,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/scientific_remediation/models/supplement_recheck.py",
+    "sha256": "6ea5d844f2555d33b28e9f5b149ad3c45f261f17ed423f5b9eb747fecef4c1cf"
+  }
+}

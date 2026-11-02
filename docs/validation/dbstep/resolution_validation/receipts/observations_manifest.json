@@ -1,0 +1,1180 @@
+{
+  "binary": {
+    "bytes": 936344,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/bin/stericx-audit-observer",
+    "sha256": "6b3a5ccf0c8d95275f4c32b3a96207fc4beaecab9eeab054d257161abf24dcef"
+  },
+  "build_manifest": {
+    "bytes": 37600,
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/manifest.json",
+    "sha256": "4717d77fbef9687651ab5895aa9c0a4380cee338d5def531c072a33ffff39757"
+  },
+  "complete_capture": true,
+  "kind": "scientific_remediation_observations",
+  "lanes": {
+    "aggregation": {
+      "derivation": null,
+      "private_bins": 0,
+      "private_errors_for_review": [],
+      "private_frames": 0,
+      "requests": {
+        "bytes": 3219,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/aggregation.jsonl",
+        "sha256": "a4652822c4b3d7dd80df75086f6e9d14dd58f7a1e8c50d672a5009351cc483de"
+      },
+      "returncode": 0,
+      "rows": 11,
+      "source_requests": null,
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/aggregation/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 6257,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/aggregation/stdout.jsonl",
+        "sha256": "261376e1d87baaaa258dca35378b107570979d404a3b69dc0ee136faa536f243"
+      }
+    },
+    "geometry": {
+      "derivation": null,
+      "private_bins": 24660,
+      "private_errors_for_review": [
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 0 bonded substituents"
+          },
+          "id": "pyramid_height_2.0"
+        },
+        {
+          "dump": {
+            "error": "invalid or coincident donor neighbor"
+          },
+          "id": "coincident_neighbor"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 2 bonded substituents"
+          },
+          "id": "bond_threshold_above"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_000"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_001"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_002"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_003"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_004"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_005"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_006"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_007"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_008"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_009"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_010"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_011"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_012"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_013"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_014"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_015"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_016"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_017"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_018"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_019"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_020"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_021"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_022"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_023"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_024"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_025"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_026"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_027"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_028"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_029"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_030"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_031"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_032"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_033"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_034"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_035"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_036"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_037"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_038"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_039"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_040"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_041"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_042"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_043"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_044"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_045"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_046"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_047"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_048"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_049"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_050"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_051"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_052"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_053"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_054"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_055"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_056"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_057"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_058"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_059"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_060"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_061"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_062"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_063"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_064"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_065"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_066"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_067"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_068"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_069"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_070"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_071"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_072"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_073"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_074"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_075"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_076"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_077"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_078"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_079"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_080"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_081"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_082"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_083"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_084"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_085"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_086"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_087"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_088"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_089"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_090"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_091"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_092"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_093"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_094"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_095"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_096"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_097"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_098"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_099"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_100"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_101"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__rigid_102"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_00"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_01"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_02"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_03"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_04"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_05"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_06"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_07"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_08"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_09"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_10"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_11"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_12"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_13"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_14"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_15"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_16"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_17"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_18"
+        },
+        {
+          "dump": {
+            "error": "planar coordination direction is ambiguous at input coordinate precision; supply an explicit center"
+          },
+          "id": "planar_donor__permutation_19"
+        },
+        {
+          "dump": {
+            "error": "donor plane atom is collinear with the coordination axis",
+            "plane": 1
+          },
+          "id": "asymmetric_toy__translation_10000000.0"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 5 bonded substituents"
+          },
+          "id": "asymmetric_toy__translation_10000000000.0"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 5 bonded substituents"
+          },
+          "id": "asymmetric_toy__translation_1e+20"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 6 bonded substituents"
+          },
+          "id": "methylphosphine__translation_10000000000.0"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 6 bonded substituents"
+          },
+          "id": "methylphosphine__translation_1e+20"
+        }
+      ],
+      "private_frames": 2055,
+      "requests": {
+        "bytes": 1832200,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry.jsonl",
+        "sha256": "f6895aef132734008c575eb6707cee3040d4a2986acdd39370106817217d55fe"
+      },
+      "returncode": 0,
+      "rows": 844,
+      "source_requests": null,
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 5890598,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry/stdout.jsonl",
+        "sha256": "247b5dc7e4da8495ef1c83a8ecad8b4a72ea86dc3a7f3dbd40d0526e9e1dfcda"
+      }
+    },
+    "geometry_alignment": {
+      "derivation": null,
+      "private_bins": 0,
+      "private_errors_for_review": [],
+      "private_frames": 0,
+      "requests": {
+        "bytes": 15763,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry_alignment.jsonl",
+        "sha256": "66cb9e1f0bf5984e95d6b7d6a231f57b105dbefebec600d9983f92467fa0d8e4"
+      },
+      "returncode": 0,
+      "rows": 4,
+      "source_requests": null,
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry_alignment/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 21540,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry_alignment/stdout.jsonl",
+        "sha256": "5800b2c21af5115e7aead8a449de189d95ec7161b442f1b6b098a6f914007298"
+      }
+    },
+    "geometry_alignment_rotation": {
+      "derivation": null,
+      "private_bins": 0,
+      "private_errors_for_review": [],
+      "private_frames": 0,
+      "requests": {
+        "bytes": 15792,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry_alignment_rotation.jsonl",
+        "sha256": "49f06bc2005ebb377e2ecd133176b7492a6227a495b4539109839293b5982f70"
+      },
+      "returncode": 0,
+      "rows": 4,
+      "source_requests": null,
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry_alignment_rotation/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 21566,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry_alignment_rotation/stdout.jsonl",
+        "sha256": "20f7cd72330506e1f38fa28daa609aee87b6f594903ba9b9c38f8469061de8e2"
+      }
+    },
+    "geometry_focused": {
+      "derivation": null,
+      "private_bins": 144,
+      "private_errors_for_review": [],
+      "private_frames": 12,
+      "requests": {
+        "bytes": 6998,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry_focused.jsonl",
+        "sha256": "4166fb55f75e534d0dcc4a61ae13064c40ac9c6e0e5298b2bf13f8bca409824e"
+      },
+      "returncode": 0,
+      "rows": 15,
+      "source_requests": null,
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry_focused/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 35900,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry_focused/stdout.jsonl",
+        "sha256": "f4ceb0d13fcb35a2ea99dcc6b3d40f5815c6a7220b1832086a2a95092446dfe5"
+      }
+    },
+    "geometry_historical": {
+      "derivation": null,
+      "private_bins": 0,
+      "private_errors_for_review": [],
+      "private_frames": 0,
+      "requests": {
+        "bytes": 29825,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry_historical.jsonl",
+        "sha256": "c1ab972a2d878359ff9166a0274fe07b904b966201c13d5730eb1d1468a0ddeb"
+      },
+      "returncode": 0,
+      "rows": 20,
+      "source_requests": null,
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry_historical/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 88869,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry_historical/stdout.jsonl",
+        "sha256": "70f29ca5007266ff9be1d7839dddbf5652453a3ee2bd77fcda973b98f96a6e28"
+      }
+    },
+    "geometry_numerical": {
+      "derivation": null,
+      "private_bins": 108,
+      "private_errors_for_review": [],
+      "private_frames": 9,
+      "requests": {
+        "bytes": 6831,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/geometry_numerical.jsonl",
+        "sha256": "09b28ce361516f9aed8c43d9c0b77b278daec5c88e0bb2de0e436d10d58cc2b0"
+      },
+      "returncode": 0,
+      "rows": 11,
+      "source_requests": null,
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry_numerical/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 31440,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/geometry_numerical/stdout.jsonl",
+        "sha256": "2eb682c0b4a4fc3f85c001a65ded4e3f306c1c5add271371f0402ed767d9c47a"
+      }
+    },
+    "kinetics": {
+      "derivation": null,
+      "private_bins": 0,
+      "private_errors_for_review": [],
+      "private_frames": 0,
+      "requests": {
+        "bytes": 14403,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/kinetics.jsonl",
+        "sha256": "6de8561820f3eec76b9e49ce35d8496cc5381ee43640d48199d1e219c20abe12"
+      },
+      "returncode": 0,
+      "rows": 195,
+      "source_requests": null,
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/kinetics/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 88971,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/kinetics/stdout.jsonl",
+        "sha256": "02baeb6dbdf7fd1547c85ee2731b05ee7d331febe437ae7088ae75807807750f"
+      }
+    },
+    "kraken": {
+      "derivation": null,
+      "private_bins": 0,
+      "private_errors_for_review": [],
+      "private_frames": 0,
+      "requests": {
+        "bytes": 88555554,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/kraken.jsonl",
+        "sha256": "550fa29a8cb17bf3e0c82a94842d060e8b7de9c8e29f210e12030f15a04a4cda"
+      },
+      "returncode": 0,
+      "rows": 31721,
+      "source_requests": null,
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/kraken/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 295354264,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/kraken/stdout.jsonl",
+        "sha256": "52fe6770aae4cf278a6ce1ac4679ac42740fceb918603331362bbfe5e1c41cf3"
+      }
+    },
+    "kraken_all_bins": {
+      "derivation": null,
+      "private_bins": 1141668,
+      "private_errors_for_review": [
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 4 bonded substituents"
+          },
+          "id": "KRAKEN:1281:54241"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 4 bonded substituents"
+          },
+          "id": "KRAKEN:1281:54235"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 4 bonded substituents"
+          },
+          "id": "KRAKEN:1907:63291"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 4 bonded substituents"
+          },
+          "id": "KRAKEN:1907:63292"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 4 bonded substituents"
+          },
+          "id": "KRAKEN:1907:63293"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 4 bonded substituents"
+          },
+          "id": "KRAKEN:1907:63294"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 4 bonded substituents"
+          },
+          "id": "KRAKEN:1907:63295"
+        },
+        {
+          "dump": {
+            "error": "donor must be trivalent for the quadrant frame, found 4 bonded substituents"
+          },
+          "id": "KRAKEN:1907:63296"
+        }
+      ],
+      "private_frames": 95139,
+      "requests": {
+        "bytes": 100112284,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/kraken_all_bins.jsonl",
+        "sha256": "92e1101f7fc289d0fc382f825a764ec48170a7bfcba28bb84b2eabf61df9af8f"
+      },
+      "returncode": 0,
+      "rows": 31721,
+      "source_requests": null,
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/kraken_all_bins/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 597469770,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/kraken_all_bins/stdout.jsonl",
+        "sha256": "ba3ee7847d9ff4e27c56527a047144c13f493d5e305dba62bddcd46e69fafaf5"
+      }
+    },
+    "kraken_topology": {
+      "derivation": "Recorded explicit source neighbors; same atoms/configuration/IDs",
+      "private_bins": 0,
+      "private_errors_for_review": [],
+      "private_frames": 0,
+      "requests": {
+        "bytes": 100429494,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/derived_requests/kraken_topology.jsonl",
+        "sha256": "a057e37bd8e25c671d22a2f59a329e42a1e1fcd72748446bc98215a4dff71ff0"
+      },
+      "returncode": 0,
+      "rows": 31721,
+      "source_requests": {
+        "bytes": 88555554,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/kraken.jsonl",
+        "sha256": "550fa29a8cb17bf3e0c82a94842d060e8b7de9c8e29f210e12030f15a04a4cda"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/kraken_topology/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 295358544,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/kraken_topology/stdout.jsonl",
+        "sha256": "e84d7f64172e682c6ab94021684afacad90ec98e9b549aa9ca9bf63218f9cc61"
+      }
+    },
+    "kraken_topology_all_bins": {
+      "derivation": "Recorded explicit source neighbors; same atoms/configuration/IDs",
+      "private_bins": 1141956,
+      "private_errors_for_review": [],
+      "private_frames": 95163,
+      "requests": {
+        "bytes": 100397773,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/derived_requests/kraken_topology_all_bins.jsonl",
+        "sha256": "c9e10bbf57c4285c9974a9b95e3ae5bf346a3ca5b47c12742f56a8fd33eb1016"
+      },
+      "returncode": 0,
+      "rows": 31721,
+      "source_requests": {
+        "bytes": 88555554,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/kraken.jsonl",
+        "sha256": "550fa29a8cb17bf3e0c82a94842d060e8b7de9c8e29f210e12030f15a04a4cda"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/kraken_topology_all_bins/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 597551021,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/kraken_topology_all_bins/stdout.jsonl",
+        "sha256": "b8be0be5fed86ea9d317b66434c1b17266fb6aafd8009ce7110cd8479c0c9de2"
+      }
+    },
+    "model_domain": {
+      "derivation": null,
+      "private_bins": 0,
+      "private_errors_for_review": [],
+      "private_frames": 0,
+      "requests": {
+        "bytes": 6788,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3/requests/model_domain.jsonl",
+        "sha256": "c1214acf10304843073047558d75530bc8939ea9dcab0ebbc4b0c964484b8b05"
+      },
+      "returncode": 0,
+      "rows": 33,
+      "source_requests": null,
+      "stderr": {
+        "bytes": 0,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/model_domain/stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 5451,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/model_domain/stdout.jsonl",
+        "sha256": "74ea3ded68e843dedb3c0eb2c46772300bbfda56aa8040ace6362e1d0b57d9b0"
+      }
+    }
+  },
+  "scientific_pass": false
+}

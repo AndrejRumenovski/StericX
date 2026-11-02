@@ -1,0 +1,132 @@
+{
+  "phase": "volume",
+  "started_utc": "2026-11-02T17:00:05.247420+00:00",
+  "command": [
+    "scripts/replay_dbstep_resolution_science.py",
+    "--build",
+    ".stericx/dbstep_resolution/baseline/build",
+    "--output",
+    ".stericx/dbstep_resolution/science_v1",
+    "--logs",
+    "docs/validation/dbstep/resolution_validation",
+    "--phase",
+    "volume"
+  ],
+  "build": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/manifest.json",
+    "bytes": 37600,
+    "sha256": "4717d77fbef9687651ab5895aa9c0a4380cee338d5def531c072a33ffff39757"
+  },
+  "controller": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/execution/volume/controller.py",
+    "bytes": 13930,
+    "sha256": "33da13e49ed84484e801cda924ccad0ce6ac7f2e9db78540fc9f1d637adc2d45"
+  },
+  "complete": true,
+  "scientific_global_pass": false,
+  "runs": [
+    {
+      "name": "volume_reference",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "docs/scientific_remediation/geometry/recompute_volume_means.py",
+        "--requests",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/derived_requests/kraken_topology_all_bins.jsonl",
+        "--observations",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations/kraken_topology_all_bins/stdout.jsonl",
+        "--expected-rows",
+        "31721",
+        "--workers",
+        "2",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/volume_reference"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T17:00:05.247744+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 223.17616715700024,
+      "completed_utc": "2026-11-02T17:03:48.424114+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/volume_reference.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/volume_reference.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "all_bins",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "docs/scientific_remediation/geometry/compare_all_volume_bins.py",
+        "--references",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/volume_reference",
+        "--observations",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/all_bins"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T17:03:48.443919+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 15.252263423999466,
+      "completed_utc": "2026-11-02T17:04:03.697217+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/all_bins.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/all_bins.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "fixed_union",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "docs/scientific_remediation/geometry/replay_fixed_variant_union.py",
+        "--observations",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/observations",
+        "--inferred",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/references_inferred/kraken",
+        "--topology",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/references_topology/kraken",
+        "--workers",
+        "2",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/science_v1/fixed_union"
+      ],
+      "cwd": "/run/media/andrej-rumenovski/New Volume/Code/StericX",
+      "started_utc": "2026-11-02T17:04:03.701879+00:00",
+      "status": "completed",
+      "returncode": 0,
+      "seconds": 48.291339256000356,
+      "completed_utc": "2026-11-02T17:04:51.994220+00:00",
+      "stdout": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/fixed_union.stdout.log",
+        "bytes": 430,
+        "sha256": "c8ee182dd392ff1720152fd3dfa96936a57e9f1d57e7fd31d98def59f6192f5c"
+      },
+      "stderr": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_validation/fixed_union.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "interpretation": "Execution receipt only; independent artifact review is required.",
+  "completed_utc": "2026-11-02T17:04:58.993430+00:00"
+}

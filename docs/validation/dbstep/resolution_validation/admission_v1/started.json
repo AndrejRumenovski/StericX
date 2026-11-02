@@ -1,0 +1,37 @@
+{
+  "created_utc": "2026-11-02T17:08:32.899140+00:00",
+  "command": [
+    "scripts/review_dbstep_resolution_admission.py",
+    "--baseline",
+    ".stericx/dbstep_resolution/baseline/build",
+    "--candidate",
+    ".stericx/dbstep_resolution/mask_build_v2",
+    "--legacy-review",
+    ".stericx/dbstep_resolution/science_v1/review/review.json",
+    "--point-domains",
+    ".stericx/dbstep_resolution/point_domains_review_v3",
+    "--molecular",
+    "docs/validation/dbstep/resolution_analysis/molecular_adversaries_v2",
+    "--convergence",
+    ".stericx/dbstep_resolution/convergence_v2",
+    "--advanced",
+    "docs/validation/dbstep/resolution_advanced/local_v1",
+    "--ci",
+    "docs/validation/dbstep/resolution_advanced/ci_v2",
+    "--ci-raw",
+    ".stericx/dbstep_resolution/advanced_v1/ci_v1",
+    "--policy",
+    "docs/validation/dbstep/ACCEPTANCE_POLICY.md",
+    "--approval",
+    "docs/validation/dbstep/POLICY_APPROVAL.md",
+    "--output",
+    ".stericx/dbstep_resolution/admission_v1"
+  ],
+  "controller": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/review_dbstep_resolution_admission.py",
+    "bytes": 29281,
+    "sha256": "21bf30abfc2975fd2e9948352560865275d00c7a5b5199cdf59e4e3a9a0cf87b"
+  },
+  "descriptor_performance_admitted": false,
+  "release_admitted": false
+}

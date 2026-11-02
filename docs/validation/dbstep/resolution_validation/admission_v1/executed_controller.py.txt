@@ -1,0 +1,794 @@
+#!/usr/bin/env python3
+"""Review approved scientific evidence before descriptor performance measurement.
+
+This does not admit a release. It preserves the original failed comparison lane
+and checks the separately approved finite-domain / continuum evidence policy.
+Missing, changed, incomplete or unexplained evidence prevents timing admission.
+"""
+
+from __future__ import annotations
+
+import argparse
+import gzip
+import hashlib
+import itertools
+import json
+import subprocess
+import sys
+import tarfile
+from datetime import UTC, datetime
+from fractions import Fraction
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+POLICY_SHA = "683af4d50e148c66ee3cff0a5c0eed99be60d5d64ad6f6fbc75d2ca50894ad9a"
+BASELINE_COMMIT = "f04b156f7b8b31700e1c6ab978e337b00cc734e0"
+DBSTEP_COMMIT = "4365353e0a2f24d05336e619759e350bc630a3cb"
+METHODS = {
+    "stericx_native",
+    "morfeus_public_common_radii",
+    "dbstep_tree_common_radii",
+    "dbstep_fast_common_radii",
+}
+
+
+def require(condition, explanation):
+    if not condition:
+        raise ValueError(explanation)
+
+
+def digest(path):
+    with Path(path).open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
+def record(path):
+    path = Path(path).resolve()
+    return {"path": str(path), "bytes": path.stat().st_size, "sha256": digest(path)}
+
+
+class Review:
+    def __init__(self):
+        self.evidence = {}
+        self.stats = {}
+        self.gates = {}
+
+    def bind(self, path):
+        item = record(path)
+        old = self.evidence.get(item["path"])
+        require(old is None or old == item, "Evidence changed during review")
+        self.evidence[item["path"]] = item
+        self.stats[item["path"]] = Path(item["path"]).stat()
+        return item
+
+    def verify(self, item):
+        require({"path", "sha256"} <= item.keys(), "Incomplete file identity")
+        actual = self.bind(item["path"])
+        require(
+            actual["sha256"] == item["sha256"]
+            and ("bytes" not in item or actual["bytes"] == item["bytes"]),
+            f"Changed evidence: {item['path']}",
+        )
+        return actual
+
+    def read(self, path):
+        self.bind(path)
+        return json.loads(Path(path).read_text())
+
+    def records(self, values):
+        for item in values:
+            self.verify(item)
+
+    def nested_records(self, value):
+        if isinstance(value, dict):
+            if {"path", "sha256"} <= value.keys():
+                self.verify(value)
+            else:
+                for child in value.values():
+                    self.nested_records(child)
+        elif isinstance(value, list):
+            for child in value:
+                self.nested_records(child)
+
+    def check_unchanged(self):
+        for path, previous in self.stats.items():
+            current = Path(path).stat()
+            if (
+                current.st_size != previous.st_size
+                or current.st_mtime_ns != previous.st_mtime_ns
+            ):
+                require(
+                    record(path) == self.evidence[path], f"Evidence changed: {path}"
+                )
+
+
+def git_sha(commit, path):
+    return hashlib.sha256(
+        subprocess.check_output(["git", "show", f"{commit}:{path}"], cwd=ROOT)
+    ).hexdigest()
+
+
+def check_certificate(certificate, observed_inside):
+    require(certificate["finite_normal_domain"], "Unsupported arithmetic domain")
+    margin = Fraction(certificate["margin_exact"])
+    bound = Fraction(certificate["error_bound_exact"])
+    require(bound >= 0, "Negative predicate error bound")
+    expected = (
+        "stable_inside"
+        if margin < -bound
+        else "stable_outside"
+        if margin > bound
+        else "ambiguous"
+    )
+    require(certificate["classification"] == expected, "Certificate band misclassified")
+    require(certificate["exact_inside"] == (margin <= 0), "Exact sign misclassified")
+    if observed_inside != certificate["exact_inside"]:
+        require(expected == "ambiguous", "Stable predicate decision disagrees")
+
+
+def check_sources(review, baseline_path, candidate_path, ci_directory):
+    baseline = review.read(baseline_path / "manifest.json")
+    candidate = review.read(candidate_path / "manifest.json")
+    require(
+        baseline["binaries"]["native"]["sha256"]
+        == candidate["binaries"]["native"]["sha256"],
+        "Candidate native executable differs from the replayed baseline",
+    )
+    ci = review.read(ci_directory / "ci_review.json")
+    bindings = review.read(ci_directory / "source_bindings.json")
+    require(ci["passed"] and not ci["failures"], "CI artifact review did not pass")
+    require(
+        bindings["source_commit"] == ci["source_commit"], "CI source identities differ"
+    )
+    rows = []
+    for label, build in [("baseline", baseline), ("candidate", candidate)]:
+        require(len(build["sources"]) == 53, "Core source coverage changed")
+        review.records(build["sources"])
+        review.records(build["binaries"].values())
+        review.records(build["adapter_files"])
+        for item in build["sources"]:
+            name = Path(item["path"]).relative_to(build["source"]).as_posix()
+            expected = git_sha(BASELINE_COMMIT, name)
+            require(
+                expected == item["sha256"] == git_sha(ci["source_commit"], name),
+                f"Core source changed: {name}",
+            )
+            require(
+                review.bind(ROOT / name)["sha256"] == expected,
+                f"Live core changed: {name}",
+            )
+            require(bindings["source_hashes"][name] == expected, "CI inventory differs")
+            rows.append({"side": label, "path": name, "sha256": expected})
+    package = ["python/Cargo.toml", "python/Cargo.lock", "python/pyproject.toml"]
+    package += subprocess.check_output(
+        [
+            "git",
+            "ls-tree",
+            "-r",
+            "--name-only",
+            BASELINE_COMMIT,
+            "python/rust",
+            "python/stericx",
+        ],
+        cwd=ROOT,
+        text=True,
+    ).splitlines()
+    for name in package:
+        expected = git_sha(BASELINE_COMMIT, name)
+        require(
+            expected
+            == git_sha(ci["source_commit"], name)
+            == bindings["source_hashes"][name],
+            "Package source commit mismatch",
+        )
+        require(review.bind(ROOT / name)["sha256"] == expected, "Live package changed")
+    return {
+        "core_sources_each": 53,
+        "package_sources": len(package),
+        "ci_commit": ci["source_commit"],
+        "core_source_bindings": rows,
+    }
+
+
+def check_ci(review, directory, raw_directory):
+    manifest = review.read(directory / "manifest.json")
+    for name, expected in manifest.items():
+        require(
+            review.bind(directory / name)["sha256"] == expected, "CI evidence changed"
+        )
+    ci = review.read(directory / "ci_review.json")
+    for key, count in [("rust_run", 3), ("wheel_run", 13)]:
+        run = ci[key]
+        require(
+            run["status"] == "completed"
+            and run["conclusion"] == "success"
+            and len(run["jobs"]) == count,
+            "CI run incomplete",
+        )
+        require(
+            run["headSha"] == ci["source_commit"]
+            and all(j["conclusion"] == "success" for j in run["jobs"]),
+            "CI job failed or source mismatch",
+        )
+    require(
+        ci["artifact_count"] == 13
+        and ci["wheel_count"] == 12
+        and ci["source_archive_count"] == 1,
+        "CI artifacts incomplete",
+    )
+    require(
+        len(ci["installed_python_test_outcomes"]) == 13
+        and all("71 passed in " in s for s in ci["installed_python_test_outcomes"]),
+        "Installed CI tests incomplete",
+    )
+    summary = review.read(directory / "summary.json")
+    require(
+        summary["passed"] and not summary["failures"],
+        "CI source/artifact review failed",
+    )
+    for item in summary["artifacts"]:
+        actual = review.bind(raw_directory / item["path"])
+        require(
+            actual["sha256"] == item["sha256"] and actual["bytes"] == item["bytes"],
+            "Downloaded CI artifact changed",
+        )
+    source_receipt = review.read(directory / "push_receipt.json")
+    require(source_receipt["push_returncode"] == 0, "Validation branch push failed")
+    return {
+        "rust_jobs": 3,
+        "wheel_source_jobs": 13,
+        "installed_tests_each": 71,
+        "artifact_count": 13,
+        "source_commit": ci["source_commit"],
+    }
+
+
+def check_legacy(review, path, baseline_path):
+    value = review.read(path)
+    require(
+        value["kind"] == "dbstep_resolution_legacy_scientific_review",
+        "Wrong legacy review",
+    )
+    require(
+        value["build"] == review.bind(baseline_path / "manifest.json"),
+        "Legacy review binds wrong build",
+    )
+    require(
+        value["complete_reference_coverage"]
+        and value["changed_legacy_reference_values"] == 0
+        and value["legacy_reference_preservation_pass"],
+        "Legacy numerical behavior changed/incomplete",
+    )
+    require(
+        value["scientific_global_pass"] is False and value["release_admitted"] is False,
+        "Historical limitations were upgraded",
+    )
+    review.records(value["evidence"])
+    return {"preserved": True, "changed_values": 0, "global_scientific_pass": False}
+
+
+def check_point_domains(review, directory):
+    receipt = review.read(directory / "receipt.json")
+    review.nested_records(receipt)
+    review.records(review.read(directory / "manifest.json"))
+    summary = review.read(directory / "summary.json")
+    frames = review.read(directory / "frames.json")
+    public = review.read(directory / "public_summaries.json")
+    require(
+        summary["case_count"] == 69 and summary["frame_count"] == len(frames) == 207,
+        "Original case/frame coverage incomplete",
+    )
+    for key in [
+        "arithmetic_error_count",
+        "disputed_atomic_points",
+        "same_domain_arithmetic_failed_frames",
+        "unexplained_atomic_points",
+        "unexplained_sphere_points",
+    ]:
+        require(summary[key] == 0, f"Point-domain failure: {key}")
+    require(
+        not summary["execution_failures"] and summary["sources_unchanged"],
+        "Point-domain execution/source failure",
+    )
+    total = sum(f["point_count"] for f in frames)
+    require(total == 3545298, "Point-domain node coverage changed")
+    for row in frames:
+        require(
+            row["native_dbstep_mask_differences"]
+            == row["native_direct_mask_differences"]
+            == 0,
+            "Common-domain mask disagreement",
+        )
+        require(
+            not row["arithmetic_errors"]
+            and row["same_domain_within_old_arithmetic_limit"]
+            and row["unexplained_count"] == row["unexplained_sphere_count"] == 0,
+            "Frame arithmetic/boundary unexplained",
+        )
+    require(
+        len(public) == 138
+        and receipt["public_summary_comparisons"] == 138
+        and receipt["public_summary_arithmetic_failures"] == 0,
+        "Public summaries incomplete",
+    )
+    require(
+        all(p["within_old_arithmetic_limit"] for p in public),
+        "Public summary arithmetic mismatch",
+    )
+    require(
+        len(summary["legacy_failed_frames"]) == 3, "Historical failed frames missing"
+    )
+    return {
+        "cases": 69,
+        "frames": 207,
+        "point_decisions": total,
+        "public_summaries": 138,
+        "legacy_failed_frames_preserved": summary["legacy_failed_frames"],
+    }
+
+
+def check_molecular(review, directory):
+    receipt = review.read(directory / "receipt.json")
+    review.nested_records(receipt)
+    review.records(review.read(directory / "manifest.json"))
+    summary = review.read(directory / "summary.json")
+    rows = review.read(directory / "results.json")
+    require(
+        summary["case_count"] == len(rows) == 49
+        and summary["completed_comparisons"] == 48
+        and summary["expected_errors"] == 1,
+        "Molecular adversary coverage incomplete",
+    )
+    require(
+        not summary["errors"]
+        and summary["arithmetic_errors"] == summary["unexplained_atomic_points"] == 0
+        and summary["sources_unchanged"],
+        "Molecular adversary failure",
+    )
+    require(
+        all(
+            not r["errors"]
+            and r.get("arithmetic_errors", 0) == 0
+            and r.get("unexplained_atomic_points", 0) == 0
+            for r in rows
+        ),
+        "Molecular row failure",
+    )
+    require(
+        sum(
+            bool(r.get("expected_error_observed") and r.get("native_error"))
+            for r in rows
+        )
+        == 1,
+        "Structured invalid-frame error was not preserved",
+    )
+    return {"cases": 49, "valid": 48, "retained_expected_error": 1}
+
+
+def check_convergence(review, directory):
+    manifest = review.read(directory / "manifest.json")
+    review.records(manifest["bindings"])
+    review.records(manifest["files"])
+    review.verify(manifest["summary"])
+    require(
+        manifest["dbstep_commit"] == DBSTEP_COMMIT,
+        "Unpinned DBSTEP convergence reference",
+    )
+    require(
+        manifest["densities"] == [0.08, 0.01, 0.00125, 0.00015625]
+        and manifest["spacings"] == [0.4, 0.2, 0.1, 0.05],
+        "Prospective resolution schedule changed",
+    )
+    summary = review.read(directory / "summary.json")
+    require(
+        summary["case_count"] == 20 and summary["comparison_count"] == 320,
+        "Convergence coverage incomplete",
+    )
+    for key in [
+        "unsuccessful_comparisons",
+        "analytical_box_failures",
+        "non_nested_box_failures",
+        "analytical_cell_bound_failures",
+        "exact_boundary_unexplained",
+    ]:
+        require(not summary[key], f"Convergence failure: {key}")
+    require(
+        summary["native_unexplained_disputed_node_count"] == 0,
+        "Unexplained native convergence decision",
+    )
+    cases = review.read(directory / "cases.json")
+    require(
+        len(cases) == 20 and len({c["id"] for c in cases}) == 20,
+        "Convergence cases duplicated/missing",
+    )
+    limitations = []
+    total_witnesses = 0
+    for case in cases:
+        path = directory / case["id"]
+        bounds = review.read(path / "continuous_reference.json")
+        require(
+            bounds["nested"] and bounds["analytical_enclosed"] is not False,
+            "Continuous reference invalid",
+        )
+        expected_depth = 11 if case["kind"] == "captured_molecular_frame" else 8
+        require(
+            bounds["maximum_depth"] == expected_depth, "Adaptive depth schedule changed"
+        )
+        history = bounds["history"]
+        require(
+            all(
+                a["lower"] <= b["lower"] <= b["upper"] <= a["upper"]
+                for a, b in itertools.pairwise(history)
+            ),
+            "Non-nested exact-reference intervals",
+        )
+        rows = review.read(path / "results.json")
+        require(
+            len(rows) == 16
+            and {(r["level"], r["method"]) for r in rows}
+            == {(level, method) for level in range(4) for method in METHODS},
+            "Missing/duplicated convergence level/method",
+        )
+        for row in rows:
+            require(
+                not row.get("status")
+                and row["analytical_truth_inside_cell_enclosure"] is not False,
+                "Convergence analytic enclosure failure",
+            )
+            enclosure = row["cell_enclosure"]
+            require(
+                enclosure["certified_volume_lower"]
+                <= enclosure["certified_volume_upper"]
+                and enclosure["total_absolute_error_upper"] >= 0,
+                "Invalid cell enclosure",
+            )
+            require(
+                enclosure["sphere_nodes"] > 0
+                and "coverage_exact" in enclosure["cell_geometry"],
+                "Missing cell coverage",
+            )
+            if row["method"] == "stericx_native":
+                witness_path = (
+                    path / f"level{row['level']}" / "native_dispute_witnesses.json.gz"
+                )
+                review.bind(witness_path)
+                with gzip.open(witness_path, "rt") as stream:
+                    witnesses = json.load(stream)
+                require(
+                    witnesses["disputed_node_count"]
+                    == len(witnesses["rows"])
+                    == row["native_disputed_node_count"],
+                    "Native witness coverage incomplete",
+                )
+                require(
+                    witnesses["unexplained_count"]
+                    == row["native_unexplained_disputed_node_count"]
+                    == 0,
+                    "Native disputed node unexplained",
+                )
+                require(
+                    all(
+                        w["traces_reproduce_observed_decisions"]
+                        and w["explained_within_a_priori_bound"]
+                        for w in witnesses["rows"]
+                    ),
+                    "Native trace/certificate incomplete",
+                )
+                for witness in witnesses["rows"]:
+                    for ball in [
+                        witness["sphere_witness"],
+                        *witness["atomic_witnesses"],
+                    ]:
+                        check_certificate(ball["certificate"], ball["trace_inside"])
+                        require(
+                            ball["trace_exact_dispute_within_bound"],
+                            "Unexplained individual sphere/atom trace",
+                        )
+                total_witnesses += len(witnesses["rows"])
+                if row["level"] == 1 and case["kind"] == "captured_molecular_frame":
+                    limitations.append(
+                        {
+                            "case_id": case["id"],
+                            "independent_interval": [bounds["lower"], bounds["upper"]],
+                            "interval_width": bounds["width"],
+                            "native_default_density_volume": row["volume"],
+                            "absolute_error_interval": row["absolute_error_interval"],
+                        }
+                    )
+    boundary = review.read(directory / "exact_point_boundaries/results.json")
+    require(
+        len(boundary["rows"]) == 10 and not boundary["unexplained"],
+        "Exact boundary coverage incomplete",
+    )
+    require(
+        all(
+            r["trace_matches_observed"]
+            and r["disagreement_explained"]
+            and r["certificate"]["finite_normal_domain"]
+            for r in boundary["rows"]
+        ),
+        "Boundary classification unsupported",
+    )
+    for row in boundary["rows"]:
+        check_certificate(row["certificate"], row["native"])
+    return {
+        "cases": 20,
+        "comparisons": 320,
+        "native_disputed_nodes_explained": total_witnesses,
+        "exact_boundary_points": 10,
+        "default_continuum_accuracy_limitations": limitations,
+    }
+
+
+def check_advanced(review, directory):
+    summary = review.read(directory / "summary.json")
+    archive = review.read(directory / "archive_receipt.json")
+    require(
+        review.bind(directory / archive["path"])["sha256"] == archive["sha256"],
+        "Advanced archive changed",
+    )
+    manifest = review.read(directory / "raw_evidence_manifest.json")
+    archived_receipts = {}
+    with tarfile.open(directory / archive["path"]) as tar:
+        members = tar.getmembers()
+        require(
+            len(members) == len(manifest) == archive["entries"],
+            "Advanced archive coverage changed",
+        )
+        for member in members:
+            expected = manifest[member.name]
+            data = tar.extractfile(member).read()
+            require(
+                len(data) == expected["bytes"]
+                and hashlib.sha256(data).hexdigest() == expected["sha256"],
+                "Advanced raw member changed",
+            )
+            if member.name in {
+                "references/receipt.json",
+                "distribution/receipt.json",
+                "installs/receipt.json",
+            }:
+                archived_receipts[member.name] = json.loads(data)
+    require(len(archived_receipts) == 3, "Advanced phase receipts incomplete")
+    for receipt in archived_receipts.values():
+        require(
+            not receipt["source_changes"]
+            and receipt["sources_before"] == receipt["sources_after"],
+            "Archived replay sources changed",
+        )
+    for name, filename in [
+        ("sterimol", "summary.json"),
+        ("volume", "summary.json"),
+        ("density", "summary.json"),
+        ("profiles", "summary.json"),
+        ("populations", "report.json"),
+        ("ensemble_reference", "summary.json"),
+    ]:
+        require(
+            review.bind(directory / (name + "_summary.json"))["sha256"]
+            == manifest[f"references/{name}/{filename}"]["sha256"],
+            "Readable advanced summary differs from archived evidence",
+        )
+    gates = summary["scientific_gates"]
+    require(
+        all(
+            gates[k]
+            for k in [
+                "sterimol_conditional",
+                "density_declared_grid_scope",
+                "profile_preservation",
+                "populations",
+                "ensemble_reference",
+            ]
+        ),
+        "Advanced scientific preservation failed",
+    )
+    require(
+        gates["hard_sphere_original_strict"] is False
+        and gates["profile_hard_sphere_original_strict"] is False,
+        "Original strict failures were overwritten",
+    )
+    require(
+        all(not changes for changes in summary["source_changes"].values()),
+        "Advanced replay source changes",
+    )
+    require(
+        all(r["json_equal"] for r in summary["historical_summary_comparison"].values()),
+        "Original scientific summaries changed",
+    )
+    installs = summary["local_installations"]
+    require(
+        set(installs)
+        == {"wheel-3.11", "wheel-3.12", "wheel-3.13", "wheel-3.14", "sdist-3.12"},
+        "Local install matrix incomplete",
+    )
+    for value in installs.values():
+        require(
+            value["passed"]
+            and value["artifact_unchanged"]
+            and value["all_commands_exit_zero"]
+            and len(value["test_outcome"]) == 1
+            and "71 passed in " in value["test_outcome"][0],
+            "Local package test failed",
+        )
+        require(
+            review.bind(value["artifact"]["path"])["sha256"]
+            == value["artifact"]["sha256"],
+            "Installed local artifact changed",
+        )
+    return {
+        "local_installs": 5,
+        "tests_each": 71,
+        "historical_strict_volume_gate": False,
+        "historical_strict_profile_gate": False,
+        "raw_archive_entries_verified": len(manifest),
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    for name in [
+        "baseline",
+        "candidate",
+        "legacy-review",
+        "point-domains",
+        "molecular",
+        "convergence",
+        "advanced",
+        "ci",
+        "ci-raw",
+        "policy",
+        "approval",
+        "output",
+    ]:
+        parser.add_argument("--" + name, type=Path, required=True)
+    args = parser.parse_args()
+    args.output = args.output.resolve()
+    args.output.mkdir(parents=True, exist_ok=False)
+    review = Review()
+    started = {
+        "created_utc": datetime.now(UTC).isoformat(),
+        "command": sys.argv,
+        "controller": record(__file__),
+        "descriptor_performance_admitted": False,
+        "release_admitted": False,
+    }
+    (args.output / "started.json").write_text(json.dumps(started, indent=2) + "\n")
+    try:
+        require(
+            review.bind(args.policy)["sha256"] == POLICY_SHA,
+            "Approved policy identity changed",
+        )
+        approval = Path(args.approval).read_text()
+        review.bind(args.approval)
+        require(
+            POLICY_SHA in approval
+            and "Approve the documented policy" in approval
+            and "approved for evaluation" in approval,
+            "Policy approval not established",
+        )
+        review.gates["source_identity"] = check_sources(
+            review, args.baseline, args.candidate, args.ci
+        )
+        observer = review.read(
+            ROOT / "docs/validation/dbstep/resolution_analysis/"
+            "mask_observer_integrity_result.json"
+        )
+        review.nested_records(observer)
+        require(
+            all(
+                observer[key]
+                for key in [
+                    "historical_outputs_preserved",
+                    "legacy_geometry_unchanged",
+                    "legacy_raw_aggregate_unchanged",
+                    "invalid_domain_rejected",
+                ]
+            )
+            and len(observer["frames"]) == 3
+            and all(
+                frame["all_aggregate_bits_reconstructed"]
+                and frame["native_masks_identical_for_generated_and_supplied_points"]
+                for frame in observer["frames"]
+            ),
+            "Native observer integrity failed",
+        )
+        review.gates["observer_integrity"] = {
+            "source_bound_frames": 3,
+            "aggregate_bits_reconstructed": True,
+        }
+        review.gates["cross_platform"] = check_ci(review, args.ci, args.ci_raw)
+        review.gates["legacy_preservation"] = check_legacy(
+            review, args.legacy_review, args.baseline
+        )
+        review.gates["common_point_domain"] = check_point_domains(
+            review, args.point_domains
+        )
+        review.gates["molecular_adversaries"] = check_molecular(review, args.molecular)
+        review.gates["independent_convergence"] = check_convergence(
+            review, args.convergence
+        )
+        review.gates["advanced_preservation"] = check_advanced(review, args.advanced)
+        probe = review.read(
+            ROOT
+            / "docs/validation/dbstep/resolution_analysis/definition_probe_result.json"
+        )
+        review.records(probe["bindings"])
+        require(
+            probe["complete"] and probe["reference_commit"] == DBSTEP_COMMIT,
+            "DBSTEP reference-defect evidence incomplete",
+        )
+        minimal = probe["minimal_boundary"]
+        require(
+            minimal["exact_included"] is False
+            and minimal["fast_denominator_included"] is False
+            and minimal["summed_numerator_included"] is True,
+            "Reference-defect witness changed",
+        )
+        margin = minimal["exact_squared_distance_minus_radius_squared"]
+        require(
+            Fraction(int(margin["numerator"]), int(margin["denominator"])) > 0,
+            "Reference boundary is not mathematically exterior",
+        )
+        review.gates["reference_defect_preserved"] = {
+            "confirmed_inconsistent_predicates": True,
+            "unmodified_reference_commit": DBSTEP_COMMIT,
+            "public_cases_retained": len(probe["public_cases"]),
+        }
+        review.bind(__file__)
+        review.check_unchanged()
+        result = {
+            **started,
+            "kind": "dbstep_resolution_descriptor_timing_admission",
+            "descriptor_performance_admitted": True,
+            "release_admitted": False,
+            "performance_pending": True,
+            "policy_sha256": POLICY_SHA,
+            "baseline_build": review.bind(args.baseline / "manifest.json"),
+            "candidate_build": review.bind(args.candidate / "manifest.json"),
+            "gates": review.gates,
+            "evidence": list(review.evidence.values()),
+            "historical_strict_gate": {
+                "passed": False,
+                "preserved": True,
+                "explanation": (
+                    "The historical lane re-clips an already selected binary32 "
+                    "sphere grid with a binary64 predicate; its changed sample "
+                    "domain fails the unchanged arithmetic-only criterion. "
+                    "Corrected common-domain and independent continuum lanes "
+                    "are reviewed separately under the approved policy."
+                ),
+            },
+            "interpretation": (
+                "Scientific admission for fixed descriptor performance "
+                "measurement only; release requires subsequent performance "
+                "disclosure and final coordinator review."
+            ),
+        }
+        (args.output / "review.json").write_text(json.dumps(result, indent=2) + "\n")
+        print(
+            json.dumps(
+                {
+                    "descriptor_performance_admitted": True,
+                    "release_admitted": False,
+                    "evidence_files": len(review.evidence),
+                },
+                indent=2,
+            )
+        )
+    except Exception as error:
+        failure = {
+            **started,
+            "completed_gates": review.gates,
+            "error_type": type(error).__name__,
+            "error": str(error),
+            "evidence": list(review.evidence.values()),
+        }
+        (args.output / "failed_review.json").write_text(
+            json.dumps(failure, indent=2) + "\n"
+        )
+        raise
+
+
+if __name__ == "__main__":
+    main()

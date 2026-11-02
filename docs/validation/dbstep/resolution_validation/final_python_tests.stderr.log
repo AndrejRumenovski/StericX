@@ -1,0 +1,20 @@
+....................................ssssss...............E............................................................................................
+======================================================================
+ERROR: test_dbstep_volume_convergence (unittest.loader._FailedTest.test_dbstep_volume_convergence)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_dbstep_volume_convergence
+Traceback (most recent call last):
+  File "/home/andrej-rumenovski/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/andrej-rumenovski/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/tests/test_dbstep_volume_convergence.py", line 9, in <module>
+    import pytest
+ModuleNotFoundError: No module named 'pytest'
+
+
+----------------------------------------------------------------------
+Ran 150 tests in 1.034s
+
+FAILED (errors=1, skipped=6)

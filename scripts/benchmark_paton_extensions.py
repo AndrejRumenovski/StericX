@@ -4,8 +4,10 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import platform
+import subprocess
 import sys
 from pathlib import Path
 
@@ -52,6 +54,7 @@ def main():
     parser.add_argument("--candidate", required=True, type=Path)
     parser.add_argument("--workloads", required=True, type=Path)
     parser.add_argument("--review", required=True, type=Path)
+    parser.add_argument("--engineering", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--allocation-baseline", type=Path)
     parser.add_argument("--allocation-candidate", type=Path)
@@ -69,6 +72,21 @@ def main():
         raise ValueError("Review binds a different candidate")
     for item in review["evidence"]:
         verify(item)
+    engineering = json.loads(args.engineering.read_text())
+    if (
+        engineering["status"] != "completed"
+        or engineering["conclusion"] != "success"
+        or len(engineering["jobs"]) != 3
+        or any(job["conclusion"] != "success" for job in engineering["jobs"])
+    ):
+        raise ValueError("Linux/macOS/Windows engineering CI is incomplete")
+    for item in candidate["sources"]:
+        relative = Path(item["path"]).relative_to(candidate["source"]).as_posix()
+        committed = subprocess.check_output(
+            ["git", "show", f"{engineering['headSha']}:{relative}"]
+        )
+        if hashlib.sha256(committed).hexdigest() != item["sha256"]:
+            raise ValueError(f"Engineering CI tested different source: {relative}")
     workloads = json.loads(args.workloads.read_text())
     profile.verify_manifest(workloads)
     bindings = [
@@ -76,6 +94,7 @@ def main():
         candidate_record,
         record(args.workloads),
         record(args.review),
+        record(args.engineering),
         record(__file__),
         record(profile.__file__),
         record(paired.__file__),
@@ -97,6 +116,7 @@ def main():
         "bindings": bindings,
         "binaries": binaries,
         "machine": platform.uname()._asdict(),
+        "cpu": json.loads(subprocess.check_output(["lscpu", "--json"])),
         "affinities": AFFINITIES,
         "controlled_environment": profile.CONTROLLED_ENV,
         "cache_policy": "warm; no flushing",

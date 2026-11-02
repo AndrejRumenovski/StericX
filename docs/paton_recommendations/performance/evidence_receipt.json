@@ -1,0 +1,293 @@
+{
+  "created_utc": "2026-11-02T04:04:24.032109+00:00",
+  "primary": {
+    "path": ".stericx/paton/performance_v1/summary.json",
+    "bytes": 493590,
+    "sha256": "92b158155e1fcffbc7c15c8d7f79be907e1c4169f280e6ad05d2a453054b151f"
+  },
+  "output_storage_repeat": {
+    "path": ".stericx/paton/performance_v2_tmpfs/summary.json",
+    "bytes": 429946,
+    "sha256": "9a610f0531e3cf497a4ed7fdb1c0a176d10710d354a45de8155c95ca3a2fc583"
+  },
+  "python": {
+    "path": ".stericx/paton/python_benchmark_v1/summary.json",
+    "bytes": 6640,
+    "sha256": "edfe9854dfdc15d908828364301b19d82e3797d778f9e68f70a067b203187360"
+  },
+  "trace_files": [
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_0.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_0.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_0.trace",
+      "bytes": 9293,
+      "sha256": "b0b8190a738d25af850fa5376557e5546ea0c5ea0d5976aaf051d069b3184f54"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_1.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_1.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_1.trace",
+      "bytes": 9293,
+      "sha256": "dfa2e1e5bf1d2c70fc397704d72c08d19e9977de82cdc8011c8b395944a4a7a2"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_2.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_2.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_2.trace",
+      "bytes": 9293,
+      "sha256": "55241e7fee5288ef583ba57613176ad55c36dbb4dd809756cb5187131af70f46"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_3.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_3.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_3.trace",
+      "bytes": 9293,
+      "sha256": "7ba10b168add4e8881c6aa17e2e9967ca991f2b6d6fc0e909a632a5632974a12"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_4.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_4.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_4.trace",
+      "bytes": 9293,
+      "sha256": "9fae75b04ca7ac55be1b97d6a1fbf7b621bb9e5a8887fd8424a1d0b09d52a202"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_5.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_5.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_5.trace",
+      "bytes": 9293,
+      "sha256": "4a6ca42728590f072291beaec25ea2280b845314c4227ce82e68ed730c18922c"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_6.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_6.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_6.trace",
+      "bytes": 9293,
+      "sha256": "bb24fe9286f9113dbe3d404195a915f48f38ad8b4619bb442ea58313286df220"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_7.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_7.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/baseline_7.trace",
+      "bytes": 9293,
+      "sha256": "3cc904224e5fd05bcaa3035258a03a2fa05d5ae29d413ce32d2bc91e02cb6fc2"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_0.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_0.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_0.trace",
+      "bytes": 9289,
+      "sha256": "599095843bb7f9eab0f01594418ae1c968d5e5f25136f53c5b28adf4d0af6b2a"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_1.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_1.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_1.trace",
+      "bytes": 9289,
+      "sha256": "53ae9ff22f6cb041f2b895273f0076c7b7b86835649d754c75821070d842c2a1"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_2.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_2.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_2.trace",
+      "bytes": 9289,
+      "sha256": "4e7f0e422f2d31e67991652dbd3085b53f95315645ae4a0ac72ec33784f67e12"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_3.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_3.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_3.trace",
+      "bytes": 9289,
+      "sha256": "bb61b88aaabb33f07710e59a3c984a4301c60c9aa729cdf5054253d83a557add"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_4.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_4.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_4.trace",
+      "bytes": 9289,
+      "sha256": "55a33d4eed2b5e5fcd5a618991a77ebac37aa60c36885c0923e385fe5540f7b3"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_5.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_5.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_5.trace",
+      "bytes": 9289,
+      "sha256": "ffb17f3548e64b0904e2a1fd1282746180b8cb00d6d907dd60592006f7549191"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_6.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_6.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_6.trace",
+      "bytes": 9289,
+      "sha256": "ccba0ca570f19729e9b684a23ebc971d5ba4968b0ecbf36e815f712c29fbc719"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_7.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_7.stdout",
+      "bytes": 680,
+      "sha256": "1febd2e0188bc302e0c6e392cd78fdf1a9f0a88586c2eb6572a4bdfb12325fa4"
+    },
+    {
+      "path": ".stericx/paton/latency_diagnostics_v1/candidate_7.trace",
+      "bytes": 9289,
+      "sha256": "77e12aecab5673007e58178f99d8da7fb91baf16f25eaaa9712c6f8ddf7cb1d7"
+    }
+  ],
+  "host_files": [
+    {
+      "path": ".stericx/paton/performance_host/after_tmpfs_pressure.txt",
+      "bytes": 217,
+      "sha256": "19089bd5f84acded1cff1fe5d811e87a7f14764960cc8d0e57ddf723145fc64d"
+    },
+    {
+      "path": ".stericx/paton/performance_host/after_tmpfs_processes.txt",
+      "bytes": 13110,
+      "sha256": "1fbaa8e371213ff6badd50444f88b4db7f6676af9a9dd5d07745cc675b1c228b"
+    },
+    {
+      "path": ".stericx/paton/performance_host/before_tmpfs_pressure.txt",
+      "bytes": 217,
+      "sha256": "9fcdaf62eab189bf58abe2a88176feee2bf3b2390cbbfbf5210a9cdaf0680924"
+    },
+    {
+      "path": ".stericx/paton/performance_host/before_tmpfs_processes.txt",
+      "bytes": 13110,
+      "sha256": "ae05ed661500a179c23695a69561e56a7f50641b043ee037e81f73601a3f3e15"
+    },
+    {
+      "path": ".stericx/paton/performance_host/tmpfs_mount.json",
+      "bytes": 216,
+      "sha256": "cf85dfdd96f6f4a704e6ea6987fbe78c9d669296e655a156452842103673a8ab"
+    }
+  ],
+  "relocation": {
+    "path": "docs/paton_recommendations/performance/tmpfs_relocation.json",
+    "bytes": 884600,
+    "sha256": "74122463473d0e2ad6cf130112b6616319a76328f2d50105eafa0d917dad98aa"
+  },
+  "initial_latency_interpretation": "Short-process wall time is strongly sensitive to stdout filesystem write latency; traces are instrumented diagnostics, not timing samples."
+}

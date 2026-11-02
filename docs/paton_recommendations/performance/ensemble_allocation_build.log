@@ -1,0 +1,12 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+warning: unused `Result` in tuple element 1 that must be used
+  --> examples/paton_ensemble_allocations.rs:21:9
+   |
+21 |         black_box((descriptors, statistics));
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: this `Result` may be an `Err` variant, which should be handled
+   = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+
+warning: `steric_x` (example "paton_ensemble_allocations") generated 1 warning
+    Finished `release` profile [optimized] target(s) in 23.90s

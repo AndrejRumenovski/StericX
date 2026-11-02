@@ -1,0 +1,26 @@
+{
+  "allocation_calls": 871,
+  "conformers": 6,
+  "deallocation_calls": 871,
+  "failed_allocation_calls": 0,
+  "live_requested_bytes_delta": 0,
+  "measured_calls": 1,
+  "process_peak_live_requested_bytes": 446776,
+  "reallocation_calls": 73,
+  "requested_bytes": 2454897,
+  "scope": "One warmed descriptor/statistics call including result destruction; excludes input parsing and JSON encoding. Peak is process-wide through snapshot.",
+  "process_peak_rss_bytes_instrumented": 3780608,
+  "command": [
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/release/examples/paton_ensemble_allocations",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/python/examples/data/ligand_401_ensemble.xyz",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/python/examples/data/ligand_401_options.json"
+  ],
+  "bindings": {
+    "target/release/examples/paton_ensemble_allocations": "418c5792dcfc30a4eb8897dcf89e459eee5b35197a62f8bf3459825b2c834ea7",
+    "examples/paton_ensemble_allocations.rs": "fd124256d35909922d2872fb8efc8c98d05fa76b0cbefe670dabfa390ea7e232",
+    "src/profiling.rs": "26f501150d25b199502fcb9d5493c45c5f4e7944db7898153814f9b12411109d",
+    ".stericx/paton/ensemble_allocations_v1/metrics.json": "fe3f8b184a4466bda326ffb0abdc223b38e5536fc5658e80de52119c44e35e20",
+    ".stericx/paton/ensemble_allocations_v1/stdout.txt": "e1dbad7ca52a34b4ac9786717a62dde78a6dfb1a57c77657dcf2a2a39bfdb535",
+    ".stericx/paton/ensemble_allocations_v1/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "command": [
+    "scripts/benchmark_paton_python.py",
+    "--native",
+    "target/release/examples/paton_ensemble_benchmark",
+    "--input",
+    "python/examples/data/ligand_401_ensemble.xyz",
+    "--options",
+    "python/examples/data/ligand_401_options.json",
+    "--iterations",
+    "100",
+    "--output",
+    ".stericx/paton/python_benchmark_confirmed_20261102"
+  ],
+  "python": "3.12.13 (main, Jul 18 2026, 17:02:19) [Clang 22.1.3 ]",
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.43",
+  "stericx": "0.4.0.dev0",
+  "bindings": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/benchmark_paton_python.py",
+      "bytes": 5656,
+      "sha256": "86f26cecd9406cb0a92e957cad595a7e88f1a5b0ec7bc01e375b92851e8a53f5"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/python/examples/data/ligand_401_ensemble.xyz",
+      "bytes": 12690,
+      "sha256": "e211d56a66328a0dd5c7557bbf90a7bc6f656891c6f915867d00ac33435eddfb"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/python/examples/data/ligand_401_options.json",
+      "bytes": 50,
+      "sha256": "f55139d0031ff5fb189f4a9fc10ac92fc73e24b6b9ac851d5dae7e4f74864ba7"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/target/release/examples/paton_ensemble_benchmark",
+      "bytes": 883472,
+      "sha256": "ee58026fa5274614d8678e252aa30ddc4e360a03a4f2aae52eac70913126c348"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/lib/python3.12/site-packages/stericx/__init__.py",
+      "bytes": 10347,
+      "sha256": "ac275d6ef4cff8b15e007e0cec8a4bab5146d9b29edd5049d6cc9422a07887fb"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/lib/python3.12/site-packages/stericx/_native.abi3.so",
+      "bytes": 1158280,
+      "sha256": "2d3c1b407c2cd651880da6c037186cb2a4c74092ffb1b5ef99e4076cc82297fa"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/lib/python3.12/site-packages/stericx/_types.py",
+      "bytes": 13043,
+      "sha256": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91"
+    }
+  ],
+  "iterations_per_block": 100,
+  "affinity": [
+    2
+  ],
+  "warmups": 1,
+  "pairs": 8,
+  "scientific_results_exact": true,
+  "attempts": [
+    {
+      "pair": 0,
+      "method": "native",
+      "status": "complete",
+      "elapsed_ns": 304514402
+    },
+    {
+      "pair": 0,
+      "method": "bridge",
+      "status": "complete",
+      "elapsed_ns": 334269755
+    },
+    {
+      "pair": 0,
+      "method": "public",
+      "status": "complete",
+      "elapsed_ns": 402721467
+    },
+    {
+      "pair": 1,
+      "method": "public",
+      "status": "complete",
+      "elapsed_ns": 408141366
+    },
+    {
+      "pair": 1,
+      "method": "bridge",
+      "status": "complete",
+      "elapsed_ns": 333911401
+    },
+    {
+      "pair": 1,
+      "method": "native",
+      "status": "complete",
+      "elapsed_ns": 300695713
+    },
+    {
+      "pair": 2,
+      "method": "native",
+      "status": "complete",
+      "elapsed_ns": 295555332
+    },
+    {
+      "pair": 2,
+      "method": "bridge",
+      "status": "complete",
+      "elapsed_ns": 323444005
+    },
+    {
+      "pair": 2,
+      "method": "public",
+      "status": "complete",
+      "elapsed_ns": 399144062
+    },
+    {
+      "pair": 3,
+      "method": "public",
+      "status": "complete",
+      "elapsed_ns": 405366840
+    },
+    {
+      "pair": 3,
+      "method": "bridge",
+      "status": "complete",
+      "elapsed_ns": 324695026
+    },
+    {
+      "pair": 3,
+      "method": "native",
+      "status": "complete",
+      "elapsed_ns": 298695794
+    },
+    {
+      "pair": 4,
+      "method": "native",
+      "status": "complete",
+      "elapsed_ns": 312642671
+    },
+    {
+      "pair": 4,
+      "method": "bridge",
+      "status": "complete",
+      "elapsed_ns": 343681647
+    },
+    {
+      "pair": 4,
+      "method": "public",
+      "status": "complete",
+      "elapsed_ns": 424313245
+    },
+    {
+      "pair": 5,
+      "method": "public",
+      "status": "complete",
+      "elapsed_ns": 411039032
+    },
+    {
+      "pair": 5,
+      "method": "bridge",
+      "status": "complete",
+      "elapsed_ns": 322496575
+    },
+    {
+      "pair": 5,
+      "method": "native",
+      "status": "complete",
+      "elapsed_ns": 305222964
+    },
+    {
+      "pair": 6,
+      "method": "native",
+      "status": "complete",
+      "elapsed_ns": 302325347
+    },
+    {
+      "pair": 6,
+      "method": "bridge",
+      "status": "complete",
+      "elapsed_ns": 341948409
+    },
+    {
+      "pair": 6,
+      "method": "public",
+      "status": "complete",
+      "elapsed_ns": 422966673
+    },
+    {
+      "pair": 7,
+      "method": "public",
+      "status": "complete",
+      "elapsed_ns": 421736952
+    },
+    {
+      "pair": 7,
+      "method": "bridge",
+      "status": "complete",
+      "elapsed_ns": 341598221
+    },
+    {
+      "pair": 7,
+      "method": "native",
+      "status": "complete",
+      "elapsed_ns": 301328193
+    }
+  ],
+  "complete": true,
+  "results": {
+    "native": {
+      "values_ns_per_call": [
+        3045144.02,
+        3006957.13,
+        2955553.32,
+        2986957.94,
+        3126426.71,
+        3052229.64,
+        3023253.47,
+        3013281.93
+      ],
+      "median_ns": 3018267.7,
+      "mad_ns": 29093.040000000037,
+      "minimum_ns": 2955553.32,
+      "maximum_ns": 3126426.71
+    },
+    "bridge": {
+      "values_ns_per_call": [
+        3342697.55,
+        3339114.01,
+        3234440.05,
+        3246950.26,
+        3436816.47,
+        3224965.75,
+        3419484.09,
+        3415982.21
+      ],
+      "median_ns": 3340905.78,
+      "mad_ns": 86266.91500000004,
+      "minimum_ns": 3224965.75,
+      "maximum_ns": 3436816.47
+    },
+    "public": {
+      "values_ns_per_call": [
+        4027214.67,
+        4081413.66,
+        3991440.62,
+        4053668.4,
+        4243132.45,
+        4110390.32,
+        4229666.73,
+        4217369.52
+      ],
+      "median_ns": 4095901.99,
+      "mad_ns": 86574.3450000002,
+      "minimum_ns": 3991440.62,
+      "maximum_ns": 4243132.45
+    }
+  },
+  "interpretation": "Native calculates descriptors and statistics with parsed input. Bridge adds options decoding, GIL transition and native JSON encoding. Public adds Python options encoding, JSON parsing and typed objects. Native executable and portable wheel have different build targets; their difference is not a pure FFI cost. Public minus bridge isolates Python conversion in the same installed wheel."
+}

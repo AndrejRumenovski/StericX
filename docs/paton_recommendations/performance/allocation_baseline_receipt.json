@@ -1,0 +1,253 @@
+{
+  "source_build": {
+    "path": ".stericx/paton/baseline/build/manifest.json",
+    "bytes": 28877,
+    "sha256": "7d372ca554b58941ad96ac4192de4f6c14883c8787455554bfccfff821960631"
+  },
+  "sources": [
+    {
+      "bytes": 944,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/Cargo.toml",
+      "sha256": "e14bfb53cf5980eac5118dd3e10230cb4736fb8842e46da66253e3c61d38c7a7"
+    },
+    {
+      "bytes": 9934,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/Cargo.lock",
+      "sha256": "6fc56998d9bf2a41e27fa9b91af0ce674cc77f1252e382ee6ab39b8985494463"
+    },
+    {
+      "bytes": 29971,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/cli.rs",
+      "sha256": "b01560e0b7c71c109822285f431a71d4edf8edd5d085f2a4aaed2e896611c548"
+    },
+    {
+      "bytes": 12402,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/buried_volume.rs",
+      "sha256": "6b2820a90f31d9f5ed3cfd01b53ead0634d8240fab17e72143ea286039b0d6af"
+    },
+    {
+      "bytes": 9698,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/compare.rs",
+      "sha256": "f0abefdebd8d65195d152990551f281b2630b8d1a46b004e0183d40ae9f03d15"
+    },
+    {
+      "bytes": 15761,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/db.rs",
+      "sha256": "89970a785131d7abf2c262a74c3c25a8eb3c86268186e8d30eef8e96bb8e2a2f"
+    },
+    {
+      "bytes": 3213,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/evaluate.rs",
+      "sha256": "56b0cf34cf83936cfd2ab97cb69b66c6b035dbdb1ccc9145f8ee245be8c8c8d5"
+    },
+    {
+      "bytes": 8269,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/fit.rs",
+      "sha256": "aeb75584d77a86278bdd729280d11149bf2d33986db564e0ada851baa825d3c0"
+    },
+    {
+      "bytes": 307,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/mod.rs",
+      "sha256": "b19f2005232ae1e0afc7490ad5e0b459d2cc8d5cdcf2a5ad55ca53ae24aebc93"
+    },
+    {
+      "bytes": 8435,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/model.rs",
+      "sha256": "05b88f69b108a451d7058eb97fa0bf9f1c0e16faf4d78d92187713b3e394574f"
+    },
+    {
+      "bytes": 7851,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/parse.rs",
+      "sha256": "0ce1d9d13f8a31f45fc43b78559084ac1b26791ff125c9037afc995cc8a391b9"
+    },
+    {
+      "bytes": 4937,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/predict.rs",
+      "sha256": "756cde61b3e517063b8da117d92254362365d561f44085a515a90f97559f4ca8"
+    },
+    {
+      "bytes": 117302,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/screen.rs",
+      "sha256": "0d41e6a5c3e846aff3ebb2383483196fc807c5596c78edafa7c9a6d233bbcef3"
+    },
+    {
+      "bytes": 36541,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/search.rs",
+      "sha256": "fa4a370e823aa4f10a14cdc343cbeb1441decfabc0f3ce7e5315c27c50cd245b"
+    },
+    {
+      "bytes": 1825,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/commands/simulate.rs",
+      "sha256": "76c55051f322942ebb24a25896b644bd70bcb977431c44cf81279a86f46a1c8a"
+    },
+    {
+      "bytes": 36866,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/descriptors.rs",
+      "sha256": "2f4e0d958fba01d66b980e4d518eae39e5fd3ac0d2055d54f06c5f1d1d1fa35a"
+    },
+    {
+      "bytes": 4328,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/digest.rs",
+      "sha256": "7518ebda69a0404b286aba9d0573db123f609ee14ea8ff44e227aa52d790487d"
+    },
+    {
+      "bytes": 2707,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/geometry/buried_volume/aggregation_remediation_tests.rs",
+      "sha256": "37467d6b38843c76ca007444a187d7b3b7314148b9a4b1052d0628cf47eca880"
+    },
+    {
+      "bytes": 62412,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/geometry/buried_volume.rs",
+      "sha256": "2215d2731a11d5328ddeaa949e3d557198a3b296436ffe50d1e06403ca0fd603"
+    },
+    {
+      "bytes": 1079,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/geometry/mod.rs",
+      "sha256": "1892ea06b3bdb6e7a82645d777ecaf2c29c86439fb727fa2c4976a0de9e48948"
+    },
+    {
+      "bytes": 10271,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/geometry/pyramidalization.rs",
+      "sha256": "734f4834a1d51a507625eea2f9994603aa7d25b78166b8d395df74fd376142ac"
+    },
+    {
+      "bytes": 12625,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/geometry/sterimol.rs",
+      "sha256": "fc72caf5b33c66b55a84273959526e2a0bc34e1459e2d97d1c9dbef41c13b345"
+    },
+    {
+      "bytes": 18100,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/geometry/xyz.rs",
+      "sha256": "eb6cc172f5467667d10ff8164e1ee06aa4635c2f80626ab97af63b5d962c59f3"
+    },
+    {
+      "bytes": 8510,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/kinetics/eyring.rs",
+      "sha256": "b86300a11dc8fe07430bbd480b51df448d47295080219e47bb1b3e9f08d4b454"
+    },
+    {
+      "bytes": 242,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/kinetics/mod.rs",
+      "sha256": "273fad2c13d5cae69bf98a80be34594344c7872cf973c2c9184a40adbc82a3d2"
+    },
+    {
+      "bytes": 2128,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/lib.rs",
+      "sha256": "69e76c06fec62e98eee99b6654ab8e62b0a9d4844e0c4f2cdca9288403e0b080"
+    },
+    {
+      "bytes": 9916,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/main.rs",
+      "sha256": "f66dcf928f8c0cc681ad08aab50056ea25db6b130f92930be857c9a27543ecaa"
+    },
+    {
+      "bytes": 6338,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/model/dataset.rs",
+      "sha256": "09f0f42066d9df30cefeae885eb0beba69ae31cd2e6cce6880c85c5b83c14d37"
+    },
+    {
+      "bytes": 66643,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/model/domain.rs",
+      "sha256": "d906d970bf4f589552ba9683ec77ae7e2926e3b17ba78b785d689fd1b20441b4"
+    },
+    {
+      "bytes": 7454,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/model/domain_interval_cache_tests.rs",
+      "sha256": "9098b9cb5ead279d49a574b3214c9c4adffddf52faa05729b1b3f9d6bce30bde"
+    },
+    {
+      "bytes": 11436,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/model/evaluation.rs",
+      "sha256": "31c73c059c4f2f1457ddc43c808b5d5ad6a3fd6e34501ba30d14b9f7fb20616a"
+    },
+    {
+      "bytes": 3066,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/model/features.rs",
+      "sha256": "12a50e2f690a5975bd0eda62ce0910816414022bec8456b8cc6e1eea37d6ea4a"
+    },
+    {
+      "bytes": 37915,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/model/fit.rs",
+      "sha256": "0aa6ed82bfb7dc42da3c1a624c792dc5b387e73cc82bf78cb2a842881f9dafe2"
+    },
+    {
+      "bytes": 2099,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/model/mod.rs",
+      "sha256": "1928c62a747e041e92b5ec1e5d086e39f20d1eb990d8683e3e5545cdeb9963c3"
+    },
+    {
+      "bytes": 58298,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/model/portable.rs",
+      "sha256": "ab07d8d060d0cf7d794b56a8d03f64546594d19e306d603f3ee4c1b50faedfec"
+    },
+    {
+      "bytes": 8945,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/model/regress.rs",
+      "sha256": "c98d1b7ff1f926e3ca46b262ddde511eced72e4c91e0d1045a54a68793bee3b2"
+    },
+    {
+      "bytes": 8523,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/model/training.rs",
+      "sha256": "b7febe7066c552ca3ac5c995ebf6f32c17d259fc33e7495587c95c17c77f1abf"
+    },
+    {
+      "bytes": 2941,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/output.rs",
+      "sha256": "4b8b3f2d333573cf667afa3b914d79e1d67d5e56ee435bda3ca10350a8a296d6"
+    },
+    {
+      "bytes": 15914,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/profiling.rs",
+      "sha256": "26f501150d25b199502fcb9d5493c45c5f4e7944db7898153814f9b12411109d"
+    },
+    {
+      "bytes": 22196,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/reaction.rs",
+      "sha256": "15815fc387aff99caa917625ea2b53670c4018816436af45b156228fba4c046e"
+    },
+    {
+      "bytes": 287,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/storage/mod.rs",
+      "sha256": "7b8516382aa1529d7132a13ca92485512e2fbbdf2fc34e598000832809896a5f"
+    },
+    {
+      "bytes": 9387,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/storage/pack.rs",
+      "sha256": "80ffbb1e2a690b19b61f312a102db25d3e226250c49f8753328ab74b19f5710d"
+    },
+    {
+      "bytes": 7467,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/storage/schema.rs",
+      "sha256": "8648a358ef6b76426b267efc94364130cff7651928319f441ef01c936dd4a633"
+    },
+    {
+      "bytes": 485,
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/src/test_support.rs",
+      "sha256": "9eeb77f25eedc057c210b7055fcb7a89e2614b895be2974db94944ae7d638b06"
+    }
+  ],
+  "binary": {
+    "path": ".stericx/paton/allocation-baseline-target/release/stericx",
+    "bytes": 3711608,
+    "sha256": "0a2c8fb54452167222cc0dfe910cfa5287cf2f882f4ae528666306158125ec08"
+  },
+  "features": [
+    "profiling"
+  ],
+  "profile": "release",
+  "locked": true,
+  "command": [
+    "cargo",
+    "build",
+    "--release",
+    "--locked",
+    "--features",
+    "profiling",
+    "--manifest-path",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/baseline/build/source/Cargo.toml",
+    "--target-dir",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/allocation-baseline-target",
+    "--bin",
+    "stericx"
+  ]
+}

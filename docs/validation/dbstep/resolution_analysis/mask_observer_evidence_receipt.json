@@ -1,0 +1,154 @@
+{
+  "kind": "native_point_observer_evidence",
+  "scope": "SUT capture/integrity, not independent scientific validation",
+  "failed_attempt_retained": true,
+  "records": [
+    {
+      "path": ".stericx/dbstep_resolution/mask_build_evidence_v2/receipt.json",
+      "bytes": 8913,
+      "sha256": "cd1a10e1de88243751bce4cf5494e4617296127a35ef5d2d9ae33a753303459d"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/result.json",
+      "bytes": 5560,
+      "sha256": "8e59c6a7779bef937b68da6f2c259b9efc51a0ff9bf53f3c506cbbdeed9cf71a"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_build_evidence_v2/adapter.diff",
+      "bytes": 24696,
+      "sha256": "1e9bbc281663c9138f66fe9fbcbba9950e39c9b4c755b87a0f34e7fa7588b610"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_build_evidence/receipt.json",
+      "bytes": 8434,
+      "sha256": "9cf25d42e576605bd58e586db6a8a47c3fa07a5db26bb6bbc24e77d333eb2492"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_build_evidence/stderr.txt",
+      "bytes": 796,
+      "sha256": "38f2e1f632c959d710dcc731a80e403854e23501d7c792aeee1d5937495f4442"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_build_v2/manifest.json",
+      "bytes": 39603,
+      "sha256": "23c3f53933b5dae8b7731460f7d94b3a486f8d2f6fca35800e41eb77fc1a619c"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_build_v2/observer-build/command.json",
+      "bytes": 996,
+      "sha256": "bad2b7a05f2248ec5ef906de9e2b1fd419ee16d5d76a3ec9376308f9313c9ab5"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_build_v2/observer-build/stderr",
+      "bytes": 1525,
+      "sha256": "ef5cc2753912be270a0f8affb1aaf0697406c34009db4aa26aa4a9f922d06a9b"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_build_v2/native-build/command.json",
+      "bytes": 989,
+      "sha256": "1c40b8fbf65068c10cf16dc8be01e7ffcf8188a3486de89453e22e380c802105"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_build_v2/native-build/stderr",
+      "bytes": 195,
+      "sha256": "5b091971139c86b93d4f9ceedc2a0648487ee21899a8d83408f70a6e3301b4c1"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/baseline_geometry_requests.jsonl",
+      "bytes": 5310,
+      "sha256": "da4933f87893acf5a3f5732a6410effc5458e6ab4c628dcf59c8073443bef290"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/baseline_geometry_stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/baseline_geometry_stdout.jsonl",
+      "bytes": 337817,
+      "sha256": "82d153ba02702f09a63895942270528b0fbd1c7d66aa5c68a53fb86439013350"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/baseline_raw_requests.jsonl",
+      "bytes": 969321,
+      "sha256": "01c50d560e9c226e5f2107f0c56364735f0f29c608db34b7797863bbb6ee3659"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/baseline_raw_stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/baseline_raw_stdout.jsonl",
+      "bytes": 101047,
+      "sha256": "f926f2fc40d636f6d803443b1aaad323e82018a091ea7380fbaf99e2d4124472"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/invalid_domain_requests.jsonl",
+      "bytes": 255,
+      "sha256": "6da5dd1289d4444182ea801ca6079f64cf9fcc7927b4c7c9941b97dbf6b87d64"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/invalid_domain_stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/invalid_domain_stdout.jsonl",
+      "bytes": 234,
+      "sha256": "1a10a67ad5c52cd0b4376a9bd6b1511f32cc68a94e288da06ae0dda9d1cf3a31"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/mask_requests.jsonl",
+      "bytes": 978021,
+      "sha256": "db14d15f0256e0ea9ffd4c9439b3fd9652a0fcb8dde8d9bbfc3fffea1925d253"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/mask_stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/mask_stdout.jsonl",
+      "bytes": 3455789,
+      "sha256": "f0db1a3a988e1927c9b6e90bc88aa1487e705e0567b0309ba12a721f10855b64"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/resolution_geometry_requests.jsonl",
+      "bytes": 5310,
+      "sha256": "da4933f87893acf5a3f5732a6410effc5458e6ab4c628dcf59c8073443bef290"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/resolution_geometry_stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/resolution_geometry_stdout.jsonl",
+      "bytes": 337817,
+      "sha256": "82d153ba02702f09a63895942270528b0fbd1c7d66aa5c68a53fb86439013350"
+    },
+    {
+      "path": ".stericx/dbstep_resolution/mask_integrity_v2/result.json",
+      "bytes": 5560,
+      "sha256": "8e59c6a7779bef937b68da6f2c259b9efc51a0ff9bf53f3c506cbbdeed9cf71a"
+    }
+  ],
+  "committed_copies": [
+    {
+      "path": "docs/validation/dbstep/resolution_analysis/mask_observer_build_receipt.json",
+      "source": ".stericx/dbstep_resolution/mask_build_evidence_v2/receipt.json",
+      "sha256": "cd1a10e1de88243751bce4cf5494e4617296127a35ef5d2d9ae33a753303459d"
+    },
+    {
+      "path": "docs/validation/dbstep/resolution_analysis/mask_observer_integrity_result.json",
+      "source": ".stericx/dbstep_resolution/mask_integrity_v2/result.json",
+      "sha256": "8e59c6a7779bef937b68da6f2c259b9efc51a0ff9bf53f3c506cbbdeed9cf71a"
+    },
+    {
+      "path": "docs/validation/dbstep/resolution_analysis/mask_observer_adapter.diff",
+      "source": ".stericx/dbstep_resolution/mask_build_evidence_v2/adapter.diff",
+      "sha256": "1e9bbc281663c9138f66fe9fbcbba9950e39c9b4c755b87a0f34e7fa7588b610"
+    }
+  ]
+}

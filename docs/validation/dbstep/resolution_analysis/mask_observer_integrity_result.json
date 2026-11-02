@@ -1,0 +1,112 @@
+{
+  "purpose": "Observation adapter integrity; independent science is evaluated separately",
+  "case": "SIG-NIHDA-401/0/sphere_radius=2.5",
+  "historical_outputs_preserved": true,
+  "legacy_geometry_unchanged": true,
+  "legacy_raw_aggregate_unchanged": true,
+  "frames": [
+    {
+      "plane": 15,
+      "grid_count": 5565,
+      "occupied_count": 1396,
+      "all_aggregate_bits_reconstructed": true,
+      "native_masks_identical_for_generated_and_supplied_points": true
+    },
+    {
+      "plane": 13,
+      "grid_count": 5565,
+      "occupied_count": 1398,
+      "all_aggregate_bits_reconstructed": true,
+      "native_masks_identical_for_generated_and_supplied_points": true
+    },
+    {
+      "plane": 10,
+      "grid_count": 5565,
+      "occupied_count": 1397,
+      "all_aggregate_bits_reconstructed": true,
+      "native_masks_identical_for_generated_and_supplied_points": true
+    }
+  ],
+  "invalid_domain_rejected": true,
+  "baseline_binary": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build/bin/stericx-audit-observer",
+    "sha256": "6b3a5ccf0c8d95275f4c32b3a96207fc4beaecab9eeab054d257161abf24dcef"
+  },
+  "observer_binary": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_build_v2/bin/stericx-audit-observer",
+    "sha256": "40c7953b3ec9253247613a5f76b436601b99a567a58b65b642a3a228965f00a0"
+  },
+  "controller_sha256": "a8d7971988630b5b748bf8269c47b9b22d4eddc310cbe9349801f904c76d4c92",
+  "inputs": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/volume_v2/requests.jsonl",
+      "sha256": "2bd540abee1660d53f3474690c1216a35733ad4c018a0c3f5cd5649aec2fa355"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/volume_v2/native_stdout.jsonl",
+      "sha256": "6e4eea3da560c47b38e79acbb2d997220adb3b22c0629755ec023cf539a3edec"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/baseline_geometry_requests.jsonl",
+      "sha256": "da4933f87893acf5a3f5732a6410effc5458e6ab4c628dcf59c8073443bef290"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/baseline_geometry_stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/baseline_geometry_stdout.jsonl",
+      "sha256": "82d153ba02702f09a63895942270528b0fbd1c7d66aa5c68a53fb86439013350"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/baseline_raw_requests.jsonl",
+      "sha256": "01c50d560e9c226e5f2107f0c56364735f0f29c608db34b7797863bbb6ee3659"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/baseline_raw_stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/baseline_raw_stdout.jsonl",
+      "sha256": "f926f2fc40d636f6d803443b1aaad323e82018a091ea7380fbaf99e2d4124472"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/invalid_domain_requests.jsonl",
+      "sha256": "6da5dd1289d4444182ea801ca6079f64cf9fcc7927b4c7c9941b97dbf6b87d64"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/invalid_domain_stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/invalid_domain_stdout.jsonl",
+      "sha256": "1a10a67ad5c52cd0b4376a9bd6b1511f32cc68a94e288da06ae0dda9d1cf3a31"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/mask_requests.jsonl",
+      "sha256": "db14d15f0256e0ea9ffd4c9439b3fd9652a0fcb8dde8d9bbfc3fffea1925d253"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/mask_stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/mask_stdout.jsonl",
+      "sha256": "f0db1a3a988e1927c9b6e90bc88aa1487e705e0567b0309ba12a721f10855b64"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/resolution_geometry_requests.jsonl",
+      "sha256": "da4933f87893acf5a3f5732a6410effc5458e6ab4c628dcf59c8073443bef290"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/resolution_geometry_stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/mask_integrity_v2/resolution_geometry_stdout.jsonl",
+      "sha256": "82d153ba02702f09a63895942270528b0fbd1c7d66aa5c68a53fb86439013350"
+    }
+  ]
+}

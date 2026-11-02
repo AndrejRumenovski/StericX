@@ -1,0 +1,20 @@
+test_empty_and_completely_covering_union (test_dbstep_resolution_reference.CertifiedBoxes.test_empty_and_completely_covering_union) ... ok
+test_exact_translation_permutation_and_batch_size (test_dbstep_resolution_reference.CertifiedBoxes.test_exact_translation_permutation_and_batch_size) ... ok
+test_invalid_inputs_are_errors (test_dbstep_resolution_reference.CertifiedBoxes.test_invalid_inputs_are_errors) ... ok
+test_outward_classifications_against_exact_rational_boxes (test_dbstep_resolution_reference.CertifiedBoxes.test_outward_classifications_against_exact_rational_boxes) ... ok
+test_overlapping_spheres_never_double_count (test_dbstep_resolution_reference.CertifiedBoxes.test_overlapping_spheres_never_double_count) ... ok
+test_ratio_error_bound_includes_denominator (test_dbstep_resolution_reference.CertifiedBoxes.test_ratio_error_bound_includes_denominator) ... ok
+test_single_atom_bounds_shrink_and_contain_analytic_volume (test_dbstep_resolution_reference.CertifiedBoxes.test_single_atom_bounds_shrink_and_contain_analytic_volume) ... ok
+test_tangent_and_adjacent_float_boxes_do_not_get_false_certificates (test_dbstep_resolution_reference.CertifiedBoxes.test_tangent_and_adjacent_float_boxes_do_not_get_false_certificates) ... ok
+test_analytic_lenses_cover_all_branches (test_dbstep_resolution_reference.RationalGeometry.test_analytic_lenses_cover_all_branches) ... ok
+test_binary_boundary_is_not_decimal_boundary (test_dbstep_resolution_reference.RationalGeometry.test_binary_boundary_is_not_decimal_boundary) ... ok
+test_direct_membership_is_order_independent (test_dbstep_resolution_reference.RationalGeometry.test_direct_membership_is_order_independent) ... ok
+test_exact_union_overlaps_ghosts_and_boundary (test_dbstep_resolution_reference.RationalGeometry.test_exact_union_overlaps_ghosts_and_boundary) ... ok
+test_machin_pi_enclosure (test_dbstep_resolution_reference.RationalGeometry.test_machin_pi_enclosure) ... ok
+test_roundoff_bound_refuses_unjustified_domains (test_dbstep_resolution_reference.RationalGeometry.test_roundoff_bound_refuses_unjustified_domains) ... ok
+test_roundoff_certificate_uses_an_independent_error_bound (test_dbstep_resolution_reference.RationalGeometry.test_roundoff_certificate_uses_an_independent_error_bound) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.217s
+
+OK

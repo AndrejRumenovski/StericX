@@ -1,0 +1,554 @@
+--- original/src/main.rs
++++ resolution/src/main.rs
+@@ -13,6 +13,7 @@
+ mod observed_bv {
+     include!("observed_buried_volume.rs");
+     include!("topology_append.rs");
++    include!("resolution_append.rs");
+ }
+ mod model_observation;
+ 
+@@ -58,7 +59,7 @@
+     let weights=v["weights"].as_array().expect("weights array").iter().map(num).collect::<Vec<_>>();
+     match BV::aggregate(&cs,&weights){Err(e)=>json!({"error":e.to_string()}),Ok(e)=>{let mut o=floats(&[("vbur_boltz",e.vbur_boltz),("vbur_min",e.vbur_min),("vbur_max",e.vbur_max),("vbur_delta",e.vbur_delta),("qvbur_min_boltz",e.qvbur_min_boltz),("qvbur_max_boltz",e.qvbur_max_boltz),("max_delta_qvbur_boltz",e.max_delta_qvbur_boltz),("max_delta_qvbur_min",e.max_delta_qvbur_min),("max_delta_qvbur_max",e.max_delta_qvbur_max),("max_delta_qvbur_delta",e.max_delta_qvbur_delta),("max_delta_qvbur_vburminconf",e.max_delta_qvbur_vburminconf),("near_vbur_boltz",e.near_vbur_boltz),("far_vbur_boltz",e.far_vbur_boltz)]);o["conformer_count"]=json!(e.conformer_count);o}}
+ }
+-fn observe(v:&Value)->Value {match v["op"].as_str().unwrap_or("geometry") {"geometry"=>geometry(v,false),"geometry_topology"=>geometry(v,true),"kinetics"=>kinetics(v),"aggregate"=>aggregate(v),"model"=>model_observation::observe(v),"raw_occupancy"=>{let points=v["points"].as_array().unwrap().iter().map(vec3).collect::<Vec<_>>();let atoms=v["atoms"].as_array().unwrap().iter().map(|a|(vec3(&a["position"]),num(&a["radius_squared"]))).collect::<Vec<_>>();observed_bv::audit_raw(&points,&atoms,field(v,"sphere_radius",3.5))},_=>json!({"error":"unknown operation"})}}
++fn observe(v:&Value)->Value {match v["op"].as_str().unwrap_or("geometry") {"geometry"=>geometry(v,false),"geometry_topology"=>geometry(v,true),"kinetics"=>kinetics(v),"aggregate"=>aggregate(v),"model"=>model_observation::observe(v),"grid_occupancy"=>{let atoms=v["atoms"].as_array().unwrap().iter().map(|a|(vec3(&a["position"]),num(&a["radius_squared"]))).collect::<Vec<_>>();observed_bv::audit_grid_occupancy(&atoms,copied_config(config(&v["config"])),v["include_points"].as_bool().unwrap_or(false))},"raw_point_decisions"=>{let points=v["points"].as_array().unwrap().iter().map(vec3).collect::<Vec<_>>();let atoms=v["atoms"].as_array().unwrap().iter().map(|a|(vec3(&a["position"]),num(&a["radius_squared"]))).collect::<Vec<_>>();observed_bv::audit_raw_point_decisions(&points,&atoms,copied_config(config(&v["config"])),v["include_points"].as_bool().unwrap_or(false))},"raw_occupancy"=>{let points=v["points"].as_array().unwrap().iter().map(vec3).collect::<Vec<_>>();let atoms=v["atoms"].as_array().unwrap().iter().map(|a|(vec3(&a["position"]),num(&a["radius_squared"]))).collect::<Vec<_>>();observed_bv::audit_raw(&points,&atoms,field(v,"sphere_radius",3.5))},_=>json!({"error":"unknown operation"})}}
+ fn main() {
+     let stdin=io::stdin();let mut stdout=io::BufWriter::new(io::stdout().lock());
+     for line in stdin.lock().lines(){let line=line.expect("read stdin");if line.trim().is_empty(){continue}let result=std::panic::catch_unwind(||{let v:Value=serde_json::from_str(&line).expect("JSON request");let mut out=observe(&v);out["id"]=v["id"].clone();out});let out=result.unwrap_or_else(|_|json!({"error":"observer caught panic; see stderr"}));writeln!(stdout,"{}",out).expect("write stdout");stdout.flush().expect("flush");}
+--- /dev/null
++++ resolution/RESOLUTION_OBSERVER.md
+@@ -0,0 +1,44 @@
++# Native point-decision observation adapter
++
++This is the system under investigation, **not an independent reference**. The
++existing remediation adapter is copied unchanged except for an include and two
++dispatch arms in `src/main.rs`. Its historical geometry and raw-occupancy
++operations remain available. The generated build contains a byte-identical copy
++of production `src/geometry/buried_volume.rs` followed by the unchanged historical
++audit append. `src/resolution_append.rs` only invokes private native functions;
++it does not reimplement an occupancy predicate.
++
++Input is newline-delimited JSON. `grid_occupancy` takes `config`, already-aligned
++`atoms` with `position: [x,y,z]` and `radius_squared`, and `include_points`.
++It invokes native `validate_config`, `integration_grid` and `occupied_volumes`.
++`raw_point_decisions` additionally takes `points` and sends them unchanged to the
++same native aggregation; it does not apply integration-sphere membership again.
++Input numeric values are converted to f32 exactly as in the historical adapter.
++Squared radii should be captured native intermediates, with original radii/scales
++retained externally. This adapter does not infer chemistry or geometry frames.
++
++Both operations return native aggregate volumes and binary32 bits, accepted
++aligned atoms/bits, grid length, native point quadrant/octant IDs and counts,
++occupancy mask, and optionally points/bits. Each mask decision comes from a
++separate actual `occupied_volumes` call on the single native point; zero versus
++the sphere volume identifies occupancy. Positive normal sphere volume and a
++nonempty point set are required so underflow cannot fabricate a mask. Returned
++regional totals preserve the native sign-zero conventions. Full aggregate and
++pointwise masks are captured separately so aggregation or row-cache defects are
++detectable; matching totals alone is insufficient.
++
++Build reproducibly with a new target and evidence directory:
++
++```sh
++.venv/bin/python docs/validation/dbstep/resolution_observer/build_observer.py \
++  --baseline .stericx/dbstep_resolution/baseline/build \
++  --oracle .stericx/profiling/scientifically_validated_optimization/scientific_oracle_v3 \
++  --output .stericx/dbstep_resolution/mask_build \
++  --evidence .stericx/dbstep_resolution/mask_build_evidence
++```
++
++The controller verifies the complete production source set against the frozen
++baseline, retains the exact adapter diff/hash and build commands, then checks
++the compiled observation source's unchanged production prefix. Build logs,
++snapshot source, dependency locks and binary hashes are preserved outside this
++adapter directory. Do not modify bound sources or adapter files during a build.
+--- /dev/null
++++ resolution/build_observer.py
+@@ -0,0 +1,123 @@
++#!/usr/bin/env python3
++"""Build a separately targeted observation adapter with immutable provenance."""
++
++import argparse
++import difflib
++import hashlib
++import json
++import os
++import subprocess
++import sys
++from pathlib import Path
++
++ADAPTER = Path(__file__).resolve().parent
++ROOT = ADAPTER.parents[3]
++
++
++def sha(path):
++    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--baseline", type=Path, required=True)
++    parser.add_argument("--oracle", type=Path, required=True)
++    parser.add_argument("--output", type=Path, required=True)
++    parser.add_argument("--evidence", type=Path, required=True)
++    args = parser.parse_args()
++    evidence = args.evidence.resolve()
++    evidence.mkdir(parents=True, exist_ok=False)
++    baseline = json.loads((args.baseline / "manifest.json").read_text())
++    baseline_source = Path(baseline["source"])
++    source_equivalence = []
++    for record in baseline["sources"]:
++        relative = Path(record["path"]).relative_to(baseline_source)
++        current = ROOT / relative
++        assert sha(current) == record["sha256"], relative
++        source_equivalence.append({"path": str(relative), "sha256": sha(current)})
++    original = ROOT / "docs/scientific_remediation/observer"
++    delta = []
++    for old in sorted(original.rglob("*")):
++        if not old.is_file():
++            continue
++        relative = old.relative_to(original)
++        new = ADAPTER / relative
++        if relative != Path("src/main.rs"):
++            assert old.read_bytes() == new.read_bytes(), relative
++        delta.extend(
++            difflib.unified_diff(
++                old.read_text().splitlines(keepends=True),
++                new.read_text().splitlines(keepends=True),
++                fromfile=str(Path("original") / relative),
++                tofile=str(Path("resolution") / relative),
++            )
++        )
++    for new in sorted(ADAPTER.rglob("*")):
++        if new.is_file() and not (original / new.relative_to(ADAPTER)).exists():
++            delta.extend(
++                difflib.unified_diff(
++                    [],
++                    new.read_text().splitlines(keepends=True),
++                    fromfile="/dev/null",
++                    tofile=str(Path("resolution") / new.relative_to(ADAPTER)),
++                )
++            )
++    diff = evidence / "adapter.diff"
++    diff.write_text("".join(delta))
++    command = [
++        sys.executable,
++        str(ROOT / "scripts/replay_scientific_remediation.py"),
++        "build",
++        "--oracle",
++        str(args.oracle.resolve()),
++        "--adapter",
++        str(ADAPTER),
++        "--output",
++        str(args.output.resolve()),
++    ]
++    receipt = {
++        "purpose": "SUT observation only; no independent scientific pass inferred",
++        "baseline_manifest": {
++            "path": str((args.baseline / "manifest.json").resolve()),
++            "sha256": sha(args.baseline / "manifest.json"),
++        },
++        "source_equivalence": source_equivalence,
++        "adapter_diff": {"path": str(diff), "sha256": sha(diff)},
++        "command": command,
++        "controller_sha256": sha(__file__),
++    }
++    (evidence / "started.json").write_text(json.dumps(receipt, indent=2) + "\n")
++    with (
++        (evidence / "stdout.txt").open("w") as stdout,
++        (evidence / "stderr.txt").open("w") as stderr,
++    ):
++        result = subprocess.run(
++            command,
++            cwd=ROOT,
++            stdout=stdout,
++            stderr=stderr,
++            env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
++            check=False,
++        )
++    receipt["returncode"] = result.returncode
++    if result.returncode == 0:
++        built = json.loads((args.output / "manifest.json").read_text())
++        prefix = (ROOT / "src/geometry/buried_volume.rs").read_bytes()
++        observed = (args.output / "observer/src/observed_buried_volume.rs").read_bytes()
++        assert observed[: len(prefix)] == prefix
++        assert (
++            built["bv_prefix_sha256"]
++            == baseline["bv_prefix_sha256"]
++            == sha(ROOT / "src/geometry/buried_volume.rs")
++        )
++        receipt["prefix_bytes"] = len(prefix)
++        receipt["prefix_sha256"] = built["bv_prefix_sha256"]
++        receipt["build_manifest_sha256"] = sha(args.output / "manifest.json")
++        receipt["observer_binary"] = built["binaries"]["observer"]
++    (evidence / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
++    print(json.dumps(receipt, indent=2))
++    raise SystemExit(result.returncode)
++
++
++if __name__ == "__main__":
++    main()
+--- /dev/null
++++ resolution/check_observer.py
+@@ -0,0 +1,231 @@
++#!/usr/bin/env python3
++"""Verify observer integrity on preserved 401/0 R=2.5; not a chemistry oracle."""
++
++import argparse
++import hashlib
++import json
++import struct
++import subprocess
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[4]
++FIELDS = ("buried_volume", "quadrants", "octants", "near_vbur", "far_vbur")
++
++
++def sha(path):
++    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
++
++
++def f32(value):
++    return struct.unpack("<f", struct.pack("<f", value))[0]
++
++
++def bits(value):
++    if isinstance(value, list):
++        return [bits(x) for x in value]
++    return struct.unpack("<I", struct.pack("<f", value))[0]
++
++
++def invoke(binary, requests, output, label):
++    payload = "".join(json.dumps(r, separators=(",", ":")) + "\n" for r in requests)
++    (output / (label + "_requests.jsonl")).write_text(payload)
++    run = subprocess.run(
++        [str(binary.resolve())],
++        input=payload,
++        text=True,
++        capture_output=True,
++        check=False,
++    )
++    (output / (label + "_stdout.jsonl")).write_text(run.stdout)
++    (output / (label + "_stderr.txt")).write_text(run.stderr)
++    assert run.returncode == 0, (label, run.stderr)
++    results = [json.loads(line) for line in run.stdout.splitlines()]
++    assert len(results) == len(requests), label
++    return results
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--baseline-binary", type=Path, required=True)
++    parser.add_argument("--binary", type=Path, required=True)
++    parser.add_argument("--output", type=Path, required=True)
++    args = parser.parse_args()
++    output = args.output.resolve()
++    output.mkdir(parents=True, exist_ok=False)
++    original = ROOT / "docs/validation/dbstep/volume_v2"
++    case_id = "SIG-NIHDA-401/0/sphere_radius=2.5"
++    request = next(
++        json.loads(line)
++        for line in (original / "requests.jsonl").read_text().splitlines()
++        if json.loads(line)["id"] == case_id
++    )
++    historical = next(
++        json.loads(line)
++        for line in (original / "native_stdout.jsonl").read_text().splitlines()
++        if json.loads(line)["id"] == case_id
++    )
++    request["include_points"] = True
++    base = invoke(args.baseline_binary, [request], output, "baseline_geometry")[0]
++    observed = invoke(args.binary, [request], output, "resolution_geometry")[0]
++    assert base == observed, "legacy geometry operation changed"
++    for key in historical:
++        if key != "dump":
++            assert historical[key] == base[key], key
++    assert historical["dump"]["orientations"] == base["dump"]["orientations"]
++    points = base["dump"]["points"]
++    requests = []
++    raw_requests = []
++    for frame in base["dump"]["orientations"]:
++        common = {
++            "atoms": frame["aligned_atoms"],
++            "config": request["config"],
++            "include_points": True,
++        }
++        requests.extend(
++            [
++                {**common, "id": str(frame["plane"]) + "/grid", "op": "grid_occupancy"},
++                {
++                    **common,
++                    "id": str(frame["plane"]) + "/raw",
++                    "op": "raw_point_decisions",
++                    "points": points,
++                },
++            ]
++        )
++        raw_requests.append(
++            {
++                "id": str(frame["plane"]),
++                "op": "raw_occupancy",
++                "points": points,
++                "atoms": frame["aligned_atoms"],
++                "sphere_radius": request["config"]["sphere_radius"],
++            }
++        )
++    results = invoke(args.binary, requests, output, "mask")
++    old_raw = invoke(args.baseline_binary, raw_requests, output, "baseline_raw")
++    frames = []
++    for index, frame in enumerate(base["dump"]["orientations"]):
++        grid, raw = results[2 * index : 2 * index + 2]
++        assert grid["point_source"] == "native_integration_grid"
++        assert raw["point_source"] == "supplied_points"
++        for key in grid:
++            if key not in ("point_source", "id"):
++                assert grid[key] == raw[key], key
++        assert grid["points"] == points
++        assert grid["point_bits"] == [bits(p) for p in points]
++        aggregate = grid["aggregate"]
++        for field in FIELDS:
++            assert (
++                bits(aggregate[field])
++                == bits(frame[field])
++                == bits(old_raw[index][field])
++            ), field
++            assert bits(aggregate[field]) == aggregate["_bits"][field], field
++        assert grid["point_bins"] == old_raw[index]["point_bins"]
++        assert grid["grid_count"] == len(points) == base["dump"]["grid_count"]
++        assert grid["occupied_count"] == sum(grid["occupied_mask"])
++        for label, count in (("quadrant", 4), ("octant", 8)):
++            column = 0 if label == "quadrant" else 1
++            total = [0] * count
++            occupied = [0] * count
++            for mask, region in zip(
++                grid["occupied_mask"], grid["point_bins"], strict=True
++            ):
++                total[region[column]] += 1
++                occupied[region[column]] += mask
++            assert total == grid[label + "_total"]
++            assert occupied == grid[label + "_occupied"]
++        volume = grid["sphere_volume"]
++
++        def normalized(occupied, total, divisor=1, volume=volume):
++            ratio = f32(f32(occupied) / f32(total)) if total else 0.0
++            return f32(f32(ratio * volume) / divisor)
++
++        reconstructed = {
++            "buried_volume": normalized(grid["occupied_count"], len(points))
++        }
++        for label, count in (("quadrant", 4), ("octant", 8)):
++            reconstructed[label + "s"] = [
++                normalized(o, t, count)
++                for o, t in zip(
++                    grid[label + "_occupied"], grid[label + "_total"], strict=True
++                )
++            ]
++        for name, octants in (
++            ("far_vbur", reconstructed["octants"][:4]),
++            ("near_vbur", reconstructed["octants"][4:]),
++        ):
++            value = 0.0
++            for octant in octants:
++                value = f32(value + octant)
++            reconstructed[name] = value
++        assert {key: bits(value) for key, value in reconstructed.items()} == aggregate[
++            "_bits"
++        ]
++        frames.append(
++            {
++                "plane": frame["plane"],
++                "grid_count": len(points),
++                "occupied_count": grid["occupied_count"],
++                "all_aggregate_bits_reconstructed": True,
++                "native_masks_identical_for_generated_and_supplied_points": True,
++            }
++        )
++    invalid = invoke(
++        args.binary,
++        [
++            {"id": "empty", "op": "raw_point_decisions", "points": [], "atoms": []},
++            {
++                "id": "underflow",
++                "op": "raw_point_decisions",
++                "points": [[0, 0, 0]],
++                "atoms": [],
++                "config": {"sphere_radius": 1e-20},
++            },
++            {
++                "id": "invalid_density",
++                "op": "grid_occupancy",
++                "atoms": [],
++                "config": {"density": 0},
++            },
++        ],
++        output,
++        "invalid_domain",
++    )
++    assert all(
++        "error" in result and "occupied_mask" not in result for result in invalid
++    )
++    result = {
++        "purpose": (
++            "Observation adapter integrity; independent science is evaluated separately"
++        ),
++        "case": case_id,
++        "historical_outputs_preserved": True,
++        "legacy_geometry_unchanged": True,
++        "legacy_raw_aggregate_unchanged": True,
++        "frames": frames,
++        "invalid_domain_rejected": True,
++        "baseline_binary": {
++            "path": str(args.baseline_binary.resolve()),
++            "sha256": sha(args.baseline_binary),
++        },
++        "observer_binary": {
++            "path": str(args.binary.resolve()),
++            "sha256": sha(args.binary),
++        },
++        "controller_sha256": sha(__file__),
++        "inputs": [
++            {"path": str(original / name), "sha256": sha(original / name)}
++            for name in ("requests.jsonl", "native_stdout.jsonl")
++        ],
++        "evidence": [
++            {"path": str(path), "sha256": sha(path)}
++            for path in sorted(output.iterdir())
++        ],
++    }
++    (output / "result.json").write_text(json.dumps(result, indent=2) + "\n")
++    print(json.dumps(result, indent=2))
++
++
++if __name__ == "__main__":
++    main()
+--- /dev/null
++++ resolution/src/resolution_append.rs
+@@ -0,0 +1,125 @@
++// Observation only: all occupancy decisions call the unchanged production kernel.
++// This adapter is the system under investigation, not an independent reference.
++
++pub fn audit_grid_occupancy(
++    atoms: &[(Vec3, f32)],
++    config: BuriedVolumeConfig,
++    include_points: bool,
++) -> serde_json::Value {
++    if let Err(error) = validate_config(config) {
++        return serde_json::json!({"error": error.to_string()});
++    }
++    let points = integration_grid(config);
++    audit_point_decisions(
++        &points,
++        atoms,
++        config,
++        include_points,
++        "native_integration_grid",
++    )
++}
++
++pub fn audit_raw_point_decisions(
++    points: &[Vec3],
++    atoms: &[(Vec3, f32)],
++    config: BuriedVolumeConfig,
++    include_points: bool,
++) -> serde_json::Value {
++    if let Err(error) = validate_config(config) {
++        return serde_json::json!({"error": error.to_string()});
++    }
++    audit_point_decisions(points, atoms, config, include_points, "supplied_points")
++}
++
++fn audit_point_decisions(
++    points: &[Vec3],
++    input_atoms: &[(Vec3, f32)],
++    config: BuriedVolumeConfig,
++    include_points: bool,
++    point_source: &str,
++) -> serde_json::Value {
++    let volume = sphere_volume(config.sphere_radius);
++    if !volume.is_normal() || volume <= 0.0 {
++        return serde_json::json!({"error": "point-decision observation requires a positive normal sphere volume"});
++    }
++    if points.is_empty() {
++        return serde_json::json!({"error": "point-decision observation requires a nonempty point set"});
++    }
++    let atoms: Vec<_> = input_atoms
++        .iter()
++        .map(|(position, radius_squared)| AlignedAtom {
++            position: *position,
++            radius_squared: *radius_squared,
++        })
++        .collect();
++    let aggregate = occupied_volumes(points, &atoms, config.sphere_radius);
++    let mut mask = Vec::with_capacity(points.len());
++    let mut bins = Vec::with_capacity(points.len());
++    let mut quadrant_total = [0_usize; 4];
++    let mut quadrant_occupied = [0_usize; 4];
++    let mut octant_total = [0_usize; 8];
++    let mut octant_occupied = [0_usize; 8];
++    for point in points {
++        let observed = occupied_volumes(std::slice::from_ref(point), &atoms, config.sphere_radius);
++        // A one-point call returns either zero or the positive sphere volume.
++        // No distance, radius comparison or occupancy predicate is copied here.
++        if observed.buried_volume != 0.0 && observed.buried_volume.to_bits() != volume.to_bits() {
++            return serde_json::json!({"error": "one-point occupancy did not produce zero or the sphere volume"});
++        }
++        let occupied = observed.buried_volume != 0.0;
++        let quadrant = quadrant_index(*point);
++        let octant = octant_index(*point);
++        quadrant_total[quadrant] += 1;
++        octant_total[octant] += 1;
++        if occupied {
++            quadrant_occupied[quadrant] += 1;
++            octant_occupied[octant] += 1;
++        }
++        mask.push(occupied);
++        bins.push([quadrant, octant]);
++    }
++    serde_json::json!({
++        "point_source": point_source,
++        "config": config,
++        "atoms": atoms.iter().map(|atom| serde_json::json!({
++            "position": atom.position.to_array(),
++            "position_bits": atom.position.to_array().map(f32::to_bits),
++            "radius_squared": atom.radius_squared,
++            "radius_squared_bits": atom.radius_squared.to_bits(),
++        })).collect::<Vec<_>>(),
++        "grid_count": points.len(),
++        "sphere_volume": volume,
++        "sphere_volume_bits": volume.to_bits(),
++        "aggregate": {
++            "buried_volume": aggregate.buried_volume,
++            "quadrants": aggregate.quadrants,
++            "octants": aggregate.octants,
++            "near_vbur": aggregate.near_vbur,
++            "far_vbur": aggregate.far_vbur,
++            "_bits": {
++                "buried_volume": aggregate.buried_volume.to_bits(),
++                "quadrants": aggregate.quadrants.map(f32::to_bits),
++                "octants": aggregate.octants.map(f32::to_bits),
++                "near_vbur": aggregate.near_vbur.to_bits(),
++                "far_vbur": aggregate.far_vbur.to_bits(),
++            },
++        },
++        "occupied_count": mask.iter().filter(|&&occupied| occupied).count(),
++        "occupied_mask": mask,
++        "point_bins": bins,
++        "quadrant_total": quadrant_total,
++        "quadrant_occupied": quadrant_occupied,
++        "octant_total": octant_total,
++        "octant_occupied": octant_occupied,
++        "points": if include_points {
++            Some(points.iter().map(|point| point.to_array()).collect::<Vec<_>>())
++        } else {
++            None
++        },
++        "point_bits": if include_points {
++            Some(points.iter().map(|point| point.to_array().map(f32::to_bits)).collect::<Vec<_>>())
++        } else {
++            None
++        },
++    })
++}

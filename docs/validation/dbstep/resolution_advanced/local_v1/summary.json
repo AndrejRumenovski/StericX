@@ -1,0 +1,166 @@
+{
+  "created_utc": "2026-11-02T16:46:42.888692+00:00",
+  "reviewer_sha256": "51f716961072c105077087a0f179482e740ec24485d4f7164dee4d28d5df9127",
+  "source_commits": {
+    "references": "c40cd3fd52e59da75cea56bc79e9de1ca0e9b624",
+    "distribution": "98d86d63ca3a2901aacb0f34772f22b2ab2cf870",
+    "installs": "98d86d63ca3a2901aacb0f34772f22b2ab2cf870"
+  },
+  "source_changes": {
+    "references": {},
+    "distribution": {},
+    "installs": {}
+  },
+  "execution_failures_preserved": [
+    {
+      "phase": "references",
+      "name": "volume",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/venv/bin/python",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_dbstep_volume.py",
+        "--build",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/baseline/build",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/advanced_v1/references/volume"
+      ],
+      "returncode": 1,
+      "elapsed_seconds": 41.03467248400011,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/advanced_v1/references/volume.log",
+      "log_sha256": "936618845b2aad2bb1eb1b90d64bc63e58401dc2a2092abd9e61475a6c29f2a1"
+    },
+    {
+      "phase": "distribution",
+      "name": "build_packages",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/python",
+        "-m",
+        "pip",
+        "list",
+        "--format",
+        "json"
+      ],
+      "returncode": 1,
+      "elapsed_seconds": 0.06418254099935439,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/advanced_v1/distribution/build_packages.log",
+      "log_sha256": "c98528932a972c133565938ed9f8f4e43d4debb7681bf560977eae61dd996cd8"
+    }
+  ],
+  "historical_summary_comparison": {
+    "sterimol": {
+      "historical_path": "docs/validation/dbstep/sterimol_v1/summary.json",
+      "historical_sha256": "78031db2f7dbb18bb565a3d6c973d237c066cf3bd595b9a1eb477a38f927befb",
+      "new_sha256": "78031db2f7dbb18bb565a3d6c973d237c066cf3bd595b9a1eb477a38f927befb",
+      "json_equal": true
+    },
+    "volume": {
+      "historical_path": "docs/validation/dbstep/volume_v2/summary.json",
+      "historical_sha256": "2c7c8dda9760a4ca26130f46847d84b0b95df5193a22b8b7739db6f32e9e1296",
+      "new_sha256": "2c7c8dda9760a4ca26130f46847d84b0b95df5193a22b8b7739db6f32e9e1296",
+      "json_equal": true
+    },
+    "density": {
+      "historical_path": "docs/validation/dbstep/density_v2/summary.json",
+      "historical_sha256": "6d2f03499ef9d775272c3b48086c4da61409c2be63c24647dd5c7500d3b68684",
+      "new_sha256": "6d2f03499ef9d775272c3b48086c4da61409c2be63c24647dd5c7500d3b68684",
+      "json_equal": true
+    },
+    "profiles": {
+      "historical_path": "docs/validation/dbstep/profiles_v1/summary.json",
+      "historical_sha256": "5d235fac2f85b1e8071ab9476d6fa9c08542bf67a3d9f6ef13b9162c968a871f",
+      "new_sha256": "5d235fac2f85b1e8071ab9476d6fa9c08542bf67a3d9f6ef13b9162c968a871f",
+      "json_equal": true
+    },
+    "ensemble_reference": {
+      "historical_path": "docs/paton_recommendations/conformers/ensemble_study_v1/summary.json",
+      "historical_sha256": "d367f459c6361ee7a9ff4b85b5a263ffbb54e9c07f26715bf986beaacf6fe9d8",
+      "new_sha256": "d367f459c6361ee7a9ff4b85b5a263ffbb54e9c07f26715bf986beaacf6fe9d8",
+      "json_equal": true
+    }
+  },
+  "scientific_gates": {
+    "sterimol_conditional": true,
+    "hard_sphere_original_strict": false,
+    "density_declared_grid_scope": true,
+    "profile_preservation": true,
+    "profile_hard_sphere_original_strict": false,
+    "populations": true,
+    "ensemble_reference": true
+  },
+  "local_installations": {
+    "wheel-3.11": {
+      "passed": true,
+      "artifact_unchanged": true,
+      "test_outcome": [
+        "71 passed in 0.96s"
+      ],
+      "artifact": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/advanced_v1/distribution/wheels/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+        "sha256": "690d160a28b0e3914ccbfb835ef47b17c10b6175c58470f57cb246d999adc6f7"
+      },
+      "all_commands_exit_zero": true
+    },
+    "wheel-3.12": {
+      "passed": true,
+      "artifact_unchanged": true,
+      "test_outcome": [
+        "71 passed in 1.45s"
+      ],
+      "artifact": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/advanced_v1/distribution/wheels/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+        "sha256": "690d160a28b0e3914ccbfb835ef47b17c10b6175c58470f57cb246d999adc6f7"
+      },
+      "all_commands_exit_zero": true
+    },
+    "wheel-3.13": {
+      "passed": true,
+      "artifact_unchanged": true,
+      "test_outcome": [
+        "71 passed in 0.95s"
+      ],
+      "artifact": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/advanced_v1/distribution/wheels/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+        "sha256": "690d160a28b0e3914ccbfb835ef47b17c10b6175c58470f57cb246d999adc6f7"
+      },
+      "all_commands_exit_zero": true
+    },
+    "wheel-3.14": {
+      "passed": true,
+      "artifact_unchanged": true,
+      "test_outcome": [
+        "71 passed in 1.06s"
+      ],
+      "artifact": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/advanced_v1/distribution/wheels/stericx-0.4.0.dev0-cp311-abi3-manylinux_2_28_x86_64.whl",
+        "sha256": "690d160a28b0e3914ccbfb835ef47b17c10b6175c58470f57cb246d999adc6f7"
+      },
+      "all_commands_exit_zero": true
+    },
+    "sdist-3.12": {
+      "passed": true,
+      "artifact_unchanged": true,
+      "test_outcome": [
+        "71 passed in 0.89s"
+      ],
+      "artifact": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/advanced_v1/distribution/sdist/stericx-0.4.0.dev0.tar.gz",
+        "sha256": "d2d733a3a25d82a5b2abc59089440e6b98ae6f5cb8a497bb6ef67d2019976df6"
+      },
+      "all_commands_exit_zero": true
+    }
+  },
+  "cross_platform_ci": "Separate fresh remote run required; local Linux installs are not cross-platform evidence.",
+  "limitations": [
+    "Original hard-sphere strict comparison remains false; no new policy is applied here.",
+    "Density agreement covers declared grid integration, not physical choice of density threshold.",
+    "Ensemble study recomputes references against frozen outputs; installed wheels separately verify all 56 native goldens.",
+    "Build-package pip inventory failed because the build environment has no pip; importlib.metadata supplement retained.",
+    "Wheel build used Cargo incremental artifacts whose source hashes are unchanged; install environments are new.",
+    "No performance conclusion follows from these concurrent validation durations."
+  ]
+}

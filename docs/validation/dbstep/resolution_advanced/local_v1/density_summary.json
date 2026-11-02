@@ -1,0 +1,33 @@
+{
+  "cases": 12,
+  "completed": 12,
+  "failures": [],
+  "convergence": [
+    {
+      "spacing_bohr": 0.25,
+      "native": 0.5811619141220876,
+      "analytic": 0.620714666650393,
+      "absolute_error": 0.03955275252830537,
+      "boundary_layer_bound": 0.8189309423051706,
+      "passed": true
+    },
+    {
+      "spacing_bohr": 0.125,
+      "native": 0.6086571242025649,
+      "analytic": 0.620714666650393,
+      "absolute_error": 0.012057542447828085,
+      "boundary_layer_bound": 0.4047408695623629,
+      "passed": true
+    },
+    {
+      "spacing_bohr": 0.0625,
+      "native": 0.61759306747872,
+      "analytic": 0.620714666650393,
+      "absolute_error": 0.003121599171672984,
+      "boundary_layer_bound": 0.20177985958240366,
+      "passed": true
+    }
+  ],
+  "admitted": true,
+  "scope": "declared scalar cubic grids, covered spheres, explicit threshold; no physical threshold validation"
+}

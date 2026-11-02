@@ -12,8 +12,10 @@ the repository's original source paths. Nothing was uploaded to PyPI.
 | Wheel / CPython 3.13.14 | Pass, without optional packages | 71 passed | Pass |
 | Wheel / CPython 3.14.4 | Pass, without optional packages | 71 passed | Pass |
 | Source archive / CPython 3.12.13 | Build/install/import pass | 71 passed | Pass |
-| Windows x86_64 | Not run | Not run | Not run |
-| macOS arm64 | Not run | Not run | Not run |
+| CI Linux x86_64 / Python 3.11–3.14 | Pass, four jobs | 71 passed per job | Pass |
+| CI Windows x86_64 / Python 3.11–3.14 | Pass, four jobs | 71 passed per job | Pass |
+| CI macOS arm64 / Python 3.11–3.14 | Pass, four jobs | 71 passed per job | Pass |
+| CI source archive / Python 3.12 | Build/install pass | 71 passed | Package suite passes |
 
 The 355 passing installation tests include NumPy, pandas and RDKit adapters,
 exact native descriptor values on all 56 frozen conformers, structured failures,
@@ -65,8 +67,22 @@ This local controller targets Linux environments. The separate
 [wheel workflow](../../../.github/workflows/python-wheels.yml) configures actual
 Windows, macOS and Linux runner jobs for all four Python versions, plus a source
 archive build/install job. It uploads CI artifacts and does not publish to PyPI.
-Its existence is not a passing CI run. Cross-platform execution remains a release
-blocker, so no release candidate or all-platform publication readiness is claimed.
+The actual [validated run](https://github.com/AndrejRumenovski/StericX/actions/runs/41384461108)
+passes all 13 jobs on commit `aa78ecb09d337488255937f6eb85e9027f0984db`.
+All 12 wheels carry the expected `cp311-abi3` tag. Raw logs, runner/interpreter
+versions, installed package versions, wheel-member hashes and downloaded artifact
+identities are retained in [the CI receipt](ci/artifact_receipt.json). The separate
+[Rust CI](https://github.com/AndrejRumenovski/StericX/actions/runs/41384461152) also
+passes on Linux, Windows and macOS. These are actual execution results, not
+inferences from a configured matrix.
+
+The initial CI run passed Windows/macOS and source installation, but Linux selected
+the container's Python 3.9 through a bare `--interpreter python` and built an
+incompatible cp39 wheel. The corrected workflow selects `pythonX.Y` explicitly
+inside manylinux and asserts the ABI3 wheel tag. This follows the
+[official maturin-action interpreter guidance](https://github.com/PyO3/maturin-action/blob/main/README.md).
+The initial failed run and complete logs remain in `ci/`; no chemistry or
+numerical acceptance rule was changed.
 
 PyPI's `stericx` JSON endpoint returned 404 at the recorded check time. This is
 neither a reservation nor permission to claim `pip install stericx` currently
@@ -76,5 +92,6 @@ Artifacts remain under `.stericx/paton/python-wheels/`; their exact SHA-256 hash
 wheel-member hashes, source snapshot hashes and install evidence are in
 [distribution_receipt.json](distribution_receipt.json). The original host wheel
 (`manylinux_2_35`) and development wheels remain separate from the tested portable
-release-mode wheel. Development packaging is ready for review; final publication
-and release eligibility await the remaining scientific/engineering gates.
+release-mode wheel. The tested development distribution is ready for publication review. No PyPI
+publication or release candidate is implied; [release readiness](../RELEASE_READINESS.md)
+separately records the retained scientific gates and limitations.

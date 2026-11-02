@@ -1,0 +1,28 @@
+2d6bf43e08ca926f11d36c28c08ec5d0f594d2be chore: establish Paton feedback implementation baseline
+5d37ff95480aaebf5c25ac7de5d2c605f997e3d9 feat: expose per-conformer steric descriptors
+5952ad13c937efe0ac91da189792d494ff927137 feat: add conformer ensemble descriptor statistics
+0ff74649859d72d5bdc99b6d8563e9b12ec9f01b test: verify fresh baseline scientific replay
+7536efe7f057acc1fd3f189dfe96f7e81a755c0a test: independently validate conformer population calculations
+28e99f9f5e88e9cba3d3a896394194b4b9a830af feat: add conformer sensitivity reports
+a1f3cf402ee69cd94c0314311930c7d3a700b628 study: evaluate conformer-aware descriptor behavior
+c892407df99321279f97505d04e88b1ee6fd3dbc test: establish reproducible DBSTEP reference environment
+278db84f340cc3f28b34ec41ca2c7f2768846033 test: validate Sterimol descriptors against DBSTEP
+c145279616d7a928cc2f2dfe65bafb711684e827 test: support serializable kernels in scientific observer
+1c373504417737064547c30737fbbb99de7f98fa test: validate buried volume against DBSTEP
+c22184ecf8743d2d930c2f758d4fa782f645e028 study: document DBSTEP cross-validation discrepancies
+78d5bb5be9333d5b70165f6d5895eeb5566bbd2d docs: establish electron-density buried-volume methodology
+32aa9ad4380886333587e0b54975fae81ebe37c1 feat: add electron-density grid input
+25088cfbeeeea1110d4d00607046fb62858eeb98 feat: implement density-based buried-volume analysis
+eaf0d2f6d89f0bc100fadaf4b7db299fdc948822 feat: add distance-dependent buried-volume profiles
+89f6f4ad1e131f389fb1be248620710a22fdfb60 refactor: stabilize StericX Python descriptor API
+debde8065cea1eb1642e5261cac39d6a14f0773c feat: expose advanced descriptor methods through Python
+d93696182904e78711b2d4bf7ef83b2dce49c7da chore: enforce validation controller quality checks
+72ab8f99bcb5a7a5162ef22f4578aaced7f8c43f build: prepare cross-platform Python distribution
+c45aeee4318c4fc6d01dff97cf2a24db056fb937 docs: add computational chemistry Python tutorials
+a62696944c96fae3a867d4ad8b8d5eba06b09db8 test: freeze expanded descriptor performance protocol
+e068e062075fa1e30fb2f3f73730dc855db14aa8 docs: refocus README on validated descriptor engine
+daccaae30cb5c41f9fd47aaad75676325cb38a8a test: replay independent model checks with explicit input bindings
+8d794d0d433f89956eeb4e087795081aa61c2efe chore: format README Python examples
+aa78ecb09d337488255937f6eb85e9027f0984db fix: select supported Python inside manylinux wheel builds
+732f7b66e24f17150e7c4ff4aacccd03cae0b408 test: verify scientific correctness after descriptor extensions
+c304781ff728303a3fedab4964a3be864c94ab25 perf: benchmark expanded descriptor engine

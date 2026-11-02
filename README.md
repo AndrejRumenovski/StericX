@@ -22,10 +22,9 @@ python -m pip install './python[tables,rdkit]'
 
 A portable Linux x86-64 wheel has been built and installed in isolated Python
 3.11, 3.12, 3.13 and 3.14 environments. Each installation passes 71 package tests;
-a separate source-archive installation also passes. Windows and macOS wheel
-jobs are configured but have not been run. See the
+a separate source-archive installation also passes. Actual CI also passes all 12 Python-version/OS combinations on Linux x86-64,
+Windows x86-64 and macOS arm64, plus source installation. See the
 [distribution receipts](docs/paton_recommendations/python/DISTRIBUTION.md).
-An unrun CI matrix is not a cross-platform release claim.
 
 ```python
 from stericx import Molecule, DescriptorOptions
@@ -169,8 +168,9 @@ changed to improve reference agreement.
 Rust supplies the shared scientific engine; PyO3 binds it without duplicating
 chemistry in Python. Independent files use ordered Rayon processing. Performance
 claims require fixed geometries/settings, numerical admission and retained raw
-samples. The [Paton comparison protocol](docs/paton_recommendations/performance/PROTOCOL.md)
-compares the extended engine with this task's frozen baseline.
+samples. The [Paton performance report](docs/paton_recommendations/performance/PERFORMANCE.md)
+compares the extended engine with this task's frozen baseline, including
+allocation counts, Python overhead and a separately retained I/O-contention study.
 
 The earlier [Morfeus benchmark](docs/benchmarks/morfeus_current/BENCHMARK.md)
 is scoped to nine finite-grid volume outputs on 56 repeated geometries. Its
@@ -178,7 +178,8 @@ reported speedups do not establish an all-descriptor or universal speed ratio.
 The [optimization report](docs/performance/SCIENTIFICALLY_EXACT_OPTIMIZATION.md)
 retains accepted and rejected changes.
 
-Start with the [implementation/evidence ledger](docs/paton_recommendations/IMPLEMENTATION_PLAN.md),
+Start with the [final implementation report](docs/paton_recommendations/FINAL_REPORT.md),
+[complete scientific validation](docs/paton_recommendations/SCIENTIFIC_VALIDATION.md),
 [research examples](python/examples/README.md), and
 [scientific replay instructions](docs/scientific_remediation/REPRODUCE.md).
 Legacy reaction modelling remains experimental: unfavorable validation, failed

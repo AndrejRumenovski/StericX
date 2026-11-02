@@ -143,20 +143,39 @@ documented conventions, never inferred universal physical constants.
 
 ## Execution status
 
-Phase 0 has passing fresh engineering checks (322 Rust, 124 Python) and a fresh
-source-bound native/observer build. `baseline/manifest.json` seals the existing
-complete 128,021-record capture **after exact equality of all 44 Rust/Cargo
-source files and every observation stream is verified**. This is reuse of the
-same-source archived outputs, not a claim that a new reference campaign finished.
+The fresh baseline and final replay each cover 128,021 records in 13 lanes.
+All final legacy request/output/error streams match the baseline byte for byte.
+The baseline receipt is `baseline/fresh_replay_comparison.json`; final preservation
+is `validation/final_replay_comparison.json`. Existing failed scientific claims
+remain unchanged. See [the complete scientific report](SCIENTIFIC_VALIDATION.md).
 
-The additional fresh baseline replay has now completed: all 128,021 records in
-13 lanes match the archived same-source inputs and outputs byte for byte after
-both sets of raw files were rehashed. The separate
-`baseline/fresh_replay_comparison.json` receipt preserves that result without
-altering the original seal. This verifies the frozen baseline, not the later
-extensions or unresolved historical scientific claims.
-The simultaneously started fresh replay remains under
-`.stericx/paton/baseline/observations/`; its receipt will be added separately on
-completion. `baseline/observe.log` is live and is deliberately not part of the
-initial immutable seal. Subsequent commits update this ledger with actual
-evidence and unresolved gates.
+| Steps | Implemented outcome | Authoritative evidence / remaining scope |
+|---|---|---|
+| 0 | Architecture/audit inventory, toolchain/source/executable freeze | `baseline/manifest.json`; original commit c9380d2c |
+| 1–2 | Ordered per-conformer outcomes; all applicable scalar/regional statistics | `src/ensemble/`; `CONFORMER_API.md`; native and installed-wheel golden tests |
+| 3 | Explicit, stable energy populations and provenance | `conformers/POPULATION_VALIDATION_PROTOCOL.md`; independent 42-valid/11-invalid Decimal cases |
+| 4 | Sensitivity ranges, SD, conditional weighted means and tied-extreme identities | `conformers/sensitivity_v1/`; native JSON/CSV report API |
+| 5 | Fixed 11-ligand/56-conformer comparison of all five reductions | `conformers/ENSEMBLE_STUDY.md`; unfavorable historical comparisons retained |
+| 6–9 | Pinned, unmodified DBSTEP environment; Sterimol/volume comparisons and forensics | `../validation/dbstep/`; known R=2.5 Å strict volume gate remains false |
+| 10–12 | Documented density method, strict cube reader and separate volume mode | `../methods/electron_density_buried_volume.md`; 12 independent density comparisons pass in the declared grid scope |
+| 13 | Fixed-center sphere-radius profiles preserving order/errors | `../validation/dbstep/PROFILE_RESULTS.md`; 20 positions, 16 independent valid comparisons, four expected errors |
+| 14–15 | Thin PyO3 core, typed results, adapters, ordered batches, advanced methods | `python/API_AUDIT.md`, `python/ADVANCED_API.md`; shared Rust chemistry |
+| 16 | Development wheel/sdist; clean local installs; actual three-OS CI matrix | `python/DISTRIBUTION.md`, `python/ci/validated_run.json`; 12 wheel jobs plus source install pass, no PyPI publication |
+| 17 | Executed script and complete notebook with retained source fixtures | `../../python/examples/`; 11 executed code cells and visual plot QA |
+| 18 | Full fresh independent replay, all regional bins, fixed variants and engineering checks | `SCIENTIFIC_VALIDATION.md`; 31,721 conformers, 1,141,956 bins, 7,624 model comparisons; all existing limitations preserved |
+| 19 | Confirmed quiet-window performance preserved; allocations, memory and Python overhead measured | `performance/PERFORMANCE.md`; 504 final samples, no >10% median regression; all 2,520 attempts across five campaigns retained and rechecked |
+| 20 | Descriptor-focused README with Python examples and scoped evidence | `../../README.md`; original workflow guide retained in `../../LEGACY_WORKFLOWS.md` |
+| 21 | Release gate review complete; candidate withheld | `RELEASE_READINESS.md`; strict hard-sphere DBSTEP volume gate remains false; no release candidate, tag or PyPI upload |
+
+The validation branch `paton-descriptor-validation-20261102` carries the committed
+implementation and wheel workflow for actual GitHub Actions execution. The first
+Linux wheel attempt selected container Python 3.9 and failed installation; its
+logs remain. Explicit manylinux interpreter selection fixes packaging without
+changing scientific code or acceptance criteria. Windows/macOS and corrected
+Linux wheels all pass. The standalone Rust CI also passes on all three OSes.
+
+No existing working chemistry was rebuilt as a separate Python implementation.
+The original 360-direction scan, native f32 precision, historical CLI behavior,
+center-distance defaults and radius tables are preserved. Density analysis is
+restricted to independently validated scalar isotropic axis-aligned grids; other
+reader-preserved geometries do not silently acquire an approximate analysis mode.

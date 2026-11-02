@@ -1,0 +1,89 @@
+name: Frozen Windows RC wheel validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [dbstep-resolution-rc-artifact-20261102]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  frozen-wheel:
+    name: Same Windows wheel / Python ${{ matrix.python }}
+    runs-on: windows-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13", "3.14"]
+    env:
+      EXPECTED_PYTHON: ${{ matrix.python }}
+      SOURCE_COMMIT: 03557ed5279abf8487012ddb39fab019f0538416
+      SOURCE_RUN: "41505795041"
+      WHEEL_SHA256: 900fa8616446459cfd544edb5633c167b20bae0d0d0e01d19c78c9b0a6e69864
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 03557ed5279abf8487012ddb39fab019f0538416
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Download the exact previously tested wheel
+        uses: actions/download-artifact@v4
+        with:
+          name: wheel-windows-latest-py3.11
+          run-id: 41505795041
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: dist
+      - name: Verify hash and install the frozen artifact
+        shell: python
+        run: |
+          import hashlib
+          import json
+          import os
+          import pathlib
+          import platform
+          import subprocess
+          import sys
+
+          assert f"{sys.version_info.major}.{sys.version_info.minor}" == os.environ["EXPECTED_PYTHON"]
+          assert subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip() == os.environ["SOURCE_COMMIT"]
+          wheels = list(pathlib.Path("dist").glob("*.whl"))
+          assert len(wheels) == 1
+          wheel = wheels[0]
+          assert wheel.name == "stericx-0.4.0rc1-cp311-abi3-win_amd64.whl"
+          digest = hashlib.sha256(wheel.read_bytes()).hexdigest()
+          assert digest == os.environ["WHEEL_SHA256"]
+          subprocess.check_call([sys.executable, "-m", "pip", "install", "pytest", "numpy", "pandas", "rdkit"])
+          subprocess.check_call([sys.executable, "-m", "pip", "install", "--no-deps", str(wheel)])
+          evidence = pathlib.Path("evidence")
+          evidence.mkdir()
+          check = subprocess.run([sys.executable, "-m", "pip", "check"], text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+          (evidence / "pip_check.log").write_text(check.stdout)
+          print(check.stdout)
+          check.check_returncode()
+          inventory = subprocess.check_output([sys.executable, "-m", "pip", "freeze"], text=True)
+          (evidence / "packages.txt").write_text(inventory)
+          metadata_code = "import importlib.metadata, json, stericx; assert stericx.__version__ == importlib.metadata.version('stericx') == '0.4.0rc1'; print(json.dumps({'module': stericx.__file__, 'version': stericx.__version__, 'metadata_version': importlib.metadata.version('stericx')}))"
+          installed = json.loads(subprocess.check_output([sys.executable, "-I", "-c", metadata_code], text=True))
+          receipt = {"source_commit": os.environ["SOURCE_COMMIT"], "source_run": int(os.environ["SOURCE_RUN"]), "workflow_commit": os.environ["GITHUB_SHA"], "python": sys.version, "python_minor": os.environ["EXPECTED_PYTHON"], "platform": platform.platform(), "wheel": wheel.name, "wheel_sha256": digest, "wheel_bytes": wheel.stat().st_size, "installed": installed, "pip_check_returncode": check.returncode}
+          (evidence / "installed.json").write_text(json.dumps(receipt, indent=2) + "\n")
+          print(json.dumps(receipt, indent=2))
+      - name: Run unchanged installed-package tests
+        shell: python
+        run: |
+          import pathlib
+          import subprocess
+          import sys
+
+          result = subprocess.run([sys.executable, "-I", "-m", "pytest", "-q", "python/tests"], text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+          pathlib.Path("evidence/tests.log").write_text(result.stdout)
+          print(result.stdout)
+          raise SystemExit(result.returncode)
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frozen-windows-wheel-py${{ matrix.python }}
+          path: evidence/

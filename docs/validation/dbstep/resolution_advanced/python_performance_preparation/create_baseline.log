@@ -1,0 +1,7 @@
+Using CPython 3.12.13 interpreter at: .stericx/dbstep_resolution/advanced_v1/installs/environments/wheel-3.12/bin/python
+Creating virtual environment with seed packages at: .stericx/dbstep_resolution/performance_preparation_v1/python/baseline_env
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+ + pip==26.2.2
+Activate with: source .stericx/dbstep_resolution/performance_preparation_v1/python/baseline_env/bin/activate

@@ -1,0 +1,45 @@
+{
+  "native_triggers": [],
+  "python_triggers": [],
+  "performance_admissible": true,
+  "host_duration_seconds": 261.128203,
+  "host_pressure_deltas": {
+    "cpu": {
+      "some": {
+        "total_delta_microseconds": 559513,
+        "percent_elapsed": 0.21426754887904623
+      },
+      "full": {
+        "total_delta_microseconds": 0,
+        "percent_elapsed": 0.0
+      }
+    },
+    "io": {
+      "some": {
+        "total_delta_microseconds": 1576653,
+        "percent_elapsed": 0.6037850304511153
+      },
+      "full": {
+        "total_delta_microseconds": 1538859,
+        "percent_elapsed": 0.5893116799796612
+      }
+    },
+    "memory": {
+      "some": {
+        "total_delta_microseconds": 0,
+        "percent_elapsed": 0.0
+      },
+      "full": {
+        "total_delta_microseconds": 0,
+        "percent_elapsed": 0.0
+      }
+    }
+  },
+  "host_aggregate_cpu_delta": {
+    "idle_percent": 82.40659988970258,
+    "iowait_percent": 0.3603904015595542,
+    "nonidle_non_iowait_percent": 17.233009708737864
+  },
+  "maximum_native_rss_median_increase_percent": 1.7699115044247815,
+  "major_page_faults_all_native_attempts": 0
+}

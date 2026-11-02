@@ -1,0 +1,791 @@
+{
+  "kind": "dbstep_resolution_matched_performance_review",
+  "measurement_journal": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/performance_v1/journal.json",
+    "bytes": 74959,
+    "sha256": "09bef61c4d92808cd3c22f63bf9cf04e318b4d66f3bc7c4ac89ac015c14bfc07"
+  },
+  "reviewer": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/report_dbstep_resolution_performance.py",
+    "bytes": 10093,
+    "sha256": "8d8b6fa202f01e7ed90a16d954ab9b10624ded4db051fe01df70b8e853e14226"
+  },
+  "native_review": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/performance_review_v1/native_review.json",
+    "bytes": 165217,
+    "sha256": "6c867d53fdffd6e57af2be99db1303482818eba77bb71aac49d041a66ab6bc9a"
+  },
+  "all_raw_fingerprints_and_summaries_rechecked": true,
+  "native_attempts": 504,
+  "native_regression_triggers": [],
+  "maximum_median_slowdown_percent": 4.842951579218169,
+  "native_allocation_comparisons": [
+    {
+      "threads": 1,
+      "workload": "conformers_56",
+      "baseline": {
+        "allocation_calls": 17743,
+        "reallocation_calls": 656,
+        "deallocation_calls": 17694,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 23349237,
+        "live_requested_bytes": 2021,
+        "peak_live_requested_bytes": 432653
+      },
+      "candidate": {
+        "allocation_calls": 17743,
+        "reallocation_calls": 656,
+        "deallocation_calls": 17694,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 23349239,
+        "live_requested_bytes": 2022,
+        "peak_live_requested_bytes": 432654
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 23349237,
+          "candidate": 23349239
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 432653,
+          "candidate": 432654
+        },
+        "live_requested_bytes": {
+          "baseline": 2021,
+          "candidate": 2022
+        }
+      }
+    },
+    {
+      "threads": 1,
+      "workload": "db_build_ensembles",
+      "baseline": {
+        "allocation_calls": 18143,
+        "reallocation_calls": 777,
+        "deallocation_calls": 18077,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 23327080,
+        "live_requested_bytes": 14066,
+        "peak_live_requested_bytes": 455290
+      },
+      "candidate": {
+        "allocation_calls": 18143,
+        "reallocation_calls": 777,
+        "deallocation_calls": 18077,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 23327089,
+        "live_requested_bytes": 14067,
+        "peak_live_requested_bytes": 455292
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 23327080,
+          "candidate": 23327089
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 455290,
+          "candidate": 455292
+        },
+        "live_requested_bytes": {
+          "baseline": 14066,
+          "candidate": 14067
+        }
+      }
+    },
+    {
+      "threads": 1,
+      "workload": "descriptors_10000",
+      "baseline": {
+        "allocation_calls": 3056774,
+        "reallocation_calls": 104600,
+        "deallocation_calls": 3056725,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 4115596134,
+        "live_requested_bytes": 2025,
+        "peak_live_requested_bytes": 14250634
+      },
+      "candidate": {
+        "allocation_calls": 3056774,
+        "reallocation_calls": 104600,
+        "deallocation_calls": 3056725,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 4115596136,
+        "live_requested_bytes": 2026,
+        "peak_live_requested_bytes": 14250635
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 4115596134,
+          "candidate": 4115596136
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 14250634,
+          "candidate": 14250635
+        },
+        "live_requested_bytes": {
+          "baseline": 2025,
+          "candidate": 2026
+        }
+      }
+    },
+    {
+      "threads": 1,
+      "workload": "ensemble_sdf",
+      "baseline": {
+        "allocation_calls": 24990,
+        "reallocation_calls": 17512,
+        "deallocation_calls": 24941,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 40771582,
+        "live_requested_bytes": 2020,
+        "peak_live_requested_bytes": 1308775
+      },
+      "candidate": {
+        "allocation_calls": 24990,
+        "reallocation_calls": 17512,
+        "deallocation_calls": 24941,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 40771584,
+        "live_requested_bytes": 2021,
+        "peak_live_requested_bytes": 1308776
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 40771582,
+          "candidate": 40771584
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 1308775,
+          "candidate": 1308776
+        },
+        "live_requested_bytes": {
+          "baseline": 2020,
+          "candidate": 2021
+        }
+      }
+    },
+    {
+      "threads": 1,
+      "workload": "parse_ensembles_1000",
+      "baseline": {
+        "allocation_calls": 886212,
+        "reallocation_calls": 2897,
+        "deallocation_calls": 886163,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 57886608,
+        "live_requested_bytes": 2028,
+        "peak_live_requested_bytes": 165640
+      },
+      "candidate": {
+        "allocation_calls": 886212,
+        "reallocation_calls": 2897,
+        "deallocation_calls": 886163,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 57886613,
+        "live_requested_bytes": 2029,
+        "peak_live_requested_bytes": 165645
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 57886608,
+          "candidate": 57886613
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 165640,
+          "candidate": 165645
+        },
+        "live_requested_bytes": {
+          "baseline": 2028,
+          "candidate": 2029
+        }
+      }
+    },
+    {
+      "threads": 1,
+      "workload": "single_large",
+      "baseline": {
+        "allocation_calls": 1073,
+        "reallocation_calls": 61,
+        "deallocation_calls": 1024,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 684484,
+        "live_requested_bytes": 2020,
+        "peak_live_requested_bytes": 399773
+      },
+      "candidate": {
+        "allocation_calls": 1073,
+        "reallocation_calls": 61,
+        "deallocation_calls": 1024,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 684486,
+        "live_requested_bytes": 2021,
+        "peak_live_requested_bytes": 399774
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 684484,
+          "candidate": 684486
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 399773,
+          "candidate": 399774
+        },
+        "live_requested_bytes": {
+          "baseline": 2020,
+          "candidate": 2021
+        }
+      }
+    },
+    {
+      "threads": 1,
+      "workload": "single_small",
+      "baseline": {
+        "allocation_calls": 878,
+        "reallocation_calls": 58,
+        "deallocation_calls": 829,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 673879,
+        "live_requested_bytes": 2020,
+        "peak_live_requested_bytes": 397361
+      },
+      "candidate": {
+        "allocation_calls": 878,
+        "reallocation_calls": 58,
+        "deallocation_calls": 829,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 673881,
+        "live_requested_bytes": 2021,
+        "peak_live_requested_bytes": 397362
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 673879,
+          "candidate": 673881
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 397361,
+          "candidate": 397362
+        },
+        "live_requested_bytes": {
+          "baseline": 2020,
+          "candidate": 2021
+        }
+      }
+    },
+    {
+      "threads": 6,
+      "workload": "conformers_56",
+      "baseline": {
+        "allocation_calls": 17827,
+        "reallocation_calls": 656,
+        "deallocation_calls": 17764,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 23417118,
+        "live_requested_bytes": 30989,
+        "peak_live_requested_bytes": 2471187
+      },
+      "candidate": {
+        "allocation_calls": 17827,
+        "reallocation_calls": 656,
+        "deallocation_calls": 17764,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 23417120,
+        "live_requested_bytes": 30990,
+        "peak_live_requested_bytes": 2474393
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 23417118,
+          "candidate": 23417120
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 2471187,
+          "candidate": 2474393
+        },
+        "live_requested_bytes": {
+          "baseline": 30989,
+          "candidate": 30990
+        }
+      }
+    },
+    {
+      "threads": 6,
+      "workload": "db_build_ensembles",
+      "baseline": {
+        "allocation_calls": 18198,
+        "reallocation_calls": 777,
+        "deallocation_calls": 18082,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 23362592,
+        "live_requested_bytes": 49330,
+        "peak_live_requested_bytes": 2477538
+      },
+      "candidate": {
+        "allocation_calls": 18198,
+        "reallocation_calls": 777,
+        "deallocation_calls": 18082,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 23362604,
+        "live_requested_bytes": 49331,
+        "peak_live_requested_bytes": 2475124
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 23362592,
+          "candidate": 23362604
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 2477538,
+          "candidate": 2475124
+        },
+        "live_requested_bytes": {
+          "baseline": 49330,
+          "candidate": 49331
+        }
+      }
+    },
+    {
+      "threads": 6,
+      "workload": "descriptors_10000",
+      "baseline": {
+        "allocation_calls": 3056858,
+        "reallocation_calls": 104600,
+        "deallocation_calls": 3056795,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 4117016399,
+        "live_requested_bytes": 30993,
+        "peak_live_requested_bytes": 14279602
+      },
+      "candidate": {
+        "allocation_calls": 3056858,
+        "reallocation_calls": 104600,
+        "deallocation_calls": 3056795,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 4117016401,
+        "live_requested_bytes": 30994,
+        "peak_live_requested_bytes": 14279603
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 4117016399,
+          "candidate": 4117016401
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 14279602,
+          "candidate": 14279603
+        },
+        "live_requested_bytes": {
+          "baseline": 30993,
+          "candidate": 30994
+        }
+      }
+    },
+    {
+      "threads": 6,
+      "workload": "ensemble_sdf",
+      "baseline": {
+        "allocation_calls": 24990,
+        "reallocation_calls": 17512,
+        "deallocation_calls": 24941,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 40771582,
+        "live_requested_bytes": 2020,
+        "peak_live_requested_bytes": 1308775
+      },
+      "candidate": {
+        "allocation_calls": 24990,
+        "reallocation_calls": 17512,
+        "deallocation_calls": 24941,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 40771584,
+        "live_requested_bytes": 2021,
+        "peak_live_requested_bytes": 1308776
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 40771582,
+          "candidate": 40771584
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 1308775,
+          "candidate": 1308776
+        },
+        "live_requested_bytes": {
+          "baseline": 2020,
+          "candidate": 2021
+        }
+      }
+    },
+    {
+      "threads": 6,
+      "workload": "parse_ensembles_1000",
+      "baseline": {
+        "allocation_calls": 886212,
+        "reallocation_calls": 2897,
+        "deallocation_calls": 886163,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 57886608,
+        "live_requested_bytes": 2028,
+        "peak_live_requested_bytes": 165640
+      },
+      "candidate": {
+        "allocation_calls": 886212,
+        "reallocation_calls": 2897,
+        "deallocation_calls": 886163,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 57886613,
+        "live_requested_bytes": 2029,
+        "peak_live_requested_bytes": 165645
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 57886608,
+          "candidate": 57886613
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 165640,
+          "candidate": 165645
+        },
+        "live_requested_bytes": {
+          "baseline": 2028,
+          "candidate": 2029
+        }
+      }
+    },
+    {
+      "threads": 6,
+      "workload": "single_large",
+      "baseline": {
+        "allocation_calls": 1073,
+        "reallocation_calls": 61,
+        "deallocation_calls": 1024,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 684484,
+        "live_requested_bytes": 2020,
+        "peak_live_requested_bytes": 399773
+      },
+      "candidate": {
+        "allocation_calls": 1073,
+        "reallocation_calls": 61,
+        "deallocation_calls": 1024,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 684486,
+        "live_requested_bytes": 2021,
+        "peak_live_requested_bytes": 399774
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 684484,
+          "candidate": 684486
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 399773,
+          "candidate": 399774
+        },
+        "live_requested_bytes": {
+          "baseline": 2020,
+          "candidate": 2021
+        }
+      }
+    },
+    {
+      "threads": 6,
+      "workload": "single_small",
+      "baseline": {
+        "allocation_calls": 878,
+        "reallocation_calls": 58,
+        "deallocation_calls": 829,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 673879,
+        "live_requested_bytes": 2020,
+        "peak_live_requested_bytes": 397361
+      },
+      "candidate": {
+        "allocation_calls": 878,
+        "reallocation_calls": 58,
+        "deallocation_calls": 829,
+        "failed_allocation_calls": 0,
+        "requested_bytes": 673881,
+        "live_requested_bytes": 2021,
+        "peak_live_requested_bytes": 397362
+      },
+      "differences": {
+        "requested_bytes": {
+          "baseline": 673879,
+          "candidate": 673881
+        },
+        "peak_live_requested_bytes": {
+          "baseline": 397361,
+          "candidate": 397362
+        },
+        "live_requested_bytes": {
+          "baseline": 2020,
+          "candidate": 2021
+        }
+      }
+    }
+  ],
+  "ensemble_allocation_runs": [
+    {
+      "metrics": {
+        "bytes": 957,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/performance_v1/ensemble_allocations/baseline/metrics.json",
+        "sha256": "24a5ed047697e2449eda8bec972897925195aba0d872f5645f8501dd97e47f70"
+      },
+      "side": "baseline",
+      "stdout": {
+        "bytes": 395,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/performance_v1/ensemble_allocations/baseline/stdout.txt",
+        "sha256": "1a4614f09728172b2711264f57153a31416b31ab30a5fc22149b8dab998df5ec"
+      },
+      "values": {
+        "allocation_calls": 871,
+        "conformers": 6,
+        "deallocation_calls": 871,
+        "failed_allocation_calls": 0,
+        "live_requested_bytes_delta": 0,
+        "measured_calls": 1,
+        "process_peak_live_requested_bytes": 446852,
+        "reallocation_calls": 73,
+        "requested_bytes": 2454897,
+        "scope": "One warmed descriptor/statistics call including result destruction; excludes input parsing and JSON encoding. Peak is process-wide through snapshot."
+      },
+      "process_metrics": {
+        "argv": [
+          "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/performance_preparation_v1/baseline/instrumented-target/release/examples/paton_ensemble_allocations",
+          "/run/media/andrej-rumenovski/New Volume/Code/StericX/python/examples/data/ligand_401_ensemble.xyz",
+          "/run/media/andrej-rumenovski/New Volume/Code/StericX/python/examples/data/ligand_401_options.json"
+        ],
+        "controller_wall_ns": 8527951,
+        "cpu_percent_one_core": 98.13223730144963,
+        "cpu_system_s": 0.001074,
+        "cpu_user_s": 0.006444,
+        "involuntary_context_switches": 1,
+        "launcher_pid": 76930,
+        "major_faults": 0,
+        "minor_faults": 273,
+        "peak_rss_bytes": 3813376,
+        "pid": 76931,
+        "raw_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "raw_stdout_sha256": "1a4614f09728172b2711264f57153a31416b31ab30a5fc22149b8dab998df5ec",
+        "returncode": 0,
+        "voluntary_context_switches": 1,
+        "wall_ns": 7661091
+      }
+    },
+    {
+      "metrics": {
+        "bytes": 953,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/performance_v1/ensemble_allocations/candidate/metrics.json",
+        "sha256": "fb14ac681ee80717427cba415b1ad75f39adb51d3210a14beee36b67c2e7629e"
+      },
+      "side": "candidate",
+      "stdout": {
+        "bytes": 395,
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/performance_v1/ensemble_allocations/candidate/stdout.txt",
+        "sha256": "2606be6db02646f6cc1b4b09518a5e38c63b12e0e91a7bc8689dae274a3e633c"
+      },
+      "values": {
+        "allocation_calls": 871,
+        "conformers": 6,
+        "deallocation_calls": 871,
+        "failed_allocation_calls": 0,
+        "live_requested_bytes_delta": 0,
+        "measured_calls": 1,
+        "process_peak_live_requested_bytes": 446853,
+        "reallocation_calls": 73,
+        "requested_bytes": 2454897,
+        "scope": "One warmed descriptor/statistics call including result destruction; excludes input parsing and JSON encoding. Peak is process-wide through snapshot."
+      },
+      "process_metrics": {
+        "argv": [
+          "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/performance_preparation_v1/candidate/instrumented-target/release/examples/paton_ensemble_allocations",
+          "/run/media/andrej-rumenovski/New Volume/Code/StericX/python/examples/data/ligand_401_ensemble.xyz",
+          "/run/media/andrej-rumenovski/New Volume/Code/StericX/python/examples/data/ligand_401_options.json"
+        ],
+        "controller_wall_ns": 7989278,
+        "cpu_percent_one_core": 98.28155559247965,
+        "cpu_system_s": 0.0,
+        "cpu_user_s": 0.007092,
+        "involuntary_context_switches": 2,
+        "launcher_pid": 76932,
+        "major_faults": 0,
+        "minor_faults": 274,
+        "peak_rss_bytes": 3899392,
+        "pid": 76933,
+        "raw_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "raw_stdout_sha256": "2606be6db02646f6cc1b4b09518a5e38c63b12e0e91a7bc8689dae274a3e633c",
+        "returncode": 0,
+        "voluntary_context_switches": 1,
+        "wall_ns": 7216003
+      }
+    }
+  ],
+  "python_campaign_order": [
+    "baseline",
+    "candidate",
+    "candidate",
+    "baseline"
+  ],
+  "python_methods": [
+    {
+      "method": "native",
+      "baseline": {
+        "values_ns": [
+          3054646.14,
+          2970362.3,
+          2972692.48,
+          3066791.38,
+          3068054.76,
+          2961285.93,
+          2963676.52,
+          2954463.19,
+          3057606.01,
+          3041443.01,
+          3003163.09,
+          2945054.49,
+          2940424.79,
+          2953197.91,
+          2950238.24,
+          2957830.03
+        ],
+        "median_ns": 2967019.41,
+        "mad_ns": 19373.044999999925,
+        "minimum_ns": 2940424.79,
+        "maximum_ns": 3068054.76
+      },
+      "candidate": {
+        "values_ns": [
+          2960805.92,
+          2949543.84,
+          2948876.28,
+          2926340.99,
+          2970240.57,
+          2969281.56,
+          2983115.69,
+          2959994.4,
+          2960659.95,
+          2961947.17,
+          2955573.78,
+          2963077.49,
+          2924912.1,
+          2952607.81,
+          2956335.11,
+          3042397.9
+        ],
+        "median_ns": 2960327.175,
+        "mad_ns": 8336.875,
+        "minimum_ns": 2924912.1,
+        "maximum_ns": 3042397.9
+      },
+      "candidate_over_baseline_medians": 0.9977444586383746
+    },
+    {
+      "method": "bridge",
+      "baseline": {
+        "values_ns": [
+          3389152.24,
+          3267946.27,
+          3313461.27,
+          3295243.0,
+          3361136.15,
+          3261384.62,
+          3254845.41,
+          3254111.83,
+          3370550.86,
+          3276063.73,
+          3357683.75,
+          3281031.78,
+          3259588.74,
+          3255642.92,
+          3255535.42,
+          3269349.1
+        ],
+        "median_ns": 3272706.415,
+        "mad_ns": 17516.0,
+        "minimum_ns": 3254111.83,
+        "maximum_ns": 3389152.24
+      },
+      "candidate": {
+        "values_ns": [
+          3325186.73,
+          3244120.94,
+          3216632.64,
+          3203231.12,
+          3248405.4,
+          3248658.38,
+          3246500.22,
+          3244579.61,
+          3246559.73,
+          3242067.28,
+          3246499.12,
+          3368057.77,
+          3257554.31,
+          3262101.86,
+          3333669.09,
+          3328507.77
+        ],
+        "median_ns": 3247482.565,
+        "mad_ns": 7743.51500000013,
+        "minimum_ns": 3203231.12,
+        "maximum_ns": 3368057.77
+      },
+      "candidate_over_baseline_medians": 0.9922926633796451
+    },
+    {
+      "method": "public",
+      "baseline": {
+        "values_ns": [
+          4166874.45,
+          4093806.41,
+          4030703.32,
+          4030991.56,
+          4122062.66,
+          4082687.0,
+          4017197.81,
+          4046729.36,
+          4076653.15,
+          4004952.88,
+          4040949.69,
+          4031295.73,
+          4016008.67,
+          3993816.23,
+          4021155.25,
+          4024493.43
+        ],
+        "median_ns": 4031143.645,
+        "mad_ns": 15360.344999999972,
+        "minimum_ns": 3993816.23,
+        "maximum_ns": 4166874.45
+      },
+      "candidate": {
+        "values_ns": [
+          4023980.07,
+          3985164.25,
+          3941578.16,
+          3961418.19,
+          4024776.86,
+          3978575.77,
+          4006544.87,
+          4018543.84,
+          4139815.66,
+          3972493.92,
+          4072564.45,
+          3997456.38,
+          4018907.43,
+          3988433.41,
+          4137740.76,
+          4147593.29
+        ],
+        "median_ns": 4012544.355,
+        "mad_ns": 30674.344999999972,
+        "minimum_ns": 3941578.16,
+        "maximum_ns": 4147593.29
+      },
+      "candidate_over_baseline_medians": 0.9953861009088402
+    }
+  ],
+  "python_regression_triggers": [],
+  "native_binary_bytes_identical": true,
+  "release_decision": "Separate scientific/release review; triggers require investigation."
+}

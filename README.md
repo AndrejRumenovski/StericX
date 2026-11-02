@@ -1,1094 +1,200 @@
 # StericX
 
-**StericX is a native-Rust engine for molecular steric descriptors and explicit
-reaction-model workflows, independently checked against equations, morfeus and
-published Kraken data.**
+**A Rust molecular steric-descriptor engine with explicit conformer analysis and
+Python bindings.** StericX calculates Sterimol, hard-sphere buried volume and
+pyramidalization, and provides a separately defined electron-density-grid
+buried-volume mode. Independent comparisons, failed cases and reproducible
+inputs accompany the implementation.
 
 [![CI](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml/badge.svg)](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml)
-[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21726666.svg)](https://doi.org/10.5281/zenodo.21726666)
+[![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
 
-Chemists use *steric descriptors* — numbers that capture how big and what shape a ligand
-is — as inputs to models of catalyst behavior. StericX independently implements
-**Sterimol**, **buried volume**, and **pyramidalization** in a native binary. It checks
-numerical agreement against `morfeus` and agreement with Kraken's published descriptors
-using publicly available DFT exports. Their exact historical geometry and ensemble identity
-remain unverified. Descriptor agreement supports implementation fidelity;
-reaction prediction is a separate validation task.
+## Install and calculate
 
-**Scientific status:** the [independent audit](docs/scientific_accuracy_audit/SCIENTIFIC_ACCURACY_AUDIT.md)
-found implementation defects and overstated scientific claims. Corrections and
-independent rechecks are documented in the [scientific remediation report](docs/scientific_remediation/SCIENTIFIC_REMEDIATION.md).
-The [current optimization report](docs/performance/SCIENTIFICALLY_EXACT_OPTIMIZATION.md)
-compares the corrected implementation with the same independently checked scientific
-baseline. Historical studies and pre-remediation speed numbers retain their original scope.
-The [Kraken residual investigation](docs/kraken_residual_forensics/KRAKEN_RESIDUAL_FORENSICS.md)
-now separates documented convention differences, numerical effects and unresolved historical
-input provenance across all 1,541 ligands.
+The Python package is **0.4.0.dev0**, backed by the existing 0.3.0 Rust engine.
+It has not been published to PyPI. From a checkout, with Rust installed:
 
-**Current scientific scope:** the descriptor comparisons are the strongest result.
-The retrospective ligand-ranking experiment did not beat random selection (top-1 recovery
-0.158 versus 0.333), and the ten-candidate forecast has no recorded experimental outcomes.
+```bash
+python -m pip install ./python
+# Optional table and RDKit adapters:
+python -m pip install './python[tables,rdkit]'
+```
 
-🔬 [Scientific scope and corrections](docs/SCIENTIFIC_NOTES.md)
+A portable Linux x86-64 wheel has been built and installed in isolated Python
+3.11, 3.12, 3.13 and 3.14 environments. Each installation passes 71 package tests;
+a separate source-archive installation also passes. Windows and macOS wheel
+jobs are configured but have not been run. See the
+[distribution receipts](docs/paton_recommendations/python/DISTRIBUTION.md).
+An unrun CI matrix is not a cross-platform release claim.
 
-📄 [Manuscript write-up](docs/REPRODUCTION_REPORT.md) · 🖼️ [One-page visual overview](docs/results.html) · 🔁 [Clone-to-results walkthrough](REPRODUCE.md)
+```python
+from stericx import Molecule, DescriptorOptions
 
----
+mol = Molecule.from_file("ligand.xyz")
+options = DescriptorOptions(axis="coordination", donor_index=0)
+result = mol.descriptors(options)
 
-## What is StericX?
+print(result.sterimol.require())              # L, B1, B5 in Å
+print(result.buried_volume.require().summary) # volume in Å³, fraction in %
+print(result.pyramidalization.require())
+```
 
-**What it is.** Point it at an `.xyz`/`.sdf`/`.mol` file and it auto-detects the donor
-atom and prints Sterimol, buried-volume, and pyramidalization descriptors without a Python
-runtime or reaction CSV. Ambiguous attachment axes require an explicit reference atom;
-known SDF bonds are preserved. It also **searches**: point it at a
-ligand and a library and it ranks the most sterically similar candidates, under constraints
-like `--vbur 30:35 --b5-max 8` or `--less-bulky`; `compare` puts ligands side by side and
-`db build` precomputes a reusable descriptor database. The same binary fits
-interpretable linear models, **screens** a whole library through a fitted model — predicted
-performance, an uncertainty band, and an applicability-domain warning per ligand — and
-converts predicted ΔΔG‡ into product ratios via the Eyring equation.
+Choose the actual donor index for your geometry; indices are zero-based.
+Coordination-axis Sterimol uses the inferred virtual center and the documented
++0.40 Å L correction. Bond-axis calculations require a meaningful attachment
+axis. Undefined descriptors return structured errors independently, so a
+failure does not silently remove a conformer.
 
-**Why it matters.** A native descriptor engine can simplify deployment and reduce the
-cost of processing large conformer libraries. StericX measures that benefit alongside
-agreement with reference implementations, with study artifacts for both favorable and
-unfavorable results.
+For the standalone CLI:
 
----
+```bash
+cargo build --release --locked
+./target/release/stericx descriptors ligand.xyz --sterimol-axis coordination --format json
+./target/release/stericx --help
+```
 
-## Key Results
+The [retained CLI guide](LEGACY_WORKFLOWS.md) covers database construction,
+comparison, batch files and legacy research workflows.
 
-These results have different scopes: descriptor agreement, retrospective reaction-model
-reproduction, ligand ranking, and compute throughput. Full error distributions and
-per-parameter results are in the [Kraken investigation](#kraken-residual-investigation)
-and [study docs](#scientific-studies).
+## Conformers are explicit data
 
-| What it means | Number |
+```python
+from stericx import Ensemble, DescriptorOptions
+
+ensemble = Ensemble.from_sdf("ligands.sdf")
+results = ensemble.descriptors(DescriptorOptions(axis="coordination"))
+
+print(results.sterimol_b5.mean)
+print(results.sterimol_b5.minimum, results.sterimol_b5.maximum)
+print(results.sterimol_b5.standard_deviation)  # population SD, divisor n
+print(results.sterimol_b5.median)
+print(results.sterimol_b5.boltzmann_mean)      # None without valid energies
+
+for conformer in results.conformers:
+    print(conformer.index, conformer.identifier, conformer.sterimol)
+
+results.to_pandas().to_csv("conformers.csv", index=False)
+```
+
+Every input record keeps its order, identity, source geometry, properties and
+failure status. Supported conformers expose L/B1/B5, total and percent buried
+volume, quadrant and octant volumes, and pyramidalization. Regional results
+carry their molecular frame; ensemble regional statistics require consistent
+explicit atom mapping/connectivity. XYZ files alone do not establish that map.
+
+Statistics describe the supplied finite ensemble. The default requires complete
+coverage for each descriptor; an explicitly selected available-case policy
+reports the retained subset and population mass. Sensitivity reports include
+range, standard deviation and all conformers tied at each extreme. No universal
+flexibility score is imposed.
+
+Boltzmann weighting requires explicit comparable energies, units, provenance,
+energy kind, temperature, state degeneracy and assumptions. Electronic or
+force-field energy weighting is labelled accordingly; it is not silently called
+a free-energy population. Missing energies never produce invented uniform
+Boltzmann populations. The
+[API and mathematical definitions](docs/paton_recommendations/CONFORMER_API.md)
+and [executed notebook](python/examples/stericx_research.ipynb) show the complete
+workflow, including recorded MMFF energies, RDKit, NumPy/pandas, batch errors and
+sensitivity exports.
+
+## Density grids and radius profiles
+
+```python
+from stericx import DensityGrid
+
+grid = DensityGrid.from_cube(
+    "density.cube",
+    field="total_electron_density",
+    density_unit="electrons_per_bohr_cubed",
+    provenance="Your calculation method, basis, state and source file",
+)
+profile = grid.buried_volume_scan(
+    [2.0, 2.5, 3.0],
+    center_angstrom=(0.0, 0.0, 0.0),
+    threshold_electrons_per_bohr3=0.0016,
+)
+```
+
+This scan changes the **sphere radius at a fixed center**. Molecular
+`buried_volume_scan` follows the same radius definition. Density occupation is
+strictly density > the explicit threshold; volume is occupied-node count times
+cell volume. The threshold shown is DBSTEP's documented convention, not a
+universal physical constant. Density and hard-sphere volumes are distinct
+quantities.
+
+The cube reader preserves origin, vectors, dimensions, atom coordinates and
+field declaration. The validated analysis supports positive, axis-aligned,
+isotropic scalar density grids. Unsupported orbital/multifield/unit conventions
+and spheres extending beyond the supplied grid fail explicitly. No padding or
+interpolation is hidden. Read the
+[method and limitations](docs/methods/electron_density_buried_volume.md) and
+[independent density validation](docs/validation/dbstep/DENSITY_RESULTS.md).
+
+## What independent validation establishes
+
+| Evidence | Result and limit |
 |---|---|
-| StericX vs `morfeus` on identical available inputs under the documented reproduction profile: 14 direct per-conformer fields | **All R² ≥ 0.9999982** · **31,611 conformers**; limiting B₁ RMSE **0.001001 Å** |
-| Kraken historical `vbur_max_delta_qvbur_min`, using the documented reproduction profile | **R² = 0.9995483** · **1,541 ligands** · MAE **0.006894 Å³** |
-| Ni and Pd cross-coupling datasets from the same published study: descriptor agreement, separate from classifier performance | **descriptor R² ≈ 0.999** |
-| Compact native features fail to reproduce Ni-hDA selectivity in the reported fixed-feature check | **LOO Q² ≈ 0.002** · **10 training ligands** |
-| Retrospective top-1 ligand recovery, including failed screens | **0.158 vs 0.333 random** · **10/57 screens failed** |
-| Frozen forecast from the published-descriptor model; experimental outcomes pending | **10 ligands · SHA-256** |
-| Current finite-grid buried-volume API drivers vs `morfeus`; 10,000 files repeating 56 conformers | **22.77× at 1 core** · **19.91× at equal 6 cores** · [policy and measurements](docs/benchmarks/morfeus_current/BENCHMARK.md) |
-
----
-
-## Kraken residual investigation
-
-The investigation retains **all 1,541 ligands and 31,611 conformers**, with no outlier
-removal, fitted corrections or constants tuned against Kraken values. It evaluates
-**14 descriptor fields × four ensemble reductions = 56 comparisons** separately;
-percent buried volume is derived from absolute volume, not an independent published value.
-
-For the original comparison descriptor, Kraken's `vbur_max_delta_qvbur_min`
-(`max_delta_qvbur_min` in StericX), the fixed historical-reference results are:
-
-| Stage | R² | MAE (Å³) | RMSE (Å³) | Maximum absolute error (Å³) |
-|---|---:|---:|---:|---:|
-| Frozen validated baseline | 0.9851575 | 0.270451 | 0.490605 | 4.559474 |
-| Documented reproduction profile | **0.9995483** | **0.006894** | **0.085587** | **2.786291** |
-
-The reproduction profile uses independently documented conventions for the virtual-metal
-direction, radii, integration density, plane aggregation and Sterimol sampling, plus
-recovered coordinate precision for 27 conformers of ligand 821. These results use explicit
-forensic drivers and settings. The production defaults remain unchanged; the library
-addition is the optional Rust API
-[`SterimolCalculator::compute_with_dummy_with_sampling`](src/geometry/sterimol.rs),
-which supports the source's 3,600-direction angular scan.
-
-Two results answer different questions:
-
-- **Historical-library reproduction:** the 56 individual R² values range from
-  **0.9973492 to 0.9999943**; only one reaches 0.99999. Large residuals remain visible:
-  the top three ligands account for **94.8011%** of squared error in the descriptor above.
-- **Algorithm agreement on identical available inputs:** all 14 direct per-conformer
-  StericX-versus-`morfeus` R² values exceed **0.99999**. The limiting field is B₁
-  (**R² = 0.9999982242**). Some ensemble reductions remain more sensitive because a
-  one-cell volume difference can change which conformer supplies another descriptor.
-
-**Verified exact historical input subset: N = 0; R² is undefined.** Public DFT exports
-do not establish the original coordinates, retained conformer membership or energies.
-Universal historical R² ≥ 0.99999 is therefore unsupported by the available evidence,
-and a universal attainable ceiling cannot be determined. Unresolved causes are explicitly
-marked **UNRESOLVABLE FROM AVAILABLE DATA**.
-
-Read the [full report](docs/kraken_residual_forensics/KRAKEN_RESIDUAL_FORENSICS.md),
-[historical metrics](docs/kraken_residual_forensics/historical_target/final/metrics.csv),
-[same-input metrics](docs/kraken_residual_forensics/results/exact_available_input_algorithm_metrics.csv)
-and [coverage audit](docs/kraken_residual_forensics/REQUIREMENTS_AUDIT.md).
-The [evidence guide](docs/kraken_residual_forensics/README.md) explains how to restore and
-verify the published archive parts, including frozen inputs, complete residual rankings,
-plots, provenance records and failed attempts.
-
----
-
-## Performance vs morfeus
-
-On a Ryzen 5 5600G (six physical cores, Linux), StericX and morfeus 0.8.0
-processed the same **10,000 XYZ files repeating 56 conformers from 11 ligands**.
-Both calculated nine buried-volume outputs over three donor-plane grids, using
-the same finite-grid estimator, radii, center and hydrogen conventions.
-
-| Buried-volume API-driver benchmark | morfeus median time (files/s) | StericX median time (files/s) | Paired speedup |
-|---|---:|---:|---:|
-| 1 core: 1 process / 1 thread | 128.515 s (78) | 5.607 s (1,783) | **22.77×** |
-| 6 cores: 6 processes / 6 threads | 29.114 s (343) | 1.476 s (6,773) | **19.91×** |
-
-The first row measures single-core implementation/runtime efficiency; the second
-measures equal-core batch throughput. Both include startup, parsing and JSON output.
-Before these fresh timings, the [frozen scientific policy](docs/benchmarks/morfeus_current/EQUIVALENCE_POLICY.md)
-passed all 56 geometries: pointwise occupancy matched a certified interval reference,
-and output differences were exactly accounted for by independent rounding models.
-This establishes the fixed finite-grid calculation, **not continuum-volume accuracy**.
-Sterimol, pyramidalization and combined-descriptor speedups remain excluded.
-
-These workload-specific timings use thin drivers of unchanged APIs, not the full
-shipping descriptor CLI. [Methodology, exclusions, raw evidence and reproduction](docs/benchmarks/morfeus_current/BENCHMARK.md).
-The initial pre-policy claims are withdrawn and archived; the older approximately
-14× study remains historical. Neither is combined with the separate native batch
-optimization result.
-
-## Quick Start
-
-One script installs the toolchains, builds the binary, and smoke-tests it:
-
-```bash
-./bootstrap.sh                 # uv + Rust + build + smoke test
-./bootstrap.sh --with-quantum  # also fetch CREST 2.12 / xTB 6.4.0 (Study 003)
-```
-
-Then featurize any phosphine geometry — the donor and its substituents are detected from
-the structure:
-
-```bash
-./target/release/stericx descriptors data/xyz/SIG-NIHDA-401_9d42bff1.xyz
-```
-
-```text
-data/xyz/SIG-NIHDA-401_9d42bff1.xyz
-  donor          P (atom 14)
-  substituents   C, C, C
-  Sterimol      L 7.76   B1 1.73   B5 8.75   Å
-  buried volume  Vbur 24.3%   (43.6 Å³)
-                 qvbur_min 9.73   qvbur_max 13.53   max_delta_qvbur 3.80   Å³
-  pyramidalization pyr_P 0.932   pyr_alpha 17.10°
-```
-
-Batch a folder into CSV/JSON with `--format`, target non-phosphine donors with
-`--donor-element`, or switch to the coordination axis with `--sterimol-axis coordination`.
-Full command set and the reproducible Python environment: see [Documentation](#documentation).
-
----
-
-## How it's validated
-
-Two comparisons assess different questions: **`morfeus`** checks numerical fidelity on
-matched geometries and conventions; **Kraken's published values** check descriptor
-reproduction on the available DFT library. Neither establishes predictive accuracy for
-a new reaction. Finite grids, angular scans, conformer selection, and coordination-frame
-conventions all affect agreement. Full per-parameter tables (N, R², Pearson r, MAE, RMSE,
-median/maximum absolute error, slope and intercept) are in the
-[forensic report and evidence](docs/kraken_residual_forensics/README.md), alongside the
-earlier study cards under `docs/`.
-
-The kernel is element-generic, not phosphorus-only: `--donor-element N` reproduces
-morfeus's pyramidalization, buried-volume, and Sterimol descriptors on nitrogen donors
-to the same fidelity as phosphorus
-([non-phosphorus validation](docs/validation/NONP_DONOR.md)).
-
----
-
-## Technical challenges
-
-Small implementation and geometry choices determine how closely an independent
-reproduction matches a published descriptor definition.
-
-- **Detecting the donor from raw geometry.** The tool takes no atom indices: it has to find
-  the phosphorus donor and its substituents from coordinates alone, using Cordero
-  covalent-radius bonding, and reject anything that isn't a valid trivalent donor (on
-  stderr, so a messy batch folder still completes). It isn't phosphorus-only: the path
-  is [validated on nitrogen donors](docs/validation/NONP_DONOR.md) against morfeus.
-- **Telling the kernel apart from the input geometry.** When the native descriptor sat below
-  Kraken's published values (R² ≈ 0.86), the real question was whether *my kernel* was wrong
-  or *my geometries* were. Resolved by changing one variable at a time — RDKit/MMFF →
-  CREST/xTB → public Kraken DFT exports — which showed that geometry and conformer
-  generation explain much of the shortfall ([Studies 002–004](docs/study_004/STUDY_004.md)).
-- **Distinguishing coordinate conventions.** The Kraken comparison uses a 2.28 Å virtual-metal
-  distance and a +0.40 Å coordination-Sterimol *L* correction. The `descriptors` CLI also
-  defaults to 2.28 Å; the buried-volume library default is 2.1 Å. Those settings
-  do not establish Kraken equivalence: the original DFT workflow sums raw bond
-  displacements, whereas StericX sums unit bond vectors. Hydrogen radii, angular
-  resolution and default integration density also differ. The
-  [forensic investigation](docs/kraken_residual_forensics/KRAKEN_RESIDUAL_FORENSICS.md)
-  records both frames and measures each independently justified change.
-- **The phosphine frame bug — found only at scale.** The buried-volume frame took a donor's
-  three *nearest heavy atoms* instead of its *covalently bonded* neighbors, silently
-  discarding bonded hydrogens on primary/secondary phosphines. Eleven test ligands could
-  never trigger it; the full 1,541-ligand set did. Switching to covalent-radius bonding
-  lifted R² from 0.9649 → 0.9852 **without discarding a single ligand**
-  ([Study 004](docs/study_004/STUDY_004_SCALED.md)).
-- **Hand-written SIMD that must match its fallback.** The inference hot loop uses an explicit
-  unsafe AVX2 kernel guarded by *runtime* CPU-feature detection, with a portable scalar
-  fallback for everything else. The engineering burden isn't speed — it's keeping two numeric
-  paths and a block of `unsafe` code consistent, so a test asserts the AVX2 result agrees with
-  the scalar fallback across thousands of random inputs (to f32 tolerance, since the two sum
-  in different orders).
-- **Reproducibility, honestly scoped.** Toolchains are checksum-pinned (CREST 2.12 / xTB
-  6.4.0), caches are content-addressed, predictions are frozen by SHA-256, and quantum jobs
-  resume from checkpoints under PID/start-time locks. The `.sigpack` binary format is
-  deliberately *machine-native* (fast, not portable) — so it carries an **endian marker**
-  that makes a mismatched file fail loudly instead of silently corrupting.
-
----
-
-## Scientific studies
-
-Eleven studies cover a small published reaction family, the matched Kraken library,
-Ni and Pd cross-coupling datasets, numerical grid sensitivity, and retrospective ligand
-ranking. Study reports, comparisons, plots, and machine-readable results are under
-`docs/study_00N/`; prediction studies also retain frozen prediction artifacts. Their
-historical results remain preserved; the later [Kraken investigation](#kraken-residual-investigation)
-provides the current reproduction results and provenance assessment.
-
-<details>
-<summary><b>Expand the eleven studies</b></summary>
-
-| # | Study | What it shows | Full results |
-|---|---|---|---|
-| **001** | Ni-hDA enantioselectivity model | Reproduces the published-descriptor relationship; compact native features give fixed-feature LOO Q² ≈ 0.002 on ten training ligands. | [STUDY_001](docs/study_001/STUDY_001.md) |
-| **002** | Coordination-aware buried-volume fidelity | Buried-volume geometry agrees with `morfeus` to reported numerical precision on matched structures; RDKit/MMFF conformers fall short against published descriptors. | [STUDY_002](docs/study_002/STUDY_002.md) |
-| **003** | Quantum geometry & frozen forecast | A checksum-pinned CREST/xTB backend and a hashed ten-candidate forecast; no prospective measurements are recorded. | [STUDY_003](docs/study_003/STUDY_003.md) · [PREREGISTRATION](docs/study_003/PREREGISTRATION.md) |
-| **004** | Reproducing Kraken's published descriptors on available DFT exports | Historical library-scale comparison found and fixed a donor-frame bug without dropping a ligand. The later forensic investigation updates agreement and qualifies historical geometry identity. | [STUDY_004](docs/study_004/STUDY_004.md) · [scaled](docs/study_004/STUDY_004_SCALED.md) · [residual](docs/study_004/STUDY_004_RESIDUAL.md) |
-| **005** | Pyramidalization descriptors | Two donor-geometry descriptors (`pyr_P`, `pyr_alpha`) reproduced across 1,541 ligands, mean R² ≈ 0.99998. | [STUDY_005](docs/study_005/STUDY_005.md) |
-| **006** | Coordination-centre residual hypothesis | A descriptor comparison supports the coordination-centre explanation for P–H-dependent bias; it does not uniquely establish causality. | [STUDY_006](docs/study_006/STUDY_006.md) |
-| **007** | Second published study — Ni cross-coupling | Approximately reproduces the Newman-Stonebraker classifier; reaction-held-out checks reuse ligands, and a separate geometry check tests descriptor agreement. | [STUDY_007](docs/study_007/STUDY_007.md) |
-| **008** | Historical pre-remediation speed benchmark vs `morfeus` | About 14× faster in the recorded single-core, warm-cache benchmark, with full-set agreement and large discrepancies reported separately; similar speedup at conformer scale. | [STUDY_008](docs/study_008/STUDY_008.md) · [scale check](docs/study_008_all_conformers/STUDY_008.md) |
-| **009** | The other direction of the cliff — Pd cross-coupling | Recovers the bulky-active direction in six retrospective datasets from the same paper; mean classifier MCC is 0.64 versus the paper's 0.67. | [STUDY_009](docs/study_009/STUDY_009.md) |
-| **010** | Grid sensitivity of the buried-volume integrator | A 60-ligand grid sweep measures default-grid mean/max errors of 0.056/0.160 %Vbur points against a finer numerical reference. | [STUDY_010](docs/study_010/STUDY_010.md) |
-| **011** | Retrospective ligand ranking | Exhaustive scaffold-disjoint three-ligand screens test candidate recovery without target leakage; the below-random ranking result and failed fits remain visible. | [STUDY_011](docs/study_011/STUDY_011.md) · [locked design](docs/study_011/DESIGN.md) |
-
-A manuscript-style narrative of the reproduction studies is in [`docs/REPRODUCTION_REPORT.md`](docs/REPRODUCTION_REPORT.md).
-
-</details>
-
----
-
-## Documentation
-
-- 🔬 **[Kraken residual forensics](docs/kraken_residual_forensics/KRAKEN_RESIDUAL_FORENSICS.md)** —
-  all 1,541 ligands, descriptor metrics, residual causes and remaining uncertainty;
-  [restore and verify the evidence](docs/kraken_residual_forensics/README.md).
-- 🧪 **[Reaction-screening tutorial](docs/REACTION_SCREENING.md)** — fit an experimental
-  model, read rankings and warnings, exclude tested ligands, diversify, and export a deck.
-- 📄 **[Manuscript write-up](docs/REPRODUCTION_REPORT.md)** — the full narrative.
-- 🖼️ **[One-page visual overview](docs/results.html)** — the whole scope at a glance.
-- 🔁 **[REPRODUCE.md](REPRODUCE.md)** — clone to results in one pass.
-- 📦 **[RELEASING.md](RELEASING.md)** · 📝 **[CHANGELOG.md](CHANGELOG.md)** — release runbook and history.
-
-<details>
-<summary><b>CLI reference</b> — all subcommands of <code>./target/release/stericx</code></summary>
-
-### `descriptors` — featurize a ligand (start here)
-
-Point it at any `.xyz`/`.sdf`/`.mol` (one or many conformers); the donor and substituents
-are detected from the structure. Defaults are a 3.5 Å sphere, Bondi-style radii
-×1.17 and a 2.28 Å geometric reference metal; these do not reproduce every Kraken
-convention. Override with `--sphere-radius`, `--radii-scale`,
-`--center-distance`. Multi-model SDFs are treated as conformer ensembles.
-
-```bash
-./target/release/stericx descriptors --format csv  ligands/*.xyz > descriptors.csv
-./target/release/stericx descriptors --format json ligands/*.sdf
-```
-
-Sterimol is measured along the donor→substituent bond by default; `--sterimol-axis
-coordination` uses the metal-bound coordination axis (a virtual metal 2.28 Å from the donor
-with the +0.40 Å Verloop L correction). Non-phosphine donors: `--donor-element N`, or
-`--donor-index` to name the atom directly.
-
-### `db build` — precompute a ligand database
-
-Featurizing is the expensive step; reading a table back is not. `db build` does the work once
-and writes a CSV plus a `.manifest.json` recording the exact settings, counts, and a SHA-256
-of the table, so a database is a reproducible artifact rather than an ad-hoc dump.
-
-```bash
-./target/release/stericx db build --source ligands/ --output my_ligands.csv
-# Kraken cache layout: each directory is one ligand, its files are conformers
-./target/release/stericx db build --source .stericx/kraken_dft_cache \
-    --output db.csv --group-by-parent --label-from parent --extension sdf
-```
-
-`--group-by-parent` aggregates a ligand's conformers into one row; `max_delta_qvbur_min`
-takes the **minimum** across them because that is Kraken's own `*_min` convention, so
-aggregating any other way would silently redefine the descriptor. `--label-from parent` makes
-the directory name the ligand label — for the Kraken cache that is the molecule id, so hits
-come back as `723` rather than an opaque path. `--extension` restricts which formats are read,
-which matters when a tree mirrors the same conformers in more than one format.
-
-**A database ships with the repo**: [`data/ligand_db/kraken_phosphines.csv`](data/ligand_db/)
-— all **1,541** Kraken phosphines aggregated from **31,611** DFT conformers, built in 5.3 s,
-215 KB. These are StericX's *own* computed descriptors keyed by Kraken molecule id, not
-Kraken's published values; the manifest records the settings that produced them.
-
-### `search` — find sterically similar ligands, or filter by constraints
-
-```bash
-# nearest neighbours to a query ligand
-./target/release/stericx search --similar-to query.sdf \
-    --database data/ligand_db/kraken_phosphines.csv
-
-# a pure constraint query — no query ligand needed
-./target/release/stericx search --database data/ligand_db/kraken_phosphines.csv \
-    --vbur 30:35 --b5-max 8
-
-# "find me a less bulky ligand of similar shape"
-./target/release/stericx search --similar-to query.sdf --database db.csv --less-bulky
-```
-
-Searching all 1,541 ligands takes **~5 ms** against a prebuilt database, versus ~5 s to
-re-featurize them; `--database` also accepts a plain directory and will featurize on the fly.
-
-Similarity is Euclidean distance in **standardized** descriptor space — every descriptor is
-z-scored against the database first, so an Å-scale `L` and a percent-scale `%Vbur` contribute
-comparably instead of whichever carries the biggest units dominating. The default space is the
-shape envelope (`L`, `B1`, `B5`), `%Vbur`, the quadrant asymmetry `max_delta_qvbur`, and the
-donor pyramidalization `pyr_P`; choose your own with `--features l,b5,vbur`. `buried_volume`
-is deliberately *not* in the default set — it is `percent_buried_volume` rescaled by a
-constant, so including both would double-weight the same quantity.
-
-Constraints narrow the field **before** ranking. Ranges take `LOW:HIGH`
-(`--vbur 30:35`, `--l`, `--b1`, `--b5`) and each has `--…-min` / `--…-max` inclusive bounds
-(`--b5-max 8`). `--filter` remains available for anything else, accepting `name=LOW..HIGH`,
-`name<V`, `name<=V`, `name>V`, `name>=V` over any descriptor. `--less-bulky` /
-`--more-bulky` are shorthand for a `%Vbur` bound relative to the query. With no
-`--similar-to` the result is ordered by the first constrained descriptor (or `--sort-by`),
-and the distance column reads `—` rather than inventing a similarity to nothing.
-
-Descriptors that are constant across the database are reported and excluded, so a ranking is
-never silently computed on fewer axes than requested.
-
-> **Two honest caveats.** This ranks *steric similarity, not reactivity* — two ligands close
-> in this space occupy space alike; whether they behave alike in a given reaction is an
-> experimental question, and `screen` is the command that brings a reaction model to bear.
-> And compare like with like: the shipped database holds per-ligand **conformer-ensemble**
-> values, so querying with a single conformer compares an ensemble average against one
-> geometry. The query's own descriptors are printed so the difference is visible.
-
-### `compare` — put ligands side by side
-
-```bash
-./target/release/stericx compare ligand_a.sdf ligand_b.sdf ligand_c.sdf \
-    --database data/ligand_db/kraken_phosphines.csv
-```
-
-```text
-descriptor                   31676     46112     33790    spread        σ
-sterimol_l                   6.991     6.883     6.959     0.107     0.07
-sterimol_b1                  4.956     3.568     2.841     2.115     2.61
-percent_buried_volume       58.612    41.018    30.562    28.050     3.03
-```
-
-Every descriptor for every ligand, the spread across them, and — with `--database` — that
-spread in **library standard deviations** plus a standardized pairwise distance. The σ column
-is what makes a raw number mean something: above, these three ligands are the same *length*
-(0.07 σ) while differing enormously in minimum width (2.61 σ) and bulk (3.03 σ). Without a
-database the raw differences still print; they just cannot be placed on a scale, and the
-output says so.
-
-### `screen` — rank a library with a fitted reaction model
-
-The v0.3 screening path orders candidates by model output and reports uncertainty
-and applicability diagnostics. Its Ni-hDA retrospective ranking test did not beat random
-selection; treat this command as a workflow demonstration. The source response is
-`ddG_abs`, an enantioselectivity magnitude, so this example cannot identify the favored
-enantiomer. First run the corrected fit in the [tutorial](docs/REACTION_SCREENING.md),
-which writes a new model with an explicit ensemble-input contract:
-
-```bash
-./target/release/stericx model inspect .stericx/scientific_remediation/demo/screening_v1/model.json
-./target/release/stericx screen .stericx/scientific_remediation/demo/screening_v1/model.json \
-  --library .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv --top 3
-```
-
-For the complete data-to-deck workflow—including fitting, interpretation, tested-ligand
-exclusion, diversity selection, machine-readable output, and the limits of a ranking—follow
-the dedicated [reaction-screening tutorial](docs/REACTION_SCREENING.md). The reference below
-documents individual options.
-
-Each ligand gets its identifier, its name when the library carries one, the raw predicted
-ΔΔG‡, the descriptor values that prediction consumed, the corresponding ee at
-`--temperature` (signed by the ΔΔG‡ convention, so a negative value means the same excess of
-the opposite enantiomer), a coefficient uncertainty band, and an applicability-domain
-verdict. The interpreted value never replaces the raw one — both are reported, in all three
-formats (`--format text|csv|json`).
-
-A portable model is screened through the feature space it records: `screen` maps
-each stored transformation to the descriptor it names. A model declaring a feature space
-this build does not implement is refused rather than screened against an assumed layout.
-
-**Ranking direction comes from the model, never from an assumption.** A prediction is only
-a number; whether a larger one is better is chemistry. `stericx fit --optimize
-maximize|minimize|maximize-magnitude` records that in the portable model, and `screen` ranks
-by it. A model that does not state a direction is *not* ranked on a guess — `screen` stops
-and asks for `--ascending` or `--descending`. Passing one of those against a model that does
-state a direction is allowed, reported as `ranking_overridden`, and called out in the
-terminal:
-
-```text
-ranking        ascending (model records: maximize_magnitude)
-               ⚠ this reverses the direction the model records as better; the top of this
-                 table is the model's worst
-```
-
-Ranking is deterministic: ties resolve by ligand identifier and then by library position, so
-repeated runs over the same library produce the same table. `--top N` narrows the *report*
-after every candidate has been predicted and ranked — `screened` and `returned` are both
-reported, so a limited view never hides how much was searched. CSV and JSON carry full
-round-trip `f64` precision; only the terminal table rounds.
-
-**Applicability is measured, not asserted.** Every screened ligand is placed relative to the
-training set by two independent checks — whether each descriptor falls inside its training
-range, and how far the ligand sits, in standardized descriptor space, from the nearest
-training observation. A Mahalanobis distance is reported too when the training covariance
-supports one, and declined with a reason when it does not:
-
-```text
-domain: interpolation  nearest training point 0.010  mahalanobis 1.165
-```
-
-The verdicts are `interpolation`, `sparse_interpolation` (inside every range but in a gap the
-training set never sampled), `extrapolation`, and `unknown`. There are no invented HIGH /
-MEDIUM / LOW grades: each verdict is a stated combination of the two checks. The single
-boundary involved is measured from the training set itself — by default the largest distance
-from any training point to its nearest neighbour — and is serialized into the model along with
-the mean, median, and standard deviation of that distribution.
-
-Because the default is set by the sparsest training point, one isolated observation widens it
-for everything. `--domain-rule` picks a stricter statistic of the same distribution without
-refitting:
-
-```bash
-./target/release/stericx screen .stericx/scientific_remediation/demo/screening_v1/model.json \
-  --library .stericx/scientific_remediation/ni_hda_response_metadata_v2/reactions.csv \
-  --domain-rule mean-plus-2sd
-```
-
-`max-neighbor` (default), `mean-plus-sd`, and `mean-plus-2sd` are all statistics of the
-training set's own neighbour spacing, so none is an invented cutoff. The applied rule and its
-boundary are reported in every screen, and changing the rule moves only the boundary — the
-measured distance to the nearest training point is unchanged. Full derivation in
-[`docs/MODEL_FORMAT.md`](docs/MODEL_FORMAT.md).
-
-Applicability never sees the prediction, so a ligand cannot look more in-domain because the
-model happens to like it.
-
-Candidates that cannot be screened are accounted for rather than dropped. Each is listed
-with a reason — `missing_descriptors` (naming which), `featurization_failed`, or
-`non_finite_prediction` — and the counts are summarized by reason:
-
-```text
-2 candidate(s) were excluded and not screened:
-  missing_descriptors: 2
-    SIG-NIHDA-401 — the model needs sterimol_b5, nbo_charge but this ligand does not supply nbo_charge
-``` Ligands outside the
-range the model was trained on are listed separately with **how far** outside they fall, as
-a fraction of the training range width.
-
-### Exporting a candidate deck for experimental review
-
-```bash
-./target/release/stericx screen model.json --library <library> --top 10 --export-deck candidates.csv
-```
-
-Writes the finished selection as a review-ready CSV plus a `candidates.meta.json` sidecar.
-Each row carries the stable ligand id and name, rank, the raw predicted ΔΔG‡ and the
-interpreted ee, the uncertainty interval with its method and level, the applicability verdict
-with how far outside the candidate falls, **the nearest training ligand by name** and the
-distance to it, the descriptors the model consumed, leverage and trust, the selection reason
-when `--diverse` was used, and the model and library hashes.
-
-Naming the nearest training ligand needs the model to record training identifiers, so
-`training_geometry` gained an optional `training_labels` array. **Identifiers only** — no
-experimental response is stored there, because a model document must never become a channel
-for a blinded target.
-
-**Blinded values cannot leak into a deck.** The columns are an explicit allow-list of model
-output and descriptor values, not a pass-through of whatever the library happened to contain.
-Study 001's library carries `Exp_ddG_kcal_mol` including the blind ligand's measured value;
-the deck contains neither the column nor the value, and there is a test asserting exactly
-that while confirming the blind ligand is still a legitimate candidate.
-
-The sidecar carries the full configuration (model, library, `--top`, ranking direction,
-temperature, domain rule and threshold, diversity settings, any exclusion list), the
-provenance block with SHA-256 of the model and library, the model context a reviewer would
-otherwise have to open the model for (target, selected descriptors, training N, LOO Q²), the
-uncertainty methodology, and a SHA-256 of the deck itself so a detached CSV can be checked
-against its metadata.
-
-**Identical inputs produce an identical deck**, byte for byte, sidecar included. The sidecar
-deliberately contains no timestamp — a clock is the one thing that would break that property,
-and a test walks every key to prove none crept in.
-
-### Screening regression coverage
-
-`stericx screen` is pinned against the published studies by
-`tests/screening_regression.rs`, which CI runs as its own named step on Linux,
-macOS and Windows so a change cannot silently move an already-published screening
-result. It covers model loading, descriptor mapping, feature scaling, prediction,
-ranking, applicability scoring, uncertainty serialization, candidate filtering and
-determinism — every assertion anchored to a committed artifact, with no network
-access and no third-party supporting information.
-
-Study 001 carries the end-to-end cases, including agreement with the
-`RegressXPredictor` engine kernel and with the frozen blind prediction at the
-documented 1e-4 tolerance. Studies 007 and 009 are `%Vbur(min)` threshold
-classifiers and **cannot** be expressed in the screening feature space, which has
-no buried-volume term; they are pinned at the level their committed artifacts
-support, and a test fails if the feature space ever gains a buried-volume
-descriptor so they can be promoted.
-
-Exactly what is and is not covered:
-[`docs/validation/SCREENING_REGRESSION.md`](docs/validation/SCREENING_REGRESSION.md).
-
-### Excluding ligands you have already tested
-
-```bash
-./target/release/stericx screen model.json --library <library> --exclude-tested tested.csv
-```
-
-**Stable identifiers are the primary matching mechanism.** The exclusion CSV is read with the
-same `label` column aliases the library itself accepts (`ligand`, `Reaction_ID`, `Source_ID`,
-`id`, …), compared exactly after trimming.
-
-A SMILES column is accepted as a **secondary** key, applied only to entries no identifier
-resolved. Be clear about what that is: exact string equality on the SMILES text. It matches
-strings produced by the same generator; it is **not** structure perception, and two valid
-SMILES for the same molecule written by different toolkits will not match. The report says
-which key resolved each entry, so this is never invisible. Nothing does fuzzy or approximate
-name matching — identity of a ligand is an identifier question.
-
-Exclusion is applied **before inference**: a ligand already tested is not a candidate, so it
-is never predicted, ranked, or counted as screened. `library_size` still reports everything
-the library held.
-
-```text
-tested list    tested.csv (4 entries, 1 duplicate)
-               2 matched (2 by identifier, 0 by SMILES), 2 library member(s) excluded,
-               9 remaining of 11
-               ⚠ 1 identifier(s) matched nothing in this library:
-                 NOT-A-REAL-LIGAND
-```
-
-**Unresolved identifiers are never silently ignored.** They are listed in full — sorted, so
-the report does not depend on the order of the input file — in both the terminal and the JSON
-`exclusion` block, which also records `entries_read`, `duplicate_entries`, `matched`,
-`matched_by_identifier`, `matched_by_smiles`, `excluded`, and `remaining`.
-
-The exclusion list is a scientific input, so it is SHA-256 hashed alongside the model and the
-library: a run's candidate set is reproducible, not just its ranking.
-
-Failure modes are explicit rather than quiet. A file with no recognizable identifier column is
-refused, naming every column that would have worked and what was actually found. A list that
-removes every library member reports exactly that instead of an empty screen. Blank rows carry
-no claim and are skipped without being counted as unresolved.
-
-### Diversity-aware selection
-
-Plain top-N tends to return near-duplicates: the highest-scoring ligands are often minor
-variations on one scaffold. `--diverse` selects a set that balances predicted desirability
-against spread in descriptor space.
-
-```bash
-./target/release/stericx screen model.json --library <library> --top 20 --diverse
-```
-
-**The algorithm is greedy maximal marginal relevance**, stated in full rather than tuned:
-
-```text
-objective(c) = (1 - w) * desirability(c) + w * separation(c)
-```
-
-- `desirability` is the candidate's rank-normalized position in the ordinary ranking, 1 for
-  the best and 0 for the worst. Rank-based rather than value-based because the ranking may be
-  ascending, descending, or by magnitude, and rescaling the raw value would not respect that.
-- `separation` is the Euclidean distance to the nearest already-selected candidate, divided by
-  the pool's bounding-box diagonal.
-- Distances are measured in **the same standardized space the applicability domain uses** —
-  `(value - training_mean) / training_scale`. Diversity and domain checks therefore speak the
-  same units, and no new normalization is invented.
-
-Both normalizers come from the pool itself, so there is no tuned constant in the objective.
-The first pick has nothing to be far from, so it is simply the most desirable candidate.
-
-`--diversity-weight` controls the balance, and the ends of its range are exactly what you
-would expect: **0 reproduces the ordinary ranking**, 1 ignores desirability after the seed.
-
-```text
---top 4              c0, c1, c2, c3     descriptor coverage 0.03
---top 4 --diverse    c0, s3, c1, c2     descriptor coverage 8.00
-```
-
-**Every choice is explained**, with arithmetic you can redo by hand:
-
-```text
-selected at step 2 (ranking position 8): objective 0.5000 = 0.50x desirability 0.0000
-  + 0.50x separation 1.0000 (nearest selected 2.2052 in standardized descriptor space)
-```
-
-Selection is deterministic — ties resolve by ligand identifier then library position, the same
-order the ordinary ranking uses — and `step`, `ranking_position`, `separation`, and `objective`
-reach JSON and CSV alongside the metric and objective definitions.
-
-**Diversity cannot launder an applicability warning.** Selection changes which candidates are
-returned, never their verdicts: an out-of-domain candidate stays flagged, and the domain census
-still covers the whole library, so the number of flagged candidates cannot shrink by changing
-selection mode. There is a test for exactly that.
-
-`--diverse` needs the model's training geometry to have a space to measure in. A model without
-it is refused rather than silently ranked as usual.
-
-### Scientific context and provenance
-
-Every screening run states what produced it before it lists a single candidate:
-
-```text
-model          mechanistically_constrained_ols (docs/study_001/stericx_portable_model.json)
-model id       mechanistically_constrained_ols   schema 2   fitted by stericx 0.2.0
-reaction       Ni-catalyzed homo-Diels-Alder
-target         ddg_double_dagger [kcal/mol]
-selected       B5_x_nbo_charge
-trained on     10 ligands   training R² 0.3625   RMSE 0.550 kcal/mol
-validation     LOO Q² 0.0020   LOO RMSE 0.688 kcal/mol   group-LOO Q² 0.0013
-stericx        0.3.0 (running)
-model sha256   3be8fbd4adb0773c30c0fd1184dcd01c85f7f62cf0b01a50a93f4c59cebb62ca (156337 bytes)
-training data  reactions_raw.csv sha256:88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f (7482 bytes)
-library sha256 88e6e1ed6de1cfd70874eaac54ee6ff3fab94c8ff522e4148da0ef2f32b1817f (the library file's exact bytes)
-ranking        descending (model records: maximize)
-uncertainty    percentile_bootstrap_mean_response at 95% from 2000 bootstrap model(s)
-domain rule    max_neighbor (boundary 0.505 in standardized descriptor space)
-```
-
-**Two runs can prove they used identical scientific inputs.** The `provenance` block in the
-JSON export carries SHA-256 over the exact bytes of the model document and of the ligand
-library, the StericX version that ran the screen, the version that fitted the model, and the
-training-data digests the model itself recorded. Comparing that block is a cryptographic
-claim about the inputs, not a description of them.
-
-It deliberately carries **no timestamp**. A run is identified by what went into it, not when
-it happened; a clock would make two otherwise identical runs compare unequal.
-
-For a directory library the digest is a manifest hash — every coordinate file's
-`name:sha256`, sorted — so it is independent of filesystem order and still changes if any
-member changes.
-
-CSV exports repeat `stericx_version`, `model_id`, `model_sha256`, and `library_sha256` on
-every row, so a filtered or concatenated export stays traceable line by line.
-
-Training-data digests are now **SHA-256**. They were FNV-1a, which detects accidental
-substitution but proves nothing against a deliberate one. The field has always been
-algorithm-tagged, so a model written before this change still loads and still reports
-`fnv1a64` — read the tag, never assume the algorithm.
-
-A schema-1 model reports the context it has — its file hash and schema version — and leaves
-identity, target, and training digests explicitly absent rather than filling them in.
-
-### Prediction uncertainty
-
-A schema-2 model records the **bootstrap replicates** behind its coefficient intervals, not
-just the per-coefficient percentiles. Screening propagates each replicate's whole coefficient
-vector through the candidate and takes the empirical 2.5/97.5 percentiles of the resulting
-predictions:
-
-```text
-uncertainty    percentile_bootstrap_mean_response at 95% from 2000 bootstrap model(s)
-               coefficient uncertainty only - it excludes residual scatter and says nothing
-               about extrapolation
-```
-
-Keeping the replicates is what makes a *joint* interval possible. The marginal per-coefficient
-intervals discard the correlation between the intercept and the slopes, so recombining them by
-interval arithmetic (the older `coefficient_band`, still reported) has no guaranteed
-joint coverage and need not be conservative. It can miss variation that is present
-in the joint bootstrap predictions.
-
-**It is not a prediction interval, and is not named like one.** `percentile_bootstrap_mean_response`
-covers uncertainty in the fitted coefficients only. It excludes the residual scatter a new
-observation carries — that is the separately reported Student-t `prediction_interval`
-`ŷ ± t·s·√(1+h)` — and it carries no information at all about extrapolation.
-
-That last point matters more than it sounds:
-
-```text
-ligand          x       bootstrap width   domain
-in_domain_low    5.10   1.947             interpolation
-ood_above_max   14.70   0.977             extrapolation
-```
-
-The **out-of-domain** candidate has the **narrower** interval. Interval width tracks the
-bootstrap coefficient spread, not membership of the training set, so a tight band is never
-evidence that a prediction is safe. The `domain` column reports proximity to the training data, not calibrated predictive
-reliability. Interval width and domain diagnostics answer different questions.
-
-Every candidate reports `lower`, `upper`, `method`, `level`, and `replicates` in JSON and CSV
-alongside the central prediction. A model with no stored ensemble — any schema-1 artifact —
-reports no interval and says why, rather than inventing one.
-
-The ensemble is the bulk of the document (Study 001: 8.9 KB to 152.7 KB for 2,000 replicates
-of two coefficients). Pass `stericx fit --omit-bootstrap-ensemble` to leave it out when size
-matters more than self-sufficiency.
-
-### Out-of-domain candidates are flagged, never hidden
-
-Every row carries a `domain` column beside its prediction, so a warning is visible without
-the prediction being suppressed:
-
-```text
-rank   pred ddG    95% pred interval  leverage  pred ee  domain          trust                  ligand
-   1      1.521   [  -0.20,    3.24]   0.469     85.7%  extrapolation!  caution:outside_range  best_but_ood
-   2      0.720   [  -0.77,    2.21]   0.100     54.3%  interpolation   reliable               safe_mid
-```
-
-The values are the applicability domain's own verdicts, not a severity scale layered on top:
-`interpolation`, `sparse` (in range, but in a gap the training set never sampled),
-`extrapolation`, and `unknown`. `!` marks the two that mean the model is being asked about a
-region it was not fitted on. The `domain` and `trust` columns summarize training-data diagnostics. Their labels,
-including the historical `reliable`, do not establish predictive accuracy. Current
-builds use descriptive labels such as `inside_range:ordinary_leverage`. Study 011
-records substantial errors even for candidates labeled as interpolation.
-
-By design:
-
-- **An out-of-domain ligand is never dropped for being out of domain.** It keeps its rank and
-  its unmodified prediction. The top-ranked candidate in the example above is an
-  extrapolation, and it is still shown first because ranking is by prediction alone.
-- **Its predicted value is never adjusted** to look safer — the number is the raw model
-  output either way.
-- `--in-domain-only` is an explicit opt-in filter that keeps only `interpolation` candidates.
-  When set, the report names every candidate it removed and the verdict that removed it, and
-  the domain census still covers the whole library so nothing is silently lost. If the filter
-  removes everything, the error says so rather than claiming the model could not screen.
-
-`--inside-domain-only` remains as an alias. Note its meaning changed: it now filters on the
-training-derived applicability verdict, so a `sparse` candidate — inside every descriptor range but
-in an unsampled gap — is now removed where previously only range violations were.
-
-**The model decides what the library must supply.** StericX's regression space mixes
-geometry (`L`, `B1`, `B5`) with donor electronics (`nbo_charge`, `ir_frequency`) and their
-interactions. `screen` reads the fitted weights, works out which inputs actually carry a
-nonzero coefficient, and refuses to run when the library cannot provide one — it will not
-invent a donor charge to make a number appear:
-
-```text
-error: model `mechanistically_constrained_ols` uses B5_x_nbo_charge but the library does
-not provide nbo_charge. StericX will not guess a missing input. …
-```
-
-So a model whose selected features are geometry-only screens a bare directory of
-structures, while a model carrying an electronic term needs those values as CSV columns. A
-reaction CSV supplies both at once: `screen` reads `NBO_Charge` / `IR_Frequency` from the
-row and featurizes the geometry named by `Ligand_XYZ_Path` to fill the Sterimol terms.
-
-**Uncertainty and out-of-domain detection.** `stericx fit` records the training-set geometry
-— `(X'X)⁻¹` in the standardized design frame, `n`, `p`, and the residual standard error `s` —
-so `screen` can report the fitted model's uncertainty calculation and extrapolation
-diagnostics. Two signals are reported:
-
-| Signal | What it measures |
-|---|---|
-| **Leverage** `h = x'(X'X)⁻¹x` vs `h* = 3p/n` | how far the ligand sits from the centre of the training design, in the metric the fit itself defines |
-| **Per-feature range check** | whether each selected descriptor lies inside its training min/max (a 1-D box) |
-
-They can disagree, and that is the point: a ligand can sit inside every 1-D range yet still
-be far from the training cloud. Both are reported and the worse one governs a graded verdict
-— `inside_range:ordinary_leverage`, `inside_range:high_leverage`,
-`outside_range:ordinary_leverage`, or `outside_range:high_leverage`. Ligands in the last grade get called out explicitly:
-
-```text
-1 ligand(s) are outside the training range AND above the warning leverage.
-For these the model is extrapolating and its prediction should not be trusted:
-  wild_extrap — leverage 3.396 = 5.7x h*
-```
-
-The nominal 95% Student-t **prediction interval**, `ŷ ± t(0.975, n−p)·s·√(1+h)`,
-widens with leverage. Its coverage assumes the fitted linear model and residual
-assumptions are adequate; it does not account for model-selection uncertainty or a
-change in descriptor conventions between fitting and screening. On the Ni-hDA fit that is ±1.49 kcal/mol at the
-training centroid and ±2.97 kcal/mol for a ligand at 5.7× the warning leverage. `h* = 3p/n`
-is the same criterion the project's own [Study 003
-pre-registration](docs/study_003/PREREGISTRATION.md) applies, and the Rust implementation
-reproduces its `h* = 0.60` exactly.
-
-Models fitted before the geometry was recorded still load: leverage and the prediction
-interval report as unavailable, the verdict degrades to `range_only:inside` /
-`range_only:outside`, the weaker bootstrap band is printed marked `~[…]` so it can never be
-mistaken for a prediction interval, and the output says to refit to enable the leverage
-check. Scoping the claim down beats faking it.
-
-The `coefficient_band` remains available as the weaker signal: it propagates the bootstrap
-coefficient intervals by interval arithmetic, ignoring coefficient correlation. A band that
-spans zero tells you the model cannot commit to a direction for that ligand at all.
-
-### `parse` — pack reaction structures
-
-```bash
-./target/release/stericx parse --csv data/reactions_raw.csv --xyz-dir data --output data/reactions.sigpack
-```
-
-Reads a `Reaction_ID,Ligand_XYZ_Path,Attach_Atom_Idx,Primary_Bond_Vector_Idx,NBO_Charge,IR_Frequency,Temp_K,Exp_ddG_kcal_mol`
-CSV, computes Sterimol, averages conformers using supplied nonnegative weights
-(or uniform weights when absent), and exports one 64-byte
-`PackedReactionRecord` per reaction.
-
-### `buried-volume` — coordination-aware buried volume
-
-```bash
-./target/release/stericx buried-volume --csv data/reactions_quantum.csv --xyz-dir data \
-  --output data/reactions_v2.sigpack --per-conformer-output data/bv_conformers.csv --require-explicit-centers
-```
-
-Places a virtual metal centre, scans the three donor-substituent quadrant orientations, and
-writes total/quadrant/octant/near-far/max-adjacent descriptors reduced to Boltzmann, min,
-max, and range. `--require-explicit-centers` forces xTB LMO centres from the CSV instead of
-a geometric fallback.
-
-### `predict` — parallel SIMD regression
-
-Weights are an eight-number JSON array over features `[1, L, B1, B5, nbo_charge,
-B1*nbo_charge, B5*nbo_charge, ir_freq]`.
-
-```bash
-./target/release/stericx predict --data data/reactions.sigpack --weights weights.json
-```
-
-Reports mapping/prediction latency, throughput, Rayon thread count, RSS, and MSE against the
-packed experimental ΔΔG‡ labels.
-
-### `fit` / `evaluate` — freeze and reveal a scientific model
-
-Use newly parsed records and corrected metadata from the
-[reaction-screening tutorial](docs/REACTION_SCREENING.md). Its commands write to
-`.stericx/scientific_remediation/demo/`; the Study 001 models remain historical
-records. The example uses 2,000 bootstrap and 2,000 permutation replicates, while
-the command defaults are 1,000 and 500.
-
-Learns scaling from training rows only, caps complexity below one term per three
-observations, rejects `|r| > 0.95` descriptor pairs, and does BIC-constrained forward
-selection. The model card includes LOO diagnostics, ridge/LASSO baselines, bootstrap
-coefficient intervals, permutation tests, VIF, and leave-one-scaffold-group-out validation.
-Non-training predictions are written target-free; `evaluate` reveals them separately.
-
-Add `--portable-model <path>` to also write a schema-3 portable model: the same document plus
-the response definition, feature transformations, training-data digests, and creation
-metadata, so it can be scored elsewhere without the training data or the fitting code.
-
-The tutorial supplies `--descriptor-aggregation supplied_weight_mean`,
-`--response-temp-k 353.15`, and `--optimize maximize` explicitly. It preserves
-historical supplied conformer populations at 298.15 K; the response temperature
-is a separate experimental condition. Its S001 split and new output directory
-are recorded alongside the model.
-
-New portable models use schema 3 and record `descriptor_aggregation`. Older readers
-reject schema 3 instead of silently discarding this input contract. Legacy files remain
-readable with unknown aggregation and require matching precomputed candidate descriptors.
-Chemistry context that is not supplied is recorded as `null` and
-reported as `portable_model_missing_provenance` rather than guessed. Spec:
-[`docs/MODEL_FORMAT.md`](docs/MODEL_FORMAT.md).
-
-The portable Ni-hDA wrapper's response annotation was corrected to `ddG_abs` magnitude
-semantics; model coefficients and frozen predictions were retained. The annotation
-change and original digest are recorded in [scientific notes](docs/SCIENTIFIC_NOTES.md).
-
-The checked-in Study 001 models and predictions remain historical evidence.
-New scientific corrections can change descriptors, validation and metadata; a
-new fit must go to a new destination. Do not overwrite the historical artifacts
-or assume rerunning a command will preserve their predictions. Geometry screening
-requires an explicit matching aggregation declaration. See the
-[model input contract](docs/MODEL_FORMAT.md#descriptor-input-contract).
-
-`--optimize maximize` records that a larger ΔΔG‡ is the better outcome, which is what lets
-`screen` rank this model without an explicit direction flag. Study 001's ten training labels
-are all positive (0.028–2.14 kcal/mol), so the model never observed a sign change and cannot
-support the claim that a large negative prediction is equally good; `maximize_magnitude`
-would assert exactly that.
-
-### `model` — inspect and validate a saved model
-
-```bash
-./target/release/stericx model inspect docs/study_001/stericx_portable_model.json
-./target/release/stericx model validate docs/study_001/stericx_portable_model.json
-```
-
-`inspect` prints a scientific summary: schema version, model and reaction name, target with
-units and sign convention, training observations, selected descriptors with coefficients and
-scaling, LOO Q² and RMSE, training descriptor ranges, dataset digests, and the StericX
-version that wrote it. Anything the document does not record prints as `not_recorded`.
-
-`validate` lists every problem at once — unsupported schema versions, missing descriptors,
-dimension mismatches, non-finite or non-numeric values, zero or negative scaling, missing
-provenance, malformed hashes, and metadata that disagrees with the fit — each with its
-field path and a stable issue code. It exits non-zero when any error is found; `--strict`
-also fails on warnings. Both accept `--format json`.
-
-### `simulate` — selectivity from kinetics
-
-```bash
-./target/release/stericx simulate --ddg 1.82 --temp 298.15
-```
-
-The barrier difference determines major/minor percentages, R:S distribution and ee.
-It cannot determine an absolute rate constant: that requires an absolute activation
-free energy in addition to the temperature.
-
-</details>
-
-<details>
-<summary><b>Internal architecture</b> — source layout & binary record format</summary>
-
-```text
-src/
-├── geometry/     XYZ/SDF parsing, Sterimol, buried-volume, and pyramidalization
-├── storage/      Cache-aligned schema and memory-mapped .sigpack I/O
-├── model/        Scientific fitting, feature interactions, and SIMD inference
-├── kinetics/     Eyring rates and enantiomeric distributions
-└── main.rs       clap command-line interface (incl. `descriptors`)
-
-studies/          Study drivers (Python → docs/study_00N/), study_001 … study_011
-scripts/          Support utilities: prepare_data, prepare_quantum_data, validate_stericx,
-                  stericx_quantum, freeze_prospective_deck, preregister_prediction,
-                  validate_nonp_donor
-```
-
-Reaction observations use an exact 64-byte `#[repr(C, align(64))]` layout; `bytemuck`
-provides POD byte casting and `memmap2` exposes `.sigpack` files as borrowed record slices
-with no per-record deserialization. An eight-lane AVX2 kernel drives the RegressX dot
-product (portable fallback otherwise), and `rayon` distributes inference rows across workers
-with no shared mutable state in the hot loop.
-
-```rust
-#[repr(C, align(64))]
-pub struct PackedReactionRecord {
-    pub l: f32, pub b1: f32, pub b5: f32,
-    pub nbo_charge: f32, pub ir_freq: f32, pub temp_k: f32, pub exp_ddg: f32,
-    pub reserved: [f32; 9],
-}
-```
-
-Version two adds a 64-byte `SigPackHeaderV2` and stores a second cache line (a buried-volume
-block) per record; dedicated v1/v2 mmap readers preserve backward compatibility.
-
-</details>
-
-<details>
-<summary><b>Performance benchmarks</b> (<a href="benchmark_linux.sh">benchmark_linux.sh</a>)</summary>
-
-**StericX-only optimization comparison (not morfeus):** the 10,000-file descriptor batch is **5.46× faster**
-at six threads (4.970 → 0.912 seconds), and 1,000-entry screening takes
-**16.7–18.6% less time** across 1/2/4/6 threads. These compare the same independently
-checked scientific baseline and final build on fixed native end-to-end workloads.
-All 128,021 scientific responses remain exact, and the independent references
-were rerun. Parsing is 1.5–2.0% slower; parallel batches use more CPU and memory.
-See the [scientifically exact optimization report](docs/performance/SCIENTIFICALLY_EXACT_OPTIMIZATION.md)
-for all 720 final launches, thread scaling, negative results and scientific limits.
-
-**Historical, pre-remediation measurements:** the following throughput figures
-and September 16 comparisons describe older binaries. They do not measure the
-current corrected build or establish its scientific accuracy.
-
-| Workload | Items | Throughput | Peak RAM |
-|---|---:|---:|---:|
-| Sterimol extraction | 10,000 molecules | 62,126 mol/s | 7.75 MB |
-| Binary `.sigpack` packing | 10,000 records | 56.82 M records/s | 7.75 MB |
-| RegressX SIMD prediction | 1,000,000 records | 317.76 M evals/s | 58.94 MB |
-
-Machine-readable results (CPU utilization, page faults) in
-[`docs/benchmark_results.json`](docs/benchmark_results.json). Numbers are specific to the
-machine that generated them; throughput and ratios can change with hardware,
-build settings, and workload.
-
-For end-to-end CLI latency, CPU/RSS, function and stage attribution, allocation
-counts, and optimization limits on fixed scientific workloads, see the
-[September 2026 profiling report](docs/profiling/PROFILING.md). Its native timings
-include startup and output; they are a different measurement from the kernel
-throughput figures above. Numerical outputs are checked against a frozen baseline.
-
-The [historical exact-output optimization report](docs/profiling/OPTIMIZATION.md) records
-**2.37× faster end-to-end descriptor batches** (12.24 → 5.16 seconds for 10,000
-molecules) and **3.41× faster screening** (1.32 → 0.388 seconds for 1,000 entries).
-These compare the original September 16 executable with the optimized build on
-the same fixed workloads and machine, using fresh timing controls. Scientific
-outputs, packed records, predictions, validation and exclusions matched that older baseline;
-peak memory is essentially unchanged. The report includes corpus limits and
-paired regression checks.
-
-</details>
-
-<details>
-<summary><b>Roadmap</b></summary>
-
-**v0.1.0** shipped the science: the descriptor kernels, full-set Kraken reproduction, the
-frame-bug fix and residual characterization, two reaction models (Ni + Pd cross-coupling),
-pyramidalization, the speed benchmark, and the Zenodo release.
-
-**v0.2.0** makes it useful for *choosing* between ligands rather than only measuring them:
-a precomputed 1,541-ligand descriptor database, similarity search, constraint queries,
-side-by-side `compare`, and `screen` — reaction-model ranking with leverage-based
-applicability-domain warnings and Student-t prediction intervals.
-
-**v0.3.0** makes reaction screening auditable end to end: portable validated models,
-explicit ranking direction, bootstrap and prediction intervals, training-derived domain
-diagnostics, tested-ligand exclusion, diversity-aware selection, reproducible candidate
-decks, and a retrospective ranking study whose below-random result remains visible.
-
-The corrected input contract prevents implicit single-geometry substitution for an
-ensemble model. Open scientific work includes independently validating ligand ranking,
-testing the coordination-centre
-hypothesis directly, and obtaining prospective measurements. The **frozen ten-candidate
-deck** remains a record of the original published-descriptor forecast. Its `ddG_abs`
-target and magnitude interpretation need explicit treatment before an experimental
-protocol is adopted; hashes preserve artifact identity, not independent evidence of
-when predictions became public.
-
-</details>
-
----
-
-## References & citation
-
-StericX is an **independent** reproduction — not affiliated with, endorsed by, or produced
-by the Sigman or Reisman groups; it reuses only their publicly released data and descriptor
-definitions. If you use the descriptors, datasets, or reaction models reproduced here,
-please cite the original work:
-
-- Gensch et al. "A Comprehensive Discovery Platform for Organophosphorus Ligands for
-  Catalysis." *J. Am. Chem. Soc.* **2022**, *144* (3), 1205–1217.
-  DOI: [10.1021/jacs.1c09718](https://doi.org/10.1021/jacs.1c09718) — the "Kraken" platform.
-- Cadge et al. "A Data Science-Guided Approach for the Development of Nickel-Catalyzed
-  Homo-Diels–Alder Reactions." *J. Am. Chem. Soc.* **2025**, *147* (34), 31175–31186.
-  DOI: [10.1021/jacs.5c09948](https://doi.org/10.1021/jacs.5c09948) — Ni-hDA (Study 001).
-- Newman-Stonebraker et al. "Univariate Classification of Phosphine Ligation State and
-  Reactivity in Cross-Coupling Catalysis." *Science* **2021**, *374* (6565), 301–308.
-  DOI: [10.1126/science.abj4213](https://doi.org/10.1126/science.abj4213) — cross-coupling
-  (Studies 007/009); its SI is copyrighted by AAAS and is **not** redistributed here.
-
-**To cite StericX** (machine-readable form in [`CITATION.cff`](CITATION.cff)):
-
-> Rumenovski, A. *StericX: physical-organic molecular featurization and reaction-selectivity
-> inference*, version 0.3.0, 2026. Zenodo.
-> DOI: [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666).
-
-The concept DOI [10.5281/zenodo.21726666](https://doi.org/10.5281/zenodo.21726666) resolves
-to the latest version. Version DOIs: v0.3.0 =
-[10.5281/zenodo.22309199](https://doi.org/10.5281/zenodo.22309199), v0.2.0 =
-[10.5281/zenodo.21985632](https://doi.org/10.5281/zenodo.21985632), v0.1.0 =
-[10.5281/zenodo.21726667](https://doi.org/10.5281/zenodo.21726667).
-
----
-
-## License
-
-Licensed under either of [Apache-2.0](LICENSE-APACHE) or [MIT](LICENSE-MIT) at your option
-(SPDX: `MIT OR Apache-2.0`). Unless you state otherwise, any contribution intentionally
-submitted for inclusion shall be dual licensed as above, without additional terms.
+| Legacy numerical preservation | All 128,021 observations in 13 lanes match the task's frozen baseline byte for byte. This proves unchanged outputs, not physical validity. |
+| DBSTEP Sterimol, supplied common radii | 61 cases; common signed-L subset maximum error 1.10e-6 Å; B5 maximum 4.27e-7 Å. Default finite-angle B1 maximum difference is 0.01891 Å. Radii and signed/absolute L conventions remain distinct. |
+| DBSTEP hard-sphere volume | 68 of 69 matched-lattice cases pass the fixed arithmetic limits. The R=2.5 Å witness fails because f32/f64 sphere-boundary inclusion differs. Its strict gate remains failed. |
+| DBSTEP density mode | All 12 real-grid/analytic comparisons have identical occupied and sphere node counts; explicit unit conversion and volume checks pass. Grid-resolution error remains separate. |
+| Morfeus conformer study | 784 direct conformer fields and 770 ensemble reductions on the fixed 11-ligand/56-conformer study; all comparisons retained. Ensemble treatment is not uniformly superior against historical targets. |
+| Thermodynamic populations | Independent high-precision analytical cases cover units, temperature, degeneracy, missing information and extreme energy separation. |
+
+Full residuals, MAE/RMSE/max/median errors, slopes/intercepts and acceptance
+policies are in the [DBSTEP reports](docs/validation/dbstep/),
+[conformer study](docs/paton_recommendations/) and
+[legacy replay receipt](docs/paton_recommendations/validation/final_replay_comparison.json).
+The [scientific audit](docs/scientific_accuracy_audit/SCIENTIFIC_ACCURACY_AUDIT.md)
+and [remediation](docs/scientific_remediation/SCIENTIFIC_REMEDIATION.md) retain
+previous defects, corrections and unfavorable results.
+
+**Direct descriptor agreement and historical Kraken reproduction answer different
+questions.** The [Kraken investigation](docs/kraken_residual_forensics/KRAKEN_RESIDUAL_FORENSICS.md)
+compares 1,541 ligands and 31,611 available conformers, with complete residuals.
+Exact identity with the original historical geometries is established for zero
+ligands; historical conformer energies are unavailable. High correlation on
+available inputs does not resolve those provenance gaps.
+
+Native geometry kernels retain f32 arithmetic and the default 360-direction B1
+scan; exact rotational invariance is not claimed for this finite scan. The
+lower-level buried-volume library retains its 2.1 Å center-distance default;
+the CLI and new descriptor API use 2.28 Å. Regional finite grids and analytic
+sphere normalization have documented conventions. No scientific constants were
+changed to improve reference agreement.
+
+## Performance and reproducibility
+
+Rust supplies the shared scientific engine; PyO3 binds it without duplicating
+chemistry in Python. Independent files use ordered Rayon processing. Performance
+claims require fixed geometries/settings, numerical admission and retained raw
+samples. The [Paton comparison protocol](docs/paton_recommendations/performance/PROTOCOL.md)
+compares the extended engine with this task's frozen baseline.
+
+The earlier [Morfeus benchmark](docs/benchmarks/morfeus_current/BENCHMARK.md)
+is scoped to nine finite-grid volume outputs on 56 repeated geometries. Its
+reported speedups do not establish an all-descriptor or universal speed ratio.
+The [optimization report](docs/performance/SCIENTIFICALLY_EXACT_OPTIMIZATION.md)
+retains accepted and rejected changes.
+
+Start with the [implementation/evidence ledger](docs/paton_recommendations/IMPLEMENTATION_PLAN.md),
+[research examples](python/examples/README.md), and
+[scientific replay instructions](docs/scientific_remediation/REPRODUCE.md).
+Legacy reaction modelling remains experimental: unfavorable validation, failed
+folds and missing prospective outcomes are preserved. Descriptor validation does
+not establish catalyst-prediction accuracy.
+
+## Citation and license
+
+Cite original reference methods and datasets when used: the
+[Kraken platform](https://doi.org/10.1021/jacs.1c09718),
+[Morfeus](https://github.com/digital-chemistry-laboratory/morfeus), and
+[DBSTEP](https://github.com/patonlab/DBSTEP). Density-method primary references
+are listed in the [method document](docs/methods/electron_density_buried_volume.md).
+StericX citation metadata is in [CITATION.cff](CITATION.cff); the existing
+[0.3.0 archive](https://doi.org/10.5281/zenodo.22309199) predates these development
+extensions. No new archived release is implied.
+
+Licensed under [Apache-2.0](LICENSE-APACHE) or [MIT](LICENSE-MIT), at your option.
+Third-party fixtures retain their source licenses and provenance.

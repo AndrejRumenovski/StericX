@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "stericx"
-version = "0.4.0.dev0"
+version = "0.4.0rc1"
 description = "Conformer-aware molecular steric descriptors backed by validated Rust kernels"
 readme = "README.md"
 requires-python = ">=3.11,<3.15"

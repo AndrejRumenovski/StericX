@@ -42,7 +42,7 @@ from ._types import (
     volume,
 )
 
-__version__ = "0.4.0.dev0"
+__version__ = "0.4.0rc1"
 
 
 def _json(value) -> str:

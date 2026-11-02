@@ -1,0 +1,30 @@
+{
+  "arithmetic_error_count": 0,
+  "case_count": 69,
+  "disputed_atomic_points": 0,
+  "elapsed_seconds": 35.97007452800062,
+  "execution_failures": [],
+  "frame_count": 207,
+  "legacy_failed_frames": [
+    {
+      "case_id": "SIG-NIHDA-401/0/sphere_radius=2.5",
+      "plane": 15,
+      "residual": -0.023980143643083096
+    },
+    {
+      "case_id": "SIG-NIHDA-401/0/sphere_radius=2.5",
+      "plane": 13,
+      "residual": -0.02411671667041304
+    },
+    {
+      "case_id": "SIG-NIHDA-401/0/sphere_radius=2.5",
+      "plane": 10,
+      "residual": -0.024048430156749845
+    }
+  ],
+  "release_admission_scored": false,
+  "same_domain_arithmetic_failed_frames": 0,
+  "sources_unchanged": true,
+  "unexplained_atomic_points": 0,
+  "unexplained_sphere_points": 0
+}

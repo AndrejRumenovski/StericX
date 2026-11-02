@@ -23,8 +23,9 @@ python -m pip install './python[tables,rdkit]'
 A portable Linux x86-64 wheel has been built and installed in isolated Python
 3.11, 3.12, 3.13 and 3.14 environments. Each installation passes 71 package tests;
 a separate source-archive installation also passes. Actual CI also passes all 12 Python-version/OS combinations on Linux x86-64,
-Windows x86-64 and macOS arm64, plus source installation. See the
-[distribution receipts](docs/paton_recommendations/python/DISTRIBUTION.md).
+Windows x86-64 and macOS arm64, plus source installation. The
+[fresh installation and CI replay](docs/validation/dbstep/resolution_advanced/RESULTS.md)
+preserves exact artifacts and source identities.
 
 ```python
 from stericx import Molecule, DescriptorOptions
@@ -136,7 +137,8 @@ interpolation is hidden. Read the
 |---|---|
 | Legacy numerical preservation | All 128,021 observations in 13 lanes match the task's frozen baseline byte for byte. This proves unchanged outputs, not physical validity. |
 | DBSTEP Sterimol, supplied common radii | 61 cases; common signed-L subset maximum error 1.10e-6 Å; B5 maximum 4.27e-7 Å. Default finite-angle B1 maximum difference is 0.01891 Å. Radii and signed/absolute L conventions remain distinct. |
-| DBSTEP hard-sphere volume | 68 of 69 matched-lattice cases pass the fixed arithmetic limits. The R=2.5 Å witness fails because f32/f64 sphere-boundary inclusion differs. Its strict gate remains failed. |
+| DBSTEP hard-sphere volume | All 69 cases / 207 frames have identical atomic occupancy masks on the same supplied points; all 138 public volume/percentage comparisons meet the original arithmetic limits. The historical failed lane clipped the sample domain again using a different sphere predicate; its failures remain preserved. |
+| Continuous-volume accuracy | 320 comparisons on 20 fixed geometries separate finite-grid semantics from integration error. For ligand 401 at R=2.5 Å, default-grid errors are provably at least 0.034–0.058 Å³ across its three frames. Resolution must be checked for the intended use. |
 | DBSTEP density mode | All 12 real-grid/analytic comparisons have identical occupied and sphere node counts; explicit unit conversion and volume checks pass. Grid-resolution error remains separate. |
 | Morfeus conformer study | 784 direct conformer fields and 770 ensemble reductions on the fixed 11-ligand/56-conformer study; all comparisons retained. Ensemble treatment is not uniformly superior against historical targets. |
 | Thermodynamic populations | Independent high-precision analytical cases cover units, temperature, degeneracy, missing information and extreme energy separation. |
@@ -148,6 +150,11 @@ policies are in the [DBSTEP reports](docs/validation/dbstep/),
 The [scientific audit](docs/scientific_accuracy_audit/SCIENTIFIC_ACCURACY_AUDIT.md)
 and [remediation](docs/scientific_remediation/SCIENTIFIC_REMEDIATION.md) retain
 previous defects, corrections and unfavorable results.
+
+The [DBSTEP root-cause study](docs/validation/dbstep/ROOT_CAUSE_ANALYSIS.md)
+documents the corrected comparison, an independently confirmed DBSTEP
+numerator/denominator inconsistency, and the approved separate validation lanes.
+No Rust scientific output, radius or default setting changed to obtain agreement.
 
 **Direct descriptor agreement and historical Kraken reproduction answer different
 questions.** The [Kraken investigation](docs/kraken_residual_forensics/KRAKEN_RESIDUAL_FORENSICS.md)
@@ -162,6 +169,13 @@ lower-level buried-volume library retains its 2.1 Å center-distance default;
 the CLI and new descriptor API use 2.28 Å. Regional finite grids and analytic
 sphere normalization have documented conventions. No scientific constants were
 changed to improve reference agreement.
+
+For hard-sphere volume, `VolumeOptions(density=...)` controls nominal grid-cell
+volume in Å³; smaller values generally refine the lattice. It is not an accuracy
+tolerance. The [fixed convergence study](docs/validation/dbstep/resolution_analysis/convergence_v2/CONVERGENCE_REPORT.md)
+includes analytical errors, independent continuous-volume bounds and all
+nonmonotonic refinement steps. Arithmetic agreement on identical nodes does
+not establish continuum accuracy.
 
 ## Performance and reproducibility
 

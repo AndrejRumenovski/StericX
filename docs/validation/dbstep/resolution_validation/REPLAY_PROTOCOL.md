@@ -76,6 +76,24 @@ scientific and release admission false. New DBSTEP mathematical analysis,
 convergence, advanced Python methods, wheel portability, and performance require
 their separate reports.
 
+After all research sources settle, the final style and regression commands are:
+
+```bash
+.venv/bin/ruff check . --extend-exclude docs/media
+.venv/bin/ruff format --check . --extend-exclude docs/media
+.venv/bin/python -m unittest discover -s tests -p 'test_*.py'
+.stericx/paton/reference/venv/bin/python -m unittest discover \
+  -s tests -p 'test_dbstep_*.py'
+```
+
+For the source version recorded here, the prospectively required coverage is
+156 general-environment tests with 13 explicit reference-environment skips,
+and 28 mandatory reference-environment tests with no skips. The archived
+`receipts/final_checks_v2_controller.py.txt` records these commands and verifies
+unchanged source hashes before and after execution. The seven convergence and
+six point-domain tests must execute in the reference environment; their general
+environment skips are not scientific passes.
+
 ## Retained scientific scope
 
 The observations retain all 128,021 records in 13 lanes, including unsuccessful

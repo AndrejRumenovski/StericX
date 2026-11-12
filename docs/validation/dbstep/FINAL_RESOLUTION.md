@@ -1,9 +1,10 @@
 # StericX–DBSTEP buried-volume resolution
 
 Investigation baseline: `f04b156f7b8b31700e1c6ab978e337b00cc734e0`.
-Status: scientific and engineering validation complete; matched performance is
-pending the quiet window. No release recommendation is issued by this
-intermediate report.
+Status: applicable scientific, performance, installation and release gates pass
+under the approved policy. **Python 0.4.0rc1 is prepared and unpublished.**
+Original scientific failures and unsuccessful infrastructure/reviewer attempts
+remain preserved; none has been rewritten as a successful historical result.
 
 ## Original failure and root cause
 
@@ -63,6 +64,13 @@ executables have the same SHA-256:
 The new implementation is the corrected comparison, transparent independent
 reference, boundary regressions and evidence review. There is no artificial
 production-code correction or hidden compatibility mode.
+
+Per-conformer results, ensemble statistics and sensitivity reports, explicit
+energy provenance/populations, density grids, radius profiles, Python adapters,
+wheel packaging and the executed research notebook already existed at this
+investigation's baseline. They were reused and independently revalidated. This
+investigation adds numerical evidence and a corrected validation contract, then
+prepares versioned distribution artifacts; it does not duplicate those features.
 
 ## Additional reference and convention findings
 
@@ -143,34 +151,104 @@ wheels plus a clean Python 3.12 source build. Actual remote CI passes all
 hashes and verified identical normalized source/ASTs; the initial byte-check
 failures remain preserved.
 
-The package remains **0.4.0.dev0**, backed by Rust engine **0.3.0**. Wheels install
-successfully; no PyPI publication or new archived release is claimed.
+These completed scientific and performance measurements used **0.4.0.dev0**,
+backed by Rust engine **0.3.0**. The subsequent **0.4.0rc1** preparation changes
+four version declarations only; the engine, binding logic and package tests are
+unchanged. Its separately identified artifacts pass five new local installations
+and all 13 new platform/source CI jobs, each with 71 tests. One selected Windows
+wheel additionally passes all 71 tests on each of Python 3.11–3.14. Linux/macOS
+runtime payloads are byte-identical across their four interpreter builds. No
+PyPI publication or new archived release is claimed.
 
 Final standard-runner discovery finds **156 tests: 143 pass and 13 explicitly
 require the reference environment**. Those skips are covered by **28 passing
-pinned-reference tests and zero skips**. Global Ruff/format checks pass, and all 382 current source records
+pinned-reference tests and zero skips**. Global Ruff/format checks pass, and all 382 source records in that replay
 match before/after testing. An initially incompatible pytest test module was
 converted to discoverable unittest methods without changing its numerical
 assertions; its failed discovery attempt remains preserved.
 
-The [final scientific admission](resolution_validation/admission_v2/review.json)
+The [scientific admission](resolution_validation/admission_v2/review.json)
 verifies 2,473 evidence files, including the original test source in its immutable
 campaign snapshot and the equivalent current test bodies. It admits measurement,
-with release explicitly pending the performance review.
+with release explicitly pending the subsequent performance review. The
+[completed release review](resolution_release/admission_v2/review.json) now binds
+the performance results, exact four version substitutions and tested RC artifacts,
+rechecking 2,703 evidence records. Final style/research checks bind 600 source
+files before and after execution, with no changes.
 
-## Performance and release decision
+## Controlled performance
 
-Pending the admitted matched performance run. The new baseline is the fresh
-pre-correction f04b156f build, not the earlier historical throughput number.
-The fixed protocol covers single-molecule latency, conformer processing, six-core
-batch throughput, Python overhead, memory and allocation counts. Baseline and
-candidate native and diagnostic executable bytes are identical.
+The user-confirmed quiet window ran **2026-11-02 18:52:46–18:57:08 UTC**.
+All 504 native attempts, 28 instrumented allocation runs, 96 Python timing
+blocks and two ensemble allocation runs completed. Every raw output and summary
+was rechecked; no sample was excluded and no campaign was repeated. The fresh
+pre-correction f04b156f baseline and candidate have identical native/diagnostic
+executable bytes and identical scientific results.
+
+| Measurement | Fresh baseline | Candidate |
+|---|---:|---:|
+| Six-thread batch, files/s | 10,656.50 | 10,774.50 |
+| Six-thread 10,000-file batch, median ms | 938.394 | 928.118 |
+| One-thread small molecule, median ms | 1.889 | 1.981 |
+| Six-thread 56-conformer batch, median ms | 7.646 | 7.541 |
+| Six-thread batch peak RSS, median MiB | 26.334 | 26.457 |
+| Python bridge, six-conformer call, median ms | 3.2727 | 3.2475 |
+| Python typed API, six-conformer call, median ms | 4.0311 | 4.0125 |
+| Warmed ensemble allocation calls | 871 | 871 |
+| Warmed ensemble requested bytes | 2,454,897 | 2,454,897 |
+
+No native or Python method reaches the unchanged 10% investigation trigger.
+The largest native side-median slowdown is 4.843%, on the approximately 2 ms
+small-molecule process. Maximum median RSS increase is 1.77%. All 14 native
+allocation/reallocation/deallocation-count comparisons match exactly; small
+process-wide requested-byte and peak differences remain reported. The warmed
+ensemble call has 73 reallocations and zero live-byte growth on both sides.
+
+Performance is preserved on this fixed workload set. Since executable bytes are
+identical, timing differences are host/sample variation, not an algorithmic
+speedup. Python timings exclude input parsing and use the same installed package
+bytes; native-to-wheel differences also include build-target effects. Read
+[the complete performance report](resolution_performance/PERFORMANCE.md) for all
+28 configurations, distributions, scope, host counters and preserved samples.
+
+## Release decision
 
 The user explicitly [approved the prospective policy](POLICY_APPROVAL.md) before
 its evaluation. Historical strict failures are preserved; new common-domain,
 boundary, continuum, preservation and installation lanes are evaluated
-separately. Final release recommendation requires the completed engineering and
-performance receipts and will be recorded here after review.
+separately. The original gate incorrectly compared two different finite sample
+domains. Its historical failure remains; exact common-domain occupancy and
+independent boundary/convergence evidence satisfy the approved policy without
+weakening any numerical tolerance. No unexplained StericX implementation error
+remains in the tested cases.
+
+**Recommendation: admit the scoped Python 0.4.0rc1 release candidate for user
+review.** The [candidate bundle](resolution_release/candidate_v1/candidate_artifacts.tar.gz)
+contains Linux x86-64, Windows x86-64 and macOS arm64 ABI3 wheels plus a source
+archive. Python 3.11–3.14 installations are validated. Exact artifact identities,
+installation instructions and reproducible review commands are in
+[release preparation](resolution_release/RELEASE_CANDIDATE.md). The local unpacked
+bundle is `.stericx/releases/stericx-0.4.0rc1/`. No PyPI upload, GitHub Release,
+public release tag or registry-installation claim is made.
+
+The first RC macOS Rust job never acquired a runner: GitHub reported arm64
+capacity constraints. Its overall run remains `failure` and its Mac job remains
+`cancelled`; Linux/Windows jobs passed. A separate actual run on macOS 14 arm64
+executes the identical source and commands, passing **347 applicable Rust tests
+plus the 22-test screening repeat**, with zero failures/ignored tests and unchanged
+source. The x86-only AVX2 comparison accounts for the one-test difference from
+the 348-test x86 suites. The final gate explicitly combines these real platform
+executions; it does not fabricate successful metadata for the original run.
+[CI evidence](resolution_release/RELEASE_CI.md) retains the original capacity
+failure, successful retry and deliberately cancelled duplicate pipelines.
+
+The first final coordinator review rejected an incorrect expectation that the
+overall workflow conclusion would also be `cancelled`. Frozen API records and
+independent review agree that it is `failure`, while the unassigned Mac job is
+`cancelled`. The corrected check preserves both fields and still requires every
+test in the separate successful execution. The [failed reviewer attempt](resolution_release/admission_v1/failure.json)
+and its source snapshot remain alongside the passing review. No acceptance
+tolerance or test requirement changed.
 
 ## Remaining scientific limitations
 
@@ -188,4 +266,10 @@ distinct thresholded-grid quantity with its existing validated grid restrictions
 
 All original failures, corrected controller attempts, input identities and
 unfavorable comparisons remain reproducible. The linked study reports give exact
-commands; the final commit ledger records the separate changes.
+commands; the [commit ledger](COMMITS.txt) records the separate changes through
+release preparation. The final documentation commit is identified by Git history
+and the completion response.
+
+The [requirement-by-requirement completion audit](COMPLETION_AUDIT.md) and fresh
+2026-11-12 integrity check confirm the same release decision. All 2,703 evidence
+records and the complete candidate archive remain unchanged.

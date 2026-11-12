@@ -11,7 +11,7 @@ inputs accompany the implementation.
 
 ## Install and calculate
 
-The Python package is **0.4.0.dev0**, backed by the existing 0.3.0 Rust engine.
+The Python release candidate is **0.4.0rc1**, backed by the existing 0.3.0 Rust engine.
 It has not been published to PyPI. From a checkout, with Rust installed:
 
 ```bash
@@ -24,8 +24,10 @@ A portable Linux x86-64 wheel has been built and installed in isolated Python
 3.11, 3.12, 3.13 and 3.14 environments. Each installation passes 71 package tests;
 a separate source-archive installation also passes. Actual CI also passes all 12 Python-version/OS combinations on Linux x86-64,
 Windows x86-64 and macOS arm64, plus source installation. The
-[fresh installation and CI replay](docs/validation/dbstep/resolution_advanced/RESULTS.md)
-preserves exact artifacts and source identities.
+[release-candidate audit](docs/validation/dbstep/resolution_release/RELEASE_CANDIDATE.md)
+preserves exact artifacts and source identities. The
+[unpublished candidate bundle](docs/validation/dbstep/resolution_release/candidate_v1/candidate_artifacts.tar.gz)
+contains three platform wheels, a source archive and checksums.
 
 ```python
 from stericx import Molecule, DescriptorOptions
@@ -182,9 +184,13 @@ not establish continuum accuracy.
 Rust supplies the shared scientific engine; PyO3 binds it without duplicating
 chemistry in Python. Independent files use ordered Rayon processing. Performance
 claims require fixed geometries/settings, numerical admission and retained raw
-samples. The [Paton performance report](docs/paton_recommendations/performance/PERFORMANCE.md)
-compares the extended engine with this task's frozen baseline, including
-allocation counts, Python overhead and a separately retained I/O-contention study.
+samples. The [controlled performance report](docs/validation/dbstep/resolution_performance/PERFORMANCE.md)
+retains all 504 native attempts and 96 Python timing blocks. Six-thread throughput
+is 10,774 files/s versus 10,657 for the fresh matched baseline; no configuration
+crosses the unchanged 10% investigation trigger. Scientific outputs are identical.
+These measurements precede the separately tested RC version-only packaging.
+The [earlier Paton report](docs/paton_recommendations/performance/PERFORMANCE.md)
+retains the original extension comparison and I/O-contention study.
 
 The earlier [Morfeus benchmark](docs/benchmarks/morfeus_current/BENCHMARK.md)
 is scoped to nine finite-grid volume outputs on 56 repeated geometries. Its
@@ -192,7 +198,8 @@ reported speedups do not establish an all-descriptor or universal speed ratio.
 The [optimization report](docs/performance/SCIENTIFICALLY_EXACT_OPTIMIZATION.md)
 retains accepted and rejected changes.
 
-Start with the [final implementation report](docs/paton_recommendations/FINAL_REPORT.md),
+Start with the [final DBSTEP resolution and release report](docs/validation/dbstep/FINAL_RESOLUTION.md),
+[original implementation report](docs/paton_recommendations/FINAL_REPORT.md),
 [complete scientific validation](docs/paton_recommendations/SCIENTIFIC_VALIDATION.md),
 [research examples](python/examples/README.md), and
 [scientific replay instructions](docs/scientific_remediation/REPRODUCE.md).

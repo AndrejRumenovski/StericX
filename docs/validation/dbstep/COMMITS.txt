@@ -1,0 +1,26 @@
+StericX–DBSTEP discrepancy resolution
+Baseline (excluded): f04b156f7b8b31700e1c6ab978e337b00cc734e0
+
+c40cd3fd52e59da75cea56bc79e9de1ca0e9b624 test: freeze DBSTEP discrepancy reference evidence
+98d86d63ca3a2901aacb0f34772f22b2ab2cf870 study: establish independent volume predicates and reference diagnostics
+e96b4d3270647247564a18aca5db49f2ed5fcf42 fix: compare buried-volume occupancy on identical sample domains
+5c521fe6bf864d7abeebdaacf9a1bcc02b5c5814 docs: propose independent hard-sphere validation lanes
+0358094903b88ac62c305cce5ef5e375b2bc587e docs: record approval of independent validation policy
+3f9b8eebcb9505c1c6147fb764190404ee3031aa test: guard volume boundaries and molecular invariance
+156f0cd0d98d289b0e5a87618c422766278e4c0c study: bound integration error and classify all volume discrepancies
+d8615152d8a7d2b1de6348dc80725731ca8775d4 test: revalidate conformers and cross-platform Python distributions
+bcecb6e3b2e59141b4d4513621885c89847be19f test: integrate volume reference checks with unittest discovery
+e0ed388f32ac37f6436604441aaa833b0ed84897 test: complete scientific replay under the approved validation policy
+9517f755394e138ea1b23892d3ef44aed4fba3f8 perf: prepare matched pre-correction performance measurements
+497de873d503d624d6d47b3100a04b7093bd0218 docs: record resolved volume discrepancies and validation limits
+03557ed5279abf8487012ddb39fab019f0538416 build: version the validated Python release candidate
+b65e7e7e2b4f99717d5e71fae43d5202a22e73f2 perf: preserve controlled alternating baseline and candidate benchmarks
+6c2eddfadc3329b6ddf2e40dc2eb981ef865e4f2 test: verify one Windows RC artifact across supported Python versions
+a371345a2f489744b3112f8cfc46197e086c67ab test: rerun unchanged macOS Rust suite after runner capacity failure
+f5078d1b33c9da3d306a8612dffd297e314df512 test: validate versioned RC artifacts across supported platforms
+eedf103bfa366f0424fe840c1e733993df071f22 release: prepare validated StericX Python 0.4.0rc1
+
+This ledger covers implementation, evidence and release preparation.
+The final documentation commit contains this ledger; its exact identity is available with:
+  git log -1 --format="%H %s" -- docs/validation/dbstep/COMMITS.txt
+The completion response also records that final commit.

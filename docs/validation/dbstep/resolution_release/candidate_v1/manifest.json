@@ -1,0 +1,37 @@
+{
+  "version": "0.4.0rc1",
+  "source_commit": "03557ed5279abf8487012ddb39fab019f0538416",
+  "release_review": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/validation/dbstep/resolution_release/admission_v2/review.json",
+    "bytes": 724745,
+    "sha256": "6de84d8e2dfe23877953dea6cf03726c98615b1a02eddb75d2d868138ccaf1f1"
+  },
+  "controller": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/package_stericx_release_candidate.py",
+    "bytes": 6716,
+    "sha256": "b0e95112efdfa1764598b8348f013197f159b33b1206c0518cb22e7f605dac0b"
+  },
+  "artifacts": {
+    "stericx-0.4.0rc1-cp311-abi3-macosx_11_0_arm64.whl": {
+      "sha256": "f6f57ff0d4d9634a8ee152cff74a2c1bf966f6bf65ff592434461007c09f2d97",
+      "bytes": 558618,
+      "source_artifact": "artifacts/wheel-macos-14-py3.11/stericx-0.4.0rc1-cp311-abi3-macosx_11_0_arm64.whl"
+    },
+    "stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl": {
+      "sha256": "663006be21546e45737cb448d58a29d16ceee2c1c209269d69700057efd87f6c",
+      "bytes": 629097,
+      "source_artifact": "artifacts/wheel-ubuntu-24.04-py3.11/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl"
+    },
+    "stericx-0.4.0rc1-cp311-abi3-win_amd64.whl": {
+      "sha256": "900fa8616446459cfd544edb5633c167b20bae0d0d0e01d19c78c9b0a6e69864",
+      "bytes": 494326,
+      "source_artifact": "artifacts/wheel-windows-latest-py3.11/stericx-0.4.0rc1-cp311-abi3-win_amd64.whl"
+    },
+    "stericx-0.4.0rc1.tar.gz": {
+      "sha256": "4e922e997c02b527b42945a6a955ecb8a75224d4dec3183d4bcea674a8cc7b91",
+      "bytes": 1506346,
+      "source_artifact": "artifacts/source-distribution/stericx-0.4.0rc1.tar.gz"
+    }
+  },
+  "publication_performed": false
+}

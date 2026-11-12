@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/review_dbstep_resolution_release.py", line 466, in <module>
+    main()
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/review_dbstep_resolution_release.py", line 275, in main
+    require(
+  File "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/review_dbstep_resolution_release.py", line 32, in require
+    raise ValueError(message)
+ValueError: Original Linux/Windows Rust jobs do not match the recorded run

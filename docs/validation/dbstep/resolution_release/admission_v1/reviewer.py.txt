@@ -1,0 +1,466 @@
+#!/usr/bin/env python3
+"""Bind the approved scientific review, fixed performance and versioned RC tests."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import re
+import subprocess
+from datetime import UTC, datetime
+from pathlib import Path
+
+import validate_dbstep_rc_local as rc
+
+ROOT = Path(__file__).resolve().parents[1]
+SCIENCE_SHA = "144fc0aa0c334c7de6604653deaa10962272c5d5c71f80acc8d0ccaa2c3ccb53"
+POLICY_SHA = "683af4d50e148c66ee3cff0a5c0eed99be60d5d64ad6f6fbc75d2ca50894ad9a"
+RC_COMMIT = "03557ed5279abf8487012ddb39fab019f0538416"
+PERFORMANCE_SHA = "389b8e575bda9c9e4594f0dc7674c02d8fab4da8c81be6be25eb9c18e38e7558"
+WINDOWS_WORKFLOW_COMMIT = "6c2eddfadc3329b6ddf2e40dc2eb981ef865e4f2"
+WINDOWS_WHEEL_SHA = "900fa8616446459cfd544edb5633c167b20bae0d0d0e01d19c78c9b0a6e69864"
+MACOS_WORKFLOW_COMMIT = "a371345a2f489744b3112f8cfc46197e086c67ab"
+
+
+def read(path):
+    return json.loads(Path(path).read_text())
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def current_sources():
+    command = ["rg", "--files", "--hidden"]
+    for pattern in ["*.py", "*.rs", "*.toml", "*.yml", "*.yaml", "*.lock"]:
+        command += ["-g", pattern]
+    command += ["-g", "!docs/media/**"]
+    paths = subprocess.check_output(command, cwd=ROOT, text=True).splitlines()
+    return {name: rc.sha(ROOT / name) for name in sorted(paths)}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    for name in [
+        "science",
+        "performance",
+        "local",
+        "ci",
+        "ci-versions",
+        "windows-wheel",
+        "macos-completion",
+        "final-checks",
+        "output",
+    ]:
+        parser.add_argument("--" + name, type=Path, required=True)
+    args = parser.parse_args()
+    args.output.mkdir(parents=True, exist_ok=False)
+    checked = []
+
+    def verify(record):
+        path = Path(record["path"])
+        require(rc.sha(path) == record["sha256"], f"Changed evidence: {path}")
+        checked.append(rc.record(path))
+
+    def manifest(directory):
+        path = directory / "manifest.json"
+        for name, row in read(path).items():
+            expected = row if isinstance(row, str) else row["sha256"]
+            verify({"path": directory / name, "sha256": expected})
+        checked.append(rc.record(path))
+
+    require(rc.sha(args.science) == SCIENCE_SHA, "Wrong scientific admission")
+    science = read(args.science)
+    require(science["descriptor_performance_admitted"], "Scientific gate failed")
+    require(science["policy_sha256"] == POLICY_SHA, "Policy identity changed")
+    version_checks = rc.version_only(rc.source_paths())
+    transitions = []
+    for record in science["evidence"]:
+        path = Path(record["path"])
+        if rc.sha(path) == record["sha256"]:
+            verify(record)
+            continue
+        name = str(path.relative_to(ROOT))
+        require(name in rc.VERSION_CHANGES, f"Unexpected scientific change: {name}")
+        original = rc.git("show", f"{rc.BASELINE}:{name}")
+        require(
+            hashlib.sha256(original).hexdigest() == record["sha256"],
+            f"Version baseline not bound to admitted source: {name}",
+        )
+        transitions.append({"path": name, **version_checks[name]})
+    require(
+        {row["path"] for row in transitions} == set(rc.VERSION_CHANGES),
+        "Version transition coverage differs from the four approved declarations",
+    )
+    require(
+        science["gates"]["legacy_preservation"]["changed_values"] == 0,
+        "Scientific output changed",
+    )
+
+    require(rc.sha(args.performance) == PERFORMANCE_SHA, "Wrong performance review")
+    performance = read(args.performance)
+    verify(performance["measurement_journal"])
+    verify(performance["native_review"])
+    require(
+        performance["all_raw_fingerprints_and_summaries_rechecked"]
+        and performance["native_attempts"] == 504
+        and performance["native_binary_bytes_identical"]
+        and not performance["native_regression_triggers"]
+        and not performance["python_regression_triggers"],
+        "Performance gate incomplete or requires investigation",
+    )
+    performance_directory = args.performance.parent
+    manifest(performance_directory)
+    independent = read(performance_directory / "independent/review.json")
+    require(
+        independent["performance_admissible"]
+        and independent["native_attempts"] == 504
+        and independent["native_raw_fingerprints_checked"] == 504
+        and independent["instrumented_raw_fingerprints_checked"] == 28
+        and independent["python_block_attempts"] == 96
+        and independent["native_schedule_exact"]
+        and independent["python_schedule_exact"]
+        and independent["all_native_outputs_equal"]
+        and independent["python_preflights_and_native_measured_outputs_equal"],
+        "Independent timing review failed",
+    )
+    archive = read(performance_directory / "archive_verification.json")
+    require(
+        archive["files_verified"] == 2449
+        and archive["all_original_bytes_rechecked"]
+        and archive["all_archive_entries_rechecked"],
+        "Raw performance preservation incomplete",
+    )
+
+    local = read(args.local)
+    require(
+        local["complete"]
+        and local["passed"]
+        and local["version_only_verified"]
+        and not local["source_changes"]
+        and not local["publication_performed"],
+        "Local RC gate failed",
+    )
+    verify(local["controller"])
+    require(
+        local["source_checks"] == version_checks, "Local RC source coverage changed"
+    )
+    for command in local["commands"]:
+        require(command["returncode"] == 0, "Local RC command failed")
+        verify(command["log"])
+    require(
+        set(local["installations"])
+        == {"wheel-3.11", "wheel-3.12", "wheel-3.13", "wheel-3.14", "sdist-3.12"},
+        "Local installation coverage changed",
+    )
+    tests = {
+        str(p.relative_to(ROOT / "python/tests")): rc.sha(p)
+        for p in (ROOT / "python/tests").rglob("*")
+        if p.is_file() and "__pycache__" not in p.parts
+    }
+    for name, row in local["installations"].items():
+        require(
+            row["passed"] and row["tests_passed"] == 71, "Local test coverage changed"
+        )
+        require(
+            row["versions"]["python_version"] == "0.4.0rc1"
+            and row["versions"]["distribution_version"] == "0.4.0rc1"
+            and row["versions"]["native_binding_version"] == "0.4.0-rc.1",
+            "Installed RC version mismatch",
+        )
+        verify(row["receipt"])
+        verify(row["tests"])
+        installation = read(row["receipt"]["path"])
+        artifact_kind = "sdist" if name.startswith("sdist-") else "wheel"
+        expected_artifact = local["artifacts"][artifact_kind]
+        require(
+            installation["artifact"]["path"] == expected_artifact["path"]
+            and installation["artifact"]["sha256"] == expected_artifact["sha256"]
+            and installation["controller_sha256"]
+            == rc.sha(ROOT / "scripts/validate_python_install.py")
+            and installation["tests"] == tests,
+            "Installation is not bound to this artifact, installer and tests",
+        )
+        require(
+            [command["name"] for command in installation["commands"]]
+            == [
+                "create_environment",
+                "install_base",
+                "base_smoke",
+                "install_test_adapters",
+                "tests",
+                "pip_check",
+                "packages",
+            ],
+            "Installation command coverage changed",
+        )
+        test_log = Path(row["tests"]["path"]).read_text()
+        require(
+            re.search(r"\b71 passed in ", test_log) is not None
+            and "skipped" not in test_log
+            and "failed" not in test_log,
+            "Installed test log does not show complete success",
+        )
+        require(
+            installation["passed"] and installation["artifact_unchanged"],
+            "Install failed",
+        )
+        for command in installation["commands"]:
+            require(command["returncode"] == 0, "Installation command failed")
+            verify({"path": command["log"], "sha256": command["sha256"]})
+    for artifact in local["artifacts"].values():
+        verify(artifact)
+    local_artifacts_path = args.local.parent / "artifact_review.json"
+    local_artifacts = read(local_artifacts_path)
+    require(
+        local_artifacts["passed"]
+        and local_artifacts["wheel_record_entries"] == 8
+        and local_artifacts["sdist_exact_source_members"] == 64
+        and local_artifacts["artifacts"] == local["artifacts"],
+        "Local wheel RECORD/source archive checks incomplete",
+    )
+    verify(
+        {
+            "path": args.local.parent / "artifact_review.py",
+            "sha256": local_artifacts["controller_sha256"],
+        }
+    )
+    checked.append(rc.record(local_artifacts_path))
+
+    ci = read(args.ci)
+    require(
+        not ci["passed"]
+        and ci["failures"]
+        == [{"run": "rust", "error": "run/job conclusion not success"}]
+        and ci["source_commit"] == RC_COMMIT
+        and ci["wheel_count"] == 12
+        and ci["source_archive_count"] == 1
+        and len(ci["installed_python_test_outcomes"]) == 13,
+        "RC cross-platform gate failed",
+    )
+    manifest(args.ci.parent)
+    run = ci["wheel_run"]
+    require(
+        run["headSha"] == RC_COMMIT
+        and run["conclusion"] == "success"
+        and len(run["jobs"]) == 13
+        and all(job["conclusion"] == "success" for job in run["jobs"]),
+        "CI wheel coverage incomplete",
+    )
+    # Retain the real cancelled run. A separately recorded execution must
+    # complete the identical Mac tests; no successful metadata is fabricated.
+    macos = read(args.macos_completion)
+    require(
+        macos["passed"]
+        and not macos["failures"]
+        and macos["source_commit"] == RC_COMMIT
+        and macos["workflow_commit"] == MACOS_WORKFLOW_COMMIT
+        and macos["commands"]
+        == [
+            "cargo test --all-targets --all-features",
+            "cargo test --test screening_regression",
+        ]
+        and macos["architecture"] == "arm64"
+        and macos["all_targets_tests_passed"] == 347
+        and macos["screening_tests_passed"] == 22
+        and macos["failed_tests"] == 0
+        and macos["ignored_tests"] == 0
+        and macos["source_unchanged"]
+        and macos["original_successful_platforms"] == ["linux", "windows"],
+        "Actual completion of the Mac Rust gate is missing",
+    )
+    original = macos["original_run"]
+    require(
+        all(original[k] == ci["rust_run"][k] for k in ci["rust_run"])
+        and original["headSha"] == RC_COMMIT
+        and original["conclusion"] == "cancelled"
+        and len(original["jobs"]) == 3
+        and sum(job["conclusion"] == "success" for job in original["jobs"]) == 2,
+        "Original Linux/Windows Rust jobs do not match the recorded run",
+    )
+    never_started = macos["original_macos_job"]
+    require(
+        never_started["conclusion"] == "cancelled"
+        and never_started["runner_id"] == 0
+        and never_started["steps"] == []
+        and any(
+            job["databaseId"] == never_started["id"]
+            and job["name"] == "Build and test (macos-latest)"
+            and job["conclusion"] == "cancelled"
+            for job in original["jobs"]
+        )
+        and any(
+            "capacity" in annotation["message"].lower()
+            for annotation in macos["original_capacity_annotations"]
+        ),
+        "Original failure is not a documented unassigned-runner capacity failure",
+    )
+    run = macos["fallback_run"]
+    require(
+        run["headSha"] == MACOS_WORKFLOW_COMMIT
+        and run["conclusion"] == "success"
+        and len(run["jobs"]) == 1
+        and run["jobs"][0]["conclusion"] == "success",
+        "Mac retry did not complete successfully",
+    )
+    for record in macos["records"]:
+        verify(record)
+    versions = read(args.ci_versions)
+    require(
+        versions["passed"]
+        and not versions["failures"]
+        and versions["source_commit"] == RC_COMMIT
+        and versions["artifact_count"] == 13
+        and len(versions["artifacts"]) == 13
+        and versions["package_version"] == "0.4.0rc1"
+        and versions["binding_crate_version"] == "0.4.0-rc.1"
+        and versions["engine_version"] == "0.3.0",
+        "CI version gate failed",
+    )
+    for artifact in versions["artifacts"]:
+        verify({"path": artifact["absolute_path"], "sha256": artifact["sha256"]})
+    ci_artifacts = read(args.ci.parent / "summary.json")["artifacts"]
+    require(
+        len(ci_artifacts) == 13
+        and {(a["path"], a["sha256"]) for a in ci_artifacts}
+        == {(a["path"], a["sha256"]) for a in versions["artifacts"]},
+        "CI source/RECORD and version reviews describe different artifacts",
+    )
+
+    windows = read(args.windows_wheel)
+    require(
+        windows["passed"]
+        and not windows["failures"]
+        and windows["source_commit"] == RC_COMMIT
+        and windows["workflow_commit"] == WINDOWS_WORKFLOW_COMMIT
+        and windows["artifact_sha256"] == WINDOWS_WHEEL_SHA
+        and windows["artifact"]["sha256"] == WINDOWS_WHEEL_SHA
+        and windows["python_versions"] == ["3.11", "3.12", "3.13", "3.14"]
+        and windows["tests_each"] == 71
+        and len(windows["receipts"]) == 4,
+        "Selected Windows artifact is not validated on all supported interpreters",
+    )
+    require(
+        WINDOWS_WHEEL_SHA in {a["sha256"] for a in versions["artifacts"]},
+        "Selected Windows wheel was not part of the original RC matrix",
+    )
+    run = windows["run"]
+    require(
+        run["headSha"] == WINDOWS_WORKFLOW_COMMIT
+        and run["conclusion"] == "success"
+        and len(run["jobs"]) == 4
+        and all(job["conclusion"] == "success" for job in run["jobs"]),
+        "Selected Windows artifact CI failed",
+    )
+    verify(windows["artifact"])
+    require(
+        sorted(row["python_minor"] for row in windows["receipts"])
+        == windows["python_versions"],
+        "Duplicate or missing Windows interpreter evidence",
+    )
+    for row in windows["receipts"]:
+        for key in ["installed_record", "tests_record", "pip_check_record"]:
+            verify(row[key])
+        installed = read(row["installed_record"]["path"])
+        require(
+            installed == row["installed"]
+            and installed["wheel_sha256"] == WINDOWS_WHEEL_SHA
+            and installed["source_commit"] == RC_COMMIT
+            and installed["workflow_commit"] == WINDOWS_WORKFLOW_COMMIT
+            and installed["python_minor"] == row["python_minor"]
+            and installed["pip_check_returncode"] == 0,
+            "Installed Windows artifact identity differs from the tested wheel",
+        )
+        log = Path(row["tests_record"]["path"]).read_text()
+        require(
+            re.search(r"\b71 passed in ", log) is not None
+            and "skipped" not in log
+            and "failed" not in log,
+            "Selected Windows wheel lacks complete installed-package tests",
+        )
+    for record in windows["records"]:
+        verify(record)
+
+    final_checks = read(args.final_checks)
+    require(
+        final_checks["complete"]
+        and final_checks["passed"]
+        and final_checks["sources_before"] == final_checks["sources_after"]
+        and final_checks["sources_after"] == current_sources()
+        and [c["name"] for c in final_checks["commands"]]
+        == ["ruff", "format", "research"],
+        "Final style and research check coverage incomplete",
+    )
+    for command in final_checks["commands"]:
+        require(command["returncode"] == 0, "Final check failed")
+        verify({"path": command["log"], "sha256": command["sha256"]})
+
+    for path in [
+        args.science,
+        args.performance,
+        args.local,
+        args.ci,
+        args.ci_versions,
+        args.windows_wheel,
+        args.macos_completion,
+        args.final_checks,
+    ]:
+        checked.append(rc.record(path))
+    result = {
+        "created_utc": datetime.now(UTC).isoformat(),
+        "kind": "dbstep_resolution_release_candidate_admission",
+        "controller": rc.record(__file__),
+        "coordinator_commit": subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+        ).strip(),
+        "rc_source_commit": RC_COMMIT,
+        "python_version": "0.4.0rc1",
+        "binding_crate_version": "0.4.0-rc.1",
+        "engine_version": "0.3.0",
+        "approved_policy_sha256": POLICY_SHA,
+        "scientific_evidence_records": len(science["evidence"]),
+        "exact_version_only_transitions": transitions,
+        "scientific_output_changes": 0,
+        "performance_passed": True,
+        "performance_native_attempts": 504,
+        "performance_python_blocks": 96,
+        "performance_timed_package": (
+            "0.4.0.dev0; exact RC version-only transition checked separately"
+        ),
+        "local_installs": 5,
+        "rc_ci_wheel_source_jobs": 13,
+        "rc_ci_rust_quality_jobs": 3,
+        "rust_platform_execution": {
+            "linux_windows": ci["rust_run"]["url"],
+            "macos_arm64": macos["fallback_run"]["url"],
+            "original_macos_runner_failure_preserved": True,
+            "macos_all_targets_tests": 347,
+            "macos_screening_repeat_tests": 22,
+            "criteria_changed": False,
+        },
+        "selected_windows_wheel_jobs": 4,
+        "installed_tests_each": 71,
+        "historical_strict_lane": science["historical_strict_gate"],
+        "evidence_rechecked": checked,
+        "release_candidate_admitted": True,
+        "publication_authorized": False,
+        "publication_performed": False,
+        "scope": (
+            "Validated finite-point descriptor estimator and conformer API with "
+            "documented resolution, convention and historical-data limitations. "
+            "No universal continuum accuracy, full rotational bit-invariance, "
+            "or catalyst-prediction claim. Original failed lanes remain preserved."
+        ),
+    }
+    (args.output / "review.json").write_text(json.dumps(result, indent=2) + "\n")
+    print(
+        json.dumps(
+            {"release_candidate_admitted": True, "evidence_rechecked": len(checked)}
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()

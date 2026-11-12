@@ -1,0 +1,18 @@
+{
+  "kind": "final_current_state_completion_verification",
+  "created_utc": "2026-11-12T19:56:48.046627+00:00",
+  "original_admission": {
+    "path": "docs/validation/dbstep/resolution_release/admission_v2/review.json",
+    "sha256": "6de84d8e2dfe23877953dea6cf03726c98615b1a02eddb75d2d868138ccaf1f1"
+  },
+  "recheck": {
+    "path": ".stericx/dbstep_resolution/completion_20261112/release_review/review.json",
+    "sha256": "c02ce651e4ac18d07eef781a00fd83e354437f7b1742abc0ee7ce97f9616312d"
+  },
+  "rechecked_evidence_records": 2703,
+  "only_admission_difference": "created_utc",
+  "candidate_archive_sha256": "262791009a166331a7aa1a62982b52626035ca09679d11463af5ce440cc37868",
+  "candidate_archive_members_verified": 7,
+  "release_candidate_admitted": true,
+  "publication_performed": false
+}

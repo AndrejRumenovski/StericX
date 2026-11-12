@@ -1,0 +1,47 @@
+name: Exact RC Rust suite on macOS 14
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [dbstep-resolution-rc-macos-20261102]
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  frozen-macos-rust:
+    name: Frozen RC Rust tests / macOS 14 arm64
+    runs-on: macos-14
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 03557ed5279abf8487012ddb39fab019f0538416
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Record exact source and toolchain
+        run: |
+          test "$(git rev-parse HEAD)" = 03557ed5279abf8487012ddb39fab019f0538416
+          test "$(uname -m)" = arm64
+          mkdir evidence
+          git rev-parse HEAD | tee evidence/source_commit.txt
+          uname -a | tee evidence/platform.txt
+          rustc --version --verbose | tee evidence/rustc.txt
+          cargo --version | tee evidence/cargo.txt
+      # These are exactly the original cross-platform Rust job commands.
+      - name: Run Rust tests
+        run: cargo test --all-targets --all-features 2>&1 | tee evidence/rust_tests.log
+      - name: Guard published screening results
+        run: cargo test --test screening_regression 2>&1 | tee evidence/screening_tests.log
+      - name: Verify source preservation
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frozen-macos-rust-evidence
+          path: evidence/

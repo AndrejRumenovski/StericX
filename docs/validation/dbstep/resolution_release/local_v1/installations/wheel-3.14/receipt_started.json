@@ -1,0 +1,28 @@
+{
+  "created_utc": "2026-11-02T19:03:22.632100+00:00",
+  "command": [
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_python_install.py",
+    "--python",
+    "3.14",
+    "--artifact",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl",
+    "--environment",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.14",
+    "--output",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.14"
+  ],
+  "controller_sha256": "47437fc0adf8cf9fe2bb17877fbdc8cd88b21be2f8bd3ccd9630fb25bb755b47",
+  "artifact": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl",
+    "sha256": "830e1aeb825875c2e94e6978f8025fc1c922ea08f735427ae9771cdac8cb7e1e"
+  },
+  "tests": {
+    "data/DBSTEP_LICENSE.txt": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+    "data/Ne_medium.cube": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+    "data/density_goldens.json": "5441ce57cfe0a309edae5b0fdd61ba5962cffe6b04014177da334f867d78c156",
+    "data/native_goldens.json": "b8c7d46151e15a027345a1c7d5104623b65cfa0a7e6728a1032f9b60f7e44e22",
+    "test_advanced.py": "99521404afd9e51d6d8f72f34d00a31a31f4861d7b6bdaac752194bbbe730037",
+    "test_api.py": "37f081bf853f93e8f76af8aaffd32fc6e1e41fa39afddfdd21ebfaa068c1d168"
+  },
+  "commands": []
+}

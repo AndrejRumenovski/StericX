@@ -1,0 +1,29 @@
+{
+  "reason": "New additive workflow branch push automatically created duplicate full Rust/package runs. Original exact-source Rust41505795122 remains required; package41505795041 already passed; selected-wheel41507681984 remains required. Cancel only duplicates to avoid competing for runner capacity. No gate waived.",
+  "authorization": "Parent explicitly approved cancellation of only41507681761 and41507681961.",
+  "created_utc": "2026-11-02T19:12:39.434258+00:00",
+  "commands": [
+    {
+      "command": [
+        "gh",
+        "run",
+        "cancel",
+        "41507681761",
+        "--repo",
+        "AndrejRumenovski/StericX"
+      ],
+      "returncode": 0
+    },
+    {
+      "command": [
+        "gh",
+        "run",
+        "cancel",
+        "41507681961",
+        "--repo",
+        "AndrejRumenovski/StericX"
+      ],
+      "returncode": 0
+    }
+  ]
+}

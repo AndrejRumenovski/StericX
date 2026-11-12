@@ -1,0 +1,730 @@
+{
+  "passed": true,
+  "source_commit": "03557ed5279abf8487012ddb39fab019f0538416",
+  "workflow_commit": "6c2eddfadc3329b6ddf2e40dc2eb981ef865e4f2",
+  "run": {
+    "conclusion": "success",
+    "createdAt": "2026-11-02T19:11:50Z",
+    "databaseId": 41507681984,
+    "event": "push",
+    "headBranch": "dbstep-resolution-rc-artifact-20261102",
+    "headSha": "6c2eddfadc3329b6ddf2e40dc2eb981ef865e4f2",
+    "jobs": [
+      {
+        "completedAt": "2026-11-02T19:13:15Z",
+        "conclusion": "success",
+        "databaseId": 125491039299,
+        "name": "Same Windows wheel / Python 3.11",
+        "startedAt": "2026-11-02T19:11:53Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:11:55Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:11:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:32Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:11:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:33Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:12:32Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:34Z",
+            "conclusion": "success",
+            "name": "Download the exact previously tested wheel",
+            "number": 4,
+            "startedAt": "2026-11-02T19:12:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:09Z",
+            "conclusion": "success",
+            "name": "Verify hash and install the frozen artifact",
+            "number": 5,
+            "startedAt": "2026-11-02T19:12:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:10Z",
+            "conclusion": "success",
+            "name": "Run unchanged installed-package tests",
+            "number": 6,
+            "startedAt": "2026-11-02T19:13:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:11Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 7,
+            "startedAt": "2026-11-02T19:13:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:11Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 13,
+            "startedAt": "2026-11-02T19:13:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:13Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-11-02T19:13:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:13Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-11-02T19:13:13Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41507681984/job/125491039299"
+      },
+      {
+        "completedAt": "2026-11-02T19:13:39Z",
+        "conclusion": "success",
+        "databaseId": 125491039464,
+        "name": "Same Windows wheel / Python 3.13",
+        "startedAt": "2026-11-02T19:11:53Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:11:55Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:11:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:52Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:11:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:53Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:12:52Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:54Z",
+            "conclusion": "success",
+            "name": "Download the exact previously tested wheel",
+            "number": 4,
+            "startedAt": "2026-11-02T19:12:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:31Z",
+            "conclusion": "success",
+            "name": "Verify hash and install the frozen artifact",
+            "number": 5,
+            "startedAt": "2026-11-02T19:12:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:32Z",
+            "conclusion": "success",
+            "name": "Run unchanged installed-package tests",
+            "number": 6,
+            "startedAt": "2026-11-02T19:13:31Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:34Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 7,
+            "startedAt": "2026-11-02T19:13:32Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:34Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 13,
+            "startedAt": "2026-11-02T19:13:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:36Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-11-02T19:13:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:36Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-11-02T19:13:36Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41507681984/job/125491039464"
+      },
+      {
+        "completedAt": "2026-11-02T19:13:50Z",
+        "conclusion": "success",
+        "databaseId": 125491039574,
+        "name": "Same Windows wheel / Python 3.14",
+        "startedAt": "2026-11-02T19:11:53Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:11:56Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:11:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:38Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:11:56Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:39Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:12:38Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:40Z",
+            "conclusion": "success",
+            "name": "Download the exact previously tested wheel",
+            "number": 4,
+            "startedAt": "2026-11-02T19:12:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:41Z",
+            "conclusion": "success",
+            "name": "Verify hash and install the frozen artifact",
+            "number": 5,
+            "startedAt": "2026-11-02T19:12:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:44Z",
+            "conclusion": "success",
+            "name": "Run unchanged installed-package tests",
+            "number": 6,
+            "startedAt": "2026-11-02T19:13:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:46Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 7,
+            "startedAt": "2026-11-02T19:13:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:46Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 13,
+            "startedAt": "2026-11-02T19:13:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:48Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-11-02T19:13:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:48Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-11-02T19:13:48Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41507681984/job/125491039574"
+      },
+      {
+        "completedAt": "2026-11-02T19:13:17Z",
+        "conclusion": "success",
+        "databaseId": 125491039861,
+        "name": "Same Windows wheel / Python 3.12",
+        "startedAt": "2026-11-02T19:11:53Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:11:56Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:11:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:34Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:11:56Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:35Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:12:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:12:36Z",
+            "conclusion": "success",
+            "name": "Download the exact previously tested wheel",
+            "number": 4,
+            "startedAt": "2026-11-02T19:12:35Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:10Z",
+            "conclusion": "success",
+            "name": "Verify hash and install the frozen artifact",
+            "number": 5,
+            "startedAt": "2026-11-02T19:12:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:12Z",
+            "conclusion": "success",
+            "name": "Run unchanged installed-package tests",
+            "number": 6,
+            "startedAt": "2026-11-02T19:13:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:13Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 7,
+            "startedAt": "2026-11-02T19:13:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:13Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 13,
+            "startedAt": "2026-11-02T19:13:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:15Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-11-02T19:13:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:13:15Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-11-02T19:13:15Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41507681984/job/125491039861"
+      }
+    ],
+    "status": "completed",
+    "updatedAt": "2026-11-02T19:13:50Z",
+    "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41507681984"
+  },
+  "artifact_sha256": "900fa8616446459cfd544edb5633c167b20bae0d0d0e01d19c78c9b0a6e69864",
+  "artifact": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/ci_raw/artifacts/wheel-windows-latest-py3.11/stericx-0.4.0rc1-cp311-abi3-win_amd64.whl",
+    "sha256": "900fa8616446459cfd544edb5633c167b20bae0d0d0e01d19c78c9b0a6e69864",
+    "bytes": 494326
+  },
+  "python_versions": [
+    "3.11",
+    "3.12",
+    "3.13",
+    "3.14"
+  ],
+  "tests_each": 71,
+  "receipts": [
+    {
+      "python_minor": "3.11",
+      "installed": {
+        "source_commit": "03557ed5279abf8487012ddb39fab019f0538416",
+        "source_run": 41505795041,
+        "workflow_commit": "6c2eddfadc3329b6ddf2e40dc2eb981ef865e4f2",
+        "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+        "python_minor": "3.11",
+        "platform": "Windows-10-10.0.26100-SP0",
+        "wheel": "stericx-0.4.0rc1-cp311-abi3-win_amd64.whl",
+        "wheel_sha256": "900fa8616446459cfd544edb5633c167b20bae0d0d0e01d19c78c9b0a6e69864",
+        "wheel_bytes": 494326,
+        "installed": {
+          "module": "C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\stericx\\__init__.py",
+          "version": "0.4.0rc1",
+          "metadata_version": "0.4.0rc1"
+        },
+        "pip_check_returncode": 0
+      },
+      "installed_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.11/installed.json",
+        "sha256": "d90e7939e9cdb598a01ed15142286a746fc853b4f58f6673b3da15cbac510065",
+        "bytes": 731
+      },
+      "tests_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.11/tests.log",
+        "sha256": "8d7be07801ce2acb90c1eac310a9c6217aaf343619b00ee17cd7f0ac1b46e807",
+        "bytes": 101
+      },
+      "pip_check_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.11/pip_check.log",
+        "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+        "bytes": 31
+      },
+      "tests_passed": 71
+    },
+    {
+      "python_minor": "3.12",
+      "installed": {
+        "source_commit": "03557ed5279abf8487012ddb39fab019f0538416",
+        "source_run": 41505795041,
+        "workflow_commit": "6c2eddfadc3329b6ddf2e40dc2eb981ef865e4f2",
+        "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+        "python_minor": "3.12",
+        "platform": "Windows-2025Server-10.0.26100-SP0",
+        "wheel": "stericx-0.4.0rc1-cp311-abi3-win_amd64.whl",
+        "wheel_sha256": "900fa8616446459cfd544edb5633c167b20bae0d0d0e01d19c78c9b0a6e69864",
+        "wheel_bytes": 494326,
+        "installed": {
+          "module": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\stericx\\__init__.py",
+          "version": "0.4.0rc1",
+          "metadata_version": "0.4.0rc1"
+        },
+        "pip_check_returncode": 0
+      },
+      "installed_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.12/installed.json",
+        "sha256": "a6f80f04b9df745dacc9de46a515fdde1f6c0b64a91cbc9c88ee15a495be1e61",
+        "bytes": 742
+      },
+      "tests_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.12/tests.log",
+        "sha256": "2ccb26071276c4401e3792fd08d87a9eb0f57fbf9734665a378fe7116692a9a0",
+        "bytes": 101
+      },
+      "pip_check_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.12/pip_check.log",
+        "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+        "bytes": 31
+      },
+      "tests_passed": 71
+    },
+    {
+      "python_minor": "3.13",
+      "installed": {
+        "source_commit": "03557ed5279abf8487012ddb39fab019f0538416",
+        "source_run": 41505795041,
+        "workflow_commit": "6c2eddfadc3329b6ddf2e40dc2eb981ef865e4f2",
+        "python": "3.13.17 (tags/v3.13.17:64e080d, Oct 21 2026, 14:08:53) [MSC v.1944 64 bit (AMD64)]",
+        "python_minor": "3.13",
+        "platform": "Windows-2025Server-10.0.26100-SP0",
+        "wheel": "stericx-0.4.0rc1-cp311-abi3-win_amd64.whl",
+        "wheel_sha256": "900fa8616446459cfd544edb5633c167b20bae0d0d0e01d19c78c9b0a6e69864",
+        "wheel_bytes": 494326,
+        "installed": {
+          "module": "C:\\hostedtoolcache\\windows\\Python\\3.13.17\\x64\\Lib\\site-packages\\stericx\\__init__.py",
+          "version": "0.4.0rc1",
+          "metadata_version": "0.4.0rc1"
+        },
+        "pip_check_returncode": 0
+      },
+      "installed_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.13/installed.json",
+        "sha256": "4bebd9ec9172de64d2941082b70e77fa2dee69475cdc957daf662be4cc55eb46",
+        "bytes": 742
+      },
+      "tests_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.13/tests.log",
+        "sha256": "f4b98b5cd25ace2a2e4d186becfcd56f97dfa4bb7dde3e57548a66ab08776309",
+        "bytes": 101
+      },
+      "pip_check_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.13/pip_check.log",
+        "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+        "bytes": 31
+      },
+      "tests_passed": 71
+    },
+    {
+      "python_minor": "3.14",
+      "installed": {
+        "source_commit": "03557ed5279abf8487012ddb39fab019f0538416",
+        "source_run": 41505795041,
+        "workflow_commit": "6c2eddfadc3329b6ddf2e40dc2eb981ef865e4f2",
+        "python": "3.14.10 (tags/v3.14.10:b703b2c, Oct 25 2026, 17:36:52) [MSC v.1944 64 bit (AMD64)]",
+        "python_minor": "3.14",
+        "platform": "Windows-2025Server-10.0.26100-SP0",
+        "wheel": "stericx-0.4.0rc1-cp311-abi3-win_amd64.whl",
+        "wheel_sha256": "900fa8616446459cfd544edb5633c167b20bae0d0d0e01d19c78c9b0a6e69864",
+        "wheel_bytes": 494326,
+        "installed": {
+          "module": "C:\\hostedtoolcache\\windows\\Python\\3.14.10\\x64\\Lib\\site-packages\\stericx\\__init__.py",
+          "version": "0.4.0rc1",
+          "metadata_version": "0.4.0rc1"
+        },
+        "pip_check_returncode": 0
+      },
+      "installed_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.14/installed.json",
+        "sha256": "c15d0456f1e2542f0af17c0f8f4585b960c9d97e01d40cd921760ce37644f84d",
+        "bytes": 742
+      },
+      "tests_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.14/tests.log",
+        "sha256": "98a48ea94948254bccf40839b655651d752f806b465c8cba9a8772176a6a51e9",
+        "bytes": 101
+      },
+      "pip_check_record": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.14/pip_check.log",
+        "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+        "bytes": 31
+      },
+      "tests_passed": 71
+    }
+  ],
+  "records": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifact_api.json",
+      "sha256": "e7a349a563c2142227e649436b09f6ed6d8ac4f96388cd26b8a49df9eb9988d2",
+      "bytes": 2975
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifact_download.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.11/installed.json",
+      "sha256": "d90e7939e9cdb598a01ed15142286a746fc853b4f58f6673b3da15cbac510065",
+      "bytes": 731
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.11/packages.txt",
+      "sha256": "2047ea91205aa85e20dc7548bfef40a7c09c063a47633307605581c0e412e9f6",
+      "bytes": 361
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.11/pip_check.log",
+      "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+      "bytes": 31
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.11/tests.log",
+      "sha256": "8d7be07801ce2acb90c1eac310a9c6217aaf343619b00ee17cd7f0ac1b46e807",
+      "bytes": 101
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.12/installed.json",
+      "sha256": "a6f80f04b9df745dacc9de46a515fdde1f6c0b64a91cbc9c88ee15a495be1e61",
+      "bytes": 742
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.12/packages.txt",
+      "sha256": "b13b81cce150730cb90f42db30785af64c2b77b9b94dc86b32c29febbe164df1",
+      "bytes": 466
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.12/pip_check.log",
+      "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+      "bytes": 31
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.12/tests.log",
+      "sha256": "2ccb26071276c4401e3792fd08d87a9eb0f57fbf9734665a378fe7116692a9a0",
+      "bytes": 101
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.13/installed.json",
+      "sha256": "4bebd9ec9172de64d2941082b70e77fa2dee69475cdc957daf662be4cc55eb46",
+      "bytes": 742
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.13/packages.txt",
+      "sha256": "6e03166562bc199789d8cdb3a39a0a3343d488c9668e9e1305215e884e074102",
+      "bytes": 361
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.13/pip_check.log",
+      "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+      "bytes": 31
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.13/tests.log",
+      "sha256": "f4b98b5cd25ace2a2e4d186becfcd56f97dfa4bb7dde3e57548a66ab08776309",
+      "bytes": 101
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.14/installed.json",
+      "sha256": "c15d0456f1e2542f0af17c0f8f4585b960c9d97e01d40cd921760ce37644f84d",
+      "bytes": 742
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.14/packages.txt",
+      "sha256": "6e03166562bc199789d8cdb3a39a0a3343d488c9668e9e1305215e884e074102",
+      "bytes": 361
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.14/pip_check.log",
+      "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+      "bytes": 31
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/artifacts/frozen-windows-wheel-py3.14/tests.log",
+      "sha256": "98a48ea94948254bccf40839b655651d752f806b465c8cba9a8772176a6a51e9",
+      "bytes": 101
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/download_receipt.json",
+      "sha256": "74c23690dbc9915e6765d4dfdc96b5b15867e7335f2a192e2cae4a98c05112ea",
+      "bytes": 777
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/duplicate_cancellations.json",
+      "sha256": "2cd0e6da4574c360b7d259502d999004dd3464484e3e8d264d35516453b72732",
+      "bytes": 864
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/duplicate_rust_before.json",
+      "sha256": "8fbdaee94d0b887b41a1c7c517bf9eebc0e197e5f7c8fb64aecb96b8ed883952",
+      "bytes": 4951
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/duplicate_rust_cancel.log",
+      "sha256": "867919b2db92fe191bb7ab26c0157b712212208332695f98179173000692037e",
+      "bytes": 54
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/duplicate_rust_final.json",
+      "sha256": "07eadf504461b302687321568188e3c9d30cf332fe5942ed2bfdddb05a4a7f25",
+      "bytes": 5977
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/duplicate_rust_poll_191359.json",
+      "sha256": "07eadf504461b302687321568188e3c9d30cf332fe5942ed2bfdddb05a4a7f25",
+      "bytes": 5977
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/duplicate_wheels_before.json",
+      "sha256": "ee4e0748e5b0dbd11bbafec449040f8cac24b704b1ae0323bc1417792ea09aad",
+      "bytes": 21617
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/duplicate_wheels_cancel.log",
+      "sha256": "ae8512fa07050e62a31dd5257bf041a2f81b458c43ed4149dd520abff96d2e03",
+      "bytes": 54
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/duplicate_wheels_final.json",
+      "sha256": "eee1ff3390ec6df14e4fdf9475923b44873b828e98c53cb57cea083197ca3db9",
+      "bytes": 26776
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/duplicate_wheels_poll_191359.json",
+      "sha256": "eee1ff3390ec6df14e4fdf9475923b44873b828e98c53cb57cea083197ca3db9",
+      "bytes": 26776
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/full.log",
+      "sha256": "6c1ecd8c71fc6bd82ca4ba7744fb93b0db3f46e57d4966849292c80361c81aef",
+      "bytes": 232965
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/push.log",
+      "sha256": "5add73fd5021348cf3a26fe03447c15d65d44bd4d21f973f55d1dcdcfa150ee2",
+      "bytes": 394
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/push_receipt.json",
+      "sha256": "48ace7c794aa02682e7b437dcb1e192651d98da6a6c08e93503f3f75a40a8557",
+      "bytes": 608
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/review_selected_wheel.py.txt",
+      "sha256": "315e0e1b1bc94e5a5576f3e39045f8fbb57a80dfed4ecf2b3bfc08e48e6d1c77",
+      "bytes": 4995
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/run_final.json",
+      "sha256": "e623321f53bebc0d0ccfff50840851c757762e77c269bc13f98099da77c62b5a",
+      "bytes": 8217
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/run_initial.json",
+      "sha256": "545f7c35a078e62b9a14bd10944401999bf03d1cf692e438214a3e1036c3dffb",
+      "bytes": 7230
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/run_poll_191359.json",
+      "sha256": "e623321f53bebc0d0ccfff50840851c757762e77c269bc13f98099da77c62b5a",
+      "bytes": 8217
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/started.json",
+      "sha256": "7f404e973949f6458289620c38510fc18cf7c60febd63d9bee4d6af5aebf53d5",
+      "bytes": 425
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/same_artifact_raw/workflow.yml.txt",
+      "sha256": "31f232ce02b316f44a7e18d7e41a75c3c72ccc26c501d3e0b90a9c701d6eb834",
+      "bytes": 4208
+    }
+  ],
+  "failures": [],
+  "publication": false
+}

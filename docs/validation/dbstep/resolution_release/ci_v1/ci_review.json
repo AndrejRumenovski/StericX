@@ -1,0 +1,1602 @@
+{
+  "source_commit": "03557ed5279abf8487012ddb39fab019f0538416",
+  "passed": false,
+  "source_files_bound": 214,
+  "artifact_count": 13,
+  "wheel_count": 12,
+  "source_archive_count": 1,
+  "wheel_record_hashes_checked": 96,
+  "wheel_python_sources_checked": 36,
+  "source_archive_scientific_files_checked": 58,
+  "rust_run": {
+    "databaseId": 41505795122,
+    "headSha": "03557ed5279abf8487012ddb39fab019f0538416",
+    "status": "completed",
+    "conclusion": "failure",
+    "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795122",
+    "jobs": [
+      {
+        "completedAt": "2026-11-02T19:14:59Z",
+        "conclusion": "cancelled",
+        "databaseId": 125484682844,
+        "name": "Build and test (macos-latest)",
+        "startedAt": "2026-11-02T18:59:58Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795122/job/125484682844"
+      },
+      {
+        "completedAt": "2026-11-02T19:02:32Z",
+        "conclusion": "success",
+        "databaseId": 125484683188,
+        "name": "Build and test (windows-latest)",
+        "startedAt": "2026-11-02T19:00:11Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:13Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:53Z",
+            "conclusion": "success",
+            "name": "Check out source",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:59Z",
+            "conclusion": "success",
+            "name": "Install stable Rust",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:04Z",
+            "conclusion": "success",
+            "name": "Cache Rust build artifacts",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:59Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:09Z",
+            "conclusion": "success",
+            "name": "Run Rust tests",
+            "number": 5,
+            "startedAt": "2026-11-02T19:01:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:20Z",
+            "conclusion": "success",
+            "name": "Guard published screening results",
+            "number": 6,
+            "startedAt": "2026-11-02T19:02:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:25Z",
+            "conclusion": "success",
+            "name": "Post Cache Rust build artifacts",
+            "number": 11,
+            "startedAt": "2026-11-02T19:02:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:28Z",
+            "conclusion": "success",
+            "name": "Post Check out source",
+            "number": 12,
+            "startedAt": "2026-11-02T19:02:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:28Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 13,
+            "startedAt": "2026-11-02T19:02:28Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795122/job/125484683188"
+      },
+      {
+        "completedAt": "2026-11-02T19:01:56Z",
+        "conclusion": "success",
+        "databaseId": 125484683275,
+        "name": "Format, lint, and test",
+        "startedAt": "2026-11-02T19:00:01Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:03Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:38Z",
+            "conclusion": "success",
+            "name": "Check out source",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:39Z",
+            "conclusion": "success",
+            "name": "Install stable Rust",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:38Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:42Z",
+            "conclusion": "success",
+            "name": "Cache Rust build artifacts",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:43Z",
+            "conclusion": "success",
+            "name": "Check Rust formatting",
+            "number": 5,
+            "startedAt": "2026-11-02T19:00:42Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:02Z",
+            "conclusion": "success",
+            "name": "Lint all Rust targets",
+            "number": 6,
+            "startedAt": "2026-11-02T19:00:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:04Z",
+            "conclusion": "success",
+            "name": "Check public documentation",
+            "number": 7,
+            "startedAt": "2026-11-02T19:01:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:28Z",
+            "conclusion": "success",
+            "name": "Run Rust tests",
+            "number": 8,
+            "startedAt": "2026-11-02T19:01:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:34Z",
+            "conclusion": "success",
+            "name": "Guard published screening results",
+            "number": 9,
+            "startedAt": "2026-11-02T19:01:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:38Z",
+            "conclusion": "success",
+            "name": "Install locked Python environment",
+            "number": 10,
+            "startedAt": "2026-11-02T19:01:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:39Z",
+            "conclusion": "success",
+            "name": "Sync Python dependencies",
+            "number": 11,
+            "startedAt": "2026-11-02T19:01:38Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:39Z",
+            "conclusion": "success",
+            "name": "Check support-script syntax",
+            "number": 12,
+            "startedAt": "2026-11-02T19:01:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:40Z",
+            "conclusion": "success",
+            "name": "Lint and format-check Python",
+            "number": 13,
+            "startedAt": "2026-11-02T19:01:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:44Z",
+            "conclusion": "success",
+            "name": "Verify archived benchmark evidence integrity",
+            "number": 14,
+            "startedAt": "2026-11-02T19:01:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:45Z",
+            "conclusion": "success",
+            "name": "Test quantum parsers without external executables",
+            "number": 15,
+            "startedAt": "2026-11-02T19:01:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:45Z",
+            "conclusion": "success",
+            "name": "Test profiling and optimization contracts",
+            "number": 16,
+            "startedAt": "2026-11-02T19:01:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:50Z",
+            "conclusion": "success",
+            "name": "Verify retrospective screening study",
+            "number": 17,
+            "startedAt": "2026-11-02T19:01:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:50Z",
+            "conclusion": "success",
+            "name": "Post Install locked Python environment",
+            "number": 32,
+            "startedAt": "2026-11-02T19:01:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:54Z",
+            "conclusion": "success",
+            "name": "Post Cache Rust build artifacts",
+            "number": 33,
+            "startedAt": "2026-11-02T19:01:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:54Z",
+            "conclusion": "success",
+            "name": "Post Check out source",
+            "number": 34,
+            "startedAt": "2026-11-02T19:01:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:54Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 35,
+            "startedAt": "2026-11-02T19:01:54Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795122/job/125484683275"
+      }
+    ]
+  },
+  "wheel_run": {
+    "databaseId": 41505795041,
+    "headSha": "03557ed5279abf8487012ddb39fab019f0538416",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041",
+    "jobs": [
+      {
+        "completedAt": "2026-11-02T19:01:37Z",
+        "conclusion": "success",
+        "databaseId": 125484682537,
+        "name": "source-distribution",
+        "startedAt": "2026-11-02T19:00:00Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:02Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:31Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:32Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:31Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:32Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:32Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:36Z",
+            "conclusion": "success",
+            "name": "Build source archive",
+            "number": 5,
+            "startedAt": "2026-11-02T19:00:32Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:26Z",
+            "conclusion": "success",
+            "name": "Install only from source archive",
+            "number": 6,
+            "startedAt": "2026-11-02T19:00:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:27Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 7,
+            "startedAt": "2026-11-02T19:01:26Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:27Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 13,
+            "startedAt": "2026-11-02T19:01:27Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:28Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-11-02T19:01:27Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:28Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-11-02T19:01:28Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484682537"
+      },
+      {
+        "completedAt": "2026-11-02T19:03:53Z",
+        "conclusion": "success",
+        "databaseId": 125484682958,
+        "name": "windows-latest / Python 3.13",
+        "startedAt": "2026-11-02T19:00:01Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:04Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:52Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:52Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:52Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:08Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:52Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:21Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:01:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:43Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:03:21Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:46Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:03:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:48Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:03:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:48Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:03:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:51Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:03:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:51Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:03:51Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484682958"
+      },
+      {
+        "completedAt": "2026-11-02T19:02:54Z",
+        "conclusion": "success",
+        "databaseId": 125484682969,
+        "name": "windows-latest / Python 3.11",
+        "startedAt": "2026-11-02T19:00:01Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:05Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:46Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:46Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:53Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:21Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:00:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:46Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:02:21Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:49Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:02:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:50Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:02:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:50Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:02:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:52Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:02:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:52Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:02:52Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484682969"
+      },
+      {
+        "completedAt": "2026-11-02T19:02:58Z",
+        "conclusion": "success",
+        "databaseId": 125484683030,
+        "name": "ubuntu-24.04 / Python 3.11",
+        "startedAt": "2026-11-02T19:00:10Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:12Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:57Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:57Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:58Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:14Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:00:58Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:28Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:02:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:30Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:02:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:31Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:02:30Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:31Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:02:31Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:31Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:02:31Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:32Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:02:31Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484683030"
+      },
+      {
+        "completedAt": "2026-11-02T19:02:29Z",
+        "conclusion": "success",
+        "databaseId": 125484683041,
+        "name": "ubuntu-24.04 / Python 3.12",
+        "startedAt": "2026-11-02T19:00:01Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:03Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:38Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:39Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:38Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:40Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:08Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:00:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:23Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:02:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:24Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:02:23Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:26Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:02:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:26Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:02:26Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:26Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:02:26Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:26Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:02:26Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484683041"
+      },
+      {
+        "completedAt": "2026-11-02T19:05:10Z",
+        "conclusion": "success",
+        "databaseId": 125484683043,
+        "name": "windows-latest / Python 3.14",
+        "startedAt": "2026-11-02T19:00:00Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:03Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:48Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:48Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:24Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:04:34Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:01:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:04:58Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:04:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:05:03Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:04:58Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:05:04Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:05:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:05:05Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:05:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:05:07Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:05:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:05:07Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:05:07Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484683043"
+      },
+      {
+        "completedAt": "2026-11-02T19:02:13Z",
+        "conclusion": "success",
+        "databaseId": 125484683116,
+        "name": "ubuntu-24.04 / Python 3.13",
+        "startedAt": "2026-11-02T19:00:00Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:02Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:33Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:33Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:34Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:54Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:00:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:08Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:01:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:10Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:02:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:11Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:02:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:11Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:02:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:11Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:02:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:12Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:02:11Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484683116"
+      },
+      {
+        "completedAt": "2026-11-02T19:03:33Z",
+        "conclusion": "success",
+        "databaseId": 125484683153,
+        "name": "macos-14 / Python 3.11",
+        "startedAt": "2026-11-02T19:00:02Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:05Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:24Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:24Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:01:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:37Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:01:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:27Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:01:37Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:37Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:02:27Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:38Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:02:37Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:40Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:02:38Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:41Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:02:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:41Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:02:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:42Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:02:41Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484683153"
+      },
+      {
+        "completedAt": "2026-11-02T19:02:17Z",
+        "conclusion": "success",
+        "databaseId": 125484683166,
+        "name": "macos-14 / Python 3.14",
+        "startedAt": "2026-11-02T19:00:02Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:04Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:12Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:12Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:01:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:20Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:01:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:00Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:01:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:09Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:02:00Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:10Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:02:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:12Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:02:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:12Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:02:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:13Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:02:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:13Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:02:13Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484683166"
+      },
+      {
+        "completedAt": "2026-11-02T19:03:52Z",
+        "conclusion": "success",
+        "databaseId": 125484683219,
+        "name": "windows-latest / Python 3.12",
+        "startedAt": "2026-11-02T19:00:01Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:04Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:56Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:56Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:56Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:12Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:56Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:18Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:01:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:42Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:03:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:46Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:03:42Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:48Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:03:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:48Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:03:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:50Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:03:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:50Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:03:50Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484683219"
+      },
+      {
+        "completedAt": "2026-11-02T19:02:18Z",
+        "conclusion": "success",
+        "databaseId": 125484683271,
+        "name": "ubuntu-24.04 / Python 3.14",
+        "startedAt": "2026-11-02T19:00:01Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:03Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:34Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:34Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:35Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:58Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:00:35Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:11Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:01:58Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:12Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:02:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:14Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:02:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:14Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:02:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:14Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:02:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:14Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:02:14Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484683271"
+      },
+      {
+        "completedAt": "2026-11-02T19:04:01Z",
+        "conclusion": "success",
+        "databaseId": 125484683320,
+        "name": "macos-14 / Python 3.13",
+        "startedAt": "2026-11-02T19:00:01Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:03Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:44Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:45Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:02:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:54Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:02:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:44Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:02:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:55Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:03:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:56Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:03:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:57Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:03:56Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:57Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:03:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:58Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:03:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:03:58Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:03:58Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484683320"
+      },
+      {
+        "completedAt": "2026-11-02T19:02:08Z",
+        "conclusion": "success",
+        "databaseId": 125484683409,
+        "name": "macos-14 / Python 3.12",
+        "startedAt": "2026-11-02T19:00:01Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:04Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:55Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:55Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:03Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:55Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:47Z",
+            "conclusion": "success",
+            "name": "Run PyO3/maturin-action@v1",
+            "number": 5,
+            "startedAt": "2026-11-02T19:01:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:58Z",
+            "conclusion": "success",
+            "name": "Install wheel and optional adapters",
+            "number": 6,
+            "startedAt": "2026-11-02T19:01:47Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:59Z",
+            "conclusion": "success",
+            "name": "Validate installed wheel",
+            "number": 7,
+            "startedAt": "2026-11-02T19:01:58Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:00Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:01:59Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:01Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 15,
+            "startedAt": "2026-11-02T19:02:00Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:01Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:02:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:02Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:02:01Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795041/job/125484683409"
+      }
+    ]
+  },
+  "installed_python_test_outcomes": [
+    "source-distribution\tInstall only from source archive\t2026-11-02T19:01:26.5850329Z 71 passed in 0.65s",
+    "windows-latest / Python 3.13\tUNKNOWN STEP\t2026-11-02T19:03:46.4247407Z 71 passed in 0.93s",
+    "windows-latest / Python 3.11\tUNKNOWN STEP\t2026-11-02T19:02:49.0625625Z 71 passed in 0.88s",
+    "ubuntu-24.04 / Python 3.11\tUNKNOWN STEP\t2026-11-02T19:02:30.4257704Z 71 passed in 0.79s",
+    "ubuntu-24.04 / Python 3.12\tUNKNOWN STEP\t2026-11-02T19:02:24.8026552Z 71 passed in 0.55s",
+    "windows-latest / Python 3.14\tUNKNOWN STEP\t2026-11-02T19:05:03.6723195Z 71 passed in 1.59s",
+    "ubuntu-24.04 / Python 3.13\tUNKNOWN STEP\t2026-11-02T19:02:10.4083259Z 71 passed in 0.74s",
+    "macos-14 / Python 3.11\tUNKNOWN STEP\t2026-11-02T19:02:38.7423680Z 71 passed in 0.72s",
+    "macos-14 / Python 3.14\tUNKNOWN STEP\t2026-11-02T19:02:10.6506280Z 71 passed in 0.60s",
+    "windows-latest / Python 3.12\tUNKNOWN STEP\t2026-11-02T19:03:46.0792196Z 71 passed in 1.13s",
+    "ubuntu-24.04 / Python 3.14\tUNKNOWN STEP\t2026-11-02T19:02:12.8974452Z 71 passed in 0.51s",
+    "macos-14 / Python 3.13\tUNKNOWN STEP\t2026-11-02T19:03:56.3043170Z 71 passed in 0.57s",
+    "macos-14 / Python 3.12\tUNKNOWN STEP\t2026-11-02T19:01:59.8408320Z 71 passed in 0.66s"
+  ],
+  "failures": [
+    {
+      "run": "rust",
+      "error": "run/job conclusion not success"
+    }
+  ],
+  "release_claim": false
+}

@@ -1,0 +1,1370 @@
+{
+  "kind": "dbstep_resolution_local_release_candidate_validation",
+  "started_utc": "2026-11-02T19:01:40.541611+00:00",
+  "source_commit": "03557ed5279abf8487012ddb39fab019f0538416",
+  "validated_pre_version_commit": "497de873d503d624d6d47b3100a04b7093bd0218",
+  "controller": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_dbstep_rc_local.py",
+    "bytes": 11533,
+    "sha256": "2e0f47f37bd8fedecd8963cccbe2478599be3661ec8d1719d6f21fc36004fdcd"
+  },
+  "commands": [
+    {
+      "name": "rust_version",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "rustc",
+        "--version",
+        "--verbose"
+      ],
+      "started_utc": "2026-11-02T19:01:40.550535+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 0.015825075999600813,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/rust_version.log",
+        "bytes": 196,
+        "sha256": "a90721a3b031e0e1c8bfc34ece79b6608d2ae53166cfb77dad281a0eb5fa6bc8"
+      }
+    },
+    {
+      "name": "cargo_version",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "cargo",
+        "--version"
+      ],
+      "started_utc": "2026-11-02T19:01:40.567584+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 0.01582653900004516,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/cargo_version.log",
+        "bytes": 36,
+        "sha256": "f4f564f8936fa8eb53bca8bbe50666489252bbcbeaae0cb0dd54682444697e52"
+      }
+    },
+    {
+      "name": "maturin_version",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/maturin",
+        "--version"
+      ],
+      "started_utc": "2026-11-02T19:01:40.584782+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 0.0036764550004591,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/maturin_version.log",
+        "bytes": 15,
+        "sha256": "9bad57be41ace9ae93ae190783d48f37f62a806556a6efec790818008e2d3c62"
+      }
+    },
+    {
+      "name": "build_inventory",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/python",
+        "-c",
+        "import importlib.metadata,json,platform,sys\nprint(json.dumps({'python':sys.version,'executable':sys.executable,\n'platform':platform.platform(),'packages':sorted([\n{'name':d.metadata['Name'],'version':d.version}\nfor d in importlib.metadata.distributions()],key=lambda d:d['name'].lower())}))\n"
+      ],
+      "started_utc": "2026-11-02T19:01:40.589711+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 0.11399037000046519,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/build_inventory.log",
+        "bytes": 2614,
+        "sha256": "c476b83180d1a35f189238ef69d0280ad24286455a3b2838d44877cc215597b6"
+      }
+    },
+    {
+      "name": "wheel_build",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/maturin",
+        "build",
+        "--release",
+        "--locked",
+        "--manifest-path",
+        "python/Cargo.toml",
+        "--zig",
+        "--compatibility",
+        "manylinux_2_28",
+        "--interpreter",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/python",
+        "--out",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels"
+      ],
+      "started_utc": "2026-11-02T19:01:40.705431+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 33.272098550998635,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheel_build.log",
+        "bytes": 2211,
+        "sha256": "c6e02f78178a2700beda4f50eb4304b579a8db348b7b832feecfa687b0828431"
+      }
+    },
+    {
+      "name": "sdist_build",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/maturin",
+        "sdist",
+        "--manifest-path",
+        "python/Cargo.toml",
+        "--out",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/sdist"
+      ],
+      "started_utc": "2026-11-02T19:02:13.990900+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 10.986006328999792,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/sdist_build.log",
+        "bytes": 656,
+        "sha256": "789baa80220fe0bc75beeb1c551e20e2135921d79936d25c4f3f6b1a1fa14018"
+      }
+    },
+    {
+      "name": "wheel-3.11",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/python",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_python_install.py",
+        "--python",
+        "3.11",
+        "--artifact",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl",
+        "--environment",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.11"
+      ],
+      "started_utc": "2026-11-02T19:02:24.998836+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 19.451786080999227,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheel-3.11.log",
+        "bytes": 125,
+        "sha256": "58177e7a4b45da4bf22283a50dceb8f6c01bf4fbea1f8b62524c9f1600d087e5"
+      }
+    },
+    {
+      "name": "wheel-3.11_versions",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11/bin/python",
+        "-I",
+        "-c",
+        "import importlib.metadata,json,stericx\nassert stericx.__version__=='0.4.0rc1'\nassert importlib.metadata.version('stericx')=='0.4.0rc1'\nassert stericx._native.__version__=='0.4.0-rc.1'\nprint(json.dumps({'python_version':stericx.__version__,\n'distribution_version':importlib.metadata.version('stericx'),\n'native_binding_version':stericx._native.__version__,\n'engine_version':'0.3.0','module':stericx.__file__,\n'native_module':stericx._native.__file__}))\n"
+      ],
+      "started_utc": "2026-11-02T19:02:44.461102+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 0.06408737400124664,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheel-3.11_versions.log",
+        "bytes": 531,
+        "sha256": "7ec13f6fe835c2c9ef796de8c8a85677176ec5ab551ddd3c8c30d4656ff411c9"
+      }
+    },
+    {
+      "name": "wheel-3.12",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/python",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_python_install.py",
+        "--python",
+        "3.12",
+        "--artifact",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl",
+        "--environment",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.12",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.12"
+      ],
+      "started_utc": "2026-11-02T19:02:44.528053+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 15.142380829998729,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheel-3.12.log",
+        "bytes": 125,
+        "sha256": "12683ac472823beb924bfe6cda85a56e4b3215cde487cf6a33d6c31946a607e5"
+      }
+    },
+    {
+      "name": "wheel-3.12_versions",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.12/bin/python",
+        "-I",
+        "-c",
+        "import importlib.metadata,json,stericx\nassert stericx.__version__=='0.4.0rc1'\nassert importlib.metadata.version('stericx')=='0.4.0rc1'\nassert stericx._native.__version__=='0.4.0-rc.1'\nprint(json.dumps({'python_version':stericx.__version__,\n'distribution_version':importlib.metadata.version('stericx'),\n'native_binding_version':stericx._native.__version__,\n'engine_version':'0.3.0','module':stericx.__file__,\n'native_module':stericx._native.__file__}))\n"
+      ],
+      "started_utc": "2026-11-02T19:02:59.685898+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 0.06416628300030425,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheel-3.12_versions.log",
+        "bytes": 531,
+        "sha256": "2fc4d21b6ea7ec833e4c5ab220be83b1f34a3de2126b70ba8ffe52ce485bd04d"
+      }
+    },
+    {
+      "name": "wheel-3.13",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/python",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_python_install.py",
+        "--python",
+        "3.13",
+        "--artifact",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl",
+        "--environment",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.13",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.13"
+      ],
+      "started_utc": "2026-11-02T19:02:59.763596+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 22.759785774000193,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheel-3.13.log",
+        "bytes": 125,
+        "sha256": "179a8fd7d1eb68ac71aa8ba3fcd8b5a955b43bba97c7566a92af48b51537b608"
+      }
+    },
+    {
+      "name": "wheel-3.13_versions",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.13/bin/python",
+        "-I",
+        "-c",
+        "import importlib.metadata,json,stericx\nassert stericx.__version__=='0.4.0rc1'\nassert importlib.metadata.version('stericx')=='0.4.0rc1'\nassert stericx._native.__version__=='0.4.0-rc.1'\nprint(json.dumps({'python_version':stericx.__version__,\n'distribution_version':importlib.metadata.version('stericx'),\n'native_binding_version':stericx._native.__version__,\n'engine_version':'0.3.0','module':stericx.__file__,\n'native_module':stericx._native.__file__}))\n"
+      ],
+      "started_utc": "2026-11-02T19:03:22.539029+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 0.06403543700071168,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheel-3.13_versions.log",
+        "bytes": 531,
+        "sha256": "712f50eca9e0085575648208dcd36fe5a0cdf11ed5a09571c32bf81dee177117"
+      }
+    },
+    {
+      "name": "wheel-3.14",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/python",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_python_install.py",
+        "--python",
+        "3.14",
+        "--artifact",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl",
+        "--environment",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.14",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.14"
+      ],
+      "started_utc": "2026-11-02T19:03:22.606951+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 24.362276658001065,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheel-3.14.log",
+        "bytes": 125,
+        "sha256": "432873e5a6d22be01ad8b68a4822eaa4803338bc0bbb889840273f424e3d6277"
+      }
+    },
+    {
+      "name": "wheel-3.14_versions",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.14/bin/python",
+        "-I",
+        "-c",
+        "import importlib.metadata,json,stericx\nassert stericx.__version__=='0.4.0rc1'\nassert importlib.metadata.version('stericx')=='0.4.0rc1'\nassert stericx._native.__version__=='0.4.0-rc.1'\nprint(json.dumps({'python_version':stericx.__version__,\n'distribution_version':importlib.metadata.version('stericx'),\n'native_binding_version':stericx._native.__version__,\n'engine_version':'0.3.0','module':stericx.__file__,\n'native_module':stericx._native.__file__}))\n"
+      ],
+      "started_utc": "2026-11-02T19:03:46.986079+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 0.06406328999946709,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheel-3.14_versions.log",
+        "bytes": 531,
+        "sha256": "dc3bbab6dd5e88e33e25c6bb01a7539921bd13318e5ee01568ce3a8104688d15"
+      }
+    },
+    {
+      "name": "sdist-3.12",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/python",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_python_install.py",
+        "--python",
+        "3.12",
+        "--artifact",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/sdist/stericx-0.4.0rc1.tar.gz",
+        "--environment",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/sdist-3.12",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/sdist-3.12"
+      ],
+      "started_utc": "2026-11-02T19:03:47.053490+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 54.76528898200013,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/sdist-3.12.log",
+        "bytes": 125,
+        "sha256": "12683ac472823beb924bfe6cda85a56e4b3215cde487cf6a33d6c31946a607e5"
+      }
+    },
+    {
+      "name": "sdist-3.12_versions",
+      "argv": [
+        "taskset",
+        "-c",
+        "0,1",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/sdist-3.12/bin/python",
+        "-I",
+        "-c",
+        "import importlib.metadata,json,stericx\nassert stericx.__version__=='0.4.0rc1'\nassert importlib.metadata.version('stericx')=='0.4.0rc1'\nassert stericx._native.__version__=='0.4.0-rc.1'\nprint(json.dumps({'python_version':stericx.__version__,\n'distribution_version':importlib.metadata.version('stericx'),\n'native_binding_version':stericx._native.__version__,\n'engine_version':'0.3.0','module':stericx.__file__,\n'native_module':stericx._native.__file__}))\n"
+      ],
+      "started_utc": "2026-11-02T19:04:41.834617+00:00",
+      "returncode": 0,
+      "elapsed_seconds": 0.0640581600000587,
+      "log": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/sdist-3.12_versions.log",
+        "bytes": 531,
+        "sha256": "b87a1d656a9764ea80c805a226c2a1f1560d3585c5856cd58718a3fd1338140f"
+      }
+    }
+  ],
+  "source_checks": {
+    "Cargo.lock": {
+      "baseline_sha256": "6fc56998d9bf2a41e27fa9b91af0ce674cc77f1252e382ee6ab39b8985494463",
+      "current_sha256": "6fc56998d9bf2a41e27fa9b91af0ce674cc77f1252e382ee6ab39b8985494463",
+      "version_substitution": false
+    },
+    "Cargo.toml": {
+      "baseline_sha256": "bb6e4f8d136def8fdc7b1377f60978c52d6a6a525cf24c66925395eb3ead8a0b",
+      "current_sha256": "bb6e4f8d136def8fdc7b1377f60978c52d6a6a525cf24c66925395eb3ead8a0b",
+      "version_substitution": false
+    },
+    "docs/validation/dbstep/ACCEPTANCE_POLICY.md": {
+      "baseline_sha256": "683af4d50e148c66ee3cff0a5c0eed99be60d5d64ad6f6fbc75d2ca50894ad9a",
+      "current_sha256": "683af4d50e148c66ee3cff0a5c0eed99be60d5d64ad6f6fbc75d2ca50894ad9a",
+      "version_substitution": false
+    },
+    "docs/validation/dbstep/POLICY_APPROVAL.md": {
+      "baseline_sha256": "a57baa1c9e71d7b9e10412de1d059e9451c0bc7f2dddfe04ffd001da313f4d4c",
+      "current_sha256": "a57baa1c9e71d7b9e10412de1d059e9451c0bc7f2dddfe04ffd001da313f4d4c",
+      "version_substitution": false
+    },
+    "examples/density_report.rs": {
+      "baseline_sha256": "a79aac11a37e8adc83a9ac520d307aedb8c72fb1f012a08eab1bd45ecf4feee7",
+      "current_sha256": "a79aac11a37e8adc83a9ac520d307aedb8c72fb1f012a08eab1bd45ecf4feee7",
+      "version_substitution": false
+    },
+    "examples/ensemble_report.rs": {
+      "baseline_sha256": "263ed9f27b892bd5e8289dc5c4f84911b501cb5aff31dcdb0fe7180b7493d69f",
+      "current_sha256": "263ed9f27b892bd5e8289dc5c4f84911b501cb5aff31dcdb0fe7180b7493d69f",
+      "version_substitution": false
+    },
+    "examples/paton_ensemble_allocations.rs": {
+      "baseline_sha256": "7f5bb27dace263b91f954823139a6246f0020d3bf86a31e8c8984ac7f12fcf70",
+      "current_sha256": "7f5bb27dace263b91f954823139a6246f0020d3bf86a31e8c8984ac7f12fcf70",
+      "version_substitution": false
+    },
+    "examples/paton_ensemble_benchmark.rs": {
+      "baseline_sha256": "860e1281be9ee7f4d6207591458a0cd035f72d4812104b39233519ee4da08ed5",
+      "current_sha256": "860e1281be9ee7f4d6207591458a0cd035f72d4812104b39233519ee4da08ed5",
+      "version_substitution": false
+    },
+    "examples/population_observer.rs": {
+      "baseline_sha256": "c2c4f69ba0b5859917c97664b53e89d04d148c682531989fb26cd46c6c12961f",
+      "current_sha256": "c2c4f69ba0b5859917c97664b53e89d04d148c682531989fb26cd46c6c12961f",
+      "version_substitution": false
+    },
+    "examples/profile_predictions.rs": {
+      "baseline_sha256": "e59c94cdf6e580b2ab9fe4b3dcc1f4f9907e505ab2d5f0e0318b3ea9079b7a29",
+      "current_sha256": "e59c94cdf6e580b2ab9fe4b3dcc1f4f9907e505ab2d5f0e0318b3ea9079b7a29",
+      "version_substitution": false
+    },
+    "examples/volume_profile.rs": {
+      "baseline_sha256": "459cc81581f0cc1dfc5da750a290c8ad37a6565490ff6f6987769705a50f0080",
+      "current_sha256": "459cc81581f0cc1dfc5da750a290c8ad37a6565490ff6f6987769705a50f0080",
+      "version_substitution": false
+    },
+    "python/.gitignore": {
+      "baseline_sha256": "3fd783a069cf65f225d2bc4623b3a3c12c54b0252626e81b85efc60391535478",
+      "current_sha256": "3fd783a069cf65f225d2bc4623b3a3c12c54b0252626e81b85efc60391535478",
+      "version_substitution": false
+    },
+    "python/Cargo.lock": {
+      "baseline_sha256": "376bcc0bae17d75fbea73ec0f7bf37586875b4263477a8479c03f85b0b8738c1",
+      "current_sha256": "8588b2cad904a14e9d38da513faecfa60e3bc3c73203b8425df68160a762f5e4",
+      "version_substitution": true
+    },
+    "python/Cargo.toml": {
+      "baseline_sha256": "709c705971807629f48399984d26457b8735728ed867eb47f2c9cbac7ed74b1b",
+      "current_sha256": "4a761a83b1efef5338a53629d4ef626d10ddc72499be5ffa07e9fc1c6502c067",
+      "version_substitution": true
+    },
+    "python/README.md": {
+      "baseline_sha256": "c362415f9a33cc1cb4399e87651cce610638845ec5de23f958a03f0239297c62",
+      "current_sha256": "c362415f9a33cc1cb4399e87651cce610638845ec5de23f958a03f0239297c62",
+      "version_substitution": false
+    },
+    "python/examples/README.md": {
+      "baseline_sha256": "c88675ec4c78466bcfc6828f1e92e9662361839e62059e29873d260fcc9945ab",
+      "current_sha256": "c88675ec4c78466bcfc6828f1e92e9662361839e62059e29873d260fcc9945ab",
+      "version_substitution": false
+    },
+    "python/examples/data/DBSTEP_LICENSE.txt": {
+      "baseline_sha256": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+      "current_sha256": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+      "version_substitution": false
+    },
+    "python/examples/data/Ne_medium.cube": {
+      "baseline_sha256": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+      "current_sha256": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+      "version_substitution": false
+    },
+    "python/examples/data/ligand_401_conformer_0.xyz": {
+      "baseline_sha256": "2a9004125083657f2145291b7da1b31a468edd08204e5334bd20813b790e9002",
+      "current_sha256": "2a9004125083657f2145291b7da1b31a468edd08204e5334bd20813b790e9002",
+      "version_substitution": false
+    },
+    "python/examples/data/ligand_401_conformer_1.xyz": {
+      "baseline_sha256": "f1c434b4c525016be23c6205f43c9db49fe67bd1bc3ed387f3e97808e7bc73f9",
+      "current_sha256": "f1c434b4c525016be23c6205f43c9db49fe67bd1bc3ed387f3e97808e7bc73f9",
+      "version_substitution": false
+    },
+    "python/examples/data/ligand_401_energies.json": {
+      "baseline_sha256": "29cb0e636be0b33e161f14e005ad848dbbaeacfa71c9156d6bfd6b51d9be31f5",
+      "current_sha256": "29cb0e636be0b33e161f14e005ad848dbbaeacfa71c9156d6bfd6b51d9be31f5",
+      "version_substitution": false
+    },
+    "python/examples/data/ligand_401_ensemble.xyz": {
+      "baseline_sha256": "e211d56a66328a0dd5c7557bbf90a7bc6f656891c6f915867d00ac33435eddfb",
+      "current_sha256": "e211d56a66328a0dd5c7557bbf90a7bc6f656891c6f915867d00ac33435eddfb",
+      "version_substitution": false
+    },
+    "python/examples/data/ligand_401_options.json": {
+      "baseline_sha256": "f55139d0031ff5fb189f4a9fc10ac92fc73e24b6b9ac851d5dae7e4f74864ba7",
+      "current_sha256": "f55139d0031ff5fb189f4a9fc10ac92fc73e24b6b9ac851d5dae7e4f74864ba7",
+      "version_substitution": false
+    },
+    "python/examples/data/manifest.json": {
+      "baseline_sha256": "68c870e8b634e9eba6f7f33ebf443048125ef94cc20ca1c18312ed8bccb534a7",
+      "current_sha256": "68c870e8b634e9eba6f7f33ebf443048125ef94cc20ca1c18312ed8bccb534a7",
+      "version_substitution": false
+    },
+    "python/examples/data/mapped_ligand.sdf": {
+      "baseline_sha256": "be97f2cfc149030f93621c22801d2e56331b33bc967295c2721e6f99a12e2cf5",
+      "current_sha256": "be97f2cfc149030f93621c22801d2e56331b33bc967295c2721e6f99a12e2cf5",
+      "version_substitution": false
+    },
+    "python/examples/research_workflow.py": {
+      "baseline_sha256": "fc5e3b3d8b4f1414f9cb2faf44a49b7b0f67d22cbcb2c886cd254748bad72673",
+      "current_sha256": "fc5e3b3d8b4f1414f9cb2faf44a49b7b0f67d22cbcb2c886cd254748bad72673",
+      "version_substitution": false
+    },
+    "python/examples/stericx_research.ipynb": {
+      "baseline_sha256": "13fc7fc08d91e53d6c3e78b94ad126705dc49e5c0a34cabaefc4b995c29d9f02",
+      "current_sha256": "13fc7fc08d91e53d6c3e78b94ad126705dc49e5c0a34cabaefc4b995c29d9f02",
+      "version_substitution": false
+    },
+    "python/pyproject.toml": {
+      "baseline_sha256": "0748128f383488c10daf5e6e280e7172cf11e81c3a67659f496b16336e8de342",
+      "current_sha256": "ed58ad3c8df20a4dfd01255d6423aed90ed270c6b81d380890dd8bc599fa9fb8",
+      "version_substitution": true
+    },
+    "python/rust/lib.rs": {
+      "baseline_sha256": "eed8efe9c61d1ebb9e5919a3b8caaf4a6fa2d0584d4ab317d552e1d5e8310796",
+      "current_sha256": "eed8efe9c61d1ebb9e5919a3b8caaf4a6fa2d0584d4ab317d552e1d5e8310796",
+      "version_substitution": false
+    },
+    "python/stericx/__init__.py": {
+      "baseline_sha256": "ac275d6ef4cff8b15e007e0cec8a4bab5146d9b29edd5049d6cc9422a07887fb",
+      "current_sha256": "53321097fb6674d6c752b76c81b82e554a3f76a9f7ea171c4527bea7b85d5446",
+      "version_substitution": true
+    },
+    "python/stericx/_types.py": {
+      "baseline_sha256": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+      "current_sha256": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+      "version_substitution": false
+    },
+    "python/stericx/py.typed": {
+      "baseline_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "current_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "version_substitution": false
+    },
+    "python/tests/data/DBSTEP_LICENSE.txt": {
+      "baseline_sha256": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+      "current_sha256": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+      "version_substitution": false
+    },
+    "python/tests/data/Ne_medium.cube": {
+      "baseline_sha256": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+      "current_sha256": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+      "version_substitution": false
+    },
+    "python/tests/data/density_goldens.json": {
+      "baseline_sha256": "5441ce57cfe0a309edae5b0fdd61ba5962cffe6b04014177da334f867d78c156",
+      "current_sha256": "5441ce57cfe0a309edae5b0fdd61ba5962cffe6b04014177da334f867d78c156",
+      "version_substitution": false
+    },
+    "python/tests/data/native_goldens.json": {
+      "baseline_sha256": "b8c7d46151e15a027345a1c7d5104623b65cfa0a7e6728a1032f9b60f7e44e22",
+      "current_sha256": "b8c7d46151e15a027345a1c7d5104623b65cfa0a7e6728a1032f9b60f7e44e22",
+      "version_substitution": false
+    },
+    "python/tests/test_advanced.py": {
+      "baseline_sha256": "99521404afd9e51d6d8f72f34d00a31a31f4861d7b6bdaac752194bbbe730037",
+      "current_sha256": "99521404afd9e51d6d8f72f34d00a31a31f4861d7b6bdaac752194bbbe730037",
+      "version_substitution": false
+    },
+    "python/tests/test_api.py": {
+      "baseline_sha256": "37f081bf853f93e8f76af8aaffd32fc6e1e41fa39afddfdd21ebfaa068c1d168",
+      "current_sha256": "37f081bf853f93e8f76af8aaffd32fc6e1e41fa39afddfdd21ebfaa068c1d168",
+      "version_substitution": false
+    },
+    "scripts/validate_python_install.py": {
+      "baseline_sha256": "47437fc0adf8cf9fe2bb17877fbdc8cd88b21be2f8bd3ccd9630fb25bb755b47",
+      "current_sha256": "47437fc0adf8cf9fe2bb17877fbdc8cd88b21be2f8bd3ccd9630fb25bb755b47",
+      "version_substitution": false
+    },
+    "src/cli.rs": {
+      "baseline_sha256": "b01560e0b7c71c109822285f431a71d4edf8edd5d085f2a4aaed2e896611c548",
+      "current_sha256": "b01560e0b7c71c109822285f431a71d4edf8edd5d085f2a4aaed2e896611c548",
+      "version_substitution": false
+    },
+    "src/commands/buried_volume.rs": {
+      "baseline_sha256": "6b2820a90f31d9f5ed3cfd01b53ead0634d8240fab17e72143ea286039b0d6af",
+      "current_sha256": "6b2820a90f31d9f5ed3cfd01b53ead0634d8240fab17e72143ea286039b0d6af",
+      "version_substitution": false
+    },
+    "src/commands/compare.rs": {
+      "baseline_sha256": "f0abefdebd8d65195d152990551f281b2630b8d1a46b004e0183d40ae9f03d15",
+      "current_sha256": "f0abefdebd8d65195d152990551f281b2630b8d1a46b004e0183d40ae9f03d15",
+      "version_substitution": false
+    },
+    "src/commands/db.rs": {
+      "baseline_sha256": "89970a785131d7abf2c262a74c3c25a8eb3c86268186e8d30eef8e96bb8e2a2f",
+      "current_sha256": "89970a785131d7abf2c262a74c3c25a8eb3c86268186e8d30eef8e96bb8e2a2f",
+      "version_substitution": false
+    },
+    "src/commands/evaluate.rs": {
+      "baseline_sha256": "56b0cf34cf83936cfd2ab97cb69b66c6b035dbdb1ccc9145f8ee245be8c8c8d5",
+      "current_sha256": "56b0cf34cf83936cfd2ab97cb69b66c6b035dbdb1ccc9145f8ee245be8c8c8d5",
+      "version_substitution": false
+    },
+    "src/commands/fit.rs": {
+      "baseline_sha256": "aeb75584d77a86278bdd729280d11149bf2d33986db564e0ada851baa825d3c0",
+      "current_sha256": "aeb75584d77a86278bdd729280d11149bf2d33986db564e0ada851baa825d3c0",
+      "version_substitution": false
+    },
+    "src/commands/mod.rs": {
+      "baseline_sha256": "b19f2005232ae1e0afc7490ad5e0b459d2cc8d5cdcf2a5ad55ca53ae24aebc93",
+      "current_sha256": "b19f2005232ae1e0afc7490ad5e0b459d2cc8d5cdcf2a5ad55ca53ae24aebc93",
+      "version_substitution": false
+    },
+    "src/commands/model.rs": {
+      "baseline_sha256": "05b88f69b108a451d7058eb97fa0bf9f1c0e16faf4d78d92187713b3e394574f",
+      "current_sha256": "05b88f69b108a451d7058eb97fa0bf9f1c0e16faf4d78d92187713b3e394574f",
+      "version_substitution": false
+    },
+    "src/commands/parse.rs": {
+      "baseline_sha256": "0ce1d9d13f8a31f45fc43b78559084ac1b26791ff125c9037afc995cc8a391b9",
+      "current_sha256": "0ce1d9d13f8a31f45fc43b78559084ac1b26791ff125c9037afc995cc8a391b9",
+      "version_substitution": false
+    },
+    "src/commands/predict.rs": {
+      "baseline_sha256": "756cde61b3e517063b8da117d92254362365d561f44085a515a90f97559f4ca8",
+      "current_sha256": "756cde61b3e517063b8da117d92254362365d561f44085a515a90f97559f4ca8",
+      "version_substitution": false
+    },
+    "src/commands/screen.rs": {
+      "baseline_sha256": "0d41e6a5c3e846aff3ebb2383483196fc807c5596c78edafa7c9a6d233bbcef3",
+      "current_sha256": "0d41e6a5c3e846aff3ebb2383483196fc807c5596c78edafa7c9a6d233bbcef3",
+      "version_substitution": false
+    },
+    "src/commands/search.rs": {
+      "baseline_sha256": "fa4a370e823aa4f10a14cdc343cbeb1441decfabc0f3ce7e5315c27c50cd245b",
+      "current_sha256": "fa4a370e823aa4f10a14cdc343cbeb1441decfabc0f3ce7e5315c27c50cd245b",
+      "version_substitution": false
+    },
+    "src/commands/simulate.rs": {
+      "baseline_sha256": "76c55051f322942ebb24a25896b644bd70bcb977431c44cf81279a86f46a1c8a",
+      "current_sha256": "76c55051f322942ebb24a25896b644bd70bcb977431c44cf81279a86f46a1c8a",
+      "version_substitution": false
+    },
+    "src/density/analysis.rs": {
+      "baseline_sha256": "4c98ed1229068f9b05ed293d39d75f9e87921d55d050243cd56d537b96d1f09d",
+      "current_sha256": "4c98ed1229068f9b05ed293d39d75f9e87921d55d050243cd56d537b96d1f09d",
+      "version_substitution": false
+    },
+    "src/density/mod.rs": {
+      "baseline_sha256": "bc3cf6aff077b3d3aca3e0faf4a1961270ac672cd19dc5b2a330e3c02696a272",
+      "current_sha256": "bc3cf6aff077b3d3aca3e0faf4a1961270ac672cd19dc5b2a330e3c02696a272",
+      "version_substitution": false
+    },
+    "src/descriptors.rs": {
+      "baseline_sha256": "e99c7e368a0aed176d4d6283d29955985f293b9967d4042401a2c6fa66601d66",
+      "current_sha256": "e99c7e368a0aed176d4d6283d29955985f293b9967d4042401a2c6fa66601d66",
+      "version_substitution": false
+    },
+    "src/digest.rs": {
+      "baseline_sha256": "7518ebda69a0404b286aba9d0573db123f609ee14ea8ff44e227aa52d790487d",
+      "current_sha256": "7518ebda69a0404b286aba9d0573db123f609ee14ea8ff44e227aa52d790487d",
+      "version_substitution": false
+    },
+    "src/ensemble/input.rs": {
+      "baseline_sha256": "4c46062839a915121b0c6a2e496006d6f5a940c08bf0da8418584d121e56665c",
+      "current_sha256": "4c46062839a915121b0c6a2e496006d6f5a940c08bf0da8418584d121e56665c",
+      "version_substitution": false
+    },
+    "src/ensemble/mod.rs": {
+      "baseline_sha256": "791490efd77e3befc00cc0bb2125f27490d36631cd881c8ced7359f7c0b1740e",
+      "current_sha256": "791490efd77e3befc00cc0bb2125f27490d36631cd881c8ced7359f7c0b1740e",
+      "version_substitution": false
+    },
+    "src/ensemble/population.rs": {
+      "baseline_sha256": "d04485e52a8bee0c3709126b175a3f3b00d5b93fa081af3a9eebb1762cb5fe80",
+      "current_sha256": "d04485e52a8bee0c3709126b175a3f3b00d5b93fa081af3a9eebb1762cb5fe80",
+      "version_substitution": false
+    },
+    "src/ensemble/sensitivity.rs": {
+      "baseline_sha256": "dfd51a2932421a44ba6cb463c0c2f6f982c955c6c6259d6f9db6a65049c5a4d6",
+      "current_sha256": "dfd51a2932421a44ba6cb463c0c2f6f982c955c6c6259d6f9db6a65049c5a4d6",
+      "version_substitution": false
+    },
+    "src/ensemble/statistics.rs": {
+      "baseline_sha256": "e077544f5c46049eb32d7ef708557b2c834dbba283ab8a4014d35d009d435a43",
+      "current_sha256": "e077544f5c46049eb32d7ef708557b2c834dbba283ab8a4014d35d009d435a43",
+      "version_substitution": false
+    },
+    "src/geometry/buried_volume.rs": {
+      "baseline_sha256": "6e4e0f368d9acf8f4b20327d5281384a42836d56e039ce4824571a2c45ec54bd",
+      "current_sha256": "6e4e0f368d9acf8f4b20327d5281384a42836d56e039ce4824571a2c45ec54bd",
+      "version_substitution": false
+    },
+    "src/geometry/buried_volume/aggregation_remediation_tests.rs": {
+      "baseline_sha256": "37467d6b38843c76ca007444a187d7b3b7314148b9a4b1052d0628cf47eca880",
+      "current_sha256": "37467d6b38843c76ca007444a187d7b3b7314148b9a4b1052d0628cf47eca880",
+      "version_substitution": false
+    },
+    "src/geometry/donor.rs": {
+      "baseline_sha256": "8c167acea9f0b5d965b560896216f470b828660be9539cc2b88d400891f0e059",
+      "current_sha256": "8c167acea9f0b5d965b560896216f470b828660be9539cc2b88d400891f0e059",
+      "version_substitution": false
+    },
+    "src/geometry/mod.rs": {
+      "baseline_sha256": "5914f746e712e7a06388302a71351c00f095c8655ebb37a900660609d6906f14",
+      "current_sha256": "5914f746e712e7a06388302a71351c00f095c8655ebb37a900660609d6906f14",
+      "version_substitution": false
+    },
+    "src/geometry/pyramidalization.rs": {
+      "baseline_sha256": "af2d34aa23dac9ab05e5fbbeddb92a59cc9282e8ce64c201b66a09d6d17ca381",
+      "current_sha256": "af2d34aa23dac9ab05e5fbbeddb92a59cc9282e8ce64c201b66a09d6d17ca381",
+      "version_substitution": false
+    },
+    "src/geometry/sterimol.rs": {
+      "baseline_sha256": "221a4947a83a61fbb1f3b10661298bbce23935c1545388a2249c5f77982839c9",
+      "current_sha256": "221a4947a83a61fbb1f3b10661298bbce23935c1545388a2249c5f77982839c9",
+      "version_substitution": false
+    },
+    "src/geometry/xyz.rs": {
+      "baseline_sha256": "eb6cc172f5467667d10ff8164e1ee06aa4635c2f80626ab97af63b5d962c59f3",
+      "current_sha256": "eb6cc172f5467667d10ff8164e1ee06aa4635c2f80626ab97af63b5d962c59f3",
+      "version_substitution": false
+    },
+    "src/kinetics/eyring.rs": {
+      "baseline_sha256": "b86300a11dc8fe07430bbd480b51df448d47295080219e47bb1b3e9f08d4b454",
+      "current_sha256": "b86300a11dc8fe07430bbd480b51df448d47295080219e47bb1b3e9f08d4b454",
+      "version_substitution": false
+    },
+    "src/kinetics/mod.rs": {
+      "baseline_sha256": "273fad2c13d5cae69bf98a80be34594344c7872cf973c2c9184a40adbc82a3d2",
+      "current_sha256": "273fad2c13d5cae69bf98a80be34594344c7872cf973c2c9184a40adbc82a3d2",
+      "version_substitution": false
+    },
+    "src/lib.rs": {
+      "baseline_sha256": "e9736276f4dccfd1f9a9cce43c2e22a6ede3e87a4047166b5305e129503cc66f",
+      "current_sha256": "e9736276f4dccfd1f9a9cce43c2e22a6ede3e87a4047166b5305e129503cc66f",
+      "version_substitution": false
+    },
+    "src/main.rs": {
+      "baseline_sha256": "f66dcf928f8c0cc681ad08aab50056ea25db6b130f92930be857c9a27543ecaa",
+      "current_sha256": "f66dcf928f8c0cc681ad08aab50056ea25db6b130f92930be857c9a27543ecaa",
+      "version_substitution": false
+    },
+    "src/model/dataset.rs": {
+      "baseline_sha256": "09f0f42066d9df30cefeae885eb0beba69ae31cd2e6cce6880c85c5b83c14d37",
+      "current_sha256": "09f0f42066d9df30cefeae885eb0beba69ae31cd2e6cce6880c85c5b83c14d37",
+      "version_substitution": false
+    },
+    "src/model/domain.rs": {
+      "baseline_sha256": "d906d970bf4f589552ba9683ec77ae7e2926e3b17ba78b785d689fd1b20441b4",
+      "current_sha256": "d906d970bf4f589552ba9683ec77ae7e2926e3b17ba78b785d689fd1b20441b4",
+      "version_substitution": false
+    },
+    "src/model/domain_interval_cache_tests.rs": {
+      "baseline_sha256": "9098b9cb5ead279d49a574b3214c9c4adffddf52faa05729b1b3f9d6bce30bde",
+      "current_sha256": "9098b9cb5ead279d49a574b3214c9c4adffddf52faa05729b1b3f9d6bce30bde",
+      "version_substitution": false
+    },
+    "src/model/evaluation.rs": {
+      "baseline_sha256": "31c73c059c4f2f1457ddc43c808b5d5ad6a3fd6e34501ba30d14b9f7fb20616a",
+      "current_sha256": "31c73c059c4f2f1457ddc43c808b5d5ad6a3fd6e34501ba30d14b9f7fb20616a",
+      "version_substitution": false
+    },
+    "src/model/features.rs": {
+      "baseline_sha256": "12a50e2f690a5975bd0eda62ce0910816414022bec8456b8cc6e1eea37d6ea4a",
+      "current_sha256": "12a50e2f690a5975bd0eda62ce0910816414022bec8456b8cc6e1eea37d6ea4a",
+      "version_substitution": false
+    },
+    "src/model/fit.rs": {
+      "baseline_sha256": "0aa6ed82bfb7dc42da3c1a624c792dc5b387e73cc82bf78cb2a842881f9dafe2",
+      "current_sha256": "0aa6ed82bfb7dc42da3c1a624c792dc5b387e73cc82bf78cb2a842881f9dafe2",
+      "version_substitution": false
+    },
+    "src/model/mod.rs": {
+      "baseline_sha256": "1928c62a747e041e92b5ec1e5d086e39f20d1eb990d8683e3e5545cdeb9963c3",
+      "current_sha256": "1928c62a747e041e92b5ec1e5d086e39f20d1eb990d8683e3e5545cdeb9963c3",
+      "version_substitution": false
+    },
+    "src/model/portable.rs": {
+      "baseline_sha256": "ab07d8d060d0cf7d794b56a8d03f64546594d19e306d603f3ee4c1b50faedfec",
+      "current_sha256": "ab07d8d060d0cf7d794b56a8d03f64546594d19e306d603f3ee4c1b50faedfec",
+      "version_substitution": false
+    },
+    "src/model/regress.rs": {
+      "baseline_sha256": "c98d1b7ff1f926e3ca46b262ddde511eced72e4c91e0d1045a54a68793bee3b2",
+      "current_sha256": "c98d1b7ff1f926e3ca46b262ddde511eced72e4c91e0d1045a54a68793bee3b2",
+      "version_substitution": false
+    },
+    "src/model/training.rs": {
+      "baseline_sha256": "b7febe7066c552ca3ac5c995ebf6f32c17d259fc33e7495587c95c17c77f1abf",
+      "current_sha256": "b7febe7066c552ca3ac5c995ebf6f32c17d259fc33e7495587c95c17c77f1abf",
+      "version_substitution": false
+    },
+    "src/output.rs": {
+      "baseline_sha256": "4b8b3f2d333573cf667afa3b914d79e1d67d5e56ee435bda3ca10350a8a296d6",
+      "current_sha256": "4b8b3f2d333573cf667afa3b914d79e1d67d5e56ee435bda3ca10350a8a296d6",
+      "version_substitution": false
+    },
+    "src/profiles.rs": {
+      "baseline_sha256": "5bb01751c8e3f013f5f7e57e154ecee8216cad8e91d0939807afd89c85a48396",
+      "current_sha256": "5bb01751c8e3f013f5f7e57e154ecee8216cad8e91d0939807afd89c85a48396",
+      "version_substitution": false
+    },
+    "src/profiling.rs": {
+      "baseline_sha256": "26f501150d25b199502fcb9d5493c45c5f4e7944db7898153814f9b12411109d",
+      "current_sha256": "26f501150d25b199502fcb9d5493c45c5f4e7944db7898153814f9b12411109d",
+      "version_substitution": false
+    },
+    "src/reaction.rs": {
+      "baseline_sha256": "15815fc387aff99caa917625ea2b53670c4018816436af45b156228fba4c046e",
+      "current_sha256": "15815fc387aff99caa917625ea2b53670c4018816436af45b156228fba4c046e",
+      "version_substitution": false
+    },
+    "src/storage/mod.rs": {
+      "baseline_sha256": "7b8516382aa1529d7132a13ca92485512e2fbbdf2fc34e598000832809896a5f",
+      "current_sha256": "7b8516382aa1529d7132a13ca92485512e2fbbdf2fc34e598000832809896a5f",
+      "version_substitution": false
+    },
+    "src/storage/pack.rs": {
+      "baseline_sha256": "80ffbb1e2a690b19b61f312a102db25d3e226250c49f8753328ab74b19f5710d",
+      "current_sha256": "80ffbb1e2a690b19b61f312a102db25d3e226250c49f8753328ab74b19f5710d",
+      "version_substitution": false
+    },
+    "src/storage/schema.rs": {
+      "baseline_sha256": "8648a358ef6b76426b267efc94364130cff7651928319f441ef01c936dd4a633",
+      "current_sha256": "8648a358ef6b76426b267efc94364130cff7651928319f441ef01c936dd4a633",
+      "version_substitution": false
+    },
+    "src/test_support.rs": {
+      "baseline_sha256": "9eeb77f25eedc057c210b7055fcb7a89e2614b895be2974db94944ae7d638b06",
+      "current_sha256": "9eeb77f25eedc057c210b7055fcb7a89e2614b895be2974db94944ae7d638b06",
+      "version_substitution": false
+    }
+  },
+  "sources_before": {
+    "Cargo.lock": "6fc56998d9bf2a41e27fa9b91af0ce674cc77f1252e382ee6ab39b8985494463",
+    "Cargo.toml": "bb6e4f8d136def8fdc7b1377f60978c52d6a6a525cf24c66925395eb3ead8a0b",
+    "docs/validation/dbstep/ACCEPTANCE_POLICY.md": "683af4d50e148c66ee3cff0a5c0eed99be60d5d64ad6f6fbc75d2ca50894ad9a",
+    "docs/validation/dbstep/POLICY_APPROVAL.md": "a57baa1c9e71d7b9e10412de1d059e9451c0bc7f2dddfe04ffd001da313f4d4c",
+    "examples/density_report.rs": "a79aac11a37e8adc83a9ac520d307aedb8c72fb1f012a08eab1bd45ecf4feee7",
+    "examples/ensemble_report.rs": "263ed9f27b892bd5e8289dc5c4f84911b501cb5aff31dcdb0fe7180b7493d69f",
+    "examples/paton_ensemble_allocations.rs": "7f5bb27dace263b91f954823139a6246f0020d3bf86a31e8c8984ac7f12fcf70",
+    "examples/paton_ensemble_benchmark.rs": "860e1281be9ee7f4d6207591458a0cd035f72d4812104b39233519ee4da08ed5",
+    "examples/population_observer.rs": "c2c4f69ba0b5859917c97664b53e89d04d148c682531989fb26cd46c6c12961f",
+    "examples/profile_predictions.rs": "e59c94cdf6e580b2ab9fe4b3dcc1f4f9907e505ab2d5f0e0318b3ea9079b7a29",
+    "examples/volume_profile.rs": "459cc81581f0cc1dfc5da750a290c8ad37a6565490ff6f6987769705a50f0080",
+    "python/.gitignore": "3fd783a069cf65f225d2bc4623b3a3c12c54b0252626e81b85efc60391535478",
+    "python/Cargo.lock": "8588b2cad904a14e9d38da513faecfa60e3bc3c73203b8425df68160a762f5e4",
+    "python/Cargo.toml": "4a761a83b1efef5338a53629d4ef626d10ddc72499be5ffa07e9fc1c6502c067",
+    "python/README.md": "c362415f9a33cc1cb4399e87651cce610638845ec5de23f958a03f0239297c62",
+    "python/examples/README.md": "c88675ec4c78466bcfc6828f1e92e9662361839e62059e29873d260fcc9945ab",
+    "python/examples/data/DBSTEP_LICENSE.txt": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+    "python/examples/data/Ne_medium.cube": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+    "python/examples/data/ligand_401_conformer_0.xyz": "2a9004125083657f2145291b7da1b31a468edd08204e5334bd20813b790e9002",
+    "python/examples/data/ligand_401_conformer_1.xyz": "f1c434b4c525016be23c6205f43c9db49fe67bd1bc3ed387f3e97808e7bc73f9",
+    "python/examples/data/ligand_401_energies.json": "29cb0e636be0b33e161f14e005ad848dbbaeacfa71c9156d6bfd6b51d9be31f5",
+    "python/examples/data/ligand_401_ensemble.xyz": "e211d56a66328a0dd5c7557bbf90a7bc6f656891c6f915867d00ac33435eddfb",
+    "python/examples/data/ligand_401_options.json": "f55139d0031ff5fb189f4a9fc10ac92fc73e24b6b9ac851d5dae7e4f74864ba7",
+    "python/examples/data/manifest.json": "68c870e8b634e9eba6f7f33ebf443048125ef94cc20ca1c18312ed8bccb534a7",
+    "python/examples/data/mapped_ligand.sdf": "be97f2cfc149030f93621c22801d2e56331b33bc967295c2721e6f99a12e2cf5",
+    "python/examples/research_workflow.py": "fc5e3b3d8b4f1414f9cb2faf44a49b7b0f67d22cbcb2c886cd254748bad72673",
+    "python/examples/stericx_research.ipynb": "13fc7fc08d91e53d6c3e78b94ad126705dc49e5c0a34cabaefc4b995c29d9f02",
+    "python/pyproject.toml": "ed58ad3c8df20a4dfd01255d6423aed90ed270c6b81d380890dd8bc599fa9fb8",
+    "python/rust/lib.rs": "eed8efe9c61d1ebb9e5919a3b8caaf4a6fa2d0584d4ab317d552e1d5e8310796",
+    "python/stericx/__init__.py": "53321097fb6674d6c752b76c81b82e554a3f76a9f7ea171c4527bea7b85d5446",
+    "python/stericx/_types.py": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+    "python/stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "python/tests/data/DBSTEP_LICENSE.txt": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+    "python/tests/data/Ne_medium.cube": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+    "python/tests/data/density_goldens.json": "5441ce57cfe0a309edae5b0fdd61ba5962cffe6b04014177da334f867d78c156",
+    "python/tests/data/native_goldens.json": "b8c7d46151e15a027345a1c7d5104623b65cfa0a7e6728a1032f9b60f7e44e22",
+    "python/tests/test_advanced.py": "99521404afd9e51d6d8f72f34d00a31a31f4861d7b6bdaac752194bbbe730037",
+    "python/tests/test_api.py": "37f081bf853f93e8f76af8aaffd32fc6e1e41fa39afddfdd21ebfaa068c1d168",
+    "scripts/validate_python_install.py": "47437fc0adf8cf9fe2bb17877fbdc8cd88b21be2f8bd3ccd9630fb25bb755b47",
+    "src/cli.rs": "b01560e0b7c71c109822285f431a71d4edf8edd5d085f2a4aaed2e896611c548",
+    "src/commands/buried_volume.rs": "6b2820a90f31d9f5ed3cfd01b53ead0634d8240fab17e72143ea286039b0d6af",
+    "src/commands/compare.rs": "f0abefdebd8d65195d152990551f281b2630b8d1a46b004e0183d40ae9f03d15",
+    "src/commands/db.rs": "89970a785131d7abf2c262a74c3c25a8eb3c86268186e8d30eef8e96bb8e2a2f",
+    "src/commands/evaluate.rs": "56b0cf34cf83936cfd2ab97cb69b66c6b035dbdb1ccc9145f8ee245be8c8c8d5",
+    "src/commands/fit.rs": "aeb75584d77a86278bdd729280d11149bf2d33986db564e0ada851baa825d3c0",
+    "src/commands/mod.rs": "b19f2005232ae1e0afc7490ad5e0b459d2cc8d5cdcf2a5ad55ca53ae24aebc93",
+    "src/commands/model.rs": "05b88f69b108a451d7058eb97fa0bf9f1c0e16faf4d78d92187713b3e394574f",
+    "src/commands/parse.rs": "0ce1d9d13f8a31f45fc43b78559084ac1b26791ff125c9037afc995cc8a391b9",
+    "src/commands/predict.rs": "756cde61b3e517063b8da117d92254362365d561f44085a515a90f97559f4ca8",
+    "src/commands/screen.rs": "0d41e6a5c3e846aff3ebb2383483196fc807c5596c78edafa7c9a6d233bbcef3",
+    "src/commands/search.rs": "fa4a370e823aa4f10a14cdc343cbeb1441decfabc0f3ce7e5315c27c50cd245b",
+    "src/commands/simulate.rs": "76c55051f322942ebb24a25896b644bd70bcb977431c44cf81279a86f46a1c8a",
+    "src/density/analysis.rs": "4c98ed1229068f9b05ed293d39d75f9e87921d55d050243cd56d537b96d1f09d",
+    "src/density/mod.rs": "bc3cf6aff077b3d3aca3e0faf4a1961270ac672cd19dc5b2a330e3c02696a272",
+    "src/descriptors.rs": "e99c7e368a0aed176d4d6283d29955985f293b9967d4042401a2c6fa66601d66",
+    "src/digest.rs": "7518ebda69a0404b286aba9d0573db123f609ee14ea8ff44e227aa52d790487d",
+    "src/ensemble/input.rs": "4c46062839a915121b0c6a2e496006d6f5a940c08bf0da8418584d121e56665c",
+    "src/ensemble/mod.rs": "791490efd77e3befc00cc0bb2125f27490d36631cd881c8ced7359f7c0b1740e",
+    "src/ensemble/population.rs": "d04485e52a8bee0c3709126b175a3f3b00d5b93fa081af3a9eebb1762cb5fe80",
+    "src/ensemble/sensitivity.rs": "dfd51a2932421a44ba6cb463c0c2f6f982c955c6c6259d6f9db6a65049c5a4d6",
+    "src/ensemble/statistics.rs": "e077544f5c46049eb32d7ef708557b2c834dbba283ab8a4014d35d009d435a43",
+    "src/geometry/buried_volume.rs": "6e4e0f368d9acf8f4b20327d5281384a42836d56e039ce4824571a2c45ec54bd",
+    "src/geometry/buried_volume/aggregation_remediation_tests.rs": "37467d6b38843c76ca007444a187d7b3b7314148b9a4b1052d0628cf47eca880",
+    "src/geometry/donor.rs": "8c167acea9f0b5d965b560896216f470b828660be9539cc2b88d400891f0e059",
+    "src/geometry/mod.rs": "5914f746e712e7a06388302a71351c00f095c8655ebb37a900660609d6906f14",
+    "src/geometry/pyramidalization.rs": "af2d34aa23dac9ab05e5fbbeddb92a59cc9282e8ce64c201b66a09d6d17ca381",
+    "src/geometry/sterimol.rs": "221a4947a83a61fbb1f3b10661298bbce23935c1545388a2249c5f77982839c9",
+    "src/geometry/xyz.rs": "eb6cc172f5467667d10ff8164e1ee06aa4635c2f80626ab97af63b5d962c59f3",
+    "src/kinetics/eyring.rs": "b86300a11dc8fe07430bbd480b51df448d47295080219e47bb1b3e9f08d4b454",
+    "src/kinetics/mod.rs": "273fad2c13d5cae69bf98a80be34594344c7872cf973c2c9184a40adbc82a3d2",
+    "src/lib.rs": "e9736276f4dccfd1f9a9cce43c2e22a6ede3e87a4047166b5305e129503cc66f",
+    "src/main.rs": "f66dcf928f8c0cc681ad08aab50056ea25db6b130f92930be857c9a27543ecaa",
+    "src/model/dataset.rs": "09f0f42066d9df30cefeae885eb0beba69ae31cd2e6cce6880c85c5b83c14d37",
+    "src/model/domain.rs": "d906d970bf4f589552ba9683ec77ae7e2926e3b17ba78b785d689fd1b20441b4",
+    "src/model/domain_interval_cache_tests.rs": "9098b9cb5ead279d49a574b3214c9c4adffddf52faa05729b1b3f9d6bce30bde",
+    "src/model/evaluation.rs": "31c73c059c4f2f1457ddc43c808b5d5ad6a3fd6e34501ba30d14b9f7fb20616a",
+    "src/model/features.rs": "12a50e2f690a5975bd0eda62ce0910816414022bec8456b8cc6e1eea37d6ea4a",
+    "src/model/fit.rs": "0aa6ed82bfb7dc42da3c1a624c792dc5b387e73cc82bf78cb2a842881f9dafe2",
+    "src/model/mod.rs": "1928c62a747e041e92b5ec1e5d086e39f20d1eb990d8683e3e5545cdeb9963c3",
+    "src/model/portable.rs": "ab07d8d060d0cf7d794b56a8d03f64546594d19e306d603f3ee4c1b50faedfec",
+    "src/model/regress.rs": "c98d1b7ff1f926e3ca46b262ddde511eced72e4c91e0d1045a54a68793bee3b2",
+    "src/model/training.rs": "b7febe7066c552ca3ac5c995ebf6f32c17d259fc33e7495587c95c17c77f1abf",
+    "src/output.rs": "4b8b3f2d333573cf667afa3b914d79e1d67d5e56ee435bda3ca10350a8a296d6",
+    "src/profiles.rs": "5bb01751c8e3f013f5f7e57e154ecee8216cad8e91d0939807afd89c85a48396",
+    "src/profiling.rs": "26f501150d25b199502fcb9d5493c45c5f4e7944db7898153814f9b12411109d",
+    "src/reaction.rs": "15815fc387aff99caa917625ea2b53670c4018816436af45b156228fba4c046e",
+    "src/storage/mod.rs": "7b8516382aa1529d7132a13ca92485512e2fbbdf2fc34e598000832809896a5f",
+    "src/storage/pack.rs": "80ffbb1e2a690b19b61f312a102db25d3e226250c49f8753328ab74b19f5710d",
+    "src/storage/schema.rs": "8648a358ef6b76426b267efc94364130cff7651928319f441ef01c936dd4a633",
+    "src/test_support.rs": "9eeb77f25eedc057c210b7055fcb7a89e2614b895be2974db94944ae7d638b06"
+  },
+  "version_only_verified": true,
+  "source_changes": {},
+  "artifacts": {
+    "wheel": {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl",
+      "bytes": 583117,
+      "sha256": "830e1aeb825875c2e94e6978f8025fc1c922ea08f735427ae9771cdac8cb7e1e"
+    },
+    "sdist": {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/sdist/stericx-0.4.0rc1.tar.gz",
+      "bytes": 1506346,
+      "sha256": "4e922e997c02b527b42945a6a955ecb8a75224d4dec3183d4bcea674a8cc7b91"
+    }
+  },
+  "installations": {
+    "wheel-3.11": {
+      "receipt": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.11/receipt.json",
+        "bytes": 7399,
+        "sha256": "64d4071e201419265228f6633b9b16e4efbd1e29556ab98cde632139527a91f7"
+      },
+      "tests": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.11/tests.log",
+        "bytes": 99,
+        "sha256": "af3c419632467fb22004e3643fc6202021851f4472452980a3fa5a3cafef45c9"
+      },
+      "passed": true,
+      "tests_passed": 71,
+      "versions": {
+        "python_version": "0.4.0rc1",
+        "distribution_version": "0.4.0rc1",
+        "native_binding_version": "0.4.0-rc.1",
+        "engine_version": "0.3.0",
+        "module": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11/lib/python3.11/site-packages/stericx/__init__.py",
+        "native_module": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11/lib/python3.11/site-packages/stericx/_native.abi3.so"
+      }
+    },
+    "wheel-3.12": {
+      "receipt": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.12/receipt.json",
+        "bytes": 7270,
+        "sha256": "260058d28daf6b409c2e9846b411c229c1d7a463a82388ca5b96e3b9f1ba1fa8"
+      },
+      "tests": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.12/tests.log",
+        "bytes": 99,
+        "sha256": "6cf3019f20b3c26bcd6dda4f7f25097f57d73de5169588d5cf3c6716ab318055"
+      },
+      "passed": true,
+      "tests_passed": 71,
+      "versions": {
+        "python_version": "0.4.0rc1",
+        "distribution_version": "0.4.0rc1",
+        "native_binding_version": "0.4.0-rc.1",
+        "engine_version": "0.3.0",
+        "module": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.12/lib/python3.12/site-packages/stericx/__init__.py",
+        "native_module": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.12/lib/python3.12/site-packages/stericx/_native.abi3.so"
+      }
+    },
+    "wheel-3.13": {
+      "receipt": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.13/receipt.json",
+        "bytes": 7270,
+        "sha256": "80dfcbbdb14156f1e3ea52a437d56d588e1268a68d55a1d0df6eee3a72e130cb"
+      },
+      "tests": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.13/tests.log",
+        "bytes": 99,
+        "sha256": "c529c270850d5c0aab46acea60378a0ea327e4b79110772a6d10009cbd1f98e2"
+      },
+      "passed": true,
+      "tests_passed": 71,
+      "versions": {
+        "python_version": "0.4.0rc1",
+        "distribution_version": "0.4.0rc1",
+        "native_binding_version": "0.4.0-rc.1",
+        "engine_version": "0.3.0",
+        "module": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.13/lib/python3.13/site-packages/stericx/__init__.py",
+        "native_module": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.13/lib/python3.13/site-packages/stericx/_native.abi3.so"
+      }
+    },
+    "wheel-3.14": {
+      "receipt": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.14/receipt.json",
+        "bytes": 7270,
+        "sha256": "6f5124438c462bc8040e9be91d504e312a04c74db30387177bbb7b5cf30505d6"
+      },
+      "tests": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.14/tests.log",
+        "bytes": 99,
+        "sha256": "96cf38a4e87553170232f0aee13d5e8e1a21877e95d02b0d5e65b81abb6b8ed8"
+      },
+      "passed": true,
+      "tests_passed": 71,
+      "versions": {
+        "python_version": "0.4.0rc1",
+        "distribution_version": "0.4.0rc1",
+        "native_binding_version": "0.4.0-rc.1",
+        "engine_version": "0.3.0",
+        "module": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.14/lib/python3.14/site-packages/stericx/__init__.py",
+        "native_module": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.14/lib/python3.14/site-packages/stericx/_native.abi3.so"
+      }
+    },
+    "sdist-3.12": {
+      "receipt": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/sdist-3.12/receipt.json",
+        "bytes": 7177,
+        "sha256": "a3c0904cad17c6bacc040bc7ec000d8997007dc1173e7c10a42d4d84a3a04f34"
+      },
+      "tests": {
+        "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/sdist-3.12/tests.log",
+        "bytes": 99,
+        "sha256": "495fcb73e7cecf6e97966d4bc32f61afcfb317fd607371beaf4508f5c7c24063"
+      },
+      "passed": true,
+      "tests_passed": 71,
+      "versions": {
+        "python_version": "0.4.0rc1",
+        "distribution_version": "0.4.0rc1",
+        "native_binding_version": "0.4.0-rc.1",
+        "engine_version": "0.3.0",
+        "module": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/sdist-3.12/lib/python3.12/site-packages/stericx/__init__.py",
+        "native_module": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/sdist-3.12/lib/python3.12/site-packages/stericx/_native.abi3.so"
+      }
+    }
+  },
+  "complete": true,
+  "passed": true,
+  "publication_performed": false,
+  "resource_configuration": {
+    "cpu_affinity": [
+      0,
+      1
+    ],
+    "RAYON_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "CARGO_BUILD_JOBS": "2",
+    "CARGO_TARGET_DIR": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/build_target"
+  },
+  "build_environment": {
+    "python": "3.12.13 (main, Jul 18 2026, 17:02:19) [Clang 22.1.3 ]",
+    "executable": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/python-build/bin/python",
+    "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.43",
+    "packages": [
+      {
+        "name": "asttokens",
+        "version": "3.0.2"
+      },
+      {
+        "name": "attrs",
+        "version": "26.1.0"
+      },
+      {
+        "name": "comm",
+        "version": "0.2.3"
+      },
+      {
+        "name": "contourpy",
+        "version": "1.4.0"
+      },
+      {
+        "name": "cycler",
+        "version": "0.12.1"
+      },
+      {
+        "name": "debugpy",
+        "version": "1.8.22"
+      },
+      {
+        "name": "executing",
+        "version": "2.3.0"
+      },
+      {
+        "name": "fastjsonschema",
+        "version": "2.22.2"
+      },
+      {
+        "name": "fonttools",
+        "version": "4.68.0"
+      },
+      {
+        "name": "iniconfig",
+        "version": "2.3.1"
+      },
+      {
+        "name": "ipykernel",
+        "version": "7.4.0"
+      },
+      {
+        "name": "ipython",
+        "version": "9.18.0"
+      },
+      {
+        "name": "ipython_pygments_lexers",
+        "version": "1.1.1"
+      },
+      {
+        "name": "jedi",
+        "version": "0.20.1"
+      },
+      {
+        "name": "jsonschema",
+        "version": "4.26.0"
+      },
+      {
+        "name": "jsonschema-specifications",
+        "version": "2025.9.1"
+      },
+      {
+        "name": "jupyter_client",
+        "version": "8.10.0"
+      },
+      {
+        "name": "jupyter_core",
+        "version": "5.9.1"
+      },
+      {
+        "name": "kiwisolver",
+        "version": "1.5.1"
+      },
+      {
+        "name": "matplotlib",
+        "version": "3.11.2"
+      },
+      {
+        "name": "matplotlib-inline",
+        "version": "0.2.2"
+      },
+      {
+        "name": "maturin",
+        "version": "1.16.0"
+      },
+      {
+        "name": "nbclient",
+        "version": "0.11.0"
+      },
+      {
+        "name": "nbformat",
+        "version": "5.11.1"
+      },
+      {
+        "name": "nest-asyncio2",
+        "version": "1.7.4"
+      },
+      {
+        "name": "numpy",
+        "version": "2.5.4"
+      },
+      {
+        "name": "packaging",
+        "version": "26.3"
+      },
+      {
+        "name": "pandas",
+        "version": "3.1.0"
+      },
+      {
+        "name": "parso",
+        "version": "0.8.7"
+      },
+      {
+        "name": "pexpect",
+        "version": "4.9.0"
+      },
+      {
+        "name": "pillow",
+        "version": "13.0.0"
+      },
+      {
+        "name": "platformdirs",
+        "version": "4.14.2"
+      },
+      {
+        "name": "pluggy",
+        "version": "1.7.0"
+      },
+      {
+        "name": "prompt_toolkit",
+        "version": "3.0.53"
+      },
+      {
+        "name": "psutil",
+        "version": "7.2.2"
+      },
+      {
+        "name": "ptyprocess",
+        "version": "0.7.0"
+      },
+      {
+        "name": "pure_eval",
+        "version": "0.2.4"
+      },
+      {
+        "name": "Pygments",
+        "version": "2.21.0"
+      },
+      {
+        "name": "pyparsing",
+        "version": "3.3.3"
+      },
+      {
+        "name": "pytest",
+        "version": "9.2.0"
+      },
+      {
+        "name": "python-dateutil",
+        "version": "3.0.0"
+      },
+      {
+        "name": "pyzmq",
+        "version": "27.2.0"
+      },
+      {
+        "name": "rdkit",
+        "version": "2026.9.1"
+      },
+      {
+        "name": "referencing",
+        "version": "0.37.0"
+      },
+      {
+        "name": "rpds-py",
+        "version": "2026.9.1"
+      },
+      {
+        "name": "six",
+        "version": "1.17.0"
+      },
+      {
+        "name": "stack-data",
+        "version": "0.6.3"
+      },
+      {
+        "name": "stericx",
+        "version": "0.4.0.dev0"
+      },
+      {
+        "name": "tornado",
+        "version": "6.6"
+      },
+      {
+        "name": "traitlets",
+        "version": "5.16.1"
+      },
+      {
+        "name": "typing_extensions",
+        "version": "4.16.0"
+      },
+      {
+        "name": "tzdata",
+        "version": "2026.6"
+      },
+      {
+        "name": "wcwidth",
+        "version": "0.9.4"
+      },
+      {
+        "name": "ziglang",
+        "version": "0.17.0"
+      }
+    ]
+  },
+  "sources_after": {
+    "Cargo.lock": "6fc56998d9bf2a41e27fa9b91af0ce674cc77f1252e382ee6ab39b8985494463",
+    "Cargo.toml": "bb6e4f8d136def8fdc7b1377f60978c52d6a6a525cf24c66925395eb3ead8a0b",
+    "docs/validation/dbstep/ACCEPTANCE_POLICY.md": "683af4d50e148c66ee3cff0a5c0eed99be60d5d64ad6f6fbc75d2ca50894ad9a",
+    "docs/validation/dbstep/POLICY_APPROVAL.md": "a57baa1c9e71d7b9e10412de1d059e9451c0bc7f2dddfe04ffd001da313f4d4c",
+    "examples/density_report.rs": "a79aac11a37e8adc83a9ac520d307aedb8c72fb1f012a08eab1bd45ecf4feee7",
+    "examples/ensemble_report.rs": "263ed9f27b892bd5e8289dc5c4f84911b501cb5aff31dcdb0fe7180b7493d69f",
+    "examples/paton_ensemble_allocations.rs": "7f5bb27dace263b91f954823139a6246f0020d3bf86a31e8c8984ac7f12fcf70",
+    "examples/paton_ensemble_benchmark.rs": "860e1281be9ee7f4d6207591458a0cd035f72d4812104b39233519ee4da08ed5",
+    "examples/population_observer.rs": "c2c4f69ba0b5859917c97664b53e89d04d148c682531989fb26cd46c6c12961f",
+    "examples/profile_predictions.rs": "e59c94cdf6e580b2ab9fe4b3dcc1f4f9907e505ab2d5f0e0318b3ea9079b7a29",
+    "examples/volume_profile.rs": "459cc81581f0cc1dfc5da750a290c8ad37a6565490ff6f6987769705a50f0080",
+    "python/.gitignore": "3fd783a069cf65f225d2bc4623b3a3c12c54b0252626e81b85efc60391535478",
+    "python/Cargo.lock": "8588b2cad904a14e9d38da513faecfa60e3bc3c73203b8425df68160a762f5e4",
+    "python/Cargo.toml": "4a761a83b1efef5338a53629d4ef626d10ddc72499be5ffa07e9fc1c6502c067",
+    "python/README.md": "c362415f9a33cc1cb4399e87651cce610638845ec5de23f958a03f0239297c62",
+    "python/examples/README.md": "c88675ec4c78466bcfc6828f1e92e9662361839e62059e29873d260fcc9945ab",
+    "python/examples/data/DBSTEP_LICENSE.txt": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+    "python/examples/data/Ne_medium.cube": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+    "python/examples/data/ligand_401_conformer_0.xyz": "2a9004125083657f2145291b7da1b31a468edd08204e5334bd20813b790e9002",
+    "python/examples/data/ligand_401_conformer_1.xyz": "f1c434b4c525016be23c6205f43c9db49fe67bd1bc3ed387f3e97808e7bc73f9",
+    "python/examples/data/ligand_401_energies.json": "29cb0e636be0b33e161f14e005ad848dbbaeacfa71c9156d6bfd6b51d9be31f5",
+    "python/examples/data/ligand_401_ensemble.xyz": "e211d56a66328a0dd5c7557bbf90a7bc6f656891c6f915867d00ac33435eddfb",
+    "python/examples/data/ligand_401_options.json": "f55139d0031ff5fb189f4a9fc10ac92fc73e24b6b9ac851d5dae7e4f74864ba7",
+    "python/examples/data/manifest.json": "68c870e8b634e9eba6f7f33ebf443048125ef94cc20ca1c18312ed8bccb534a7",
+    "python/examples/data/mapped_ligand.sdf": "be97f2cfc149030f93621c22801d2e56331b33bc967295c2721e6f99a12e2cf5",
+    "python/examples/research_workflow.py": "fc5e3b3d8b4f1414f9cb2faf44a49b7b0f67d22cbcb2c886cd254748bad72673",
+    "python/examples/stericx_research.ipynb": "13fc7fc08d91e53d6c3e78b94ad126705dc49e5c0a34cabaefc4b995c29d9f02",
+    "python/pyproject.toml": "ed58ad3c8df20a4dfd01255d6423aed90ed270c6b81d380890dd8bc599fa9fb8",
+    "python/rust/lib.rs": "eed8efe9c61d1ebb9e5919a3b8caaf4a6fa2d0584d4ab317d552e1d5e8310796",
+    "python/stericx/__init__.py": "53321097fb6674d6c752b76c81b82e554a3f76a9f7ea171c4527bea7b85d5446",
+    "python/stericx/_types.py": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+    "python/stericx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "python/tests/data/DBSTEP_LICENSE.txt": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+    "python/tests/data/Ne_medium.cube": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+    "python/tests/data/density_goldens.json": "5441ce57cfe0a309edae5b0fdd61ba5962cffe6b04014177da334f867d78c156",
+    "python/tests/data/native_goldens.json": "b8c7d46151e15a027345a1c7d5104623b65cfa0a7e6728a1032f9b60f7e44e22",
+    "python/tests/test_advanced.py": "99521404afd9e51d6d8f72f34d00a31a31f4861d7b6bdaac752194bbbe730037",
+    "python/tests/test_api.py": "37f081bf853f93e8f76af8aaffd32fc6e1e41fa39afddfdd21ebfaa068c1d168",
+    "scripts/validate_python_install.py": "47437fc0adf8cf9fe2bb17877fbdc8cd88b21be2f8bd3ccd9630fb25bb755b47",
+    "src/cli.rs": "b01560e0b7c71c109822285f431a71d4edf8edd5d085f2a4aaed2e896611c548",
+    "src/commands/buried_volume.rs": "6b2820a90f31d9f5ed3cfd01b53ead0634d8240fab17e72143ea286039b0d6af",
+    "src/commands/compare.rs": "f0abefdebd8d65195d152990551f281b2630b8d1a46b004e0183d40ae9f03d15",
+    "src/commands/db.rs": "89970a785131d7abf2c262a74c3c25a8eb3c86268186e8d30eef8e96bb8e2a2f",
+    "src/commands/evaluate.rs": "56b0cf34cf83936cfd2ab97cb69b66c6b035dbdb1ccc9145f8ee245be8c8c8d5",
+    "src/commands/fit.rs": "aeb75584d77a86278bdd729280d11149bf2d33986db564e0ada851baa825d3c0",
+    "src/commands/mod.rs": "b19f2005232ae1e0afc7490ad5e0b459d2cc8d5cdcf2a5ad55ca53ae24aebc93",
+    "src/commands/model.rs": "05b88f69b108a451d7058eb97fa0bf9f1c0e16faf4d78d92187713b3e394574f",
+    "src/commands/parse.rs": "0ce1d9d13f8a31f45fc43b78559084ac1b26791ff125c9037afc995cc8a391b9",
+    "src/commands/predict.rs": "756cde61b3e517063b8da117d92254362365d561f44085a515a90f97559f4ca8",
+    "src/commands/screen.rs": "0d41e6a5c3e846aff3ebb2383483196fc807c5596c78edafa7c9a6d233bbcef3",
+    "src/commands/search.rs": "fa4a370e823aa4f10a14cdc343cbeb1441decfabc0f3ce7e5315c27c50cd245b",
+    "src/commands/simulate.rs": "76c55051f322942ebb24a25896b644bd70bcb977431c44cf81279a86f46a1c8a",
+    "src/density/analysis.rs": "4c98ed1229068f9b05ed293d39d75f9e87921d55d050243cd56d537b96d1f09d",
+    "src/density/mod.rs": "bc3cf6aff077b3d3aca3e0faf4a1961270ac672cd19dc5b2a330e3c02696a272",
+    "src/descriptors.rs": "e99c7e368a0aed176d4d6283d29955985f293b9967d4042401a2c6fa66601d66",
+    "src/digest.rs": "7518ebda69a0404b286aba9d0573db123f609ee14ea8ff44e227aa52d790487d",
+    "src/ensemble/input.rs": "4c46062839a915121b0c6a2e496006d6f5a940c08bf0da8418584d121e56665c",
+    "src/ensemble/mod.rs": "791490efd77e3befc00cc0bb2125f27490d36631cd881c8ced7359f7c0b1740e",
+    "src/ensemble/population.rs": "d04485e52a8bee0c3709126b175a3f3b00d5b93fa081af3a9eebb1762cb5fe80",
+    "src/ensemble/sensitivity.rs": "dfd51a2932421a44ba6cb463c0c2f6f982c955c6c6259d6f9db6a65049c5a4d6",
+    "src/ensemble/statistics.rs": "e077544f5c46049eb32d7ef708557b2c834dbba283ab8a4014d35d009d435a43",
+    "src/geometry/buried_volume.rs": "6e4e0f368d9acf8f4b20327d5281384a42836d56e039ce4824571a2c45ec54bd",
+    "src/geometry/buried_volume/aggregation_remediation_tests.rs": "37467d6b38843c76ca007444a187d7b3b7314148b9a4b1052d0628cf47eca880",
+    "src/geometry/donor.rs": "8c167acea9f0b5d965b560896216f470b828660be9539cc2b88d400891f0e059",
+    "src/geometry/mod.rs": "5914f746e712e7a06388302a71351c00f095c8655ebb37a900660609d6906f14",
+    "src/geometry/pyramidalization.rs": "af2d34aa23dac9ab05e5fbbeddb92a59cc9282e8ce64c201b66a09d6d17ca381",
+    "src/geometry/sterimol.rs": "221a4947a83a61fbb1f3b10661298bbce23935c1545388a2249c5f77982839c9",
+    "src/geometry/xyz.rs": "eb6cc172f5467667d10ff8164e1ee06aa4635c2f80626ab97af63b5d962c59f3",
+    "src/kinetics/eyring.rs": "b86300a11dc8fe07430bbd480b51df448d47295080219e47bb1b3e9f08d4b454",
+    "src/kinetics/mod.rs": "273fad2c13d5cae69bf98a80be34594344c7872cf973c2c9184a40adbc82a3d2",
+    "src/lib.rs": "e9736276f4dccfd1f9a9cce43c2e22a6ede3e87a4047166b5305e129503cc66f",
+    "src/main.rs": "f66dcf928f8c0cc681ad08aab50056ea25db6b130f92930be857c9a27543ecaa",
+    "src/model/dataset.rs": "09f0f42066d9df30cefeae885eb0beba69ae31cd2e6cce6880c85c5b83c14d37",
+    "src/model/domain.rs": "d906d970bf4f589552ba9683ec77ae7e2926e3b17ba78b785d689fd1b20441b4",
+    "src/model/domain_interval_cache_tests.rs": "9098b9cb5ead279d49a574b3214c9c4adffddf52faa05729b1b3f9d6bce30bde",
+    "src/model/evaluation.rs": "31c73c059c4f2f1457ddc43c808b5d5ad6a3fd6e34501ba30d14b9f7fb20616a",
+    "src/model/features.rs": "12a50e2f690a5975bd0eda62ce0910816414022bec8456b8cc6e1eea37d6ea4a",
+    "src/model/fit.rs": "0aa6ed82bfb7dc42da3c1a624c792dc5b387e73cc82bf78cb2a842881f9dafe2",
+    "src/model/mod.rs": "1928c62a747e041e92b5ec1e5d086e39f20d1eb990d8683e3e5545cdeb9963c3",
+    "src/model/portable.rs": "ab07d8d060d0cf7d794b56a8d03f64546594d19e306d603f3ee4c1b50faedfec",
+    "src/model/regress.rs": "c98d1b7ff1f926e3ca46b262ddde511eced72e4c91e0d1045a54a68793bee3b2",
+    "src/model/training.rs": "b7febe7066c552ca3ac5c995ebf6f32c17d259fc33e7495587c95c17c77f1abf",
+    "src/output.rs": "4b8b3f2d333573cf667afa3b914d79e1d67d5e56ee435bda3ca10350a8a296d6",
+    "src/profiles.rs": "5bb01751c8e3f013f5f7e57e154ecee8216cad8e91d0939807afd89c85a48396",
+    "src/profiling.rs": "26f501150d25b199502fcb9d5493c45c5f4e7944db7898153814f9b12411109d",
+    "src/reaction.rs": "15815fc387aff99caa917625ea2b53670c4018816436af45b156228fba4c046e",
+    "src/storage/mod.rs": "7b8516382aa1529d7132a13ca92485512e2fbbdf2fc34e598000832809896a5f",
+    "src/storage/pack.rs": "80ffbb1e2a690b19b61f312a102db25d3e226250c49f8753328ab74b19f5710d",
+    "src/storage/schema.rs": "8648a358ef6b76426b267efc94364130cff7651928319f441ef01c936dd4a633",
+    "src/test_support.rs": "9eeb77f25eedc057c210b7055fcb7a89e2614b895be2974db94944ae7d638b06"
+  },
+  "completed_utc": "2026-11-02T19:04:42.092653+00:00"
+}

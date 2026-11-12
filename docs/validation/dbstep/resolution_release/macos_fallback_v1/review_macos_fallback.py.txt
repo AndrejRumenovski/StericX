@@ -1,0 +1,184 @@
+"""Review actual macOS execution after the original hosted runner was unavailable."""
+
+import collections
+import gzip
+import hashlib
+import json
+import re
+import shutil
+import subprocess
+from pathlib import Path
+
+RAW = Path(__file__).resolve().parent
+ROOT = RAW.parents[3]
+ORIGINAL = RAW.parent / "ci_raw"
+OUTPUT = ROOT / "docs/validation/dbstep/resolution_release/macos_fallback_v1"
+SOURCE = "03557ed5279abf8487012ddb39fab019f0538416"
+WORKFLOW = "a371345a2f489744b3112f8cfc46197e086c67ab"
+COMMANDS = [
+    "cargo test --all-targets --all-features",
+    "cargo test --test screening_regression",
+]
+
+
+def record(path):
+    return {
+        "path": str(path.resolve()),
+        "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "bytes": path.stat().st_size,
+    }
+
+
+def outcomes(text):
+    rows = re.findall(
+        r"test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored;", text
+    )
+    assert rows
+    assert all(int(failed) == int(ignored) == 0 for _, failed, ignored in rows)
+    assert "test result: FAILED" not in text
+    return sum(int(passed) for passed, _, _ in rows)
+
+
+def main():
+    OUTPUT.mkdir(parents=True, exist_ok=False)
+    run = json.loads((RAW / "run_final.json").read_text())
+    assert run["databaseId"] == 41508791423 and run["headSha"] == WORKFLOW
+    assert run["status"] == "completed" and run["conclusion"] == "success"
+    assert len(run["jobs"]) == 1 and run["jobs"][0]["conclusion"] == "success"
+    steps = {s["name"]: s for s in run["jobs"][0]["steps"]}
+    for name in [
+        "Record exact source and toolchain",
+        "Run Rust tests",
+        "Guard published screening results",
+        "Verify source preservation",
+    ]:
+        assert steps[name]["conclusion"] == "success"
+    workflow = subprocess.check_output(
+        ["git", "show", f"{WORKFLOW}:.github/workflows/rust-rc-macos.yml"], cwd=ROOT
+    )
+    assert workflow == (RAW / "workflow.yml.txt").read_bytes()
+    assert workflow == (ROOT / ".github/workflows/rust-rc-macos.yml").read_bytes()
+    original_workflow = subprocess.check_output(
+        ["git", "show", f"{SOURCE}:.github/workflows/ci.yml"], cwd=ROOT
+    ).decode()
+    for command in COMMANDS:
+        assert command.encode() in workflow and command in original_workflow
+    assert b"shell: bash" in workflow and b"run: git diff --exit-code" in workflow
+    assert b"runs-on: macos-14" in workflow and SOURCE.encode() in workflow
+    original = json.loads((ORIGINAL / "rust_final.json").read_text())
+    assert original["databaseId"] == 41505795122 and original["headSha"] == SOURCE
+    assert original["status"] == "completed" and original["conclusion"] == "failure"
+    original_jobs = {j["name"]: j for j in original["jobs"]}
+    assert len(original_jobs) == 3
+    assert original_jobs["Format, lint, and test"]["conclusion"] == "success"
+    assert original_jobs["Build and test (windows-latest)"]["conclusion"] == "success"
+    assert original_jobs["Build and test (macos-latest)"]["conclusion"] == "cancelled"
+    missing = json.loads((ORIGINAL / "macos_job_api.json").read_text())
+    assert missing["run_id"] == 41505795122 and missing["id"] == 125484682844
+    assert missing["conclusion"] == "cancelled" and missing["steps"] == []
+    assert missing["runner_id"] == 0 and missing["runner_name"] == ""
+    annotations = json.loads((ORIGINAL / "macos_annotations.json").read_text())
+    assert any(
+        a["annotation_level"] == "failure"
+        and a["message"]
+        == (
+            "The job was not acquired by Runner of type hosted "
+            "even after multiple attempts"
+        )
+        for a in annotations
+    )
+    assert any("capacity constraints" in a["message"] for a in annotations)
+    directory = RAW / "artifacts" / "frozen-macos-rust-evidence"
+    assert (directory / "source_commit.txt").read_text().strip() == SOURCE
+    assert "arm64" in (directory / "platform.txt").read_text()
+    assert "host: aarch64-apple-darwin" in (directory / "rustc.txt").read_text()
+    full = (directory / "rust_tests.log").read_text()
+    screening = (directory / "screening_tests.log").read_text()
+    assert outcomes(full) == 347 and outcomes(screening) == 22
+    windows = (ORIGINAL / "rust_windows.log").read_text()
+    linux = (ORIGINAL / "rust_linux.log").read_text()
+    assert outcomes(windows) == outcomes(linux) == 348 + 22
+
+    # All named tests match the actual Windows suite, except its x86-only test.
+    def names(text):
+        return collections.Counter(re.findall(r"\btest ([^\s]+) \.\.\. ok", text))
+
+    expected = names(windows)
+    x86_only = "model::regress::tests::avx2_matches_scalar_fallback"
+    assert expected[x86_only] == 1
+    expected.subtract({x86_only: 1})
+    expected = +expected
+    assert names(full + "\n" + screening) == expected
+    references = [
+        ORIGINAL / n
+        for n in [
+            "rust_final.json",
+            "macos_job_api.json",
+            "macos_annotations.json",
+            "rust_windows.log",
+            "rust_linux.log",
+            "rust_console.log",
+        ]
+    ]
+    records = [record(p) for p in sorted(RAW.rglob("*")) if p.is_file()] + [
+        record(p) for p in references
+    ]
+    for source in sorted(RAW.rglob("*")):
+        if not source.is_file():
+            continue
+        destination = OUTPUT / source.relative_to(RAW)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        if source.name == "full.log":
+            with destination.with_suffix(".log.gz").open("wb") as stream:
+                with gzip.GzipFile(
+                    fileobj=stream, mode="wb", filename="", mtime=0
+                ) as compressed:
+                    compressed.write(source.read_bytes())
+        else:
+            shutil.copyfile(source, destination)
+    result = {
+        "passed": True,
+        "source_commit": SOURCE,
+        "workflow_commit": WORKFLOW,
+        "original_run": original,
+        "original_macos_job": missing,
+        "original_capacity_annotations": annotations,
+        "fallback_run": run,
+        "commands": COMMANDS,
+        "architecture": "arm64",
+        "all_targets_tests_passed": 347,
+        "screening_tests_passed": 22,
+        "failed_tests": 0,
+        "ignored_tests": 0,
+        "source_unchanged": True,
+        "original_successful_platforms": ["linux", "windows"],
+        "named_test_coverage_matches_windows_except_x86_only": x86_only,
+        "records": records,
+        "failures": [],
+        "publication": False,
+    }
+    (OUTPUT / "macos_fallback_review.json").write_text(
+        json.dumps(result, indent=2) + "\n"
+    )
+    manifest = {
+        str(p.relative_to(OUTPUT)): record(p)["sha256"]
+        for p in sorted(OUTPUT.rglob("*"))
+        if p.is_file()
+    }
+    (OUTPUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    print(
+        json.dumps(
+            {
+                "passed": True,
+                "source_commit": SOURCE,
+                "all_targets_tests_passed": 347,
+                "screening_tests_passed": 22,
+                "raw_records": len(records),
+            },
+            indent=2,
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()

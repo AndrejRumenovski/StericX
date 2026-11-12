@@ -1,0 +1,665 @@
+{
+  "passed": true,
+  "source_commit": "03557ed5279abf8487012ddb39fab019f0538416",
+  "workflow_commit": "a371345a2f489744b3112f8cfc46197e086c67ab",
+  "original_run": {
+    "conclusion": "failure",
+    "createdAt": "2026-11-02T18:59:58Z",
+    "databaseId": 41505795122,
+    "event": "push",
+    "headBranch": "dbstep-resolution-rc-validation-20261102",
+    "headSha": "03557ed5279abf8487012ddb39fab019f0538416",
+    "jobs": [
+      {
+        "completedAt": "2026-11-02T19:14:59Z",
+        "conclusion": "cancelled",
+        "databaseId": 125484682844,
+        "name": "Build and test (macos-latest)",
+        "startedAt": "2026-11-02T18:59:58Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795122/job/125484682844"
+      },
+      {
+        "completedAt": "2026-11-02T19:02:32Z",
+        "conclusion": "success",
+        "databaseId": 125484683188,
+        "name": "Build and test (windows-latest)",
+        "startedAt": "2026-11-02T19:00:11Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:13Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:53Z",
+            "conclusion": "success",
+            "name": "Check out source",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:59Z",
+            "conclusion": "success",
+            "name": "Install stable Rust",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:04Z",
+            "conclusion": "success",
+            "name": "Cache Rust build artifacts",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:59Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:09Z",
+            "conclusion": "success",
+            "name": "Run Rust tests",
+            "number": 5,
+            "startedAt": "2026-11-02T19:01:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:20Z",
+            "conclusion": "success",
+            "name": "Guard published screening results",
+            "number": 6,
+            "startedAt": "2026-11-02T19:02:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:25Z",
+            "conclusion": "success",
+            "name": "Post Cache Rust build artifacts",
+            "number": 11,
+            "startedAt": "2026-11-02T19:02:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:28Z",
+            "conclusion": "success",
+            "name": "Post Check out source",
+            "number": 12,
+            "startedAt": "2026-11-02T19:02:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:02:28Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 13,
+            "startedAt": "2026-11-02T19:02:28Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795122/job/125484683188"
+      },
+      {
+        "completedAt": "2026-11-02T19:01:56Z",
+        "conclusion": "success",
+        "databaseId": 125484683275,
+        "name": "Format, lint, and test",
+        "startedAt": "2026-11-02T19:00:01Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:00:03Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:00:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:38Z",
+            "conclusion": "success",
+            "name": "Check out source",
+            "number": 2,
+            "startedAt": "2026-11-02T19:00:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:39Z",
+            "conclusion": "success",
+            "name": "Install stable Rust",
+            "number": 3,
+            "startedAt": "2026-11-02T19:00:38Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:42Z",
+            "conclusion": "success",
+            "name": "Cache Rust build artifacts",
+            "number": 4,
+            "startedAt": "2026-11-02T19:00:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:00:43Z",
+            "conclusion": "success",
+            "name": "Check Rust formatting",
+            "number": 5,
+            "startedAt": "2026-11-02T19:00:42Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:02Z",
+            "conclusion": "success",
+            "name": "Lint all Rust targets",
+            "number": 6,
+            "startedAt": "2026-11-02T19:00:43Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:04Z",
+            "conclusion": "success",
+            "name": "Check public documentation",
+            "number": 7,
+            "startedAt": "2026-11-02T19:01:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:28Z",
+            "conclusion": "success",
+            "name": "Run Rust tests",
+            "number": 8,
+            "startedAt": "2026-11-02T19:01:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:34Z",
+            "conclusion": "success",
+            "name": "Guard published screening results",
+            "number": 9,
+            "startedAt": "2026-11-02T19:01:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:38Z",
+            "conclusion": "success",
+            "name": "Install locked Python environment",
+            "number": 10,
+            "startedAt": "2026-11-02T19:01:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:39Z",
+            "conclusion": "success",
+            "name": "Sync Python dependencies",
+            "number": 11,
+            "startedAt": "2026-11-02T19:01:38Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:39Z",
+            "conclusion": "success",
+            "name": "Check support-script syntax",
+            "number": 12,
+            "startedAt": "2026-11-02T19:01:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:40Z",
+            "conclusion": "success",
+            "name": "Lint and format-check Python",
+            "number": 13,
+            "startedAt": "2026-11-02T19:01:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:44Z",
+            "conclusion": "success",
+            "name": "Verify archived benchmark evidence integrity",
+            "number": 14,
+            "startedAt": "2026-11-02T19:01:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:45Z",
+            "conclusion": "success",
+            "name": "Test quantum parsers without external executables",
+            "number": 15,
+            "startedAt": "2026-11-02T19:01:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:45Z",
+            "conclusion": "success",
+            "name": "Test profiling and optimization contracts",
+            "number": 16,
+            "startedAt": "2026-11-02T19:01:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:50Z",
+            "conclusion": "success",
+            "name": "Verify retrospective screening study",
+            "number": 17,
+            "startedAt": "2026-11-02T19:01:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:50Z",
+            "conclusion": "success",
+            "name": "Post Install locked Python environment",
+            "number": 32,
+            "startedAt": "2026-11-02T19:01:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:54Z",
+            "conclusion": "success",
+            "name": "Post Cache Rust build artifacts",
+            "number": 33,
+            "startedAt": "2026-11-02T19:01:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:54Z",
+            "conclusion": "success",
+            "name": "Post Check out source",
+            "number": 34,
+            "startedAt": "2026-11-02T19:01:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:01:54Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 35,
+            "startedAt": "2026-11-02T19:01:54Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795122/job/125484683275"
+      }
+    ],
+    "status": "completed",
+    "updatedAt": "2026-11-02T19:15:00Z",
+    "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795122"
+  },
+  "original_macos_job": {
+    "id": 125484682844,
+    "run_id": 41505795122,
+    "workflow_name": "CI",
+    "head_branch": "dbstep-resolution-rc-validation-20261102",
+    "run_url": "https://api.github.com/repos/AndrejRumenovski/StericX/actions/runs/41505795122",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOTjqNRc8AAAAdN3hOXA",
+    "head_sha": "03557ed5279abf8487012ddb39fab019f0538416",
+    "url": "https://api.github.com/repos/AndrejRumenovski/StericX/actions/jobs/125484682844",
+    "html_url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41505795122/job/125484682844",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "created_at": "2026-11-02T18:59:58Z",
+    "started_at": "2026-11-02T18:59:58Z",
+    "completed_at": "2026-11-02T19:14:59Z",
+    "name": "Build and test (macos-latest)",
+    "steps": [],
+    "check_run_url": "https://api.github.com/repos/AndrejRumenovski/StericX/check-runs/125484682844",
+    "labels": [
+      "macos-latest"
+    ],
+    "runner_id": 0,
+    "runner_name": "",
+    "runner_group_id": 0,
+    "runner_group_name": ""
+  },
+  "original_capacity_annotations": [
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/AndrejRumenovski/StericX/blob/03557ed5279abf8487012ddb39fab019f0538416/.github",
+      "start_line": 1,
+      "start_column": null,
+      "end_line": 1,
+      "end_column": null,
+      "annotation_level": "failure",
+      "title": "",
+      "message": "The job was not acquired by Runner of type hosted even after multiple attempts",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/AndrejRumenovski/StericX/blob/03557ed5279abf8487012ddb39fab019f0538416/.github",
+      "start_line": 1,
+      "start_column": null,
+      "end_line": 1,
+      "end_column": null,
+      "annotation_level": "notice",
+      "title": "",
+      "message": "Due to capacity constraints, jobs targeting macOS arm64 runners may experience longer queue times.",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/AndrejRumenovski/StericX/blob/03557ed5279abf8487012ddb39fab019f0538416/.github",
+      "start_line": 1,
+      "start_column": null,
+      "end_line": 1,
+      "end_column": null,
+      "annotation_level": "notice",
+      "title": "",
+      "message": "Due to capacity constraints, jobs targeting macOS arm64 runners may experience longer queue times.",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/AndrejRumenovski/StericX/blob/03557ed5279abf8487012ddb39fab019f0538416/.github",
+      "start_line": 1,
+      "start_column": null,
+      "end_line": 1,
+      "end_column": null,
+      "annotation_level": "notice",
+      "title": "",
+      "message": "Due to capacity constraints, jobs targeting macOS arm64 runners may experience longer queue times.",
+      "raw_details": ""
+    }
+  ],
+  "fallback_run": {
+    "conclusion": "success",
+    "createdAt": "2026-11-02T19:19:00Z",
+    "databaseId": 41508791423,
+    "event": "push",
+    "headBranch": "dbstep-resolution-rc-macos-20261102",
+    "headSha": "a371345a2f489744b3112f8cfc46197e086c67ab",
+    "jobs": [
+      {
+        "completedAt": "2026-11-02T19:21:03Z",
+        "conclusion": "success",
+        "databaseId": 125494895865,
+        "name": "Frozen RC Rust tests / macOS 14 arm64",
+        "startedAt": "2026-11-02T19:19:07Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-02T19:19:09Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-02T19:19:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:20:04Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-02T19:19:09Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:20:14Z",
+            "conclusion": "success",
+            "name": "Run dtolnay/rust-toolchain@stable",
+            "number": 3,
+            "startedAt": "2026-11-02T19:20:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:20:14Z",
+            "conclusion": "success",
+            "name": "Record exact source and toolchain",
+            "number": 4,
+            "startedAt": "2026-11-02T19:20:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:20:50Z",
+            "conclusion": "success",
+            "name": "Run Rust tests",
+            "number": 5,
+            "startedAt": "2026-11-02T19:20:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:20:57Z",
+            "conclusion": "success",
+            "name": "Guard published screening results",
+            "number": 6,
+            "startedAt": "2026-11-02T19:20:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:20:57Z",
+            "conclusion": "success",
+            "name": "Verify source preservation",
+            "number": 7,
+            "startedAt": "2026-11-02T19:20:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:20:59Z",
+            "conclusion": "success",
+            "name": "Run actions/upload-artifact@v4",
+            "number": 8,
+            "startedAt": "2026-11-02T19:20:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:20:59Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 16,
+            "startedAt": "2026-11-02T19:20:59Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-02T19:21:00Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-02T19:20:59Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41508791423/job/125494895865"
+      }
+    ],
+    "status": "completed",
+    "updatedAt": "2026-11-02T19:21:04Z",
+    "url": "https://github.com/AndrejRumenovski/StericX/actions/runs/41508791423"
+  },
+  "commands": [
+    "cargo test --all-targets --all-features",
+    "cargo test --test screening_regression"
+  ],
+  "architecture": "arm64",
+  "all_targets_tests_passed": 347,
+  "screening_tests_passed": 22,
+  "failed_tests": 0,
+  "ignored_tests": 0,
+  "source_unchanged": true,
+  "original_successful_platforms": [
+    "linux",
+    "windows"
+  ],
+  "named_test_coverage_matches_windows_except_x86_only": "model::regress::tests::avx2_matches_scalar_fallback",
+  "records": [
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/artifact_api.json",
+      "sha256": "f4589e0841c8d7769a96aa5c2b37bd7bf3b21f348ba0f8b5a1609e2ced610fec",
+      "bytes": 764
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/artifact_download.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/artifacts/frozen-macos-rust-evidence/cargo.txt",
+      "sha256": "c35608815f43d0b8788a9b826fad2bb17384f49fb328dc4fe64da9db5f5ef4d6",
+      "bytes": 36
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/artifacts/frozen-macos-rust-evidence/platform.txt",
+      "sha256": "841535c9c3502d327d500af8af2f3300ee82de0d184baab800eeeff9905f5926",
+      "bytes": 200
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/artifacts/frozen-macos-rust-evidence/rust_tests.log",
+      "sha256": "58f86d6cc51fd545dbe282d0c65548917e14e1200339d26f0d43318a17a5b4b1",
+      "bytes": 36076
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/artifacts/frozen-macos-rust-evidence/rustc.txt",
+      "sha256": "e003fd3d385fcd0de16bc6b049124efb20207831dd810fd4ab39ff079bbb12a5",
+      "bytes": 192
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/artifacts/frozen-macos-rust-evidence/screening_tests.log",
+      "sha256": "8ab3f1defd2033ae8c384577065a9a1066f7aea6c1040579c871c648b4ef1fc4",
+      "bytes": 1990
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/artifacts/frozen-macos-rust-evidence/source_commit.txt",
+      "sha256": "8ff653d44a80751576bf4495c9288a092fb08c027a58a3e47dde8d51c0bd64d0",
+      "bytes": 41
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/download_receipt.json",
+      "sha256": "51560b09e9a98c7ad17d6e7e83c37bbd6321cc6aa89588198726fddba32596ee",
+      "bytes": 778
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/duplicate_cancellations.json",
+      "sha256": "4949afa9d81ed26aad9c13af6b82ca66cf86e6b7c9ee1dc65db999a562c22400",
+      "bytes": 981
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/duplicate_rust_before.json",
+      "sha256": "70a01382701d21d64fe0a9b59b6aeeee525a41cb94eee734ff2345e7d70fb5ed",
+      "bytes": 5158
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/duplicate_rust_cancel.log",
+      "sha256": "875a4ddd1301150a14f41c45ec39ce65449ce2d173e7c7fa38b1b9953be8a757",
+      "bytes": 54
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/duplicate_rust_final.json",
+      "sha256": "0df2e2d5f7905c4f6778b69938a09acdfc1d9c10cfb2ae5b1e65c4bf802bc2a5",
+      "bytes": 5803
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/duplicate_rust_poll_192101.json",
+      "sha256": "0df2e2d5f7905c4f6778b69938a09acdfc1d9c10cfb2ae5b1e65c4bf802bc2a5",
+      "bytes": 5803
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/duplicate_wheels_before.json",
+      "sha256": "4221dc7950fb2a5feca4f387094e4d5d053552ec8df0270fd7fcbc9160543f16",
+      "bytes": 22178
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/duplicate_wheels_cancel.log",
+      "sha256": "e45347dee32edc2c8757973c0b6241a58a5551aff941a907e99766b72bdfb698",
+      "bytes": 54
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/duplicate_wheels_final.json",
+      "sha256": "19a5eac1911fed6be6b20416ad099e90c99911c5d9d2f73e5eadf1dd46ea0f8a",
+      "bytes": 26945
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/duplicate_wheels_poll_192101.json",
+      "sha256": "6a428a3b5eaf29402c38c224f67479c6276790195265cda10ea188b6d2bda2d4",
+      "bytes": 26317
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/duplicate_wheels_poll_192225.json",
+      "sha256": "19a5eac1911fed6be6b20416ad099e90c99911c5d9d2f73e5eadf1dd46ea0f8a",
+      "bytes": 26945
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/full.log",
+      "sha256": "6e976844544d538a0b23e8c24cbe9bb9faf800a8a4024caaffb6f2eb249d5941",
+      "bytes": 154122
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/push.log",
+      "sha256": "468836d032ae52b26a418fd75ce1f02a9361ebe34bad65929481560c9b5936d1",
+      "bytes": 385
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/push_receipt.json",
+      "sha256": "67085834037226b814fe4101e5ec7ba8139bbdfe7de4fe6c5769fca23db2a345",
+      "bytes": 597
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/review_macos_fallback.py.txt",
+      "sha256": "2567a126f4eb30b7ccc9d9ea757d0b63cab6b9eef27bc740c0c2b824ffaca8ff",
+      "bytes": 7159
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/run_final.json",
+      "sha256": "e4df830157b65d65fd26a90396dd2f54fd02c51952363d7d3b831478e6f86c61",
+      "bytes": 2275
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/run_initial.json",
+      "sha256": "0ec081cf2df225197fb5e3663cc97da9527759a838da123b5f636c9c3effd382",
+      "bytes": 2045
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/run_poll_192101.json",
+      "sha256": "021344399edb6aee0fabdbc6c0c8ec1b1f1e3ab72f149f0ea20df9543d5890c4",
+      "bytes": 2260
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/run_poll_192225.json",
+      "sha256": "e4df830157b65d65fd26a90396dd2f54fd02c51952363d7d3b831478e6f86c61",
+      "bytes": 2275
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/started.json",
+      "sha256": "856d97d704274dfd9acaca9e6914ca3908625befc92426b979fb1b362ecdcb4d",
+      "bytes": 417
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/macos_fallback_raw/workflow.yml.txt",
+      "sha256": "4d49c5a6a6d00b7cadc31dcac389523064262fcf6c8c6b1940c55a0fc61eae5e",
+      "bytes": 1492
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/ci_raw/rust_final.json",
+      "sha256": "b2afd44e73921c501d8aabb177a84a03fc9dc9b523820cf2d6515f4c5b610450",
+      "bytes": 6147
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/ci_raw/macos_job_api.json",
+      "sha256": "a00e322d7677885288a1f8acc6b0456c5c5feed45f002b4b83e5696f995ce2ad",
+      "bytes": 906
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/ci_raw/macos_annotations.json",
+      "sha256": "47d9689c3646217f6a7fcba65da6b61dccdc55e4097ddd1ab7bf61018ffb0196",
+      "bytes": 1438
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/ci_raw/rust_windows.log",
+      "sha256": "4ad6e095a06a3aa49bb95db6f9c03760080b129bff2d0b6800af0d9c1f2bcaf4",
+      "bytes": 153653
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/ci_raw/rust_linux.log",
+      "sha256": "07330c57a166978e7a6c13782cadc1eccd5ff10bd91dc5a7617b021f2d44f9ce",
+      "bytes": 179563
+    },
+    {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/ci_raw/rust_console.log",
+      "sha256": "d1ae7093f3ed63871d36bfa97a35ef9a6a6260344a926c0a2aa9cc9f5f6dca39",
+      "bytes": 1803
+    }
+  ],
+  "failures": [],
+  "publication": false
+}

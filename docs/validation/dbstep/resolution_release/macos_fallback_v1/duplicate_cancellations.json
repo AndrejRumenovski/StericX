@@ -1,0 +1,29 @@
+{
+  "reason": "Additive exact-source macOS fallback workflow push automatically created duplicate full Rust/package runs. Preserve original exact-source Linux/Windows successes and macOS infrastructure failure; current exact-source macOS fallback41508791423 remains required, package41505795041 and selected-wheel41507681984 already passed. Cancel only newly duplicated full pipelines; no test gate waived.",
+  "authorization": "Parent explicitly approved cancelling only newly duplicated pipelines on this additive fallback branch.",
+  "created_utc": "2026-11-02T19:19:56.704961+00:00",
+  "commands": [
+    {
+      "command": [
+        "gh",
+        "run",
+        "cancel",
+        "41508791307",
+        "--repo",
+        "AndrejRumenovski/StericX"
+      ],
+      "returncode": 0
+    },
+    {
+      "command": [
+        "gh",
+        "run",
+        "cancel",
+        "41508791361",
+        "--repo",
+        "AndrejRumenovski/StericX"
+      ],
+      "returncode": 0
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "created_utc": "2026-11-02T19:02:25.025670+00:00",
+  "command": [
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/scripts/validate_python_install.py",
+    "--python",
+    "3.11",
+    "--artifact",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl",
+    "--environment",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11",
+    "--output",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.11"
+  ],
+  "controller_sha256": "47437fc0adf8cf9fe2bb17877fbdc8cd88b21be2f8bd3ccd9630fb25bb755b47",
+  "artifact": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl",
+    "sha256": "830e1aeb825875c2e94e6978f8025fc1c922ea08f735427ae9771cdac8cb7e1e"
+  },
+  "tests": {
+    "data/DBSTEP_LICENSE.txt": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+    "data/Ne_medium.cube": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+    "data/density_goldens.json": "5441ce57cfe0a309edae5b0fdd61ba5962cffe6b04014177da334f867d78c156",
+    "data/native_goldens.json": "b8c7d46151e15a027345a1c7d5104623b65cfa0a7e6728a1032f9b60f7e44e22",
+    "test_advanced.py": "99521404afd9e51d6d8f72f34d00a31a31f4861d7b6bdaac752194bbbe730037",
+    "test_api.py": "37f081bf853f93e8f76af8aaffd32fc6e1e41fa39afddfdd21ebfaa068c1d168"
+  },
+  "commands": [
+    {
+      "name": "create_environment",
+      "argv": [
+        "uv",
+        "venv",
+        "--seed",
+        "--python",
+        "3.11",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.11/create_environment.log",
+      "sha256": "48629d9f6b70d2a09c8d091b8d62b7b0cc4231fbd2376b47b09d315795f6c3b8"
+    },
+    {
+      "name": "install_base",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "--no-deps",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.11/install_base.log",
+      "sha256": "8825babf245df88afc64b478506a5253ea48a6cff927fe9647ef9c83153f41ba"
+    },
+    {
+      "name": "base_smoke",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11/bin/python",
+        "-I",
+        "-c",
+        "import importlib.util,json,sys,stericx\nassert all(importlib.util.find_spec(n) is None for n in ['numpy','pandas','rdkit'])\nm=stericx.Molecule.from_xyz_string('2\\naxis\\nC 0 0 0\\nC 0 0 1.5\\n')\nr=m.descriptors(stericx.DescriptorOptions(donor_index=0,reference_index=1))\nassert r.sterimol.require().l>3.19\nprint(json.dumps({'python':sys.version,'module':stericx.__file__,'version':stericx.__version__,'l':r.sterimol.value.l}))\n"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.11/base_smoke.log",
+      "sha256": "224132eb405c99cf5fefc3b004fb8e437b01e2e652b0f319d68ec1c211afb2ee"
+    },
+    {
+      "name": "install_test_adapters",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "pytest",
+        "numpy",
+        "pandas",
+        "rdkit"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.11/install_test_adapters.log",
+      "sha256": "23ee06e94581bc12247f6e1d5d8993e8747401e4a3bce2db21dc71af4d615fe0"
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11/bin/python",
+        "-I",
+        "-m",
+        "pytest",
+        "-q",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11-tests"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.11/tests.log",
+      "sha256": "af3c419632467fb22004e3643fc6202021851f4472452980a3fa5a3cafef45c9"
+    },
+    {
+      "name": "pip_check",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11/bin/python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.11/pip_check.log",
+      "sha256": "9261363b733079a641c2e4cc9bc46ffa1d8336945a87f807b6cf68847dbc9b09"
+    },
+    {
+      "name": "packages",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/environments/wheel-3.11/bin/python",
+        "-m",
+        "pip",
+        "list",
+        "--format",
+        "json"
+      ],
+      "returncode": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/installations/wheel-3.11/packages.log",
+      "sha256": "d6d41bf937938149a4ab743dfd124865a402678ebf2a12c9a8232d6df72c3d11"
+    }
+  ],
+  "packages": [
+    {
+      "name": "iniconfig",
+      "version": "2.3.1"
+    },
+    {
+      "name": "numpy",
+      "version": "2.4.6"
+    },
+    {
+      "name": "packaging",
+      "version": "26.3"
+    },
+    {
+      "name": "pandas",
+      "version": "3.1.0"
+    },
+    {
+      "name": "pillow",
+      "version": "13.0.0"
+    },
+    {
+      "name": "pip",
+      "version": "26.2.2"
+    },
+    {
+      "name": "pluggy",
+      "version": "1.7.0"
+    },
+    {
+      "name": "Pygments",
+      "version": "2.21.0"
+    },
+    {
+      "name": "pytest",
+      "version": "9.2.0"
+    },
+    {
+      "name": "python-dateutil",
+      "version": "4.0.0"
+    },
+    {
+      "name": "rdkit",
+      "version": "2026.9.1"
+    },
+    {
+      "name": "setuptools",
+      "version": "84.2.1"
+    },
+    {
+      "name": "stericx",
+      "version": "0.4.0rc1"
+    },
+    {
+      "name": "tzdata",
+      "version": "2026.6"
+    },
+    {
+      "name": "wheel",
+      "version": "0.48.0"
+    }
+  ],
+  "passed": true,
+  "artifact_unchanged": true
+}

@@ -1,0 +1,42 @@
+{
+  "created_utc": "2026-11-02T19:16:51.488572+00:00",
+  "commands": [
+    {
+      "command": [
+        "gh",
+        "run",
+        "view",
+        "41505795122",
+        "--job",
+        "125484683188",
+        "--repo",
+        "AndrejRumenovski/StericX",
+        "--log"
+      ],
+      "returncode": 0
+    },
+    {
+      "command": [
+        "gh",
+        "run",
+        "view",
+        "41505795122",
+        "--job",
+        "125484683275",
+        "--repo",
+        "AndrejRumenovski/StericX",
+        "--log"
+      ],
+      "returncode": 0
+    },
+    {
+      "command": [
+        "gh",
+        "api",
+        "https://api.github.com/repos/AndrejRumenovski/StericX/check-runs/125484682844/annotations"
+      ],
+      "returncode": 0
+    }
+  ],
+  "full_run_log_download_failed_preserved": true
+}

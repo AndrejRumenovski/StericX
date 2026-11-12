@@ -1,0 +1,208 @@
+"""Additional RC metadata checks; scientific/artifact reviewer remains unchanged."""
+
+import ast
+import hashlib
+import json
+import subprocess
+import tarfile
+import tomllib
+import zipfile
+from email.parser import BytesParser
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[4]
+RAW = Path(__file__).resolve().parent
+VERSION = "0.4.0rc1"
+BINDING_VERSION = "0.4.0-rc.1"
+COMMIT = "03557ed5279abf8487012ddb39fab019f0538416"
+
+
+def module_version(data):
+    assignments = [
+        node.value.value
+        for node in ast.parse(data).body
+        if isinstance(node, ast.Assign)
+        and any(isinstance(n, ast.Name) and n.id == "__version__" for n in node.targets)
+        and isinstance(node.value, ast.Constant)
+    ]
+    assert assignments == [VERSION], assignments
+    return assignments[0]
+
+
+def metadata(data):
+    message = BytesParser().parsebytes(data)
+    assert message["Name"] == "stericx"
+    assert message["Version"] == VERSION
+    return {"metadata_name": message["Name"], "metadata_version": message["Version"]}
+
+
+def main():
+    artifacts = []
+    paths = sorted((RAW / "artifacts").rglob("*.whl"))
+    assert len(paths) == 12
+    for path in paths:
+        assert path.name.startswith(f"stericx-{VERSION}-cp311-abi3-")
+        with zipfile.ZipFile(path) as wheel:
+            metadata_names = [
+                n for n in wheel.namelist() if n.endswith(".dist-info/METADATA")
+            ]
+            assert len(metadata_names) == 1
+            values = metadata(wheel.read(metadata_names[0]))
+            values["init_version"] = module_version(wheel.read("stericx/__init__.py"))
+            values["wheel_platform_tag"] = path.name.rsplit("-", 1)[1].removesuffix(
+                ".whl"
+            )
+            values["tested_python"] = path.parent.name.rsplit("-py", 1)[1]
+            values["entry_hashes"] = {
+                name: hashlib.sha256(wheel.read(name)).hexdigest()
+                for name in sorted(wheel.namelist())
+            }
+            values["runtime_entry_hashes"] = {
+                name: hashlib.sha256(
+                    wheel.read(name).replace(b"\r\n", b"\n")
+                    if name.endswith(".py")
+                    else wheel.read(name)
+                ).hexdigest()
+                for name in sorted(wheel.namelist())
+                if name.startswith("stericx/")
+            }
+            values["native_entry_hashes"] = {
+                name: digest
+                for name, digest in values["entry_hashes"].items()
+                if name.endswith((".so", ".pyd"))
+            }
+            assert len(values["native_entry_hashes"]) == 1
+        artifacts.append(
+            {
+                "path": str(path.relative_to(RAW)),
+                "absolute_path": str(path.resolve()),
+                "kind": "wheel",
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "bytes": path.stat().st_size,
+                **values,
+            }
+        )
+    paths = sorted((RAW / "artifacts").rglob("*.tar.gz"))
+    assert len(paths) == 1
+    for path in paths:
+        assert path.name == f"stericx-{VERSION}.tar.gz"
+        with tarfile.open(path) as source:
+            prefix = f"stericx-{VERSION}/"
+
+            def contents(name):
+                return source.extractfile(prefix + name).read()
+
+            values = metadata(contents("PKG-INFO"))
+            values["init_version"] = module_version(contents("stericx/__init__.py"))
+            values["project_version"] = tomllib.loads(
+                contents("pyproject.toml").decode()
+            )["project"]["version"]
+            values["binding_crate_version"] = tomllib.loads(
+                contents("python/Cargo.toml").decode()
+            )["package"]["version"]
+            values["engine_version"] = tomllib.loads(contents("Cargo.toml").decode())[
+                "package"
+            ]["version"]
+            lock = tomllib.loads(contents("python/Cargo.lock").decode())["package"]
+            values["locked_binding_version"] = next(
+                p["version"] for p in lock if p["name"] == "stericx-python"
+            )
+            assert values["project_version"] == VERSION
+            assert (
+                values["binding_crate_version"]
+                == values["locked_binding_version"]
+                == BINDING_VERSION
+            )
+            assert values["engine_version"] == "0.3.0"
+        artifacts.append(
+            {
+                "path": str(path.relative_to(RAW)),
+                "absolute_path": str(path.resolve()),
+                "kind": "sdist",
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "bytes": path.stat().st_size,
+                **values,
+            }
+        )
+    groups = {}
+    for artifact in artifacts:
+        if artifact["kind"] == "wheel":
+            groups.setdefault(artifact["wheel_platform_tag"], []).append(artifact)
+    assert len(groups) == 3
+    payload_groups = []
+    for tag, members in sorted(groups.items()):
+        assert len(members) == 4
+        assert sorted(m["tested_python"] for m in members) == [
+            "3.11",
+            "3.12",
+            "3.13",
+            "3.14",
+        ]
+        payload_groups.append(
+            {
+                "wheel_platform_tag": tag,
+                "artifacts": [m["path"] for m in members],
+                "tested_python_versions": [m["tested_python"] for m in members],
+                "identical_native_bytes": all(
+                    m["native_entry_hashes"] == members[0]["native_entry_hashes"]
+                    for m in members
+                ),
+                "identical_runtime_payload_after_python_newline_normalization": all(
+                    m["runtime_entry_hashes"] == members[0]["runtime_entry_hashes"]
+                    for m in members
+                ),
+                "identical_all_uncompressed_entries": all(
+                    m["entry_hashes"] == members[0]["entry_hashes"] for m in members
+                ),
+            }
+        )
+    # Bind actual scientific/package/workflow files to the tested RC commit.
+    binding = json.loads((RAW / "source_bindings.json").read_text())
+    assert binding["source_commit"] == COMMIT
+    verified = []
+    for name, expected in binding["source_hashes"].items():
+        committed = subprocess.check_output(
+            ["git", "show", f"{COMMIT}:{name}"], cwd=ROOT
+        )
+        assert hashlib.sha256(committed).hexdigest() == expected
+        assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == expected, name
+        verified.append(name)
+    lines = (RAW / "wheels_full.log").read_text().splitlines()
+    installed = [
+        line
+        for line in lines
+        if "Successfully installed" in line and f"stericx-{VERSION}" in line
+    ]
+    assert len(installed) == 13, len(installed)
+    result = {
+        "passed": True,
+        "source_commit": COMMIT,
+        "package_version": VERSION,
+        "binding_crate_version": BINDING_VERSION,
+        "engine_version": "0.3.0",
+        "artifact_count": len(artifacts),
+        "artifacts": artifacts,
+        "platform_payload_groups": payload_groups,
+        "source_files_rechecked": len(verified),
+        "source_files": verified,
+        "installed_version_log_lines": installed,
+        "installed_version_log_count": len(installed),
+        "failures": [],
+        "verifier_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        "publication": False,
+    }
+    (RAW / "rc_versions.json").write_text(json.dumps(result, indent=2) + "\n")
+    print(
+        json.dumps(
+            {
+                k: v
+                for k, v in result.items()
+                if k not in {"artifacts", "source_files", "installed_version_log_lines"}
+            },
+            indent=2,
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()

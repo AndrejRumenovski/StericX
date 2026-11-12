@@ -1,0 +1,456 @@
+{
+  "passed": true,
+  "wheel_record_entries": 8,
+  "sdist_exact_source_members": 64,
+  "checks": [
+    {
+      "archive": "wheel",
+      "member": "stericx/__init__.py",
+      "sha256": "53321097fb6674d6c752b76c81b82e554a3f76a9f7ea171c4527bea7b85d5446",
+      "record_verified": true
+    },
+    {
+      "archive": "wheel",
+      "member": "stericx/_native.abi3.so",
+      "sha256": "2732d25524b2ebdbe36f9dff59539c999a008de709eeb01d0d009f48ff35ed66",
+      "record_verified": true
+    },
+    {
+      "archive": "wheel",
+      "member": "stericx/_types.py",
+      "sha256": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+      "record_verified": true
+    },
+    {
+      "archive": "wheel",
+      "member": "stericx/py.typed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "record_verified": true
+    },
+    {
+      "archive": "wheel",
+      "member": "stericx-0.4.0rc1.dist-info/METADATA",
+      "sha256": "55a4da1877ab37ff851f477867887621402ee4ebedfe195180765449e514ebbb",
+      "record_verified": true
+    },
+    {
+      "archive": "wheel",
+      "member": "stericx-0.4.0rc1.dist-info/WHEEL",
+      "sha256": "3c28fbf76289ba662b4106ee629fc8b1f89cc57bb068fe14dd465193bd88d111",
+      "record_verified": true
+    },
+    {
+      "archive": "wheel",
+      "member": "stericx-0.4.0rc1.dist-info/sboms/stericx-python.cyclonedx.json",
+      "sha256": "8fbee5bc6bdf94985e501fa9e7c203c6c4beb15508f0de9c0d570e0f80f4e39b",
+      "record_verified": true
+    },
+    {
+      "archive": "wheel",
+      "member": "stericx-0.4.0rc1.dist-info/RECORD",
+      "sha256": "aaa099c4f29fc1a38395655cf3c743c57c6aa2e100a7f2afcd7979c09fa162c7",
+      "record_verified": true
+    },
+    {
+      "archive": "sdist",
+      "member": "Cargo.toml",
+      "sha256": "bb6e4f8d136def8fdc7b1377f60978c52d6a6a525cf24c66925395eb3ead8a0b",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "Cargo.lock",
+      "sha256": "6fc56998d9bf2a41e27fa9b91af0ce674cc77f1252e382ee6ab39b8985494463",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "python/Cargo.lock",
+      "sha256": "8588b2cad904a14e9d38da513faecfa60e3bc3c73203b8425df68160a762f5e4",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "python/rust/lib.rs",
+      "sha256": "eed8efe9c61d1ebb9e5919a3b8caaf4a6fa2d0584d4ab317d552e1d5e8310796",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/cli.rs",
+      "sha256": "b01560e0b7c71c109822285f431a71d4edf8edd5d085f2a4aaed2e896611c548",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/descriptors.rs",
+      "sha256": "e99c7e368a0aed176d4d6283d29955985f293b9967d4042401a2c6fa66601d66",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/digest.rs",
+      "sha256": "7518ebda69a0404b286aba9d0573db123f609ee14ea8ff44e227aa52d790487d",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/lib.rs",
+      "sha256": "e9736276f4dccfd1f9a9cce43c2e22a6ede3e87a4047166b5305e129503cc66f",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/main.rs",
+      "sha256": "f66dcf928f8c0cc681ad08aab50056ea25db6b130f92930be857c9a27543ecaa",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/output.rs",
+      "sha256": "4b8b3f2d333573cf667afa3b914d79e1d67d5e56ee435bda3ca10350a8a296d6",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/profiles.rs",
+      "sha256": "5bb01751c8e3f013f5f7e57e154ecee8216cad8e91d0939807afd89c85a48396",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/profiling.rs",
+      "sha256": "26f501150d25b199502fcb9d5493c45c5f4e7944db7898153814f9b12411109d",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/reaction.rs",
+      "sha256": "15815fc387aff99caa917625ea2b53670c4018816436af45b156228fba4c046e",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/test_support.rs",
+      "sha256": "9eeb77f25eedc057c210b7055fcb7a89e2614b895be2974db94944ae7d638b06",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/buried_volume.rs",
+      "sha256": "6b2820a90f31d9f5ed3cfd01b53ead0634d8240fab17e72143ea286039b0d6af",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/compare.rs",
+      "sha256": "f0abefdebd8d65195d152990551f281b2630b8d1a46b004e0183d40ae9f03d15",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/db.rs",
+      "sha256": "89970a785131d7abf2c262a74c3c25a8eb3c86268186e8d30eef8e96bb8e2a2f",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/evaluate.rs",
+      "sha256": "56b0cf34cf83936cfd2ab97cb69b66c6b035dbdb1ccc9145f8ee245be8c8c8d5",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/fit.rs",
+      "sha256": "aeb75584d77a86278bdd729280d11149bf2d33986db564e0ada851baa825d3c0",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/mod.rs",
+      "sha256": "b19f2005232ae1e0afc7490ad5e0b459d2cc8d5cdcf2a5ad55ca53ae24aebc93",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/model.rs",
+      "sha256": "05b88f69b108a451d7058eb97fa0bf9f1c0e16faf4d78d92187713b3e394574f",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/parse.rs",
+      "sha256": "0ce1d9d13f8a31f45fc43b78559084ac1b26791ff125c9037afc995cc8a391b9",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/predict.rs",
+      "sha256": "756cde61b3e517063b8da117d92254362365d561f44085a515a90f97559f4ca8",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/screen.rs",
+      "sha256": "0d41e6a5c3e846aff3ebb2383483196fc807c5596c78edafa7c9a6d233bbcef3",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/search.rs",
+      "sha256": "fa4a370e823aa4f10a14cdc343cbeb1441decfabc0f3ce7e5315c27c50cd245b",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/commands/simulate.rs",
+      "sha256": "76c55051f322942ebb24a25896b644bd70bcb977431c44cf81279a86f46a1c8a",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/density/analysis.rs",
+      "sha256": "4c98ed1229068f9b05ed293d39d75f9e87921d55d050243cd56d537b96d1f09d",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/density/mod.rs",
+      "sha256": "bc3cf6aff077b3d3aca3e0faf4a1961270ac672cd19dc5b2a330e3c02696a272",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/ensemble/input.rs",
+      "sha256": "4c46062839a915121b0c6a2e496006d6f5a940c08bf0da8418584d121e56665c",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/ensemble/mod.rs",
+      "sha256": "791490efd77e3befc00cc0bb2125f27490d36631cd881c8ced7359f7c0b1740e",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/ensemble/population.rs",
+      "sha256": "d04485e52a8bee0c3709126b175a3f3b00d5b93fa081af3a9eebb1762cb5fe80",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/ensemble/sensitivity.rs",
+      "sha256": "dfd51a2932421a44ba6cb463c0c2f6f982c955c6c6259d6f9db6a65049c5a4d6",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/ensemble/statistics.rs",
+      "sha256": "e077544f5c46049eb32d7ef708557b2c834dbba283ab8a4014d35d009d435a43",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/geometry/buried_volume.rs",
+      "sha256": "6e4e0f368d9acf8f4b20327d5281384a42836d56e039ce4824571a2c45ec54bd",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/geometry/donor.rs",
+      "sha256": "8c167acea9f0b5d965b560896216f470b828660be9539cc2b88d400891f0e059",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/geometry/mod.rs",
+      "sha256": "5914f746e712e7a06388302a71351c00f095c8655ebb37a900660609d6906f14",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/geometry/pyramidalization.rs",
+      "sha256": "af2d34aa23dac9ab05e5fbbeddb92a59cc9282e8ce64c201b66a09d6d17ca381",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/geometry/sterimol.rs",
+      "sha256": "221a4947a83a61fbb1f3b10661298bbce23935c1545388a2249c5f77982839c9",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/geometry/xyz.rs",
+      "sha256": "eb6cc172f5467667d10ff8164e1ee06aa4635c2f80626ab97af63b5d962c59f3",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/kinetics/eyring.rs",
+      "sha256": "b86300a11dc8fe07430bbd480b51df448d47295080219e47bb1b3e9f08d4b454",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/kinetics/mod.rs",
+      "sha256": "273fad2c13d5cae69bf98a80be34594344c7872cf973c2c9184a40adbc82a3d2",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/model/dataset.rs",
+      "sha256": "09f0f42066d9df30cefeae885eb0beba69ae31cd2e6cce6880c85c5b83c14d37",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/model/domain.rs",
+      "sha256": "d906d970bf4f589552ba9683ec77ae7e2926e3b17ba78b785d689fd1b20441b4",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/model/domain_interval_cache_tests.rs",
+      "sha256": "9098b9cb5ead279d49a574b3214c9c4adffddf52faa05729b1b3f9d6bce30bde",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/model/evaluation.rs",
+      "sha256": "31c73c059c4f2f1457ddc43c808b5d5ad6a3fd6e34501ba30d14b9f7fb20616a",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/model/features.rs",
+      "sha256": "12a50e2f690a5975bd0eda62ce0910816414022bec8456b8cc6e1eea37d6ea4a",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/model/fit.rs",
+      "sha256": "0aa6ed82bfb7dc42da3c1a624c792dc5b387e73cc82bf78cb2a842881f9dafe2",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/model/mod.rs",
+      "sha256": "1928c62a747e041e92b5ec1e5d086e39f20d1eb990d8683e3e5545cdeb9963c3",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/model/portable.rs",
+      "sha256": "ab07d8d060d0cf7d794b56a8d03f64546594d19e306d603f3ee4c1b50faedfec",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/model/regress.rs",
+      "sha256": "c98d1b7ff1f926e3ca46b262ddde511eced72e4c91e0d1045a54a68793bee3b2",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/model/training.rs",
+      "sha256": "b7febe7066c552ca3ac5c995ebf6f32c17d259fc33e7495587c95c17c77f1abf",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/storage/mod.rs",
+      "sha256": "7b8516382aa1529d7132a13ca92485512e2fbbdf2fc34e598000832809896a5f",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/storage/pack.rs",
+      "sha256": "80ffbb1e2a690b19b61f312a102db25d3e226250c49f8753328ab74b19f5710d",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/storage/schema.rs",
+      "sha256": "8648a358ef6b76426b267efc94364130cff7651928319f441ef01c936dd4a633",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "src/geometry/buried_volume/aggregation_remediation_tests.rs",
+      "sha256": "37467d6b38843c76ca007444a187d7b3b7314148b9a4b1052d0628cf47eca880",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "python/tests/test_advanced.py",
+      "sha256": "99521404afd9e51d6d8f72f34d00a31a31f4861d7b6bdaac752194bbbe730037",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "python/tests/test_api.py",
+      "sha256": "37f081bf853f93e8f76af8aaffd32fc6e1e41fa39afddfdd21ebfaa068c1d168",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "python/tests/data/DBSTEP_LICENSE.txt",
+      "sha256": "abfb8ac1c53d57317945c52c2d02e7196e975561efacb6dfafb4fa460811f543",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "python/tests/data/density_goldens.json",
+      "sha256": "5441ce57cfe0a309edae5b0fdd61ba5962cffe6b04014177da334f867d78c156",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "python/tests/data/native_goldens.json",
+      "sha256": "b8c7d46151e15a027345a1c7d5104623b65cfa0a7e6728a1032f9b60f7e44e22",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "python/tests/data/Ne_medium.cube",
+      "sha256": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "stericx/__init__.py",
+      "sha256": "53321097fb6674d6c752b76c81b82e554a3f76a9f7ea171c4527bea7b85d5446",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "stericx/_types.py",
+      "sha256": "60339304da22f75ec95d20b058e4f6fd07636111a191e3776717d63931cf3c91",
+      "source_exact": true
+    },
+    {
+      "archive": "sdist",
+      "member": "stericx/py.typed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_exact": true
+    }
+  ],
+  "documented_packaging_transformations": [
+    "python/Cargo.toml adds package.readme = README.md",
+    "root pyproject.toml is python/pyproject.toml with tool.maturin.manifest-path = python/Cargo.toml"
+  ],
+  "artifacts": {
+    "wheel": {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/wheels/stericx-0.4.0rc1-cp311-abi3-manylinux_2_28_x86_64.whl",
+      "bytes": 583117,
+      "sha256": "830e1aeb825875c2e94e6978f8025fc1c922ea08f735427ae9771cdac8cb7e1e"
+    },
+    "sdist": {
+      "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/dbstep_resolution/release_candidate_v1/local/sdist/stericx-0.4.0rc1.tar.gz",
+      "bytes": 1506346,
+      "sha256": "4e922e997c02b527b42945a6a955ecb8a75224d4dec3183d4bcea674a8cc7b91"
+    }
+  },
+  "controller_sha256": "70179cc456f2d47cd1a2e9518adfe36477298c65e9584a395b0cd695ef814ec8"
+}

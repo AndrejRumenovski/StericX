@@ -1,0 +1,17 @@
+{
+  "created_utc": "2026-11-02T19:00:56.406362+00:00",
+  "view_command_template": [
+    "gh",
+    "run",
+    "view",
+    "RUN_ID",
+    "--repo",
+    "AndrejRumenovski/StericX",
+    "--json",
+    "databaseId,headSha,status,conclusion,url,jobs,createdAt,updatedAt,headBranch,event"
+  ],
+  "runs": {
+    "rust": 41505795122,
+    "wheels": 41505795041
+  }
+}

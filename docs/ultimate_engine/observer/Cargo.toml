@@ -1,0 +1,20 @@
+[package]
+name = "stericx-ultimate-observer"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[features]
+profiling = ["steric_x/profiling"]
+
+[dependencies]
+steric_x = { path = "../../.." }
+glam = "=0.30.10"
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = { version = "=1.0.151", features = ["float_roundtrip"] }
+rayon = "=1.12.0"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+debug = 1

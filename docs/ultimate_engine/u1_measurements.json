@@ -1,0 +1,640 @@
+{
+  "binaries": {
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/accuracy": "5fb6cba7e8399fec26666325dbf2d586e25176f6bf4f39c91c449d0c9ce824c9",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/dump_density": "71b18e2dd0a783e61e6d090ac7e9a6ea37823cb4f11d1ad59acb02fd95965b8a",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/observer": "f4fd8395b2a7d4d7aff5b226f2d1b5fe9c1a798258782b3ba7e40618fb9c83d2",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/observer_alloc": "f6c8689aaa78199128ededd38f3aa9a3893c46f923c5ef0c0233b32f6835a81d",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/dump_density": "e10c5a262fb2a6a885b54c5aec4b64bffcc794d07457a91ac5d7a9a392081be6",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/observer": "c3398e5bd7647ee6655cb97bbebe633b75681519167d883209c7a4b26a5a3463",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/observer_alloc": "5ada913a6f2e84b82bff0d83224687ef82432c6a9df91a4fd40c9344aead020f"
+  },
+  "scope": "exploratory pinned CPU 2; final quiet-window A/B remains separate",
+  "inputs": {
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube": "d788465b704a58562f239082d9bbc27bed8cf8a6b94db23e073ccf3ded486861",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/benzene_coarse.cube": "047ff0df567af2350d2fe82e9e0b8f3b3152462d03e090228a9edda551caa5c3",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/CH2CMe3_100.cube": "6d89b6f4a6dc0634afe538651c628d075e4dc65300e4ddd4e1320a2bfb8ad3e0",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_0.cube": "399dca16ce2e15ff372dc9483e9097aa0c7be5bb51f5d8b5aa202019e2e638c4",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_1.cube": "5fa08d8b08d72d36afd25125b404e044712033815aeb2a4868b8e7df1bb64943",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_2.cube": "4faed0782842b688cb25ccc5e588a04248c90567064e17ce84bcdfd510a7b24c",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_3.cube": "8c3d0681e93c876354b297c458b2bba995d86a3284c5a23c52f4156d8755ec82",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_4.cube": "f21699cfc8b1111fb65e9dcd12b14a361b83749d2b5159a22aebba15ed26ab71",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_5.cube": "4721497aca13927e00779739118f01f194e98fe5d5f33ec70abd366fec92d39b",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_6.cube": "0c7588efcc1ec4b5f71251dde428c90f98d2440e700087bed80bb8a4586399ec",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_7.cube": "092858f0f2a51673e41f13578a8062f4e7621e9ca50851770ae25c65a5aca81d",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_8.cube": "075ed47e87a65e14edc4e7e725349c1f7005c41bbc31ead7ccd9faa658693982",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_9.cube": "bfa594766598d990a0c0ea5b72f45fd2d71e3d902d48bfe72bd92e6045b9dbeb",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_10.cube": "5c592363435924ca1067fb71e2d70b17c976c55102cd87e8ac6203dd254aabf0",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_11.cube": "bdb07c5bb9d85857b4295c02fb4c1cd0fa8b9bc9595e2c2bf7eede559ecc3556",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_12.cube": "301de327816b3bd24771d8d39543ce7a2f06e000924805a23ccedf1a7b2a0ef2",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_13.cube": "da8c86ac74d3ae504abae9d2570df22ec5ca95f3ab9542518a0033e063c04f6f",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_14.cube": "1012d16c4a9e41938d3fc16411d11d243e53b9eace9833ed65c2c48ea976390c",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_15.cube": "53b661f6444632bb5d0a1045b1caeb4f80ffe6460998c1ae456d60ed0a1bbce0",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_16.cube": "eea85e55e8644be899582be1e92f4a90ca1687959bde827cd63ab81caefcd259",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_17.cube": "5e7bf3dab5f0c32579aa9bbd8114b7b6e21ff9df3a9eb58b99a3c1342d5b037b",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_18.cube": "ebe90209f29cba6c5b98f1f6bdfa930bb0540e73216bb5102c1409a04ccf019d",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_19.cube": "667015460ad77c3b6f641a54d05b3449a773947bde62b5424a01776f34981729"
+  },
+  "equivalence": [
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+      "exact": true,
+      "response_sha256": "f4932a1c095b97f54c7e9f2dd6a9d3e6fd897e21ad8a11504081062c8f34f3a9"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/benzene_coarse.cube",
+      "exact": true,
+      "response_sha256": "28a1c9a186c081344aa0073f13e1556ff80334c62a65488f5905d0c5870dd636"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/CH2CMe3_100.cube",
+      "exact": true,
+      "response_sha256": "0cc7b1deeda443741c0ac498a20127468db1f19bf75d6e63367301f30080c417"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_0.cube",
+      "exact": true,
+      "response_sha256": "190079029ca7371dcb805519cfe4f50c160e3816f897421044359d2362a44c03"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_1.cube",
+      "exact": true,
+      "response_sha256": "1ddc3b1cae7b0f997789cf132b03393f3ba466991042ff32488e642a54dead9f"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_2.cube",
+      "exact": true,
+      "response_sha256": "3718433c736bbadf0a9e6534254954038662f1d95a2cb11d9a4fb4e979e37f3a"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_3.cube",
+      "exact": true,
+      "response_sha256": "3718433c736bbadf0a9e6534254954038662f1d95a2cb11d9a4fb4e979e37f3a"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_4.cube",
+      "exact": true,
+      "response_sha256": "3718433c736bbadf0a9e6534254954038662f1d95a2cb11d9a4fb4e979e37f3a"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_5.cube",
+      "exact": true,
+      "response_sha256": "3718433c736bbadf0a9e6534254954038662f1d95a2cb11d9a4fb4e979e37f3a"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_6.cube",
+      "exact": true,
+      "response_sha256": "9aa9e8fae51be5ba44e78a3fe9ccca5fb79317367787980ab74a61bb921c9149"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_7.cube",
+      "exact": true,
+      "response_sha256": "390adb8ffe031a5932aabf3c8178149ee574cc588164db06b8156ff26bdda7d5"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_8.cube",
+      "exact": true,
+      "response_sha256": "190079029ca7371dcb805519cfe4f50c160e3816f897421044359d2362a44c03"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_9.cube",
+      "exact": true,
+      "response_sha256": "9f95d77c0910bca6f5be478f83a315f9280ebf60bf3fc018f33645fbaf21e2b6"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_10.cube",
+      "exact": true,
+      "response_sha256": "9f95d77c0910bca6f5be478f83a315f9280ebf60bf3fc018f33645fbaf21e2b6"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_11.cube",
+      "exact": true,
+      "response_sha256": "9f95d77c0910bca6f5be478f83a315f9280ebf60bf3fc018f33645fbaf21e2b6"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_12.cube",
+      "exact": true,
+      "response_sha256": "9f95d77c0910bca6f5be478f83a315f9280ebf60bf3fc018f33645fbaf21e2b6"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_13.cube",
+      "exact": true,
+      "response_sha256": "9f95d77c0910bca6f5be478f83a315f9280ebf60bf3fc018f33645fbaf21e2b6"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_14.cube",
+      "exact": true,
+      "response_sha256": "410fd8cfa11c3d155fbdda561c64221b29fea76685c25a797ecbc85763321f07"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_15.cube",
+      "exact": true,
+      "response_sha256": "b45463b963a3cf3305d9073a99924960268468cbc52ec59cb46646b508a00966"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_16.cube",
+      "exact": true,
+      "response_sha256": "61ed238ac9f7c804650cb12684600a8d19d725c43c384065d6c03001e2b08353"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_17.cube",
+      "exact": true,
+      "response_sha256": "f7f5c159c8f028929ab1efb405645a1a6fd31abc2b979c7eee5669f250fa9845"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_18.cube",
+      "exact": true,
+      "response_sha256": "b655dfc5a99710b8f7a306bf95e36435d47ba1e9d960ca091bc531a39c731723"
+    },
+    {
+      "input": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1_validation/token_19.cube",
+      "exact": true,
+      "response_sha256": "0aa298e99b1c97976fd7b6c6cbff78f7493746b335fa024e135fa1e9e14596b6"
+    }
+  ],
+  "timings": [
+    {
+      "pair": 0,
+      "variant": "baseline",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 307912782,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 0,
+      "variant": "candidate",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 229884054,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 1,
+      "variant": "candidate",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 229859928,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 1,
+      "variant": "baseline",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 307608851,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 2,
+      "variant": "baseline",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 308250467,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 2,
+      "variant": "candidate",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 229672345,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 3,
+      "variant": "candidate",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 232784739,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 3,
+      "variant": "baseline",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 307954662,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 4,
+      "variant": "baseline",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 307855665,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 4,
+      "variant": "candidate",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 229112101,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 5,
+      "variant": "candidate",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 230182876,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 5,
+      "variant": "baseline",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 308396262,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 6,
+      "variant": "baseline",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 307534271,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 6,
+      "variant": "candidate",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 229383552,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 7,
+      "variant": "candidate",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 229429228,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "pair": 7,
+      "variant": "baseline",
+      "command": [
+        "taskset",
+        "-c",
+        "2",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/observer",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "40"
+      ],
+      "allocations": null,
+      "elapsed_ns": 307656461,
+      "iterations": 40,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    }
+  ],
+  "allocations": [
+    {
+      "variant": "baseline",
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/bin/observer_alloc",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "10"
+      ],
+      "allocations": {
+        "allocation_calls": 1406360,
+        "deallocation_calls": 1406360,
+        "failed_calls": 0,
+        "live_bytes_delta": 0,
+        "process_peak_live_bytes": 6048665,
+        "reallocation_calls": 180,
+        "requested_bytes": 57420680
+      },
+      "elapsed_ns": 78968096,
+      "iterations": 10,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    },
+    {
+      "variant": "candidate",
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/u1/bin/observer_alloc",
+        "density_parse",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/DBSTEP/tests/cube_files/Ne_medium.cube",
+        "unused",
+        "10"
+      ],
+      "allocations": {
+        "allocation_calls": 120,
+        "deallocation_calls": 120,
+        "failed_calls": 0,
+        "live_bytes_delta": 0,
+        "process_peak_live_bytes": 6048659,
+        "reallocation_calls": 180,
+        "requested_bytes": 41952480
+      },
+      "elapsed_ns": 58011129,
+      "iterations": 10,
+      "kind": "density_parse",
+      "result": [
+        [
+          52,
+          52,
+          52
+        ],
+        140608
+      ]
+    }
+  ],
+  "median_ns": {
+    "baseline": 7697105.5875,
+    "candidate": 5744153.4125
+  },
+  "candidate_speedup": 1.3399895571643563,
+  "complete": true
+}

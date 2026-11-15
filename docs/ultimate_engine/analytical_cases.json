@@ -1,0 +1,10 @@
+[
+  {"id":"empty","radius":3.5,"centers":[],"radii":[]},
+  {"id":"centered","radius":3.5,"centers":[[0,0,0]],"radii":[1]},
+  {"id":"full","radius":3.5,"centers":[[0,0,0]],"radii":[4]},
+  {"id":"lens","radius":1,"centers":[[0,0,0.5]],"radii":[0.75]},
+  {"id":"external_tangency","radius":3.5,"centers":[[0,0,5]],"radii":[1.5]},
+  {"id":"overlapping_pair","radius":3.5,"centers":[[-0.5,0,0],[0.5,0,0]],"radii":[1.25,1.25]},
+  {"id":"internal_tangency","radius":3.5,"centers":[[0,0,2]],"radii":[1.5]},
+  {"id":"near_external_tangency","radius":3.5,"centers":[[0,0,4.99999]],"radii":[1.5]}
+]

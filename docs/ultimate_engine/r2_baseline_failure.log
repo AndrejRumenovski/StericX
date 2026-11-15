@@ -1,0 +1,33 @@
+   Compiling steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.99s
+     Running unittests src/lib.rs (target/debug/deps/steric_x-e33073023f182352)
+
+running 2 tests
+test model::fit::tests::r2_is_invariant_to_target_units ... FAILED
+test model::evaluation::tests::r2_is_invariant_to_target_units ... FAILED
+
+failures:
+
+---- model::fit::tests::r2_is_invariant_to_target_units stdout ----
+
+thread 'model::fit::tests::r2_is_invariant_to_target_units' (61060) panicked at src/model/fit.rs:1030:13:
+assertion `left == right` failed
+  left: None
+ right: Some(0.75)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- model::evaluation::tests::r2_is_invariant_to_target_units stdout ----
+
+thread 'model::evaluation::tests::r2_is_invariant_to_target_units' (61059) panicked at src/model/evaluation.rs:258:13:
+assertion `left == right` failed: scale=0.0000000009313226
+  left: None
+ right: Some(0.75)
+
+
+failures:
+    model::evaluation::tests::r2_is_invariant_to_target_units
+    model::fit::tests::r2_is_invariant_to_target_units
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 108 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--lib`

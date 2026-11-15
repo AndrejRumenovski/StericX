@@ -782,7 +782,8 @@ fn metrics(actual: &[f64], predicted: &[f64]) -> ModelMetrics {
         .sum::<f64>();
     ModelMetrics {
         count,
-        r2: (total > EPSILON).then_some(1.0 - rss / total),
+        // Variance is zero only for constant targets, independent of units.
+        r2: (total > 0.0).then(|| 1.0 - rss / total),
         mae: actual
             .iter()
             .zip(predicted)
@@ -1023,6 +1024,18 @@ impl DeterministicRng {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn r2_is_invariant_to_target_units() {
+        for scale in [1.0_f64, 2.0_f64.powi(-30), 2.0_f64.powi(-100)] {
+            assert_eq!(
+                metrics(&[-scale, scale], &[-scale / 2.0, scale / 2.0]).r2,
+                Some(0.75)
+            );
+            assert_eq!(metrics(&[scale, scale], &[0.0, 0.0]).r2, None);
+            assert_eq!(metrics(&[-scale, scale], &[scale, -scale]).r2, Some(-3.0));
+        }
+    }
 
     #[test]
     fn recovers_a_sparse_interpretable_model() {

@@ -137,7 +137,9 @@ pub fn score_frozen_predictions(
             .sum::<f64>()
             / actual.len() as f64,
         rmse_kcal_mol: (residual_sum / actual.len() as f64).sqrt(),
-        r2: (total_sum > f64::EPSILON).then_some(1.0 - residual_sum / total_sum),
+        // TSS carries squared target units: an absolute epsilon cutoff would
+        // incorrectly discard small but nonconstant, representable targets.
+        r2: (total_sum > 0.0).then(|| 1.0 - residual_sum / total_sum),
         applicability_warnings: frozen
             .iter()
             .filter(|row| row.applicability_domain != "inside_training_range")
@@ -226,6 +228,40 @@ mod tests {
                     .abs()
                     < 1.0e-9
             );
+        }
+    }
+
+    #[test]
+    fn r2_is_invariant_to_target_units() {
+        let mut model: ScientificFitReport =
+            serde_json::from_str(include_str!("../../tests/data/golden_training_report.json"))
+                .unwrap();
+        for scale in [1.0_f32, 2.0_f32.powi(-30), 2.0_f32.powi(-100)] {
+            model.weights = [0.0; 8];
+            model.weights[1] = scale / 2.0;
+            let records = [-1.0, 1.0].map(|sign| PackedReactionRecord {
+                l: sign,
+                exp_ddg: sign * scale,
+                ..PackedReactionRecord::default()
+            });
+            let labels = [
+                ReactionLabel::new("minus", "blind", "A"),
+                ReactionLabel::new("plus", "blind", "B"),
+            ];
+            let frozen: Vec<_> = records
+                .iter()
+                .zip(&labels)
+                .map(|(record, label)| FrozenPrediction {
+                    reaction_id: label.reaction_id.clone(),
+                    ligand_group: label.ligand_group.clone(),
+                    dataset_split: label.dataset_split.clone(),
+                    predicted_ddg: record.exp_ddg / 2.0,
+                    applicability_domain: "inside_training_range".into(),
+                })
+                .collect();
+            // Exact dyadic data: RSS = s²/2, TSS = 2s², hence R² = 3/4.
+            let result = score_frozen_predictions(&records, &labels, &model, &frozen).unwrap();
+            assert_eq!(result.r2, Some(0.75), "scale={scale}");
         }
     }
 

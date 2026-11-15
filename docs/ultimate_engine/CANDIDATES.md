@@ -158,3 +158,13 @@ floats now use bit construction. Existing baseline let-chains elsewhere were
 also discovered; a real Rust 1.85 baseline compile is being run before deciding
 whether the declared support can actually be verified. No minimum version has
 been raised to hide a failure.
+
+## N2: continuous-volume quadrature and conservative reference
+
+Retain the two explicit methods with the documented limitations. Independent
+analytic/rational enclosures, 10,000 integer box checks, exact permutation tests,
+native/instrumented comparisons and Memcheck pass. General-box strict targets
+are often unmet and reported as such; no accuracy guarantee is inferred from
+midpoint resolution or convergence differences. The original finite-grid
+method remains the default. Initial invalid stress input and all unsuccessful
+target attempts are preserved. See NUMERICAL_ACCURACY.md for the proof and scope.

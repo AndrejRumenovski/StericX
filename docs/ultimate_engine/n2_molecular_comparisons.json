@@ -1,0 +1,2051 @@
+{
+  "engine_sha256": "2dfe9dca71ea0c5a7de88a4a5340cdcf48fa966b4a0170a94de8e51e6009dc98",
+  "source_sha256": "247b5dc7e4da8495ef1c83a8ecad8b4a72ea86dc3a7f3dbd40d0526e9e1dfcda",
+  "controller_sha256": "99d3f78c11142079a51e7b9d3c0e7e01ed61dc008044cd3f59f2c9f21da038d1",
+  "reference_sha256": "5996e7f23a04208b431789270cd6a6c15fe5f2bd2fdb7297525a6c6b917ba7bf",
+  "scope": "Independent octree/rational-volume oracle versus binary heap/rounded-volume enclosure; overlap is corroboration, not an exact molecular-volume certificate.",
+  "rows": [
+    {
+      "id": "methylphosphine/reference",
+      "python_reference": {
+        "lower": 30.003864288330078,
+        "upper": 38.87509536743164,
+        "width": 8.871231079101564,
+        "lower_exact": "7865333/262144",
+        "upper_exact": "10190873/262144",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 4,
+            "unresolved_boxes": 4,
+            "lower": 0.0,
+            "upper": 171.5,
+            "width": 171.50000000000003
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 32,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 14,
+            "unresolved_boxes": 18,
+            "lower": 0.0,
+            "upper": 96.46875,
+            "width": 96.46875000000001
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 144,
+            "new_inside_boxes": 14,
+            "new_outside_boxes": 37,
+            "unresolved_boxes": 93,
+            "lower": 9.37890625,
+            "upper": 71.681640625,
+            "width": 62.30273437500001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 744,
+            "new_inside_boxes": 117,
+            "new_outside_boxes": 217,
+            "unresolved_boxes": 410,
+            "lower": 19.176513671875,
+            "upper": 53.510009765625,
+            "width": 34.33349609375001
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 3280,
+            "new_inside_boxes": 669,
+            "new_outside_boxes": 921,
+            "unresolved_boxes": 1690,
+            "lower": 26.179290771484375,
+            "upper": 43.869415283203125,
+            "width": 17.690124511718754
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 13520,
+            "new_inside_boxes": 2923,
+            "new_outside_boxes": 3817,
+            "unresolved_boxes": 6780,
+            "lower": 30.003864288330078,
+            "upper": 38.87509536743164,
+            "width": 8.871231079101564
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.009784822999790777,
+      "common_enclosure": [
+        32.943481802792284,
+        35.675261619309445
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            44079481
+          ],
+          "id": "methylphosphine/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 1.3658899082585807,
+            "analytical": false,
+            "lower_bound_angstrom3": 32.943481802792284,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 35.675261619309445,
+            "volume_angstrom3": 34.309371711050865,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.3658899082585805
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            105107
+          ],
+          "id": "methylphosphine/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 34.30141842636748,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.3738431929419619
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            404611
+          ],
+          "id": "methylphosphine/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 34.299708910187455,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.3755527091219903
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dimethylphosphine/reference",
+      "python_reference": {
+        "lower": 32.34335708618164,
+        "upper": 42.277042388916016,
+        "width": 9.933685302734377,
+        "lower_exact": "8478617/262144",
+        "upper_exact": "11082673/262144",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 4,
+            "unresolved_boxes": 4,
+            "lower": 0.0,
+            "upper": 171.5,
+            "width": 171.50000000000003
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 32,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 8,
+            "unresolved_boxes": 24,
+            "lower": 0.0,
+            "upper": 128.625,
+            "width": 128.62500000000003
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 192,
+            "new_inside_boxes": 11,
+            "new_outside_boxes": 70,
+            "unresolved_boxes": 111,
+            "lower": 7.369140625,
+            "upper": 81.73046875,
+            "width": 74.36132812500001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 888,
+            "new_inside_boxes": 151,
+            "new_outside_boxes": 269,
+            "unresolved_boxes": 468,
+            "lower": 20.013916015625,
+            "upper": 59.204345703125,
+            "width": 39.19042968750001
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 3744,
+            "new_inside_boxes": 764,
+            "new_outside_boxes": 1093,
+            "unresolved_boxes": 1887,
+            "lower": 28.0111083984375,
+            "upper": 47.763336181640625,
+            "width": 19.75222778320313
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 15096,
+            "new_inside_boxes": 3311,
+            "new_outside_boxes": 4193,
+            "unresolved_boxes": 7592,
+            "lower": 32.34335708618164,
+            "upper": 42.277042388916016,
+            "width": 9.933685302734377
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.012499436999860336,
+      "common_enclosure": [
+        35.6037880180518,
+        38.729510846360796
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            47632783
+          ],
+          "id": "dimethylphosphine/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 1.5628614141544974,
+            "analytical": false,
+            "lower_bound_angstrom3": 35.6037880180518,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 38.729510846360796,
+            "volume_angstrom3": 37.1666494322063,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.5628614141544972
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            133962
+          ],
+          "id": "dimethylphosphine/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 37.16153463187193,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.5679762144888656
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            506944
+          ],
+          "id": "dimethylphosphine/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 37.16031308555608,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.5691977608047125
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trimethylphosphine/reference",
+      "python_reference": {
+        "lower": 34.8922004699707,
+        "upper": 45.80459976196289,
+        "width": 10.91239929199219,
+        "lower_exact": "9146781/262144",
+        "upper_exact": "12007401/262144",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 2,
+            "unresolved_boxes": 6,
+            "lower": 0.0,
+            "upper": 257.25,
+            "width": 257.25000000000006
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 48,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 21,
+            "unresolved_boxes": 27,
+            "lower": 0.0,
+            "upper": 144.703125,
+            "width": 144.70312500000003
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 216,
+            "new_inside_boxes": 14,
+            "new_outside_boxes": 78,
+            "unresolved_boxes": 124,
+            "lower": 9.37890625,
+            "upper": 92.44921875,
+            "width": 83.07031250000001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 992,
+            "new_inside_boxes": 140,
+            "new_outside_boxes": 338,
+            "unresolved_boxes": 514,
+            "lower": 21.1025390625,
+            "upper": 64.14501953125,
+            "width": 43.04248046875001
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 4112,
+            "new_inside_boxes": 858,
+            "new_outside_boxes": 1180,
+            "unresolved_boxes": 2074,
+            "lower": 30.08367919921875,
+            "upper": 51.7933349609375,
+            "width": 21.709655761718754
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 16592,
+            "new_inside_boxes": 3675,
+            "new_outside_boxes": 4577,
+            "unresolved_boxes": 8340,
+            "lower": 34.8922004699707,
+            "upper": 45.80459976196289,
+            "width": 10.91239929199219
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.016462802000205556,
+      "common_enclosure": [
+        38.36901485902505,
+        42.0434447553119
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            55125244
+          ],
+          "id": "trimethylphosphine/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 1.8372149481434266,
+            "analytical": false,
+            "lower_bound_angstrom3": 38.36901485902505,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 42.0434447553119,
+            "volume_angstrom3": 40.20622980716848,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.8372149481434263
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            171312
+          ],
+          "id": "trimethylphosphine/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 40.18968754635898,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.8537572089529206
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            626068
+          ],
+          "id": "trimethylphosphine/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 40.19096167287372,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.8524830824381837
+          ]
+        }
+      ]
+    },
+    {
+      "id": "triethylphosphine/reference",
+      "python_reference": {
+        "lower": 42.949581146240234,
+        "upper": 56.87924575805664,
+        "width": 13.929664611816408,
+        "lower_exact": "11258975/262144",
+        "upper_exact": "14910553/262144",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 4,
+            "unresolved_boxes": 4,
+            "lower": 0.0,
+            "upper": 171.5,
+            "width": 171.50000000000003
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 32,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 2,
+            "unresolved_boxes": 30,
+            "lower": 0.0,
+            "upper": 160.78125,
+            "width": 160.78125000000003
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 240,
+            "new_inside_boxes": 14,
+            "new_outside_boxes": 78,
+            "unresolved_boxes": 148,
+            "lower": 9.37890625,
+            "upper": 108.52734375,
+            "width": 99.14843750000001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 1184,
+            "new_inside_boxes": 188,
+            "new_outside_boxes": 352,
+            "unresolved_boxes": 644,
+            "lower": 25.1220703125,
+            "upper": 79.05078125,
+            "width": 53.92871093750001
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 5152,
+            "new_inside_boxes": 1095,
+            "new_outside_boxes": 1410,
+            "unresolved_boxes": 2647,
+            "lower": 36.584014892578125,
+            "upper": 64.29156494140625,
+            "width": 27.70755004882813
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 21176,
+            "new_inside_boxes": 4865,
+            "new_outside_boxes": 5665,
+            "unresolved_boxes": 10646,
+            "lower": 42.949581146240234,
+            "upper": 56.87924575805664,
+            "width": 13.929664611816408
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.02977456699954928,
+      "common_enclosure": [
+        47.183083414845015,
+        52.30023324757988
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            71755391
+          ],
+          "id": "triethylphosphine/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 2.558574916367434,
+            "analytical": false,
+            "lower_bound_angstrom3": 47.183083414845015,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 52.30023324757988,
+            "volume_angstrom3": 49.74165833121245,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            2.5585749163674336
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            263355
+          ],
+          "id": "triethylphosphine/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 49.7318767292877,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            2.568356518292184
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            980534
+          ],
+          "id": "triethylphosphine/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 49.730749830181864,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            2.5694834173980183
+          ]
+        }
+      ]
+    },
+    {
+      "id": "triisopropylphosphine/reference",
+      "python_reference": {
+        "lower": 50.53330612182617,
+        "upper": 66.52114868164062,
+        "width": 15.987842559814455,
+        "lower_exact": "13247003/262144",
+        "upper_exact": "2179765/32768",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 4,
+            "unresolved_boxes": 4,
+            "lower": 0.0,
+            "upper": 171.5,
+            "width": 171.50000000000003
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 32,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 32,
+            "lower": 0.0,
+            "upper": 171.5,
+            "width": 171.50000000000003
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 256,
+            "new_inside_boxes": 17,
+            "new_outside_boxes": 68,
+            "unresolved_boxes": 171,
+            "lower": 11.388671875,
+            "upper": 125.9453125,
+            "width": 114.55664062500001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 1368,
+            "new_inside_boxes": 214,
+            "new_outside_boxes": 400,
+            "unresolved_boxes": 754,
+            "lower": 29.30908203125,
+            "upper": 92.44921875,
+            "width": 63.14013671875001
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 6032,
+            "new_inside_boxes": 1312,
+            "new_outside_boxes": 1688,
+            "unresolved_boxes": 3032,
+            "lower": 43.04248046875,
+            "upper": 74.780029296875,
+            "width": 31.737548828125004
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 24256,
+            "new_inside_boxes": 5725,
+            "new_outside_boxes": 6312,
+            "unresolved_boxes": 12219,
+            "lower": 50.53330612182617,
+            "upper": 66.52114868164062,
+            "width": 15.987842559814455
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.044608063999476144,
+      "common_enclosure": [
+        55.296604394719715,
+        61.42697835312153
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            87134875
+          ],
+          "id": "triisopropylphosphine/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 3.06518697920091,
+            "analytical": false,
+            "lower_bound_angstrom3": 55.296604394719715,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 61.42697835312153,
+            "volume_angstrom3": 58.361791373920624,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            3.0651869792009094
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            354818
+          ],
+          "id": "triisopropylphosphine/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 58.34931859660628,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            3.0776597565152457
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            1305435
+          ],
+          "id": "triisopropylphosphine/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 58.349582856707684,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            3.0773954964138426
+          ]
+        }
+      ]
+    },
+    {
+      "id": "triphenylphosphine/reference",
+      "python_reference": {
+        "lower": 45.541603088378906,
+        "upper": 59.990718841552734,
+        "width": 14.44911575317383,
+        "lower_exact": "5969229/131072",
+        "upper_exact": "15726207/262144",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 4,
+            "unresolved_boxes": 4,
+            "lower": 0.0,
+            "upper": 171.5,
+            "width": 171.50000000000003
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 32,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 32,
+            "lower": 0.0,
+            "upper": 171.5,
+            "width": 171.50000000000003
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 256,
+            "new_inside_boxes": 17,
+            "new_outside_boxes": 87,
+            "unresolved_boxes": 152,
+            "lower": 11.388671875,
+            "upper": 113.216796875,
+            "width": 101.82812500000001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 1216,
+            "new_inside_boxes": 187,
+            "new_outside_boxes": 356,
+            "unresolved_boxes": 673,
+            "lower": 27.048095703125,
+            "upper": 83.4052734375,
+            "width": 56.35717773437501
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 5384,
+            "new_inside_boxes": 1137,
+            "new_outside_boxes": 1495,
+            "unresolved_boxes": 2752,
+            "lower": 38.949676513671875,
+            "upper": 67.75631713867188,
+            "width": 28.806640625000004
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 22016,
+            "new_inside_boxes": 5038,
+            "new_outside_boxes": 5935,
+            "unresolved_boxes": 11043,
+            "lower": 45.541603088378906,
+            "upper": 59.990718841552734,
+            "width": 14.44911575317383
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.07182713499969395,
+      "common_enclosure": [
+        49.913963675311685,
+        55.328129651901094
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            143284596
+          ],
+          "id": "triphenylphosphine/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 2.7070829882947085,
+            "analytical": false,
+            "lower_bound_angstrom3": 49.913963675311685,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 55.328129651901094,
+            "volume_angstrom3": 52.62104666360639,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            2.707082988294708
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            520388
+          ],
+          "id": "triphenylphosphine/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 52.60638717681204,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            2.7217424750890515
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            1889584
+          ],
+          "id": "triphenylphosphine/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 52.6067936148566,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            2.7213360370444946
+          ]
+        }
+      ]
+    },
+    {
+      "id": "asymmetric_phosphine/reference",
+      "python_reference": {
+        "lower": 42.405269622802734,
+        "upper": 55.7016487121582,
+        "width": 13.29637908935547,
+        "lower_exact": "11116287/262144",
+        "upper_exact": "14601853/262144",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 2,
+            "unresolved_boxes": 6,
+            "lower": 0.0,
+            "upper": 257.25,
+            "width": 257.25000000000006
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 48,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 16,
+            "unresolved_boxes": 32,
+            "lower": 0.0,
+            "upper": 171.5,
+            "width": 171.50000000000003
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 256,
+            "new_inside_boxes": 16,
+            "new_outside_boxes": 97,
+            "unresolved_boxes": 143,
+            "lower": 10.71875,
+            "upper": 106.517578125,
+            "width": 95.79882812500001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 1144,
+            "new_inside_boxes": 175,
+            "new_outside_boxes": 350,
+            "unresolved_boxes": 619,
+            "lower": 25.373291015625,
+            "upper": 77.20849609375,
+            "width": 51.83520507812501
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 4952,
+            "new_inside_boxes": 1050,
+            "new_outside_boxes": 1377,
+            "unresolved_boxes": 2525,
+            "lower": 36.36419677734375,
+            "upper": 62.794708251953125,
+            "width": 26.43051147460938
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 20200,
+            "new_inside_boxes": 4617,
+            "new_outside_boxes": 5421,
+            "unresolved_boxes": 10162,
+            "lower": 42.405269622802734,
+            "upper": 55.7016487121582,
+            "width": 13.29637908935547
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.03895663599996624,
+      "common_enclosure": [
+        46.166751742194236,
+        51.59702790052209
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            89434329
+          ],
+          "id": "asymmetric_phosphine/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 2.715138079163929,
+            "analytical": false,
+            "lower_bound_angstrom3": 46.166751742194236,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 51.59702790052209,
+            "volume_angstrom3": 48.881889821358165,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            2.7151380791639284
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            235483
+          ],
+          "id": "asymmetric_phosphine/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 48.87204571870121,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            2.7249821818208844
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            936461
+          ],
+          "id": "asymmetric_phosphine/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 48.86224020132869,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            2.7347876991934044
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fluorophosphine/reference",
+      "python_reference": {
+        "lower": 30.69341278076172,
+        "upper": 40.21363067626953,
+        "width": 9.520217895507814,
+        "lower_exact": "4023047/131072",
+        "upper_exact": "5270881/131072",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 4,
+            "unresolved_boxes": 4,
+            "lower": 0.0,
+            "upper": 171.5,
+            "width": 171.50000000000003
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 32,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 5,
+            "unresolved_boxes": 27,
+            "lower": 0.0,
+            "upper": 144.703125,
+            "width": 144.70312500000003
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 216,
+            "new_inside_boxes": 16,
+            "new_outside_boxes": 93,
+            "unresolved_boxes": 107,
+            "lower": 10.71875,
+            "upper": 82.400390625,
+            "width": 71.68164062500001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 856,
+            "new_inside_boxes": 107,
+            "new_outside_boxes": 297,
+            "unresolved_boxes": 452,
+            "lower": 19.678955078125,
+            "upper": 57.529541015625,
+            "width": 37.85058593750001
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 3616,
+            "new_inside_boxes": 646,
+            "new_outside_boxes": 1163,
+            "unresolved_boxes": 1807,
+            "lower": 26.44097900390625,
+            "upper": 45.355804443359375,
+            "width": 18.91482543945313
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 14456,
+            "new_inside_boxes": 3250,
+            "new_outside_boxes": 3930,
+            "unresolved_boxes": 7276,
+            "lower": 30.69341278076172,
+            "upper": 40.21363067626953,
+            "width": 9.520217895507814
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.014459194000664866,
+      "common_enclosure": [
+        33.84861642106049,
+        36.81299209855601
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            55040464
+          ],
+          "id": "fluorophosphine/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 1.4821878387477627,
+            "analytical": false,
+            "lower_bound_angstrom3": 33.84861642106049,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 36.81299209855601,
+            "volume_angstrom3": 35.33080425980825,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.4821878387477625
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            168336
+          ],
+          "id": "fluorophosphine/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 35.320539903259835,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.492452195296174
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            642839
+          ],
+          "id": "fluorophosphine/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 35.32179303924539,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.4911990593106168
+          ]
+        }
+      ]
+    },
+    {
+      "id": "methylamine/reference",
+      "python_reference": {
+        "lower": 25.022628784179688,
+        "upper": 33.11533737182617,
+        "width": 8.092708587646486,
+        "lower_exact": "1639883/65536",
+        "upper_exact": "8680987/262144",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 4,
+            "unresolved_boxes": 4,
+            "lower": 0.0,
+            "upper": 171.5,
+            "width": 171.50000000000003
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 32,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 14,
+            "unresolved_boxes": 18,
+            "lower": 0.0,
+            "upper": 96.46875,
+            "width": 96.46875000000001
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 144,
+            "new_inside_boxes": 8,
+            "new_outside_boxes": 44,
+            "unresolved_boxes": 92,
+            "lower": 5.359375,
+            "upper": 66.9921875,
+            "width": 61.63281250000001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 736,
+            "new_inside_boxes": 114,
+            "new_outside_boxes": 237,
+            "unresolved_boxes": 385,
+            "lower": 14.90576171875,
+            "upper": 47.145751953125,
+            "width": 32.23999023437501
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 3080,
+            "new_inside_boxes": 618,
+            "new_outside_boxes": 920,
+            "unresolved_boxes": 1542,
+            "lower": 21.37469482421875,
+            "upper": 37.515625,
+            "width": 16.140930175781254
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 12336,
+            "new_inside_boxes": 2788,
+            "new_outside_boxes": 3363,
+            "unresolved_boxes": 6185,
+            "lower": 25.022628784179688,
+            "upper": 33.11533737182617,
+            "width": 8.092708587646486
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.008696244999555347,
+      "common_enclosure": [
+        27.761543691063693,
+        30.113916458213637
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            43110108
+          ],
+          "id": "methylamine/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 1.1761863835749724,
+            "analytical": false,
+            "lower_bound_angstrom3": 27.761543691063693,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 30.113916458213637,
+            "volume_angstrom3": 28.937730074638665,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.1761863835749722
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            98415
+          ],
+          "id": "methylamine/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 28.928336973526307,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.1855794846873309
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            370738
+          ],
+          "id": "methylamine/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 28.931804631711778,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.1821118265018598
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dimethylamine/reference",
+      "python_reference": {
+        "lower": 30.887062072753906,
+        "upper": 40.44522476196289,
+        "width": 9.558162689208986,
+        "lower_exact": "4048429/131072",
+        "upper_exact": "10602473/262144",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 2,
+            "unresolved_boxes": 6,
+            "lower": 0.0,
+            "upper": 257.25,
+            "width": 257.25000000000006
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 48,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 24,
+            "unresolved_boxes": 24,
+            "lower": 0.0,
+            "upper": 128.625,
+            "width": 128.62500000000003
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 192,
+            "new_inside_boxes": 12,
+            "new_outside_boxes": 77,
+            "unresolved_boxes": 103,
+            "lower": 8.0390625,
+            "upper": 77.041015625,
+            "width": 69.00195312500001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 824,
+            "new_inside_boxes": 131,
+            "new_outside_boxes": 252,
+            "unresolved_boxes": 441,
+            "lower": 19.009033203125,
+            "upper": 55.9384765625,
+            "width": 36.92944335937501
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 3528,
+            "new_inside_boxes": 717,
+            "new_outside_boxes": 997,
+            "unresolved_boxes": 1814,
+            "lower": 26.514251708984375,
+            "upper": 45.502349853515625,
+            "width": 18.988098144531254
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 14512,
+            "new_inside_boxes": 3342,
+            "new_outside_boxes": 3865,
+            "unresolved_boxes": 7305,
+            "lower": 30.887062072753906,
+            "upper": 40.44522476196289,
+            "width": 9.558162689208986
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.01223820599989267,
+      "common_enclosure": [
+        33.97355210764161,
+        37.1077184703144
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            48966862
+          ],
+          "id": "dimethylamine/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 1.5670831813364006,
+            "analytical": false,
+            "lower_bound_angstrom3": 33.97355210764161,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 37.1077184703144,
+            "volume_angstrom3": 35.54063528897801,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.5670831813364003
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            117792
+          ],
+          "id": "dimethylamine/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 35.53146591182569,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.5762525584887115
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            446089
+          ],
+          "id": "dimethylamine/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 35.531879227925316,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.5758392423890868
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trimethylamine/reference",
+      "python_reference": {
+        "lower": 36.59840774536133,
+        "upper": 47.54613494873047,
+        "width": 10.947727203369142,
+        "lower_exact": "9594053/262144",
+        "upper_exact": "6231967/131072",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 2,
+            "unresolved_boxes": 6,
+            "lower": 0.0,
+            "upper": 257.25,
+            "width": 257.25000000000006
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 48,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 20,
+            "unresolved_boxes": 28,
+            "lower": 0.0,
+            "upper": 150.0625,
+            "width": 150.06250000000003
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 224,
+            "new_inside_boxes": 14,
+            "new_outside_boxes": 90,
+            "unresolved_boxes": 120,
+            "lower": 9.37890625,
+            "upper": 89.76953125,
+            "width": 80.39062500000001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 960,
+            "new_inside_boxes": 154,
+            "new_outside_boxes": 301,
+            "unresolved_boxes": 505,
+            "lower": 22.27490234375,
+            "upper": 64.563720703125,
+            "width": 42.28881835937501
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 4040,
+            "new_inside_boxes": 890,
+            "new_outside_boxes": 1081,
+            "unresolved_boxes": 2069,
+            "lower": 31.59100341796875,
+            "upper": 53.248321533203125,
+            "width": 21.65731811523438
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 16552,
+            "new_inside_boxes": 3827,
+            "new_outside_boxes": 4358,
+            "unresolved_boxes": 8367,
+            "lower": 36.59840774536133,
+            "upper": 47.54613494873047,
+            "width": 10.947727203369142
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.016187093000553432,
+      "common_enclosure": [
+        40.10294473152959,
+        43.77929640077987
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            57006081
+          ],
+          "id": "trimethylamine/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 1.8381758346251404,
+            "analytical": false,
+            "lower_bound_angstrom3": 40.10294473152959,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 43.77929640077987,
+            "volume_angstrom3": 41.94112056615473,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.8381758346251402
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            159620
+          ],
+          "id": "trimethylamine/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 41.94264209449046,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.8396973629608695
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            605829
+          ],
+          "id": "trimethylamine/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 41.93604454034352,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.8432518604363537
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aniline/reference",
+      "python_reference": {
+        "lower": 30.679019927978516,
+        "upper": 40.645416259765625,
+        "width": 9.966396331787111,
+        "lower_exact": "8042321/262144",
+        "upper_exact": "1331869/32768",
+        "history": [
+          {
+            "depth": 0,
+            "boxes_examined": 1,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 0,
+            "unresolved_boxes": 1,
+            "lower": 0.0,
+            "upper": 343.0,
+            "width": 343.00000000000006
+          },
+          {
+            "depth": 1,
+            "boxes_examined": 8,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 3,
+            "unresolved_boxes": 5,
+            "lower": 0.0,
+            "upper": 214.375,
+            "width": 214.37500000000003
+          },
+          {
+            "depth": 2,
+            "boxes_examined": 40,
+            "new_inside_boxes": 0,
+            "new_outside_boxes": 14,
+            "unresolved_boxes": 26,
+            "lower": 0.0,
+            "upper": 139.34375,
+            "width": 139.34375000000003
+          },
+          {
+            "depth": 3,
+            "boxes_examined": 208,
+            "new_inside_boxes": 9,
+            "new_outside_boxes": 87,
+            "unresolved_boxes": 112,
+            "lower": 6.029296875,
+            "upper": 81.060546875,
+            "width": 75.03125000000001
+          },
+          {
+            "depth": 4,
+            "boxes_examined": 896,
+            "new_inside_boxes": 144,
+            "new_outside_boxes": 286,
+            "unresolved_boxes": 466,
+            "lower": 18.087890625,
+            "upper": 57.11083984375,
+            "width": 39.02294921875001
+          },
+          {
+            "depth": 5,
+            "boxes_examined": 3728,
+            "new_inside_boxes": 782,
+            "new_outside_boxes": 1043,
+            "unresolved_boxes": 1903,
+            "lower": 26.27349853515625,
+            "upper": 46.193206787109375,
+            "width": 19.91970825195313
+          },
+          {
+            "depth": 6,
+            "boxes_examined": 15224,
+            "new_inside_boxes": 3367,
+            "new_outside_boxes": 4240,
+            "unresolved_boxes": 7617,
+            "lower": 30.679019927978516,
+            "upper": 40.645416259765625,
+            "width": 9.966396331787111
+          }
+        ],
+        "maximum_depth": 6,
+        "scope": "Continuous union of supplied exact binary-coordinate balls; no source-geometry or physical-radius uncertainty."
+      },
+      "python_seconds": 0.022309537999717577,
+      "common_enclosure": [
+        33.9676027892368,
+        37.14686948321884
+      ],
+      "native": [
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            72542381
+          ],
+          "id": "aniline/reference",
+          "result": {
+            "absolute_error_bound_angstrom3": 1.589633346991022,
+            "analytical": false,
+            "lower_bound_angstrom3": 33.9676027892368,
+            "method": {
+              "absolute_tolerance": 0.05,
+              "max_boxes": 262143,
+              "method": "reference"
+            },
+            "target_met": false,
+            "upper_bound_angstrom3": 37.14686948321884,
+            "volume_angstrom3": 35.55723613622782,
+            "work_units": 262143
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.5896333469910218
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            229702
+          ],
+          "id": "aniline/midpoint_slices128",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 128
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 35.55511487056948,
+            "work_units": 16384
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.5917546126493605
+          ]
+        },
+        {
+          "allocations": [
+            null
+          ],
+          "elapsed_ns": [
+            834309
+          ],
+          "id": "aniline/midpoint_slices256",
+          "result": {
+            "absolute_error_bound_angstrom3": null,
+            "analytical": false,
+            "lower_bound_angstrom3": null,
+            "method": {
+              "method": "midpoint_slices",
+              "subdivisions": 256
+            },
+            "target_met": null,
+            "upper_bound_angstrom3": null,
+            "volume_angstrom3": 35.55510608043392,
+            "work_units": 65536
+          },
+          "absolute_error_enclosure": [
+            0.0,
+            1.5917634027849203
+          ]
+        }
+      ]
+    }
+  ],
+  "failures": [],
+  "complete": true
+}

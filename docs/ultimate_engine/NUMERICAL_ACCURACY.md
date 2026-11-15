@@ -1,7 +1,8 @@
 # Numerical accuracy investigation
 
-Status: baseline convergence measured; new algorithms below are proposed and
-are not yet admitted or exposed as validated production modes.
+Status: baseline convergence and explicit N1/N2 methods validated in the
+scopes below. Final whole-engine replay and controlled performance audit remain
+pending. The method proposals are retained to explain their admission criteria.
 
 ## Quantities and baseline
 
@@ -122,3 +123,111 @@ zero lost bytes (544 runtime bytes reachable). Repeated exact-order/invariance
 unit checks, complete final replay and final controlled cost measurements remain
 part of campaign acceptance. No globally certified floating-point error claim
 is made for N1.
+
+## N2: explicit continuous-volume methods
+
+The Rust core exposes `sphere_union_volume` for f64 balls and
+`BuriedVolumeCalculator::compute_continuous_with_center` for molecules. The
+latter uses an explicit center, radius, radii scale and hydrogen policy. Its
+bounds refer to the rounded f64 scaled radii. Both return total volume in Å³;
+no new regional, density or thermodynamic interpretation is introduced.
+Existing default APIs continue to use the exact native f32 finite grid.
+
+`ContinuousVolumeMethod::MidpointSlices { subdivisions }` merges clipped Z
+chords at each XY midpoint, then integrates their union length with compensated
+summation. It reports no error bound or target-met flag. A fixed resolution is
+not itself an accuracy guarantee. For the centered-sphere case, the measured
+absolute error improves to about 4.65e-6 Å³ at 128 subdivisions, then worsens to
+about 2.50e-4 at 256. Richardson extrapolation or a monotone-resolution stopping
+rule is therefore not admitted for these nonsmooth integrands.
+
+`ContinuousVolumeMethod::Reference { absolute_tolerance, max_boxes }` uses
+outward-rounded analytical ball/lens formulas when applicable, including
+inclusion–exclusion for two balls wholly inside the integration sphere. Other
+unions use conservative adaptive boxes. Returned lower/upper bounds and
+`absolute_error_bound_angstrom3` refer to the continuous mathematical volume.
+`target_met` is explicitly false when the requested tolerance is not achieved.
+A work limit never becomes a claimed error bound.
+
+### Bound justification and numerical contract
+
+Inputs are exact supplied binary64 values, finite with coordinates/radii at
+most 1e100 in magnitude; atomic radii may be zero, integration radius must be
+positive. IEEE round-to-nearest and gradual underflow are required. Each
+arithmetic operation used in an enclosure widens toward adjacent floats.
+Adjacent-float operations are implemented by IEEE bit stepping to support Rust
+1.85. Squaring handles zero-crossing intervals, square roots are widened, and
+uncertain products return conservative unbounded intermediates before physical
+volume clipping. Zero-radius balls have zero Lebesgue volume.
+
+The π interval is enclosed by neighboring binary64 floats around π. The
+independent Python oracle checks this against rational alternating-series
+bounds for Machin's formula, π=16 atan(1/5)-4 atan(1/239), using 64 terms.
+The exact rational certificate is retained in
+`.stericx/ultimate_engine/n2_validation_v4/pi_certificate.json`.
+
+For a single sphere intersection, center distance is interval-enclosed.
+Intersection volume decreases with separation, so endpoint evaluations give
+valid bounds. Mathematical containment/disjoint/partial-overlap branches are
+selected conservatively; ambiguous branches fall back to boxes. Partial lens
+volume is evaluated as π(R+r-d)²[d+2(R+r)-3(R-r)²/d]/12, with every operation
+outward-rounded. Two-contained-ball unions use V1+V2-Vintersection with interval
+subtraction. No general many-ball union is approximated as a sum of pair terms.
+
+For general unions, the initial box is [-R,R]³ around the integration center.
+Relative atomic centers are intervals enclosing exact coordinate subtraction.
+Minimum and maximum squared distance bound each box's relation to a ball.
+A box is discarded only if outside the integration ball or every atomic ball;
+it contributes to the lower bound only if wholly inside the integration ball
+and at least one atomic ball. All unresolved boxes contribute to the upper
+bound. This sufficient condition remains conservative when several balls
+jointly cover a box.
+
+Binary splits partition the real box at a representable interior point. Each
+cell's volume is interval-enclosed. The lower sum accumulates confirmed lower
+volumes downward. Refinement subtracts the stored parent upper volume and adds
+retained child upper volumes upward; previous rounding slack is retained.
+Unsplittable cells keep their upper contribution. The reported estimate lies
+inside the final interval, and its maximum endpoint distance is rounded upward.
+These facts establish the reported error bound under the numerical contract;
+they do not establish a bound for uncertain source structures or radii.
+
+### Independent checks and measured limitations
+
+[Accuracy and cost data](n2_accuracy_measurements.json) contain 244 observations:
+77 midpoint integrations and 167 reference integrations. All 167 reference
+intervals contain independent rational/analytical volume enclosures. Twenty-two
+atom-permutation checks are exact. Cases include empty/full volumes, tangent
+and near-tangent lenses, overlapping unions, exact rigid transformations,
+100 randomized lenses, and scales from 1e-200 to 1e99. Seven Rust tests include
+10,000 independent integer/dyadic checks of box-distance and box-volume bounds.
+
+Twenty-three requested reference targets remain unmet: 15 general-box cases
+and eight extreme-underflow cases. All are reported as false. The 12 molecular
+cases also fail to attain ±0.05 Å³ within 262,143 classified boxes. Their bounds
+overlap the independently implemented prior octree oracle, which uses rational
+cell-volume counting and different subdivision/accumulation. See
+[molecular comparisons](n2_molecular_comparisons.json). This corroborates the
+implementation; it is not an exact molecular-volume oracle or proof that the
+midpoint estimates have a small error. These molecular bounds remain broad.
+
+The analytical cases typically enclose their volumes within several binary64
+ULPs. The general box method is expensive for tight tolerances and is retained
+as an explicit conservative reference, not substituted into ordinary workflows.
+Single-call nanosecond timings for analytical cases are exploratory and include
+clock overhead; final cost measurements must batch these short calls.
+
+Native and allocation-instrumented outputs match exactly for all 236 runs of
+the earlier, non-underflow-expanded matrix. Memcheck on the analytical lens,
+midpoint integration and general-box path finds no errors or lost bytes (544
+runtime bytes reachable). [Allocation measurements](n2_allocations.json) include
+zero net live-byte change. A 65,535-box overlapping-chain run requests about
+4.72 MB across heap growth and peaks around 2.42 MB including the loaded input
+matrix; the analytical single-ball path uses one 128-byte allocation in this
+adapter. This is allocation traffic, not retained memory per calculation.
+
+An initial stress fixture exceeded the declared coordinate domain by placing
+an atom at 2e100. The engine correctly rejected it; the failed run is preserved
+at `.stericx/ultimate_engine/n2_validation`. Subsequent fixtures stay inside the
+published domain and use exact rational inclusion–exclusion in the reference.
+No production tolerance or domain was expanded to make that run pass.

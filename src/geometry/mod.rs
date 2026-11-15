@@ -2,6 +2,7 @@
 
 mod buried_volume;
 mod continuous_sterimol;
+mod continuous_volume;
 mod donor;
 mod pyramidalization;
 mod sterimol;
@@ -13,6 +14,9 @@ pub use buried_volume::{
     coordination_center, coordination_center_with_neighbors,
 };
 pub use continuous_sterimol::ContinuousSterimolParams;
+pub use continuous_volume::{
+    AtomicSphere, ContinuousVolumeMethod, ContinuousVolumeResult, sphere_union_volume,
+};
 pub use donor::{DonorTopology, detect_trivalent_donor};
 pub use pyramidalization::{PyramidalizationCalculator, PyramidalizationParams};
 pub use sterimol::{SterimolCalculator, SterimolParams};

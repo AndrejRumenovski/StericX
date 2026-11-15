@@ -970,8 +970,8 @@ fn permutation_test(
             let other = rng.index(index + 1);
             shuffled.swap(index, other);
         }
-        if let Ok(fit) = fit_linear(features, &shuffled, selected, 0.0)
-            && metrics(&shuffled, &fit.predictions).r2.unwrap_or(0.0) >= observed_r2
+        if fit_linear(features, &shuffled, selected, 0.0)
+            .is_ok_and(|fit| metrics(&shuffled, &fit.predictions).r2.unwrap_or(0.0) >= observed_r2)
         {
             extreme += 1;
         }

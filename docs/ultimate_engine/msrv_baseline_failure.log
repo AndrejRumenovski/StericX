@@ -1,0 +1,143 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.24
+   Compiling crossbeam-utils v0.8.22
+   Compiling crossbeam-epoch v0.9.20
+   Compiling serde_core v1.0.229
+   Compiling syn v3.0.3
+    Checking utf8parse v0.2.2
+   Compiling crossbeam-deque v0.8.7
+    Checking anstyle-parse v1.0.0
+    Checking colorchoice v1.0.5
+   Compiling rayon-core v1.13.0
+    Checking anstyle v1.0.14
+    Checking anstyle-query v1.1.5
+   Compiling zmij v1.0.23
+    Checking is_terminal_polyfill v1.70.2
+   Compiling libc v0.2.189
+    Checking memchr v2.8.3
+    Checking anstream v1.0.0
+   Compiling syn v2.0.119
+   Compiling serde_json v1.0.151
+   Compiling serde v1.0.229
+    Checking itoa v1.0.18
+   Compiling heck v0.5.0
+    Checking clap_lex v1.1.0
+    Checking strsim v0.11.1
+    Checking clap_builder v4.6.2
+   Compiling bytemuck_derive v1.11.0
+   Compiling clap_derive v4.6.4
+    Checking csv-core v0.1.13
+   Compiling serde_derive v1.0.229
+    Checking either v1.17.0
+    Checking ryu v1.0.23
+    Checking csv v1.4.0
+    Checking rayon v1.12.0
+    Checking memmap2 v0.9.11
+    Checking clap v4.6.4
+    Checking bytemuck v1.25.2
+    Checking glam v0.30.10
+    Checking steric_x v0.3.0 (/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline/source)
+error[E0658]: `let` expressions in this position are unstable
+   --> src/model/domain.rs:419:12
+    |
+419 |         if let Some(calibration) = &self.neighbor_calibration
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: see issue #53667 <https://github.com/rust-lang/rust/issues/53667> for more information
+
+error[E0658]: `let` expressions in this position are unstable
+   --> src/model/fit.rs:972:12
+    |
+972 |         if let Ok(fit) = fit_linear(features, &shuffled, selected, 0.0)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: see issue #53667 <https://github.com/rust-lang/rust/issues/53667> for more information
+
+error[E0658]: `let` expressions in this position are unstable
+    --> src/model/portable.rs:1386:8
+     |
+1386 |       if let Some(names) = object
+     |  ________^
+1387 | |         .get("feature_names")
+1388 | |         .and_then(|value| value.as_array())
+     | |___________________________________________^
+     |
+     = note: see issue #53667 <https://github.com/rust-lang/rust/issues/53667> for more information
+
+warning[E0133]: call to unsafe function `std::arch::x86_64::_mm256_castps256_ps128` is unsafe and requires unsafe block
+   --> src/model/regress.rs:103:15
+    |
+103 |     let low = _mm256_castps256_ps128(products);
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: for more information, see <https://doc.rust-lang.org/nightly/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+note: an unsafe function restricts its caller, but its body is safe by default
+   --> src/model/regress.rs:90:1
+    |
+90  | unsafe fn dot_avx2(features: &[f32; 8], weights: &[f32; 8]) -> f32 {
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    = note: `#[warn(unsafe_op_in_unsafe_fn)]` on by default
+
+warning[E0133]: call to unsafe function `std::arch::x86_64::_mm256_extractf128_ps` is unsafe and requires unsafe block
+   --> src/model/regress.rs:104:16
+    |
+104 |     let high = _mm256_extractf128_ps::<1>(products);
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: for more information, see <https://doc.rust-lang.org/nightly/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+warning[E0133]: call to unsafe function `std::arch::x86_64::_mm_hadd_ps` is unsafe and requires unsafe block
+   --> src/model/regress.rs:105:20
+    |
+105 |     let pairwise = _mm_hadd_ps(_mm_add_ps(low, high), _mm_add_ps(low, high));
+    |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: for more information, see <https://doc.rust-lang.org/nightly/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+warning[E0133]: call to unsafe function `std::arch::x86_64::_mm_add_ps` is unsafe and requires unsafe block
+   --> src/model/regress.rs:105:32
+    |
+105 |     let pairwise = _mm_hadd_ps(_mm_add_ps(low, high), _mm_add_ps(low, high));
+    |                                ^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: for more information, see <https://doc.rust-lang.org/nightly/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+warning[E0133]: call to unsafe function `std::arch::x86_64::_mm_add_ps` is unsafe and requires unsafe block
+   --> src/model/regress.rs:105:55
+    |
+105 |     let pairwise = _mm_hadd_ps(_mm_add_ps(low, high), _mm_add_ps(low, high));
+    |                                                       ^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: for more information, see <https://doc.rust-lang.org/nightly/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+warning[E0133]: call to unsafe function `std::arch::x86_64::_mm_cvtss_f32` is unsafe and requires unsafe block
+   --> src/model/regress.rs:106:5
+    |
+106 |     _mm_cvtss_f32(_mm_hadd_ps(pairwise, pairwise))
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: for more information, see <https://doc.rust-lang.org/nightly/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+warning[E0133]: call to unsafe function `std::arch::x86_64::_mm_hadd_ps` is unsafe and requires unsafe block
+   --> src/model/regress.rs:106:19
+    |
+106 |     _mm_cvtss_f32(_mm_hadd_ps(pairwise, pairwise))
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: for more information, see <https://doc.rust-lang.org/nightly/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html>
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+Some errors have detailed explanations: E0133, E0658.
+For more information about an error, try `rustc --explain E0133`.
+warning: `steric_x` (lib) generated 7 warnings
+error: could not compile `steric_x` (lib) due to 3 previous errors; 7 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+warning: `steric_x` (lib test) generated 7 warnings (7 duplicates)
+error: could not compile `steric_x` (lib test) due to 3 previous errors; 7 warnings emitted

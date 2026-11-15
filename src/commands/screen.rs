@@ -1400,10 +1400,11 @@ fn load_library(
                 row + 2
             )
         })?;
-        if let Some(column) = headers
+        if let Some(declared) = headers
             .iter()
             .position(|name| name.eq_ignore_ascii_case("descriptor_aggregation"))
-            && let Some(declared) = record.get(column).filter(|value| !value.trim().is_empty())
+            .and_then(|column| record.get(column))
+            .filter(|value| !value.trim().is_empty())
         {
             let declared = DescriptorAggregation::from_label(declared)?;
             if aggregation != DescriptorAggregation::Unknown && declared != aggregation {
@@ -1760,8 +1761,11 @@ pub(crate) fn screen_command(args: ScreenArgs<'_>) -> Result<(), Box<dyn Error>>
                     }
                     // Secondary key only, and only for a candidate no
                     // identifier already claimed.
-                    if let Some(name) = candidate.name.as_deref().map(str::trim)
-                        && tested.smiles.contains(name)
+                    if let Some(name) = candidate
+                        .name
+                        .as_deref()
+                        .map(str::trim)
+                        .filter(|name| tested.smiles.contains(*name))
                     {
                         matched_smiles.insert(name.to_owned());
                         excluded_count += 1;

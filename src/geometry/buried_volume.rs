@@ -1164,25 +1164,30 @@ unsafe fn row_mask_avx2(z: &[f32], center_z: f32, xy_squared: f32, radius_square
     #[cfg(target_arch = "x86_64")]
     use std::arch::x86_64::*;
     debug_assert!(z.len() <= 64);
-    let center = _mm256_set1_ps(center_z);
-    let xy = _mm256_set1_ps(xy_squared);
-    let radius = _mm256_set1_ps(radius_squared);
-    let mut mask = 0_u64;
-    let mut i = 0;
-    while i + 8 <= z.len() {
-        // SAFETY: the loop condition proves all eight unaligned loads are in z.
-        let positions = unsafe { _mm256_loadu_ps(z.as_ptr().add(i)) };
-        let dz = _mm256_sub_ps(positions, center);
-        let distance = _mm256_add_ps(xy, _mm256_mul_ps(dz, dz));
-        let occupied = _mm256_cmp_ps::<_CMP_LE_OQ>(distance, radius);
-        mask |= (_mm256_movemask_ps(occupied) as u64) << i;
-        i += 8;
+    // SAFETY: AVX2 is a precondition of this function; every memory load is
+    // guarded by its slice length. Older supported Rust versions also require
+    // an unsafe block for these target-specific arithmetic intrinsics.
+    unsafe {
+        let center = _mm256_set1_ps(center_z);
+        let xy = _mm256_set1_ps(xy_squared);
+        let radius = _mm256_set1_ps(radius_squared);
+        let mut mask = 0_u64;
+        let mut i = 0;
+        while i + 8 <= z.len() {
+            // SAFETY: the loop condition proves all eight unaligned loads are in z.
+            let positions = _mm256_loadu_ps(z.as_ptr().add(i));
+            let dz = _mm256_sub_ps(positions, center);
+            let distance = _mm256_add_ps(xy, _mm256_mul_ps(dz, dz));
+            let occupied = _mm256_cmp_ps::<_CMP_LE_OQ>(distance, radius);
+            mask |= (_mm256_movemask_ps(occupied) as u64) << i;
+            i += 8;
+        }
+        for (offset, &position) in z[i..].iter().enumerate() {
+            let dz = position - center_z;
+            mask |= u64::from(xy_squared + dz * dz <= radius_squared) << (i + offset);
+        }
+        mask
     }
-    for (offset, &position) in z[i..].iter().enumerate() {
-        let dz = position - center_z;
-        mask |= u64::from(xy_squared + dz * dz <= radius_squared) << (i + offset);
-    }
-    mask
 }
 
 fn quadrant_index(point: Vec3) -> usize {

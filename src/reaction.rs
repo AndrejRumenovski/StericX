@@ -432,12 +432,13 @@ pub(crate) fn resolve_xyz_path(xyz_dir: &Path, csv_path: &Path) -> Result<PathBu
                 Component::Normal(value) => Some(value),
                 _ => None,
             }),
-    ) && directory_name == first_component
-    {
-        let stripped: PathBuf = csv_path.components().skip(1).collect();
-        let candidate = xyz_dir.join(stripped);
-        if candidate.is_file() {
-            return Ok(candidate);
+    ) {
+        if directory_name == first_component {
+            let stripped: PathBuf = csv_path.components().skip(1).collect();
+            let candidate = xyz_dir.join(stripped);
+            if candidate.is_file() {
+                return Ok(candidate);
+            }
         }
     }
 

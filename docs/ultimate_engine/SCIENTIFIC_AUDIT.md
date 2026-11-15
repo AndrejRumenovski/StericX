@@ -54,3 +54,20 @@ Only x86_64 hardware is available. Cross-architecture bitwise equivalence is
 not established by the current runs. The AVX2 model predictor and its scalar
 fallback use different reductions, so identical real-arithmetic formulas alone
 cannot establish identical floating-point bits.
+
+## Engineering defect S2: declared minimum Rust version did not build
+
+The manifest declares Rust 1.85, but the frozen baseline uses later let-chain
+syntax. A fresh official Rust 1.85.0 toolchain reproduced the compiler failures;
+[the original log](msrv_baseline_failure.log) is preserved. Six existing
+conditionals in model validation/fitting, screening and input-path resolution
+were rewritten using equivalent Option/Result predicates or nested checks.
+AVX2 unsafe blocks were extended to include arithmetic intrinsics that were
+unsafe APIs on that older compiler; dispatch and operation order are unchanged.
+
+All 364 current Rust unit/integration/example tests pass on actual Rust 1.85.0,
+with no test tolerance changes. The current 1.97 toolchain also passes the
+suite and strict Clippy. This establishes compiler-version compatibility on
+x86_64, not numerical validation on different hardware architectures. Original
+failed builds and the passing replay are retained under
+`.stericx/ultimate_engine/msrv_*`. The declared minimum was not raised.

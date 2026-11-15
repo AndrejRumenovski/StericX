@@ -94,16 +94,18 @@ unsafe fn dot_avx2(features: &[f32; 8], weights: &[f32; 8]) -> f32 {
     };
 
     // SAFETY: each unaligned load reads exactly eight initialized f32 values.
-    let products = unsafe {
-        _mm256_mul_ps(
+    // Keep arithmetic intrinsics in this block too: they were unsafe on the
+    // supported Rust 1.85 toolchain. The caller verifies AVX2 availability.
+    unsafe {
+        let products = _mm256_mul_ps(
             _mm256_loadu_ps(features.as_ptr()),
             _mm256_loadu_ps(weights.as_ptr()),
-        )
-    };
-    let low = _mm256_castps256_ps128(products);
-    let high = _mm256_extractf128_ps::<1>(products);
-    let pairwise = _mm_hadd_ps(_mm_add_ps(low, high), _mm_add_ps(low, high));
-    _mm_cvtss_f32(_mm_hadd_ps(pairwise, pairwise))
+        );
+        let low = _mm256_castps256_ps128(products);
+        let high = _mm256_extractf128_ps::<1>(products);
+        let pairwise = _mm_hadd_ps(_mm_add_ps(low, high), _mm_add_ps(low, high));
+        _mm_cvtss_f32(_mm_hadd_ps(pairwise, pairwise))
+    }
 }
 
 #[cfg(target_arch = "x86")]
@@ -115,16 +117,18 @@ unsafe fn dot_avx2(features: &[f32; 8], weights: &[f32; 8]) -> f32 {
     };
 
     // SAFETY: each unaligned load reads exactly eight initialized f32 values.
-    let products = unsafe {
-        _mm256_mul_ps(
+    // Keep arithmetic intrinsics in this block too: they were unsafe on the
+    // supported Rust 1.85 toolchain. The caller verifies AVX2 availability.
+    unsafe {
+        let products = _mm256_mul_ps(
             _mm256_loadu_ps(features.as_ptr()),
             _mm256_loadu_ps(weights.as_ptr()),
-        )
-    };
-    let low = _mm256_castps256_ps128(products);
-    let high = _mm256_extractf128_ps::<1>(products);
-    let pairwise = _mm_hadd_ps(_mm_add_ps(low, high), _mm_add_ps(low, high));
-    _mm_cvtss_f32(_mm_hadd_ps(pairwise, pairwise))
+        );
+        let low = _mm256_castps256_ps128(products);
+        let high = _mm256_extractf128_ps::<1>(products);
+        let pairwise = _mm_hadd_ps(_mm_add_ps(low, high), _mm_add_ps(low, high));
+        _mm_cvtss_f32(_mm_hadd_ps(pairwise, pairwise))
+    }
 }
 
 #[cfg(test)]

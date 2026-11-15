@@ -416,16 +416,20 @@ impl TrainingGeometry {
         if !self.training_labels.is_empty() && self.training_labels.len() != self.observations {
             return Err("training geometry labels do not match observations".into());
         }
-        if let Some(calibration) = &self.neighbor_calibration
-            && [
-                calibration.mean,
-                calibration.standard_deviation,
-                calibration.median,
-                calibration.maximum,
-                calibration.threshold,
-            ]
-            .iter()
-            .any(|value| !value.is_finite() || *value < 0.0)
+        if self
+            .neighbor_calibration
+            .as_ref()
+            .is_some_and(|calibration| {
+                [
+                    calibration.mean,
+                    calibration.standard_deviation,
+                    calibration.median,
+                    calibration.maximum,
+                    calibration.threshold,
+                ]
+                .iter()
+                .any(|value| !value.is_finite() || *value < 0.0)
+            })
         {
             return Err("nearest-neighbor calibration must be finite and nonnegative".into());
         }

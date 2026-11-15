@@ -1386,7 +1386,7 @@ fn check_fixed_width_arrays(
     if let Some(names) = object
         .get("feature_names")
         .and_then(|value| value.as_array())
-        && names.len() != MODEL_FEATURE_COUNT
+        .filter(|names| names.len() != MODEL_FEATURE_COUNT)
     {
         issues.push(ModelIssue::error(
             "dimension_mismatch",

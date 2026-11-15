@@ -965,10 +965,10 @@ fn reusable_integration_grid(config: BuriedVolumeConfig) -> Rc<Vec<Vec3>> {
     const MAX_CACHED_BYTES: usize = 8 * 1024 * 1024;
     let key = (config.sphere_radius.to_bits(), config.density.to_bits());
     GRID_CACHE.with(|cache| {
-        if let Some((cached_key, grid)) = cache.borrow().as_ref()
-            && *cached_key == key
-        {
-            return Rc::clone(grid);
+        if let Some((cached_key, grid)) = cache.borrow().as_ref() {
+            if *cached_key == key {
+                return Rc::clone(grid);
+            }
         }
         let grid = Rc::new(integration_grid(config));
         if grid.capacity() <= MAX_CACHED_BYTES / std::mem::size_of::<Vec3>() {
@@ -1230,8 +1230,8 @@ mod tests {
             0.0_f32,
             -0.0,
             1.0,
-            1.0_f32.next_up(),
-            1.0_f32.next_down(),
+            f32::from_bits(1.0_f32.to_bits() + 1),
+            f32::from_bits(1.0_f32.to_bits() - 1),
             -1.0,
             0.0001,
             -0.0001,
@@ -1244,8 +1244,19 @@ mod tests {
         let z: Vec<_> = (0..64).map(|i| samples[i % samples.len()]).collect();
         for length in 0..=64 {
             for center in [0.0_f32, 0.0001, 1.0, 1.0e20] {
-                for xy in [0.0_f32, 1.0, 1.0_f32.next_down(), f32::INFINITY, f32::NAN] {
-                    for radius in [0.0_f32, 1.0, 1.0_f32.next_up(), f32::INFINITY] {
+                for xy in [
+                    0.0_f32,
+                    1.0,
+                    f32::from_bits(1.0_f32.to_bits() - 1),
+                    f32::INFINITY,
+                    f32::NAN,
+                ] {
+                    for radius in [
+                        0.0_f32,
+                        1.0,
+                        f32::from_bits(1.0_f32.to_bits() + 1),
+                        f32::INFINITY,
+                    ] {
                         let expected =
                             z[..length]
                                 .iter()

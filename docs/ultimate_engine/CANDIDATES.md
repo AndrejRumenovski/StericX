@@ -138,3 +138,23 @@ executed `occupied_volumes_avx2` instructions, proving dispatch is active under
 the profiler. See [u3_simd.json](u3_simd.json); raw assembly and all four profiler
 runs are retained under `.stericx/ultimate_engine/u3*`. Full final scientific,
 thread-scaling, cold-start and controlled CLI A/B replay remain pending.
+
+## N1: explicit continuous angular Sterimol
+
+The pre-implementation definition/proof is in NUMERICAL_ACCURACY.md. Retain
+this explicit accuracy option: 39 independent 80-digit cases, 39 matched
+Morfeus/DBSTEP cases, analytical and rigid-transformation tests and Memcheck
+pass. Preserve the two failed convention-mismatched external lanes. This does
+not replace the default scan; the cubic algorithm is slower for some larger
+molecules and its numerical error is not certified. Full final replay pending.
+
+## Compatibility review
+
+Clippy caught use of adjacent-float APIs newer than the manifest's declared
+Rust 1.85 minimum in the uncommitted volume prototype. They were replaced with
+explicit IEEE bit stepping, without changing bounds. The acceleration's new
+cache lookup was rewritten without a let-chain, and boundary-test adjacent
+floats now use bit construction. Existing baseline let-chains elsewhere were
+also discovered; a real Rust 1.85 baseline compile is being run before deciding
+whether the declared support can actually be verified. No minimum version has
+been raised to hide a failure.

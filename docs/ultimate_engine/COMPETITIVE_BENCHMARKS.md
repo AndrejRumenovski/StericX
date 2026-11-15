@@ -4,6 +4,11 @@ Status: fresh scientific admission and all-worker output preflight pass.
 Controlled competitive timings are pending the final quiet measurement window.
 No final cross-tool speedup is claimed in this report yet.
 
+The post-validation host check failed the prospective quiet criterion (0.351
+busy core equivalents versus 0.15). A quiet-window confirmation is pending;
+no final competitive timing was started. The separate memory observations
+below remain valid for their declared sampled-process scope.
+
 ## Matched task
 
 The admitted comparison is total and regional hard-sphere volume on the exact

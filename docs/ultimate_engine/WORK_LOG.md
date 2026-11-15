@@ -39,3 +39,13 @@ Hardware perf is denied at paranoid=4; no privilege change was attempted.
 All seven requested report paths now exist. FINAL_REPORT.md explicitly marks
 pending controlled measurements. The campaign remains active; it is not fully
 complete until the remaining measurement and reporting work is handled.
+
+## Quiet-window gate
+
+After all independent work and commit `06c785da`, the 10.012-second host sample
+recorded 0.351 busy core equivalents (limit 0.15), with Warp 0.149 and GNOME
+Shell 0.118. I/O wait was 0.036 (limit 0.05). No final performance measurement
+started. A quiet-window confirmation was requested under the user's Phase 10.
+The goal remains active; elapsed time is not confirmation. Once the user confirms,
+recheck the host and run the prepared controller into a fresh output directory.
+Raw and tracked host evidence are preserved as `host_after_science.json`.

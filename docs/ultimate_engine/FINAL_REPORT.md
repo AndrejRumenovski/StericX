@@ -5,6 +5,13 @@ replay are complete in the scopes below. **Final controlled A/B and competitive
 timings remain pending. The campaign is not yet complete.** No final throughput
 or universal speed claim is inferred from exploratory measurements.
 
+The post-validation [host check](host_after_science.json) measured 0.351 busy
+CPU-core equivalents over 10.012 seconds, above the prospective 0.15 limit;
+I/O wait was 0.036 cores. Warp and GNOME Shell were the largest background
+users. No final timing was started. Following the user's Phase 10 instruction,
+a 20–30 minute quiet-window confirmation has been requested. No background
+application was stopped and the admission limit was not relaxed.
+
 ## Scientific outcome
 
 The original engine is frozen at `c03630cb3595eb85b5d05bdbecd3f10305b818bf`.
@@ -123,6 +130,7 @@ a universal pass.
 | `c4dce2d0` | N1: `src/geometry/continuous_sterimol.rs` and public exports |
 | `cdc2ddba` | S2: restore actual Rust 1.85 support |
 | `f9c952e2` | N2: `src/geometry/continuous_volume.rs` and public exports |
+| `06c785da` | Seal final scientific replay, profiling evidence and prepared final measurement controllers |
 
 Use `git show --stat COMMIT` for the full per-commit file set. The prospective
 candidate ledger retains hypotheses, acceptance rules, isolated experiments

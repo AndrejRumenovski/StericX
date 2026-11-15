@@ -1,0 +1,106 @@
+{
+  "interval_seconds": 10.01210854800047,
+  "busy_core_equivalents": 0.35057550396824116,
+  "io_wait_core_equivalents": 0.035956461945460635,
+  "processes": [
+    {
+      "pid": 14446,
+      "name": "warp",
+      "core_equivalents": 0.14881980082982318
+    },
+    {
+      "pid": 2657,
+      "name": "gnome-shell",
+      "core_equivalents": 0.11785729193234318
+    },
+    {
+      "pid": 17947,
+      "name": "codex",
+      "core_equivalents": 0.05393469291819095
+    },
+    {
+      "pid": 4294,
+      "name": "Xwayland",
+      "core_equivalents": 0.011985487315153543
+    },
+    {
+      "pid": 19674,
+      "name": "codex",
+      "core_equivalents": 0.010986696705557415
+    },
+    {
+      "pid": 827,
+      "name": "nvidia-modeset/kthread_q",
+      "core_equivalents": 0.00799032487676903
+    },
+    {
+      "pid": 4290,
+      "name": "brave",
+      "core_equivalents": 0.0049939530479806435
+    },
+    {
+      "pid": 3226,
+      "name": "xdg-desktop-por",
+      "core_equivalents": 0.0019975812191922577
+    },
+    {
+      "pid": 4249,
+      "name": "brave",
+      "core_equivalents": 0.0019975812191922577
+    },
+    {
+      "pid": 4333,
+      "name": "brave",
+      "core_equivalents": 0.0019975812191922577
+    },
+    {
+      "pid": 459,
+      "name": "kworker/5:1H-kblockd",
+      "core_equivalents": 0.0009987906095961288
+    },
+    {
+      "pid": 2021,
+      "name": "tailscaled",
+      "core_equivalents": 0.0009987906095961288
+    },
+    {
+      "pid": 4517,
+      "name": "mutter-x11-fram",
+      "core_equivalents": 0.0009987906095961288
+    },
+    {
+      "pid": 14723,
+      "name": "nvidia-drm/timeline-3f",
+      "core_equivalents": 0.0009987906095961288
+    },
+    {
+      "pid": 15139,
+      "name": "warp",
+      "core_equivalents": 0.0009987906095961288
+    },
+    {
+      "pid": 90040,
+      "name": "kworker/u48:2-thermal_events",
+      "core_equivalents": 0.0009987906095961288
+    },
+    {
+      "pid": 96523,
+      "name": "kworker/u48:3-events_unbound",
+      "core_equivalents": 0.0009987906095961288
+    },
+    {
+      "pid": 105030,
+      "name": "kworker/0:2-events",
+      "core_equivalents": 0.0009987906095961288
+    },
+    {
+      "pid": 133194,
+      "name": "python",
+      "core_equivalents": 0.0009987906095961288
+    }
+  ],
+  "pressure_cpu": "some avg10=0.00 avg60=0.00 avg300=2.54 total=413791378\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+  "pressure_io": "some avg10=0.23 avg60=0.26 avg300=0.47 total=812002271\nfull avg10=0.13 avg60=0.22 avg300=0.43 total=762677453\n",
+  "criteria": "At most 0.15 busy CPU cores and 0.05 cores of I/O wait averaged over this interval. Conservative local campaign gate, not a hardware universal.",
+  "quiet": false
+}

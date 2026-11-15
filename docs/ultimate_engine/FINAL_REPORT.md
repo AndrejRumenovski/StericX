@@ -149,6 +149,8 @@ receipts/logs and verifies unchanged production source. The
 [reference review](final_science_review.json),
 [exact replay](final_exact_comparison.json) and
 [engineering receipt](final_engineering_receipt.json) are also tracked directly.
+The [completion audit](COMPLETION_AUDIT.md) maps every requested phase to its
+evidence and explicitly identifies the measurements still missing.
 
 After scientific admission and a quiet host, run:
 

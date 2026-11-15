@@ -1,0 +1,1220 @@
+{
+  "inputs": {
+    ".stericx/ultimate_engine/n1_validation_expanded/cases.json": "367b8d508745fd97e05b417cd157ef97eb1593a4a2a08cd291d214e5a23f965e",
+    ".stericx/ultimate_engine/n1_validation_expanded/native.jsonl": "9ca164b83a07347288869a6f628db395d9139d98b68dc4e75365a50568502eaf",
+    "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/ultimate_engine/compare_continuous_sterimol_references.py": "ff6a9a7b5b165c426d83b118f2553ef4205db65bd579746334231999ecde778c"
+  },
+  "rows": [
+    {
+      "id": "single",
+      "continuous": {
+        "b1": 1.0,
+        "b5": 5.0,
+        "l": 4.0,
+        "support_directions": 2
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 4.0,
+        "b1": 1.0,
+        "b5": 5.0
+      },
+      "morfeus": {
+        "l_raw": 4.0,
+        "b1": 1.0000001904916984,
+        "b5": 4.999999809508301
+      },
+      "dbstep": {
+        "l_absolute_axis": 4.0,
+        "b1": 1.0,
+        "b5": 5.0
+      },
+      "arithmetic_margin": 1.4881800261434221e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0017458142003833248,
+        "morfeus_b5": 7.619667571822338e-07,
+        "dbstep": 0.017453292519943295
+      },
+      "passed": true
+    },
+    {
+      "id": "single_clipped",
+      "continuous": {
+        "b1": 0.0,
+        "b5": 2.5,
+        "l": 1.5,
+        "support_directions": 6
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 1.5,
+        "b1": 0.0,
+        "b5": 2.5
+      },
+      "morfeus": {
+        "l_raw": 1.5,
+        "b1": 0.0,
+        "b5": 2.4999998095083016
+      },
+      "dbstep": {
+        "l_absolute_axis": 1.5,
+        "b1": 0.0,
+        "b5": 2.5
+      },
+      "arithmetic_margin": 7.77637290383322e-14,
+      "angular_error_bounds": {
+        "morfeus": 0.0017458142003833248,
+        "morfeus_b5": 7.619667571822338e-07,
+        "dbstep": 0.017453292519943295
+      },
+      "passed": true
+    },
+    {
+      "id": "opposed",
+      "continuous": {
+        "b1": 0.5,
+        "b5": 2.5,
+        "l": 1.5,
+        "support_directions": 13
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 1.5,
+        "b1": 0.5000000000000001,
+        "b5": 2.5
+      },
+      "morfeus": {
+        "l_raw": 1.5,
+        "b1": 0.5,
+        "b5": 2.4999998095083016
+      },
+      "dbstep": {
+        "l_absolute_axis": 1.5,
+        "b1": 0.5000000000000001,
+        "b5": 2.5
+      },
+      "arithmetic_margin": 7.77637290383322e-14,
+      "angular_error_bounds": {
+        "morfeus": 0.0017458142003833248,
+        "morfeus_b5": 7.619667571822338e-07,
+        "dbstep": 0.017453292519943295
+      },
+      "passed": true
+    },
+    {
+      "id": "square",
+      "continuous": {
+        "b1": 2.5,
+        "b5": 3.3284271247461903,
+        "l": 1.5,
+        "support_directions": 33
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 1.5,
+        "b1": 2.5,
+        "b5": 3.3284271247461903
+      },
+      "morfeus": {
+        "l_raw": 1.5,
+        "b1": 2.5,
+        "b5": 3.3284270573972035
+      },
+      "dbstep": {
+        "l_absolute_axis": 1.5,
+        "b1": 2.5,
+        "b5": 3.3284271247461903
+      },
+      "arithmetic_margin": 9.947598300641403e-14,
+      "angular_error_bounds": {
+        "morfeus": 0.0024689541195656384,
+        "morfeus_b5": 1.0775837220845622e-06,
+        "dbstep": 0.024682682989768702
+      },
+      "passed": true
+    },
+    {
+      "id": "nested",
+      "continuous": {
+        "b1": 3.0,
+        "b5": 3.0,
+        "l": 4.0,
+        "support_directions": 6
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 4.0,
+        "b1": 3.0,
+        "b5": 3.0
+      },
+      "morfeus": {
+        "l_raw": 4.0,
+        "b1": 3.0,
+        "b5": 3.0
+      },
+      "dbstep": {
+        "l_absolute_axis": 4.0,
+        "b1": 3.0,
+        "b5": 3.0
+      },
+      "arithmetic_margin": 1.1368683772161603e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0008729071001916624,
+        "morfeus_b5": 3.809833785911169e-07,
+        "dbstep": 0.008726646259971648
+      },
+      "passed": true
+    },
+    {
+      "id": "duplicates",
+      "continuous": {
+        "b1": 0.9692235935955849,
+        "b5": 3.0307764064044154,
+        "l": 3.0,
+        "support_directions": 8
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.0,
+        "b1": 0.9692237998240867,
+        "b5": 3.0307764064044154
+      },
+      "morfeus": {
+        "l_raw": 3.0,
+        "b1": 0.969223602068958,
+        "b5": 3.030776120592494
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.0,
+        "b1": 0.9692237998240867,
+        "b5": 3.0307764064044154
+      },
+      "arithmetic_margin": 9.766099144697214e-14,
+      "angular_error_bounds": {
+        "morfeus": 0.0008997720438604605,
+        "morfeus_b5": 3.9270867788396426e-07,
+        "dbstep": 0.008995221071816105
+      },
+      "passed": true
+    },
+    {
+      "id": "near_tangent_support",
+      "continuous": {
+        "b1": 1.0499999411404133,
+        "b5": 3.4142134431638054,
+        "l": 2.9999998807907104,
+        "support_directions": 18
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 2.9999998807907104,
+        "b1": 1.0537063022790805,
+        "b5": 3.4142134431638054
+      },
+      "morfeus": {
+        "l_raw": 2.9999998807907104,
+        "b1": 1.050399311572292,
+        "b5": 3.414213409489312
+      },
+      "dbstep": {
+        "l_absolute_axis": 2.9999998807907104,
+        "b1": 1.0537063022790805,
+        "b5": 3.4142134431638054
+      },
+      "arithmetic_margin": 1.0607126024409546e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0012344770597828192,
+        "morfeus_b5": 5.387918610422811e-07,
+        "dbstep": 0.012341341494884351
+      },
+      "passed": true
+    },
+    {
+      "id": "tiny",
+      "continuous": {
+        "b1": 1.0000000031710769e-30,
+        "b5": 5.2360679941037635e-30,
+        "l": 1.0,
+        "support_directions": 9
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 1.0,
+        "b1": 1.0000000031710769e-30,
+        "b5": 5.2360679941037635e-30
+      },
+      "morfeus": {
+        "l_raw": 1.0,
+        "b1": 1.0008736721299416e-30,
+        "b5": 5.2360673835743295e-30
+      },
+      "dbstep": {
+        "l_absolute_axis": 1.0,
+        "b1": 1.0000000031710769e-30,
+        "b5": 5.2360679941037635e-30
+      },
+      "arithmetic_margin": 2.842170943040401e-14,
+      "angular_error_bounds": {
+        "morfeus": 1.951879620260337e-33,
+        "morfeus_b5": 8.519047355287308e-37,
+        "dbstep": 1.9513374314769315e-32
+      },
+      "passed": true
+    },
+    {
+      "id": "large",
+      "continuous": {
+        "b1": 9.999999143036503e+29,
+        "b5": 5.236067905173619e+30,
+        "l": 2.999999894026671e+30,
+        "support_directions": 9
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 2.999999894026671e+30,
+        "b1": 1.0000000150474661e+30,
+        "b5": 5.236067905173619e+30
+      },
+      "morfeus": {
+        "l_raw": 2.999999894026671e+30,
+        "b1": 1.0008735329009798e+30,
+        "b5": 5.236067294644177e+30
+      },
+      "dbstep": {
+        "l_absolute_axis": 2.999999894026671e+30,
+        "b1": 1.0000000150474661e+30,
+        "b5": 5.236067905173619e+30
+      },
+      "arithmetic_margin": 1.488180005587088e+17,
+      "angular_error_bounds": {
+        "morfeus": 1.9518796434416195e+27,
+        "morfeus_b5": 8.519047456462831e+23,
+        "dbstep": 1.9513374546517748e+28
+      },
+      "passed": true
+    },
+    {
+      "id": "random_0_3",
+      "continuous": {
+        "b1": 1.0514325354219451,
+        "b5": 3.8676971731817553,
+        "l": 2.9156354665756226,
+        "support_directions": 18
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 2.9156354665756226,
+        "b1": 1.0638896873646688,
+        "b5": 3.8676971731817553
+      },
+      "morfeus": {
+        "l_raw": 2.9156354665756226,
+        "b1": 1.0521825248274015,
+        "b5": 3.8676966829994823
+      },
+      "dbstep": {
+        "l_absolute_axis": 2.9156354665756226,
+        "b1": 1.0638896873646688,
+        "b5": 3.8676971731817553
+      },
+      "arithmetic_margin": 1.149561296994311e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0023891320976407848,
+        "morfeus_b5": 1.0427451194517873e-06,
+        "dbstep": 0.023884684498358844
+      },
+      "passed": true
+    },
+    {
+      "id": "random_1_8",
+      "continuous": {
+        "b1": 2.891576870806877,
+        "b5": 6.832757443780201,
+        "l": 3.4804935455322266,
+        "support_directions": 93
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.4804935455322266,
+        "b1": 2.896074738269512,
+        "b5": 6.832757443780201
+      },
+      "morfeus": {
+        "l_raw": 3.4804935455322266,
+        "b1": 2.8916623922366886,
+        "b5": 6.832756979120694
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.4804935455322266,
+        "b1": 2.896074738269512,
+        "b5": 6.832757443780201
+      },
+      "arithmetic_margin": 1.9742181805199893e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0037991220586884996,
+        "morfeus_b5": 1.6581402044746584e-06,
+        "dbstep": 0.03798066747005531
+      },
+      "passed": true
+    },
+    {
+      "id": "random_2_32",
+      "continuous": {
+        "b1": 5.173394039315168,
+        "b5": 6.62070249278601,
+        "l": 3.437798500061035,
+        "support_directions": 1083
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.437798500061035,
+        "b1": 5.177049467016113,
+        "b5": 6.62070249278601
+      },
+      "morfeus": {
+        "l_raw": 3.437798500061035,
+        "b1": 5.1745024276698715,
+        "b5": 6.620701679546303
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.437798500061035,
+        "b1": 5.177049467016113,
+        "b5": 6.62070249278601
+      },
+      "arithmetic_margin": 1.9146503848501896e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.004670195730968368,
+        "morfeus_b5": 2.0383233769956387e-06,
+        "dbstep": 0.046688984543764314
+      },
+      "passed": true
+    },
+    {
+      "id": "random_3_3",
+      "continuous": {
+        "b1": 2.007872052146533,
+        "b5": 5.585351267813537,
+        "l": 3.082538366317749,
+        "support_directions": 22
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.082538366317749,
+        "b1": 2.027589527542202,
+        "b5": 5.585351267813537
+      },
+      "morfeus": {
+        "l_raw": 3.082538366317749,
+        "b1": 2.0082398035343405,
+        "b5": 5.585351265870848
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.082538366317749,
+        "b1": 2.027589527542202,
+        "b5": 5.585351267813537
+      },
+      "arithmetic_margin": 1.627227580079977e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0036178808937336587,
+        "morfeus_b5": 1.5790368596294575e-06,
+        "dbstep": 0.03616875926818733
+      },
+      "passed": true
+    },
+    {
+      "id": "random_4_8",
+      "continuous": {
+        "b1": 2.157959488609445,
+        "b5": 5.017943129654007,
+        "l": 3.423726797103882,
+        "support_directions": 83
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.423726797103882,
+        "b1": 2.163733182796709,
+        "b5": 5.017943129654007
+      },
+      "morfeus": {
+        "l_raw": 3.423726797103882,
+        "b1": 2.158301514670472,
+        "b5": 5.01794224497271
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.423726797103882,
+        "b1": 2.163733182796709,
+        "b5": 5.017943129654007
+      },
+      "arithmetic_margin": 1.4731290828652202e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0036679550659384067,
+        "morfeus_b5": 1.6008919084685946e-06,
+        "dbstep": 0.036669361895312017
+      },
+      "passed": true
+    },
+    {
+      "id": "random_5_32",
+      "continuous": {
+        "b1": 5.19544660953513,
+        "b5": 7.97098875266637,
+        "l": 3.497450828552246,
+        "support_directions": 1081
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.497450828552246,
+        "b1": 5.195538974089853,
+        "b5": 7.97098875266637
+      },
+      "morfeus": {
+        "l_raw": 3.497450828552246,
+        "b1": 5.196636183582643,
+        "b5": 7.970988133621163
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.497450828552246,
+        "b1": 5.195538974089853,
+        "b5": 7.97098875266637
+      },
+      "arithmetic_margin": 2.291210718317103e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.004783606266079527,
+        "morfeus_b5": 2.0878218045201583e-06,
+        "dbstep": 0.04782277486561171
+      },
+      "passed": true
+    },
+    {
+      "id": "random_6_3",
+      "continuous": {
+        "b1": 1.8089166685307496,
+        "b5": 6.459614753433689,
+        "l": 3.3159916400909424,
+        "support_directions": 18
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.3159916400909424,
+        "b1": 1.8393297234122703,
+        "b5": 6.459614753433689
+      },
+      "morfeus": {
+        "l_raw": 3.3159916400909424,
+        "b1": 1.8112517400383912,
+        "b5": 6.4596141738048045
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.3159916400909424,
+        "b1": 1.8393297234122703,
+        "b5": 6.459614753433689
+      },
+      "arithmetic_margin": 1.869743324646549e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.003616998036155165,
+        "morfeus_b5": 1.5786515333295622e-06,
+        "dbstep": 0.03615993314478455
+      },
+      "passed": true
+    },
+    {
+      "id": "random_7_8",
+      "continuous": {
+        "b1": 2.0386223077379753,
+        "b5": 6.309758340384406,
+        "l": 3.259752035140991,
+        "support_directions": 93
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.259752035140991,
+        "b1": 2.047914955610876,
+        "b5": 6.309758340384406
+      },
+      "morfeus": {
+        "l_raw": 3.259752035140991,
+        "b1": 2.0409314423349363,
+        "b5": 6.309757672487257
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.259752035140991,
+        "b1": 2.047914955610876,
+        "b5": 6.309758340384406
+      },
+      "arithmetic_margin": 1.8268538402233749e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.004283487075781287,
+        "morfeus_b5": 1.8695430223035385e-06,
+        "dbstep": 0.042822972182602365
+      },
+      "passed": true
+    },
+    {
+      "id": "random_8_32",
+      "continuous": {
+        "b1": 4.638737559355462,
+        "b5": 7.212928512529697,
+        "l": 3.4625205993652344,
+        "support_directions": 1101
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.4625205993652344,
+        "b1": 4.667100672450017,
+        "b5": 7.212928512529697
+      },
+      "morfeus": {
+        "l_raw": 3.4625205993652344,
+        "b1": 4.640869873915457,
+        "b5": 7.212928154425963
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.4625205993652344,
+        "b1": 4.667100672450017,
+        "b5": 7.212928512529697
+      },
+      "arithmetic_margin": 2.0779267445924041e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.004405049463539936,
+        "morfeus_b5": 1.9225993546299964e-06,
+        "dbstep": 0.044038258386889524
+      },
+      "passed": true
+    },
+    {
+      "id": "random_9_3",
+      "continuous": {
+        "b1": 0.0,
+        "b5": 5.76200897933736,
+        "l": 2.500415325164795,
+        "support_directions": 22
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 2.500415325164795,
+        "b1": 0.0,
+        "b5": 5.76200897933736
+      },
+      "morfeus": {
+        "l_raw": 2.500415325164795,
+        "b1": 0.0,
+        "b5": 5.762007953026626
+      },
+      "dbstep": {
+        "l_absolute_axis": 2.500415325164795,
+        "b1": 0.0,
+        "b5": 5.76200897933736
+      },
+      "arithmetic_margin": 1.6705609743150907e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0037199753588589646,
+        "morfeus_b5": 1.6235963485491277e-06,
+        "dbstep": 0.037189420323703926
+      },
+      "passed": true
+    },
+    {
+      "id": "random_10_8",
+      "continuous": {
+        "b1": 3.6895766812232997,
+        "b5": 5.98193034920337,
+        "l": 3.4763622283935547,
+        "support_directions": 97
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.4763622283935547,
+        "b1": 3.70589947095066,
+        "b5": 5.98193034920337
+      },
+      "morfeus": {
+        "l_raw": 3.4763622283935547,
+        "b1": 3.6908385094958924,
+        "b5": 5.981930095461416
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.4763622283935547,
+        "b1": 3.70589947095066,
+        "b5": 5.98193034920337
+      },
+      "arithmetic_margin": 1.7315437661245383e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.003905283721859238,
+        "morfeus_b5": 1.7044748363074837e-06,
+        "dbstep": 0.039041989208253886
+      },
+      "passed": true
+    },
+    {
+      "id": "random_11_32",
+      "continuous": {
+        "b1": 4.133625698491951,
+        "b5": 6.966734927676859,
+        "l": 3.4235033988952637,
+        "support_directions": 1097
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.4235033988952637,
+        "b1": 4.139470812293345,
+        "b5": 6.966734927676859
+      },
+      "morfeus": {
+        "l_raw": 3.4235033988952637,
+        "b1": 4.133841223657027,
+        "b5": 6.966733424962855
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.4235033988952637,
+        "b1": 4.139470812293345,
+        "b5": 6.966734927676859
+      },
+      "arithmetic_margin": 2.0109743956129166e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.004210376934880706,
+        "morfeus_b5": 1.8376338437856182e-06,
+        "dbstep": 0.04209207385732128
+      },
+      "passed": true
+    },
+    {
+      "id": "random_12_3",
+      "continuous": {
+        "b1": 0.0,
+        "b5": 5.742750202278161,
+        "l": 3.3181726932525635,
+        "support_directions": 20
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.3181726932525635,
+        "b1": 0.0,
+        "b5": 5.742750202278161
+      },
+      "morfeus": {
+        "l_raw": 3.3181726932525635,
+        "b1": 0.0,
+        "b5": 5.742749371704566
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.3181726932525635,
+        "b1": 0.0,
+        "b5": 5.742750202278161
+      },
+      "arithmetic_margin": 1.6679647561194908e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.003775845179282683,
+        "morfeus_b5": 1.6479809284679232e-06,
+        "dbstep": 0.03774796333399549
+      },
+      "passed": true
+    },
+    {
+      "id": "random_13_8",
+      "continuous": {
+        "b1": 2.2471405487552865,
+        "b5": 5.815946980530279,
+        "l": 3.487870216369629,
+        "support_directions": 85
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.487870216369629,
+        "b1": 2.2520235792972763,
+        "b5": 5.815946980530279
+      },
+      "morfeus": {
+        "l_raw": 3.487870216369629,
+        "b1": 2.2488036308076462,
+        "b5": 5.8159458134477395
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.487870216369629,
+        "b1": 2.2520235792972763,
+        "b5": 5.815946980530279
+      },
+      "arithmetic_margin": 1.6947688647377504e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0034975361706443453,
+        "morfeus_b5": 1.5265119813370116e-06,
+        "dbstep": 0.034965646328191664
+      },
+      "passed": true
+    },
+    {
+      "id": "random_14_32",
+      "continuous": {
+        "b1": 4.362168214806299,
+        "b5": 6.631520451423965,
+        "l": 3.471762180328369,
+        "support_directions": 1091
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.471762180328369,
+        "b1": 4.370312720318219,
+        "b5": 6.631520451423965
+      },
+      "morfeus": {
+        "l_raw": 3.471762180328369,
+        "b1": 4.364685561319941,
+        "b5": 6.631519645867179
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.471762180328369,
+        "b1": 4.370312720318219,
+        "b5": 6.631520451423965
+      },
+      "arithmetic_margin": 1.912415030490519e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.004448224295301505,
+        "morfeus_b5": 1.941443162030594e-06,
+        "dbstep": 0.044469886774416996
+      },
+      "passed": true
+    },
+    {
+      "id": "random_15_3",
+      "continuous": {
+        "b1": 0.6246812818539309,
+        "b5": 5.9335301882182065,
+        "l": 2.960942029953003,
+        "support_directions": 18
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 2.960942029953003,
+        "b1": 0.6317266946421867,
+        "b5": 5.9335301882182065
+      },
+      "morfeus": {
+        "l_raw": 2.960942029953003,
+        "b1": 0.6255655850276751,
+        "b5": 5.933530163784402
+      },
+      "dbstep": {
+        "l_absolute_axis": 2.960942029953003,
+        "b1": 0.6317266946421867,
+        "b5": 5.9335301882182065
+      },
+      "arithmetic_margin": 1.721633582801354e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0034677004094870157,
+        "morfeus_b5": 1.5134900582869398e-06,
+        "dbstep": 0.03466737159373269
+      },
+      "passed": true
+    },
+    {
+      "id": "random_16_8",
+      "continuous": {
+        "b1": 2.8159136361819312,
+        "b5": 5.897360366929669,
+        "l": 3.357870578765869,
+        "support_directions": 93
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.357870578765869,
+        "b1": 2.8323438247519106,
+        "b5": 5.897360366929669
+      },
+      "morfeus": {
+        "l_raw": 3.357870578765869,
+        "b1": 2.8178185814041683,
+        "b5": 5.897359766088979
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.357870578765869,
+        "b1": 2.8323438247519106,
+        "b5": 5.897360366929669
+      },
+      "arithmetic_margin": 1.7138961960354785e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0034532262507969394,
+        "morfeus_b5": 1.5071727607431365e-06,
+        "dbstep": 0.034522670212828295
+      },
+      "passed": true
+    },
+    {
+      "id": "random_17_32",
+      "continuous": {
+        "b1": 4.763283455435735,
+        "b5": 6.555049773698317,
+        "l": 3.417508363723755,
+        "support_directions": 1105
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 3.417508363723755,
+        "b1": 4.771154564715687,
+        "b5": 6.555049773698317
+      },
+      "morfeus": {
+        "l_raw": 3.417508363723755,
+        "b1": 4.764416849874255,
+        "b5": 6.555049346224928
+      },
+      "dbstep": {
+        "l_absolute_axis": 3.417508363723755,
+        "b1": 4.771154564715687,
+        "b5": 6.555049773698317
+      },
+      "arithmetic_margin": 1.8969158962359516e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.004525492418363817,
+        "morfeus_b5": 1.975167106509004e-06,
+        "dbstep": 0.045242353371364945
+      },
+      "passed": true
+    },
+    {
+      "id": "real_methylphosphine",
+      "continuous": {
+        "b1": 1.8168162599358255,
+        "b5": 3.5571273649196127,
+        "l": 5.459395549220056,
+        "support_directions": 58
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 5.459395547683716,
+        "b1": 1.823596457061237,
+        "b5": 3.557127369437601
+      },
+      "morfeus": {
+        "l_raw": 5.459395549220057,
+        "b1": 1.8172072623834865,
+        "b5": 3.557126984478571
+      },
+      "dbstep": {
+        "l_absolute_axis": 5.459395549220056,
+        "b1": 1.8216728005769638,
+        "b5": 3.557127364919613
+      },
+      "arithmetic_margin": 1.6183366644763473e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0020575531712709403,
+        "morfeus_b5": 8.980263290899477e-07,
+        "dbstep": 0.020569816287233648
+      },
+      "passed": true
+    },
+    {
+      "id": "real_dimethylphosphine",
+      "continuous": {
+        "b1": 2.2253570247106387,
+        "b5": 3.5667133875783765,
+        "l": 5.439850120704879,
+        "support_directions": 111
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 5.439850117683716,
+        "b1": 2.2290951848834037,
+        "b5": 3.566713389477942
+      },
+      "morfeus": {
+        "l_raw": 5.439850120704879,
+        "b1": 2.2254018346275397,
+        "b5": 3.5667133312985664
+      },
+      "dbstep": {
+        "l_absolute_axis": 5.439850120704879,
+        "b1": 2.2290951835261557,
+        "b5": 3.5667133875783765
+      },
+      "arithmetic_margin": 1.616913256090314e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.002065920878512373,
+        "morfeus_b5": 9.016784443897343e-07,
+        "dbstep": 0.02065347011601675
+      },
+      "passed": true
+    },
+    {
+      "id": "real_trimethylphosphine",
+      "continuous": {
+        "b1": 3.066829903359489,
+        "b5": 3.572278664694813,
+        "l": 5.4234241323089964,
+        "support_directions": 182
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 5.423424137683716,
+        "b1": 3.0692733815846,
+        "b5": 3.5722786645669227
+      },
+      "morfeus": {
+        "l_raw": 5.423424132308997,
+        "b1": 3.0670266300347047,
+        "b5": 3.572278188454303
+      },
+      "dbstep": {
+        "l_absolute_axis": 5.4234241323089964,
+        "b1": 3.069273382978733,
+        "b5": 3.5722786646948124
+      },
+      "arithmetic_margin": 1.615681440777636e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.002070778848421844,
+        "morfeus_b5": 9.0379872246835e-07,
+        "dbstep": 0.020702036320750603
+      },
+      "passed": true
+    },
+    {
+      "id": "real_triethylphosphine",
+      "continuous": {
+        "b1": 3.495802593992847,
+        "b5": 4.871994301462424,
+        "l": 5.423466967309205,
+        "support_directions": 509
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 5.423466967683716,
+        "b1": 3.4974247113607717,
+        "b5": 4.871994301922633
+      },
+      "morfeus": {
+        "l_raw": 5.423466967309205,
+        "b1": 3.4959035953100766,
+        "b5": 4.871994179931108
+      },
+      "dbstep": {
+        "l_absolute_axis": 5.423466967309205,
+        "b1": 3.49742470873001,
+        "b5": 4.871994301462424
+      },
+      "arithmetic_margin": 1.7181538067815312e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0032053098559864193,
+        "morfeus_b5": 1.3989687769717794e-06,
+        "dbstep": 0.03204419492137534
+      },
+      "passed": true
+    },
+    {
+      "id": "real_triisopropylphosphine",
+      "continuous": {
+        "b1": 4.02569466756999,
+        "b5": 4.95240786758111,
+        "l": 5.30686704988269,
+        "support_directions": 1004
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 5.306867047683716,
+        "b1": 4.026534651745344,
+        "b5": 4.952407870304539
+      },
+      "morfeus": {
+        "l_raw": 5.3068670498826895,
+        "b1": 4.025812418264808,
+        "b5": 4.95240686448957
+      },
+      "dbstep": {
+        "l_absolute_axis": 5.3068670498826895,
+        "b1": 4.026534654040364,
+        "b5": 4.952407867581109
+      },
+      "arithmetic_margin": 1.7997955596463377e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.003275503428803152,
+        "morfeus_b5": 1.4296050090762365e-06,
+        "dbstep": 0.032745935667395955
+      },
+      "passed": true
+    },
+    {
+      "id": "real_triphenylphosphine",
+      "continuous": {
+        "b1": 4.439808809213175,
+        "b5": 6.483957901191488,
+        "l": 6.716991436018644,
+        "support_directions": 1217
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 6.716991437683716,
+        "b1": 4.4553526819056035,
+        "b5": 6.483957903878108
+      },
+      "morfeus": {
+        "l_raw": 6.716991436018643,
+        "b1": 4.440071473725803,
+        "b5": 6.483956405449233
+      },
+      "dbstep": {
+        "l_absolute_axis": 6.716991436018643,
+        "b1": 4.4553526815589874,
+        "b5": 6.483957901191486
+      },
+      "arithmetic_margin": 2.3128777052083495e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0046124043274404294,
+        "morfeus_b5": 2.0131001153624568e-06,
+        "dbstep": 0.0461112310401614
+      },
+      "passed": true
+    },
+    {
+      "id": "real_asymmetric_phosphine",
+      "continuous": {
+        "b1": 3.264928963809355,
+        "b5": 6.4202278146339395,
+        "l": 7.296186659071515,
+        "support_directions": 552
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 7.296186657683716,
+        "b1": 3.2697319570029455,
+        "b5": 6.420227812504215
+      },
+      "morfeus": {
+        "l_raw": 7.296186659071515,
+        "b1": 3.2653730914147348,
+        "b5": 6.420227468651519
+      },
+      "dbstep": {
+        "l_absolute_axis": 7.296186659071516,
+        "b1": 3.2708749660729977,
+        "b5": 6.4202278146339395
+      },
+      "arithmetic_margin": 2.3219916447133264e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.004556773882388516,
+        "morfeus_b5": 1.9888200116678577e-06,
+        "dbstep": 0.045555081118656304
+      },
+      "passed": true
+    },
+    {
+      "id": "real_fluorophosphine",
+      "continuous": {
+        "b1": 2.139325645291944,
+        "b5": 2.8086523253208435,
+        "l": 4.579841729346877,
+        "support_directions": 16
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 4.57984172861023,
+        "b1": 2.14597620665338,
+        "b5": 2.808652325077463
+      },
+      "morfeus": {
+        "l_raw": 4.579841729346878,
+        "b1": 2.1394000488101947,
+        "b5": 2.8086522411158414
+      },
+      "dbstep": {
+        "l_absolute_axis": 4.579841729346878,
+        "b1": 2.1459762098569994,
+        "b5": 2.808652325320843
+      },
+      "arithmetic_margin": 1.3800787826946067e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0011685190944865707,
+        "morfeus_b5": 5.100042747595679e-07,
+        "dbstep": 0.011681945058492134
+      },
+      "passed": true
+    },
+    {
+      "id": "real_methylamine",
+      "continuous": {
+        "b1": 1.6831990541388033,
+        "b5": 3.295813064518469,
+        "l": 5.034132545323727,
+        "support_directions": 54
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 5.034132547683716,
+        "b1": 1.6846200127938031,
+        "b5": 3.2958130721743215
+      },
+      "morfeus": {
+        "l_raw": 5.034132545323729,
+        "b1": 1.6835433972725529,
+        "b5": 3.2958130566709443
+      },
+      "dbstep": {
+        "l_absolute_axis": 5.034132545323727,
+        "b1": 1.6846200159893652,
+        "b5": 3.2958130645184696
+      },
+      "arithmetic_margin": 1.502775658094289e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0018294500630691647,
+        "morfeus_b5": 7.984699240489458e-07,
+        "dbstep": 0.0182894188249609
+      },
+      "passed": true
+    },
+    {
+      "id": "real_dimethylamine",
+      "continuous": {
+        "b1": 2.0440750597644173,
+        "b5": 3.3136629141744516,
+        "l": 5.037355186109192,
+        "support_directions": 109
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 5.0373551876837155,
+        "b1": 2.0443837495361725,
+        "b5": 3.3136629124292
+      },
+      "morfeus": {
+        "l_raw": 5.037355186109192,
+        "b1": 2.044076377014445,
+        "b5": 3.3136626664576174
+      },
+      "dbstep": {
+        "l_absolute_axis": 5.037355186109192,
+        "b1": 2.0469538709905564,
+        "b5": 3.3136629141744516
+      },
+      "arithmetic_margin": 1.5056853521977486e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0018450313235712252,
+        "morfeus_b5": 8.052704200782254e-07,
+        "dbstep": 0.018445188148702333
+      },
+      "passed": true
+    },
+    {
+      "id": "real_trimethylamine",
+      "continuous": {
+        "b1": 2.9208034696239054,
+        "b5": 3.311244738079269,
+        "l": 5.037102532420511,
+        "support_directions": 182
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 5.037102527683716,
+        "b1": 2.922353713701242,
+        "b5": 3.3112447342798905
+      },
+      "morfeus": {
+        "l_raw": 5.03710253242051,
+        "b1": 2.9210731640419505,
+        "b5": 3.3112445601658913
+      },
+      "dbstep": {
+        "l_absolute_axis": 5.037102532420511,
+        "b1": 2.9223537110018567,
+        "b5": 3.3112447380792687
+      },
+      "arithmetic_margin": 1.5078452638408544e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.0018429204804882263,
+        "morfeus_b5": 8.043491351794543e-07,
+        "dbstep": 0.018424085581325352
+      },
+      "passed": true
+    },
+    {
+      "id": "real_aniline",
+      "continuous": {
+        "b1": 1.6915626092135616,
+        "b5": 6.405423544767534,
+        "l": 4.750166035753439,
+        "support_directions": 217
+      },
+      "dbstep_with_upstream_rounded_alignment": {
+        "l_absolute_axis": 4.750166037683716,
+        "b1": 1.692216838993132,
+        "b5": 6.405423539363866
+      },
+      "morfeus": {
+        "l_raw": 4.750166035753439,
+        "b1": 1.6917581242495037,
+        "b5": 6.405422473086181
+      },
+      "dbstep": {
+        "l_absolute_axis": 4.750166035753439,
+        "b1": 1.6922168341213717,
+        "b5": 6.405423544767534
+      },
+      "arithmetic_margin": 2.0812742638182853e-13,
+      "angular_error_bounds": {
+        "morfeus": 0.004543851130108978,
+        "morfeus_b5": 1.98317983091658e-06,
+        "dbstep": 0.04542588949239503
+      },
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "complete": true
+}

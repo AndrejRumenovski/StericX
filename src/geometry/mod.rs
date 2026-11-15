@@ -1,6 +1,7 @@
 //! Molecular-coordinate parsing and three-dimensional steric descriptors.
 
 mod buried_volume;
+mod continuous_sterimol;
 mod donor;
 mod pyramidalization;
 mod sterimol;
@@ -11,6 +12,7 @@ pub use buried_volume::{
     BuriedVolumeError, BuriedVolumeParams, RegionalBuriedVolume, bonded_neighbors,
     coordination_center, coordination_center_with_neighbors,
 };
+pub use continuous_sterimol::ContinuousSterimolParams;
 pub use donor::{DonorTopology, detect_trivalent_donor};
 pub use pyramidalization::{PyramidalizationCalculator, PyramidalizationParams};
 pub use sterimol::{SterimolCalculator, SterimolParams};

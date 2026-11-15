@@ -1,0 +1,335 @@
+{
+  "scope": "Final non-timing evidence; failed attempts and historical negative statuses retained.",
+  "production_commit": "f9c952e2",
+  "production_diff_empty": true,
+  "controller_sha256": "05f5c3b6944c3bc429c6219b8bd07fe05b7792cc84b70e44658563cca0185798",
+  "records": [
+    {
+      "path": ".stericx/ultimate_engine/baseline/manifest.json",
+      "bytes": 185375,
+      "sha256": "768bcebb7b56d8f9e1c2fe40a076cce16ea7bf90b0d72ea442f94bf66cb42450"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_scientific_build/manifest.json",
+      "bytes": 44683,
+      "sha256": "a30ec318579eb62f15f3b9b15358a565304879bb726888dd0d6a575f987605b7"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_profile/manifest.json",
+      "bytes": 6434,
+      "sha256": "57c78c3fc722b337215809227a82839d46d767cbf88f9ff2dee3938962a0fac9"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_profile/complete_build.json",
+      "bytes": 21208,
+      "sha256": "99cb24f4c91167ce22a0efd1788c20b11aa0e1faf4856bd89b7cb5d60ef74e6b"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_exact_comparison/summary.json",
+      "bytes": 3537,
+      "sha256": "7ec5a43b90e2539b36e86a3968133545b0555027af54e7e678ddd5a645bad9f5"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science_review/review.json",
+      "bytes": 15599,
+      "sha256": "e70a4c86dac115824ecc90858206303901a90a9d5b74cbde720550e93b3af533"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science_review/differences.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science_review/inferred/comparison.json",
+      "bytes": 32577,
+      "sha256": "f3e1f958e95d0929f0bb9947d5f33a9be98b71bb8c90e4bdb87760627d0cd350"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science_review/topology/comparison.json",
+      "bytes": 27267,
+      "sha256": "96a0efce2b722ec7449ff1214e621c3a9f5ec5270ad89d065455aae8a21da7b5"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science/volume_reference/complete.json",
+      "bytes": 3221,
+      "sha256": "35a53027a2fdecf1d921cc712a2144aed4f69e66c0ea149cdc701426b44678d3"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science/all_bins/complete.json",
+      "bytes": 2528,
+      "sha256": "5ff21824751ac9360a8c2c85fd0448c94d9ad9cae7b14989063c9a8ecc3e591e"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science/fixed_union/complete.json",
+      "bytes": 221957,
+      "sha256": "598d13bea677a1c20699af63cc499f85a26d394475a30a6c1d461637755b75c2"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science/references_inferred/result.json",
+      "bytes": 20509,
+      "sha256": "7942b96a044d7600b7995b012a46b915d856ccd54dff625e94280ffb44f708e8"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science/references_topology/result.json",
+      "bytes": 16724,
+      "sha256": "643f4fd2c8a82a2fc76ad950527b74e53be1cdd98f7c4aa4204d5b41ec1e4d6d"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science/thermodynamics/summary.json",
+      "bytes": 463,
+      "sha256": "33a55197d1d182a9f1d2792188935e4c5aabf9a97b6cd9826f468e7e8e3382bc"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science/models/manifest.json",
+      "bytes": 69304,
+      "sha256": "65288ad305e0bf8b54ecd0c8dea2b099d2c3e02f6d247748e945bf64ad949a3b"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science/model_supplement/manifest.json",
+      "bytes": 3694,
+      "sha256": "f6245d391847bec510396e4f69c770d84016c89445058072dec967b605daf33c"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science/cli_comparison_2/manifest.json",
+      "bytes": 4361,
+      "sha256": "7186323754444da9f318a9b45dafb8496dde687390ad0d0889e21e48b36964c1"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science/cli_comparison_4/manifest.json",
+      "bytes": 4361,
+      "sha256": "d0874d26b6484556e2b555d07b8144f33ce5fcad1788c1bb9ff79a64138536d2"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_science/cli_comparison_6/manifest.json",
+      "bytes": 4361,
+      "sha256": "a830c1ac1b223c052176ac40f1cd270a0650431f7a2011988a49c7934ec74f07"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_engineering_resume/receipt.json",
+      "bytes": 2929,
+      "sha256": "e8362471470f0f855e83319ecddadd84890db17a58b3ad55c2f9b27b6d0d1de1"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_engineering_interruption.json",
+      "bytes": 2279,
+      "sha256": "5535e590ada6e12c34861d2546b235cb95c95f8e68bdc3d34eb30de4cf3ec5bf"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_python_tests/receipt.json",
+      "bytes": 105,
+      "sha256": "5f5a66b5ce65a1faca4bfe93996a3113e3d760c7630f6361e044a54f0a1a165b"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_combined_python_tests.json",
+      "bytes": 1743,
+      "sha256": "374df47def588d3062bbf593f348284cc1d77dbf556a6fc87c235c19f24e1365"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_combined_python_tests.log",
+      "bytes": 633,
+      "sha256": "ea6ba1c35e7685ee3a808e994830c5dd2e0eacd19042f5412aceb195ba428cc8"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_python_reference_tests.log",
+      "bytes": 1319,
+      "sha256": "861ed11a43ad5fa718a88d26b8b622b3b9f25fca82bb7a6f67de2015cf4a3324"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_dbstep_tests.log",
+      "bytes": 127,
+      "sha256": "b48cf4d3bfd0eadbd8e9337d7b41a8f44dbfabed6ee9f75dd75b6ba5c7a69d17"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_advanced/receipt.json",
+      "bytes": 26642,
+      "sha256": "f55a651b2b184289b68b0769672e41ac031213aacfa1746461e6bd3ff2caa232"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_advanced/volume/summary.json",
+      "bytes": 6538,
+      "sha256": "2c7c8dda9760a4ca26130f46847d84b0b95df5193a22b8b7739db6f32e9e1296"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_advanced/sterimol/summary.json",
+      "bytes": 8748,
+      "sha256": "78031db2f7dbb18bb565a3d6c973d237c066cf3bd595b9a1eb477a38f927befb"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_advanced/density/summary.json",
+      "bytes": 905,
+      "sha256": "6d2f03499ef9d775272c3b48086c4da61409c2be63c24647dd5c7500d3b68684"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_advanced/profiles/summary.json",
+      "bytes": 314,
+      "sha256": "5d235fac2f85b1e8071ab9476d6fa9c08542bf67a3d9f6ef13b9162c968a871f"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_advanced/ensemble_reference/summary.json",
+      "bytes": 28731,
+      "sha256": "d367f459c6361ee7a9ff4b85b5a263ffbb54e9c07f26715bf986beaacf6fe9d8"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_point_domains/summary.json",
+      "bytes": 764,
+      "sha256": "4214b9a1a62b7f839a73357daf213b1d23966063112dc99486b37b1745c2292c"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_numerical_replay/summary.json",
+      "bytes": 2296,
+      "sha256": "7f704a9f547645b667ba3826b79dc17a8a53fb50cc40d63153de74457ae1d308"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_allocations/summary.json",
+      "bytes": 28904,
+      "sha256": "1895cce9a8cd2a9b3115f3897b917ed79e7cd518c6a102a2ee69ab6c0cf060ae"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_simd/summary.json",
+      "bytes": 815,
+      "sha256": "a73dc925382edfe7dc5e34d29f081d8ba330a7d564990d0bdd033148e94ffa9c"
+    },
+    {
+      "path": ".stericx/ultimate_engine/arm_validation/summary.json",
+      "bytes": 15740,
+      "sha256": "0fb8cfab12f1a060a6051e5e33d7673cc4fcb6afaa6e7975a2eef3f3dfa30276"
+    },
+    {
+      "path": ".stericx/ultimate_engine/competitive_gate/summary.json",
+      "bytes": 102613,
+      "sha256": "c70165fa622fdb0a2e9ade374d5b91e96bfc3c62d3ced3a82124292eb45be5a1"
+    },
+    {
+      "path": ".stericx/ultimate_engine/competitive_build/receipt.json",
+      "bytes": 1307,
+      "sha256": "4cd476f1dfb0c89ba0899d9b4850944d96b3b3e3f5d5c4af21b0eac54ff7dfd9"
+    },
+    {
+      "path": ".stericx/ultimate_engine/competitive_build_pinned/receipt.json",
+      "bytes": 1685,
+      "sha256": "f9ea285bf199c1439ac100294ffc6eebe2d0b77f74bcdfc63581cca71b4a3f8e"
+    },
+    {
+      "path": ".stericx/ultimate_engine/competitive_preflight/summary.json",
+      "bytes": 125443,
+      "sha256": "e2d919a3c2b2b2e14c88e2bbdff2333bf3d755a3b42079c69f23312f57afbe8c"
+    },
+    {
+      "path": ".stericx/ultimate_engine/competitive_warm/receipt.json",
+      "bytes": 2186,
+      "sha256": "407e2f585dd76c1c50ee962504215ceb20a2bea3967861cc66c75099d8e4e948"
+    },
+    {
+      "path": ".stericx/ultimate_engine/competitive_warm_preflight/summary.json",
+      "bytes": 6011,
+      "sha256": "42053cc242aedd50064eb441791833ddc88ecd5cf2941f808f02bb653992309f"
+    },
+    {
+      "path": ".stericx/ultimate_engine/competitive_memory/summary.json",
+      "bytes": 7111,
+      "sha256": "edd1535c47e75f865eca11feedd5e06772ca483902093d777f6ce8b6adc09139"
+    },
+    {
+      "path": ".stericx/ultimate_engine/paired_python_preflight/summary.json",
+      "bytes": 21334,
+      "sha256": "fdcd7e52fe38e026ddff21bf4a747d940827a864a1422346f5fae35767f65152"
+    },
+    {
+      "path": ".stericx/ultimate_engine/paired_python_preflight_v2/summary.json",
+      "bytes": 45764,
+      "sha256": "e4f4cb1644c5565a88671673c2790c7e10e423c99114a79e5386fb94ffe24fd6"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_cli_ab_preflight/summary.json",
+      "bytes": 19131929,
+      "sha256": "337b9370eee4acabfd5fba4f4e60bda754e9505759520b22904fc694e6234043"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_engineering_resume/archived_morfeus_evidence.log",
+      "bytes": 549,
+      "sha256": "b2abfb53a5e6f09cd4752f38bea3a64b41fc3678633ed51161f8b71ba387e701"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_engineering_resume/dbstep_upstream_tests.log",
+      "bytes": 2058,
+      "sha256": "6d6ade70fa464ad013ffc9367466161c42540eaceb7a2736cdc07839f557fc07"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_engineering_resume/python_tests.log",
+      "bytes": 646,
+      "sha256": "6478f09fe6d4fa7ae0898cb70cb13e2acdcab23964fe4ad4219d4dae1988edc7"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_engineering_resume/retrospective_screening.log",
+      "bytes": 218,
+      "sha256": "0ac7a115209da037696f5eb8fed009749c8bddbdaa0448e0a02184f4a013023c"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_engineering_resume/rust_tests.log",
+      "bytes": 33779,
+      "sha256": "ba27be42383145ad794b988cfb63ffafc76c59d73df5d9e57bb4e2059c4fae51"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_engineering_resume/rustdoc.log",
+      "bytes": 1702,
+      "sha256": "fcfd441baa5852df0bc2afdb68d5e5556b4ad197cec38ef50bb5f1b39b414144"
+    },
+    {
+      "path": ".stericx/ultimate_engine/final_engineering_resume/screening_regression.log",
+      "bytes": 1970,
+      "sha256": "bf327ba838fe115a914b2b598982371baa0727e941b5d484b8217c39aadc673a"
+    },
+    {
+      "path": "docs/ultimate_engine/msrv_validation.json",
+      "bytes": 6736,
+      "sha256": "d3894a8df8cfb9097459f013a2f6c9e64c119abf76c4e7e5df6ad1aa3a379567"
+    },
+    {
+      "path": "docs/ultimate_engine/arm_source_provenance.json",
+      "bytes": 6403,
+      "sha256": "00b5392b95a9af36ee9383a61cd300b1b6729387c8583e2e268f6aa46cdbb01c"
+    },
+    {
+      "path": "docs/ultimate_engine/final_profile_evidence.json",
+      "bytes": 13404,
+      "sha256": "ace07bf4d40c4e5e4cbe3afa309eaa8bb7114c2fbfc411245e5325f43c493cbf"
+    },
+    {
+      "path": "docs/ultimate_engine/final_flamegraph.json",
+      "bytes": 695327,
+      "sha256": "115e9cf1b12bac81ab464f23eae5129297c050ee01d86a0b00f65040e3d120d2"
+    },
+    {
+      "path": "docs/ultimate_engine/final_simd.json",
+      "bytes": 816,
+      "sha256": "90357677a37a39780a910c6fdf13d01bfa717f8aee9fc5654b225715674f428a"
+    },
+    {
+      "path": "docs/ultimate_engine/n1_accuracy_measurements.json",
+      "bytes": 140937,
+      "sha256": "813d0199ea69956fda0fba6825c09e6919f6bbe67e568b9683fe41c180add9b3"
+    },
+    {
+      "path": "docs/ultimate_engine/n1_external_comparisons.json",
+      "bytes": 34144,
+      "sha256": "349eb1d5596d450c437f5576d21e8903d28b260dd0aa6ce12f490db695c5bb5a"
+    },
+    {
+      "path": "docs/ultimate_engine/n2_accuracy_measurements.json",
+      "bytes": 219406,
+      "sha256": "797eb49144182a31c661e503c6e0de12cf871ceade342d897a5cc9766f462805"
+    },
+    {
+      "path": "docs/ultimate_engine/n2_molecular_comparisons.json",
+      "bytes": 60438,
+      "sha256": "96e3b8d526d4687b1849421e3e0e8ba242660bf852ba3f861de5537912eac750"
+    },
+    {
+      "path": "docs/ultimate_engine/n2_allocations.json",
+      "bytes": 100810,
+      "sha256": "e9ce505c53f3e3fb71d63922a5b0c1f6e044fdfe94f28731aedd1597a2233797"
+    }
+  ],
+  "legacy_reference_preservation_pass": true,
+  "final_performance_complete": false
+}

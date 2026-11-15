@@ -1,0 +1,322 @@
+{
+  "scope": "QEMU AArch64 functional tests; no hardware speed claim",
+  "qemu": {
+    "path": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/tools/qemu-user/usr/bin/qemu-aarch64",
+    "sha256": "532b2c75f44749d4c6db3e5f578a76488bfcd7a261289a89675d2ced24a0bd3c"
+  },
+  "arm_cli_sha256": "6c21b87bd04011247efa3c4e31db5899c9b6e8d65fd46dbdf63a9235f789e926",
+  "cli_shim_sha256": "72757d788e82b0a886672739f4d0a5a1166437b6d437a79e3c6c010c15cf7768",
+  "runs": [
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/steric_x-dbd140cbd8bf0230",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "e18b09c177a8f0606f1b4fb6bddc7a2f74d60cb8138f323089f2a0f9dd544463",
+      "returncode": 0,
+      "passed_tests": 125,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/0.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/stericx-cb42875af3bcd9c1",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "5172958cdc79c3497e6306eb9c12acad3ed5b79d8c639f984333515b5f87617a",
+      "returncode": 0,
+      "passed_tests": 42,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/1.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/cli_model-8ab886459a9842b2",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "4afb3dfc8ca832c087343ab6ed1b95039441f671801ee4f7b20f6fc494133f1a",
+      "returncode": 0,
+      "passed_tests": 17,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/2.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/cli_screen-c3f98cf5b9dfb8fc",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "cfab857dc6882224f87bca0d7fda25448b7038862704e9c15d3ff55f41d95295",
+      "returncode": 0,
+      "passed_tests": 78,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/3.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/conformer_descriptors-bb5bf0ac740a9560",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "de7f1fb03e2b6fc84a047ce586d5986dccde7db670a83048496a39c571d83fba",
+      "returncode": 0,
+      "passed_tests": 7,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/4.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/conformer_populations-c1e7605652cee342",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "ab0e9d54abf453b08a85be18aaff2ae5dda2047b87876ad5f84b9df1ab9e4a61",
+      "returncode": 0,
+      "passed_tests": 4,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/5.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/density_input-3c63754688cf75ae",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "23bfca01e541396219491a1b80f984eb6b8014c94a9b870725f79ac56cee0bf9",
+      "returncode": 0,
+      "passed_tests": 3,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/6.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/density_volume-41721604d863325c",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "9efc86254ea085dc450c710286058d2702539e7db8d31debeee819d1a0d6147c",
+      "returncode": 0,
+      "passed_tests": 3,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/7.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/descriptor_batch_parallel-25a8cfbd5879413a",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "a4f443b443f2947844e47ce0bdd3ba3c278defc107e259f39a596b6b7d6335f0",
+      "returncode": 0,
+      "passed_tests": 4,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/8.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/ensemble_statistics-4e341539ec52273d",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "a1003359455fb5920b67a39b702e6c97198b0a5d749d06559e38fee063384062",
+      "returncode": 0,
+      "passed_tests": 7,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/9.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/geometry_remediation-b5ce3fce70774535",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "b626006ff16e0ea7ea38ed267dde19f8974108c3c7e2df8533ecb2a459562a96",
+      "returncode": 0,
+      "passed_tests": 8,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/10.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/kinetics_remediation-2df6447475438fa2",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "ec8a79ca14ed4d04e3555445f0230b80939ea6b8aaafac651235c598bb4d89e5",
+      "returncode": 0,
+      "passed_tests": 4,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/11.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/model_scientific_remediation-40d252210ecd793d",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "542bdf259c62b0369b638817df15def770c48ff572e2ddaa01edbffa1adfe3ee",
+      "returncode": 0,
+      "passed_tests": 4,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/12.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/model_training_api-ec72ee0547decae0",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "84d60904b832c7f20d21d1074fbd774a7bb140b0d5f22f87004c5248a5c6e4f3",
+      "returncode": 0,
+      "passed_tests": 6,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/13.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/portable_model_format-cd6049eda6b28f19",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "83718b0688af91a8f182f1a7d78aa8b44fc235437a9acf72b72a9ce5e545ca8d",
+      "returncode": 0,
+      "passed_tests": 19,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/14.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/profiling_cli-d17b90c73c64945e",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "b068ed1714f541b6b4f37956a5bf8c18b0a5159e25db40fcbf9541968b7689ff",
+      "returncode": 0,
+      "passed_tests": 1,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/15.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/response_convention-ba4fa8e4dd655631",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "14a8981cd7059592718cb6076af67d8e814cae2f221bdf57bf6e203e35d8db83",
+      "returncode": 0,
+      "passed_tests": 2,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/16.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/screening_regression-62d8bd90b8933dfd",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "eb7c02740301417c603c6cbc50d5cdb18e00748ad90e94d9ea62279db123a1dd",
+      "returncode": 0,
+      "passed_tests": 22,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/17.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/sigpack_roundtrip-5d28debd5ae53570",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "7a84573573d7284a0a5d8e03476964be1e12cfbf8dda112a92c9aba33235875a",
+      "returncode": 0,
+      "passed_tests": 1,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/18.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/sterimol_sampling-057fcc94082ae6b1",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "af9d1204ffbe8f47139a036d87e475458c0752e63e462e9978187624164e2b79",
+      "returncode": 0,
+      "passed_tests": 3,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/19.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/deps/volume_profiles-20457206a9e192be",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "95cd092a04fa273a68fdb01b592f01ac75439a105ee2d625c911823bee1fadf2",
+      "returncode": 0,
+      "passed_tests": 2,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/20.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/examples/density_report-7d0934aeb73feeb8",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "f8c1822f7f7460fe122ae0958b4cceecfa70c8ccef84a223fd6f56cd44868521",
+      "returncode": 0,
+      "passed_tests": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/21.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/examples/ensemble_report-231811285fc113c3",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "8f0fda627d2329d4db82d32181c63bae254eefdd35c4ceb8fcd36ed439d3572f",
+      "returncode": 0,
+      "passed_tests": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/22.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/examples/paton_ensemble_allocations-5ef33011c8933c9c",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "f3b609611e18832182fa5f4d129ab6044585d880d82bdf61435d9e4c8e14c554",
+      "returncode": 0,
+      "passed_tests": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/23.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/examples/paton_ensemble_benchmark-48b07ed544ba4ea5",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "b88e4f3b2f1da372a34b0fbfe2dd5e03e493046dfc65e25ce9f30eb1622be5c7",
+      "returncode": 0,
+      "passed_tests": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/24.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/examples/population_observer-f3429ea8411b028a",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "3b0b4d8a08dcf3756a9e45b5b7465ffd8f940b13af2dc2e3b8e5079bb8c91cc6",
+      "returncode": 0,
+      "passed_tests": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/25.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/examples/profile_predictions-dea1e35357cf5542",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "70cb36d0f9975860c3b0e03c357f2d76057c0e1741c7d40743090ef496452446",
+      "returncode": 0,
+      "passed_tests": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/26.log"
+    },
+    {
+      "command": [
+        "/tmp/stericx-ultimate-qemu-aarch64",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm-target/aarch64-unknown-linux-musl/debug/examples/volume_profile-94e87090547a7c21",
+        "--test-threads=2"
+      ],
+      "binary_sha256": "88b5686ce051f5dfca5ce3356130a005ed30f10055be59d487300336a599613b",
+      "returncode": 0,
+      "passed_tests": 0,
+      "log": "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/arm_validation/27.log"
+    }
+  ],
+  "complete": true,
+  "passed_tests": 362,
+  "failed_runs": []
+}

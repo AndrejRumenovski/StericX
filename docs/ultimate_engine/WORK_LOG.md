@@ -2,12 +2,13 @@
 
 ## Current state
 
-Baseline freeze, builds, tests and fresh profiling are complete. The full
-128,021-response baseline observation replay completed. U1 density parser
-candidate passed exact 23-case replay, eight focused tests, 12 independent
-DBSTEP comparisons, Memcheck and an eight-pair exploratory timing test; retain
-for full final replay. R² scale-invariance regression witnesses are being tested
-against unchanged metric code before correction.
+Production implementation and full scientific replay are complete. Final source
+is `f9c952e2`; all 128,021 baseline responses match exactly. Independent full
+reference review finds zero changed historical scientific values/statuses,
+including 31,721 volume calculations and both fixed Kraken variant unions.
+Rust, Python, pinned references, MSRV, emulated ARM, memory and new numerical
+method checks are complete in the scopes recorded in VALIDATION_REPORT.md.
+Final controlled timing remains pending; no final files/s claim is made.
 
 The baseline archive contains 220 source/tool files. Dataset hashes cover 557
 tracked files; historical-report hashes cover 174 Markdown files. Full tracked
@@ -26,23 +27,15 @@ local installation. Set `VALGRIND_LIB` to its `usr/libexec/valgrind` and use
 `usr/bin/valgrind.bin`; spaces in preload paths otherwise break the loader.
 Hardware perf is denied at paranoid=4; no privilege change was attempted.
 
-## Remaining phases
+## Remaining work
 
-1. Finish baseline builds/tests, observe current scientific values and run fresh
-   CPU/heap/descriptor/SIMD/thread/Python profiling before production optimization.
-2. Finish calculation-by-calculation audit, including kinetics/models and Python
-   data transfer; investigate defects with independent witnesses.
-3. Evaluate explicitly distinct numerical methods, including exact support
-   envelopes and continuous sphere-union integration with documented bounds.
-4. Implement isolated measured optimizations, validate, benchmark, retain/reject,
-   reprofile and commit accepted improvements separately.
-5. Run the full existing reference replay (128,021 observations and independent
-   Morfeus/Kraken/DBSTEP/thermodynamic/density checks), new tests, memory checks,
-   Python tests and available architecture checks.
-6. Build accuracy/runtime Pareto evidence and matched competitive comparisons.
-7. Complete final controlled A/B measurements (quiet-window request only if
-   needed and only after non-timing work), all seven requested reports, evidence
-   integrity/reproduction review and requirement-by-requirement completion audit.
+1. Sample actual host activity after all independent work has finished. If busy,
+   request the user's stipulated quiet window; do not weaken the admission gate.
+2. Run the prepared sequential final A/B, profiling, Python, accuracy-cost and
+   scientifically matched competitive measurement window.
+3. Review every distribution, report unfavorable results, finish final performance
+   tables and figures, seal evidence and commit the completed reports.
 
-Goal remains active until the full requested scope is proved or a real external
-blocker satisfies the goal's blocked threshold. No partial-completion claim.
+All seven requested report paths now exist. FINAL_REPORT.md explicitly marks
+pending controlled measurements. The campaign remains active; it is not fully
+complete until the remaining measurement and reporting work is handled.

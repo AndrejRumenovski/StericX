@@ -1,7 +1,8 @@
 # Engine profiling
 
-Fresh baseline profiling is complete on Linux x86-64. Final candidate profiling
-and controlled A/B acceptance remain pending. These are exploratory measurements,
+Fresh baseline profiling and final instruction/memory profiling are complete on
+Linux x86-64. Final native timing and controlled A/B acceptance remain pending.
+Native timings below are exploratory measurements,
 not a final speedup claim. The baseline source is `c03630cb` and its frozen hashes
 are in [baseline_manifest.json](baseline_manifest.json).
 
@@ -149,3 +150,73 @@ All opportunities require isolated changes, scientific validation and native
 A/B evidence. Assembly appearance or modeled operation counts alone cannot
 admit an optimization. Actual final speedups, final profiles, compiler
 vectorization remarks and the final evidence seal will be appended after work.
+
+## Final instruction, SIMD and memory replay
+
+The final frozen observer has SHA-256
+`8862f22852895ccd6b51703bbdeba908431370f48387443b3aeff318324c1708`.
+The [final instruction flamegraph](final_flamegraph.svg) totals 130,723,530
+modeled instructions versus 297,765,939 in the baseline contextual run, a
+56.1% reduction. This is instruction work in the declared ensemble workload,
+not a 56.1% CPU-cycle or elapsed-time claim. Full self costs and metadata are
+in [final_flamegraph.json](final_flamegraph.json).
+
+| Cachegrind event | Baseline | Final |
+|---|---:|---:|
+| Instructions | 297,778,376 | 130,748,559 |
+| Data reads | 77,431,561 | 21,659,709 |
+| Data writes | 13,069,191 | 5,565,567 |
+| Conditional branches | 39,936,664 | 17,226,520 |
+| Conditional branch misses | 2,437,765 | 926,249 |
+| L1 data read misses | 397,709 | 394,973 |
+| L1 data write misses | 133,525 | 13,898 |
+
+Read misses fall much less than instruction work: the grid is still traversed.
+The final assembly has packed AVX2 subtraction, multiplication, separate
+addition, ordered comparisons and POPCNT. No FMA occurs in this function;
+Callgrind confirms the AVX2 function actually executes. See
+[final_simd.json](final_simd.json). The portable fallback is covered directly
+on x86 and by the AArch64 functional test suite under QEMU. The QEMU run is not
+an ARM hardware throughput or vectorization measurement.
+
+Three attempts to obtain LLVM vectorization remarks did not emit useful loop
+remarks; their logs/builds are retained under the baseline directory. Assembly,
+dynamic dispatch evidence, scalar/SIMD mask equality and native candidate A/B
+experiments therefore supply the vectorization evidence. No empty compiler
+report is treated as proof that all eligible loops vectorize.
+
+| Warm kernel | Baseline allocations/call | Final allocations/call | Baseline requested bytes/call | Final requested bytes/call |
+|---|---:|---:|---:|---:|
+| Volume | 7 | 3 | 396,924 | 2,880 |
+| Regions | 8 | 4 | 397,236 | 3,192 |
+| Six-conformer ensemble | 620 | 596 | 2,415,541 | 51,277 |
+| Radius profile | 74 | 68 | 1,443,115 | 1,440,751 |
+| Ne cube parse | 140,636 | 12 | 5,742,068 | 4,195,248 |
+
+All 14 allocation-observer modes match baseline results exactly and have zero
+net live growth over warmed calls. Counts, reallocations and per-process RSS
+are in [final_profile_evidence.json](final_profile_evidence.json). RSS includes
+the adapter, parsed input and runtime; it is not isolated kernel storage.
+
+The seven-evaluation DHAT workload requests 985,652 bytes versus 17,142,207
+before, a 94.25% reduction. **Its peak live heap rises from 460,176 to 605,663
+bytes** because the cached grid survives into other phases. The radius-profile
+observer peak similarly rises from 931,456 to 1,323,969 bytes, while its requested
+bytes barely change: alternating radii repeatedly replace the one-entry cache.
+These unfavorable memory results are retained. The common default cached grid
+has 393,216 bytes of capacity per participating thread, bounded at 8 MiB/thread;
+building a replacement can temporarily coexist with the previous entry.
+This is a deliberate traffic-versus-retained-capacity tradeoff, not a claim
+that every workload uses less peak memory.
+
+Final Memcheck reports zero errors and zero lost bytes; 544 runtime bytes remain
+reachable. New continuous-method Memcheck cases separately cover analytical,
+midpoint, adaptive-box and support-event paths. No sanitizer/Memcheck run proves
+memory safety for untested inputs or supported architectures.
+
+Occupancy remains the leading computational hotspot after U3. Row gathering,
+grid traversal and mask construction remain opportunities; changing-radius
+cache retention and Python object transport are also open costs. Additional
+row-layout structures would need another isolated science/performance cycle.
+The campaign stops implementation changes after the three measured accepted
+optimizations to complete the full replay and controlled measurement work.

@@ -1,0 +1,103 @@
+--- scripts/review_dbstep_resolution_science.py
++++ docs/ultimate_engine/review_final_science.py
+@@ -12,9 +12,11 @@
+ import json
+ from pathlib import Path
+ 
++import sys
++sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+ import replay_scientific_remediation as replay
+ 
+-ROOT = Path(__file__).resolve().parents[1]
++ROOT = Path(__file__).resolve().parents[2]
+ FROZEN = ROOT / ".stericx/profiling/scientifically_validated_optimization"
+ 
+ 
+@@ -221,46 +223,45 @@
+         )
+         module.verify_all(value)
+         evidence.append(replay.oracle.file_record(path))
+-    legacy_path = args.science / "legacy_comparison.json"
++    legacy_path = args.science.parent / "final_exact_comparison/summary.json"
+     legacy = read(legacy_path)
+-    require(
+-        legacy["total_rows"] == 128021
+-        and legacy["exact_legacy_replay_pass"]
+-        and not legacy["failures"],
+-        "Exact replay failed",
+-    )
+-    for path, digest in legacy["verified_files"].items():
+-        require(replay.oracle.sha(Path(path)) == digest, "Raw legacy file changed")
++    require(legacy["total_rows"] == 128021 and legacy["exact"] and not legacy["differences"],
++            "Exact legacy replay failed")
++    for path, digest in legacy["manifests"].items():
++        require(replay.oracle.sha(Path(path)) == digest, "Legacy manifest changed")
++    for lane, result in legacy["lanes"].items():
++        for side, directory in [("baseline", args.science.parent / "baseline_observations"),
++                                ("candidate", args.science / "observations")]:
++            require(replay.oracle.sha(directory / lane / "stdout.jsonl") == result[side + "_sha256"],
++                    "Raw legacy response changed")
+     engineering_path = args.science / "execution/engineering/journal.json"
+     engineering = read(engineering_path)
+-    expected_checks = [
+-        "rust_format",
+-        "clippy",
+-        "rustdoc",
+-        "rust_tests",
+-        "screening_regression",
+-        "python_tests",
+-        "dbstep_upstream_tests",
+-        "archived_morfeus_evidence",
+-        "retrospective_screening",
+-    ]
+-    require(
+-        engineering["complete"]
+-        and [r["name"] for r in engineering["runs"]] == expected_checks
+-        and engineering["build"]
+-        == replay.oracle.file_record(args.build / "manifest.json")
+-        and all(r["returncode"] == 0 for r in engineering["runs"]),
+-        "Engineering checks incomplete",
+-    )
++    require(engineering["build"] == replay.oracle.file_record(args.build / "manifest.json"),
++            "Wrong engineering build")
++    require([r["name"] for r in engineering["runs"]] == ["rust_format", "clippy", "rustdoc"]
++            and all(r["returncode"] == 0 for r in engineering["runs"][:2])
++            and engineering["runs"][2]["returncode"] != 0,
++            "Expected preserved rustdoc interruption changed")
+     archived_controller = engineering_path.with_name("controller.py")
+-    require(
+-        replay.oracle.sha(archived_controller) == engineering["controller"]["sha256"],
+-        "Executed engineering controller archive changed",
+-    )
+-    evidence.append(replay.oracle.file_record(archived_controller))
++    require(replay.oracle.sha(archived_controller) == engineering["controller"]["sha256"],
++            "Original engineering controller changed")
+     for row in engineering["runs"]:
+         for stream in ("stdout", "stderr"):
+             replay.oracle.verify(row[stream])
++    resumed_path = args.science.parent / "final_engineering_resume/receipt.json"
++    resumed = read(resumed_path)
++    require(resumed["complete"] and resumed["all_commands_succeeded"]
++            and [r["name"] for r in resumed["runs"]] == ["rustdoc", "rust_tests",
++                "screening_regression", "python_tests", "dbstep_upstream_tests",
++                "archived_morfeus_evidence", "retrospective_screening"],
++            "Resumed checks incomplete")
++    for row in resumed["runs"]:
++        log = resumed_path.parent / (row["name"] + ".log")
++        require(row["returncode"] == 0 and replay.oracle.sha(log) == row["log_sha256"],
++                "Resumed engineering log changed")
++        evidence.append(replay.oracle.file_record(log))
++    evidence.extend(replay.oracle.file_record(p) for p in [archived_controller,
++        resumed_path, args.science.parent / "final_engineering_interruption.json"])
+     replay.manifest(args.output / "differences.json", changes)
+     failures = len(changes) + sum(c["changed_values_or_structure"] for c in comparisons)
+     evidence = list(module.records(evidence))
+@@ -279,7 +280,7 @@
+         )
+     ]
+     result = dict(
+-        kind="dbstep_resolution_legacy_scientific_review",
++        kind="ultimate_engine_legacy_scientific_review",
+         build=replay.oracle.file_record(args.build / "manifest.json"),
+         evidence=evidence,
+         complete_reference_coverage=True,

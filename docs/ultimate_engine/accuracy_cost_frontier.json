@@ -1,0 +1,121 @@
+{
+  "scope": "Empirical upper residual to independent reference bracket; exploratory medians, not final quiet-window timing or universal optimality",
+  "inputs": {
+    "n1_accuracy_measurements.json": "813d0199ea69956fda0fba6825c09e6919f6bbe67e568b9683fe41c180add9b3",
+    "n2_accuracy_measurements.json": "797eb49144182a31c661e503c6e0de12cf871ceade342d897a5cc9766f462805"
+  },
+  "rows": [
+    {
+      "case": "32-disc Sterimol",
+      "method": "continuous_events_f64",
+      "time_us": 47.954699999999995,
+      "error_upper": 1.687538997430238e-14,
+      "certified_bound": null,
+      "empirical_pareto": true
+    },
+    {
+      "case": "32-disc Sterimol",
+      "method": "default_360_f32",
+      "time_us": 10.59645,
+      "error_upper": 0.003655597525664689,
+      "certified_bound": null,
+      "empirical_pareto": true
+    },
+    {
+      "case": "32-disc Sterimol",
+      "method": "endpoint_scan_361_f32",
+      "time_us": 12.613666666666665,
+      "error_upper": 0.003655597525664689,
+      "certified_bound": null,
+      "empirical_pareto": false
+    },
+    {
+      "case": "32-disc Sterimol",
+      "method": "endpoint_scan_1441_f32",
+      "time_us": 49.32966666666666,
+      "error_upper": 0.003655597525664689,
+      "certified_bound": null,
+      "empirical_pareto": false
+    },
+    {
+      "case": "32-disc Sterimol",
+      "method": "endpoint_scan_5761_f32",
+      "time_us": 197.485,
+      "error_upper": 0.0005361288366998451,
+      "certified_bound": null,
+      "empirical_pareto": false
+    },
+    {
+      "case": "32-disc Sterimol",
+      "method": "endpoint_scan_23041_f32",
+      "time_us": 788.8603333333334,
+      "error_upper": 0.00011126692874086075,
+      "certified_bound": null,
+      "empirical_pareto": false
+    },
+    {
+      "case": "Three-ball volume",
+      "method": "midpoint_16",
+      "time_us": 1.583,
+      "error_upper": 0.07302599538412302,
+      "certified_bound": null,
+      "empirical_pareto": true
+    },
+    {
+      "case": "Three-ball volume",
+      "method": "midpoint_32",
+      "time_us": 6.342,
+      "error_upper": 0.13176395617226433,
+      "certified_bound": null,
+      "empirical_pareto": false
+    },
+    {
+      "case": "Three-ball volume",
+      "method": "midpoint_64",
+      "time_us": 23.244,
+      "error_upper": 0.009122301967382285,
+      "certified_bound": null,
+      "empirical_pareto": true
+    },
+    {
+      "case": "Three-ball volume",
+      "method": "midpoint_128",
+      "time_us": 87.856,
+      "error_upper": 0.001998435401388221,
+      "certified_bound": null,
+      "empirical_pareto": true
+    },
+    {
+      "case": "Three-ball volume",
+      "method": "midpoint_256",
+      "time_us": 344.618,
+      "error_upper": 0.0004895766367152277,
+      "certified_bound": null,
+      "empirical_pareto": true
+    },
+    {
+      "case": "Three-ball volume",
+      "method": "reference_1023",
+      "time_us": 177.474,
+      "error_upper": 2.256762423792768,
+      "certified_bound": 8.897399902347962,
+      "empirical_pareto": false
+    },
+    {
+      "case": "Three-ball volume",
+      "method": "reference_8191",
+      "time_us": 1501.604,
+      "error_upper": 0.08671275644411125,
+      "certified_bound": 2.4644489288475104,
+      "empirical_pareto": false
+    },
+    {
+      "case": "Three-ball volume",
+      "method": "reference_65535",
+      "time_us": 12268.733,
+      "error_upper": 0.02705601727555873,
+      "certified_bound": 0.8530627489992587,
+      "empirical_pareto": false
+    }
+  ]
+}

@@ -1,0 +1,463 @@
+{
+  "scope": "Final source-bound modeled CPU events and instrumented memory; native speed not inferred",
+  "memory": [
+    {
+      "mode": "sterimol",
+      "iterations": 2000,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 3760128,
+      "baseline": {
+        "allocation_calls": 1.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 688.0,
+        "process_peak_live_bytes": 61365,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 1.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 688.0,
+        "process_peak_live_bytes": 61370,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "volume",
+      "iterations": 100,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 3710976,
+      "baseline": {
+        "allocation_calls": 7.0,
+        "reallocation_calls": 9.0,
+        "requested_bytes": 396924.0,
+        "process_peak_live_bytes": 434385,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 3.0,
+        "reallocation_calls": 9.0,
+        "requested_bytes": 2880.0,
+        "process_peak_live_bytes": 434154,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "regions",
+      "iterations": 100,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 3735552,
+      "baseline": {
+        "allocation_calls": 8.0,
+        "reallocation_calls": 9.0,
+        "requested_bytes": 397236.0,
+        "process_peak_live_bytes": 434698,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 4.0,
+        "reallocation_calls": 9.0,
+        "requested_bytes": 3192.0,
+        "process_peak_live_bytes": 434467,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "pyramidalization",
+      "iterations": 10000,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 3727360,
+      "baseline": {
+        "allocation_calls": 0.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 0.0,
+        "process_peak_live_bytes": 61374,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 0.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 0.0,
+        "process_peak_live_bytes": 61379,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "center",
+      "iterations": 10000,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 3571712,
+      "baseline": {
+        "allocation_calls": 0.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 0.0,
+        "process_peak_live_bytes": 61364,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 0.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 0.0,
+        "process_peak_live_bytes": 61369,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "snapshot",
+      "iterations": 2000,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 3571712,
+      "baseline": {
+        "allocation_calls": 46.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 1763.0,
+        "process_peak_live_bytes": 61365,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 46.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 1763.0,
+        "process_peak_live_bytes": 61370,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "radius_profile",
+      "iterations": 20,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 4128768,
+      "baseline": {
+        "allocation_calls": 74.0,
+        "reallocation_calls": 27.0,
+        "requested_bytes": 1443115.0,
+        "process_peak_live_bytes": 931456,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 68.0,
+        "reallocation_calls": 27.0,
+        "requested_bytes": 1440751.0,
+        "process_peak_live_bytes": 1323969,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "ensemble",
+      "iterations": 20,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 4284416,
+      "baseline": {
+        "allocation_calls": 620.0,
+        "reallocation_calls": 54.0,
+        "requested_bytes": 2415541.0,
+        "process_peak_live_bytes": 459502,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 596.0,
+        "reallocation_calls": 54.0,
+        "requested_bytes": 51277.0,
+        "process_peak_live_bytes": 462870,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "statistics",
+      "iterations": 1000,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 4177920,
+      "baseline": {
+        "allocation_calls": 251.0,
+        "reallocation_calls": 19.0,
+        "requested_bytes": 39356.0,
+        "process_peak_live_bytes": 459506,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 251.0,
+        "reallocation_calls": 19.0,
+        "requested_bytes": 39356.0,
+        "process_peak_live_bytes": 497310,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "serialize",
+      "iterations": 1000,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 4153344,
+      "baseline": {
+        "allocation_calls": 1.0,
+        "reallocation_calls": 9.0,
+        "requested_bytes": 130944.0,
+        "process_peak_live_bytes": 459505,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 1.0,
+        "reallocation_calls": 9.0,
+        "requested_bytes": 130944.0,
+        "process_peak_live_bytes": 528409,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "parse",
+      "iterations": 1000,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 3506176,
+      "baseline": {
+        "allocation_calls": 806.0,
+        "reallocation_calls": 8.0,
+        "requested_bytes": 60306.0,
+        "process_peak_live_bytes": 74765,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 806.0,
+        "reallocation_calls": 8.0,
+        "requested_bytes": 60306.0,
+        "process_peak_live_bytes": 74770,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "density",
+      "iterations": 100,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 6520832,
+      "baseline": {
+        "allocation_calls": 7.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 240.0,
+        "process_peak_live_bytes": 3951280,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 7.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 240.0,
+        "process_peak_live_bytes": 3951285,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "density_profile",
+      "iterations": 30,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 6520832,
+      "baseline": {
+        "allocation_calls": 23.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 2318.0,
+        "process_peak_live_bytes": 3953365,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 23.0,
+        "reallocation_calls": 0.0,
+        "requested_bytes": 2318.0,
+        "process_peak_live_bytes": 3953370,
+        "live_bytes_delta": 0
+      }
+    },
+    {
+      "mode": "density_parse",
+      "iterations": 5,
+      "exact_scientific_result": true,
+      "final_process_peak_rss_bytes": 7495680,
+      "baseline": {
+        "allocation_calls": 140636.0,
+        "reallocation_calls": 18.0,
+        "requested_bytes": 5742068.0,
+        "process_peak_live_bytes": 6048724,
+        "live_bytes_delta": 0
+      },
+      "final": {
+        "allocation_calls": 12.0,
+        "reallocation_calls": 18.0,
+        "requested_bytes": 4195248.0,
+        "process_peak_live_bytes": 6048729,
+        "live_bytes_delta": 0
+      }
+    }
+  ],
+  "profilers": {
+    "baseline": {
+      "dhat": {
+        "tb": 17142207,
+        "tbk": 6791,
+        "gb": 460176,
+        "gbk": 567,
+        "eb": 544,
+        "ebk": 1
+      },
+      "cachegrind": {
+        "Ir": 297778376,
+        "I1mr": 14812,
+        "ILmr": 3135,
+        "Dr": 77431561,
+        "D1mr": 397709,
+        "DLmr": 2644,
+        "Dw": 13069191,
+        "D1mw": 133525,
+        "DLmw": 10247,
+        "Bc": 39936664,
+        "Bcm": 2437765,
+        "Bi": 78262,
+        "Bim": 1851
+      },
+      "callgrind_context_instructions": 297765939,
+      "top_functions": [
+        [
+          "<steric_x::geometry::buried_volume::BuriedVolumeCalculator>::compute_from_center_recording",
+          283761625
+        ],
+        [
+          "steric_x::geometry::sterimol::params_from_projection",
+          7213668
+        ],
+        [
+          "__sincosf_fma",
+          689304
+        ],
+        [
+          "<core::iter::adapters::GenericShunt<core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<steric_x::geometry::xyz::Atom>, steric_x::geometry::buried_volume::aligned_atoms::{closure#0}>, steric_x::geometry::buried_volume::aligned_atoms::{closure#1}>, core::result::Result<core::convert::Infallible, steric_x::geometry::buried_volume::BuriedVolumeError>> as core::iter::traits::iterator::Iterator>::next",
+          506394
+        ],
+        [
+          "_int_malloc",
+          489629
+        ],
+        [
+          "core::slice::memchr::memrchr",
+          484507
+        ],
+        [
+          "<std::io::stdio::StdoutLock as std::io::Write>::write_all",
+          400288
+        ],
+        [
+          "_int_free_merge_chunk",
+          299785
+        ],
+        [
+          "steric_x::geometry::sterimol::project",
+          283906
+        ],
+        [
+          "__memcpy_avx_unaligned_erms",
+          245420
+        ],
+        [
+          "<core::str::iter::Split<core::str::IsWhitespace> as core::iter::traits::iterator::Iterator>::try_fold::<(), core::iter::traits::iterator::Iterator::find::check<&str, &mut core::str::IsNotEmpty>::{closure#0}, core::ops::control_flow::ControlFlow<&str>>",
+          244647
+        ],
+        [
+          "<f64 as zmij::private::Sealed>::write_to_zmij_buffer",
+          221260
+        ],
+        [
+          "free",
+          219320
+        ],
+        [
+          "<serde_json::value::Value as serde_core::ser::Serialize>::serialize::<&mut serde_json::ser::Serializer<&mut <serde_json::value::Value as core::fmt::Display>::fmt::WriterFormatter>>",
+          187863
+        ],
+        [
+          "<std::io::default_write_fmt::Adapter<std::io::stdio::StdoutLock> as core::fmt::Write>::write_str",
+          181344
+        ]
+      ]
+    },
+    "final": {
+      "dhat": {
+        "tb": 985652,
+        "tbk": 6626,
+        "gb": 605663,
+        "gbk": 1802,
+        "eb": 544,
+        "ebk": 1
+      },
+      "cachegrind": {
+        "Ir": 130748559,
+        "I1mr": 16488,
+        "ILmr": 3204,
+        "Dr": 21659709,
+        "D1mr": 394973,
+        "DLmr": 2652,
+        "Dw": 5565567,
+        "D1mw": 13898,
+        "DLmw": 6975,
+        "Bc": 17226520,
+        "Bcm": 926249,
+        "Bi": 77851,
+        "Bim": 1791
+      },
+      "callgrind_context_instructions": 130723530,
+      "top_functions": [
+        [
+          "steric_x::geometry::buried_volume::occupied_volumes_avx2",
+          115933006
+        ],
+        [
+          "steric_x::geometry::sterimol::params_from_projection",
+          7213668
+        ],
+        [
+          "<steric_x::geometry::buried_volume::BuriedVolumeCalculator>::compute_from_center_recording",
+          832953
+        ],
+        [
+          "__sincosf_fma",
+          689304
+        ],
+        [
+          "<core::iter::adapters::GenericShunt<core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<steric_x::geometry::xyz::Atom>, steric_x::geometry::buried_volume::aligned_atoms::{closure#0}>, steric_x::geometry::buried_volume::aligned_atoms::{closure#1}>, core::result::Result<core::convert::Infallible, steric_x::geometry::buried_volume::BuriedVolumeError>> as core::iter::traits::iterator::Iterator>::next",
+          506394
+        ],
+        [
+          "core::slice::memchr::memrchr",
+          484537
+        ],
+        [
+          "_int_malloc",
+          454553
+        ],
+        [
+          "<std::io::stdio::StdoutLock as std::io::Write>::write_all",
+          400288
+        ],
+        [
+          "_int_free_merge_chunk",
+          294625
+        ],
+        [
+          "steric_x::geometry::sterimol::project",
+          283906
+        ],
+        [
+          "<core::str::iter::Split<core::str::IsWhitespace> as core::iter::traits::iterator::Iterator>::try_fold::<(), core::iter::traits::iterator::Iterator::find::check<&str, &mut core::str::IsNotEmpty>::{closure#0}, core::ops::control_flow::ControlFlow<&str>>",
+          244647
+        ],
+        [
+          "__memcpy_avx_unaligned_erms",
+          244114
+        ],
+        [
+          "<f64 as zmij::private::Sealed>::write_to_zmij_buffer",
+          221260
+        ],
+        [
+          "free",
+          214354
+        ],
+        [
+          "<serde_json::value::Value as serde_core::ser::Serialize>::serialize::<&mut serde_json::ser::Serializer<&mut <serde_json::value::Value as core::fmt::Display>::fmt::WriterFormatter>>",
+          187863
+        ]
+      ]
+    }
+  }
+}

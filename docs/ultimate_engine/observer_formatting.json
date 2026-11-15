@@ -1,0 +1,55 @@
+{
+  "scope": "Formatting-only campaign observer maintenance. Frozen executable source snapshots and scientific production source remain unchanged. Before failure retained; after check passes.",
+  "runs": [
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "docs/ultimate_engine/observer/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "returncode": 1,
+      "log_sha256": "fdc56ccce5d1f3567deaa7e90a9f1f8d4bf0819cd20e88cdb2b3f7c212238e8e"
+    },
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "docs/ultimate_engine/observer/Cargo.toml"
+      ],
+      "returncode": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "docs/ultimate_engine/observer/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "returncode": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "before": {
+    "main.rs": "e9307eb6645dd5fa552113f1ba00acc87f5e7101b24d6c5590dc805099d5286d",
+    "bin/accuracy.rs": "0aba685ef701ff645cba5c33be50ba85c14f4a996a12613988c7f252e8f1edde",
+    "bin/continuous.rs": "afb79740d36c75f9225ce22f67947183b977ea018203c529e6fb5a5c6eb3ab21",
+    "bin/continuous_volume.rs": "eabd4197a4283f1d6a712ff9a332e8956d09c336b30fd084b742a9201348b03d",
+    "bin/dump_density.rs": "033375a29d3d31db31a66a21e1cbad27f599549b2d5a669f7e246e76ac7b8687",
+    "bin/volume_workflow.rs": "aff8f9f8229f2b85e7b5321db0b8f7fca76878b6cab180259a59ee6cf36e6041"
+  },
+  "after": {
+    "main.rs": "2df53a24db170c6cb1c6c6ce9955eb8c01271a76a18b381eafecafdaf03c61ce",
+    "bin/accuracy.rs": "a717a45a7408cb815a2d8319ef1b7d63fad8b3f8406b970aed53d2ad1178237b",
+    "bin/continuous.rs": "bce54f0848b90dfcb1eee1eb71c518b717de93b7cd64a5858b4b750cad014a0b",
+    "bin/continuous_volume.rs": "9f2de63d7e337d3a500643a75520b1d2ec50537ff9ce0ae09a4f12efa7714cf6",
+    "bin/dump_density.rs": "7d9d80e46b46beb54b5d846186ac6a1d7b3a3feb9862d087bb4fdc5f4dde3466",
+    "bin/volume_workflow.rs": "9c6bd279a60e5d4554f9b8863a64aa3af5e6854b2e8b0bbd9452a73279e4cd18"
+  }
+}

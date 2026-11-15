@@ -148,16 +148,18 @@ pass. Preserve the two failed convention-mismatched external lanes. This does
 not replace the default scan; the cubic algorithm is slower for some larger
 molecules and its numerical error is not certified. Full final replay pending.
 
-## Compatibility review
+## Compatibility review and S2 outcome
 
 Clippy caught use of adjacent-float APIs newer than the manifest's declared
 Rust 1.85 minimum in the uncommitted volume prototype. They were replaced with
 explicit IEEE bit stepping, without changing bounds. The acceleration's new
 cache lookup was rewritten without a let-chain, and boundary-test adjacent
 floats now use bit construction. Existing baseline let-chains elsewhere were
-also discovered; a real Rust 1.85 baseline compile is being run before deciding
-whether the declared support can actually be verified. No minimum version has
-been raised to hide a failure.
+also discovered. The real Rust 1.85 baseline failure is preserved. Six existing
+let-chains were rewritten equivalently and intrinsic unsafe blocks made
+compatible; no minimum version was raised. All 364 tests pass with actual
+Rust 1.85 and 1.97. All 362 applicable ARM tests pass with Rust 1.85-generated
+AArch64/musl binaries under QEMU; this is functional evidence, not hardware timing.
 
 ## N2: continuous-volume quadrature and conservative reference
 
@@ -168,3 +170,18 @@ are often unmet and reported as such; no accuracy guarantee is inferred from
 midpoint resolution or convergence differences. The original finite-grid
 method remains the default. Initial invalid stress input and all unsuccessful
 target attempts are preserved. See NUMERICAL_ACCURACY.md for the proof and scope.
+
+## Final replay status
+
+The prospective entries and exploratory measurements above retain their original
+chronology. Final source `f9c952e2` reproduces all 128,021 original responses
+exactly and passes the full engineering and explicit-method replay described in
+VALIDATION_REPORT.md. Final controlled timing remains a separate admission step.
+No fourth production optimization is introduced during the final replay.
+
+The historical C3 row-endpoint filter remains rejected (about 15.6% slower).
+Uncertified midpoint convergence extrapolation, sampled Sterimol as an exact
+continuous reference, and a global replacement of the finite lattice were not
+adopted. General adaptive-box integration remains an explicit reference option:
+its rigorous enclosure is useful even when its requested tolerance is not met,
+but the measured molecular budgets do not justify making it the default.

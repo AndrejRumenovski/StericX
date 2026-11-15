@@ -1,8 +1,9 @@
 # Numerical accuracy investigation
 
 Status: baseline convergence and explicit N1/N2 methods validated in the
-scopes below. Final whole-engine replay and controlled performance audit remain
-pending. The method proposals are retained to explain their admission criteria.
+scopes below. Final whole-engine and explicit-method replay pass. The controlled
+performance audit remains pending. The method proposals are retained to explain
+their admission criteria.
 
 ## Quantities and baseline
 
@@ -231,3 +232,48 @@ an atom at 2e100. The engine correctly rejected it; the failed run is preserved
 at `.stericx/ultimate_engine/n2_validation`. Subsequent fixtures stay inside the
 published domain and use exact rational inclusion–exclusion in the reference.
 No production tolerance or domain was expanded to make that run pass.
+
+## Accuracy-versus-cost frontier and method decisions
+
+[The standalone figure](accuracy_cost_frontier.svg) and
+[its complete plotted data](accuracy_cost_frontier.json) compare equal quantities
+within each of two frozen geometries. Dashed segments show the empirical
+Pareto frontier among tested methods. They are not guarantees that untested
+methods, inputs or hardware cannot dominate it. Timing samples are exploratory;
+final controlled costs remain pending.
+
+For the 32-disc support witness, the continuous-event solution improves error
+while costing less than the finest angular scans. The ordinary 360-direction
+scan remains cheaper at lower accuracy. For the three-ball chain, midpoint
+integration has better observed error/cost than the tested adaptive boxes, but
+only the reference method supplies a conservative bound. The figure shows
+those bounds separately from observed residuals; they cannot be interchanged
+when a caller needs a certified tolerance.
+
+| Investigated approach | Decision and evidence |
+|---|---|
+| Adaptive integration | Retain adaptive box subdivision as explicit Reference; strict molecular targets often remain unmet |
+| Analytical intersections | Retain interval-enclosed empty/full, single lens and contained two-ball cases; rational references validate them |
+| Hybrid analytical/numerical | Reference dispatches certified special cases and otherwise refines boxes; no unproved many-ball pairwise approximation |
+| Interval arithmetic | Retain for geometric classification, volume accumulation and analytical enclosures under the declared IEEE contract |
+| Stable predicates | Preserve default finite-grid operation grouping exactly; validate AVX2 against scalar/adversarial masks |
+| Higher precision | Use f64 for new explicit geometry and 80-digit independent support validation; source f32 information loss remains |
+| Geometric bounding | Use conservative min/max box-to-ball distances; uncertain cells remain in the upper bound |
+| Error-controlled calculation | Expose bound, work count and target-met flag; false is a valid budget-limited result |
+| Convergence acceleration | Do not admit Richardson or successive-resolution stopping from these nonsmooth, nonmonotone examples |
+| Alternative integration | Evaluate 2-D chord quadrature against the existing 3-D finite lattice; no unsupported stochastic error guarantee |
+
+The existing API is the unchanged fast finite-grid route. `MidpointSlices` is
+an explicit finer-integration option rather than a promise that every chosen
+resolution is more accurate. `Reference` has the defined conservative contract.
+N1/N2 are Rust core APIs; this campaign does not silently switch Python or CLI
+defaults to them. New region/density definitions and a broad front-end redesign
+are outside these additions.
+
+The final frozen binaries replay all 39 support cases, 244 volume cases and 36
+molecular volume requests exactly against the previously independently checked
+results. Their binding receipt is
+`.stericx/ultimate_engine/final_numerical_replay/summary.json`. Incidental times
+from that replay are not substituted for controlled cost measurements. The
+updated volume timing observer supports repeated calls per clock sample to
+avoid single-call timer overhead in the final measurement window.

@@ -9,10 +9,11 @@ fn main() -> Result<(), Box<dyn Error>> {
         unit: DensityUnit::ElectronsPerBohrCubed,
         provenance: "parser equivalence fixture".into(),
     };
-    let result = match DensityGrid::from_cube_str("frozen.cube", &fs::read_to_string(path)?, declaration) {
-        Ok(grid) => serde_json::json!({"metadata":grid.metadata(),"values":grid.values()}),
-        Err(error) => serde_json::json!({"error":error.to_string()}),
-    };
+    let result =
+        match DensityGrid::from_cube_str("frozen.cube", &fs::read_to_string(path)?, declaration) {
+            Ok(grid) => serde_json::json!({"metadata":grid.metadata(),"values":grid.values()}),
+            Err(error) => serde_json::json!({"error":error.to_string()}),
+        };
     println!("{result}");
     Ok(())
 }

@@ -18,6 +18,7 @@ p.add_argument('--candidate', required=True)
 p.add_argument('--output', required=True)
 p.add_argument('--modes', nargs='+', default=['volume', 'regions', 'ensemble', 'radius_profile', 'sterimol'])
 p.add_argument('--pairs', type=int, default=8)
+p.add_argument('--scope', default='exploratory desktop, CPU 2')
 a = p.parse_args()
 root = ROOT/'.stericx/ultimate_engine'
 out = root/a.output
@@ -28,7 +29,7 @@ inputs = [ROOT/'python/examples/data/ligand_401_ensemble.xyz',
 env = dict(os.environ, LC_ALL='C', RAYON_NUM_THREADS='1', OMP_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1')
 env.pop('STERICX_PROFILE_PATH', None)
 binaries = {label: root/name/'bin/observer' for label, name in [('baseline',a.baseline),('candidate',a.candidate)]}
-receipt = {'argv': sys.argv, 'scope': 'exploratory desktop, CPU 2', 'cpu_before': Path('/proc/stat').read_text(),
+receipt = {'argv': sys.argv, 'scope': a.scope, 'cpu_before': Path('/proc/stat').read_text(),
            'hashes': {str(p): harness.digest(p) for p in [*inputs,*binaries.values()]}, 'runs': [], 'summary': {}}
 counts = {'volume':150,'regions':150,'ensemble':30,'radius_profile':30,'sterimol':10000}
 expected = {}

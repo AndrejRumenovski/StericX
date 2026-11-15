@@ -28,14 +28,31 @@ fn main() -> Result<(), Box<dyn Error>> {
             Atom::new("H", Vec3::new(-1., -1., -2.)),
         ];
         for (center, radius) in case.centers.iter().zip(&case.radii) {
-            atoms.push(Atom { element: "C".into(), position: Vec3::from_array(*center), vdw_radius: *radius });
+            atoms.push(Atom {
+                element: "C".into(),
+                position: Vec3::from_array(*center),
+                vdw_radius: *radius,
+            });
         }
         let molecule = Molecule { atoms };
         for density in [0.08, 0.01, 0.00125, 0.00015625] {
-            let config = BuriedVolumeConfig { sphere_radius: case.radius, density,
-                radii_scale: 1., include_hydrogens: false, ..Default::default() };
-            let run = || BuriedVolumeCalculator::compute_detailed_with_center_and_neighbors(
-                &molecule, 0, [1, 2, 3], Vec3::ZERO, config).unwrap();
+            let config = BuriedVolumeConfig {
+                sphere_radius: case.radius,
+                density,
+                radii_scale: 1.,
+                include_hydrogens: false,
+                ..Default::default()
+            };
+            let run = || {
+                BuriedVolumeCalculator::compute_detailed_with_center_and_neighbors(
+                    &molecule,
+                    0,
+                    [1, 2, 3],
+                    Vec3::ZERO,
+                    config,
+                )
+                .unwrap()
+            };
             black_box(run());
             let mut times = Vec::new();
             for _ in 0..5 {
@@ -43,8 +60,10 @@ fn main() -> Result<(), Box<dyn Error>> {
                 black_box(run());
                 times.push(start.elapsed().as_nanos());
             }
-            rows.push(json!({"id":case.id,"radius":case.radius,"centers":case.centers,
-                "radii":case.radii,"density":density,"times_ns":times,"result":run()}));
+            rows.push(
+                json!({"id":case.id,"radius":case.radius,"centers":case.centers,
+                "radii":case.radii,"density":density,"times_ns":times,"result":run()}),
+            );
         }
     }
     println!("{}", json!(rows));

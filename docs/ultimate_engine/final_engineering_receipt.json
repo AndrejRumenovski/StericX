@@ -1,0 +1,100 @@
+{
+  "reason": "Original attempt retained; unchanged final scientific source isolated for rustdoc.",
+  "controller_sha256": "74b892acb8d01af78a1aaf9d19b9e1228ebcc62011460054089f65fe8f18c3dd",
+  "runs": [
+    {
+      "name": "rustdoc",
+      "argv": [
+        "cargo",
+        "doc",
+        "--locked",
+        "--offline",
+        "--no-deps",
+        "--all-features",
+        "--manifest-path",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/final_scientific_build/source/Cargo.toml"
+      ],
+      "returncode": 0,
+      "seconds": 19.191671986000074,
+      "log_sha256": "fcfd441baa5852df0bc2afdb68d5e5556b4ad197cec38ef50bb5f1b39b414144"
+    },
+    {
+      "name": "rust_tests",
+      "argv": [
+        "cargo",
+        "test",
+        "--all-targets",
+        "--all-features"
+      ],
+      "returncode": 0,
+      "seconds": 20.950033367999822,
+      "log_sha256": "ba27be42383145ad794b988cfb63ffafc76c59d73df5d9e57bb4e2059c4fae51"
+    },
+    {
+      "name": "screening_regression",
+      "argv": [
+        "cargo",
+        "test",
+        "--test",
+        "screening_regression",
+        "--",
+        "--nocapture"
+      ],
+      "returncode": 0,
+      "seconds": 12.720962341999439,
+      "log_sha256": "bf327ba838fe115a914b2b598982371baa0727e941b5d484b8217c39aadc673a"
+    },
+    {
+      "name": "python_tests",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "returncode": 0,
+      "seconds": 2.9770938620004017,
+      "log_sha256": "6478f09fe6d4fa7ae0898cb70cb13e2acdcab23964fe4ad4219d4dae1988edc7"
+    },
+    {
+      "name": "dbstep_upstream_tests",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/paton/reference/venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "returncode": 0,
+      "seconds": 84.12318862000029,
+      "log_sha256": "6d6ade70fa464ad013ffc9367466161c42540eaceb7a2736cdc07839f557fc07"
+    },
+    {
+      "name": "archived_morfeus_evidence",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "docs/benchmarks/morfeus_current/verify.py"
+      ],
+      "returncode": 0,
+      "seconds": 7.887649430000238,
+      "log_sha256": "b2abfb53a5e6f09cd4752f38bea3a64b41fc3678633ed51161f8b71ba387e701"
+    },
+    {
+      "name": "retrospective_screening",
+      "argv": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "studies/study_011_ligand_ranking.py",
+        "--verify-only"
+      ],
+      "returncode": 0,
+      "seconds": 0.8963093140000638,
+      "log_sha256": "0ac7a115209da037696f5eb8fed009749c8bddbdaa0448e0a02184f4a013023c"
+    }
+  ],
+  "complete": true,
+  "all_commands_succeeded": true
+}

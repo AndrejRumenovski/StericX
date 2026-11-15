@@ -1,8 +1,10 @@
 use super::{Molecule, covalent_radius};
 use glam::Vec3;
+use std::cell::RefCell;
 use std::error::Error;
 use std::f32::consts::PI;
 use std::fmt::{Display, Formatter};
+use std::rc::Rc;
 
 /// Geometric settings for a metal-centred buried-volume scan.
 #[derive(Clone, Copy, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
@@ -160,7 +162,7 @@ impl BuriedVolumeCalculator {
     ) -> Result<(), BuriedVolumeError> {
         validate_config(config)?;
         validate_neighbors(molecule, donor_idx, neighbors)?;
-        if integration_grid(config).is_empty() {
+        if reusable_integration_grid(config).is_empty() {
             return Err(BuriedVolumeError(
                 "integration grid contains no points".into(),
             ));
@@ -287,7 +289,7 @@ impl BuriedVolumeCalculator {
             "buried_volume",
             "BuriedVolumeCalculator::compute_from_center"
         );
-        let sphere = integration_grid(config);
+        let sphere = reusable_integration_grid(config);
         if sphere.is_empty() {
             return Err(BuriedVolumeError(
                 "integration grid contains no points".to_owned(),
@@ -950,6 +952,32 @@ fn integration_grid(config: BuriedVolumeConfig) -> Vec<Vec3> {
     points
 }
 
+// Radius and density are the only grid inputs. Exact bit keys preserve every
+// original f32 node and boundary decision, including when callers change modes.
+// One bounded entry per worker avoids cross-thread contention and unbounded
+// growth during radius scans. Oversized grids are returned without retention.
+type GridCacheEntry = ((u32, u32), Rc<Vec<Vec3>>);
+thread_local! {
+    static GRID_CACHE: RefCell<Option<GridCacheEntry>> = const { RefCell::new(None) };
+}
+
+fn reusable_integration_grid(config: BuriedVolumeConfig) -> Rc<Vec<Vec3>> {
+    const MAX_CACHED_BYTES: usize = 8 * 1024 * 1024;
+    let key = (config.sphere_radius.to_bits(), config.density.to_bits());
+    GRID_CACHE.with(|cache| {
+        if let Some((cached_key, grid)) = cache.borrow().as_ref()
+            && *cached_key == key
+        {
+            return Rc::clone(grid);
+        }
+        let grid = Rc::new(integration_grid(config));
+        if grid.capacity() <= MAX_CACHED_BYTES / std::mem::size_of::<Vec3>() {
+            *cache.borrow_mut() = Some((key, Rc::clone(&grid)));
+        }
+        grid
+    })
+}
+
 fn occupied_volumes(sphere: &[Vec3], atoms: &[AlignedAtom], sphere_radius: f32) -> OccupiedVolumes {
     crate::profile_scope!("buried_volume", "buried_volume::occupied_volumes");
     struct RowCandidate {
@@ -1064,6 +1092,56 @@ fn sphere_volume(radius: f32) -> f32 {
 mod tests {
     use super::*;
     use crate::geometry::Atom;
+
+    #[test]
+    fn cached_grid_preserves_nodes_keys_and_thread_independence() {
+        let original = BuriedVolumeConfig::default();
+        let first = reusable_integration_grid(original);
+        assert_eq!(*first, integration_grid(original));
+        assert!(Rc::ptr_eq(&first, &reusable_integration_grid(original)));
+        // Settings unrelated to grid geometry must not allocate another grid.
+        let other_radii = BuriedVolumeConfig {
+            radii_scale: 1.0,
+            include_hydrogens: true,
+            ..original
+        };
+        assert!(Rc::ptr_eq(&first, &reusable_integration_grid(other_radii)));
+        for changed in [
+            BuriedVolumeConfig {
+                sphere_radius: 2.5,
+                ..original
+            },
+            BuriedVolumeConfig {
+                density: 0.08,
+                ..original
+            },
+            original,
+        ] {
+            assert_eq!(
+                *reusable_integration_grid(changed),
+                integration_grid(changed)
+            );
+        }
+        let independent =
+            std::thread::spawn(move || reusable_integration_grid(original).as_ref().clone())
+                .join()
+                .unwrap();
+        assert_eq!(*first, independent);
+    }
+
+    #[test]
+    fn oversized_grid_is_not_retained() {
+        let small = BuriedVolumeConfig::default();
+        let first = reusable_integration_grid(small);
+        let large = BuriedVolumeConfig {
+            density: 0.00015625,
+            ..small
+        };
+        let large_grid = reusable_integration_grid(large);
+        assert!(large_grid.capacity() * std::mem::size_of::<Vec3>() > 8 * 1024 * 1024);
+        assert_eq!(Rc::strong_count(&large_grid), 1);
+        assert!(Rc::ptr_eq(&first, &reusable_integration_grid(small)));
+    }
 
     fn atom(element: &str, position: Vec3) -> Atom {
         Atom::new(element, position)

@@ -55,3 +55,40 @@ nonzero s. Dyadic s = 2^-30 triggers `None` in the baseline despite representabl
 nonconstant input. A regression test is run against the original metric code
 before correction; it also checks constant targets and a legitimate negative
 score. Preserve `.stericx/ultimate_engine/r2_baseline_failure.log`.
+
+## U2: bounded per-thread integration-grid reuse (pre-edit)
+
+Measured target: grid construction consumes 9.08% of the diagnostic 10,000-file
+run; grid allocations account for 96.34% of DHAT requested bytes in the ensemble
+workload. The grid depends only on the exact f32 radius and density bits.
+Keep one grid per thread, keyed by those bits, shared locally through Rc. Retain
+at most 8 MiB of grid capacity per thread; larger grids use the unchanged builder
+without retention. No global lock, approximate key, node recomputation or public
+grid definition change. This trades bounded retained memory for fewer allocations.
+Preserve the uncached builder for independent observers. Check exact grid/region
+results, key switching, thread equivalence and finite memory retention. Benchmark
+warm kernels and cold/full CLI workloads; reject if the tradeoff is not useful.
+
+### U2 experiment outcome
+
+Retain for final replay. Eight alternating pairs show speedups of
+1.1390× for volume,
+1.1319× for regions and
+1.1306× for six-conformer ensembles.
+The changing-radius scan is essentially unchanged (1.0027×);
+it repeatedly replaces the one-entry cache. Sterimol is an unchanged control.
+All native results are exact against the frozen baseline. Full samples are in
+[u2_measurements.json](u2_measurements.json). These are exploratory measurements.
+
+Requested bytes per warmed six-conformer call fall from 2,415,541 to
+55,927; allocation calls from 620 to 614.
+The default retained grid capacity is 393,216 bytes per participating thread,
+with an 8 MiB maximum cached capacity per thread. The tradeoff is persistent
+bounded capacity instead of repeated temporary allocations. No warm live-byte
+increase or allocation failures; Memcheck reports zero errors/lost bytes.
+
+All 352 Rust tests pass. The fresh independently bound DBSTEP point-domain
+replay has zero disputed/unexplained atomic points, zero unexplained sphere
+points and zero arithmetic errors; raw evidence is at
+`.stericx/ultimate_engine/u2_point_domains`. Source integrity checks pass.
+Final full CLI/cold-start A/B and complete scientific replay remain mandatory.

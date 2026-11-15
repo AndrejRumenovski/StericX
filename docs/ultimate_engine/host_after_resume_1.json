@@ -1,0 +1,101 @@
+{
+  "interval_seconds": 10.012525651000033,
+  "busy_core_equivalents": 0.3795246207055123,
+  "io_wait_core_equivalents": 0.0039949960074264455,
+  "processes": [
+    {
+      "pid": 14446,
+      "name": "warp",
+      "core_equivalents": 0.16279608730262762
+    },
+    {
+      "pid": 2657,
+      "name": "gnome-shell",
+      "core_equivalents": 0.11685363321722352
+    },
+    {
+      "pid": 17947,
+      "name": "codex",
+      "core_equivalents": 0.04694120308726073
+    },
+    {
+      "pid": 4294,
+      "name": "Xwayland",
+      "core_equivalents": 0.01398248602599256
+    },
+    {
+      "pid": 19674,
+      "name": "codex",
+      "core_equivalents": 0.010986239020422724
+    },
+    {
+      "pid": 827,
+      "name": "nvidia-modeset/kthread_q",
+      "core_equivalents": 0.008988741016709502
+    },
+    {
+      "pid": 4290,
+      "name": "brave",
+      "core_equivalents": 0.0029962470055698337
+    },
+    {
+      "pid": 3226,
+      "name": "xdg-desktop-por",
+      "core_equivalents": 0.0019974980037132228
+    },
+    {
+      "pid": 15139,
+      "name": "warp",
+      "core_equivalents": 0.0019974980037132228
+    },
+    {
+      "pid": 20508,
+      "name": "codex-code-mode",
+      "core_equivalents": 0.0019974980037132228
+    },
+    {
+      "pid": 528,
+      "name": "systemd-oomd",
+      "core_equivalents": 0.0009987490018566114
+    },
+    {
+      "pid": 2021,
+      "name": "tailscaled",
+      "core_equivalents": 0.0009987490018566114
+    },
+    {
+      "pid": 2326,
+      "name": "dbus-daemon",
+      "core_equivalents": 0.0009987490018566114
+    },
+    {
+      "pid": 2745,
+      "name": "nvidia-drm/timeline-6",
+      "core_equivalents": 0.0009987490018566114
+    },
+    {
+      "pid": 4333,
+      "name": "brave",
+      "core_equivalents": 0.0009987490018566114
+    },
+    {
+      "pid": 14723,
+      "name": "nvidia-drm/timeline-3f",
+      "core_equivalents": 0.0009987490018566114
+    },
+    {
+      "pid": 96523,
+      "name": "kworker/u48:3-events_unbound",
+      "core_equivalents": 0.0009987490018566114
+    },
+    {
+      "pid": 134362,
+      "name": "python",
+      "core_equivalents": 0.0009987490018566114
+    }
+  ],
+  "pressure_cpu": "some avg10=0.00 avg60=0.00 avg300=0.62 total=414493005\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+  "pressure_io": "some avg10=0.07 avg60=0.24 avg300=0.42 total=814760396\nfull avg10=0.07 avg60=0.24 avg300=0.41 total=765343997\n",
+  "criteria": "At most 0.15 busy CPU cores and 0.05 cores of I/O wait averaged over this interval. Conservative local campaign gate, not a hardware universal.",
+  "quiet": false
+}

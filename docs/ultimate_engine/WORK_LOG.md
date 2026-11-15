@@ -49,3 +49,13 @@ started. A quiet-window confirmation was requested under the user's Phase 10.
 The goal remains active; elapsed time is not confirmation. Once the user confirms,
 recheck the host and run the prepared controller into a fresh output directory.
 Raw and tracked host evidence are preserved as `host_after_science.json`.
+
+## First resumed host check
+
+The user reactivated the blocked goal. A fresh 10.013-second sample still
+failed admission: 0.380 busy CPU-core equivalents, including Warp 0.163 and
+GNOME Shell 0.117; I/O wait was 0.004. This is a fresh blocked-audit sequence,
+not an extension of the previous three-turn count. No benchmark was started.
+The user was asked to minimize Warp and leave the computer idle, then confirm
+readiness. Original and resumed samples are preserved separately; the quiet
+criterion and all scientific/performance protocols remain unchanged.

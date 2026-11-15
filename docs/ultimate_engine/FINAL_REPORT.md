@@ -12,6 +12,11 @@ users. No final timing was started. Following the user's Phase 10 instruction,
 a 20–30 minute quiet-window confirmation has been requested. No background
 application was stopped and the admission limit was not relaxed.
 
+After the user reactivated the goal, a [fresh host sample](host_after_resume_1.json)
+still failed admission: 0.380 busy core equivalents over 10.013 seconds, with
+Warp and GNOME Shell again dominant. The user was asked to minimize Warp and
+confirm an idle window. Final measurement remains unstarted.
+
 ## Scientific outcome
 
 The original engine is frozen at `c03630cb3595eb85b5d05bdbecd3f10305b818bf`.

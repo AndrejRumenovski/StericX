@@ -74,10 +74,14 @@ fn fail(message: impl Into<String>) -> DensityError {
     DensityError(message.into())
 }
 fn number(token: &str) -> Result<f64, DensityError> {
-    let n = token
-        .replace(['D', 'd'], "E")
-        .parse::<f64>()
-        .map_err(|_| fail(format!("invalid cube number {token:?}")))?;
+    // Ordinary decimal/scientific tokens need no owned normalization buffer.
+    // Keep Fortran D/d exponent normalization and the original error token.
+    let parsed = if token.contains(['D', 'd']) {
+        token.replace(['D', 'd'], "E").parse::<f64>()
+    } else {
+        token.parse::<f64>()
+    };
+    let n = parsed.map_err(|_| fail(format!("invalid cube number {token:?}")))?;
     if !n.is_finite() {
         return Err(fail("cube numbers must be finite"));
     }

@@ -92,3 +92,49 @@ replay has zero disputed/unexplained atomic points, zero unexplained sphere
 points and zero arithmetic errors; raw evidence is at
 `.stericx/ultimate_engine/u2_point_domains`. Source integrity checks pass.
 Final full CLI/cold-start A/B and complete scientific replay remain mandatory.
+
+## U3: AVX2 row occupancy masks (pre-edit)
+
+Measured target: atomic occupancy was 81.85% of the pre-cache diagnostic CPU
+time. The source and disassembly show scalar branch-heavy point/candidate loops.
+Try gathering at most 64 contiguous-row Z coordinates onto the stack, testing
+eight points per AVX2 vector, OR-ing atomic hit masks and counting integer region
+occupancies. Reuse `(dx*dx + dy*dy)` exactly; compute `xy + dz*dz <= r²` with
+separate multiply/add and ordered comparison. No FMA, radius subtraction or
+approximate geometric rejection. Stop only when all row points are occupied.
+Retain the original scalar kernel for unsupported CPUs. Dispatch requires AVX2
+and POPCNT support; unaligned loads must stay inside the slice. The SIMD path
+must be proved active in assembly and dynamically observed, with scalar/SIMD
+adversarial masks, complete finite-grid/regional comparison, independent DBSTEP
+replay, memory checking and native A/B distributions before acceptance.
+
+Compiler/intrinsics references: [LLVM vectorizer diagnostics](https://llvm.org/docs/Vectorizers.html)
+and [Rust x86_64 intrinsics](https://doc.rust-lang.org/stable/core/arch/x86_64/index.html).
+
+### U3 experiment outcome
+
+Retain for full replay. Eight alternating pairs versus U2: volume 2.5418×,
+regions 2.5512×, ensemble 2.2838×, radius profile 2.1141×. Combined versus frozen
+baseline: volume 2.9295×, ensemble 2.5332×. The unchanged Sterimol control differs
+by about 1%; do not call this a Sterimol improvement. All result JSON is exact.
+See [u3_vs_u2.json](u3_vs_u2.json) and [u3_vs_baseline.json](u3_vs_baseline.json).
+These are exploratory desktop kernel measurements, not final files/s claims.
+
+All 353 Rust tests pass; the added tail/boundary test compares 5,200 vector masks
+(lengths 0–64, signed zeros, subnormals, absorption, adjacent floats and nonfinite
+raw predicates). The existing independent direct-distance tests now also force
+the original scalar fallback, including random non-grid ordering and all real
+fixture orientations. The fallback test assertion was added after the timing
+snapshot; it changes only test code. Twenty-three focused geometry tests pass.
+
+The 69-case/207-frame DBSTEP replay again has zero disputed atomic points and
+zero unexplained/arithmetic differences; historical second-clip failures remain
+preserved. [u3_point_domains_summary.json](u3_point_domains_summary.json) records
+this scope. Memcheck reports zero errors/lost bytes, 544 runtime bytes reachable.
+
+Assembly contains AVX packed subtraction, multiplication, addition, ordered
+comparison and POPCNT, without FMA in the occupancy function. Callgrind includes
+executed `occupied_volumes_avx2` instructions, proving dispatch is active under
+the profiler. See [u3_simd.json](u3_simd.json); raw assembly and all four profiler
+runs are retained under `.stericx/ultimate_engine/u3*`. Full final scientific,
+thread-scaling, cold-start and controlled CLI A/B replay remain pending.

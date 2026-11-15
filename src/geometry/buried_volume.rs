@@ -980,6 +980,20 @@ fn reusable_integration_grid(config: BuriedVolumeConfig) -> Rc<Vec<Vec3>> {
 
 fn occupied_volumes(sphere: &[Vec3], atoms: &[AlignedAtom], sphere_radius: f32) -> OccupiedVolumes {
     crate::profile_scope!("buried_volume", "buried_volume::occupied_volumes");
+    #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+    if std::is_x86_feature_detected!("avx2") && std::is_x86_feature_detected!("popcnt") {
+        // SAFETY: both target features are checked at runtime. The SIMD helper
+        // loads only complete eight-element groups from a bounded stack slice.
+        return unsafe { occupied_volumes_avx2(sphere, atoms, sphere_radius) };
+    }
+    occupied_volumes_scalar(sphere, atoms, sphere_radius)
+}
+
+fn occupied_volumes_scalar(
+    sphere: &[Vec3],
+    atoms: &[AlignedAtom],
+    sphere_radius: f32,
+) -> OccupiedVolumes {
     struct RowCandidate {
         z: f32,
         radius_squared: f32,
@@ -1040,6 +1054,26 @@ fn occupied_volumes(sphere: &[Vec3], atoms: &[AlignedAtom], sphere_radius: f32) 
             octant_occupied[octant] += 1;
         }
     }
+    volumes_from_counts(
+        sphere.len(),
+        sphere_radius,
+        occupied_total,
+        quadrant_total,
+        quadrant_occupied,
+        octant_total,
+        octant_occupied,
+    )
+}
+
+fn volumes_from_counts(
+    point_count: usize,
+    sphere_radius: f32,
+    occupied_total: usize,
+    quadrant_total: [usize; 4],
+    quadrant_occupied: [usize; 4],
+    octant_total: [usize; 8],
+    octant_occupied: [usize; 8],
+) -> OccupiedVolumes {
     let volume = sphere_volume(sphere_radius);
     let quadrants = std::array::from_fn(|index| {
         occupied_fraction(quadrant_occupied[index], quadrant_total[index]) * volume / 4.0
@@ -1050,12 +1084,105 @@ fn occupied_volumes(sphere: &[Vec3], atoms: &[AlignedAtom], sphere_radius: f32) 
     let near_vbur = octants[4..].iter().sum();
     let far_vbur = octants[..4].iter().sum();
     OccupiedVolumes {
-        buried_volume: occupied_fraction(occupied_total, sphere.len()) * volume,
+        buried_volume: occupied_fraction(occupied_total, point_count) * volume,
         quadrants,
         octants,
         near_vbur,
         far_vbur,
     }
+}
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+#[target_feature(enable = "avx2,popcnt")]
+unsafe fn occupied_volumes_avx2(
+    sphere: &[Vec3],
+    atoms: &[AlignedAtom],
+    sphere_radius: f32,
+) -> OccupiedVolumes {
+    let mut occupied_total = 0;
+    let mut quadrant_total = [0; 4];
+    let mut quadrant_occupied = [0; 4];
+    let mut octant_total = [0; 8];
+    let mut octant_occupied = [0; 8];
+    for row in
+        sphere.chunk_by(|a, b| a.x.to_bits() == b.x.to_bits() && a.y.to_bits() == b.y.to_bits())
+    {
+        let quadrant = quadrant_index(row[0]);
+        for block in row.chunks(64) {
+            let mut z = [0.0_f32; 64];
+            let mut positive = 0_u64;
+            for (i, point) in block.iter().enumerate() {
+                z[i] = point.z;
+                positive |= u64::from(point.z >= 0.0) << i;
+            }
+            let z = &z[..block.len()];
+            let full = u64::MAX >> (64 - block.len());
+            let mut occupied = 0_u64;
+            for atom in atoms {
+                let dx = row[0].x - atom.position.x;
+                let dy = row[0].y - atom.position.y;
+                let xy_squared = dx * dx + dy * dy;
+                if xy_squared > atom.radius_squared {
+                    continue;
+                }
+                // SAFETY: this function has the helper's required AVX2 feature.
+                occupied |=
+                    unsafe { row_mask_avx2(z, atom.position.z, xy_squared, atom.radius_squared) };
+                if occupied == full {
+                    break;
+                }
+            }
+            let hits = occupied.count_ones() as usize;
+            let positive_count = positive.count_ones() as usize;
+            let positive_hits = (positive & occupied).count_ones() as usize;
+            occupied_total += hits;
+            quadrant_total[quadrant] += block.len();
+            quadrant_occupied[quadrant] += hits;
+            octant_total[quadrant] += positive_count;
+            octant_total[quadrant + 4] += block.len() - positive_count;
+            octant_occupied[quadrant] += positive_hits;
+            octant_occupied[quadrant + 4] += hits - positive_hits;
+        }
+    }
+    volumes_from_counts(
+        sphere.len(),
+        sphere_radius,
+        occupied_total,
+        quadrant_total,
+        quadrant_occupied,
+        octant_total,
+        octant_occupied,
+    )
+}
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+#[inline]
+#[target_feature(enable = "avx2")]
+unsafe fn row_mask_avx2(z: &[f32], center_z: f32, xy_squared: f32, radius_squared: f32) -> u64 {
+    #[cfg(target_arch = "x86")]
+    use std::arch::x86::*;
+    #[cfg(target_arch = "x86_64")]
+    use std::arch::x86_64::*;
+    debug_assert!(z.len() <= 64);
+    let center = _mm256_set1_ps(center_z);
+    let xy = _mm256_set1_ps(xy_squared);
+    let radius = _mm256_set1_ps(radius_squared);
+    let mut mask = 0_u64;
+    let mut i = 0;
+    while i + 8 <= z.len() {
+        // SAFETY: the loop condition proves all eight unaligned loads are in z.
+        let positions = unsafe { _mm256_loadu_ps(z.as_ptr().add(i)) };
+        let dz = _mm256_sub_ps(positions, center);
+        let distance = _mm256_add_ps(xy, _mm256_mul_ps(dz, dz));
+        let occupied = _mm256_cmp_ps::<_CMP_LE_OQ>(distance, radius);
+        mask |= (_mm256_movemask_ps(occupied) as u64) << i;
+        i += 8;
+    }
+    for (offset, &position) in z[i..].iter().enumerate() {
+        let dz = position - center_z;
+        mask |= u64::from(xy_squared + dz * dz <= radius_squared) << (i + offset);
+    }
+    mask
 }
 
 fn quadrant_index(point: Vec3) -> usize {
@@ -1092,6 +1219,52 @@ fn sphere_volume(radius: f32) -> f32 {
 mod tests {
     use super::*;
     use crate::geometry::Atom;
+
+    #[test]
+    #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+    fn avx2_masks_preserve_every_tail_and_floating_boundary() {
+        if !std::is_x86_feature_detected!("avx2") {
+            return;
+        }
+        let samples = [
+            0.0_f32,
+            -0.0,
+            1.0,
+            1.0_f32.next_up(),
+            1.0_f32.next_down(),
+            -1.0,
+            0.0001,
+            -0.0001,
+            f32::from_bits(1),
+            f32::MAX,
+            f32::INFINITY,
+            f32::NEG_INFINITY,
+            f32::NAN,
+        ];
+        let z: Vec<_> = (0..64).map(|i| samples[i % samples.len()]).collect();
+        for length in 0..=64 {
+            for center in [0.0_f32, 0.0001, 1.0, 1.0e20] {
+                for xy in [0.0_f32, 1.0, 1.0_f32.next_down(), f32::INFINITY, f32::NAN] {
+                    for radius in [0.0_f32, 1.0, 1.0_f32.next_up(), f32::INFINITY] {
+                        let expected =
+                            z[..length]
+                                .iter()
+                                .enumerate()
+                                .fold(0_u64, |mask, (i, value)| {
+                                    let dz = value - center;
+                                    mask | (u64::from(xy + dz * dz <= radius) << i)
+                                });
+                        // SAFETY: AVX2 was checked; the input contains at most 64 values.
+                        let actual = unsafe { row_mask_avx2(&z[..length], center, xy, radius) };
+                        assert_eq!(
+                            actual, expected,
+                            "length={length} center={center} xy={xy} radius={radius}"
+                        );
+                    }
+                }
+            }
+        }
+    }
 
     #[test]
     fn cached_grid_preserves_nodes_keys_and_thread_independence() {
@@ -1559,7 +1732,12 @@ mod tests {
             fields.extend(result.octants);
             fields.into_iter().map(f32::to_bits).collect::<Vec<_>>()
         };
-        assert_eq!(all_bits(actual), all_bits(expected));
+        let expected = all_bits(expected);
+        assert_eq!(all_bits(actual), expected);
+        assert_eq!(
+            all_bits(occupied_volumes_scalar(sphere, atoms, radius)),
+            expected
+        );
     }
 
     #[test]

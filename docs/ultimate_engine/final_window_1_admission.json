@@ -1,0 +1,107 @@
+{
+  "scope": "Final sequential measurement window; engineering/science already passed in declared scopes",
+  "controller_sha256": "577ef685dff7dc4e2f501cff50a27eac6c61b9761ab23bec8eb7f696b5ff0d46",
+  "runs": [
+    {
+      "name": "cli_ab",
+      "command": [
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.venv/bin/python",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/docs/ultimate_engine/final_paired_benchmark.py",
+        "--baseline",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/baseline",
+        "--candidate",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/final_profile",
+        "--output",
+        "/run/media/andrej-rumenovski/New Volume/Code/StericX/.stericx/ultimate_engine/final_window_1/cli_ab"
+      ],
+      "status": "host_not_quiet_before_measurement",
+      "host_preflight": {
+        "interval_seconds": 10.01155551300144,
+        "busy_core_equivalents": 0.28566989378282726,
+        "io_wait_core_equivalents": 0.00998845782457438,
+        "processes": [
+          {
+            "pid": 14446,
+            "name": "warp",
+            "core_equivalents": 0.1708026288002219
+          },
+          {
+            "pid": 17947,
+            "name": "codex",
+            "core_equivalents": 0.05393767225270165
+          },
+          {
+            "pid": 2657,
+            "name": "gnome-shell",
+            "core_equivalents": 0.022973452996521072
+          },
+          {
+            "pid": 4294,
+            "name": "Xwayland",
+            "core_equivalents": 0.012984995171946694
+          },
+          {
+            "pid": 19674,
+            "name": "codex",
+            "core_equivalents": 0.008989612042116941
+          },
+          {
+            "pid": 827,
+            "name": "nvidia-modeset/kthread_q",
+            "core_equivalents": 0.003995383129829752
+          },
+          {
+            "pid": 14723,
+            "name": "nvidia-drm/timeline-3f",
+            "core_equivalents": 0.0029965373473723137
+          },
+          {
+            "pid": 1660,
+            "name": "avahi-daemon",
+            "core_equivalents": 0.001997691564914876
+          },
+          {
+            "pid": 3226,
+            "name": "xdg-desktop-por",
+            "core_equivalents": 0.001997691564914876
+          },
+          {
+            "pid": 15139,
+            "name": "warp",
+            "core_equivalents": 0.001997691564914876
+          },
+          {
+            "pid": 134790,
+            "name": "python",
+            "core_equivalents": 0.001997691564914876
+          },
+          {
+            "pid": 2326,
+            "name": "dbus-daemon",
+            "core_equivalents": 0.000998845782457438
+          },
+          {
+            "pid": 3567,
+            "name": "gjs",
+            "core_equivalents": 0.000998845782457438
+          },
+          {
+            "pid": 4517,
+            "name": "mutter-x11-fram",
+            "core_equivalents": 0.000998845782457438
+          },
+          {
+            "pid": 126405,
+            "name": "kworker/u48:1-events_unbound",
+            "core_equivalents": 0.000998845782457438
+          }
+        ],
+        "pressure_cpu": "some avg10=0.00 avg60=0.00 avg300=0.47 total=414643392\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "pressure_io": "some avg10=0.13 avg60=0.59 avg300=0.51 total=815564173\nfull avg10=0.12 avg60=0.56 avg300=0.49 total=766112844\n",
+        "criteria": "At most 0.15 busy CPU cores and 0.05 cores of I/O wait averaged over this interval. Conservative local campaign gate, not a hardware universal.",
+        "quiet": false
+      }
+    }
+  ],
+  "complete": false
+}

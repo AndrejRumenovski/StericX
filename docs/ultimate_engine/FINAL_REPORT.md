@@ -15,7 +15,18 @@ application was stopped and the admission limit was not relaxed.
 After the user reactivated the goal, a [fresh host sample](host_after_resume_1.json)
 still failed admission: 0.380 busy core equivalents over 10.013 seconds, with
 Warp and GNOME Shell again dominant. The user was asked to minimize Warp and
-confirm an idle window. Final measurement remains unstarted.
+confirm an idle window. The user then confirmed readiness. The first measurement
+controller's [admission check](final_window_1_admission.json) still failed at
+0.286 busy core equivalents: GNOME Shell fell to 0.023, but Warp remained at
+0.171. The controller stopped before collecting timing samples.
+
+An explicitly scoped temporary suspension of Warp's UI process was proposed,
+with automatic resumption and a separate 30-minute watchdog. Approval for this
+additional application-control action is pending. This Codex session is not
+descended from Warp; Warp's shell/Codex terminal processes would not be signalled.
+The [guard checks](quiet_guard_checks.json) cover normal return, command failure
+and a killed controller using only newly created synthetic processes. No user
+process has been suspended. Final performance remains unmeasured.
 
 ## Scientific outcome
 

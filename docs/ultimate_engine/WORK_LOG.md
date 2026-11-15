@@ -59,3 +59,12 @@ not an extension of the previous three-turn count. No benchmark was started.
 The user was asked to minimize Warp and leave the computer idle, then confirm
 readiness. Original and resumed samples are preserved separately; the quiet
 criterion and all scientific/performance protocols remain unchanged.
+
+The user subsequently confirmed that Warp was minimized and the host would be
+idle. `final_window_1` stopped in its first admission check (0.286 busy cores),
+before any timing. Minimized Warp still used 0.171 cores; GNOME Shell fell to
+0.023. The user was asked to authorize temporary suspension of Warp's UI only,
+with automatic resume and an independent 30-minute watchdog. This is an
+additional application-control permission, not a repeat request for the already
+confirmed idle window. No user process has been signalled. Synthetic-process
+normal/failure/controller-crash checks all passed; approval remains pending.

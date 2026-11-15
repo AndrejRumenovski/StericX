@@ -1,0 +1,31 @@
+{
+  "scope": "Only newly spawned synthetic processes named warp. No user application signalled.",
+  "checks": [
+    {
+      "mode": "normal",
+      "returncode": 0,
+      "target_state_after": "S",
+      "stdout": "",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "mode": "failure",
+      "returncode": 7,
+      "target_state_after": "S",
+      "stdout": "",
+      "stderr": "",
+      "passed": true
+    },
+    {
+      "mode": "controller_crash",
+      "returncode": -9,
+      "target_state_after": "S",
+      "stdout": "",
+      "stderr": "",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "controller_sha256": "aeebe889598311d888d0dc38fb939d6acc6971215aecf12423fd4dac25d32c1d"
+}

@@ -2,7 +2,7 @@
 """Sequential final measurements after scientific admission; no builds or reference jobs overlap."""
 import argparse,hashlib,json,os,subprocess,time
 from pathlib import Path
-from host_activity import measure
+from host_activity import measure, postflight
 ROOT=Path(__file__).resolve().parents[2];BASE=ROOT/'.stericx/ultimate_engine'
 p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
 out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
@@ -33,7 +33,9 @@ commands=[
  ('competitive',[python,docs/'competitive_measure.py','timing','--output',out/'competitive'],env),
 ]
 receipt={'scope':'Final sequential measurement window; engineering/science already passed in declared scopes',
-    'controller_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'runs':[],'complete':False}
+    'controller_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    'helper_hashes':{str(docs/name):hashlib.sha256((docs/name).read_bytes()).hexdigest() for name in ['host_activity.py','benchmark_artifacts.py']},
+    'runs':[],'complete':False}
 def save():(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
 for name,command,child_env in commands:
     command=list(map(str,command));start=time.monotonic()
@@ -47,7 +49,7 @@ for name,command,child_env in commands:
                log_sha256=hashlib.sha256((out/(name+'.log')).read_bytes()).hexdigest());save()
     print(json.dumps(row),flush=True)
     r.check_returncode()
-    row['host_postflight']=measure();save()
+    row['host_postflight']=postflight(out/name);save()
     if not row['host_postflight']['quiet']:
         row['status']='host_not_quiet_after_measurement';save()
         raise SystemExit('Retain '+name+' as attempted measurement; host activity requires review.')

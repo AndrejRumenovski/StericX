@@ -5,7 +5,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'scripts'))
 import profile_stericx as h
-from host_activity import measure as host_measure
+from host_activity import measure as host_measure, postflight
+from benchmark_artifacts import compact_metrics
 BASE=ROOT/'.stericx/ultimate_engine'
 AFFINITY={1:[2],2:[2,3],4:list(range(4)),6:list(range(6)),12:list(range(12))}
 
@@ -34,7 +35,7 @@ def main():
     pre=json.loads(a.preflight.read_text());assert pre['complete']
     native=a.native.resolve()
     worker=Path(__file__).with_name('competitive_worker.py')
-    binaries=[native,worker,gate,a.preflight,Path(__file__)]
+    binaries=[native,worker,gate,a.preflight,Path(__file__),Path(__file__).with_name('host_activity.py'),Path(__file__).with_name('benchmark_artifacts.py')]
     shutil.copy2(Path(__file__),out/Path(__file__).name);shutil.copy2(worker,out/worker.name)
     receipt={'phase':a.phase,'scope':'56 unique geometries; repeated paths form the 1000-calculation batch. Matched finite-grid volume only.',
         'bindings':{str(p):h.digest(p) for p in binaries},'runs':[],'complete':False}
@@ -59,7 +60,7 @@ def main():
                     row={'size':size,'threads':threads,'scope':scope,'pair':pair,'warmup':pair<0,'tool':tool,'status':'started'}
                     receipt['runs'].append(row);save();child_env=dict(env,RAYON_NUM_THREADS=str(threads))
                     if a.phase=='timing':
-                        row['metrics']=h.measure(command,child_env,set(AFFINITY[threads]),folder,launcher)
+                        row['metrics']=compact_metrics(h.measure(command,child_env,set(AFFINITY[threads]),folder,launcher),folder)
                         assert row['metrics'].get('exit_code',row['metrics'].get('returncode',0))==0
                     else:
                         folder.mkdir();samples=[]
@@ -82,7 +83,7 @@ def main():
                     row.update(status='passed',warm_elapsed_ns=value['warm_elapsed_ns'],stdout_sha256=h.digest(folder/'stdout.txt'))
                     save()
     for path,digest in receipt['bindings'].items():assert h.digest(Path(path))==digest,path
-    if a.phase=='timing':receipt['host_postflight']=host_measure()
+    if a.phase=='timing':receipt['host_postflight']=postflight(out)
     receipt['memory_caveat']='Summed concurrent RSS double-counts shared pages and sampling can miss peaks. wait4 max RSS is not total process-tree memory. Memory sampling is never used for speed claims.'
     receipt['complete']=True;save()
 

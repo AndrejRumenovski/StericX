@@ -2,12 +2,13 @@
 """Quiet-window costs with batched analytical calls and unchanged scientific references."""
 import argparse,hashlib,json,math,statistics,subprocess
 from pathlib import Path
-from host_activity import measure
+from host_activity import measure, postflight
 ROOT=Path(__file__).resolve().parents[2];BASE=ROOT/'.stericx/ultimate_engine'
 p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
 out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
 receipt={'scope':'Actual Rust algorithms; setup/parsing outside internal timers; analytical and general-union original geometries selected prospectively, all prior stress evidence retained',
     'host_preflight':measure(),'complete':False,'runs':{}}
+receipt['helper_hashes']={str(Path(__file__).with_name(n)):hashlib.sha256(Path(__file__).with_name(n).read_bytes()).hexdigest() for n in ['host_activity.py','benchmark_artifacts.py']}
 def save():(out/'summary.json').write_text(json.dumps(receipt,indent=2)+'\n')
 save()
 if not receipt['host_preflight']['quiet']:raise SystemExit('No timing: quiet window required.')
@@ -37,4 +38,4 @@ for name,binary,request in [('sterimol',BASE/'final_profile/bin/continuous',BASE
             for current,prior in zip(row['measurements'],previous[row['id']]['measurements'],strict=True):
                 assert current['result']==prior['result'],row['id']
     save()
-receipt.update(complete=True,host_postflight=measure());save()
+receipt.update(complete=True,host_postflight=postflight(out));save()

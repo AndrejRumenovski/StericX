@@ -2,6 +2,7 @@
 """Measure interval host activity before the final timing window; never stop other apps."""
 import argparse,json,os,time
 from pathlib import Path
+from benchmark_artifacts import drain_artifacts
 def snapshot():
     cpu={}
     for line in Path('/proc/stat').read_text().splitlines():
@@ -31,6 +32,11 @@ def measure(seconds=10.):
         'pressure_cpu':Path('/proc/pressure/cpu').read_text(),'pressure_io':Path('/proc/pressure/io').read_text(),
         'criteria':'At most 0.15 busy CPU cores and 0.05 cores of I/O wait averaged over this interval. Conservative local campaign gate, not a hardware universal.'}
     result['quiet']=result['busy_core_equivalents']<=.15 and result['io_wait_core_equivalents']<=.05
+    return result
+def postflight(directory):
+    flushed=drain_artifacts(directory)
+    result=measure()
+    result['artifact_flush']=flushed
     return result
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);p.add_argument('--seconds',type=float,default=10)

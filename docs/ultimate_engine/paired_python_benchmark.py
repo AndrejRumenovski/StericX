@@ -4,7 +4,7 @@ import argparse,json,os,shutil,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'scripts'))
 import profile_stericx as h
-from host_activity import measure
+from host_activity import measure, postflight
 BASE=ROOT/'.stericx/ultimate_engine'
 p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True)
 p.add_argument('--preflight-only',action='store_true');a=p.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
@@ -19,6 +19,7 @@ env.pop('STERICX_PROFILE_PATH',None)
 python=ROOT/'.stericx/paton/python-build/bin/python';worker=Path(__file__).with_name('python_measure_worker.py')
 variants={'baseline':BASE/'baseline/python-installed','candidate':BASE/'final_profile/python-installed'}
 receipt['controller_sha256']=h.digest(Path(__file__));receipt['worker_sha256']=h.digest(worker)
+receipt['helper_hashes']={str(Path(__file__).with_name(n)):h.digest(Path(__file__).with_name(n)) for n in ['host_activity.py','benchmark_artifacts.py']}
 shutil.copy2(Path(__file__),out/Path(__file__).name);shutil.copy2(worker,out/worker.name)
 cases=[(m,1,n) for m,n in [('bridge',40),('public',40),('json_decode',500),('typed_construction',500),
     ('numpy_export',500),('options_encode',1000),('record_export',200),('per_file_56',3)]]
@@ -37,5 +38,5 @@ for mode,threads,count in cases:
             value=json.loads((folder/'stdout.txt').read_text());row['kernel']=value
             assert value['result_sha256']==expected.setdefault((mode,threads),value['result_sha256']),(mode,side)
             row['exact']=True;save()
-if not a.preflight_only:receipt['host_postflight']=measure()
+if not a.preflight_only:receipt['host_postflight']=postflight(out)
 receipt['complete']=True;save()

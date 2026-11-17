@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'scripts'))
 import profile_stericx as harness
-from host_activity import measure
+from host_activity import measure, postflight
 from benchmark_artifacts import compact_metrics, retain_fingerprint
 
 def main():
@@ -24,7 +24,7 @@ def main():
     manifest=json.loads(manifest_path.read_text());harness.verify_manifest(manifest)
     binaries={'baseline':a.baseline.resolve()/'native-target/release/stericx',
               'candidate':a.candidate.resolve()/'native-target/release/stericx'}
-    bindings=[manifest_path,Path(__file__),Path(__file__).with_name('benchmark_artifacts.py'),*binaries.values()]
+    bindings=[manifest_path,Path(__file__),Path(__file__).with_name('benchmark_artifacts.py'),Path(__file__).with_name('host_activity.py'),*binaries.values()]
     journal['bindings']={str(p):harness.digest(p) for p in bindings}
     launcher=harness.build_launcher(out/'launcher')
     env=dict(os.environ,LC_ALL='C',OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1')
@@ -52,7 +52,7 @@ def main():
     for path,digest in journal['bindings'].items():assert harness.digest(Path(path))==digest
     if a.preflight_only:
         journal.update(complete=True,interpretation='Functional preflight only. Incidental metrics are not controlled performance evidence.');save();return
-    journal['host_postflight']=measure();journal['complete']=True
+    journal['host_postflight']=postflight(out);journal['complete']=True
     journal['quiet_endpoints']=journal['host_postflight']['quiet'] and journal['host_preflight']['quiet']
     journal['results']={}
     for t in [1,2,4,6,12]:

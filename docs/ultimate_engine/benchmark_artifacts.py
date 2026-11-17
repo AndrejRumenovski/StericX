@@ -1,6 +1,9 @@
 """Compact journal references; full commands and outputs remain in each raw trial."""
 import hashlib
 import json
+import os
+import stat
+import time
 from pathlib import Path
 
 
@@ -28,3 +31,35 @@ def retain_fingerprint(value, path):
     record = file_record(path)
     assert record['sha256'] == hashlib.sha256(encoded).hexdigest()
     return record
+
+
+def drain_artifacts(directory):
+    """Flush only this measurement's regular files/directories, outside all timers."""
+    root = Path(directory).resolve()
+    assert root.is_dir()
+    started = time.monotonic()
+    files = directories = bytes_observed = skipped = 0
+    for parent, children, names in os.walk(root, topdown=False, followlinks=False):
+        for name in names:
+            path = Path(parent) / name
+            info = path.lstat()
+            if not stat.S_ISREG(info.st_mode):
+                skipped += 1
+                continue
+            fd = os.open(path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW)
+            try:
+                os.fsync(fd)
+            finally:
+                os.close(fd)
+            files += 1
+            bytes_observed += info.st_size
+        fd = os.open(parent, os.O_RDONLY | os.O_DIRECTORY | os.O_CLOEXEC)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        directories += 1
+    return {'scope': 'Benchmark artifacts only; fsync outside every measured interval; no cache eviction.',
+            'directory': str(root), 'files': files, 'directories': directories,
+            'file_bytes_observed': bytes_observed, 'nonregular_files_skipped': skipped,
+            'elapsed_seconds': time.monotonic() - started}

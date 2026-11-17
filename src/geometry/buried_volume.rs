@@ -307,7 +307,7 @@ impl BuriedVolumeCalculator {
         for (orientation_index, &plane_idx) in neighbor_indices.iter().enumerate() {
             let basis = coordinate_basis(molecule, donor_idx, plane_idx, center)?;
             let atoms = aligned_atoms(molecule, center, basis, config)?;
-            let volumes = occupied_volumes(&sphere, &atoms, config.sphere_radius);
+            let volumes = occupied_grid_volumes(&sphere, &atoms, config.sphere_radius);
             if let Some(regions) = orientations.as_mut() {
                 regions.push(RegionalBuriedVolume {
                     plane_atom_index: plane_idx,
@@ -956,12 +956,83 @@ fn integration_grid(config: BuriedVolumeConfig) -> Vec<Vec3> {
 // original f32 node and boundary decision, including when callers change modes.
 // One bounded entry per worker avoids cross-thread contention and unbounded
 // growth during radius scans. Oversized grids are returned without retention.
-type GridCacheEntry = ((u32, u32), Rc<Vec<Vec3>>);
+#[derive(Clone, Debug, PartialEq)]
+struct GridBlock {
+    x: f32,
+    y: f32,
+    start: usize,
+    len: usize,
+    positive: u64,
+    quadrant: usize,
+}
+
+#[derive(Clone, Debug, PartialEq)]
+struct PreparedGrid {
+    points: Vec<Vec3>,
+    z: Vec<f32>,
+    blocks: Vec<GridBlock>,
+    quadrant_total: [usize; 4],
+    octant_total: [usize; 8],
+}
+
+impl std::ops::Deref for PreparedGrid {
+    type Target = Vec<Vec3>;
+    fn deref(&self) -> &Self::Target {
+        &self.points
+    }
+}
+
+impl PreparedGrid {
+    fn new(points: Vec<Vec3>) -> Self {
+        let mut grid = Self {
+            z: Vec::with_capacity(points.len()),
+            blocks: Vec::new(),
+            quadrant_total: [0; 4],
+            octant_total: [0; 8],
+            points,
+        };
+        for row in grid
+            .points
+            .chunk_by(|a, b| a.x.to_bits() == b.x.to_bits() && a.y.to_bits() == b.y.to_bits())
+        {
+            let quadrant = quadrant_index(row[0]);
+            for block in row.chunks(64) {
+                let start = grid.z.len();
+                let mut positive = 0_u64;
+                for (i, point) in block.iter().enumerate() {
+                    grid.z.push(point.z);
+                    positive |= u64::from(point.z >= 0.0) << i;
+                }
+                let positive_count = positive.count_ones() as usize;
+                grid.quadrant_total[quadrant] += block.len();
+                grid.octant_total[quadrant] += positive_count;
+                grid.octant_total[quadrant + 4] += block.len() - positive_count;
+                grid.blocks.push(GridBlock {
+                    x: row[0].x,
+                    y: row[0].y,
+                    start,
+                    len: block.len(),
+                    positive,
+                    quadrant,
+                });
+            }
+        }
+        grid
+    }
+
+    fn retained_bytes(&self) -> usize {
+        self.points.capacity() * std::mem::size_of::<Vec3>()
+            + self.z.capacity() * std::mem::size_of::<f32>()
+            + self.blocks.capacity() * std::mem::size_of::<GridBlock>()
+    }
+}
+
+type GridCacheEntry = ((u32, u32), Rc<PreparedGrid>);
 thread_local! {
     static GRID_CACHE: RefCell<Option<GridCacheEntry>> = const { RefCell::new(None) };
 }
 
-fn reusable_integration_grid(config: BuriedVolumeConfig) -> Rc<Vec<Vec3>> {
+fn reusable_integration_grid(config: BuriedVolumeConfig) -> Rc<PreparedGrid> {
     const MAX_CACHED_BYTES: usize = 8 * 1024 * 1024;
     let key = (config.sphere_radius.to_bits(), config.density.to_bits());
     GRID_CACHE.with(|cache| {
@@ -970,14 +1041,76 @@ fn reusable_integration_grid(config: BuriedVolumeConfig) -> Rc<Vec<Vec3>> {
                 return Rc::clone(grid);
             }
         }
-        let grid = Rc::new(integration_grid(config));
-        if grid.capacity() <= MAX_CACHED_BYTES / std::mem::size_of::<Vec3>() {
+        let grid = Rc::new(PreparedGrid::new(integration_grid(config)));
+        if grid.retained_bytes() <= MAX_CACHED_BYTES {
             *cache.borrow_mut() = Some((key, Rc::clone(&grid)));
         }
         grid
     })
 }
 
+fn occupied_grid_volumes(
+    grid: &PreparedGrid,
+    atoms: &[AlignedAtom],
+    sphere_radius: f32,
+) -> OccupiedVolumes {
+    crate::profile_scope!("buried_volume", "buried_volume::occupied_volumes");
+    #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+    if std::is_x86_feature_detected!("avx2") && std::is_x86_feature_detected!("popcnt") {
+        // SAFETY: checked features; metadata refers to ranges built from the
+        // exact original point rows and does not depend on atomic geometry.
+        return unsafe { occupied_prepared_avx2(grid, atoms, sphere_radius) };
+    }
+    occupied_volumes_scalar(&grid.points, atoms, sphere_radius)
+}
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+#[target_feature(enable = "avx2,popcnt")]
+unsafe fn occupied_prepared_avx2(
+    grid: &PreparedGrid,
+    atoms: &[AlignedAtom],
+    sphere_radius: f32,
+) -> OccupiedVolumes {
+    let mut occupied_total = 0;
+    let mut quadrant_occupied = [0; 4];
+    let mut octant_occupied = [0; 8];
+    for block in &grid.blocks {
+        let z = &grid.z[block.start..block.start + block.len];
+        let full = u64::MAX >> (64 - block.len);
+        let mut occupied = 0_u64;
+        for atom in atoms {
+            let dx = block.x - atom.position.x;
+            let dy = block.y - atom.position.y;
+            let xy_squared = dx * dx + dy * dy;
+            if xy_squared > atom.radius_squared {
+                continue;
+            }
+            // SAFETY: target features and the bounded Z range are established.
+            occupied |=
+                unsafe { row_mask_avx2(z, atom.position.z, xy_squared, atom.radius_squared) };
+            if occupied == full {
+                break;
+            }
+        }
+        let hits = occupied.count_ones() as usize;
+        let positive_hits = (block.positive & occupied).count_ones() as usize;
+        occupied_total += hits;
+        quadrant_occupied[block.quadrant] += hits;
+        octant_occupied[block.quadrant] += positive_hits;
+        octant_occupied[block.quadrant + 4] += hits - positive_hits;
+    }
+    volumes_from_counts(
+        grid.points.len(),
+        sphere_radius,
+        occupied_total,
+        grid.quadrant_total,
+        quadrant_occupied,
+        grid.octant_total,
+        octant_occupied,
+    )
+}
+
+#[allow(dead_code)] // The source-bound research observer also exercises arbitrary point slices.
 fn occupied_volumes(sphere: &[Vec3], atoms: &[AlignedAtom], sphere_radius: f32) -> OccupiedVolumes {
     crate::profile_scope!("buried_volume", "buried_volume::occupied_volumes");
     #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
@@ -1239,6 +1372,72 @@ mod tests {
 
     #[test]
     #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+    fn prepared_rows_preserve_each_point_and_union_bit() {
+        if !std::is_x86_feature_detected!("avx2") {
+            return;
+        }
+        for (radius, density) in [(2.5, 0.08), (3.5, 0.01), (3.5, 0.0005)] {
+            let grid = PreparedGrid::new(integration_grid(BuriedVolumeConfig {
+                sphere_radius: radius,
+                density,
+                ..Default::default()
+            }));
+            let mut atoms = vec![
+                AlignedAtom {
+                    position: Vec3::ZERO,
+                    radius_squared: 1.0,
+                },
+                AlignedAtom {
+                    position: Vec3::new(1.0, -1.0, 0.5),
+                    radius_squared: 2.0,
+                },
+                AlignedAtom {
+                    position: Vec3::new(-1.0, 0.5, -1.0),
+                    radius_squared: 0.25,
+                },
+            ];
+            // Sphere radii equal to actual represented squared point distances
+            // deliberately exercise inclusive boundaries in the original graph.
+            for index in [0, grid.points.len() / 3, grid.points.len() - 1] {
+                atoms.push(AlignedAtom {
+                    position: Vec3::ZERO,
+                    radius_squared: grid.points[index].length_squared(),
+                });
+            }
+            let mut cursor = 0;
+            for block in &grid.blocks {
+                let z = &grid.z[block.start..block.start + block.len];
+                let mut mask = 0;
+                for atom in &atoms {
+                    let dx = block.x - atom.position.x;
+                    let dy = block.y - atom.position.y;
+                    // SAFETY: AVX2 was checked and each stored block has <=64 nodes.
+                    mask |= unsafe {
+                        row_mask_avx2(z, atom.position.z, dx * dx + dy * dy, atom.radius_squared)
+                    };
+                }
+                for (offset, &z) in z.iter().enumerate() {
+                    let point = grid.points[cursor];
+                    assert_eq!(
+                        [block.x, block.y, z].map(f32::to_bits),
+                        point.to_array().map(f32::to_bits)
+                    );
+                    let expected = atoms
+                        .iter()
+                        .any(|a| point.distance_squared(a.position) <= a.radius_squared);
+                    assert_eq!((mask >> offset) & 1 != 0, expected);
+                    assert_eq!((block.positive >> offset) & 1 != 0, point.z >= 0.0);
+                    assert_eq!(block.quadrant, quadrant_index(point));
+                    cursor += 1;
+                }
+            }
+            assert_eq!(cursor, grid.points.len());
+            assert_occupancy_bits_match(&grid.points, &atoms, radius);
+        }
+    }
+
+    #[test]
+    #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
     fn avx2_masks_preserve_every_tail_and_floating_boundary() {
         if !std::is_x86_feature_detected!("avx2") {
             return;
@@ -1298,7 +1497,7 @@ mod tests {
     fn cached_grid_preserves_nodes_keys_and_thread_independence() {
         let original = BuriedVolumeConfig::default();
         let first = reusable_integration_grid(original);
-        assert_eq!(*first, integration_grid(original));
+        assert_eq!(first.points, integration_grid(original));
         assert!(Rc::ptr_eq(&first, &reusable_integration_grid(original)));
         // Settings unrelated to grid geometry must not allocate another grid.
         let other_radii = BuriedVolumeConfig {
@@ -1319,7 +1518,7 @@ mod tests {
             original,
         ] {
             assert_eq!(
-                *reusable_integration_grid(changed),
+                reusable_integration_grid(changed).points,
                 integration_grid(changed)
             );
         }
@@ -1764,6 +1963,11 @@ mod tests {
         assert_eq!(all_bits(actual), expected);
         assert_eq!(
             all_bits(occupied_volumes_scalar(sphere, atoms, radius)),
+            expected
+        );
+        let prepared = PreparedGrid::new(sphere.to_vec());
+        assert_eq!(
+            all_bits(occupied_grid_volumes(&prepared, atoms, radius)),
             expected
         );
     }

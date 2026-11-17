@@ -30,3 +30,18 @@
   adapter compilation failed on foreign inherent impl/private error constructor;
   v2 uses adapter-local wrapper types while retaining original interval code.
   Both attempts remain. No certificate has yet been admitted.
+- C1 prototype passes 167 original analytical enclosures and 180 extended
+  observations, with no failed containment/nesting/permutation/flag/budget checks.
+  Extended exact references use triangle-free overlap graphs, rational pi and
+  integer square-root distance bounds. All twelve molecular targets at 0.1,
+  0.05 and 0.01 Å³ succeed (expanded maximum 1,048,575 XY cells). Preliminary
+  prototype timings are not final controlled cost measurements.
+- O2 general X-slab filtering is rejected (~12% slower). Source, patch and all
+  favorable/unfavorable samples retained. O1 production restored before O3.
+- O3 immutable prepared-grid metadata passes focused bit/mask tests and eight
+  alternating pairs. Exploratory volume gain over O1 is 1.791×; final controlled
+  acceptance remains pending. Its additional retained memory must be reported.
+- C1 is being integrated as a separate explicit certified Rust API. Existing
+  midpoint/reference APIs remain unchanged. Full independent predicate and
+  molecular validation, all scientific replay, final performance and reports
+  remain to be completed.

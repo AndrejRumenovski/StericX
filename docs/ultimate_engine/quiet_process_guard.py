@@ -17,7 +17,12 @@ def same(pid, start):
 
 def resume(pid, start):
     if same(pid, start):
-        os.kill(pid, signal.SIGCONT)
+        try:
+            os.kill(pid, signal.SIGCONT)
+            return True
+        except ProcessLookupError:
+            pass
+    return False
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
@@ -39,7 +44,7 @@ def main():
     command = a.command[1:] if a.command[:1] == ['--'] else a.command
     assert command
     target = identity(a.pid)
-    assert target['name'] == 'warp' and target['start'] == a.start
+    assert target['name'] in ('warp', 'warp-terminal') and target['start'] == a.start
     assert target['state'] not in ('T', 't'), 'Do not take over an existing suspension'
     ancestor = os.getpid()
     while ancestor > 1:
@@ -67,8 +72,9 @@ def main():
         result = subprocess.run(command)
         receipt['returncode'] = result.returncode
     finally:
-        resume(a.pid, a.start)
-        receipt['resumed'] = True; receipt['resumed_at'] = time.time()
+        receipt['resumed'] = resume(a.pid, a.start)
+        receipt['resume_attempted_at'] = time.time()
+        receipt['resumed_at'] = receipt['resume_attempted_at'] if receipt['resumed'] else None
         receipt['identity_after'] = identity(a.pid) if same(a.pid, a.start) else None
         save()
         watchdog.terminate(); watchdog.wait(timeout=5)

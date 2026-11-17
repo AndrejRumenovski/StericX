@@ -28,6 +28,7 @@ def main():
     launcher=harness.build_launcher(out/'launcher')
     env=dict(os.environ,LC_ALL='C',OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1')
     env.pop('STERICX_PROFILE_PATH',None);expected={}
+    (out/'fingerprints').mkdir()
     for threads,affinity in [(1,[2]),(2,[2,3]),(4,list(range(4))),(6,list(range(6))),(12,list(range(12)))]:
         for name in ['single_small','single_large','conformers_56','ensemble_sdf','descriptors_10000','parse_ensembles_1000','db_build_ensembles']:
             work=manifest['workloads'][name]
@@ -43,7 +44,11 @@ def main():
                     assert metrics.get('exit_code',metrics.get('returncode',0))==0,attempt
                     scientific=harness.check_result(work,folder)
                     assert scientific==expected.setdefault(name,scientific),(name,side,threads)
-                    attempt.update(status='passed',scientific=scientific);save()
+                    fingerprint=out/'fingerprints'/(name+'.json')
+                    if not fingerprint.exists():
+                        fingerprint.write_text(json.dumps(scientific,sort_keys=True)+'\n')
+                    attempt.update(status='passed',scientific={'path':str(fingerprint),
+                        'sha256':harness.digest(fingerprint)});save()
             print(threads,name,flush=True)
     harness.verify_manifest(manifest)
     for path,digest in journal['bindings'].items():assert harness.digest(Path(path))==digest

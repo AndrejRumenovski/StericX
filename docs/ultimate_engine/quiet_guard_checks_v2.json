@@ -1,0 +1,27 @@
+{
+  "scope": "Only newly spawned synthetic warp-terminal processes; no user application signalled.",
+  "checks": [
+    {
+      "mode": "normal",
+      "returncode": 0,
+      "passed": true
+    },
+    {
+      "mode": "failure",
+      "returncode": 7,
+      "passed": true
+    },
+    {
+      "mode": "controller_crash",
+      "returncode": -9,
+      "passed": true
+    },
+    {
+      "mode": "target_exit",
+      "returncode": 0,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "controller_sha256": "549d8af37eb1d7c569b9f1260a83aa4b36fd4db643faab35c2462a35325469db"
+}

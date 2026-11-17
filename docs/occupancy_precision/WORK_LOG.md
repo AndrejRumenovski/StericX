@@ -49,3 +49,9 @@
 - O4 bounded multi-key grid LRU passes 25 focused tests and all 80 paired
   observations. Exploratory radius-profile ratio is 1.893× versus O3. Cache
   buffers remain capped at 8 MiB per thread; up to eight entries are retained.
+
+- C1 public API: four integration tests, 167 analytical enclosures, 180 extended
+  observations and 6,000 exact-rational predicate cases pass. All twelve original
+  0.05 targets succeed; all twelve 0.01 targets succeed at the expanded cap.
+  Eighteen analytical stress targets remain explicitly unmet. Independent octree
+  intervals overlap all twelve tighter molecular bounds; this is corroboration.

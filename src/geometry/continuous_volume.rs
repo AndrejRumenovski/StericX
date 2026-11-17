@@ -2,6 +2,12 @@
 use super::{BuriedVolumeCalculator, DescriptorError, Molecule};
 use std::{cmp::Ordering, collections::BinaryHeap};
 
+mod certified;
+pub use certified::{
+    CertifiedVolumeOptions, CertifiedVolumeResult, CertifiedVolumeStatus,
+    sphere_union_volume_certified,
+};
+
 /// A mathematical closed ball. Coordinates/radius are in Å.
 #[derive(Clone, Copy, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct AtomicSphere {

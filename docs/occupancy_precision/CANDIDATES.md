@@ -11,7 +11,7 @@ and a separate commit. Failed candidates and timing attempts stay on disk.
 | O3 | Cached row/Z/regional metadata reduces point traversal and mask preparation | 24 focused tests including full prepared-grid point masks; bounded 8 MiB cache; eight alternating pairs | Retain; final controlled acceptance pending |
 | O4 | Bounded multi-key grid LRU avoids repeated preparation in radius profiles | 25 focused tests; eight alternating equal-output pairs | Retain: exploratory radius profile 1.893× over O3 |
 | O5 | Cell lists/BVH/bitset row spans/internal parallelism help only larger work | Preprocessing separately timed; mask equality; avoid nested pools | Investigation pending |
-| C1 | Certified chord ranges plus smooth-patch Taylor integration tighten boxes | Full proof of range/topology/derivative bounds; rational primitives; independent enclosures | Investigation pending |
+| C1 | Certified chord ranges plus smooth-patch Taylor integration tighten boxes | Proof, 6,000 rational predicates, 167 original and 96 additional analytical observations, molecular nesting | Retain as separate explicit API; full regression/final cost pending |
 | C2 | Inner/outer plane bounds give certified partial sphere–cell volumes | Outward-rounded clipping proof; high-precision and rational adversaries | Investigation pending |
 | G1 | Reuse conservative sphere candidates between related cells/rows | Correct precision-specific predicates and invalidation; shared versus specialized A/B | Investigation pending |
 

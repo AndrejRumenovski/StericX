@@ -15,7 +15,9 @@ pub use buried_volume::{
 };
 pub use continuous_sterimol::ContinuousSterimolParams;
 pub use continuous_volume::{
-    AtomicSphere, ContinuousVolumeMethod, ContinuousVolumeResult, sphere_union_volume,
+    AtomicSphere, CertifiedVolumeOptions, CertifiedVolumeResult, CertifiedVolumeStatus,
+    ContinuousVolumeMethod, ContinuousVolumeResult, sphere_union_volume,
+    sphere_union_volume_certified,
 };
 pub use donor::{DonorTopology, detect_trivalent_donor};
 pub use pyramidalization::{PyramidalizationCalculator, PyramidalizationParams};

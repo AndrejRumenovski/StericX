@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Standalone scientific figures from retained exploratory samples, never invented timings."""
-import hashlib,json
+import argparse,hashlib,json
 from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 HERE=Path(__file__).resolve().parent
-paths=[HERE/'n1_accuracy_measurements.json',HERE/'n2_accuracy_measurements.json']
+p=argparse.ArgumentParser(description=__doc__);p.add_argument('--final',action='store_true');args=p.parse_args()
+prefix='final_' if args.final else ''
+paths=[HERE/(prefix+'n1_accuracy_measurements.json'),HERE/(prefix+'n2_accuracy_measurements.json')]
 n1,n2=[json.loads(p.read_text()) for p in paths]
 one=next(r for r in n1['rows'] if r['id']=='random_2_32')
 two=[r for r in n2['rows'] if r['id'].startswith('three_overlapping_chain/')]
@@ -19,9 +21,9 @@ for row in rows:
     peers=[r for r in rows if r['case']==row['case']]
     row['empirical_pareto']=not any(r['time_us']<=row['time_us'] and r['error_upper']<=row['error_upper']
         and (r['time_us']<row['time_us'] or r['error_upper']<row['error_upper']) for r in peers)
-receipt={'scope':'Empirical upper residual to independent reference bracket; exploratory medians, not final quiet-window timing or universal optimality',
+receipt={'scope':('Final quiet-window medians; empirical upper residual to independent reference bracket, no universal optimality' if args.final else 'Empirical upper residual to independent reference bracket; exploratory medians, not final quiet-window timing or universal optimality'),
     'inputs':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},'rows':rows}
-(HERE/'accuracy_cost_frontier.json').write_text(json.dumps(receipt,indent=2)+'\n')
+(HERE/(prefix+'accuracy_cost_frontier.json')).write_text(json.dumps(receipt,indent=2)+'\n')
 plt.rcParams.update({'font.size':10,'axes.spines.top':False,'axes.spines.right':False})
 fig,axes=plt.subplots(1,2,figsize=(12,5.3))
 for ax,case in zip(axes,['32-disc Sterimol','Three-ball volume']):
@@ -49,6 +51,7 @@ axes[1].plot([],[],'s',markerfacecolor='none',c='#b45309',label='Adaptive boxes:
 handles,labels=axes[1].get_legend_handles_labels()
 fig.legend(handles,labels,loc='lower center',bbox_to_anchor=(.74,.09),ncol=2,fontsize=8)
 fig.suptitle('Accuracy and computational cost on two frozen geometries',fontsize=14)
-fig.text(.5,.025,'Exploratory desktop samples. Same quantity and input within each panel.\nN1 reference is a high-precision bracket; N2 uses rational analytical enclosures. Final controlled timing is pending.',ha='center',fontsize=9)
+footer=('Controlled quiet-window samples. Same quantity and input within each panel.\nN1: independent high-precision bracket. N2: rational analytical enclosures. Residuals and certified bounds are distinct.' if args.final else 'Exploratory desktop samples. Same quantity and input within each panel.\nN1 reference is a high-precision bracket; N2 uses rational analytical enclosures. Final controlled timing is pending.')
+fig.text(.5,.025,footer,ha='center',fontsize=9)
 fig.tight_layout(rect=(0,.19,1,.95))
-fig.savefig(HERE/'accuracy_cost_frontier.svg');fig.savefig(HERE/'accuracy_cost_frontier.png',dpi=160)
+fig.savefig(HERE/(prefix+'accuracy_cost_frontier.svg'));fig.savefig(HERE/(prefix+'accuracy_cost_frontier.png'),dpi=160)

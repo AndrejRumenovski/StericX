@@ -1,0 +1,3911 @@
+{
+  "scope": "Final controlled subset, preserving all earlier 244 validation observations separately",
+  "rows": [
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19767020,
+        18998645,
+        18998235,
+        19005559,
+        18999808,
+        19029914,
+        19050924,
+        18998966
+      ],
+      "id": "empty/midpoint_16",
+      "iterations": 19380,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 16
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 256
+      },
+      "ns_per_call": [
+        1019.970072239422,
+        980.3222394220846,
+        980.3010835913312,
+        980.6789989680083,
+        980.382249742002,
+        981.9357069143447,
+        983.0198142414861,
+        980.3388028895769
+      ],
+      "median_ns": 980.5306243550051,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 0.0
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19507242,
+        19468038,
+        19451818,
+        19465012,
+        19452740,
+        19456256,
+        19451768,
+        19452008
+      ],
+      "id": "empty/midpoint_32",
+      "iterations": 5054,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 32
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 1024
+      },
+      "ns_per_call": [
+        3859.762960031658,
+        3852.0059358923627,
+        3848.7965967550454,
+        3851.4072022160667,
+        3848.9790265136526,
+        3849.674713098536,
+        3848.786703601108,
+        3848.834190740008
+      ],
+      "median_ns": 3849.3268698060942,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 0.0
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19463971,
+        19422132,
+        19445937,
+        19393768,
+        19342783,
+        19376426,
+        19407755,
+        19383269
+      ],
+      "id": "empty/midpoint_64",
+      "iterations": 1234,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 64
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 4096
+      },
+      "ns_per_call": [
+        15773.072123176662,
+        15739.166936790924,
+        15758.457860615883,
+        15716.18152350081,
+        15674.864667747164,
+        15702.128038897894,
+        15727.51620745543,
+        15707.673419773095
+      ],
+      "median_ns": 15721.848865478121,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 0.0
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19519385,
+        19521699,
+        19532349,
+        19520658,
+        19521278,
+        19519876,
+        19520026,
+        19522290
+      ],
+      "id": "empty/midpoint_128",
+      "iterations": 309,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 128
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 16384
+      },
+      "ns_per_call": [
+        63169.53074433657,
+        63177.01941747573,
+        63211.48543689321,
+        63173.65048543689,
+        63175.656957928804,
+        63171.11974110032,
+        63171.60517799353,
+        63178.93203883495
+      ],
+      "median_ns": 63174.653721682844,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 0.0
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19656603,
+        19657295,
+        19658075,
+        19662915,
+        19659128,
+        19654869,
+        19654609,
+        19673414
+      ],
+      "id": "empty/midpoint_256",
+      "iterations": 78,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 256
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 65536
+      },
+      "ns_per_call": [
+        252007.73076923078,
+        252016.60256410256,
+        252026.60256410256,
+        252088.65384615384,
+        252040.10256410256,
+        251985.5,
+        251982.16666666666,
+        252223.2564102564
+      ],
+      "median_ns": 252021.60256410256,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 0.0
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        1147358,
+        1147147,
+        1148450,
+        1147357,
+        1175060,
+        1147017,
+        1147778,
+        1207150
+      ],
+      "id": "empty/reference_65535",
+      "iterations": 100000,
+      "result": {
+        "absolute_error_bound_angstrom3": 0.0,
+        "analytical": true,
+        "lower_bound_angstrom3": 0.0,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 65535,
+          "method": "reference"
+        },
+        "target_met": true,
+        "upper_bound_angstrom3": 0.0,
+        "volume_angstrom3": 0.0,
+        "work_units": 1
+      },
+      "ns_per_call": [
+        11.47358,
+        11.47147,
+        11.4845,
+        11.47357,
+        11.7506,
+        11.47017,
+        11.47778,
+        12.0715
+      ],
+      "median_ns": 11.47568,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 0.0
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        15559468,
+        15551814,
+        15461665,
+        15472886,
+        15435806,
+        15410729,
+        15405909,
+        15383277
+      ],
+      "id": "centered/midpoint_16",
+      "iterations": 14578,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 16
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 4.237902019617995,
+        "work_units": 256
+      },
+      "ns_per_call": [
+        1067.3252846755386,
+        1066.800246947455,
+        1060.6163396899437,
+        1061.3860611880916,
+        1058.842502400878,
+        1057.1223075867747,
+        1056.7916723830429,
+        1055.2391960488408
+      ],
+      "median_ns": 1059.7294210454108,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.04911181483160387,
+      "absolute_error_upper": 0.04911181483160476
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        15372548,
+        15325358,
+        15185004,
+        15202588,
+        15173693,
+        15243264,
+        15254385,
+        15273140
+      ],
+      "id": "centered/midpoint_32",
+      "iterations": 3521,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 32
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 4.177536508663234,
+        "work_units": 1024
+      },
+      "ns_per_call": [
+        4365.960806589037,
+        4352.558364101108,
+        4312.69639307015,
+        4317.690428855439,
+        4309.483953422323,
+        4329.242828741834,
+        4332.401306447032,
+        4337.727918205055
+      ],
+      "median_ns": 4330.822067594433,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.01125369612315641,
+      "absolute_error_upper": 0.011253696123157297
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        16291725,
+        16285925,
+        16255668,
+        16259044,
+        16257131,
+        16253052,
+        16279132,
+        16260918
+      ],
+      "id": "centered/midpoint_64",
+      "iterations": 950,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 64
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 4.18269182938862,
+        "work_units": 4096
+      },
+      "ns_per_call": [
+        17149.184210526317,
+        17143.07894736842,
+        17111.229473684212,
+        17114.783157894737,
+        17112.76947368421,
+        17108.475789473683,
+        17135.92842105263,
+        17116.755789473686
+      ],
+      "median_ns": 17115.76947368421,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.006098375397770361,
+      "absolute_error_upper": 0.00609837539777125
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19703440,
+        19649921,
+        19661943,
+        19651182,
+        19644090,
+        19678113,
+        19707909,
+        19672853
+      ],
+      "id": "centered/midpoint_128",
+      "iterations": 292,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 128
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 4.188785550071405,
+        "work_units": 16384
+      },
+      "ns_per_call": [
+        67477.53424657535,
+        67294.25,
+        67335.42123287672,
+        67298.56849315068,
+        67274.28082191781,
+        67390.79794520549,
+        67492.8390410959,
+        67372.78424657535
+      ],
+      "median_ns": 67354.10273972603,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 4.654714985896646e-06,
+      "absolute_error_upper": 4.654714986784825e-06
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19771308,
+        19734669,
+        19754457,
+        19773022,
+        19799902,
+        19749688,
+        19767882,
+        19771118
+      ],
+      "id": "centered/midpoint_256",
+      "iterations": 74,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 256
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 4.188540125485126,
+        "work_units": 65536
+      },
+      "ns_per_call": [
+        267179.8378378378,
+        266684.7162162162,
+        266952.1216216216,
+        267203.0,
+        267566.24324324325,
+        266887.6756756757,
+        267133.54054054053,
+        267177.2702702703
+      ],
+      "median_ns": 267155.40540540544,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.0002500793012645275,
+      "absolute_error_upper": 0.00025007930126541567
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        8295279,
+        8274299,
+        8285250,
+        8290780,
+        8289718,
+        8269250,
+        8315827,
+        8249913
+      ],
+      "id": "centered/reference_65535",
+      "iterations": 100000,
+      "result": {
+        "absolute_error_bound_angstrom3": 5.329070518200752e-15,
+        "analytical": true,
+        "lower_bound_angstrom3": 4.188790204786386,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 65535,
+          "method": "reference"
+        },
+        "target_met": true,
+        "upper_bound_angstrom3": 4.188790204786396,
+        "volume_angstrom3": 4.188790204786391,
+        "work_units": 1
+      },
+      "ns_per_call": [
+        82.95279,
+        82.74299,
+        82.8525,
+        82.9078,
+        82.89718,
+        82.6925,
+        83.15827,
+        82.49913
+      ],
+      "median_ns": 82.87484,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 8.881784197001252e-16
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19503626,
+        19495981,
+        19535224,
+        19522020,
+        19499047,
+        19481984,
+        19520828,
+        19494849
+      ],
+      "id": "full/midpoint_16",
+      "iterations": 11026,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 16
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 181.0098052716567,
+        "work_units": 256
+      },
+      "ns_per_call": [
+        1768.8759296208962,
+        1768.1825684745147,
+        1771.7417014329767,
+        1770.5441683294032,
+        1768.4606384908398,
+        1766.9131144567386,
+        1770.436060221295,
+        1768.0799020497006
+      ],
+      "median_ns": 1768.6682840558678,
+      "reference_interval": [
+        179.5943800302165,
+        179.59438003021654
+      ],
+      "absolute_error_lower": 1.415425241440147,
+      "absolute_error_upper": 1.4154252414401753
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19690386,
+        19638929,
+        19640283,
+        19657625,
+        19675959,
+        19672222,
+        19592422,
+        19633289
+      ],
+      "id": "full/midpoint_32",
+      "iterations": 2785,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 32
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 179.9409562422275,
+        "work_units": 1024
+      },
+      "ns_per_call": [
+        7070.156552962298,
+        7051.680071813285,
+        7052.166247755835,
+        7058.393177737881,
+        7064.976301615799,
+        7063.63447037702,
+        7034.980969479354,
+        7049.6549371633755
+      ],
+      "median_ns": 7055.279712746858,
+      "reference_interval": [
+        179.5943800302165,
+        179.59438003021654
+      ],
+      "absolute_error_lower": 0.3465762120109446,
+      "absolute_error_upper": 0.346576212010973
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19765908,
+        19756972,
+        19789753,
+        19776829,
+        19748876,
+        19782600,
+        19744308,
+        19731203
+      ],
+      "id": "full/midpoint_64",
+      "iterations": 727,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 64
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 179.63453603095306,
+        "work_units": 4096
+      },
+      "ns_per_call": [
+        27188.319119669875,
+        27176.02751031637,
+        27221.118294360385,
+        27203.34112792297,
+        27164.891334250344,
+        27211.27922971114,
+        27158.607977991745,
+        27140.581843191198
+      ],
+      "median_ns": 27182.173314993124,
+      "reference_interval": [
+        179.5943800302165,
+        179.59438003021654
+      ],
+      "absolute_error_lower": 0.04015600073651626,
+      "absolute_error_upper": 0.040156000736544684
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19834417,
+        19805293,
+        19811474,
+        19786317,
+        19798018,
+        19834608,
+        19786888,
+        19813678
+      ],
+      "id": "full/midpoint_128",
+      "iterations": 186,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 128
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 179.62217153637758,
+        "work_units": 16384
+      },
+      "ns_per_call": [
+        106636.65053763441,
+        106480.06989247311,
+        106513.30107526881,
+        106378.04838709677,
+        106440.95698924731,
+        106637.67741935483,
+        106381.1182795699,
+        106525.15053763441
+      ],
+      "median_ns": 106496.68548387097,
+      "reference_interval": [
+        179.5943800302165,
+        179.59438003021654
+      ],
+      "absolute_error_lower": 0.027791506161037205,
+      "absolute_error_upper": 0.027791506161065627
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19751001,
+        19750930,
+        19773563,
+        19776488,
+        19754277,
+        19773853,
+        19748787,
+        19757252
+      ],
+      "id": "full/midpoint_256",
+      "iterations": 47,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 256
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 179.59468678809213,
+        "work_units": 65536
+      },
+      "ns_per_call": [
+        420234.06382978725,
+        420232.55319148937,
+        420714.10638297873,
+        420776.3404255319,
+        420303.7659574468,
+        420720.27659574465,
+        420186.9574468085,
+        420367.06382978725
+      ],
+      "median_ns": 420335.41489361704,
+      "reference_interval": [
+        179.5943800302165,
+        179.59438003021654
+      ],
+      "absolute_error_lower": 0.0003067578755917566,
+      "absolute_error_upper": 0.0003067578756201783
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        7807071,
+        7823010,
+        7830034,
+        7822119,
+        7808894,
+        7814154,
+        7817310,
+        7811910
+      ],
+      "id": "full/reference_65535",
+      "iterations": 100000,
+      "result": {
+        "absolute_error_bound_angstrom3": 2.273736754432321e-13,
+        "analytical": true,
+        "lower_bound_angstrom3": 179.59438003021626,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 65535,
+          "method": "reference"
+        },
+        "target_met": true,
+        "upper_bound_angstrom3": 179.5943800302167,
+        "volume_angstrom3": 179.59438003021648,
+        "work_units": 1
+      },
+      "ns_per_call": [
+        78.07071,
+        78.2301,
+        78.30034,
+        78.22119,
+        78.08894,
+        78.14154,
+        78.1731,
+        78.1191
+      ],
+      "median_ns": 78.15732,
+      "reference_interval": [
+        179.5943800302165,
+        179.59438003021654
+      ],
+      "absolute_error_lower": 2.842170943040401e-14,
+      "absolute_error_upper": 5.684341886080802e-14
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19517952,
+        19558989,
+        19507713,
+        19516911,
+        19538280,
+        19505960,
+        19501741,
+        19547779
+      ],
+      "id": "lens/midpoint_16",
+      "iterations": 13967,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 16
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 1.4905368141054407,
+        "work_units": 256
+      },
+      "ns_per_call": [
+        1397.4333786783131,
+        1400.3715185795088,
+        1396.70029354908,
+        1397.3588458509344,
+        1398.8888093362928,
+        1396.5747834180568,
+        1396.2727142550298,
+        1399.5689124364574
+      ],
+      "median_ns": 1397.3961122646238,
+      "reference_interval": [
+        1.4828480949561198,
+        1.48284809495612
+      ],
+      "absolute_error_lower": 0.0076887191493206775,
+      "absolute_error_upper": 0.0076887191493208995
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19855277,
+        19692430,
+        19678975,
+        19650892,
+        19649851,
+        19670098,
+        19628420,
+        19622168
+      ],
+      "id": "lens/midpoint_32",
+      "iterations": 3490,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 32
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 1.4827394279723893,
+        "work_units": 1024
+      },
+      "ns_per_call": [
+        5689.19111747851,
+        5642.530085959886,
+        5638.6747851002865,
+        5630.628080229227,
+        5630.329799426934,
+        5636.13123209169,
+        5624.189111747851,
+        5622.39770773639
+      ],
+      "median_ns": 5633.379656160459,
+      "reference_interval": [
+        1.4828480949561198,
+        1.48284809495612
+      ],
+      "absolute_error_lower": 0.00010866698373046546,
+      "absolute_error_upper": 0.0001086669837306875
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19779093,
+        19737875,
+        19782510,
+        19705856,
+        19710123,
+        19728628,
+        19713060,
+        19697680
+      ],
+      "id": "lens/midpoint_64",
+      "iterations": 898,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 64
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 1.4826537413781629,
+        "work_units": 4096
+      },
+      "ns_per_call": [
+        22025.716035634745,
+        21979.816258351893,
+        22029.521158129177,
+        21944.16035634744,
+        21948.91202672606,
+        21969.518930957685,
+        21952.18262806236,
+        21935.055679287307
+      ],
+      "median_ns": 21960.850779510023,
+      "reference_interval": [
+        1.4828480949561198,
+        1.48284809495612
+      ],
+      "absolute_error_lower": 0.00019435357795694053,
+      "absolute_error_upper": 0.00019435357795716257
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19763904,
+        19716867,
+        19715824,
+        19750088,
+        19730563,
+        19781006,
+        19734630,
+        19725643
+      ],
+      "id": "lens/midpoint_128",
+      "iterations": 226,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 128
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 1.483011433684947,
+        "work_units": 16384
+      },
+      "ns_per_call": [
+        87450.90265486726,
+        87242.77433628318,
+        87238.1592920354,
+        87389.76991150442,
+        87303.37610619469,
+        87526.57522123893,
+        87321.37168141593,
+        87281.60619469026
+      ],
+      "median_ns": 87312.37389380531,
+      "reference_interval": [
+        1.4828480949561198,
+        1.48284809495612
+      ],
+      "absolute_error_lower": 0.0001633387288269006,
+      "absolute_error_upper": 0.00016333872882712264
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        13557524,
+        13581268,
+        13541774,
+        13576620,
+        13554258,
+        13573494,
+        13563956,
+        13580147
+      ],
+      "id": "lens/midpoint_256",
+      "iterations": 39,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 256
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 1.482924052126449,
+        "work_units": 65536
+      },
+      "ns_per_call": [
+        347628.8205128205,
+        348237.641025641,
+        347224.9743589744,
+        348118.46153846156,
+        347545.07692307694,
+        348038.3076923077,
+        347793.74358974356,
+        348208.89743589744
+      ],
+      "median_ns": 347916.0256410256,
+      "reference_interval": [
+        1.4828480949561198,
+        1.48284809495612
+      ],
+      "absolute_error_lower": 7.595717032904403e-05,
+      "absolute_error_upper": 7.595717032926608e-05
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        11710170,
+        11743363,
+        11718646,
+        11716552,
+        11743924,
+        11754784,
+        11706944,
+        11726171
+      ],
+      "id": "lens/reference_65535",
+      "iterations": 34424,
+      "result": {
+        "absolute_error_bound_angstrom3": 3.774758283725533e-15,
+        "analytical": true,
+        "lower_bound_angstrom3": 1.4828480949561162,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 65535,
+          "method": "reference"
+        },
+        "target_met": true,
+        "upper_bound_angstrom3": 1.4828480949561236,
+        "volume_angstrom3": 1.48284809495612,
+        "work_units": 1
+      },
+      "ns_per_call": [
+        340.17458749709505,
+        341.13882756216594,
+        340.4208110620497,
+        340.35998140831975,
+        341.1551243318615,
+        341.47060190564724,
+        340.08087380897047,
+        340.6394085521729
+      ],
+      "median_ns": 340.53010980711133,
+      "reference_interval": [
+        1.4828480949561198,
+        1.48284809495612
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 2.220446049250313e-16
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        13434363,
+        13431978,
+        13445984,
+        13410778,
+        13431998,
+        13427530,
+        13456153,
+        13444552
+      ],
+      "id": "external_tangency/midpoint_16",
+      "iterations": 13219,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 16
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 256
+      },
+      "ns_per_call": [
+        1016.2919282850443,
+        1016.111506165368,
+        1017.1710416824268,
+        1014.5077539904682,
+        1016.1130191391179,
+        1015.7750208033891,
+        1017.9403131855662,
+        1017.0627127619335
+      ],
+      "median_ns": 1016.2024737120811,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 0.0
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        14012830,
+        14039220,
+        14029461,
+        14054619,
+        14018300,
+        14103461,
+        14083684,
+        14006358
+      ],
+      "id": "external_tangency/midpoint_32",
+      "iterations": 3311,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 32
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 1024
+      },
+      "ns_per_call": [
+        4232.204771972214,
+        4240.175173663546,
+        4237.227725762609,
+        4244.8260344306855,
+        4233.856840833585,
+        4259.577469042585,
+        4253.604349139233,
+        4230.250075505889
+      ],
+      "median_ns": 4238.701449713078,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 0.0
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        14824506,
+        14810731,
+        14827722,
+        14817923,
+        14838544,
+        14813836,
+        14821821,
+        14795933
+      ],
+      "id": "external_tangency/midpoint_64",
+      "iterations": 866,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 64
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 4096
+      },
+      "ns_per_call": [
+        17118.367205542727,
+        17102.460739030023,
+        17122.080831408777,
+        17110.76558891455,
+        17134.577367205544,
+        17106.046189376444,
+        17115.26674364896,
+        17085.372979214782
+      ],
+      "median_ns": 17113.016166281755,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 0.0
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        15249526,
+        15261469,
+        15245427,
+        15258994,
+        15255677,
+        15262680,
+        15259575,
+        15249606
+      ],
+      "id": "external_tangency/midpoint_128",
+      "iterations": 227,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 128
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 16384
+      },
+      "ns_per_call": [
+        67178.52863436124,
+        67231.140969163,
+        67160.47136563876,
+        67220.23788546256,
+        67205.6255506608,
+        67236.47577092511,
+        67222.79735682819,
+        67178.88105726872
+      ],
+      "median_ns": 67212.93171806168,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 0.0
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        15444212,
+        15402743,
+        15412944,
+        15406791,
+        15406871,
+        15412002,
+        15420076,
+        15387235
+      ],
+      "id": "external_tangency/midpoint_256",
+      "iterations": 58,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 256
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 65536
+      },
+      "ns_per_call": [
+        266279.5172413793,
+        265564.5344827586,
+        265740.4137931034,
+        265634.3275862069,
+        265635.7068965517,
+        265724.1724137931,
+        265863.3793103448,
+        265297.1551724138
+      ],
+      "median_ns": 265679.9396551724,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 0.0
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        11069947,
+        11082369,
+        11065348,
+        11058324,
+        11064205,
+        11062482,
+        11062973,
+        11093802
+      ],
+      "id": "external_tangency/reference_65535",
+      "iterations": 42463,
+      "result": {
+        "absolute_error_bound_angstrom3": 2.0817548846190844e-29,
+        "analytical": true,
+        "lower_bound_angstrom3": 0.0,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 65535,
+          "method": "reference"
+        },
+        "target_met": true,
+        "upper_bound_angstrom3": 4.1635097692381683e-29,
+        "volume_angstrom3": 2.0817548846190842e-29,
+        "work_units": 1
+      },
+      "ns_per_call": [
+        260.69630030850385,
+        260.9888373407437,
+        260.58799425382097,
+        260.42257965758427,
+        260.56107670207,
+        260.5205002001743,
+        260.5320632079693,
+        261.2580835079952
+      ],
+      "median_ns": 260.57453547794546,
+      "reference_interval": [
+        0.0,
+        0.0
+      ],
+      "absolute_error_lower": 2.0817548846190842e-29,
+      "absolute_error_upper": 2.0817548846190842e-29
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        12443148,
+        12467243,
+        12427670,
+        12423020,
+        12396351,
+        12370712,
+        12386252,
+        12428941
+      ],
+      "id": "overlapping_pair/midpoint_16",
+      "iterations": 9506,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 16
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 13.212528640629088,
+        "work_units": 256
+      },
+      "ns_per_call": [
+        1308.9783294761203,
+        1311.513044393015,
+        1307.3500946770462,
+        1306.860929938986,
+        1304.0554386703134,
+        1301.3583000210394,
+        1302.9930570166212,
+        1307.4837997054492
+      ],
+      "median_ns": 1307.105512308016,
+      "reference_interval": [
+        12.828170002158322,
+        12.828170002158323
+      ],
+      "absolute_error_lower": 0.3843586384707649,
+      "absolute_error_upper": 0.3843586384707667
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        13123789,
+        13161820,
+        13200031,
+        13148566,
+        13078543,
+        13093081,
+        13097098,
+        13077982
+      ],
+      "id": "overlapping_pair/midpoint_32",
+      "iterations": 2385,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 32
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 12.887026884151332,
+        "work_units": 1024
+      },
+      "ns_per_call": [
+        5502.636897274633,
+        5518.582809224318,
+        5534.604192872117,
+        5513.025576519916,
+        5483.665828092243,
+        5489.76142557652,
+        5491.4457023060795,
+        5483.430607966457
+      ],
+      "median_ns": 5497.041299790357,
+      "reference_interval": [
+        12.828170002158322,
+        12.828170002158323
+      ],
+      "absolute_error_lower": 0.05885688199300887,
+      "absolute_error_upper": 0.058856881993010646
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        13035742,
+        13007760,
+        13042916,
+        13074446,
+        13103420,
+        12968727,
+        13006147,
+        12987993
+      ],
+      "id": "overlapping_pair/midpoint_64",
+      "iterations": 619,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 64
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 12.82662611868973,
+        "work_units": 4096
+      },
+      "ns_per_call": [
+        21059.35702746365,
+        21014.15185783522,
+        21070.946688206786,
+        21121.883683360258,
+        21168.691437802907,
+        20951.093699515346,
+        21011.546042003232,
+        20982.218093699514
+      ],
+      "median_ns": 21036.754442649435,
+      "reference_interval": [
+        12.828170002158322,
+        12.828170002158323
+      ],
+      "absolute_error_lower": 0.0015438834685923553,
+      "absolute_error_upper": 0.0015438834685941316
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        17177481,
+        17130001,
+        17140761,
+        17123760,
+        17154497,
+        17152484,
+        17140621,
+        17213209
+      ],
+      "id": "overlapping_pair/midpoint_128",
+      "iterations": 212,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 128
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 12.836714014579584,
+        "work_units": 16384
+      },
+      "ns_per_call": [
+        81025.85377358491,
+        80801.89150943396,
+        80852.64622641509,
+        80772.45283018867,
+        80917.43867924529,
+        80907.94339622642,
+        80851.9858490566,
+        81194.3820754717
+      ],
+      "median_ns": 80880.29481132075,
+      "reference_interval": [
+        12.828170002158322,
+        12.828170002158323
+      ],
+      "absolute_error_lower": 0.008544012421261016,
+      "absolute_error_upper": 0.008544012421262792
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19712398,
+        19732946,
+        19769495,
+        19637097,
+        19599054,
+        19597963,
+        19628420,
+        19574499
+      ],
+      "id": "overlapping_pair/midpoint_256",
+      "iterations": 62,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 256
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 12.827958396543172,
+        "work_units": 65536
+      },
+      "ns_per_call": [
+        317941.9032258064,
+        318273.32258064515,
+        318862.82258064515,
+        316727.37096774194,
+        316113.77419354836,
+        316096.17741935485,
+        316587.4193548387,
+        315717.72580645164
+      ],
+      "median_ns": 316657.3951612903,
+      "reference_interval": [
+        12.828170002158322,
+        12.828170002158323
+      ],
+      "absolute_error_lower": 0.00021160561514932397,
+      "absolute_error_upper": 0.00021160561515110032
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        18081932,
+        18078826,
+        18073235,
+        18066513,
+        18053118,
+        18061644,
+        18068266,
+        18068917
+      ],
+      "id": "overlapping_pair/reference_65535",
+      "iterations": 39139,
+      "result": {
+        "absolute_error_bound_angstrom3": 3.5527136788005016e-14,
+        "analytical": true,
+        "lower_bound_angstrom3": 12.828170002158288,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 65535,
+          "method": "reference"
+        },
+        "target_met": true,
+        "upper_bound_angstrom3": 12.828170002158357,
+        "volume_angstrom3": 12.828170002158323,
+        "work_units": 1
+      },
+      "ns_per_call": [
+        461.9926927105956,
+        461.91333452566494,
+        461.7704846827972,
+        461.59873783183014,
+        461.25649607808066,
+        461.47433506221415,
+        461.64352691688595,
+        461.6601599427681
+      ],
+      "median_ns": 461.651843429827,
+      "reference_interval": [
+        12.828170002158322,
+        12.828170002158323
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 1.7763568394002505e-15
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19115206,
+        19081150,
+        19094917,
+        19114383,
+        19076482,
+        19120345,
+        19115265,
+        19235461
+      ],
+      "id": "internal_tangency/midpoint_16",
+      "iterations": 17065,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 16
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 13.616841467299235,
+        "work_units": 256
+      },
+      "ns_per_call": [
+        1120.140990331087,
+        1118.1453266920598,
+        1118.9520656314094,
+        1120.0927629651333,
+        1117.8717843539407,
+        1120.4421330208029,
+        1120.1444476999707,
+        1127.1878699091708
+      ],
+      "median_ns": 1120.11687664811,
+      "reference_interval": [
+        14.137166941154069,
+        14.13716694115407
+      ],
+      "absolute_error_lower": 0.5203254738548342,
+      "absolute_error_upper": 0.520325473854836
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19644771,
+        19486803,
+        19395772,
+        19411983,
+        19400962,
+        19406002,
+        19448131,
+        19472857
+      ],
+      "id": "internal_tangency/midpoint_32",
+      "iterations": 4177,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 32
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 14.205929453098925,
+        "work_units": 1024
+      },
+      "ns_per_call": [
+        4703.081398132631,
+        4665.262868087144,
+        4643.4694757002635,
+        4647.350490782858,
+        4644.7119942542495,
+        4645.918601867369,
+        4656.0045487191765,
+        4661.924108211635
+      ],
+      "median_ns": 4651.677519751018,
+      "reference_interval": [
+        14.137166941154069,
+        14.13716694115407
+      ],
+      "absolute_error_lower": 0.06876251194485405,
+      "absolute_error_upper": 0.06876251194485583
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19563809,
+        19556484,
+        19538060,
+        19542779,
+        19530797,
+        19511119,
+        19478298,
+        19555723
+      ],
+      "id": "internal_tangency/midpoint_64",
+      "iterations": 1072,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 64
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 14.130857902346774,
+        "work_units": 4096
+      },
+      "ns_per_call": [
+        18249.82182835821,
+        18242.988805970148,
+        18225.80223880597,
+        18230.204291044774,
+        18219.027052238805,
+        18200.670708955226,
+        18170.05410447761,
+        18242.278917910447
+      ],
+      "median_ns": 18228.00326492537,
+      "reference_interval": [
+        14.137166941154069,
+        14.13716694115407
+      ],
+      "absolute_error_lower": 0.006309038807295053,
+      "absolute_error_upper": 0.0063090388072968295
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19599466,
+        19574628,
+        19671771,
+        19596760,
+        19595288,
+        19586471,
+        19652445,
+        19586451
+      ],
+      "id": "internal_tangency/midpoint_128",
+      "iterations": 273,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 128
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 14.13177949923458,
+        "work_units": 16384
+      },
+      "ns_per_call": [
+        71792.91575091575,
+        71701.93406593407,
+        72057.76923076923,
+        71783.00366300366,
+        71777.61172161173,
+        71745.31501831501,
+        71986.97802197802,
+        71745.24175824175
+      ],
+      "median_ns": 71780.30769230769,
+      "reference_interval": [
+        14.137166941154069,
+        14.13716694115407
+      ],
+      "absolute_error_lower": 0.005387441919488367,
+      "absolute_error_upper": 0.0053874419194901435
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19629182,
+        19613321,
+        19604936,
+        19647506,
+        19683884,
+        19681920,
+        19692982,
+        19610326
+      ],
+      "id": "internal_tangency/midpoint_256",
+      "iterations": 69,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 256
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 14.138548622425935,
+        "work_units": 65536
+      },
+      "ns_per_call": [
+        284480.8985507246,
+        284251.02898550726,
+        284129.50724637683,
+        284746.46376811597,
+        285273.6811594203,
+        285245.2173913043,
+        285405.53623188403,
+        284207.6231884058
+      ],
+      "median_ns": 284613.6811594203,
+      "reference_interval": [
+        14.137166941154069,
+        14.13716694115407
+      ],
+      "absolute_error_lower": 0.0013816812718641103,
+      "absolute_error_upper": 0.0013816812718658866
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        17136153,
+        17169797,
+        17152103,
+        17150922,
+        17175607,
+        17170909,
+        17156642,
+        17167071
+      ],
+      "id": "internal_tangency/reference_65535",
+      "iterations": 66446,
+      "result": {
+        "absolute_error_bound_angstrom3": 3.5527136788005016e-14,
+        "analytical": true,
+        "lower_bound_angstrom3": 14.137166941154014,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 65535,
+          "method": "reference"
+        },
+        "target_met": true,
+        "upper_bound_angstrom3": 14.137166941154083,
+        "volume_angstrom3": 14.13716694115405,
+        "work_units": 1
+      },
+      "ns_per_call": [
+        257.8959305300545,
+        258.402266502122,
+        258.13597507750654,
+        258.11820124612467,
+        258.4897059266171,
+        258.41900189627665,
+        258.2042861872799,
+        258.3612407067393
+      ],
+      "median_ns": 258.2827634470096,
+      "reference_interval": [
+        14.137166941154069,
+        14.13716694115407
+      ],
+      "absolute_error_lower": 1.9539925233402755e-14,
+      "absolute_error_upper": 2.1316282072803006e-14
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19324468,
+        19307126,
+        19314670,
+        19333245,
+        19323126,
+        19325109,
+        19363722,
+        19312256
+      ],
+      "id": "near_external_tangency/midpoint_16",
+      "iterations": 19012,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 16
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 256
+      },
+      "ns_per_call": [
+        1016.4353040185147,
+        1015.5231432779298,
+        1015.9199452977067,
+        1016.8969598148537,
+        1016.364717020829,
+        1016.4690195665895,
+        1018.5,
+        1015.7929728592468
+      ],
+      "median_ns": 1016.4000105196718,
+      "reference_interval": [
+        3.3076338859493985e-10,
+        3.307633885949399e-10
+      ],
+      "absolute_error_lower": 3.3076338859493985e-10,
+      "absolute_error_upper": 3.307633885949399e-10
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        20118622,
+        20171922,
+        20088875,
+        20163777,
+        20086021,
+        19984258,
+        20059971,
+        20050404
+      ],
+      "id": "near_external_tangency/midpoint_32",
+      "iterations": 4632,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 32
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 1024
+      },
+      "ns_per_call": [
+        4343.3985319516405,
+        4354.905440414508,
+        4336.9764680483595,
+        4353.147020725389,
+        4336.360319516408,
+        4314.390759930915,
+        4330.736398963731,
+        4328.670984455958
+      ],
+      "median_ns": 4336.668393782384,
+      "reference_interval": [
+        3.3076338859493985e-10,
+        3.307633885949399e-10
+      ],
+      "absolute_error_lower": 3.3076338859493985e-10,
+      "absolute_error_upper": 3.307633885949399e-10
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19542999,
+        19513073,
+        19487254,
+        19509336,
+        19505960,
+        19449163,
+        19488036,
+        19477265
+      ],
+      "id": "near_external_tangency/midpoint_64",
+      "iterations": 1139,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 64
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 4096
+      },
+      "ns_per_call": [
+        17158.032484635645,
+        17131.758560140475,
+        17109.09043020193,
+        17128.4776119403,
+        17125.513608428446,
+        17075.647936786656,
+        17109.77699736611,
+        17100.320456540827
+      ],
+      "median_ns": 17117.645302897276,
+      "reference_interval": [
+        3.3076338859493985e-10,
+        3.307633885949399e-10
+      ],
+      "absolute_error_lower": 3.3076338859493985e-10,
+      "absolute_error_upper": 3.307633885949399e-10
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19677792,
+        19674547,
+        19690166,
+        19693673,
+        19705545,
+        19731393,
+        19703210,
+        19706336
+      ],
+      "id": "near_external_tangency/midpoint_128",
+      "iterations": 293,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 128
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 16384
+      },
+      "ns_per_call": [
+        67159.69965870307,
+        67148.62457337884,
+        67201.93174061434,
+        67213.90102389078,
+        67254.41979522184,
+        67342.63822525597,
+        67246.4505119454,
+        67257.11945392491
+      ],
+      "median_ns": 67230.17576791809,
+      "reference_interval": [
+        3.3076338859493985e-10,
+        3.307633885949399e-10
+      ],
+      "absolute_error_lower": 3.3076338859493985e-10,
+      "absolute_error_upper": 3.307633885949399e-10
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19960334,
+        19929116,
+        19940507,
+        19986443,
+        19920148,
+        19927462,
+        19926069,
+        19929817
+      ],
+      "id": "near_external_tangency/midpoint_256",
+      "iterations": 75,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 256
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 0.0,
+        "work_units": 65536
+      },
+      "ns_per_call": [
+        266137.7866666667,
+        265721.5466666667,
+        265873.4266666667,
+        266485.9066666667,
+        265601.9733333333,
+        265699.49333333335,
+        265680.92,
+        265730.8933333333
+      ],
+      "median_ns": 265726.22,
+      "reference_interval": [
+        3.3076338859493985e-10,
+        3.307633885949399e-10
+      ],
+      "absolute_error_lower": 3.3076338859493985e-10,
+      "absolute_error_upper": 3.307633885949399e-10
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        17859804,
+        17877778,
+        17903526,
+        17886665,
+        17879481,
+        17899198,
+        17896894,
+        17867008
+      ],
+      "id": "near_external_tangency/reference_65535",
+      "iterations": 52494,
+      "result": {
+        "absolute_error_bound_angstrom3": 2.3470339982518357e-19,
+        "analytical": true,
+        "lower_bound_angstrom3": 3.3076338836023645e-10,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 65535,
+          "method": "reference"
+        },
+        "target_met": true,
+        "upper_bound_angstrom3": 3.307633888296432e-10,
+        "volume_angstrom3": 3.3076338859493985e-10,
+        "work_units": 1
+      },
+      "ns_per_call": [
+        340.2256257858041,
+        340.568026822113,
+        341.0585209738256,
+        340.73732236065075,
+        340.6004686249857,
+        340.97607345601403,
+        340.93218272564485,
+        340.36286051739245
+      ],
+      "median_ns": 340.66889549281825,
+      "reference_interval": [
+        3.3076338859493985e-10,
+        3.307633885949399e-10
+      ],
+      "absolute_error_lower": 0.0,
+      "absolute_error_upper": 5.169878828456423e-26
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19979570,
+        19437962,
+        19670469,
+        19520917,
+        19425629,
+        19451277,
+        19535956,
+        19645652
+      ],
+      "id": "three_identical/midpoint_16",
+      "iterations": 8796,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 16
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 4.29753169473535,
+        "work_units": 256
+      },
+      "ns_per_call": [
+        2271.43815370623,
+        2209.863801728058,
+        2236.2970668485677,
+        2219.294793087767,
+        2208.461687130514,
+        2211.3775579809003,
+        2221.0045475216007,
+        2233.475670759436
+      ],
+      "median_ns": 2220.149670304684,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.10874148994895894,
+      "absolute_error_upper": 0.10874148994895982
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19310061,
+        19243847,
+        19294101,
+        19276679,
+        19267290,
+        19243506,
+        19215885,
+        19253164
+      ],
+      "id": "three_identical/midpoint_32",
+      "iterations": 2335,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 32
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 4.221803038405987,
+        "work_units": 1024
+      },
+      "ns_per_call": [
+        8269.83340471092,
+        8241.476231263383,
+        8262.998286937902,
+        8255.53704496788,
+        8251.516059957174,
+        8241.330192719486,
+        8229.501070663811,
+        8245.466381156317
+      ],
+      "median_ns": 8248.491220556745,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.03301283361959584,
+      "absolute_error_upper": 0.033012833619596726
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19429075,
+        19571323,
+        19725332,
+        19806966,
+        19812626,
+        19796366,
+        19797588,
+        19838995
+      ],
+      "id": "three_identical/midpoint_64",
+      "iterations": 622,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 64
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 4.196873614979067,
+        "work_units": 4096
+      },
+      "ns_per_call": [
+        31236.45498392283,
+        31465.149517684888,
+        31712.752411575562,
+        31843.996784565916,
+        31853.09646302251,
+        31826.95498392283,
+        31828.91961414791,
+        31895.49035369775
+      ],
+      "median_ns": 31827.937299035373,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.008083410192675444,
+      "absolute_error_upper": 0.008083410192676332
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        12987863,
+        13006998,
+        13066000,
+        13025604,
+        13004564,
+        13016717,
+        13033157,
+        13055190
+      ],
+      "id": "three_identical/midpoint_128",
+      "iterations": 108,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 128
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 4.1897267878939495,
+        "work_units": 16384
+      },
+      "ns_per_call": [
+        120257.99074074074,
+        120435.16666666667,
+        120981.48148148147,
+        120607.44444444444,
+        120412.62962962964,
+        120525.1574074074,
+        120677.37962962964,
+        120881.38888888889
+      ],
+      "median_ns": 120566.30092592593,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.0009365831075580644,
+      "absolute_error_upper": 0.0009365831075589526
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19522681,
+        19467217,
+        19424707,
+        19399259,
+        19399750,
+        19395141,
+        19367790,
+        19400351
+      ],
+      "id": "three_identical/midpoint_256",
+      "iterations": 41,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 256
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 4.1894384031808185,
+        "work_units": 65536
+      },
+      "ns_per_call": [
+        476162.9512195122,
+        474810.1707317073,
+        473773.34146341466,
+        473152.65853658534,
+        473164.6341463415,
+        473052.2195121951,
+        472385.1219512195,
+        473179.2926829268
+      ],
+      "median_ns": 473171.9634146341,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.0006481983944270908,
+      "absolute_error_upper": 0.000648198394427979
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        17900692,
+        17882156,
+        17872598,
+        17890392,
+        17886664,
+        17866697,
+        17904529,
+        17870965
+      ],
+      "id": "three_identical/reference_1023",
+      "iterations": 108,
+      "result": {
+        "absolute_error_bound_angstrom3": 2.6406250000015437,
+        "analytical": false,
+        "lower_bound_angstrom3": 1.8749999999999898,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 1023,
+          "method": "reference"
+        },
+        "target_met": false,
+        "upper_bound_angstrom3": 7.156250000003076,
+        "volume_angstrom3": 4.515625000001533,
+        "work_units": 1023
+      },
+      "ns_per_call": [
+        165747.14814814815,
+        165575.5185185185,
+        165487.0185185185,
+        165651.77777777778,
+        165617.25925925927,
+        165432.37962962964,
+        165782.67592592593,
+        165471.89814814815
+      ],
+      "median_ns": 165596.38888888888,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.3268347952151416,
+      "absolute_error_upper": 0.32683479521514247
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        20393349,
+        20387076,
+        20336712,
+        20337153,
+        20309300,
+        20329038,
+        20308018,
+        20367369
+      ],
+      "id": "three_identical/reference_8191",
+      "iterations": 15,
+      "result": {
+        "absolute_error_bound_angstrom3": 0.8901367187561063,
+        "analytical": false,
+        "lower_bound_angstrom3": 3.289550781249714,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 8191,
+          "method": "reference"
+        },
+        "target_met": false,
+        "upper_bound_angstrom3": 5.0698242187619265,
+        "volume_angstrom3": 4.17968750000582,
+        "work_units": 8191
+      },
+      "ns_per_call": [
+        1359556.6,
+        1359138.4,
+        1355780.8,
+        1355810.2,
+        1353953.3333333333,
+        1355269.2,
+        1353867.8666666667,
+        1357824.6
+      ],
+      "median_ns": 1355795.5,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 0.009102704780570292,
+      "absolute_error_upper": 0.00910270478057118
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        22908247,
+        22418777,
+        22427333,
+        22418657,
+        22425970,
+        22450656,
+        22415059,
+        22394642
+      ],
+      "id": "three_identical/reference_65535",
+      "iterations": 2,
+      "result": {
+        "absolute_error_bound_angstrom3": 0.30215454105860756,
+        "analytical": false,
+        "lower_bound_angstrom3": 3.886688232418744,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 65535,
+          "method": "reference"
+        },
+        "target_met": false,
+        "upper_bound_angstrom3": 4.490997314535958,
+        "volume_angstrom3": 4.188842773477351,
+        "work_units": 65535
+      },
+      "ns_per_call": [
+        11454123.5,
+        11209388.5,
+        11213666.5,
+        11209328.5,
+        11212985.0,
+        11225328.0,
+        11207529.5,
+        11197321.0
+      ],
+      "median_ns": 11211186.75,
+      "reference_interval": [
+        4.1887902047863905,
+        4.188790204786391
+      ],
+      "absolute_error_lower": 5.2568690959375886e-05,
+      "absolute_error_upper": 5.2568690960264064e-05
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19689966,
+        19399760,
+        19344987,
+        19461336,
+        19441217,
+        19314118,
+        19350878,
+        19360997
+      ],
+      "id": "three_overlapping_chain/midpoint_16",
+      "iterations": 12635,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 16
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 9.875350740983556,
+        "work_units": 256
+      },
+      "ns_per_call": [
+        1558.366917293233,
+        1535.3984962406016,
+        1531.0634744756628,
+        1540.2719430154334,
+        1538.6796201028887,
+        1528.6203403244954,
+        1531.5297190344281,
+        1532.3305896319746
+      ],
+      "median_ns": 1533.8645429362882,
+      "reference_interval": [
+        9.948376736367678,
+        9.94837673636768
+      ],
+      "absolute_error_lower": 0.07302599538412125,
+      "absolute_error_upper": 0.07302599538412302
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19719701,
+        19703140,
+        19762783,
+        19811044,
+        19719230,
+        19654870,
+        19686669,
+        19661553
+      ],
+      "id": "three_overlapping_chain/midpoint_32",
+      "iterations": 3154,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 32
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 9.816612780195415,
+        "work_units": 1024
+      },
+      "ns_per_call": [
+        6252.28313253012,
+        6247.032339885859,
+        6265.9426125554855,
+        6281.244134432467,
+        6252.1337983513,
+        6231.727964489537,
+        6241.810082435003,
+        6233.846861128725
+      ],
+      "median_ns": 6249.58306911858,
+      "reference_interval": [
+        9.948376736367678,
+        9.94837673636768
+      ],
+      "absolute_error_lower": 0.13176395617226255,
+      "absolute_error_upper": 0.13176395617226433
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        20086081,
+        20073006,
+        20144480,
+        20041537,
+        20057106,
+        20134271,
+        20068868,
+        20019656
+      ],
+      "id": "three_overlapping_chain/midpoint_64",
+      "iterations": 861,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 64
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 9.939254434400297,
+        "work_units": 4096
+      },
+      "ns_per_call": [
+        23328.781649245066,
+        23313.59581881533,
+        23396.608594657377,
+        23277.046457607434,
+        23295.12891986063,
+        23384.75145180023,
+        23308.789779326366,
+        23251.632984901276
+      ],
+      "median_ns": 23311.19279907085,
+      "reference_interval": [
+        9.948376736367678,
+        9.94837673636768
+      ],
+      "absolute_error_lower": 0.009122301967380508,
+      "absolute_error_upper": 0.009122301967382285
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        20143388,
+        20158156,
+        20199544,
+        20175518,
+        20135454,
+        20136696,
+        20135353,
+        20122549
+      ],
+      "id": "three_overlapping_chain/midpoint_128",
+      "iterations": 228,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 128
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 9.946378300966291,
+        "work_units": 16384
+      },
+      "ns_per_call": [
+        88348.19298245614,
+        88412.9649122807,
+        88594.49122807017,
+        88489.11403508772,
+        88313.3947368421,
+        88318.84210526316,
+        88312.95175438597,
+        88256.79385964913
+      ],
+      "median_ns": 88333.51754385965,
+      "reference_interval": [
+        9.948376736367678,
+        9.94837673636768
+      ],
+      "absolute_error_lower": 0.0019984354013864447,
+      "absolute_error_upper": 0.001998435401388221
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        20212017,
+        20230001,
+        20239349,
+        20191078,
+        20215724,
+        20186620,
+        20230502,
+        20206206
+      ],
+      "id": "three_overlapping_chain/midpoint_256",
+      "iterations": 59,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 256
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 9.947887159730964,
+        "work_units": 65536
+      },
+      "ns_per_call": [
+        342576.5593220339,
+        342881.3728813559,
+        343039.81355932204,
+        342221.66101694916,
+        342639.3898305085,
+        342146.10169491527,
+        342889.86440677964,
+        342478.0677966102
+      ],
+      "median_ns": 342607.9745762712,
+      "reference_interval": [
+        9.948376736367678,
+        9.94837673636768
+      ],
+      "absolute_error_lower": 0.0004895766367134513,
+      "absolute_error_upper": 0.0004895766367152277
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19410711,
+        19406562,
+        19398738,
+        19376266,
+        19418375,
+        19400091,
+        19392015,
+        19395372
+      ],
+      "id": "three_overlapping_chain/reference_1023",
+      "iterations": 113,
+      "result": {
+        "absolute_error_bound_angstrom3": 8.897399902347962,
+        "analytical": false,
+        "lower_bound_angstrom3": 3.3077392578124853,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 1023,
+          "method": "reference"
+        },
+        "target_met": false,
+        "upper_bound_angstrom3": 21.102539062508406,
+        "volume_angstrom3": 12.205139160160446,
+        "work_units": 1023
+      },
+      "ns_per_call": [
+        171776.203539823,
+        171739.4867256637,
+        171670.24778761063,
+        171471.38053097346,
+        171844.02654867255,
+        171682.22123893804,
+        171610.75221238937,
+        171640.46017699115
+      ],
+      "median_ns": 171676.23451327434,
+      "reference_interval": [
+        9.948376736367678,
+        9.94837673636768
+      ],
+      "absolute_error_lower": 2.2567624237927664,
+      "absolute_error_upper": 2.256762423792768
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19743887,
+        19758495,
+        19750920,
+        19812696,
+        19721535,
+        19734039,
+        19809000,
+        19743957
+      ],
+      "id": "three_overlapping_chain/reference_8191",
+      "iterations": 14,
+      "result": {
+        "absolute_error_bound_angstrom3": 2.4644489288475104,
+        "analytical": false,
+        "lower_bound_angstrom3": 7.570640563964279,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 8191,
+          "method": "reference"
+        },
+        "target_met": false,
+        "upper_bound_angstrom3": 12.499538421659299,
+        "volume_angstrom3": 10.035089492811789,
+        "work_units": 8191
+      },
+      "ns_per_call": [
+        1410277.642857143,
+        1411321.0714285714,
+        1410780.0,
+        1415192.5714285714,
+        1408681.0714285714,
+        1409574.2142857143,
+        1414928.5714285714,
+        1410282.642857143
+      ],
+      "median_ns": 1410531.3214285714,
+      "reference_interval": [
+        9.948376736367678,
+        9.94837673636768
+      ],
+      "absolute_error_lower": 0.08671275644410947,
+      "absolute_error_upper": 0.08671275644411125
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        23133401,
+        23104677,
+        23134874,
+        23132529,
+        23101220,
+        23124925,
+        23097553,
+        23129213
+      ],
+      "id": "three_overlapping_chain/reference_65535",
+      "iterations": 2,
+      "result": {
+        "absolute_error_bound_angstrom3": 0.8530627489992587,
+        "analytical": false,
+        "lower_bound_angstrom3": 9.12237000464398,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 65535,
+          "method": "reference"
+        },
+        "target_met": false,
+        "upper_bound_angstrom3": 10.828495502642495,
+        "volume_angstrom3": 9.975432753643236,
+        "work_units": 65535
+      },
+      "ns_per_call": [
+        11566700.5,
+        11552338.5,
+        11567437.0,
+        11566264.5,
+        11550610.0,
+        11562462.5,
+        11548776.5,
+        11564606.5
+      ],
+      "median_ns": 11563534.5,
+      "reference_interval": [
+        9.948376736367678,
+        9.94837673636768
+      ],
+      "absolute_error_lower": 0.027056017275556954,
+      "absolute_error_upper": 0.02705601727555873
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        18894680,
+        18612570,
+        18602842,
+        18582483,
+        18618200,
+        18728478,
+        18696387,
+        18661973
+      ],
+      "id": "three_disjoint/midpoint_16",
+      "iterations": 14055,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 16
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 2.121320343559643,
+        "work_units": 256
+      },
+      "ns_per_call": [
+        1344.338669512629,
+        1324.2668089647811,
+        1323.5746709356101,
+        1322.1261472785486,
+        1324.6673781572395,
+        1332.513553895411,
+        1330.230309498399,
+        1327.7817858413375
+      ],
+      "median_ns": 1326.2245819992886,
+      "reference_interval": [
+        1.5707963267948966,
+        1.5707963267948968
+      ],
+      "absolute_error_lower": 0.550524016764746,
+      "absolute_error_upper": 0.5505240167647463
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19887166,
+        19862561,
+        19825811,
+        19730712,
+        19801816,
+        19779103,
+        19821032,
+        19786177
+      ],
+      "id": "three_disjoint/midpoint_32",
+      "iterations": 3788,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 32
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 1.6201194135638057,
+        "work_units": 1024
+      },
+      "ns_per_call": [
+        5250.043822597677,
+        5243.548310454065,
+        5233.846620908131,
+        5208.741288278775,
+        5227.512143611404,
+        5221.516103484689,
+        5232.585005279831,
+        5223.383579725449
+      ],
+      "median_ns": 5230.048574445618,
+      "reference_interval": [
+        1.5707963267948966,
+        1.5707963267948968
+      ],
+      "absolute_error_lower": 0.04932308676890895,
+      "absolute_error_upper": 0.049323086768909175
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        19894460,
+        19904299,
+        19929756,
+        19959983,
+        19918435,
+        19869664,
+        19851770,
+        19854044
+      ],
+      "id": "three_disjoint/midpoint_64",
+      "iterations": 1016,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 64
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 1.6115743855257563,
+        "work_units": 4096
+      },
+      "ns_per_call": [
+        19581.161417322834,
+        19590.845472440946,
+        19615.90157480315,
+        19645.652559055117,
+        19604.758858267716,
+        19556.75590551181,
+        19539.1437007874,
+        19541.38188976378
+      ],
+      "median_ns": 19586.00344488189,
+      "reference_interval": [
+        1.5707963267948966,
+        1.5707963267948968
+      ],
+      "absolute_error_lower": 0.04077805873085949,
+      "absolute_error_upper": 0.04077805873085971
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        20050895,
+        20053288,
+        20029204,
+        20021209,
+        20078927,
+        20054511,
+        20091200,
+        20076102
+      ],
+      "id": "three_disjoint/midpoint_128",
+      "iterations": 268,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 128
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 1.5831761394022452,
+        "work_units": 16384
+      },
+      "ns_per_call": [
+        74816.7723880597,
+        74825.70149253731,
+        74735.83582089552,
+        74706.00373134328,
+        74921.36940298507,
+        74830.26492537314,
+        74967.16417910448,
+        74910.82835820895
+      ],
+      "median_ns": 74827.98320895522,
+      "reference_interval": [
+        1.5707963267948966,
+        1.5707963267948968
+      ],
+      "absolute_error_lower": 0.01237981260734844,
+      "absolute_error_upper": 0.012379812607348661
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        20060282,
+        20081723,
+        20080259,
+        20198151,
+        20059861,
+        20076052,
+        20057055,
+        20078497
+      ],
+      "id": "three_disjoint/midpoint_256",
+      "iterations": 69,
+      "result": {
+        "absolute_error_bound_angstrom3": null,
+        "analytical": false,
+        "lower_bound_angstrom3": null,
+        "method": {
+          "method": "midpoint_slices",
+          "subdivisions": 256
+        },
+        "target_met": null,
+        "upper_bound_angstrom3": null,
+        "volume_angstrom3": 1.57382760561715,
+        "work_units": 65536
+      },
+      "ns_per_call": [
+        290728.72463768115,
+        291039.46376811597,
+        291018.2463768116,
+        292726.82608695654,
+        290722.6231884058,
+        290957.27536231885,
+        290681.95652173914,
+        290992.71014492755
+      ],
+      "median_ns": 290974.99275362317,
+      "reference_interval": [
+        1.5707963267948966,
+        1.5707963267948968
+      ],
+      "absolute_error_lower": 0.0030312788222532916,
+      "absolute_error_upper": 0.0030312788222535136
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        18762953,
+        18752402,
+        18793450,
+        18750509,
+        18777680,
+        18764786,
+        18792809,
+        18793460
+      ],
+      "id": "three_disjoint/reference_1023",
+      "iterations": 112,
+      "result": {
+        "absolute_error_bound_angstrom3": 2.2968750000030496,
+        "analytical": false,
+        "lower_bound_angstrom3": 0.15624999999999978,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 1023,
+          "method": "reference"
+        },
+        "target_met": false,
+        "upper_bound_angstrom3": 4.750000000006098,
+        "volume_angstrom3": 2.453125000003049,
+        "work_units": 1023
+      },
+      "ns_per_call": [
+        167526.36607142858,
+        167432.1607142857,
+        167798.6607142857,
+        167415.25892857142,
+        167657.85714285713,
+        167542.73214285713,
+        167792.9375,
+        167798.75
+      ],
+      "median_ns": 167600.29464285713,
+      "reference_interval": [
+        1.5707963267948966,
+        1.5707963267948968
+      ],
+      "absolute_error_lower": 0.8823286732081523,
+      "absolute_error_upper": 0.8823286732081526
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        18366537,
+        18370324,
+        18349846,
+        18349245,
+        18349104,
+        18354865,
+        18354214,
+        18371085
+      ],
+      "id": "three_disjoint/reference_8191",
+      "iterations": 13,
+      "result": {
+        "absolute_error_bound_angstrom3": 0.5825195312553245,
+        "analytical": false,
+        "lower_bound_angstrom3": 1.001464843749946,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 8191,
+          "method": "reference"
+        },
+        "target_met": false,
+        "upper_bound_angstrom3": 2.1665039062605946,
+        "volume_angstrom3": 1.5839843750052705,
+        "work_units": 8191
+      },
+      "ns_per_call": [
+        1412810.5384615385,
+        1413101.8461538462,
+        1411526.6153846155,
+        1411480.3846153845,
+        1411469.5384615385,
+        1411912.6923076923,
+        1411862.6153846155,
+        1413160.3846153845
+      ],
+      "median_ns": 1411887.653846154,
+      "reference_interval": [
+        1.5707963267948966,
+        1.5707963267948968
+      ],
+      "absolute_error_lower": 0.01318804821037367,
+      "absolute_error_upper": 0.013188048210373893
+    },
+    {
+      "allocations": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "elapsed_ns": [
+        23062006,
+        23031660,
+        23042470,
+        23047850,
+        23042099,
+        23049593,
+        23036038,
+        23033924
+      ],
+      "id": "three_disjoint/reference_65535",
+      "iterations": 2,
+      "result": {
+        "absolute_error_bound_angstrom3": 0.20075988771110923,
+        "analytical": false,
+        "lower_bound_angstrom3": 1.3702545166002176,
+        "method": {
+          "absolute_tolerance": 1e-05,
+          "max_boxes": 65535,
+          "method": "reference"
+        },
+        "target_met": false,
+        "upper_bound_angstrom3": 1.771774292022436,
+        "volume_angstrom3": 1.5710144043113268,
+        "work_units": 65535
+      },
+      "ns_per_call": [
+        11531003.0,
+        11515830.0,
+        11521235.0,
+        11523925.0,
+        11521049.5,
+        11524796.5,
+        11518019.0,
+        11516962.0
+      ],
+      "median_ns": 11521142.25,
+      "reference_interval": [
+        1.5707963267948966,
+        1.5707963267948968
+      ],
+      "absolute_error_lower": 0.00021807751642999307,
+      "absolute_error_upper": 0.0002180775164302151
+    }
+  ],
+  "complete": true
+}

@@ -185,3 +185,26 @@ continuous reference, and a global replacement of the finite lattice were not
 adopted. General adaptive-box integration remains an explicit reference option:
 its rigorous enclosure is useful even when its requested tolerance is not met,
 but the measured molecular budgets do not justify making it the default.
+
+
+## Final acceptance — 2026-11-17
+
+The final original/candidate run accepts U1–U3 as a combined engine: 630 CLI
+trials preserve exact results while six-thread 10,000-file throughput increases
+2.1156×. Isolated volume/regions/ensemble/profile A/B medians improve
+2.920/2.918/2.560/2.160×. Original candidate measurements and rejected experiments
+remain above; final tables do not overwrite them. Cache-related peak-memory
+increases, unchanged parser/transport controls and slower small-workload
+twelve-thread cases remain part of the acceptance decision.
+
+N1/N2 remain explicit methods. Final empirical error/cost frontiers justify N1
+against dense scans on tested witnesses, while some molecular inputs favor the
+sampled method when its error meets the requirement. Reference volume is often
+slower and less accurate in observed residual than midpoint integration at the
+tested work budget, but supplies conservative bounds. No failed target is
+promoted to a pass and no default definition is changed.
+
+No further production candidate was retained after the complete scientific
+replay. Remaining layout/transport hypotheses need their own isolated evidence;
+the practical campaign ends with the measured, validated changes and the full
+report rather than speculative additional tuning.

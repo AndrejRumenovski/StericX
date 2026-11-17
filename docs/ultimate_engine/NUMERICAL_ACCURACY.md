@@ -1,9 +1,9 @@
 # Numerical accuracy investigation
 
 Status: baseline convergence and explicit N1/N2 methods validated in the
-scopes below. Final whole-engine and explicit-method replay pass. The controlled
-performance audit remains pending. The method proposals are retained to explain
-their admission criteria.
+scopes below. Final whole-engine and explicit-method replay and controlled
+accuracy-versus-cost measurements are complete. The original method proposals
+are retained to explain their admission criteria.
 
 ## Quantities and baseline
 
@@ -97,7 +97,8 @@ the event method uses about 49 microseconds versus about 789 microseconds for a
 the event value lies in the ~2e-12 Å reference bracket. The default scan takes
 about 11 microseconds but has about 7.87e-3 Å error. This is an accuracy/cost
 comparison, not a claim that equal-accuracy legacy calls are 16× faster.
-Numbers are exploratory and final controlled measurement remains pending.
+These original numbers are exploratory; the final controlled section below
+records the independently checked outputs with freshly measured costs.
 
 ### External convention investigation and preserved failures
 
@@ -239,8 +240,8 @@ No production tolerance or domain was expanded to make that run pass.
 [its complete plotted data](accuracy_cost_frontier.json) compare equal quantities
 within each of two frozen geometries. Dashed segments show the empirical
 Pareto frontier among tested methods. They are not guarantees that untested
-methods, inputs or hardware cannot dominate it. Timing samples are exploratory;
-final controlled costs remain pending.
+methods, inputs or hardware cannot dominate it. Those original timing samples remain exploratory. The separately named final
+figure and complete per-input frontier below use the admitted controlled window.
 
 For the 32-disc support witness, the continuous-event solution improves error
 while costing less than the finest angular scans. The ordinary 360-direction
@@ -277,3 +278,47 @@ results. Their binding receipt is
 from that replay are not substituted for controlled cost measurements. The
 updated volume timing observer supports repeated calls per clock sample to
 avoid single-call timer overhead in the final measurement window.
+
+
+## Final controlled accuracy and cost
+
+[The final figure](final_accuracy_cost_frontier.svg),
+[plotted data](final_accuracy_cost_frontier.json) and
+[all per-input Pareto classifications](final_accuracy_pareto.json) use the same
+independently validated scientific outputs with fresh quiet-window native
+costs. Every one of 39 N1 cases/234 configurations is replayed; the prospectively
+selected eleven N2 geometries/72 configurations retain eight samples each.
+[Final N1](final_n1_accuracy_measurements.json) and
+[final N2](final_n2_accuracy_measurements.json) retain individual timings,
+references, residuals and certificates. The original 244-case validation remains
+separate and is not replaced by this timing subset.
+
+On `random_2_32`, continuous events cost 47.664 µs with an upper residual
+estimate of 1.69e-14 Å, versus 10.536 µs/0.003656 Å for the default scan and
+782.094 µs/0.0001113 Å for 23,041 angles. For this input, a target of 0.001 Å
+admits the continuous and two finest scans; the continuous method has both
+lower cost and smaller residual than those scans. A lower-accuracy target
+can favor the default. This is a tested-input result, not a uniform guarantee.
+
+For `three_overlapping_chain`, midpoint 16/32/64/128/256 costs
+1.534/6.250/23.311/88.334/342.608 µs with residuals
+0.073026/0.131764/0.009122/0.001998/0.0004896 Å³. The nonmonotonic 16→32 step
+is retained. Reference at 65,535 boxes costs 11.564 ms with 0.027056 Å³ observed
+residual and a 0.853063 Å³ conservative bound. It is dominated on observed
+error/cost for this input, but supplies a different certification capability.
+Its bound is never replaced by the much smaller measured residual.
+
+Relative residual estimates are reported where the independent reference is
+nonzero; zero-reference relative error is undefined and stored as null.
+Empirical Pareto membership uses the same quantity/input and does not combine
+incomparable molecular cases. Allocation/peak observations for numerical modes
+remain in the prior measurement evidence; native elapsed times are separated
+from allocation instrumentation. There is no hardware-cycle certificate.
+
+The separate twelve-molecule Sterimol supplement fixed 0.01 Å admission before
+new outputs. Native 361-direction sampling and continuous events pass all
+L/B1/B5 values. At 361 directions Morfeus fails trimethylphosphine B1
+(0.012548 Å); classic DBSTEP fails triphenylphosphine B1 (0.015544 Å). This is
+sampling/convention evidence, not a newly confirmed implementation defect.
+Every case remains; neither tolerance nor membership was relaxed. Costs are
+reported with residuals and no failed-method equal-accuracy speed ratio.

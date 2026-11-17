@@ -4,7 +4,8 @@ Status: the final legacy capture, engineering checks, new numerical methods,
 advanced references and matched finite-grid competitive gate have passed in
 the scopes below. The full independent Kraken/volume reference replay and its
 review are complete with zero changed historical scientific values/statuses.
-Controlled performance acceptance is separate and pending.
+Controlled performance acceptance is also complete; it remains a separate
+claim from the independent scientific checks below.
 
 ## Frozen source and exact legacy behavior
 
@@ -141,3 +142,29 @@ Use the retained controllers/receipts for exact paths, environment, reference
 versions and all remaining phases. No tolerance is enlarged to turn a failed
 scientific comparison into a pass. Data-source, model, finite-grid and
 floating-point limitations are detailed in [SCIENTIFIC_AUDIT.md](SCIENTIFIC_AUDIT.md).
+
+
+## Final timing acceptance and unchanged source
+
+Final window 6 completes all eight measurement stages with passing outer and
+applicable inner host gates. All 630 whole-CLI trials have the expected exact
+scientific fingerprints, including twelve-thread cases. Eight paired repeats
+of each isolated A/B kernel preserve results. All 208 Python A/B outputs match;
+71 kernel and 175 CLI profile runs preserve their expected outputs; all 432
+competitive volume launches match independently admitted per-tool results.
+Final costs replay 39 support cases and 72 selected volume configurations
+without changing their independently validated values.
+
+The twelve-case Sterimol supplement preserves all inputs and fixes its 0.01 Å
+gate prospectively. Both native methods pass; Morfeus and DBSTEP each fail one
+B1 value and are excluded from equal-accuracy speed ratios. These failures are
+retained with full residuals; the earlier 39-case convention-matched scientific
+comparison is not overwritten. Cost measurements do not convert a failed target
+into a pass.
+
+No production file has changed since `f9c952e2`, so the final engineering and
+scientific suites remain source-bound to the measured engine. The final seal
+rehashes all 65 scientific records, final raw measurements, report data and
+pre-run controller archives. The earlier scientific seal's pending-performance
+field remains an honest historical snapshot. All failed windows and former
+scientific failures remain on disk and in the campaign history.

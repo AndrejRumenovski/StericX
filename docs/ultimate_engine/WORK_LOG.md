@@ -68,3 +68,27 @@ with automatic resume and an independent 30-minute watchdog. This is an
 additional application-control permission, not a repeat request for the already
 confirmed idle window. No user process has been signalled. Synthetic-process
 normal/failure/controller-crash checks all passed; approval remains pending.
+
+
+## Final controlled windows and campaign closure — 2026-11-17
+
+The user explicitly authorized Warp UI suspension and continuation through the
+remaining goal. The earlier pending-approval/status entries above are historical.
+Window 6 completes all eight final stages with passing quiet endpoints; all
+630 CLI A/B, 80 kernel A/B and 208 Python A/B trials preserve expected scientific
+results. Competitive volume completes 432 exact-result launches. Controlled
+costs cover 39 support cases/234 configurations and eleven volume geometries/72
+configurations. Final source remains `f9c952e2`. Warp was restored.
+
+The final coverage audit added a prospective twelve-molecule Sterimol supplement
+(commit `ded41cc6`). Both native methods pass its fixed 0.01 Å target; Morfeus
+and DBSTEP each miss one B1 target. All cases and 36 cost trials remain, without
+equal-accuracy ratios for failed methods. Its short guarded window passed both
+quiet gates and restored Warp; no benchmark process remains.
+
+Final six-thread throughput is 23,783.8 versus 11,242.0 files/s (+111.56%); one
+thread is 4,503.3 versus 2,080.3, and twelve threads 28,320.8 versus 13,941.4.
+All raw ranges and unfavorable results remain. Final tables, reviewed scientific
+plots, reports, phase completion audit and evidence seal are complete. No source
+changes after the scientific replay required another production test run.
+Hardware-counter and physical cross-platform limitations remain explicit.

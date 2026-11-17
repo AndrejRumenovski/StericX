@@ -1,9 +1,9 @@
 # Engine profiling
 
-Fresh baseline profiling and final instruction/memory profiling are complete on
-Linux x86-64. Final native timing and controlled A/B acceptance remain pending.
-Native timings below are exploratory measurements,
-not a final speedup claim. The baseline source is `c03630cb` and its frozen hashes
+Baseline and final profiling, native timing and controlled A/B acceptance are
+complete on Linux x86-64. The earlier baseline sections below retain their
+exploratory scope; the final controlled section and linked tables supersede
+their timing estimates. The baseline source is `c03630cb` and its frozen hashes
 are in [baseline_manifest.json](baseline_manifest.json).
 
 ## Measurement scope and host
@@ -148,8 +148,8 @@ solely from density or a successive-grid difference.
 
 All opportunities require isolated changes, scientific validation and native
 A/B evidence. Assembly appearance or modeled operation counts alone cannot
-admit an optimization. Actual final speedups, final profiles, compiler
-vectorization remarks and the final evidence seal will be appended after work.
+admit an optimization. Final native speedups, profiles, compiler-remark limitations and the evidence
+seal are recorded below and in the final report.
 
 ## Final instruction, SIMD and memory replay
 
@@ -220,3 +220,66 @@ cache retention and Python object transport are also open costs. Additional
 row-layout structures would need another isolated science/performance cycle.
 The campaign stops implementation changes after the three measured accepted
 optimizations to complete the full replay and controlled measurement work.
+
+
+## Final controlled native replay
+
+Final window 6 completed 630 exact-output CLI A/B trials, 80 paired kernel
+launches, 71 kernel-profile runs, 175 CLI-profile runs and 208 exact Python A/B
+measurements. All required quiet endpoints passed. Full distributions and
+scopes are in [FINAL_TABLES.md](FINAL_TABLES.md) and
+[final_measurements.json](final_measurements.json). The original baseline
+profiles above preceded production changes; these final results do not rewrite
+the original exploratory measurements.
+
+One-/six-/twelve-thread 10,000-file throughput is now 4,503.3/23,783.8/28,320.8
+files/s, versus 2,080.3/11,242.0/13,941.4 in the freshly paired frozen original.
+Final efficiencies are 100/96.72/91.85/88.02/52.41% at 1/2/4/6/12 threads.
+The six-thread process uses a median 562.36% of one CPU versus 580.61% originally;
+these are wait4 CPU-time/wall-time observations, not IPC or cycle counts.
+Scheduling/serial work and shared physical cores limit scaling. A memory-bandwidth
+saturation claim cannot be made without the unavailable hardware measurements.
+
+| Final single-thread exclusive function | Time | Share of diagnostic wall |
+|---|---:|---:|
+| Occupancy | 1,825.395 ms | 81.55% |
+| Sterimol support scan | 143.509 ms | 6.41% |
+| XYZ parsing | 114.479 ms | 5.11% |
+| File parsing/I/O excluding nested XYZ parsing | 69.016 ms | 3.08% |
+| Bonded-neighbor detection | 17.425 ms | 0.78% |
+
+Integration-grid construction runs once, taking 39.5 µs. Output serialization
+accounts for 17.200 ms; frame-aligned atom construction 13.765 ms. No scopes were
+dropped. The 2.238-second instrumented interval is 1.00755× the same final
+workload's contemporaneous native median. Instrumentation overhead is thus
+observed at roughly 0.75% here; it is not assumed for other workloads or used
+to adjust reported native times.
+
+Total allocation traffic falls from 4,115,596,082 to 172,600,345 requested bytes;
+allocations from 3,056,774 to 3,016,776, with 104,600 reallocations on each side.
+Peak live requested bytes rise 14,250,613 → 14,643,883. All fourteen warmed
+allocation modes again show zero net live growth. Native process RSS medians
+for the large batch are 21.11 → 21.45 MiB at one thread, 26.49 → 25.11 MiB at
+six, and 26.38 → 26.49 MiB at twelve. These are separate metrics and scopes.
+
+Paired volume/regions/ensemble/profile medians improve 2.920/2.918/2.560/2.160×.
+The unchanged default Sterimol control moves only 1.016× and is not attributed
+to a new scientific algorithm. Descriptor-level final medians also include
+pyramidalization 0.103 µs, center construction 0.070 µs, geometry snapshot
+0.781 µs, statistics 9.071 µs, serialization 39.239 µs, six-conformer parsing
+53.873 µs, density integration 166.324 µs, density profile 508.583 µs and cube
+parsing 5.759 ms. Setup is outside these kernel timers.
+
+Native/bridge/public six-conformer costs are 1.132/1.414/2.110 ms; differences
+include build and transport choices. Isolated JSON decode/typed construction/
+NumPy export/options encoding cost 405.6/156.5/53.2/5.77 µs. The public batch
+API takes 19.823 ms at one thread and 10.167 ms at six for 56 files. Its limited
+parallel improvement reflects Python transport and per-result construction as
+well as Rust work; no scientific engine was moved to Python.
+
+Unfavorable results remain: parser-only CLI is 0.16% slower at one thread;
+JSON decode and NumPy export move slightly slower; the 56-conformer CLI and
+six-conformer in-memory workload slow down at twelve versus six threads.
+Full ranges include latency outliers despite quiet endpoints. The fastest
+configuration is workload-dependent. New speculative layout, buffer or transport
+changes were not added after final validation to chase small differences.

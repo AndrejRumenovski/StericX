@@ -1,43 +1,53 @@
-# Campaign completion audit before final timing
+# Final campaign completion audit
 
-The campaign is **not complete**. This audit checks the original scope against
-current evidence instead of treating the existence of reports as completion.
-The [machine-readable check](completion_audit_before_timing.json) rehashed all
-65 sealed records, found no changes, confirmed an empty production diff from
-`f9c952e2`, and counted 364 passed/zero failed/zero ignored Rust tests from the
-actual final test log. It also checked the exact-response and independent
-reference review outcomes. This verifies integrity and the stated checks;
-it does not extend their scientific scope.
+Completed 2026-11-17 on the available host. This checks the requested phases
+against actual evidence and preserves the [pre-timing audit](COMPLETION_AUDIT_BEFORE_TIMING.md).
+The campaign has no pending applicable validation, measurement or implementation
+work. Unavailable hardware tests/counters and scientifically unadmitted comparisons
+are explicit limitations, not passes or work silently substituted by another task.
 
-| Requested phase | Evidence inspected | Completion assessment |
+| Phase | Evidence and outcome | Limits retained |
 |---|---|---|
-| 0: inspection and freeze | BASELINE.md, baseline source/data/tool manifests, baseline outputs and measurements | Established before production optimization; original commit, dirty-tree state, hardware, flags and historical evidence retained |
-| 1: every scientific family | SCIENTIFIC_AUDIT.md and final independent/reference receipts | Sterimol, volume/regions, ensembles, thermodynamics, density, pyramidalization, profiles, models and input/radius conventions covered; S1 corrected and limitations explicit |
-| 2: CPU, descriptors, memory, SIMD, threads, Python, accuracy/cost | PROFILING_REPORT.md, baseline/final flamegraphs, final_profile_evidence.json, final_simd.json | Baseline and instruction/memory reprofiling complete; final native timing/scaling/Python tables pending. Hardware counters denied and real bandwidth unavailable; simulated events are not substituted as hardware measurements |
-| 3: explicit numerical methods | NUMERICAL_ACCURACY.md; N1/N2 analytical, independent, adversarial and molecular records | Methods and bounded/unbounded claims distinguished; default unchanged; failed tolerances retained. Final controlled cost replay pending |
-| 4: Rust optimization acceptance | CANDIDATES.md, U1–U3 isolated A/B records, source commits, exact replay and independent gates | Three measured optimizations retained with scalar fallback and memory checks; final whole-engine controlled acceptance pending |
-| 5: joint accuracy and cost | accuracy_cost_frontier.json/SVG, analytical error intervals, N2 allocation observations | Exploratory Pareto evidence exists; final controlled costs and updated frontier pending. No unequal-accuracy speed claim admitted |
-| 6: independent validation | final_science_review.json, final_exact_comparison.json, VALIDATION_REPORT.md, explicit-method comparisons | Full preserved scopes replayed, including all bins and fixed Kraken unions. Real ARM/macOS/Windows unavailable; emulated ARM functional checks do not prove native performance |
-| 7: competitive benchmarks | COMPETITIVE_PROTOCOL.md, exact finite-grid gate, all-worker preflight, separate process-tree memory samples | Scientific admission and memory observations complete; controlled timing distributions absent. Comparable cross-tool scope is the explicitly matched volume workflow; a blanket Sterimol/combined-library ratio is not justified by the differing conventions |
-| 8: isolated iterative loop | Candidate ledger, individual production commits, before/after instruction and allocation profiles | U1–U3 investigated, independently checked, benchmarked and reprofiled; historical rejected experiment preserved. Final controlled acceptance still required |
-| 9: full replay | final_engineering_receipt.json, final_science_review.json, final_python_receipt.json, MSRV/ARM receipts | All stated final suites complete; original failures and upstream skips preserved, explicit-method final outputs exact |
-| 10: final controlled A/B | final_cli_ab_preflight, paired_python_preflight_v2, prepared run_performance_window.py, host_after_science.json | **Not measured.** Actual host check failed the prospective quiet criterion; user confirmation remains required |
-| 11: complete final report | All seven requested report paths and final scientific evidence seal | Scientific and profiling findings documented; final speed/throughput/variation/Python/scaling/accuracy-cost results and concluding acceptance remain incomplete |
+| 0: inspection and freeze | BASELINE.md, source/data/tool manifests, frozen original `c03630cb`; baseline outputs and measurements predate edits | Original working-tree state and historical failures preserved |
+| 1: scientific audit | SCIENTIFIC_AUDIT.md covers Sterimol, total/regional volume, ensembles, thermodynamics, density, pyramidalization, radius profiles, models and conventions; R² defect corrected | Empirical chemistry and numerical limitations remain explicit |
+| 2: comprehensive profiling | Original/final native profiles, modeled instruction flamegraphs, allocation/DHAT/RSS, assembly/dynamic SIMD, 1/2/4/6/12 threads, Python layers, accuracy/cost | Hardware cycles/IPC/cache misses and bandwidth denied/unavailable; LLVM remarks absent; modeled events not mislabelled |
+| 3: numerical accuracy | Explicit N1 continuous support and N2 midpoint/reference Rust APIs, independent analytical/high-precision/interval references, adversarial cases and bounds | Default unchanged; non-certified methods identified; 23 stress and all 12 strict molecular targets remain unmet |
+| 4: Rust optimization | Isolated U1 tokens, U2 exact grid reuse, U3 SIMD masks, separate commits, independent reference gates and Memcheck | Cache peaks can rise; no unvalidated floating-point reassociation |
+| 5: joint accuracy/cost | Final 234 support and 72 volume configurations, per-input Pareto JSON and standalone reviewed figure, relative/absolute residuals and certified bounds | Observed residual differs from certification; no universal optimum |
+| 6: independent validation | Full Morfeus/DBSTEP/Kraken/analytical replay; 128,021 exact legacy responses; regional, thermodynamic, density and numerical evidence | Historical convention failures remain; physical ARM/macOS/Windows unavailable |
+| 7: competitive benchmarks | 432 admitted volume launches, 1/56/1,000 input workflows, startup/warm timing, scaling and separate process-tree memory; 36 Sterimol cost/accuracy launches | DBSTEP common-grid scope explicit; two external Sterimol targets fail and no equal-accuracy ratio admitted; no controlled disk-cache-cold claim |
+| 8: optimization loop | Measured isolated candidates, three retained performance changes, rejected row-endpoint experiment preserved, final reprofiling | Further occupancy/layout/transport work requires a new measured cycle; no insignificant tuning after full replay |
+| 9: full engineering/scientific replay | 364 native and 364 MSRV Rust tests, 362 emulated ARM tests, 71 binding, 156 research, 28 pinned integration, 413 upstream tests; fmt/Clippy/docs/Memcheck | Three upstream skips retained; workload tests do not prove all-platform memory safety |
+| 10: final A/B | Window 6 completes all eight stages with every required quiet endpoint true; 630 CLI, 80 kernel A/B, 71 kernel profiles, 175 CLI profiles, 208 Python A/B; exact checks pass | Every unfavorable trial retained; host endpoints cannot rule out all intermediate scheduling noise |
+| 11: report and evidence | All requested reports, complete timing distributions/tables, accepted/rejected commits, source/binary/input hashes, reproduction commands and final seal | Claims restricted to measured definitions, accuracy and hardware |
 
-The ten final success criteria therefore cannot all be marked achieved: final
-controlled comparison and completed reporting are outstanding, and competitive
-claims must remain restricted to scientifically comparable tasks. Performance
-targets are not acceptance criteria, and simulated instruction reductions do
-not satisfy the missing elapsed-time measurements.
+## Final success-criteria disposition
 
-No final benchmark process is running. The preceding goal turn made concrete
-progress by finishing reference review, sealing evidence and recording the
-failed host admission. This continuation revalidated the saved state; it is
-not a wait on a live process. The same quiet-window confirmation is outstanding
-for the second consecutive goal turn. No additional permission request is
-issued, no application is stopped, and no elapsed time is treated as consent.
+Every implemented scientific family is audited. Confirmed implementation defects
+within the campaign were corrected, with independent witnesses. New numerical
+methods have independent validation and explicit accuracy contracts. Available
+profiling alternatives were exhausted without inventing denied hardware counters.
+Measured high-impact bottlenecks received three accepted optimizations, each
+validated independently and in the final exact replay. Competitive speed claims
+are restricted to the admitted equivalent finite-grid volume task; failed
+Sterimol admission is reported rather than hidden. The final frozen-baseline
+comparison, reproducible reports and evidence seal are complete. Rust remains
+the authoritative scientific implementation.
 
-After confirmation, recheck current host activity, use a fresh measurement
-directory, inspect all retained distributions and output fingerprints, update
-the final tables/figures and seal those results. Until then, preserve the goal's
-full scope and keep completion unproven.
+The final six-thread 10,000-file result is 23,783.8 versus 11,242.0 files/s,
+with exact output preservation. The final-report claim is scoped campaign
+completion, not universal accuracy, hardware coverage or fastest-engine status.
+
+## Final integrity checks
+
+`seal_final_campaign.py` checks the unchanged production diff from `f9c952e2`,
+rehashes all 65 scientific records, verifies complete final measurement receipts
+and passing host endpoints, binds every regular raw file in the accepted timing
+directories, and binds the final reports, tables and plots. Its `--verify` mode
+rehashes the resulting manifest without modifying it. The exact pre-run-hashed
+controller archive remains available, including the older plotting controller.
+The benchmark service has ended, both authorized UI suspensions have a successful
+resume receipt, and no watchdog/benchmark process remains running.
+
+No release, upload, GUI or unrelated feature work was performed. Existing
+untracked `docs/media/` content was not included in campaign commits.

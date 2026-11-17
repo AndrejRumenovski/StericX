@@ -104,3 +104,21 @@ bounds return an error rather than a fabricated interval. Relative error uses
 the positive certified lower volume; it is undefined when that lower bound is
 zero. Analytical and adaptive bounds include arithmetic rounding. Runtime is
 excluded from deterministic scientific-output comparisons.
+
+
+## Exact positive-interval specialization
+
+For finite nonnegative endpoint intervals, multiplication's minimum is the
+product of the lower endpoints and its maximum is the product of the upper
+endpoints. Round-to-nearest multiplication and adjacent-float widening are
+monotone, so selecting these two products yields the same bound bits as the
+general four-product/min/max implementation. Exact-zero handling is retained.
+Signed or infinite intervals use the original general implementation, including
+its NaN-product fallback. Positive division uses the identical outward reciprocal
+followed by this multiplication.
+
+A deterministic 100,000-case test spans binary64 exponents, underflow, overflow,
+signed zero and fallback intervals against the unchanged four-product reference.
+All 24 molecular tolerance cases preserve every certificate and work decision in
+eight alternating experimental pairs. This changes the cost of certified
+arithmetic, not the certificate or its acceptance threshold.

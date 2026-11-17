@@ -79,3 +79,17 @@
 - Final native/certified/competitive builds and untimed measurement preflights
   are complete. Full independent legacy reference replay remains in progress;
   quiet-window final timing is not yet authorized by a passing host gate.
+
+- Continuous allocation diagnostics show 0.68–2.98 million allocation calls at
+  0.01 on the original twelve cases. A new Callgrind profile attributes more
+  modeled instructions to interval arithmetic than to allocation. C3 specializes
+  nonnegative interval arithmetic without changing any bound bits; eight pairs
+  show a median 1.114× exploratory gain. Its 100,000-case arithmetic equivalence
+  test and all 24 molecular tolerance/work certificates pass.
+- C4 independently reuses per-integration scratch vectors and component index
+  spans. All 24 certificates/work decisions remain exact; eight pairs show a
+  median 1.076× exploratory gain over C3. Allocation reduction remains to be
+  measured on the integrated final implementation.
+- Native final-v1 suite plus the molecular convenience-wrapper witness passes
+  371 tests. The complete independent legacy replay is still running against
+  that frozen source; subsequent C3/C4 edits affect only the new explicit API.

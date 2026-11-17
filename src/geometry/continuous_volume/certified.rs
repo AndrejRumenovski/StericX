@@ -561,7 +561,7 @@ fn chord_cell(
     };
     let widths =
         std::array::from_fn::<_, 2, _>(|i| Interval::point(hi[i]).sub(Interval::point(lo[i])));
-    let area = widths[0].mul(widths[1]);
+    let area = widths[0].chord_mul(widths[1]);
     let mut spans = Vec::with_capacity(indices.len());
     for &i in indices {
         counters.evaluations += 1;
@@ -609,7 +609,7 @@ fn chord_cell(
         lo: lower,
         hi: upper,
     }
-    .mul(area);
+    .chord_mul(area);
     cell.bounds.lo = cell.bounds.lo.max(0.0);
     let Some(endpoints) = chord_smooth(&spans, spheres) else {
         counters.range += 1;
@@ -618,7 +618,7 @@ fn chord_cell(
     let mid = std::array::from_fn(|i| {
         Interval::point(lo[i])
             .add(Interval::point(hi[i]))
-            .mul(Interval::point(0.5))
+            .chord_mul(Interval::point(0.5))
     });
     let mut length = Interval::point(0.0);
     let mut curvature = Interval::point(0.0);
@@ -631,20 +631,20 @@ fn chord_cell(
             let s = bounds[endpoint.sphere];
             let q = chord_q(s, lo, hi);
             let qmin = Interval::point(q.lo);
-            let denominator = qmin.mul(qmin.sqrt());
+            let denominator = qmin.chord_mul(qmin.sqrt());
             if denominator.lo <= 0.0 || !denominator.hi.is_finite() {
                 counters.range += 1;
                 return Ok(cell);
             }
             curvature =
-                curvature.add(Interval::point(s.radius_squared.hi).div_positive(denominator));
+                curvature.add(Interval::point(s.radius_squared.hi).chord_div_positive(denominator));
         }
     }
     let remainder = area
-        .mul(widths[0].square().add(widths[1].square()))
-        .mul(curvature)
-        .div_positive(Interval::point(24.0));
-    let integral = length.mul(area).add(Interval {
+        .chord_mul(widths[0].square().add(widths[1].square()))
+        .chord_mul(curvature)
+        .chord_div_positive(Interval::point(24.0));
+    let integral = length.chord_mul(area).add(Interval {
         lo: -remainder.hi,
         hi: remainder.hi,
     });
@@ -659,4 +659,100 @@ fn chord_cell(
         counters.range += 1;
     }
     Ok(cell)
+}
+
+// For nonnegative finite endpoints, monotonic rounded multiplication selects
+// the same extrema as the general four-product implementation. Keep its exact
+// zero handling and fall back for signed or infinite intervals. Only C1 uses
+// these methods; legacy continuous-reference arithmetic is unchanged.
+trait PositiveChordArithmetic {
+    fn chord_mul(self, other: Self) -> Self;
+    fn chord_div_positive(self, other: Self) -> Self;
+}
+impl PositiveChordArithmetic for Interval {
+    fn chord_mul(self, b: Self) -> Self {
+        if self.lo >= 0.0 && b.lo >= 0.0 && self.hi.is_finite() && b.hi.is_finite() {
+            if (self.lo == 0.0 && self.hi == 0.0) || (b.lo == 0.0 && b.hi == 0.0) {
+                return Self::point(0.0);
+            }
+            Self {
+                lo: (self.lo * b.lo).down(),
+                hi: (self.hi * b.hi).up(),
+            }
+        } else {
+            self.mul(b)
+        }
+    }
+    fn chord_div_positive(self, b: Self) -> Self {
+        debug_assert!(b.lo > 0.0);
+        self.chord_mul(Self {
+            lo: (1.0 / b.hi).down(),
+            hi: (1.0 / b.lo).up(),
+        })
+    }
+}
+
+#[cfg(test)]
+mod positive_interval_tests {
+    use super::*;
+    fn equal(a: Interval, b: Interval) {
+        assert_eq!(a.lo.to_bits(), b.lo.to_bits(), "lower {a:?} {b:?}");
+        assert_eq!(a.hi.to_bits(), b.hi.to_bits(), "upper {a:?} {b:?}");
+    }
+    #[test]
+    fn specialized_bounds_match_four_product_reference_across_exponents() {
+        let mut state = 0xa45e_2689_b213_54df_u64;
+        let mut random = || {
+            state ^= state << 13;
+            state ^= state >> 7;
+            state ^= state << 17;
+            f64::from_bits(state & 0x7fef_ffff_ffff_ffff)
+        };
+        for _ in 0..100000 {
+            let (a, b, c, d) = (random(), random(), random(), random());
+            let x = Interval {
+                lo: a.min(b),
+                hi: a.max(b),
+            };
+            let y = Interval {
+                lo: c.min(d),
+                hi: c.max(d),
+            };
+            equal(x.chord_mul(y), x.mul(y));
+            if y.lo > 0.0 {
+                equal(x.chord_div_positive(y), x.div_positive(y));
+            }
+        }
+        let cases = [
+            Interval::point(0.0),
+            Interval::point(-0.0),
+            Interval::point(f64::from_bits(1)),
+            Interval {
+                lo: 0.0,
+                hi: f64::MIN_POSITIVE,
+            },
+            Interval { lo: -1.0, hi: 1.0 },
+            Interval { lo: -2.0, hi: -1.0 },
+            Interval {
+                lo: 1.0,
+                hi: f64::MAX,
+            },
+            Interval {
+                lo: 0.0,
+                hi: f64::INFINITY,
+            },
+            Interval {
+                lo: f64::NEG_INFINITY,
+                hi: f64::INFINITY,
+            },
+        ];
+        for x in cases {
+            for y in cases {
+                equal(x.chord_mul(y), x.mul(y));
+                if y.lo > 0.0 {
+                    equal(x.chord_div_positive(y), x.div_positive(y));
+                }
+            }
+        }
+    }
 }

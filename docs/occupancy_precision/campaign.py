@@ -108,6 +108,9 @@ def build(name, quick=False):
     source = out / 'source'
     observer = out / 'observer'
     shutil.copytree(ROOT / 'docs/ultimate_engine/observer', observer)
+    certified = (source / 'src/geometry/continuous_volume/certified.rs').is_file()
+    if certified:
+        shutil.copy2(DOCS / 'certified_observer.rs', observer / 'src/bin/certified.rs')
     manifest = observer / 'Cargo.toml'
     manifest.write_text(manifest.read_text().replace('path = "../../.."', f'path = "{source}"'))
     shutil.copy2(ROOT / '.stericx/ultimate_engine/baseline/observer/Cargo.lock', observer / 'Cargo.lock')
@@ -137,6 +140,8 @@ def build(name, quick=False):
         receipt['binaries'][str(dest.relative_to(out))] = sha(dest)
 
     bins = ['stericx-ultimate-observer'] if quick else ['stericx-ultimate-observer', 'continuous_volume', 'continuous', 'accuracy', 'volume_workflow']
+    if certified and not quick:
+        bins.append('certified')
     run('observer', ['cargo', 'build', '--locked', '--offline', '--release', '--manifest-path', observer / 'Cargo.toml', *(['--bin', bins[0]] if quick else ['--bins'])])
     for binary in bins:
         keep(target / 'release' / binary, out / 'bin' / ('observer' if binary == 'stericx-ultimate-observer' else binary))
@@ -147,6 +152,9 @@ def build(name, quick=False):
         return
     run('observer_alloc', ['cargo', 'build', '--locked', '--offline', '--release', '--manifest-path', observer / 'Cargo.toml', '--bin', 'stericx-ultimate-observer', '--features', 'profiling'])
     keep(target / 'release/stericx-ultimate-observer', out / 'bin/observer_alloc')
+    if certified:
+        run('certified_alloc', ['cargo', 'build', '--locked', '--offline', '--release', '--manifest-path', observer / 'Cargo.toml', '--bin', 'certified', '--features', 'profiling'])
+        keep(target / 'release/certified', out / 'bin/certified_alloc')
     for label, flags in [('native', []), ('diagnostic', ['--features', 'profiling'])]:
         run(label, ['cargo', 'build', '--locked', '--offline', '--release', '--bin', 'stericx', *flags], {'RUSTFLAGS': '-C debuginfo=1'})
         keep(target / 'release/stericx', out / f'{label}-target/release/stericx')

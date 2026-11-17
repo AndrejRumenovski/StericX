@@ -130,3 +130,63 @@ fn numerical_limits_and_invalid_inputs_do_not_claim_false_success() {
         assert!(sphere_union_volume_certified(region, &[invalid], options(0.05, 1)).is_err());
     }
 }
+
+#[test]
+fn molecular_wrapper_preserves_configured_radii_center_and_hydrogen_policy() {
+    use glam::Vec3;
+    use steric_x::geometry::{Atom, BuriedVolumeCalculator, Molecule};
+    let molecule = Molecule {
+        atoms: vec![
+            Atom::new("C", Vec3::new(0.25, -0.5, 0.0)),
+            Atom::new("H", Vec3::new(2.25, 0.0, 0.0)),
+        ],
+    };
+    let center = [0.125, -0.25, 0.5];
+    let scale = f64::from(1.17_f32);
+    for include_hydrogens in [false, true] {
+        let expected: Vec<_> = molecule
+            .atoms
+            .iter()
+            .filter(|a| include_hydrogens || a.element != "H")
+            .map(|a| {
+                sphere(
+                    a.position.as_dvec3().to_array(),
+                    f64::from(a.vdw_radius) * scale,
+                )
+            })
+            .collect();
+        let explicit =
+            sphere_union_volume_certified(sphere(center, 3.5), &expected, options(0.05, 262143))
+                .unwrap();
+        let wrapper = BuriedVolumeCalculator::compute_certified_with_center(
+            &molecule,
+            center,
+            3.5,
+            scale,
+            include_hydrogens,
+            options(0.05, 262143),
+        )
+        .unwrap();
+        assert_eq!(
+            explicit.lower_bound_angstrom3.to_bits(),
+            wrapper.lower_bound_angstrom3.to_bits()
+        );
+        assert_eq!(
+            explicit.upper_bound_angstrom3.to_bits(),
+            wrapper.upper_bound_angstrom3.to_bits()
+        );
+        assert_eq!(explicit.cells_evaluated, wrapper.cells_evaluated);
+        assert!(wrapper.target_met);
+    }
+    assert!(
+        BuriedVolumeCalculator::compute_certified_with_center(
+            &molecule,
+            center,
+            3.5,
+            0.0,
+            false,
+            options(0.05, 1),
+        )
+        .is_err()
+    );
+}

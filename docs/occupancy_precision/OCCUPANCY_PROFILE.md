@@ -81,3 +81,41 @@ Current evidence establishes substantial repeated predicate and mask work. It
 does not establish whether hardware arithmetic ports, branch speculation or
 memory bandwidth are the limiting microarchitectural resource. Candidate
 timings and re-profiling will test the actionable hypotheses.
+
+
+## Reprofile after accepted changes
+
+The same six-conformer observer workload has 78,307,346 modeled Callgrind
+instructions versus 130,723,468 before optimization (40.10% fewer). Exclusive
+occupancy falls from 115,933,006 to 62,986,231 (45.67% fewer), but remains 80.43%
+of modeled instructions. Sterimol projection is next at 7,213,668; descriptor
+orchestration is 1,349,442. These are exclusive modeled instruction counts,
+not native CPU cycles or wall-clock shares.
+
+The prepared AVX2 assembly has no FMA. Its contiguous Z loads replace repeated
+point-field gathering; overlapping final vectors replace scalar tails. SIMD
+lane duplication is deliberate and is not described as higher hardware SIMD
+utilization. Register/instruction inspection and explicit algorithmic counters
+are the available evidence; measured IPC and bandwidth remain unavailable.
+
+Cachegrind reports 18,652,903 data references versus 27,225,275; simulated L1
+data misses fall from 409,087 to 227,982. Simulated last-level **data** misses
+increase from 9,628 to 11,076, consistent with the larger retained metadata
+working set but not proof of native cache behavior. Simulated branch counts
+fall from 17,304,369 to 8,503,314 and mispredictions from 927,617 to 672,573;
+the misprediction *fraction* rises. Unfavorable results are retained.
+
+The dominant remaining work is still repeated atom/row arithmetic and SIMD
+mask generation. Spatial filtering reduces candidate counts in research
+variants, but its setup cost regresses most tested real conformers. Thread
+scheduling and memory bandwidth cannot be ranked from these simulated events;
+controlled thread-scaling and native timing are separate final measurements.
+
+![Final modeled instruction flamegraph](final_flamegraph.svg)
+
+`final_profile_events.json` binds the full assembly, exclusive costs and
+simulation files. Raw Callgrind, Cachegrind, DHAT and Memcheck outputs are in
+`.stericx/occupancy_precision/final_valgrind/`. The default prepared grid retains
+495,808 buffer bytes versus 393,216 point-buffer bytes previously (26.09% more).
+Multiple retained keys can use up to 8 MiB per thread, plus fixed cache/Rc
+bookkeeping; this cap is not a whole-process memory bound.

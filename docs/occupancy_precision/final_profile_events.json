@@ -1,0 +1,186 @@
+{
+  "scope": "Callgrind exclusive modeled instructions and Cachegrind simulation, not measured CPU events. Assembly static mnemonic counts are not dynamic SIMD utilization.",
+  "total_instructions": 78307346,
+  "exclusive_top_functions": [
+    [
+      "steric_x::geometry::buried_volume::occupied_prepared_avx2",
+      62986231
+    ],
+    [
+      "steric_x::geometry::sterimol::params_from_projection",
+      7213668
+    ],
+    [
+      "<steric_x::geometry::buried_volume::BuriedVolumeCalculator>::compute_from_center_recording",
+      1349442
+    ],
+    [
+      "__sincosf_fma",
+      689304
+    ],
+    [
+      "<core::iter::adapters::GenericShunt<core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<steric_x::geometry::xyz::Atom>, steric_x::geometry::buried_volume::aligned_atoms::{closure#0}>, steric_x::geometry::buried_volume::aligned_atoms::{closure#1}>, core::result::Result<core::convert::Infallible, steric_x::geometry::buried_volume::BuriedVolumeError>> as core::iter::traits::iterator::Iterator>::next",
+      506394
+    ],
+    [
+      "core::slice::memchr::memrchr",
+      484537
+    ],
+    [
+      "_int_malloc",
+      456702
+    ],
+    [
+      "<std::io::stdio::StdoutLock as std::io::Write>::write_all",
+      400288
+    ],
+    [
+      "_int_free_merge_chunk",
+      295751
+    ],
+    [
+      "steric_x::geometry::sterimol::project",
+      283906
+    ],
+    [
+      "__memcpy_avx_unaligned_erms",
+      255528
+    ],
+    [
+      "<core::str::iter::Split<core::str::IsWhitespace> as core::iter::traits::iterator::Iterator>::try_fold::<(), core::iter::traits::iterator::Iterator::find::check<&str, &mut core::str::IsNotEmpty>::{closure#0}, core::ops::control_flow::ControlFlow<&str>>",
+      244647
+    ],
+    [
+      "<f64 as zmij::private::Sealed>::write_to_zmij_buffer",
+      221260
+    ],
+    [
+      "free",
+      214433
+    ],
+    [
+      "<serde_json::value::Value as serde_core::ser::Serialize>::serialize::<&mut serde_json::ser::Serializer<&mut <serde_json::value::Value as core::fmt::Display>::fmt::WriterFormatter>>",
+      187863
+    ],
+    [
+      "<std::io::default_write_fmt::Adapter<std::io::stdio::StdoutLock> as core::fmt::Write>::write_str",
+      181344
+    ],
+    [
+      "<&mut serde_json::ser::Serializer<&mut <serde_json::value::Value as core::fmt::Display>::fmt::WriterFormatter> as serde_core::ser::Serializer>::serialize_str",
+      172124
+    ],
+    [
+      "malloc",
+      139613
+    ],
+    [
+      "core::num::imp::dec2flt::parse::parse_number",
+      131322
+    ],
+    [
+      "<core::str::pattern::CharSearcher as core::str::pattern::Searcher>::next_match",
+      113502
+    ]
+  ],
+  "cachegrind_simulated": {
+    "Ir": 78334495,
+    "I1mr": 15183,
+    "ILmr": 3218,
+    "Dr": 16647448,
+    "D1mr": 212055,
+    "DLmr": 2654,
+    "Dw": 2005455,
+    "D1mw": 15927,
+    "DLmw": 8422,
+    "Bc": 8425438,
+    "Bcm": 670662,
+    "Bi": 77876,
+    "Bim": 1911
+  },
+  "assembly_mnemonics": {
+    "push": 6,
+    "sub": 2,
+    "c5": 69,
+    "vmovd": 1,
+    "vpxor": 5,
+    "vmovdqu": 5,
+    "mov": 62,
+    "test": 5,
+    "je": 7,
+    "lea": 26,
+    "shl": 6,
+    "xor": 12,
+    "vmovdqa": 4,
+    "ff": 7,
+    "c4": 68,
+    "vpbroadcastq": 9,
+    "f5": 7,
+    "vpcmpeqd": 2,
+    "nop": 6,
+    "add": 20,
+    "jb": 2,
+    "cmp": 15,
+    "ja": 3,
+    "f6": 2,
+    "neg": 2,
+    "shr": 3,
+    "jae": 4,
+    "movabs": 2,
+    "and": 10,
+    "vmovq": 5,
+    "vpor": 7,
+    "xchg": 1,
+    "vmovsd": 4,
+    "vsubps": 9,
+    "vmulps": 9,
+    "vmovshdup": 2,
+    "vaddps": 9,
+    "vmovss": 4,
+    "vucomiss": 3,
+    "vbroadcastss": 9,
+    "data16": 4,
+    "vpcmpgtq": 1,
+    "vextracti128": 2,
+    "vpackssdw": 1,
+    "vmaskmovps": 1,
+    "vcmpleps": 3,
+    "vpmovzxdq": 3,
+    "vpand": 5,
+    "vpsllvq": 3,
+    "vpaddq": 5,
+    "jne": 9,
+    "vblendvpd": 1,
+    "vextractf128": 1,
+    "vorpd": 2,
+    "vshufps": 1,
+    "or": 7,
+    "e9": 4,
+    "jmp": 5,
+    "inc": 2,
+    "be": 3,
+    "vmovups": 6,
+    "vmovmskps": 4,
+    "vpshufd": 1,
+    "vsubss": 1,
+    "vmulss": 1,
+    "vaddss": 1,
+    "setae": 1,
+    "f3": 2,
+    "popcnt": 2,
+    "eb": 1,
+    "vzeroupper": 3,
+    "e8": 1,
+    "call": 3,
+    "pop": 6,
+    "c3": 1,
+    "ret": 1
+  },
+  "fma_instructions": 0,
+  "bindings": {
+    ".stericx/occupancy_precision/final_valgrind/context.out": "144630149b3633f2bff79589b4b4089894b9930ba894313ac0979fd14208fb5a",
+    ".stericx/occupancy_precision/final_assembly/observer.asm": "0d899697cd87a74df2f37ffb764df29222722227c7581d0855723aab4de36434",
+    ".stericx/occupancy_precision/final_assembly/occupancy.asm": "bf00da96ea6a56261e589ed804bc174bfc637a8db153b2458f966e90474e4cfe",
+    ".stericx/occupancy_precision/final_valgrind/cachegrind/cachegrind.out": "a5ec8c8c5cf145fc283d6b8c7586e59d39012d73fdb689ebdd355f53cee3c9dc"
+  }
+}

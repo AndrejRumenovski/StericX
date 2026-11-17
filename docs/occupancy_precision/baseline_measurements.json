@@ -1,0 +1,317 @@
+{
+  "scope": "Fresh exploratory desktop baseline; failed host gate and early comparison overlap disclosed. Not final controlled evidence.",
+  "cli": {
+    "1": {
+      "seconds": [
+        2.61393681,
+        2.346787045,
+        2.589432644
+      ],
+      "median_seconds": 2.589432644,
+      "files_per_second": 3861.8498238102848
+    },
+    "2": {
+      "seconds": [
+        1.343985092,
+        1.242013835,
+        1.252015411
+      ],
+      "median_seconds": 1.252015411,
+      "files_per_second": 7987.1221329559185
+    },
+    "4": {
+      "seconds": [
+        0.701929748,
+        0.725470011,
+        0.754060099
+      ],
+      "median_seconds": 0.725470011,
+      "files_per_second": 13784.167296199927
+    },
+    "6": {
+      "seconds": [
+        0.456869127,
+        0.441300012,
+        0.436777909
+      ],
+      "median_seconds": 0.441300012,
+      "files_per_second": 22660.321160381023
+    },
+    "12": {
+      "seconds": [
+        0.366152782,
+        0.371414114,
+        0.370212635
+      ],
+      "median_seconds": 0.370212635,
+      "files_per_second": 27011.503807804937
+    }
+  },
+  "kernels": {
+    "volume": {
+      "values_ns": [
+        179838.65,
+        177955.01,
+        184553.42
+      ],
+      "median_ns": 179838.65,
+      "allocation_run": {
+        "allocations": {
+          "allocation_calls": 300,
+          "deallocation_calls": 300,
+          "failed_calls": 0,
+          "live_bytes_delta": 0,
+          "process_peak_live_bytes": 434153,
+          "reallocation_calls": 900,
+          "requested_bytes": 288000
+        },
+        "elapsed_ns": 18064728,
+        "iterations": 100,
+        "kind": "volume"
+      }
+    },
+    "regions": {
+      "values_ns": [
+        178158.89,
+        170191.42,
+        175114.97
+      ],
+      "median_ns": 175114.97,
+      "allocation_run": {
+        "allocations": {
+          "allocation_calls": 400,
+          "deallocation_calls": 400,
+          "failed_calls": 0,
+          "live_bytes_delta": 0,
+          "process_peak_live_bytes": 434466,
+          "reallocation_calls": 900,
+          "requested_bytes": 319200
+        },
+        "elapsed_ns": 17087189,
+        "iterations": 100,
+        "kind": "regions"
+      }
+    },
+    "radius_profile": {
+      "values_ns": [
+        785417.35,
+        826905.35,
+        808339.45
+      ],
+      "median_ns": 808339.45,
+      "allocation_run": {
+        "allocations": {
+          "allocation_calls": 1360,
+          "deallocation_calls": 1360,
+          "failed_calls": 0,
+          "live_bytes_delta": 0,
+          "process_peak_live_bytes": 1323968,
+          "reallocation_calls": 540,
+          "requested_bytes": 28815020
+        },
+        "elapsed_ns": 15518460,
+        "iterations": 20,
+        "kind": "radius_profile"
+      }
+    },
+    "ensemble": {
+      "values_ns": [
+        1197959.0,
+        1190648.8,
+        1203074.2
+      ],
+      "median_ns": 1197959.0,
+      "allocation_run": {
+        "allocations": {
+          "allocation_calls": 11920,
+          "deallocation_calls": 11920,
+          "failed_calls": 0,
+          "live_bytes_delta": 0,
+          "process_peak_live_bytes": 462869,
+          "reallocation_calls": 1080,
+          "requested_bytes": 1025540
+        },
+        "elapsed_ns": 24112268,
+        "iterations": 20,
+        "kind": "ensemble"
+      }
+    },
+    "sterimol": {
+      "values_ns": [
+        12874.7835,
+        13013.324,
+        13072.255
+      ],
+      "median_ns": 13013.324,
+      "allocation_run": {
+        "allocations": {
+          "allocation_calls": 2000,
+          "deallocation_calls": 2000,
+          "failed_calls": 0,
+          "live_bytes_delta": 0,
+          "process_peak_live_bytes": 61369,
+          "reallocation_calls": 0,
+          "requested_bytes": 1376000
+        },
+        "elapsed_ns": 26156052,
+        "iterations": 2000,
+        "kind": "sterimol"
+      }
+    }
+  },
+  "profile": {
+    "wall_ns": 2506216733,
+    "allocations": {
+      "allocation_calls": 3016776,
+      "reallocation_calls": 104600,
+      "deallocation_calls": 3016725,
+      "failed_allocation_calls": 0,
+      "requested_bytes": 172600334,
+      "live_requested_bytes": 395264,
+      "peak_live_requested_bytes": 14643873
+    },
+    "functions": [
+      {
+        "thread_index": 0,
+        "stage": "buried_volume",
+        "function": "buried_volume::occupied_volumes",
+        "calls": 30000,
+        "inclusive_ns": 2016786235,
+        "exclusive_ns": 2016786235
+      },
+      {
+        "thread_index": 0,
+        "stage": "sterimol",
+        "function": "sterimol::params_from_projection",
+        "calls": 10000,
+        "inclusive_ns": 153051290,
+        "exclusive_ns": 153051290
+      },
+      {
+        "thread_index": 0,
+        "stage": "file_parsing",
+        "function": "parse_xyz",
+        "calls": 10000,
+        "inclusive_ns": 141732481,
+        "exclusive_ns": 141732481
+      },
+      {
+        "thread_index": 0,
+        "stage": "file_parsing",
+        "function": "parse_coordinate_file",
+        "calls": 10000,
+        "inclusive_ns": 226036250,
+        "exclusive_ns": 84303769
+      },
+      {
+        "thread_index": 0,
+        "stage": "output",
+        "function": "descriptors::print_descriptor_json",
+        "calls": 1,
+        "inclusive_ns": 22701927,
+        "exclusive_ns": 22701927
+      },
+      {
+        "thread_index": 0,
+        "stage": "donor_bond_detection",
+        "function": "bonded_neighbors",
+        "calls": 20000,
+        "inclusive_ns": 20563980,
+        "exclusive_ns": 20563980
+      },
+      {
+        "thread_index": 0,
+        "stage": "conformer_processing",
+        "function": "descriptors::descriptors_for_file",
+        "calls": 10000,
+        "inclusive_ns": 2475749386,
+        "exclusive_ns": 19736360
+      },
+      {
+        "thread_index": 0,
+        "stage": "buried_volume",
+        "function": "buried_volume::aligned_atoms",
+        "calls": 30000,
+        "inclusive_ns": 17438566,
+        "exclusive_ns": 17438566
+      },
+      {
+        "thread_index": 0,
+        "stage": "sterimol",
+        "function": "SterimolCalculator::compute_with_dummy",
+        "calls": 10000,
+        "inclusive_ns": 159763797,
+        "exclusive_ns": 6712507
+      },
+      {
+        "thread_index": 0,
+        "stage": "buried_volume",
+        "function": "BuriedVolumeCalculator::compute_from_center",
+        "calls": 10000,
+        "inclusive_ns": 2042163929,
+        "exclusive_ns": 6033533
+      },
+      {
+        "thread_index": 0,
+        "stage": "orchestration",
+        "function": "cli::run",
+        "calls": 1,
+        "inclusive_ns": 2506207135,
+        "exclusive_ns": 5444147
+      },
+      {
+        "thread_index": 0,
+        "stage": "donor_bond_detection",
+        "function": "descriptors::detect_donor",
+        "calls": 20000,
+        "inclusive_ns": 24478259,
+        "exclusive_ns": 3914279
+      },
+      {
+        "thread_index": 0,
+        "stage": "pyramidalization",
+        "function": "PyramidalizationCalculator::compute",
+        "calls": 10000,
+        "inclusive_ns": 2361789,
+        "exclusive_ns": 2361789
+      },
+      {
+        "thread_index": 0,
+        "stage": "orchestration",
+        "function": "descriptors::descriptors_command",
+        "calls": 1,
+        "inclusive_ns": 2500762988,
+        "exclusive_ns": 2311675
+      },
+      {
+        "thread_index": 0,
+        "stage": "buried_volume",
+        "function": "buried_volume::coordinate_basis",
+        "calls": 30000,
+        "inclusive_ns": 1864147,
+        "exclusive_ns": 1864147
+      },
+      {
+        "thread_index": 0,
+        "stage": "donor_bond_detection",
+        "function": "infer_lone_pair_direction",
+        "calls": 20000,
+        "inclusive_ns": 1209002,
+        "exclusive_ns": 1209002
+      },
+      {
+        "thread_index": 0,
+        "stage": "buried_volume",
+        "function": "buried_volume::integration_grid",
+        "calls": 1,
+        "inclusive_ns": 41448,
+        "exclusive_ns": 41448
+      }
+    ]
+  },
+  "sources": {
+    ".stericx/occupancy_precision/baseline_cli/journal.json": "0c73c7a9da8d919954282337299b6946a02a297b400d83406d4ebeae30f6cc40",
+    ".stericx/occupancy_precision/baseline_kernels/journal.json": "fdd113bb9852eed2d12d0dcb725e7c95c78d3ea5e367301ea1207c41ad622299",
+    ".stericx/occupancy_precision/baseline_probe/timing.jsonl": "a940ae75968e12bf809ddfb03a51a6fb32046e2b2969ef23d7d926efe5d2c642"
+  }
+}

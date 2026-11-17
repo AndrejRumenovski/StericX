@@ -55,3 +55,27 @@
   0.05 targets succeed; all twelve 0.01 targets succeed at the expanded cap.
   Eighteen analytical stress targets remain explicitly unmet. Independent octree
   intervals overlap all twelve tighter molecular bounds; this is corroboration.
+
+- Full final native Rust replay passes 370 tests; actual Rust 1.85 passes 370.
+  QEMU AArch64 passes 367 applicable tests (three x86-specific tests do not
+  compile on ARM). macOS/Windows target checks pass; no physical-platform
+  performance claim. Python bindings, research tests and DBSTEP tests pass.
+- Final exact replay preserves all 128,021 historical responses in 13 lanes.
+- C1: 108 additional exact coaxial union references pass, including higher-order
+  overlaps. A 220-case molecular study passes enclosure cross-checks; 212 meet
+  0.05 at 1,048,575 cells and eight R5 cases fail that cap. All eight succeed
+  at the declared expanded 4,194,303 cap, using 1.08–1.33 million cells.
+  Original twelve also reach 0.001 at the expanded cap; nested bounds checked.
+- O5 general BVH/cell-list/parallel admission is rejected for the representative
+  real-conformer path; all 101 complete-mask cases pass. Synthetic gains and
+  pool/preparation exclusions are documented, not generalized.
+- C1 all-atoms ablation preserves exact bounds but uses 1.16–3.98× geometric
+  queries. Range-only ablation misses all twelve original 0.05 targets.
+- Final modeled instructions fall 40.10%; occupancy exclusive instructions fall
+  45.67%. Larger metadata increases simulated last-level data misses; retained.
+- Competitive common-grid gate passes 2,588,544 point decisions. A separate
+  declared three-radius/twelve-conformer policy passes 1,664,064 decisions.
+  These remain finite-grid comparisons, not continuous accuracy equivalence.
+- Final native/certified/competitive builds and untimed measurement preflights
+  are complete. Full independent legacy reference replay remains in progress;
+  quiet-window final timing is not yet authorized by a passing host gate.

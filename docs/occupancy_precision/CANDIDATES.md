@@ -10,10 +10,10 @@ and a separate commit. Failed candidates and timing attempts stay on disk.
 | O2 | Exact X-slab filtering and squared-X reuse reduce repeated row–atom work | 23 focused tests; eight alternating equal-output pairs | Rejected general path: volume/regions about 12% slower |
 | O3 | Cached row/Z/regional metadata reduces point traversal and mask preparation | 24 focused tests including full prepared-grid point masks; bounded 8 MiB cache; eight alternating pairs | Retain; final controlled acceptance pending |
 | O4 | Bounded multi-key grid LRU avoids repeated preparation in radius profiles | 25 focused tests; eight alternating equal-output pairs | Retain: exploratory radius profile 1.893× over O3 |
-| O5 | Cell lists/BVH/bitset row spans/internal parallelism help only larger work | Preprocessing separately timed; mask equality; avoid nested pools | Investigation pending |
+| O5 | Cell lists/BVH/bitset row spans/internal parallelism help only larger work | 101 exact mask cases; preparation/execution separated | Reject general path; retain large sparse synthetic evidence |
 | C1 | Certified chord ranges plus smooth-patch Taylor integration tighten boxes | Proof, 6,000 rational predicates, 167 original and 96 additional analytical observations, molecular nesting | Retain as separate explicit API; full regression/final cost pending |
-| C2 | Inner/outer plane bounds give certified partial sphere–cell volumes | Outward-rounded clipping proof; high-precision and rational adversaries | Investigation pending |
-| G1 | Reuse conservative sphere candidates between related cells/rows | Correct precision-specific predicates and invalidation; shared versus specialized A/B | Investigation pending |
+| C2 | Inner/outer plane bounds give certified partial sphere–cell volumes | Mathematical analysis in EXPERIMENTS.md | Not implemented; no performance/certificate claim |
+| G1 | Reuse conservative sphere candidates between related cells/rows | Source-bound full/all-atoms/range-only ablations | Inherited candidates save 1.16–3.98× queries; specialize arithmetic |
 
 Prior rejected endpoint searches, unproved Richardson stopping and pairwise-only
 many-sphere union approximations remain rejected historical approaches. A new

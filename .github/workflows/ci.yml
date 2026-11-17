@@ -86,7 +86,10 @@ jobs:
           uv run ruff format --check .
 
       - name: Verify archived benchmark evidence integrity
-        run: uv run python docs/benchmarks/morfeus_current/verify.py
+        run: |
+          uv run python docs/benchmarks/morfeus_current/verify.py
+          uv run python scripts/verify_campaign_archive.py
+          uv run python -m unittest tests/test_campaign_archive.py
 
       - name: Test quantum parsers without external executables
         run: uv run python -m unittest tests/test_quantum_backend.py

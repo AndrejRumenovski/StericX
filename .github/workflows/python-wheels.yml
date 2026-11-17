@@ -16,7 +16,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, windows-latest, macos-14]
+        # Keep the macOS lane on the supported ARM runner used by Rust CI.
+        # GitHub no longer provisions the former macos-14 configuration.
+        os: [ubuntu-24.04, windows-latest, macos-latest]
         python: ["3.11", "3.12", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@v4

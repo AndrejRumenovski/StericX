@@ -1,4 +1,4 @@
-name: Exact RC Rust suite on macOS 14
+name: Exact RC Rust suite on macOS arm64
 
 on:
   workflow_dispatch:
@@ -13,8 +13,8 @@ env:
 
 jobs:
   frozen-macos-rust:
-    name: Frozen RC Rust tests / macOS 14 arm64
-    runs-on: macos-14
+    name: Frozen RC Rust tests / macOS arm64
+    runs-on: macos-latest
     timeout-minutes: 20
     defaults:
       run:

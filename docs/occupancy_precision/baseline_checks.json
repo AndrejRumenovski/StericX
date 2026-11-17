@@ -1,0 +1,28 @@
+{
+  "baseline_analytical": {
+    "path": ".stericx/occupancy_precision/baseline_analytical/summary.json",
+    "sha256": "3fab80e0cecebd06a0b6a1994970e00048b16d787b389bc941477eaace06fc11",
+    "failures": [],
+    "rows": 244
+  },
+  "baseline_molecular": {
+    "path": ".stericx/occupancy_precision/baseline_molecular/summary.json",
+    "sha256": "a38b0f781e4c36073b36bf4c3563833cd72b282fa434887e24c9f7d9af589aeb",
+    "failures": [],
+    "rows": 12
+  },
+  "baseline_exact_comparison": {
+    "path": ".stericx/occupancy_precision/baseline_exact_comparison/summary.json",
+    "sha256": "8c12f3b938d0a1e399ec6edca394c87c18931ac096552e700d69f056a4515b4d",
+    "failures": [],
+    "rows": 128021
+  },
+  "rust": {
+    "passed": 364,
+    "log_sha256": "83d77f03d31745ef32c0731913f44be709908720336068fdd6320af8ff6640f5",
+    "initial_missing_fixture_attempts": [
+      "baseline_tests.log",
+      "baseline_tests_v2.log"
+    ]
+  }
+}

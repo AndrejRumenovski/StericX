@@ -1,0 +1,107 @@
+{
+  "static_opcode_counts": {
+    "vmulps": 11,
+    "vaddps": 11,
+    "vsubps": 11,
+    "vcmpleps": 7,
+    "vmovmskps": 8,
+    "vpermps": 5,
+    "vblendps": 5,
+    "vpsllvq": 7,
+    "popcnt": 3
+  },
+  "fma_in_occupancy": false,
+  "assembly_scope": "Static instructions, not dynamic execution counts or lane utilization",
+  "cachegrind": {
+    "events_in_file_order": [
+      "Ir",
+      "I1mr",
+      "ILmr",
+      "Dr",
+      "D1mr",
+      "DLmr",
+      "Dw",
+      "D1mw",
+      "DLmw",
+      "Bc",
+      "Bcm",
+      "Bi",
+      "Bim"
+    ],
+    "counts": {
+      "Ir": 130748513,
+      "I1mr": 15852,
+      "ILmr": 3206,
+      "Dr": 21659708,
+      "D1mr": 395189,
+      "DLmr": 2653,
+      "Dw": 5565567,
+      "D1mw": 13898,
+      "DLmw": 6975,
+      "Bc": 17226518,
+      "Bcm": 925918,
+      "Bi": 77851,
+      "Bim": 1699
+    },
+    "cache_configuration": [
+      "I1 cache:         32768 B, 64 B, 8-way associative",
+      "D1 cache:         32768 B, 64 B, 8-way associative",
+      "LL cache:         16777216 B, 64 B, 16-way associative"
+    ],
+    "derived_counts": {
+      "data_references": 27225275,
+      "D1_misses": 409087,
+      "LL_requests_after_L1_misses": 424939,
+      "LL_misses": 12834,
+      "branches": 17304369,
+      "branch_mispredictions": 927617
+    },
+    "simulated_rates": {
+      "I1_misses_per_instruction": {
+        "numerator": 15852,
+        "denominator": 130748513,
+        "fraction": 0.00012124038458471799
+      },
+      "D1_misses_per_data_reference": {
+        "numerator": 409087,
+        "denominator": 27225275,
+        "fraction": 0.01502600065564076
+      },
+      "LL_misses_per_LL_request_local": {
+        "numerator": 12834,
+        "denominator": 424939,
+        "fraction": 0.03020198193152429
+      },
+      "LL_misses_per_all_reference_global": {
+        "numerator": 12834,
+        "denominator": 157973788,
+        "fraction": 8.124132593440122e-05
+      },
+      "LL_instruction_misses_per_instruction": {
+        "numerator": 3206,
+        "denominator": 130748513,
+        "fraction": 2.45203553481331e-05
+      },
+      "LL_data_misses_per_data_reference": {
+        "numerator": 9628,
+        "denominator": 27225275,
+        "fraction": 0.00035364197423166525
+      },
+      "branch_mispredictions_per_branch": {
+        "numerator": 927617,
+        "denominator": 17304369,
+        "fraction": 0.053605941944488124
+      },
+      "conditional_mispredictions_per_conditional_branch": {
+        "numerator": 925918,
+        "denominator": 17226518,
+        "fraction": 0.05374957376760643
+      },
+      "indirect_mispredictions_per_indirect_branch": {
+        "numerator": 1699,
+        "denominator": 77851,
+        "fraction": 0.021823740221705565
+      }
+    }
+  }
+}

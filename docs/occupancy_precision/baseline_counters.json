@@ -1,0 +1,719 @@
+{
+  "scope": "Algorithmic counter replay of frozen AVX2 loop; timings in counters.jsonl are intentionally zero iterations and are not measurements. No hardware counters.",
+  "rows": [
+    {
+      "id": "methylphosphine/0",
+      "atoms": 2,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 518,
+        "hits": 2958,
+        "points": 15408,
+        "redundant_hits": 838,
+        "scalar_tail": 1948,
+        "simd_vectors": 1438,
+        "xy_tests": 1480,
+        "z_tests": 13452
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "methylphosphine/6",
+      "atoms": 2,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 514,
+        "hits": 2959,
+        "points": 15408,
+        "redundant_hits": 828,
+        "scalar_tail": 1916,
+        "simd_vectors": 1428,
+        "xy_tests": 1480,
+        "z_tests": 13340
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "methylphosphine/5",
+      "atoms": 2,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 514,
+        "hits": 2959,
+        "points": 15408,
+        "redundant_hits": 828,
+        "scalar_tail": 1916,
+        "simd_vectors": 1428,
+        "xy_tests": 1480,
+        "z_tests": 13340
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "dimethylphosphine/0",
+      "atoms": 3,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 753,
+        "hits": 3197,
+        "points": 15408,
+        "redundant_hits": 1676,
+        "scalar_tail": 2806,
+        "simd_vectors": 2030,
+        "xy_tests": 2220,
+        "z_tests": 19046
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "dimethylphosphine/6",
+      "atoms": 3,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 756,
+        "hits": 3198,
+        "points": 15408,
+        "redundant_hits": 1664,
+        "scalar_tail": 2796,
+        "simd_vectors": 2036,
+        "xy_tests": 2220,
+        "z_tests": 19084
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "dimethylphosphine/2",
+      "atoms": 3,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 753,
+        "hits": 3197,
+        "points": 15408,
+        "redundant_hits": 1676,
+        "scalar_tail": 2806,
+        "simd_vectors": 2030,
+        "xy_tests": 2220,
+        "z_tests": 19046
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "trimethylphosphine/0",
+      "atoms": 4,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 992,
+        "hits": 3456,
+        "points": 15408,
+        "redundant_hits": 2518,
+        "scalar_tail": 3672,
+        "simd_vectors": 2630,
+        "xy_tests": 2960,
+        "z_tests": 24712
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "trimethylphosphine/3",
+      "atoms": 4,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 992,
+        "hits": 3456,
+        "points": 15408,
+        "redundant_hits": 2518,
+        "scalar_tail": 3672,
+        "simd_vectors": 2630,
+        "xy_tests": 2960,
+        "z_tests": 24712
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "trimethylphosphine/2",
+      "atoms": 4,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 992,
+        "hits": 3456,
+        "points": 15408,
+        "redundant_hits": 2518,
+        "scalar_tail": 3672,
+        "simd_vectors": 2630,
+        "xy_tests": 2960,
+        "z_tests": 24712
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "triethylphosphine/1",
+      "atoms": 7,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1470,
+        "hits": 4283,
+        "points": 15408,
+        "redundant_hits": 4027,
+        "scalar_tail": 5108,
+        "simd_vectors": 3673,
+        "xy_tests": 5180,
+        "z_tests": 34492
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "triethylphosphine/5",
+      "atoms": 7,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1470,
+        "hits": 4283,
+        "points": 15408,
+        "redundant_hits": 4027,
+        "scalar_tail": 5108,
+        "simd_vectors": 3673,
+        "xy_tests": 5180,
+        "z_tests": 34492
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "triethylphosphine/3",
+      "atoms": 7,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1470,
+        "hits": 4283,
+        "points": 15408,
+        "redundant_hits": 4027,
+        "scalar_tail": 5108,
+        "simd_vectors": 3673,
+        "xy_tests": 5180,
+        "z_tests": 34492
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "triisopropylphosphine/1",
+      "atoms": 10,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1953,
+        "hits": 5004,
+        "points": 15408,
+        "redundant_hits": 5434,
+        "scalar_tail": 6584,
+        "simd_vectors": 4709,
+        "xy_tests": 7400,
+        "z_tests": 44256
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "triisopropylphosphine/4",
+      "atoms": 10,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1953,
+        "hits": 5004,
+        "points": 15408,
+        "redundant_hits": 5434,
+        "scalar_tail": 6584,
+        "simd_vectors": 4709,
+        "xy_tests": 7400,
+        "z_tests": 44256
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "triisopropylphosphine/7",
+      "atoms": 10,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1953,
+        "hits": 5004,
+        "points": 15408,
+        "redundant_hits": 5434,
+        "scalar_tail": 6584,
+        "simd_vectors": 4709,
+        "xy_tests": 7400,
+        "z_tests": 44256
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "triphenylphosphine/5",
+      "atoms": 19,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 2765,
+        "hits": 4517,
+        "points": 15408,
+        "redundant_hits": 5224,
+        "scalar_tail": 9148,
+        "simd_vectors": 6314,
+        "xy_tests": 14060,
+        "z_tests": 59660
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "triphenylphosphine/7",
+      "atoms": 19,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 2765,
+        "hits": 4517,
+        "points": 15408,
+        "redundant_hits": 5224,
+        "scalar_tail": 9148,
+        "simd_vectors": 6314,
+        "xy_tests": 14060,
+        "z_tests": 59660
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "triphenylphosphine/13",
+      "atoms": 19,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 2765,
+        "hits": 4518,
+        "points": 15408,
+        "redundant_hits": 5226,
+        "scalar_tail": 9148,
+        "simd_vectors": 6314,
+        "xy_tests": 14060,
+        "z_tests": 59660
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "asymmetric_phosphine/0",
+      "atoms": 10,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1799,
+        "hits": 4191,
+        "points": 15408,
+        "redundant_hits": 3954,
+        "scalar_tail": 6202,
+        "simd_vectors": 4362,
+        "xy_tests": 7400,
+        "z_tests": 41098
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "asymmetric_phosphine/4",
+      "atoms": 10,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1794,
+        "hits": 4202,
+        "points": 15408,
+        "redundant_hits": 3941,
+        "scalar_tail": 6226,
+        "simd_vectors": 4346,
+        "xy_tests": 7400,
+        "z_tests": 40994
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "asymmetric_phosphine/2",
+      "atoms": 10,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1799,
+        "hits": 4191,
+        "points": 15408,
+        "redundant_hits": 3955,
+        "scalar_tail": 6204,
+        "simd_vectors": 4360,
+        "xy_tests": 7400,
+        "z_tests": 41084
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "fluorophosphine/0",
+      "atoms": 4,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 820,
+        "hits": 3022,
+        "points": 15408,
+        "redundant_hits": 2166,
+        "scalar_tail": 3124,
+        "simd_vectors": 2340,
+        "xy_tests": 2960,
+        "z_tests": 21844
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "fluorophosphine/3",
+      "atoms": 4,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 820,
+        "hits": 3022,
+        "points": 15408,
+        "redundant_hits": 2166,
+        "scalar_tail": 3124,
+        "simd_vectors": 2340,
+        "xy_tests": 2960,
+        "z_tests": 21844
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "fluorophosphine/2",
+      "atoms": 4,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 820,
+        "hits": 3022,
+        "points": 15408,
+        "redundant_hits": 2166,
+        "scalar_tail": 3124,
+        "simd_vectors": 2340,
+        "xy_tests": 2960,
+        "z_tests": 21844
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "methylamine/0",
+      "atoms": 2,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 456,
+        "hits": 2522,
+        "points": 15408,
+        "redundant_hits": 992,
+        "scalar_tail": 1888,
+        "simd_vectors": 1276,
+        "xy_tests": 1480,
+        "z_tests": 12096
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "methylamine/5",
+      "atoms": 2,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 454,
+        "hits": 2524,
+        "points": 15408,
+        "redundant_hits": 973,
+        "scalar_tail": 1894,
+        "simd_vectors": 1274,
+        "xy_tests": 1480,
+        "z_tests": 12086
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "methylamine/6",
+      "atoms": 2,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 454,
+        "hits": 2524,
+        "points": 15408,
+        "redundant_hits": 973,
+        "scalar_tail": 1894,
+        "simd_vectors": 1274,
+        "xy_tests": 1480,
+        "z_tests": 12086
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "dimethylamine/0",
+      "atoms": 3,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 702,
+        "hits": 3082,
+        "points": 15408,
+        "redundant_hits": 1963,
+        "scalar_tail": 2830,
+        "simd_vectors": 1926,
+        "xy_tests": 2220,
+        "z_tests": 18238
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "dimethylamine/6",
+      "atoms": 3,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 696,
+        "hits": 3082,
+        "points": 15408,
+        "redundant_hits": 1948,
+        "scalar_tail": 2800,
+        "simd_vectors": 1914,
+        "xy_tests": 2220,
+        "z_tests": 18112
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "dimethylamine/2",
+      "atoms": 3,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 702,
+        "hits": 3082,
+        "points": 15408,
+        "redundant_hits": 1963,
+        "scalar_tail": 2830,
+        "simd_vectors": 1926,
+        "xy_tests": 2220,
+        "z_tests": 18238
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "trimethylamine/0",
+      "atoms": 4,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 940,
+        "hits": 3622,
+        "points": 15408,
+        "redundant_hits": 2952,
+        "scalar_tail": 3732,
+        "simd_vectors": 2554,
+        "xy_tests": 2960,
+        "z_tests": 24164
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "trimethylamine/3",
+      "atoms": 4,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 940,
+        "hits": 3622,
+        "points": 15408,
+        "redundant_hits": 2952,
+        "scalar_tail": 3732,
+        "simd_vectors": 2554,
+        "xy_tests": 2960,
+        "z_tests": 24164
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "trimethylamine/2",
+      "atoms": 4,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 940,
+        "hits": 3622,
+        "points": 15408,
+        "redundant_hits": 2952,
+        "scalar_tail": 3732,
+        "simd_vectors": 2554,
+        "xy_tests": 2960,
+        "z_tests": 24164
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "aniline/1",
+      "atoms": 7,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1074,
+        "hits": 3084,
+        "points": 15408,
+        "redundant_hits": 3006,
+        "scalar_tail": 3812,
+        "simd_vectors": 2572,
+        "xy_tests": 5180,
+        "z_tests": 24388
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "aniline/7",
+      "atoms": 7,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1080,
+        "hits": 3087,
+        "points": 15408,
+        "redundant_hits": 3004,
+        "scalar_tail": 3834,
+        "simd_vectors": 2578,
+        "xy_tests": 5180,
+        "z_tests": 24458
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "aniline/8",
+      "atoms": 7,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1080,
+        "hits": 3087,
+        "points": 15408,
+        "redundant_hits": 3004,
+        "scalar_tail": 3834,
+        "simd_vectors": 2578,
+        "xy_tests": 5180,
+        "z_tests": 24458
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "synthetic_1",
+      "atoms": 1,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 0,
+        "hits": 0,
+        "points": 15408,
+        "redundant_hits": 0,
+        "scalar_tail": 0,
+        "simd_vectors": 0,
+        "xy_tests": 740,
+        "z_tests": 0
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "synthetic_4",
+      "atoms": 4,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 0,
+        "hits": 0,
+        "points": 15408,
+        "redundant_hits": 0,
+        "scalar_tail": 0,
+        "simd_vectors": 0,
+        "xy_tests": 2960,
+        "z_tests": 0
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "synthetic_16",
+      "atoms": 16,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 91,
+        "hits": 333,
+        "points": 15408,
+        "redundant_hits": 0,
+        "scalar_tail": 264,
+        "simd_vectors": 137,
+        "xy_tests": 11840,
+        "z_tests": 1360
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "synthetic_64",
+      "atoms": 64,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 966,
+        "hits": 4464,
+        "points": 15408,
+        "redundant_hits": 44,
+        "scalar_tail": 3230,
+        "simd_vectors": 2188,
+        "xy_tests": 47180,
+        "z_tests": 20734
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "synthetic_256",
+      "atoms": 256,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 1589,
+        "hits": 4155,
+        "points": 15408,
+        "redundant_hits": 332,
+        "scalar_tail": 5008,
+        "simd_vectors": 3398,
+        "xy_tests": 187360,
+        "z_tests": 32192
+      },
+      "mask_mismatches": 0
+    },
+    {
+      "id": "synthetic_1024",
+      "atoms": 1024,
+      "points": 15408,
+      "rows": 740,
+      "totals": {
+        "candidates": 10838,
+        "hits": 12713,
+        "points": 15408,
+        "redundant_hits": 10138,
+        "scalar_tail": 35364,
+        "simd_vectors": 24646,
+        "xy_tests": 616395,
+        "z_tests": 232532
+      },
+      "mask_mismatches": 0
+    }
+  ]
+}

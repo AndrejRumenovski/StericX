@@ -1,4 +1,4 @@
-"""Tamper checks for the CI gate protecting archived campaign evidence."""
+"""Tamper checks beside the CI maintenance tool, outside frozen science sources."""
 
 import hashlib
 import tempfile

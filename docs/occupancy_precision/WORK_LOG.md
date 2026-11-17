@@ -45,3 +45,7 @@
   midpoint/reference APIs remain unchanged. Full independent predicate and
   molecular validation, all scientific replay, final performance and reports
   remain to be completed.
+
+- O4 bounded multi-key grid LRU passes 25 focused tests and all 80 paired
+  observations. Exploratory radius-profile ratio is 1.893× versus O3. Cache
+  buffers remain capped at 8 MiB per thread; up to eight entries are retained.

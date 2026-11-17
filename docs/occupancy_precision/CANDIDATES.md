@@ -9,7 +9,8 @@ and a separate commit. Failed candidates and timing attempts stay on disk.
 | O1 | Overlapping final AVX2 vector removes scalar tails without changing a predicate | 23 focused tests including 5,200 boundary masks and all 56 conformers; eight alternating kernel pairs | Retain; final controlled acceptance pending |
 | O2 | Exact X-slab filtering and squared-X reuse reduce repeated row–atom work | 23 focused tests; eight alternating equal-output pairs | Rejected general path: volume/regions about 12% slower |
 | O3 | Cached row/Z/regional metadata reduces point traversal and mask preparation | 24 focused tests including full prepared-grid point masks; bounded 8 MiB cache; eight alternating pairs | Retain; final controlled acceptance pending |
-| O4 | Cell lists/BVH/bitset row spans/internal parallelism help only larger work | Preprocessing separately timed; mask equality; avoid nested pools | Investigation pending |
+| O4 | Bounded multi-key grid LRU avoids repeated preparation in radius profiles | 25 focused tests; eight alternating equal-output pairs | Retain: exploratory radius profile 1.893× over O3 |
+| O5 | Cell lists/BVH/bitset row spans/internal parallelism help only larger work | Preprocessing separately timed; mask equality; avoid nested pools | Investigation pending |
 | C1 | Certified chord ranges plus smooth-patch Taylor integration tighten boxes | Full proof of range/topology/derivative bounds; rational primitives; independent enclosures | Investigation pending |
 | C2 | Inner/outer plane bounds give certified partial sphere–cell volumes | Outward-rounded clipping proof; high-precision and rational adversaries | Investigation pending |
 | G1 | Reuse conservative sphere candidates between related cells/rows | Correct precision-specific predicates and invalidation; shared versus specialized A/B | Investigation pending |
@@ -51,3 +52,11 @@ prepared-grid point, sign bit and union decision, including rows longer than
 64 and inclusive boundaries. Preparation/memory tradeoffs and controlled final
 ratios remain to be reported; timing only warmed volume calls would hide the
 extra metadata construction and retention cost.
+
+O4 keeps up to eight immutable grids per thread under the same total 8 MiB
+buffer cap. Exact binary radius/density keys, eviction, thread independence and
+adjacent-float keys are tested. All 80 trials preserve outputs. The main gain is
+radius-profile reuse (1.893× over O3); other modes span 1.008–1.025× and are
+not claimed as substantive gains. Failed controller invocations (unavailable
+`python`, then wrong output-relative path) are retained alongside the successful
+run. Molecular geometry and occupancy are never cached.

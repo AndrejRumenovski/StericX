@@ -1,6 +1,7 @@
 use super::{Molecule, covalent_radius};
 use glam::Vec3;
 use std::cell::RefCell;
+use std::collections::VecDeque;
 use std::error::Error;
 use std::f32::consts::PI;
 use std::fmt::{Display, Formatter};
@@ -954,8 +955,8 @@ fn integration_grid(config: BuriedVolumeConfig) -> Vec<Vec3> {
 
 // Radius and density are the only grid inputs. Exact bit keys preserve every
 // original f32 node and boundary decision, including when callers change modes.
-// One bounded entry per worker avoids cross-thread contention and unbounded
-// growth during radius scans. Oversized grids are returned without retention.
+// A bounded LRU per worker avoids cross-thread contention and amortizes radius
+// profiles. Oversized grids are returned without disturbing retained entries.
 #[derive(Clone, Debug, PartialEq)]
 struct GridBlock {
     x: f32,
@@ -1029,21 +1030,33 @@ impl PreparedGrid {
 
 type GridCacheEntry = ((u32, u32), Rc<PreparedGrid>);
 thread_local! {
-    static GRID_CACHE: RefCell<Option<GridCacheEntry>> = const { RefCell::new(None) };
+    static GRID_CACHE: RefCell<VecDeque<GridCacheEntry>> = const { RefCell::new(VecDeque::new()) };
 }
 
 fn reusable_integration_grid(config: BuriedVolumeConfig) -> Rc<PreparedGrid> {
     const MAX_CACHED_BYTES: usize = 8 * 1024 * 1024;
+    const MAX_CACHED_ENTRIES: usize = 8;
     let key = (config.sphere_radius.to_bits(), config.density.to_bits());
     GRID_CACHE.with(|cache| {
-        if let Some((cached_key, grid)) = cache.borrow().as_ref() {
-            if *cached_key == key {
-                return Rc::clone(grid);
-            }
+        let mut cache = cache.borrow_mut();
+        if let Some(index) = cache.iter().position(|(cached_key, _)| *cached_key == key) {
+            let entry = cache.remove(index).unwrap();
+            let grid = Rc::clone(&entry.1);
+            cache.push_back(entry);
+            return grid;
         }
         let grid = Rc::new(PreparedGrid::new(integration_grid(config)));
-        if grid.retained_bytes() <= MAX_CACHED_BYTES {
-            *cache.borrow_mut() = Some((key, Rc::clone(&grid)));
+        let bytes = grid.retained_bytes();
+        if bytes <= MAX_CACHED_BYTES {
+            let mut retained = cache
+                .iter()
+                .map(|(_, grid)| grid.retained_bytes())
+                .sum::<usize>();
+            while retained + bytes > MAX_CACHED_BYTES || cache.len() >= MAX_CACHED_ENTRIES {
+                let (_, previous) = cache.pop_front().unwrap();
+                retained -= previous.retained_bytes();
+            }
+            cache.push_back((key, Rc::clone(&grid)));
         }
         grid
     })
@@ -1541,6 +1554,49 @@ mod tests {
         assert!(large_grid.capacity() * std::mem::size_of::<Vec3>() > 8 * 1024 * 1024);
         assert_eq!(Rc::strong_count(&large_grid), 1);
         assert!(Rc::ptr_eq(&first, &reusable_integration_grid(small)));
+    }
+
+    #[test]
+    fn radius_cache_reuses_exact_keys_and_evicts_with_bounded_storage() {
+        GRID_CACHE.with(|cache| cache.borrow_mut().clear());
+        let config = BuriedVolumeConfig::default();
+        let first = reusable_integration_grid(config);
+        let other = BuriedVolumeConfig {
+            sphere_radius: 2.5,
+            ..config
+        };
+        let second = reusable_integration_grid(other);
+        assert!(Rc::ptr_eq(&first, &reusable_integration_grid(config)));
+        assert!(Rc::ptr_eq(&second, &reusable_integration_grid(other)));
+        for i in 0..32 {
+            let changed = BuriedVolumeConfig {
+                sphere_radius: 1.0 + i as f32 * 0.125,
+                ..config
+            };
+            let grid = reusable_integration_grid(changed);
+            assert_eq!(grid.points, integration_grid(changed));
+            GRID_CACHE.with(|cache| {
+                let cache = cache.borrow();
+                assert!(cache.len() <= 8);
+                assert!(
+                    cache
+                        .iter()
+                        .map(|(_, grid)| grid.retained_bytes())
+                        .sum::<usize>()
+                        <= 8 * 1024 * 1024
+                );
+            });
+        }
+        assert_eq!(Rc::strong_count(&first), 1);
+        assert_eq!(Rc::strong_count(&second), 1);
+        let adjacent = BuriedVolumeConfig {
+            sphere_radius: f32::from_bits(config.sphere_radius.to_bits() + 1),
+            ..config
+        };
+        assert!(!Rc::ptr_eq(
+            &reusable_integration_grid(config),
+            &reusable_integration_grid(adjacent)
+        ));
     }
 
     fn atom(element: &str, position: Vec3) -> Atom {

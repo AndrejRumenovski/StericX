@@ -122,3 +122,17 @@ signed zero and fallback intervals against the unchanged four-product reference.
 All 24 molecular tolerance cases preserve every certificate and work decision in
 eight alternating experimental pairs. This changes the cost of certified
 arithmetic, not the certificate or its acceptance threshold.
+
+
+## Per-integration scratch reuse
+
+Span, range, ordering, component and endpoint vectors are cleared and reused
+within one integration. A component stores an index range into the same sorted
+order rather than a newly allocated index vector. The endpoint comparisons,
+iteration order, floating-point operations, heap priorities and counters are
+unchanged. Every retained cell owns its candidate indices; no heap cell refers
+to reusable scratch storage. No scratch or geometry survives an API call.
+
+Paired research trials preserve all bounds, work counts and stopping decisions
+on the original twelve molecules at 0.05 and 0.01. Full optimized-certificate
+replay is an additional admission gate, not replaced by these performance trials.

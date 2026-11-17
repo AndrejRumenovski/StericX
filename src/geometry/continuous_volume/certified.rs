@@ -195,8 +195,11 @@ pub fn sphere_union_volume_certified(
         .iter()
         .map(|&s| relative_sphere(s, region.center))
         .collect();
-    let mut counters = ChordCounters {
-        evaluations: preprocessing_evaluations,
+    let mut scratch = ChordScratch {
+        counters: ChordCounters {
+            evaluations: preprocessing_evaluations,
+            ..Default::default()
+        },
         ..Default::default()
     };
     let root = chord_cell(
@@ -206,7 +209,7 @@ pub fn sphere_union_volume_certified(
         &spheres,
         &bounds,
         0,
-        &mut counters,
+        &mut scratch,
     )?;
     let mut lower = root.bounds.lo;
     let mut upper = root.bounds.hi;
@@ -267,7 +270,7 @@ pub fn sphere_union_volume_certified(
                 &spheres,
                 &bounds,
                 cells,
-                &mut counters,
+                &mut scratch,
             )?;
             cells += 1;
             lower = (lower + child.bounds.lo).down();
@@ -279,6 +282,7 @@ pub fn sphere_union_volume_certified(
         subdivisions += 1;
         peak = peak.max(heap.len());
     };
+    let counters = scratch.counters;
     Ok(CertifiedVolumeResult {
         options,
         volume_angstrom3: estimate,
@@ -435,7 +439,7 @@ fn chord_min(a: Interval, b: Interval) -> Interval {
         hi: a.hi.min(b.hi),
     }
 }
-fn chord_length(mut ranges: Vec<(f64, f64)>, upper: bool) -> f64 {
+fn chord_length(ranges: &mut Vec<(f64, f64)>, upper: bool) -> f64 {
     ranges.retain(|&(a, b)| a < b);
     ranges.sort_unstable_by(|a, b| a.0.total_cmp(&b.0).then(a.1.total_cmp(&b.1)));
     let Some(&(mut a, mut b)) = ranges.first() else {
@@ -464,63 +468,91 @@ fn same_endpoint(
         _ => false,
     }
 }
+#[derive(Default)]
+// Reused only within one integration. No geometry or decisions survive calls.
+struct ChordScratch {
+    counters: ChordCounters,
+    spans: Vec<ChordSpan>,
+    ranges: Vec<(f64, f64)>,
+    order: Vec<usize>,
+    components: Vec<(usize, usize)>,
+    endpoints: Vec<(ChordEndpoint, ChordEndpoint)>,
+}
 fn chord_smooth(
     spans: &[ChordSpan],
     spheres: &[AtomicSphere],
-) -> Option<Vec<(ChordEndpoint, ChordEndpoint)>> {
+    order: &mut Vec<usize>,
+    components: &mut Vec<(usize, usize)>,
+    endpoints: &mut Vec<(ChordEndpoint, ChordEndpoint)>,
+) -> bool {
     if spans
         .iter()
         .any(|s| !s.regular || s.lower.is_none() || s.upper.is_none() || s.low.hi > s.high.lo)
     {
-        return None;
+        return false;
     }
-    let mut order: Vec<_> = (0..spans.len()).collect();
+    order.clear();
+    order.extend(0..spans.len());
     order.sort_unstable_by(|&a, &b| spans[a].low.hi.total_cmp(&spans[b].low.hi).then(a.cmp(&b)));
-    let mut components: Vec<Vec<usize>> = Vec::new();
+    components.clear();
     let mut inner_high = f64::NEG_INFINITY;
-    for index in order {
+    for (position, &index) in order.iter().enumerate() {
         let s = spans[index];
         if s.low.hi > inner_high {
-            components.push(Vec::new());
+            components.push((position, position + 1));
             inner_high = s.high.lo;
         } else {
             inner_high = inner_high.max(s.high.lo);
+            let Some(component) = components.last_mut() else {
+                return false;
+            };
+            component.1 = position + 1;
         }
-        components.last_mut()?.push(index);
     }
     let mut previous_upper = f64::NEG_INFINITY;
-    let mut endpoints = Vec::new();
-    for group in components {
-        let lower = *group
+    endpoints.clear();
+    for &(start, end) in components.iter() {
+        let group = &order[start..end];
+        let Some(&lower) = group
             .iter()
-            .min_by(|&&a, &&b| spans[a].low.lo.total_cmp(&spans[b].low.lo))?;
-        let upper = *group
+            .min_by(|&&a, &&b| spans[a].low.lo.total_cmp(&spans[b].low.lo))
+        else {
+            return false;
+        };
+        let Some(&upper) = group
             .iter()
-            .max_by(|&&a, &&b| spans[a].high.hi.total_cmp(&spans[b].high.hi))?;
+            .max_by(|&&a, &&b| spans[a].high.hi.total_cmp(&spans[b].high.hi))
+        else {
+            return false;
+        };
         let low = spans[lower];
         let high = spans[upper];
         if low.low.lo < previous_upper {
-            return None;
+            return false;
         }
-        for &i in &group {
+        for &i in group {
             if i != lower
                 && low.low.hi > spans[i].low.lo
                 && !same_endpoint(low.lower, spans[i].lower, spheres)
             {
-                return None;
+                return false;
             }
             if i != upper
                 && high.high.lo < spans[i].high.hi
                 && !same_endpoint(high.upper, spans[i].upper, spheres)
             {
-                return None;
+                return false;
             }
         }
         previous_upper = high.high.hi;
-        endpoints.push((low.lower?, high.upper?));
+        let (Some(a), Some(b)) = (low.lower, high.upper) else {
+            return false;
+        };
+        endpoints.push((a, b));
     }
-    Some(endpoints)
+    true
 }
+
 fn chord_endpoint_value(
     endpoint: ChordEndpoint,
     spheres: &[BoundedSphere],
@@ -545,8 +577,9 @@ fn chord_cell(
     spheres: &[AtomicSphere],
     bounds: &[BoundedSphere],
     ordinal: usize,
-    counters: &mut ChordCounters,
+    scratch: &mut ChordScratch,
 ) -> Result<ChordCell, DescriptorError> {
+    let counters = &mut scratch.counters;
     let mut cell = ChordCell {
         lo,
         hi,
@@ -562,7 +595,8 @@ fn chord_cell(
     let widths =
         std::array::from_fn::<_, 2, _>(|i| Interval::point(hi[i]).sub(Interval::point(lo[i])));
     let area = widths[0].chord_mul(widths[1]);
-    let mut spans = Vec::with_capacity(indices.len());
+    let spans = &mut scratch.spans;
+    spans.clear();
     for &i in indices {
         counters.evaluations += 1;
         let Some(mut s) = chord_span(i, bounds[i], lo, hi) else {
@@ -596,22 +630,32 @@ fn chord_cell(
         counters.empty += 1;
         return Ok(cell);
     }
-    let lower = chord_length(
+    scratch.ranges.clear();
+    scratch.ranges.extend(
         spans
             .iter()
             .filter(|s| s.regular)
-            .map(|s| (s.low.hi, s.high.lo))
-            .collect(),
-        false,
+            .map(|s| (s.low.hi, s.high.lo)),
     );
-    let upper = chord_length(spans.iter().map(|s| (s.low.lo, s.high.hi)).collect(), true);
+    let lower = chord_length(&mut scratch.ranges, false);
+    scratch.ranges.clear();
+    scratch
+        .ranges
+        .extend(spans.iter().map(|s| (s.low.lo, s.high.hi)));
+    let upper = chord_length(&mut scratch.ranges, true);
     cell.bounds = Interval {
         lo: lower,
         hi: upper,
     }
     .chord_mul(area);
     cell.bounds.lo = cell.bounds.lo.max(0.0);
-    let Some(endpoints) = chord_smooth(&spans, spheres) else {
+    if !chord_smooth(
+        spans,
+        spheres,
+        &mut scratch.order,
+        &mut scratch.components,
+        &mut scratch.endpoints,
+    ) {
         counters.range += 1;
         return Ok(cell);
     };
@@ -622,7 +666,7 @@ fn chord_cell(
     });
     let mut length = Interval::point(0.0);
     let mut curvature = Interval::point(0.0);
-    for (a, b) in endpoints {
+    for &(a, b) in &scratch.endpoints {
         counters.evaluations += 2;
         length = length
             .add(chord_endpoint_value(b, bounds, mid).sub(chord_endpoint_value(a, bounds, mid)));

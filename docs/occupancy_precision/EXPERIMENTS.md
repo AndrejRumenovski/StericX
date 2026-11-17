@@ -123,3 +123,23 @@ The campaign stops general kernel tuning here because the retained changes
 have substantial measured effects, the remaining tested general spatial
 changes regress representative molecules, and validation/controlled timing
 are more valuable than tuning differences comparable to run variation.
+
+
+## Later measured continuous arithmetic/storage work
+
+After the general occupancy experiments, allocation diagnostics exposed
+0.68–2.98 million allocations per molecular 0.01 calculation. A targeted C1
+Callgrind run (asymmetric phosphine, 0.05) models 812,610,878 instructions:
+interval multiplication alone accounts for 144,082,719, while malloc/free
+and vector-growth functions have smaller exclusive costs. This justified a
+separate continuous optimization pass; these are instruction models, not cycles.
+
+C3 specializes finite nonnegative interval multiplication/division while
+preserving the general four-product bounds bit for bit. Its 100,000-case
+exponent/rounding test passes. Eight alternating pairs across twelve molecules
+and two tolerances give a median exploratory ratio of 1.114× (range
+1.056–1.174). C4 separately reuses scratch vectors and component index ranges,
+with a median 1.076× over C3 (range 1.022–1.162). Both preserve all tested
+certificates and work counts. Complete raw pairs remain in `c3_ab` and `c4_ab`;
+final controlled gains and allocation reductions must be measured on the
+integrated implementation before final performance claims.

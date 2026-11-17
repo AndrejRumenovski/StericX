@@ -6,6 +6,7 @@ ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'scripts'))
 import profile_stericx as harness
 from host_activity import measure
+from benchmark_artifacts import compact_metrics, retain_fingerprint
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
@@ -23,7 +24,7 @@ def main():
     manifest=json.loads(manifest_path.read_text());harness.verify_manifest(manifest)
     binaries={'baseline':a.baseline.resolve()/'native-target/release/stericx',
               'candidate':a.candidate.resolve()/'native-target/release/stericx'}
-    bindings=[manifest_path,Path(__file__),*binaries.values()]
+    bindings=[manifest_path,Path(__file__),Path(__file__).with_name('benchmark_artifacts.py'),*binaries.values()]
     journal['bindings']={str(p):harness.digest(p) for p in bindings}
     launcher=harness.build_launcher(out/'launcher')
     env=dict(os.environ,LC_ALL='C',OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1')
@@ -40,15 +41,12 @@ def main():
                     attempt={'threads':threads,'affinity':affinity,'workload':name,'pair':pair,'warmup':pair<0,'side':side,'status':'started'}
                     journal['attempts'].append(attempt);save()
                     metrics=harness.measure(argv,dict(env,RAYON_NUM_THREADS=str(threads)),set(affinity),folder,launcher)
-                    attempt['metrics']=metrics;save()
+                    attempt['metrics']=compact_metrics(metrics,folder);save()
                     assert metrics.get('exit_code',metrics.get('returncode',0))==0,attempt
                     scientific=harness.check_result(work,folder)
                     assert scientific==expected.setdefault(name,scientific),(name,side,threads)
-                    fingerprint=out/'fingerprints'/(name+'.json')
-                    if not fingerprint.exists():
-                        fingerprint.write_text(json.dumps(scientific,sort_keys=True)+'\n')
-                    attempt.update(status='passed',scientific={'path':str(fingerprint),
-                        'sha256':harness.digest(fingerprint)});save()
+                    fingerprint=retain_fingerprint(scientific,out/'fingerprints'/(name+'.json'))
+                    attempt.update(status='passed',scientific=fingerprint);save()
             print(threads,name,flush=True)
     harness.verify_manifest(manifest)
     for path,digest in journal['bindings'].items():assert harness.digest(Path(path))==digest

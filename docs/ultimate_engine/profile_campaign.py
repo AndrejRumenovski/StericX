@@ -13,6 +13,7 @@ import os
 import statistics
 import subprocess
 import sys
+from benchmark_artifacts import compact_metrics, retain_fingerprint
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -45,7 +46,9 @@ def main():
     env.pop("STERICX_PROFILE_PATH", None)
     launcher = harness.build_launcher(out / "launcher")
     journal = {"purpose": __doc__, "argv": sys.argv, "host_before": host(),
-               "controller_sha256": harness.digest(Path(__file__)), "runs": []}
+               "controller_sha256": harness.digest(Path(__file__)),
+               "artifact_helper_sha256": harness.digest(Path(__file__).with_name("benchmark_artifacts.py")),
+               "runs": []}
 
     def run(name, argv, threads, affinity, instrumented=False):
         directory = out / name
@@ -54,8 +57,9 @@ def main():
             child_env["STERICX_PROFILE_PATH"] = str(directory / "profile.json")
         argv = [str(a).replace("{run_dir}", str(directory)) for a in argv]
         metrics = harness.measure(argv, child_env, set(affinity), directory, launcher)
-        row = {"name": name, "argv": argv, "threads": threads,
-               "affinity": affinity, "instrumented": instrumented, "metrics": metrics}
+        row = {"name": name, "threads": threads,
+               "affinity": affinity, "instrumented": instrumented,
+               "metrics": compact_metrics(metrics, directory)}
         journal["runs"].append(row)
         save(out / "journal.json", journal)
         print(name, metrics.get("exit_code", metrics.get("returncode")), flush=True)
@@ -81,15 +85,17 @@ def main():
                     directory, row = run(f"t{threads}/{name}/native_{rep}",
                                          [native, *work["argv"]], threads, affinity)
                     row["warmup"] = rep == 0
-                    row["scientific"] = harness.check_result(work, directory)
-                    expected.setdefault(name, row["scientific"])
-                    if expected[name] != row["scientific"]:
+                    scientific = harness.check_result(work, directory)
+                    expected.setdefault(name, scientific)
+                    if expected[name] != scientific:
                         raise RuntimeError(f"nonidentical outputs: {name}")
+                    row["scientific"] = retain_fingerprint(scientific, out / "fingerprints" / (name + ".json"))
                 directory, row = run(f"t{threads}/{name}/diagnostic", [diagnostic, *work["argv"]],
                                      threads, affinity, True)
-                row["scientific"] = harness.check_result(work, directory)
-                if expected[name] != row["scientific"]:
+                scientific = harness.check_result(work, directory)
+                if expected[name] != scientific:
                     raise RuntimeError(f"instrumentation changed outputs: {name}")
+                row["scientific"] = retain_fingerprint(scientific, out / "fingerprints" / (name + ".json"))
         harness.verify_manifest(manifest)
     elif args.phase == "kernels":
         molecule = ROOT / "python/examples/data/ligand_401_ensemble.xyz"

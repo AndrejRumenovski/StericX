@@ -23,3 +23,10 @@
   JSON comparison overlapped early kernel trials; retained and disclosed.
 - O1 overlapping-vector-tail candidate is the first isolated production edit.
   It follows profiling and uses the unchanged frozen baseline binaries for A/B.
+- O1 passes 23 focused Rust tests and 80 equal-output alternating native trials.
+  Exploratory volume/regional speed ratios are 1.115×/1.135×; unchanged Sterimol
+  is slightly slower (0.985×), retained. Final quiet acceptance remains pending.
+- C1 chord/Taylor certificate prototype implemented outside production. First
+  adapter compilation failed on foreign inherent impl/private error constructor;
+  v2 uses adapter-local wrapper types while retaining original interval code.
+  Both attempts remain. No certificate has yet been admitted.

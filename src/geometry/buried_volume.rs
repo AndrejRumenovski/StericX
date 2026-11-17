@@ -1182,6 +1182,18 @@ unsafe fn row_mask_avx2(z: &[f32], center_z: f32, xy_squared: f32, radius_square
             mask |= (_mm256_movemask_ps(occupied) as u64) << i;
             i += 8;
         }
+        if i < z.len() && z.len() >= 8 {
+            // Re-evaluate the final eight points instead of assembling a scalar
+            // tail. Overlapping lanes repeat identical operations; OR is
+            // idempotent, so every bit (including boundary decisions) is kept.
+            let start = z.len() - 8;
+            let positions = _mm256_loadu_ps(z.as_ptr().add(start));
+            let dz = _mm256_sub_ps(positions, center);
+            let distance = _mm256_add_ps(xy, _mm256_mul_ps(dz, dz));
+            let occupied = _mm256_cmp_ps::<_CMP_LE_OQ>(distance, radius);
+            mask |= (_mm256_movemask_ps(occupied) as u64) << start;
+            i = z.len();
+        }
         for (offset, &position) in z[i..].iter().enumerate() {
             let dz = position - center_z;
             mask |= u64::from(xy_squared + dz * dz <= radius_squared) << (i + offset);

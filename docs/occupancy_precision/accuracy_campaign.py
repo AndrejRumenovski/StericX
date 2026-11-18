@@ -6,9 +6,9 @@ sys.path.insert(0,str(ROOT/'scripts'));import profile_stericx as harness
 sys.path.insert(0,str(ROOT/'docs/ultimate_engine'))
 from host_activity import measure,postflight
 from benchmark_artifacts import compact_metrics
-p=argparse.ArgumentParser(description=__doc__);p.add_argument('phase',choices=['preflight','timing','memory']);p.add_argument('--output',required=True);a=p.parse_args()
+p=argparse.ArgumentParser(description=__doc__);p.add_argument('phase',choices=['preflight','timing','memory']);p.add_argument('--output',required=True);p.add_argument('--observer',default='precision_observer_v3');a=p.parse_args()
 out=EVIDENCE/a.output;out.mkdir(exist_ok=False)
-engine=EVIDENCE/'precision_observer_v3'/('precision_alloc' if a.phase=='memory' else 'precision')
+engine=EVIDENCE/a.observer/('precision_alloc' if a.phase=='memory' else 'precision')
 molecules=json.loads((EVIDENCE/'molecular_chord_requests.json').read_text())
 fine={r['id'].replace('/target_0.001',''):r for r in map(json.loads,(EVIDENCE/'c1_extended_budget/observed.jsonl').read_text().splitlines()) if r['id'].endswith('/target_0.001')}
 analytical=json.loads((EVIDENCE/'c1_coaxial/requests.json').read_text())

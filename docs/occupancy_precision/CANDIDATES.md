@@ -12,6 +12,8 @@ and a separate commit. Failed candidates and timing attempts stay on disk.
 | O4 | Bounded multi-key grid LRU avoids repeated preparation in radius profiles | 25 focused tests; eight alternating equal-output pairs | Retain: exploratory radius profile 1.893× over O3 |
 | O5 | Cell lists/BVH/bitset row spans/internal parallelism help only larger work | 101 exact mask cases; preparation/execution separated | Reject general path; retain large sparse synthetic evidence |
 | C1 | Certified chord ranges plus smooth-patch Taylor integration tighten boxes | Proof, 6,000 rational predicates, 167 original and 96 additional analytical observations, molecular nesting | Retain as separate explicit API; full regression/final cost pending |
+| C3 | Specialize nonnegative interval arithmetic | 100,000 bit-equivalence cases and full 695-certificate replay | Retain; unchanged bounds, final controlled timing pending |
+| C4 | Reuse per-integration scratch vectors | Full 695-certificate replay, separate allocation diagnostics | Retain; about 83% fewer allocations, peak live memory unchanged |
 | C2 | Inner/outer plane bounds give certified partial sphere–cell volumes | Mathematical analysis in EXPERIMENTS.md | Not implemented; no performance/certificate claim |
 | G1 | Reuse conservative sphere candidates between related cells/rows | Source-bound full/all-atoms/range-only ablations | Inherited candidates save 1.16–3.98× queries; specialize arithmetic |
 

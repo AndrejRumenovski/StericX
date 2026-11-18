@@ -131,3 +131,41 @@ separate from native speed measurements.
 that were analyzed but not implemented. Source archives, hashes, compiler
 commands and raw observations are the reproducibility basis; historical speed
 figures are context rather than a replacement for fresh controlled A/B data.
+
+
+## Final production transition and measurements
+
+The final frozen implementation is `final_profile_v2` from production commit
+`aeb3ca74`. Independent legacy reference calculations completed on `final_profile`
+(C1-v1). Only the separate certified implementation changes between them; the
+wrapper witness is the only other changed source test. Source equality, a fresh
+128,021-response replay, and a 695-certificate exact replay establish the explicit
+transition. `seal_source_transition.py` checks these statements against hashes.
+
+```sh
+.venv/bin/python docs/occupancy_precision/engineering_replay.py --build final_profile_v2 --output final_engineering_v2 --reuse-external final_engineering/summary.json
+.venv/bin/python docs/occupancy_precision/arm_replay.py --build final_profile_v2 --output final_arm_v2
+.venv/bin/python docs/occupancy_precision/review_final_science.py --build .stericx/occupancy_precision/final_scientific_build --science .stericx/occupancy_precision/final_science --output .stericx/occupancy_precision/final_science_review_v2
+.venv/bin/python docs/occupancy_precision/seal_source_transition.py
+.venv/bin/python docs/occupancy_precision/summarize_final_diagnostics.py
+.venv/bin/python docs/occupancy_precision/seal_admission.py
+.venv/bin/python docs/occupancy_precision/performance_window.py --output final_window_1
+.venv/bin/python docs/occupancy_precision/summarize_measurements.py --window final_window_1
+.venv/bin/python docs/occupancy_precision/plot_measurements.py
+```
+
+The last three are a prospectively fixed protocol until successful final timing
+receipts exist. If a stage fails a quiet endpoint, its data stay retained. A new
+window may resume with `--start-at`; the summarizer requires all eight unique,
+successfully admitted stages across explicitly supplied windows. It rejects
+multiple selected successful runs of one stage and does not remove slow trials.
+
+The scientific-only review is adapted from the historical reviewer: all
+scientific comparisons are identical, while the old hard-coded expectation of
+an interrupted rustdoc job is removed. Engineering, MSRV and platform execution
+are independently required by final admission. No historical failure is upgraded.
+Native precision observers are built by `build_precision_benchmark.py --build
+final_profile_v2 --output precision_observer_v4`. V2 competitive/radius builds,
+gates and preflights are separate from the retained v1 records. Final allocation
+and simulator diagnostics are in `final_diagnostics.json`; their process timings
+were collected during validation load and do not establish comparative speed.

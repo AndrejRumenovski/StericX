@@ -6,9 +6,9 @@ sys.path.insert(0,str(ROOT/'scripts'));import profile_stericx as h
 sys.path.insert(0,str(ROOT/'docs/ultimate_engine'))
 from host_activity import measure,postflight
 from benchmark_artifacts import compact_metrics
-p=argparse.ArgumentParser(description=__doc__);p.add_argument('phase',choices=['preflight','timing']);p.add_argument('--output',required=True);a=p.parse_args()
-out=EVIDENCE/a.output;out.mkdir(exist_ok=False);gate=EVIDENCE/'competitive_radius_gate/summary.json';g=json.loads(gate.read_text());assert g['complete'] and g['passed']
-native=EVIDENCE/'competitive_radius_build/radius_workflow';worker=Path(__file__).with_name('radius_worker.py');python=ROOT/'.stericx/paton/reference/venv/bin/python'
+p=argparse.ArgumentParser(description=__doc__);p.add_argument('phase',choices=['preflight','timing']);p.add_argument('--output',required=True);p.add_argument('--gate',default='competitive_radius_gate/summary.json');p.add_argument('--native',default='competitive_radius_build/radius_workflow');a=p.parse_args()
+out=EVIDENCE/a.output;out.mkdir(exist_ok=False);gate=EVIDENCE/a.gate;g=json.loads(gate.read_text());assert g['complete'] and g['passed']
+native=EVIDENCE/a.native;worker=Path(__file__).with_name('radius_worker.py');python=ROOT/'.stericx/paton/reference/venv/bin/python'
 env=dict(os.environ,OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1',NUMEXPR_NUM_THREADS='1');env.pop('STERICX_PROFILE_PATH',None)
 receipt={'phase':a.phase,'scope':g['scope'],'bindings':{str(p):sha(p) for p in [gate,native,worker,Path(__file__)]},'runs':[],'complete':False}
 affinities={1:[2],2:[2,3],4:[0,1,2,3],6:list(range(6)),12:list(range(12))}

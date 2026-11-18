@@ -1,0 +1,1242 @@
+{
+  "scope": "Modeled instructions/cache events and exact allocator diagnostics. Memory passes overlapped validation; their timings are not comparative performance evidence. No hardware cycle, IPC or bandwidth inference.",
+  "occupancy": {
+    "total_instructions": 78320019,
+    "exclusive_top": [
+      [
+        "steric_x::geometry::buried_volume::occupied_prepared_avx2",
+        62986231
+      ],
+      [
+        "steric_x::geometry::sterimol::params_from_projection",
+        7213668
+      ],
+      [
+        "<steric_x::geometry::buried_volume::BuriedVolumeCalculator>::compute_from_center_recording",
+        1349442
+      ],
+      [
+        "__sincosf_fma",
+        689304
+      ],
+      [
+        "<core::iter::adapters::GenericShunt<core::iter::adapters::map::Map<core::iter::adapters::filter::Filter<core::slice::iter::Iter<steric_x::geometry::xyz::Atom>, steric_x::geometry::buried_volume::aligned_atoms::{closure#0}>, steric_x::geometry::buried_volume::aligned_atoms::{closure#1}>, core::result::Result<core::convert::Infallible, steric_x::geometry::buried_volume::BuriedVolumeError>> as core::iter::traits::iterator::Iterator>::next",
+        506394
+      ],
+      [
+        "core::slice::memchr::memrchr",
+        484507
+      ],
+      [
+        "_int_malloc",
+        460460
+      ],
+      [
+        "<std::io::stdio::StdoutLock as std::io::Write>::write_all",
+        400288
+      ],
+      [
+        "_int_free_merge_chunk",
+        297325
+      ],
+      [
+        "steric_x::geometry::sterimol::project",
+        283906
+      ],
+      [
+        "__memcpy_avx_unaligned_erms",
+        255419
+      ],
+      [
+        "<core::str::iter::Split<core::str::IsWhitespace> as core::iter::traits::iterator::Iterator>::try_fold::<(), core::iter::traits::iterator::Iterator::find::check<&str, &mut core::str::IsNotEmpty>::{closure#0}, core::ops::control_flow::ControlFlow<&str>>",
+        244647
+      ],
+      [
+        "<f64 as zmij::private::Sealed>::write_to_zmij_buffer",
+        221260
+      ],
+      [
+        "free",
+        214478
+      ],
+      [
+        "<serde_json::value::Value as serde_core::ser::Serialize>::serialize::<&mut serde_json::ser::Serializer<&mut <serde_json::value::Value as core::fmt::Display>::fmt::WriterFormatter>>",
+        187863
+      ],
+      [
+        "<std::io::default_write_fmt::Adapter<std::io::stdio::StdoutLock> as core::fmt::Write>::write_str",
+        181344
+      ],
+      [
+        "<&mut serde_json::ser::Serializer<&mut <serde_json::value::Value as core::fmt::Display>::fmt::WriterFormatter> as serde_core::ser::Serializer>::serialize_str",
+        174350
+      ],
+      [
+        "malloc",
+        139589
+      ],
+      [
+        "core::num::imp::dec2flt::parse::parse_number",
+        131322
+      ],
+      [
+        "<core::str::pattern::CharSearcher as core::str::pattern::Searcher>::next_match",
+        113502
+      ],
+      [
+        "steric_x::geometry::xyz::covalent_radius",
+        97997
+      ],
+      [
+        "core::ptr::drop_glue::<serde_json::value::Value>",
+        93411
+      ],
+      [
+        "_int_free_maybe_trim",
+        88506
+      ],
+      [
+        "__libc_malloc2",
+        79877
+      ],
+      [
+        "unlink_chunk.isra.0",
+        77087
+      ],
+      [
+        "<str>::trim_matches::<<char>::is_whitespace>",
+        72676
+      ],
+      [
+        "steric_x::geometry::buried_volume::bonded_neighbors",
+        69144
+      ],
+      [
+        "do_lookup_x",
+        67123
+      ],
+      [
+        "<f32 as core::str::traits::FromStr>::from_str",
+        64770
+      ],
+      [
+        "<steric_x::ensemble::GeometrySnapshot as core::convert::From<&steric_x::geometry::xyz::MolecularFrame>>::from",
+        63210
+      ]
+    ]
+  },
+  "continuous": {
+    "total_instructions": 646710617,
+    "exclusive_top": [
+      [
+        "steric_x::geometry::continuous_volume::certified::chord_cell",
+        194744958
+      ],
+      [
+        "steric_x::geometry::continuous_volume::certified::chord_q",
+        149185721
+      ],
+      [
+        "steric_x::geometry::continuous_volume::certified::sphere_union_volume_certified",
+        77338848
+      ],
+      [
+        "steric_x::geometry::continuous_volume::certified::chord_span",
+        60578033
+      ],
+      [
+        "steric_x::geometry::continuous_volume::certified::chord_endpoint_value",
+        33224220
+      ],
+      [
+        "steric_x::geometry::continuous_volume::certified::chord_length",
+        30483981
+      ],
+      [
+        "core::slice::sort::shared::smallsort::insertion_sort_shift_left::<(f64, f64), <[(f64, f64)]>::sort_unstable_by<steric_x::geometry::continuous_volume::certified::chord_length::{closure#1}>::{closure#0}>",
+        20096207
+      ],
+      [
+        "<alloc::collections::binary_heap::BinaryHeap<steric_x::geometry::continuous_volume::certified::ChordCell>>::push",
+        13624982
+      ],
+      [
+        "_int_malloc",
+        10849174
+      ],
+      [
+        "<steric_x::geometry::continuous_volume::Interval as steric_x::geometry::continuous_volume::certified::PositiveChordArithmetic>::chord_div_positive",
+        8928972
+      ],
+      [
+        "_int_free_merge_chunk",
+        7081587
+      ],
+      [
+        "core::slice::sort::shared::smallsort::insertion_sort_shift_left::<usize, <[usize]>::sort_unstable_by<steric_x::geometry::continuous_volume::certified::chord_smooth::{closure#1}>::{closure#0}>",
+        6187403
+      ],
+      [
+        "<steric_x::geometry::continuous_volume::Interval>::mul",
+        6146517
+      ],
+      [
+        "free",
+        4797265
+      ],
+      [
+        "<alloc::raw_vec::RawVecInner>::finish_grow",
+        4426829
+      ],
+      [
+        "<alloc::raw_vec::RawVecInner>::grow_amortized",
+        4106808
+      ],
+      [
+        "malloc",
+        3546929
+      ],
+      [
+        "_int_free_maybe_trim",
+        2122444
+      ],
+      [
+        "__libc_malloc2",
+        1745930
+      ],
+      [
+        "unlink_chunk.isra.0",
+        1602505
+      ],
+      [
+        "_int_free_chunk",
+        1499021
+      ],
+      [
+        "<alloc::raw_vec::RawVec<usize>>::grow_one",
+        1064728
+      ],
+      [
+        "realloc",
+        1011161
+      ],
+      [
+        "_int_realloc",
+        907086
+      ],
+      [
+        "core::ptr::drop_glue::<alloc::collections::binary_heap::BinaryHeap<steric_x::geometry::continuous_volume::certified::ChordCell>>",
+        539382
+      ],
+      [
+        "__memcpy_avx_unaligned_erms",
+        369191
+      ],
+      [
+        "do_lookup_x",
+        49409
+      ],
+      [
+        "__vfscanf_internal",
+        46137
+      ],
+      [
+        "_dl_relocate_object_no_relro",
+        45224
+      ],
+      [
+        "_dl_lookup_symbol_x",
+        29920
+      ]
+    ]
+  },
+  "cachegrind_simulated": {
+    "Ir": 78334599,
+    "I1mr": 15804,
+    "ILmr": 3218,
+    "Dr": 16647453,
+    "D1mr": 211756,
+    "DLmr": 2649,
+    "Dw": 2005458,
+    "D1mw": 15904,
+    "DLmw": 8422,
+    "Bc": 8425456,
+    "Bcm": 671099,
+    "Bi": 77876,
+    "Bim": 1933
+  },
+  "occupancy_fma_instructions": 0,
+  "allocation_groups": {
+    "certified_0.1": {
+      "cases": 12,
+      "median_call_reduction_fraction": 0.8217896872984383,
+      "before_calls_range": [
+        93147,
+        442729
+      ],
+      "after_calls_range": [
+        16567,
+        80423
+      ],
+      "before_peak_live_max": 6627838,
+      "after_peak_live_max": 6629054
+    },
+    "certified_0.05": {
+      "cases": 12,
+      "median_call_reduction_fraction": 0.8280106969028991,
+      "before_calls_range": [
+        170352,
+        784249
+      ],
+      "after_calls_range": [
+        29339,
+        138290
+      ],
+      "before_peak_live_max": 12862976,
+      "after_peak_live_max": 12864192
+    },
+    "certified_0.01": {
+      "cases": 12,
+      "median_call_reduction_fraction": 0.8384960566098663,
+      "before_calls_range": [
+        683986,
+        2981844
+      ],
+      "after_calls_range": [
+        110595,
+        493783
+      ],
+      "before_peak_live_max": 29371032,
+      "after_peak_live_max": 29372128
+    }
+  },
+  "allocation_rows": [
+    {
+      "id": "methylphosphine/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 94760,
+        "process_peak_live_bytes": 921260,
+        "reallocations": 11,
+        "requested_bytes": 6987544
+      },
+      "after": {
+        "calls": 16963,
+        "process_peak_live_bytes": 921620,
+        "reallocations": 11,
+        "requested_bytes": 1854000
+      },
+      "call_reduction_fraction": 0.8209898691430983
+    },
+    {
+      "id": "methylphosphine/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 173305,
+        "process_peak_live_bytes": 1772486,
+        "reallocations": 12,
+        "requested_bytes": 13054736
+      },
+      "after": {
+        "calls": 29676,
+        "process_peak_live_bytes": 1772694,
+        "reallocations": 12,
+        "requested_bytes": 3571536
+      },
+      "call_reduction_fraction": 0.8287643172441649
+    },
+    {
+      "id": "methylphosphine/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 687700,
+        "process_peak_live_bytes": 6964110,
+        "reallocations": 14,
+        "requested_bytes": 51824960
+      },
+      "after": {
+        "calls": 110937,
+        "process_peak_live_bytes": 6964406,
+        "reallocations": 14,
+        "requested_bytes": 14036208
+      },
+      "call_reduction_fraction": 0.8386840191944162
+    },
+    {
+      "id": "dimethylphosphine/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 110614,
+        "process_peak_live_bytes": 1619820,
+        "reallocations": 12,
+        "requested_bytes": 9859472
+      },
+      "after": {
+        "calls": 19520,
+        "process_peak_live_bytes": 1620060,
+        "reallocations": 12,
+        "requested_bytes": 3246648
+      },
+      "call_reduction_fraction": 0.8235304753467012
+    },
+    {
+      "id": "dimethylphosphine/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 197978,
+        "process_peak_live_bytes": 1839942,
+        "reallocations": 12,
+        "requested_bytes": 15549472
+      },
+      "after": {
+        "calls": 33651,
+        "process_peak_live_bytes": 1840062,
+        "reallocations": 12,
+        "requested_bytes": 3698840
+      },
+      "call_reduction_fraction": 0.8300265686086332
+    },
+    {
+      "id": "dimethylphosphine/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 742847,
+        "process_peak_live_bytes": 7102878,
+        "reallocations": 14,
+        "requested_bytes": 58692992
+      },
+      "after": {
+        "calls": 118950,
+        "process_peak_live_bytes": 7103134,
+        "reallocations": 14,
+        "requested_bytes": 14292728
+      },
+      "call_reduction_fraction": 0.8398728136480325
+    },
+    {
+      "id": "trimethylphosphine/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 145557,
+        "process_peak_live_bytes": 1710506,
+        "reallocations": 12,
+        "requested_bytes": 13120256
+      },
+      "after": {
+        "calls": 25173,
+        "process_peak_live_bytes": 1710626,
+        "reallocations": 12,
+        "requested_bytes": 3427648
+      },
+      "call_reduction_fraction": 0.8270574414147035
+    },
+    {
+      "id": "trimethylphosphine/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 253537,
+        "process_peak_live_bytes": 3294516,
+        "reallocations": 13,
+        "requested_bytes": 23412776
+      },
+      "after": {
+        "calls": 42550,
+        "process_peak_live_bytes": 3294756,
+        "reallocations": 13,
+        "requested_bytes": 6605152
+      },
+      "call_reduction_fraction": 0.8321743966363884
+    },
+    {
+      "id": "trimethylphosphine/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 938336,
+        "process_peak_live_bytes": 12816004,
+        "reallocations": 15,
+        "requested_bytes": 87300256
+      },
+      "after": {
+        "calls": 147817,
+        "process_peak_live_bytes": 12816228,
+        "reallocations": 15,
+        "requested_bytes": 25702336
+      },
+      "call_reduction_fraction": 0.8424690089690686
+    },
+    {
+      "id": "triethylphosphine/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 232125,
+        "process_peak_live_bytes": 3273724,
+        "reallocations": 55,
+        "requested_bytes": 23739192
+      },
+      "after": {
+        "calls": 40837,
+        "process_peak_live_bytes": 3274332,
+        "reallocations": 56,
+        "requested_bytes": 6554280
+      },
+      "call_reduction_fraction": 0.8240732364028003
+    },
+    {
+      "id": "triethylphosphine/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 385334,
+        "process_peak_live_bytes": 3666646,
+        "reallocations": 55,
+        "requested_bytes": 35795072
+      },
+      "after": {
+        "calls": 65802,
+        "process_peak_live_bytes": 3667198,
+        "reallocations": 56,
+        "requested_bytes": 7353160
+      },
+      "call_reduction_fraction": 0.8292338594569906
+    },
+    {
+      "id": "triethylphosphine/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 1346959,
+        "process_peak_live_bytes": 13923734,
+        "reallocations": 57,
+        "requested_bytes": 125927144
+      },
+      "after": {
+        "calls": 217164,
+        "process_peak_live_bytes": 13924254,
+        "reallocations": 58,
+        "requested_bytes": 27925384
+      },
+      "call_reduction_fraction": 0.8387746026419513
+    },
+    {
+      "id": "triisopropylphosphine/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 317172,
+        "process_peak_live_bytes": 3582752,
+        "reallocations": 7451,
+        "requested_bytes": 34045480
+      },
+      "after": {
+        "calls": 56471,
+        "process_peak_live_bytes": 3583968,
+        "reallocations": 4103,
+        "requested_bytes": 7315856
+      },
+      "call_reduction_fraction": 0.8219546492124147
+    },
+    {
+      "id": "triisopropylphosphine/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 525721,
+        "process_peak_live_bytes": 6785082,
+        "reallocations": 11860,
+        "requested_bytes": 57727424
+      },
+      "after": {
+        "calls": 91187,
+        "process_peak_live_bytes": 6786402,
+        "reallocations": 6286,
+        "requested_bytes": 13809296
+      },
+      "call_reduction_fraction": 0.8265486826662811
+    },
+    {
+      "id": "triisopropylphosphine/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 1790826,
+        "process_peak_live_bytes": 25904458,
+        "reallocations": 38863,
+        "requested_bytes": 199863800
+      },
+      "after": {
+        "calls": 293373,
+        "process_peak_live_bytes": 25905762,
+        "reallocations": 18891,
+        "requested_bytes": 52543120
+      },
+      "call_reduction_fraction": 0.8361800643948658
+    },
+    {
+      "id": "triphenylphosphine/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 343173,
+        "process_peak_live_bytes": 3727390,
+        "reallocations": 12828,
+        "requested_bytes": 38239712
+      },
+      "after": {
+        "calls": 62736,
+        "process_peak_live_bytes": 3730222,
+        "reallocations": 7202,
+        "requested_bytes": 7720680
+      },
+      "call_reduction_fraction": 0.8171884151725223
+    },
+    {
+      "id": "triphenylphosphine/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 581078,
+        "process_peak_live_bytes": 7053592,
+        "reallocations": 21372,
+        "requested_bytes": 65804056
+      },
+      "after": {
+        "calls": 103647,
+        "process_peak_live_bytes": 7056240,
+        "reallocations": 11431,
+        "requested_bytes": 14543304
+      },
+      "call_reduction_fraction": 0.8216297984091636
+    },
+    {
+      "id": "triphenylphosphine/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 1936883,
+        "process_peak_live_bytes": 26603360,
+        "reallocations": 66243,
+        "requested_bytes": 221966224
+      },
+      "after": {
+        "calls": 325315,
+        "process_peak_live_bytes": 26606224,
+        "reallocations": 33019,
+        "requested_bytes": 54475464
+      },
+      "call_reduction_fraction": 0.8320419973741315
+    },
+    {
+      "id": "asymmetric_phosphine/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 442729,
+        "process_peak_live_bytes": 6627838,
+        "reallocations": 14997,
+        "requested_bytes": 52308192
+      },
+      "after": {
+        "calls": 80423,
+        "process_peak_live_bytes": 6629054,
+        "reallocations": 7837,
+        "requested_bytes": 13564368
+      },
+      "call_reduction_fraction": 0.818347115278195
+    },
+    {
+      "id": "asymmetric_phosphine/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 784249,
+        "process_peak_live_bytes": 12862976,
+        "reallocations": 27829,
+        "requested_bytes": 94432576
+      },
+      "after": {
+        "calls": 138290,
+        "process_peak_live_bytes": 12864192,
+        "reallocations": 13845,
+        "requested_bytes": 26286320
+      },
+      "call_reduction_fraction": 0.8236656980117284
+    },
+    {
+      "id": "asymmetric_phosphine/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 2981844,
+        "process_peak_live_bytes": 29371032,
+        "reallocations": 92140,
+        "requested_bytes": 311640392
+      },
+      "after": {
+        "calls": 493783,
+        "process_peak_live_bytes": 29372128,
+        "reallocations": 43448,
+        "requested_bytes": 60528144
+      },
+      "call_reduction_fraction": 0.8344034765064839
+    },
+    {
+      "id": "fluorophosphine/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 120168,
+        "process_peak_live_bytes": 1653292,
+        "reallocations": 12,
+        "requested_bytes": 11269592
+      },
+      "after": {
+        "calls": 21435,
+        "process_peak_live_bytes": 1653500,
+        "reallocations": 12,
+        "requested_bytes": 3308032
+      },
+      "call_reduction_fraction": 0.8216247253844617
+    },
+    {
+      "id": "fluorophosphine/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 215944,
+        "process_peak_live_bytes": 3210318,
+        "reallocations": 13,
+        "requested_bytes": 20702440
+      },
+      "after": {
+        "calls": 37089,
+        "process_peak_live_bytes": 3210590,
+        "reallocations": 13,
+        "requested_bytes": 6430400
+      },
+      "call_reduction_fraction": 0.828247138146927
+    },
+    {
+      "id": "fluorophosphine/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 810534,
+        "process_peak_live_bytes": 7287302,
+        "reallocations": 14,
+        "requested_bytes": 67998672
+      },
+      "after": {
+        "calls": 129509,
+        "process_peak_live_bytes": 7287486,
+        "reallocations": 14,
+        "requested_bytes": 14630720
+      },
+      "call_reduction_fraction": 0.8402176836505316
+    },
+    {
+      "id": "methylamine/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 93147,
+        "process_peak_live_bytes": 914812,
+        "reallocations": 11,
+        "requested_bytes": 7005336
+      },
+      "after": {
+        "calls": 16567,
+        "process_peak_live_bytes": 915148,
+        "reallocations": 11,
+        "requested_bytes": 1841328
+      },
+      "call_reduction_fraction": 0.8221413464738532
+    },
+    {
+      "id": "methylamine/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 170352,
+        "process_peak_live_bytes": 1765822,
+        "reallocations": 12,
+        "requested_bytes": 13015560
+      },
+      "after": {
+        "calls": 29339,
+        "process_peak_live_bytes": 1766030,
+        "reallocations": 12,
+        "requested_bytes": 3560752
+      },
+      "call_reduction_fraction": 0.8277742556588711
+    },
+    {
+      "id": "methylamine/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 683986,
+        "process_peak_live_bytes": 6957630,
+        "reallocations": 14,
+        "requested_bytes": 52010808
+      },
+      "after": {
+        "calls": 110595,
+        "process_peak_live_bytes": 6957838,
+        "reallocations": 14,
+        "requested_bytes": 14025264
+      },
+      "call_reduction_fraction": 0.8383080940253163
+    },
+    {
+      "id": "dimethylamine/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 187331,
+        "process_peak_live_bytes": 1841572,
+        "reallocations": 12,
+        "requested_bytes": 15815704
+      },
+      "after": {
+        "calls": 33861,
+        "process_peak_live_bytes": 1841812,
+        "reallocations": 12,
+        "requested_bytes": 3705560
+      },
+      "call_reduction_fraction": 0.819245079565048
+    },
+    {
+      "id": "dimethylamine/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 335742,
+        "process_peak_live_bytes": 3539166,
+        "reallocations": 13,
+        "requested_bytes": 28777376
+      },
+      "after": {
+        "calls": 58794,
+        "process_peak_live_bytes": 3539318,
+        "reallocations": 13,
+        "requested_bytes": 7124856
+      },
+      "call_reduction_fraction": 0.8248833926050361
+    },
+    {
+      "id": "dimethylamine/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 1307437,
+        "process_peak_live_bytes": 13826686,
+        "reallocations": 15,
+        "requested_bytes": 111373408
+      },
+      "after": {
+        "calls": 214517,
+        "process_peak_live_bytes": 13826902,
+        "reallocations": 15,
+        "requested_bytes": 27836632
+      },
+      "call_reduction_fraction": 0.8359255551127893
+    },
+    {
+      "id": "trimethylamine/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 172194,
+        "process_peak_live_bytes": 1792554,
+        "reallocations": 12,
+        "requested_bytes": 15066136
+      },
+      "after": {
+        "calls": 30535,
+        "process_peak_live_bytes": 1792794,
+        "reallocations": 12,
+        "requested_bytes": 3599232
+      },
+      "call_reduction_fraction": 0.8226709409154791
+    },
+    {
+      "id": "trimethylamine/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 305279,
+        "process_peak_live_bytes": 3445004,
+        "reallocations": 13,
+        "requested_bytes": 27087968
+      },
+      "after": {
+        "calls": 52396,
+        "process_peak_live_bytes": 3445244,
+        "reallocations": 13,
+        "requested_bytes": 6920224
+      },
+      "call_reduction_fraction": 0.8283668382037415
+    },
+    {
+      "id": "trimethylamine/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 1171097,
+        "process_peak_live_bytes": 13438172,
+        "reallocations": 15,
+        "requested_bytes": 103137928
+      },
+      "after": {
+        "calls": 188236,
+        "process_peak_live_bytes": 13438236,
+        "reallocations": 15,
+        "requested_bytes": 26995744
+      },
+      "call_reduction_fraction": 0.8392652359283646
+    },
+    {
+      "id": "aniline/reference/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 202749,
+        "process_peak_live_bytes": 3276088,
+        "reallocations": 8774,
+        "requested_bytes": 22955640
+      },
+      "after": {
+        "calls": 37322,
+        "process_peak_live_bytes": 3276552,
+        "reallocations": 4320,
+        "requested_bytes": 6714696
+      },
+      "call_reduction_fraction": 0.8159201771648689
+    },
+    {
+      "id": "aniline/reference/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 354328,
+        "process_peak_live_bytes": 3719754,
+        "reallocations": 14635,
+        "requested_bytes": 35659872
+      },
+      "after": {
+        "calls": 63238,
+        "process_peak_live_bytes": 3720266,
+        "reallocations": 6990,
+        "requested_bytes": 7714888
+      },
+      "call_reduction_fraction": 0.8215269467837709
+    },
+    {
+      "id": "aniline/reference/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 1301153,
+        "process_peak_live_bytes": 14236554,
+        "reallocations": 49900,
+        "requested_bytes": 129153480
+      },
+      "after": {
+        "calls": 217904,
+        "process_peak_live_bytes": 14237066,
+        "reallocations": 22497,
+        "requested_bytes": 29385160
+      },
+      "call_reduction_fraction": 0.8325300714058992
+    },
+    {
+      "id": "coaxial_0/axis_0/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 42223,
+        "process_peak_live_bytes": 446343,
+        "reallocations": 10,
+        "requested_bytes": 3103536
+      },
+      "after": {
+        "calls": 7548,
+        "process_peak_live_bytes": 446639,
+        "reallocations": 10,
+        "requested_bytes": 897464
+      },
+      "call_reduction_fraction": 0.8212348719892002
+    },
+    {
+      "id": "coaxial_0/axis_0/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 77717,
+        "process_peak_live_bytes": 861993,
+        "reallocations": 11,
+        "requested_bytes": 5823984
+      },
+      "after": {
+        "calls": 13428,
+        "process_peak_live_bytes": 862289,
+        "reallocations": 11,
+        "requested_bytes": 1740984
+      },
+      "call_reduction_fraction": 0.8272192699152052
+    },
+    {
+      "id": "coaxial_0/axis_0/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 352579,
+        "process_peak_live_bytes": 3493545,
+        "reallocations": 13,
+        "requested_bytes": 25712896
+      },
+      "after": {
+        "calls": 56994,
+        "process_peak_live_bytes": 3493841,
+        "reallocations": 13,
+        "requested_bytes": 7067256
+      },
+      "call_reduction_fraction": 0.8383511213089833
+    },
+    {
+      "id": "coaxial_0/axis_1/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 41569,
+        "process_peak_live_bytes": 444935,
+        "reallocations": 10,
+        "requested_bytes": 3063936
+      },
+      "after": {
+        "calls": 7480,
+        "process_peak_live_bytes": 445231,
+        "reallocations": 10,
+        "requested_bytes": 895288
+      },
+      "call_reduction_fraction": 0.8200582164593808
+    },
+    {
+      "id": "coaxial_0/axis_1/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 78531,
+        "process_peak_live_bytes": 864033,
+        "reallocations": 11,
+        "requested_bytes": 5867400
+      },
+      "after": {
+        "calls": 13562,
+        "process_peak_live_bytes": 864273,
+        "reallocations": 11,
+        "requested_bytes": 1745272
+      },
+      "call_reduction_fraction": 0.8273038672626096
+    },
+    {
+      "id": "coaxial_0/axis_1/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 348429,
+        "process_peak_live_bytes": 3483393,
+        "reallocations": 13,
+        "requested_bytes": 25438672
+      },
+      "after": {
+        "calls": 56452,
+        "process_peak_live_bytes": 3483601,
+        "reallocations": 13,
+        "requested_bytes": 7049912
+      },
+      "call_reduction_fraction": 0.8379813390963439
+    },
+    {
+      "id": "coaxial_0/axis_2/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 35331,
+        "process_peak_live_bytes": 418327,
+        "reallocations": 10,
+        "requested_bytes": 3397632
+      },
+      "after": {
+        "calls": 5530,
+        "process_peak_live_bytes": 418415,
+        "reallocations": 10,
+        "requested_bytes": 832888
+      },
+      "call_reduction_fraction": 0.843480229826498
+    },
+    {
+      "id": "coaxial_0/axis_2/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 62035,
+        "process_peak_live_bytes": 802177,
+        "reallocations": 11,
+        "requested_bytes": 6055008
+      },
+      "after": {
+        "calls": 9290,
+        "process_peak_live_bytes": 802353,
+        "reallocations": 11,
+        "requested_bytes": 1608568
+      },
+      "call_reduction_fraction": 0.8502458289675183
+    },
+    {
+      "id": "coaxial_0/axis_2/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 255289,
+        "process_peak_live_bytes": 3185377,
+        "reallocations": 13,
+        "requested_bytes": 24325312
+      },
+      "after": {
+        "calls": 36464,
+        "process_peak_live_bytes": 3185553,
+        "reallocations": 13,
+        "requested_bytes": 6410296
+      },
+      "call_reduction_fraction": 0.8571658003282554
+    },
+    {
+      "id": "coaxial_8/axis_0/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 261119,
+        "process_peak_live_bytes": 3392583,
+        "reallocations": 6635,
+        "requested_bytes": 24670576
+      },
+      "after": {
+        "calls": 45950,
+        "process_peak_live_bytes": 3394079,
+        "reallocations": 3526,
+        "requested_bytes": 6942696
+      },
+      "call_reduction_fraction": 0.8240265932390979
+    },
+    {
+      "id": "coaxial_8/axis_0/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 471679,
+        "process_peak_live_bytes": 6592369,
+        "reallocations": 11728,
+        "requested_bytes": 45122384
+      },
+      "after": {
+        "calls": 80892,
+        "process_peak_live_bytes": 6593601,
+        "reallocations": 5947,
+        "requested_bytes": 13458600
+      },
+      "call_reduction_fraction": 0.8285020109014818
+    },
+    {
+      "id": "coaxial_8/axis_0/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 1893839,
+        "process_peak_live_bytes": 26003065,
+        "reallocations": 40554,
+        "requested_bytes": 176155984
+      },
+      "after": {
+        "calls": 304690,
+        "process_peak_live_bytes": 26004481,
+        "reallocations": 19143,
+        "requested_bytes": 52921832
+      },
+      "call_reduction_fraction": 0.8391151518159674
+    },
+    {
+      "id": "coaxial_18/axis_0/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 78821,
+        "process_peak_live_bytes": 885925,
+        "reallocations": 23,
+        "requested_bytes": 6574112
+      },
+      "after": {
+        "calls": 14466,
+        "process_peak_live_bytes": 886493,
+        "reallocations": 24,
+        "requested_bytes": 1776208
+      },
+      "call_reduction_fraction": 0.8164702300148438
+    },
+    {
+      "id": "coaxial_18/axis_0/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 147553,
+        "process_peak_live_bytes": 1719815,
+        "reallocations": 24,
+        "requested_bytes": 12292912
+      },
+      "after": {
+        "calls": 26116,
+        "process_peak_live_bytes": 1720319,
+        "reallocations": 25,
+        "requested_bytes": 3459728
+      },
+      "call_reduction_fraction": 0.823005970735939
+    },
+    {
+      "id": "coaxial_18/axis_0/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 604563,
+        "process_peak_live_bytes": 6782775,
+        "reallocations": 26,
+        "requested_bytes": 49293040
+      },
+      "after": {
+        "calls": 99730,
+        "process_peak_live_bytes": 6783455,
+        "reallocations": 27,
+        "requested_bytes": 13679696
+      },
+      "call_reduction_fraction": 0.8350378703294776
+    },
+    {
+      "id": "coaxial_35/axis_0/certified_0.1",
+      "configuration": "certified_0.1",
+      "before": {
+        "calls": 166485,
+        "process_peak_live_bytes": 1782589,
+        "reallocations": 754,
+        "requested_bytes": 15371728
+      },
+      "after": {
+        "calls": 29468,
+        "process_peak_live_bytes": 1783365,
+        "reallocations": 584,
+        "requested_bytes": 3603008
+      },
+      "call_reduction_fraction": 0.8229990689851938
+    },
+    {
+      "id": "coaxial_35/axis_0/certified_0.05",
+      "configuration": "certified_0.05",
+      "before": {
+        "calls": 302563,
+        "process_peak_live_bytes": 3449559,
+        "reallocations": 1201,
+        "requested_bytes": 28010400
+      },
+      "after": {
+        "calls": 52062,
+        "process_peak_live_bytes": 3450215,
+        "reallocations": 883,
+        "requested_bytes": 6966528
+      },
+      "call_reduction_fraction": 0.8279300509315415
+    },
+    {
+      "id": "coaxial_35/axis_0/certified_0.01",
+      "configuration": "certified_0.01",
+      "before": {
+        "calls": 1184645,
+        "process_peak_live_bytes": 13482711,
+        "reallocations": 4901,
+        "requested_bytes": 107724528
+      },
+      "after": {
+        "calls": 190402,
+        "process_peak_live_bytes": 13483367,
+        "reallocations": 2871,
+        "requested_bytes": 27249152
+      },
+      "call_reduction_fraction": 0.8392750570846118
+    }
+  ],
+  "bindings": {
+    "docs/occupancy_precision/summarize_final_diagnostics.py": "a323509d1a252d6f114c830b5d807c19bbbb09efc48568a2fa0c7a615428b6ab",
+    ".stericx/occupancy_precision/final_call_context_v2/callgrind.out": "44217a6642b01423ff442d1d10d8eed0eae39dd4da914e9cdbac42ba7f11fa7e",
+    ".stericx/occupancy_precision/final_continuous_profile/callgrind.out": "f7472aea2cd6b0da40d342a91f03ff042a32d6dded48f514f4cff58ea80ee962",
+    ".stericx/occupancy_precision/final_valgrind_v2/cachegrind/cachegrind.out": "ff5153130bcd05301a7d739345365906dffb806e311d4daf49ad4fc26ca6757f",
+    ".stericx/occupancy_precision/final_call_context_v2/assembly.txt": "2333c3e0a0e7f6e37597b6b04a4c16cf4e8d8eb88fb24784373e5f6279972d80",
+    ".stericx/occupancy_precision/accuracy_memory/summary.json": "f6af66ec411932ff2b86ebdcc677b768da2b33e4d06707e8b13184fcf015a626",
+    ".stericx/occupancy_precision/accuracy_memory_v2/summary.json": "d9934e35b54180103941cf009bf95e8dcb52f13ba39ead5111dbf03cac08f659"
+  }
+}

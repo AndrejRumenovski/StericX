@@ -1,0 +1,32 @@
+{
+  "scientific_admission_complete": true,
+  "controlled_performance_complete": false,
+  "legacy_exact_rows": 128021,
+  "certificate_exact_rows": 695,
+  "rust_1_85_tests": 372,
+  "qemu_aarch64_tests": 369,
+  "competitive_point_decisions": 2588544,
+  "radius_point_decisions": 1664064,
+  "scope": "Scientific admission only. Final timing requires separate successful host gates and complete controlled measurements. Known legacy reference disagreements remain preserved. Final-v1 external replay transfers through the explicit source transition and fresh final-v2 exact replay.",
+  "bindings": {
+    ".stericx/occupancy_precision/final_source_transition.json": "f49b9762b8e24e9594c63d9430a963661dc36de4576d7de8877011ad3f13a264",
+    ".stericx/occupancy_precision/final_exact_v2/summary.json": "532ba89c7961d96c33f8c8d9582766a2818e570ce23ad6e86d7e2a27b20b7179",
+    ".stericx/occupancy_precision/final_science_review_v2/review.json": "aa23d7c2cab1a65a730215e8183151acc52ee746f0bed54a7b8d4ac84ed92bb4",
+    ".stericx/occupancy_precision/final_certified_exact/summary.json": "1da4421c191c88230bc25eef6918cb7786016e7865df5e706d95978b636f7ead",
+    ".stericx/occupancy_precision/final_predicates/summary.json": "5db6bb763b0979227e7b6a16c27505421b657318eb9552774f60412181e974a9",
+    ".stericx/occupancy_precision/final_engineering_v2/summary.json": "6a520be1369cd2949651189fa85d9fc8cb01730a1eabce0a11b69ce26c665fcd",
+    ".stericx/occupancy_precision/final_arm_v2/summary.json": "a934533c57b9d55e3713f259436f87a3e02dd352597fb458c7e130710ca2329b",
+    ".stericx/occupancy_precision/final_cli_preflight_v2/summary.json": "0a97cc8fa80a744333cdf2b8fa445086be7800d7abb1287f15fadd2ee3ac5679",
+    ".stericx/occupancy_precision/competitive_gate_v2/summary.json": "bdcd37d3dafbfa9363ed3a812a5179c6c9901b1e8e3eae64fc2202451b3949aa",
+    ".stericx/occupancy_precision/competitive_radius_gate_v2/summary.json": "bba795221afbd0f5450a8208db3c902480a97334c078292ecba2df6d78c9bb7b",
+    ".stericx/occupancy_precision/competitive_preflight_v2/summary.json": "32ddbe2746d0f40dd2f1088dea2f48a46f6b43ccc42907dedb8254104966ecd1",
+    ".stericx/occupancy_precision/competitive_warm_preflight_v2/summary.json": "94dcbc381f780e9362b6b0187f1dfd9b7e63615c38220ba4fc36e42d238597ba",
+    ".stericx/occupancy_precision/competitive_radius_preflight_v2/summary.json": "801cb9eba11cbee3dc77c91dccfb72de171fc0e91eca111c7b8d38def052363f",
+    ".stericx/occupancy_precision/competitive_memory_v2/summary.json": "a0daa4373bc6f440d255aafc819b5195ae6cf4449a7153cc5b37f2859202767d",
+    ".stericx/occupancy_precision/accuracy_preflight_v2/summary.json": "e88100e8ca0f3e61faf036fdc40fa67f8cbc1524210174d9e863ff8d0c34c7f1",
+    ".stericx/occupancy_precision/accuracy_memory_v2/summary.json": "d9934e35b54180103941cf009bf95e8dcb52f13ba39ead5111dbf03cac08f659",
+    ".stericx/occupancy_precision/final_valgrind_v2/journal.json": "cb627a4451105a50104572e2bf77b667b53429ddaa3f51231523d0a7c741a900",
+    ".stericx/occupancy_precision/final_legacy_continuous/summary.json": "5a99b0a21cc7dd63e8f6d5146d76b8a4f8053afede8fcf2e96b45fbe8aa90a1e"
+  },
+  "controller_sha256": "0bb334fe6147dea20ec08f0498c24dc15b9f71f870a7c603d997f8e0e295988a"
+}

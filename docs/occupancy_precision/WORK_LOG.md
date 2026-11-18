@@ -93,3 +93,25 @@
 - Native final-v1 suite plus the molecular convenience-wrapper witness passes
   371 tests. The complete independent legacy replay is still running against
   that frozen source; subsequent C3/C4 edits affect only the new explicit API.
+
+- Integrated C3/C4 exactly reproduces all 695 independently validated certificates,
+  including all 0.001 cases, with unchanged bounds, work counts and target flags.
+  Final rational predicate replay again passes all 6,000 cases.
+- Final production Rust/MSRV suites each pass 372 tests; QEMU AArch64 passes 369
+  applicable tests; Python binding/research suites pass 71/156. Cross checks pass.
+  External DBSTEP/archive checks are reused from their unchanged completed run,
+  explicitly identified in final_engineering_v2 rather than claimed rerun.
+- Complete independent legacy references show zero changed scientific values.
+  The old review controller initially required an old campaign's interrupted
+  rustdoc receipt. The new scientific-only review retains all comparison equations
+  and leaves engineering admission to this campaign's separate completed receipts.
+- Final-v2 occupancy exclusive modeled instructions stay at 62,986,231; total
+  78,320,019 includes small runtime differences. C3/C4 continuous modeled
+  instructions fall 20.42%. Allocation calls fall median 82.80% at 0.05 and
+  83.85% at 0.01; peak live memory rises slightly because scratch is retained.
+- Final competitive gates again pass 2,588,544 + 1,664,064 point decisions and
+  all thread-count preflights. Incidental preflight timing remains inadmissible.
+- Final-v2 observation launch first supplied a manifest where a directory was
+  required; the failed log is retained. An early comparison launched before the
+  observation manifest existed; its empty destination and log are retained.
+  Neither attempt produced scientific differences or altered inputs.

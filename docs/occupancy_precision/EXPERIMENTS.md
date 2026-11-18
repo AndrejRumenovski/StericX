@@ -143,3 +143,9 @@ with a median 1.076× over C3 (range 1.022–1.162). Both preserve all tested
 certificates and work counts. Complete raw pairs remain in `c3_ab` and `c4_ab`;
 final controlled gains and allocation reductions must be measured on the
 integrated implementation before final performance claims.
+
+
+Final integrated diagnostics confirm median allocation-call reductions of 82.80%
+(0.05) and 83.85% (0.01), while peak live memory changes only by retained scratch.
+`final_diagnostics.json` contains every comparison. Final-v2 review/setup failures
+are recorded in WORK_LOG.md and raw logs; no acceptance criterion was changed.

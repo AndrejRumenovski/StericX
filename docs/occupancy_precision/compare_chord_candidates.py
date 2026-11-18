@@ -2,13 +2,13 @@
 import argparse,json,os,statistics,subprocess
 from pathlib import Path
 from campaign import EVIDENCE,sha,save
-p=argparse.ArgumentParser(description=__doc__);p.add_argument('--baseline',type=Path,required=True);p.add_argument('--candidate',type=Path,required=True);p.add_argument('--output',required=True);p.add_argument('--pairs',type=int,default=8);a=p.parse_args()
+p=argparse.ArgumentParser(description=__doc__);p.add_argument('--baseline',type=Path,required=True);p.add_argument('--candidate',type=Path,required=True);p.add_argument('--output',required=True);p.add_argument('--pairs',type=int,default=8);p.add_argument('--scope',default='Exploratory API timing on CPU 4; legacy independent-reference processes are confined to CPUs 0/1. No whole-host quiet gate.');a=p.parse_args()
 out=EVIDENCE/a.output;out.mkdir(exist_ok=False)
 inputs=json.loads((EVIDENCE/'molecular_chord_requests.json').read_text());requests=[]
 for t in [.05,.01]:
     for q in inputs:requests.append({**q,'id':q['id']+f'/target_{t}','tolerance':t,'budget':1048575})
 save(out/'requests.json',requests)
-receipt={'scope':'Exploratory API timing on CPU 4; legacy independent-reference processes are confined to CPUs 0/1. No whole-host quiet gate. One warmup process per candidate followed by eight alternating pairs. Exact certificate/cell/evaluation equality required.','bindings':{str(p):sha(p) for p in [a.baseline,a.candidate,Path(__file__),out/'requests.json']},'cpu_before':Path('/proc/stat').read_text(),'runs':[],'complete':False}
+receipt={'scope':a.scope+' One warmup process per candidate followed by eight alternating pairs. Exact certificate/cell/evaluation equality required.','bindings':{str(p):sha(p) for p in [a.baseline,a.candidate,Path(__file__),out/'requests.json']},'cpu_before':Path('/proc/stat').read_text(),'runs':[],'complete':False}
 expected={};env=dict(os.environ,RAYON_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1')
 for rep in range(-1,a.pairs):
     for label,engine in ([('baseline',a.baseline),('candidate',a.candidate)] if rep%2==0 else [('candidate',a.candidate),('baseline',a.baseline)]):

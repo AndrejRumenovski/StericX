@@ -2,10 +2,10 @@
 import argparse,os,shutil,subprocess
 from pathlib import Path
 from campaign import EVIDENCE,DOCS,sha,save
-p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',required=True);a=p.parse_args()
-base=EVIDENCE/'final_profile';out=EVIDENCE/a.output;out.mkdir(exist_ok=False)
+p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',required=True);p.add_argument('--build',default='final_profile');a=p.parse_args()
+base=EVIDENCE/a.build;out=EVIDENCE/a.output;out.mkdir(exist_ok=False)
 shutil.copytree(base/'observer',out/'observer');observer=out/'observer';shutil.copy2(DOCS/'precision_benchmark.rs',observer/'src/bin/precision.rs')
-env=dict(os.environ,CARGO_TARGET_DIR='/tmp/stericx-occupancy-precision-target/final_profile',CARGO_BUILD_JOBS='2');env.pop('RUSTFLAGS',None)
+env=dict(os.environ,CARGO_TARGET_DIR='/tmp/stericx-occupancy-precision-target/'+a.build,CARGO_BUILD_JOBS='2');env.pop('RUSTFLAGS',None)
 receipt={'final_source_receipt_sha256':sha(base/'build.json'),'observer_sha256':sha(observer/'src/bin/precision.rs'),'commands':[],'binaries':{}}
 for name,features in [('precision',[]),('precision_alloc',['--features','profiling'])]:
     cmd=['cargo','build','--locked','--offline','--release','--manifest-path',str(observer/'Cargo.toml'),'--bin','precision',*features]

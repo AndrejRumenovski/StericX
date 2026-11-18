@@ -1,16 +1,17 @@
 """Prospective common-grid admission of a fixed twelve-conformer radius profile."""
-import gzip,importlib.util,json,os,subprocess,sys
+import argparse,gzip,importlib.util,json,os,subprocess,sys
 from fractions import Fraction as Q
 from pathlib import Path
 for key in ['OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS']:os.environ[key]='1'
 import numpy as np
 from campaign import ROOT,EVIDENCE,sha,save
 import radius_worker as worker
-out=EVIDENCE/'competitive_radius_gate';out.mkdir(exist_ok=False)
+p=argparse.ArgumentParser(description=__doc__);p.add_argument('--build',default='competitive_radius_build');p.add_argument('--output',default='competitive_radius_gate');a=p.parse_args()
+out=EVIDENCE/a.output;out.mkdir(exist_ok=False)
 reference_source=ROOT/'docs/benchmarks/morfeus_current/revision_policy/reference.py'
 catalog=ROOT/'docs/benchmarks/morfeus_current/input_manifest.json';corpus=json.loads(catalog.read_text())['corpus']
 selection=list(range(0,48,4));paths=[catalog.parent/corpus[i]['filename'] for i in selection]
-native=EVIDENCE/'competitive_radius_build/radius_workflow'
+native=EVIDENCE/a.build/'radius_workflow'
 receipt={'complete':False,'passed':False,'selection':selection,'radii':worker.RADII,'density':'0.01*(R/3.5)^3; grid side count 32 at every radius','scope':'Matched finite-grid radius profile; distinct from a constant-density profile. DBSTEP occupancy kernel receives common points, not its default grid. Twelve prospectively selected conformers; do not generalize to all radii.','bindings':{str(p):sha(p) for p in [Path(__file__),Path(worker.__file__),reference_source,catalog,native,*paths]},'rows':[],'failures':[]}
 save(out/'summary.json',receipt)
 refs={}

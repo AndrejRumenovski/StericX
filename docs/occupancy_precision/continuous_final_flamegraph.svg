@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="540" viewBox="0 0 1400 540">
+<rect width="100%" height="100%" fill="#faf9f6"/>
+<text x="20" y="25" font-family="sans-serif" font-size="18">StericX: Callgrind instruction flamegraph</text>
+<text x="20" y="48" font-family="sans-serif" font-size="12">646,710,617 modeled instructions; caller contexts limited to 40 frames; widths are not CPU time. Hover for counts.</text>
+<g><title>all instructions: 646,710,617 instructions (100.000%)</title><rect x="20.000" y="515" width="1360.000" height="18" fill="rgb(245,191,108)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.000" y="528" font-family="monospace" font-size="10">all instructions</text>
+</g>
+<g><title>0x00000000000232c0: 646,710,617 instructions (100.000%)</title><rect x="20.000" y="495" width="1360.000" height="18" fill="rgb(245,166,93)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.000" y="508" font-family="monospace" font-size="10">0x00000000000232c0</text>
+</g>
+<g><title>(below main): 646,489,961 instructions (99.966%)</title><rect x="20.000" y="475" width="1359.536" height="18" fill="rgb(245,119,65)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.000" y="488" font-family="monospace" font-size="10">(below main)</text>
+</g>
+<g><title>__libc_start_main@@GLIBC_2.34: 646,489,949 instructions (99.966%)</title><rect x="20.000" y="455" width="1359.536" height="18" fill="rgb(245,126,69)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.000" y="468" font-family="monospace" font-size="10">__libc_start_main@@GLIBC_2.34</text>
+</g>
+<g><title>(below main): 646,489,768 instructions (99.966%)</title><rect x="20.000" y="435" width="1359.536" height="18" fill="rgb(245,119,65)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.000" y="448" font-family="monospace" font-size="10">(below main)</text>
+</g>
+<g><title>main: 646,487,980 instructions (99.966%)</title><rect x="20.004" y="415" width="1359.532" height="18" fill="rgb(245,114,62)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.004" y="428" font-family="monospace" font-size="10">main</text>
+</g>
+<g><title>std::rt::lang_start_internal: 646,487,968 instructions (99.966%)</title><rect x="20.004" y="395" width="1359.532" height="18" fill="rgb(245,178,101)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.004" y="408" font-family="monospace" font-size="10">std::rt::lang_start_internal</text>
+</g>
+<g><title>pthread_getattr_np@@GLIBC_2.32: 94,112 instructions (0.015%)</title><rect x="20.005" y="375" width="0.198" height="18" fill="rgb(245,195,111)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>__isoc23_sscanf: 81,907 instructions (0.013%)</title><rect x="20.007" y="355" width="0.172" height="18" fill="rgb(245,180,102)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>__vfscanf_internal: 73,484 instructions (0.011%)</title><rect x="20.020" y="335" width="0.155" height="18" fill="rgb(245,191,108)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>std::rt::lang_start::&lt;core::result::Result&lt;(), alloc::boxed::Box&lt;dyn core::error::Error&gt;&gt;&gt;::{closure#0}: 646,391,644 instructions (99.951%)</title><rect x="20.204" y="375" width="1359.329" height="18" fill="rgb(245,123,68)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.204" y="388" font-family="monospace" font-size="10">std::rt::lang_start::&lt;core::result::Result&lt;(), alloc::boxed::Box&lt;dyn core::error::Error&gt;&gt;&gt;::{closure#0}</text>
+</g>
+<g><title>std::sys::backtrace::__rust_begin_short_backtrace::&lt;fn() -&gt; core::result::Result&lt;(), alloc::boxed::Box&lt;dyn core::error::Error&gt;&gt;, core::result::Result&lt;(), alloc::boxed::Box&lt;dyn core::error::Error&gt;&gt;&gt;: 646,391,630 instructions (99.951%)</title><rect x="20.204" y="355" width="1359.329" height="18" fill="rgb(245,120,66)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.204" y="368" font-family="monospace" font-size="10">std::sys::backtrace::__rust_begin_short_backtrace::&lt;fn() -&gt; core::result::Result&lt;(), alloc::boxed::Box&lt;dyn core::error::Error&gt;&gt;, core::result::Result&lt;(), alloc::boxed::Box&lt;dyn core::error::Error&gt;&gt;&gt;</text>
+</g>
+<g><title>precision::main: 646,391,626 instructions (99.951%)</title><rect x="20.204" y="335" width="1359.329" height="18" fill="rgb(245,153,85)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.204" y="348" font-family="monospace" font-size="10">precision::main</text>
+</g>
+<g><title>&lt;serde_json::de::SeqAccess&lt;serde_json::read::StrRead&gt; as serde_core::de::SeqAccess&gt;::next_element::&lt;serde_json::value::Value&gt;: 72,083 instructions (0.011%)</title><rect x="20.224" y="315" width="0.152" height="18" fill="rgb(245,194,110)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>precision::main::{closure#0}: 646,205,911 instructions (99.922%)</title><rect x="20.489" y="315" width="1358.939" height="18" fill="rgb(245,131,73)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.489" y="328" font-family="monospace" font-size="10">precision::main::{closure#0}</text>
+</g>
+<g><title>steric_x::geometry::continuous_volume::certified::sphere_union_volume_certified: 646,205,356 instructions (99.922%)</title><rect x="20.489" y="295" width="1358.937" height="18" fill="rgb(245,164,92)" stroke="#fff" stroke-width="0.3"/>
+<text x="23.489" y="308" font-family="monospace" font-size="10">steric_x::geometry::continuous_volume::certified::sphere_union_volume_certified</text>
+</g>
+<g><title>&lt;alloc::collections::binary_heap::BinaryHeap&lt;steric_x::geometry::continuous_volume::certified::ChordCell&gt;&gt;::push: 13,845,824 instructions (2.141%)</title><rect x="20.489" y="275" width="29.117" height="18" fill="rgb(245,116,64)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>&lt;alloc::raw_vec::RawVec&lt;steric_x::geometry::continuous_volume::certified::ChordCell&gt;&gt;::grow_one: 220,842 instructions (0.034%)</title><rect x="20.489" y="255" width="0.464" height="18" fill="rgb(245,150,84)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>&lt;alloc::raw_vec::RawVecInner&gt;::finish_grow: 220,458 instructions (0.034%)</title><rect x="20.489" y="235" width="0.464" height="18" fill="rgb(245,142,79)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>realloc: 219,723 instructions (0.034%)</title><rect x="20.489" y="215" width="0.462" height="18" fill="rgb(245,164,92)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_realloc: 218,268 instructions (0.034%)</title><rect x="20.489" y="195" width="0.459" height="18" fill="rgb(245,117,64)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>0x000000000494a6a0: 215,682 instructions (0.033%)</title><rect x="20.489" y="175" width="0.454" height="18" fill="rgb(245,130,72)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>__memcpy_avx_unaligned_erms: 215,668 instructions (0.033%)</title><rect x="20.489" y="155" width="0.454" height="18" fill="rgb(245,111,61)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>core::ptr::drop_glue::&lt;alloc::collections::binary_heap::BinaryHeap&lt;steric_x::geometry::continuous_volume::certified::ChordCell&gt;&gt;: 12,599,229 instructions (1.948%)</title><rect x="49.610" y="275" width="26.496" height="18" fill="rgb(245,119,65)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>free: 12,059,847 instructions (1.865%)</title><rect x="49.610" y="255" width="25.361" height="18" fill="rgb(245,167,94)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_free_chunk: 9,632,752 instructions (1.489%)</title><rect x="49.610" y="235" width="20.257" height="18" fill="rgb(245,187,106)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_free_merge_chunk: 8,486,801 instructions (1.312%)</title><rect x="49.610" y="215" width="17.847" height="18" fill="rgb(245,132,73)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_free_maybe_trim: 1,623,749 instructions (0.251%)</title><rect x="49.610" y="195" width="3.415" height="18" fill="rgb(245,156,88)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>unlink_chunk.isra.0: 1,374,275 instructions (0.213%)</title><rect x="53.025" y="195" width="2.890" height="18" fill="rgb(245,119,65)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>free: 3,371,749 instructions (0.521%)</title><rect x="76.110" y="275" width="7.091" height="18" fill="rgb(245,167,94)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_free_chunk: 1,008,379 instructions (0.156%)</title><rect x="76.110" y="255" width="2.121" height="18" fill="rgb(245,187,106)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_free_merge_chunk: 867,330 instructions (0.134%)</title><rect x="76.110" y="235" width="1.824" height="18" fill="rgb(245,132,73)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_free_maybe_trim: 199,138 instructions (0.031%)</title><rect x="76.110" y="215" width="0.419" height="18" fill="rgb(245,156,88)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>steric_x::geometry::continuous_volume::certified::chord_cell: 539,041,033 instructions (83.351%)</title><rect x="83.201" y="275" width="1133.576" height="18" fill="rgb(245,136,75)" stroke="#fff" stroke-width="0.3"/>
+<text x="86.201" y="288" font-family="monospace" font-size="10">steric_x::geometry::continuous_volume::certified::chord_cell</text>
+</g>
+<g><title>&lt;alloc::raw_vec::RawVec&lt;usize&gt;&gt;::grow_one: 29,463,734 instructions (4.556%)</title><rect x="83.203" y="255" width="61.961" height="18" fill="rgb(245,178,101)" stroke="#fff" stroke-width="0.3"/>
+<text x="86.203" y="268" font-family="monospace" font-size="10">&lt;alloc:</text>
+</g>
+<g><title>&lt;alloc::raw_vec::RawVecInner&gt;::grow_amortized: 28,399,006 instructions (4.391%)</title><rect x="83.203" y="235" width="59.722" height="18" fill="rgb(245,190,108)" stroke="#fff" stroke-width="0.3"/>
+<text x="86.203" y="248" font-family="monospace" font-size="10">&lt;alloc:</text>
+</g>
+<g><title>&lt;alloc::raw_vec::RawVecInner&gt;::finish_grow: 24,292,198 instructions (3.756%)</title><rect x="83.203" y="215" width="51.085" height="18" fill="rgb(245,142,79)" stroke="#fff" stroke-width="0.3"/>
+<text x="86.203" y="228" font-family="monospace" font-size="10">&lt;allo</text>
+</g>
+<g><title>malloc: 14,802,480 instructions (2.289%)</title><rect x="83.203" y="195" width="31.129" height="18" fill="rgb(245,185,105)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>__libc_malloc2: 11,260,102 instructions (1.741%)</title><rect x="83.203" y="175" width="23.679" height="18" fill="rgb(245,157,88)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_malloc: 9,517,875 instructions (1.472%)</title><rect x="83.203" y="155" width="20.016" height="18" fill="rgb(245,180,102)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>unlink_chunk.isra.0: 176,445 instructions (0.027%)</title><rect x="83.244" y="135" width="0.371" height="18" fill="rgb(245,119,65)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>realloc: 5,064,877 instructions (0.783%)</title><rect x="114.332" y="195" width="10.651" height="18" fill="rgb(245,164,92)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_realloc: 4,055,652 instructions (0.627%)</title><rect x="114.332" y="175" width="8.529" height="18" fill="rgb(245,117,64)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>0x000000000494a6a0: 171,484 instructions (0.027%)</title><rect x="114.332" y="155" width="0.361" height="18" fill="rgb(245,130,72)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>__memcpy_avx_unaligned_erms: 146,992 instructions (0.023%)</title><rect x="114.332" y="135" width="0.309" height="18" fill="rgb(245,111,61)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_free_chunk: 1,455,595 instructions (0.225%)</title><rect x="114.692" y="155" width="3.061" height="18" fill="rgb(245,187,106)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_free_merge_chunk: 1,245,271 instructions (0.193%)</title><rect x="114.692" y="135" width="2.619" height="18" fill="rgb(245,132,73)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_free_maybe_trim: 297,228 instructions (0.046%)</title><rect x="114.692" y="115" width="0.625" height="18" fill="rgb(245,156,88)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_int_malloc: 1,506,175 instructions (0.233%)</title><rect x="117.754" y="155" width="3.167" height="18" fill="rgb(245,180,102)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>&lt;steric_x::geometry::continuous_volume::Interval as steric_x::geometry::continuous_volume::certified::PositiveChordArithmetic&gt;::chord_div_positive: 8,928,972 instructions (1.381%)</title><rect x="145.166" y="255" width="18.777" height="18" fill="rgb(245,125,69)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>&lt;steric_x::geometry::continuous_volume::Interval&gt;::mul: 6,145,652 instructions (0.950%)</title><rect x="163.943" y="255" width="12.924" height="18" fill="rgb(245,115,63)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>core::slice::sort::shared::smallsort::insertion_sort_shift_left::&lt;usize, &lt;[usize]&gt;::sort_unstable_by&lt;steric_x::geometry::continuous_volume::certified::chord_smooth::{closure#1}&gt;::{closure#0}&gt;: 6,187,403 instructions (0.957%)</title><rect x="176.867" y="255" width="13.012" height="18" fill="rgb(245,180,102)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>steric_x::geometry::continuous_volume::certified::chord_endpoint_value: 33,224,220 instructions (5.137%)</title><rect x="189.879" y="255" width="69.869" height="18" fill="rgb(245,148,82)" stroke="#fff" stroke-width="0.3"/>
+<text x="192.879" y="268" font-family="monospace" font-size="10">steric_x</text>
+</g>
+<g><title>steric_x::geometry::continuous_volume::certified::chord_length: 50,580,188 instructions (7.821%)</title><rect x="259.748" y="255" width="106.368" height="18" fill="rgb(245,147,82)" stroke="#fff" stroke-width="0.3"/>
+<text x="262.748" y="268" font-family="monospace" font-size="10">steric_x::geom</text>
+</g>
+<g><title>core::slice::sort::shared::smallsort::insertion_sort_shift_left::&lt;(f64, f64), &lt;[(f64, f64)]&gt;::sort_unstable_by&lt;steric_x::geometry::continuous_volume::certified::chord_length::{closure#1}&gt;::{closure#0}&gt;: 20,096,207 instructions (3.107%)</title><rect x="259.748" y="235" width="42.261" height="18" fill="rgb(245,111,61)" stroke="#fff" stroke-width="0.3"/>
+<text x="262.748" y="248" font-family="monospace" font-size="10">core</text>
+</g>
+<g><title>steric_x::geometry::continuous_volume::certified::chord_q: 25,733,593 instructions (3.979%)</title><rect x="366.115" y="255" width="54.116" height="18" fill="rgb(245,154,86)" stroke="#fff" stroke-width="0.3"/>
+<text x="369.115" y="268" font-family="monospace" font-size="10">steric</text>
+</g>
+<g><title>steric_x::geometry::continuous_volume::certified::chord_span: 184,030,161 instructions (28.456%)</title><rect x="420.232" y="255" width="387.006" height="18" fill="rgb(245,173,98)" stroke="#fff" stroke-width="0.3"/>
+<text x="423.232" y="268" font-family="monospace" font-size="10">steric_x::geometry::continuous_volume::certified::chord_sp</text>
+</g>
+<g><title>steric_x::geometry::continuous_volume::certified::chord_q: 123,452,128 instructions (19.089%)</title><rect x="420.232" y="235" width="259.614" height="18" fill="rgb(245,154,86)" stroke="#fff" stroke-width="0.3"/>
+<text x="423.232" y="248" font-family="monospace" font-size="10">steric_x::geometry::continuous_volume:</text>
+</g>
+<g><title>_dl_start: 219,700 instructions (0.034%)</title><rect x="1379.538" y="475" width="0.462" height="18" fill="rgb(245,134,74)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_dl_sysdep_start: 219,080 instructions (0.034%)</title><rect x="1379.538" y="455" width="0.461" height="18" fill="rgb(245,159,89)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>dl_main: 186,773 instructions (0.029%)</title><rect x="1379.606" y="435" width="0.393" height="18" fill="rgb(245,189,107)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_dl_relocate_object: 146,345 instructions (0.023%)</title><rect x="1379.677" y="415" width="0.308" height="18" fill="rgb(245,164,92)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_dl_relocate_object_no_relro: 146,189 instructions (0.023%)</title><rect x="1379.677" y="395" width="0.307" height="18" fill="rgb(245,185,105)" stroke="#fff" stroke-width="0.3"/>
+</g>
+<g><title>_dl_lookup_symbol_x: 100,108 instructions (0.015%)</title><rect x="1379.678" y="375" width="0.211" height="18" fill="rgb(245,121,66)" stroke="#fff" stroke-width="0.3"/>
+</g>
+</svg>

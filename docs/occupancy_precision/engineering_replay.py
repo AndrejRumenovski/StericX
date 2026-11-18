@@ -2,7 +2,7 @@
 import argparse,importlib,json,os,subprocess,sys,time,zipfile
 from pathlib import Path
 from campaign import ROOT,EVIDENCE,sha,save
-p=argparse.ArgumentParser(description=__doc__);p.add_argument('--build',required=True);p.add_argument('--output',required=True);a=p.parse_args()
+p=argparse.ArgumentParser(description=__doc__);p.add_argument('--build',required=True);p.add_argument('--output',required=True);p.add_argument('--reuse-external',help='Completed receipt for unchanged external DBSTEP/archive checks');a=p.parse_args()
 build=EVIDENCE/a.build;source=build/'source';out=EVIDENCE/a.output;out.mkdir(exist_ok=False)
 env=dict(os.environ,CARGO_BUILD_JOBS='2',RAYON_NUM_THREADS='2',OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1',RUSTDOCFLAGS='-D warnings',LC_ALL='C');env.pop('RUSTFLAGS',None)
 receipt={'controller_sha256':sha(Path(__file__)),'source_build_sha256':sha(build/'build.json'),'runs':[],'complete':False}
@@ -23,7 +23,11 @@ if run('wheel',[python.parent/'maturin','build','--locked','--offline','--releas
     receipt['wheel_sha256']=sha(wheel);save(out/'summary.json',receipt)
     run('python_binding',[python,'-m','pytest','-q',source/'python/tests'],{'PYTHONPATH':str(out/'installed')})
 run('python_research',[ROOT/'.venv/bin/python','-c',"import sys,unittest;sys.path.append('.stericx/paton/reference/venv/lib/python3.12/site-packages');r=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.discover('tests',pattern='test_*.py'));sys.exit(0 if r.wasSuccessful() and not r.skipped else 1)"])
-run('dbstep_upstream',[ROOT/'.stericx/paton/reference/venv/bin/python','-m','pytest','-q','tests'],cwd=ROOT/'.stericx/paton/reference/DBSTEP')
-run('archived_morfeus',[ROOT/'.venv/bin/python','docs/benchmarks/morfeus_current/verify.py'])
+if a.reuse_external:
+    old=EVIDENCE/a.reuse_external;prior=json.loads(old.read_text());assert prior['complete'] and prior['all_commands_succeeded']
+    receipt['reused_external']={'receipt':str(old),'sha256':sha(old),'scope':'DBSTEP upstream/archive checks only; external packages and archived evidence are unchanged. Project tests above are freshly rerun.'}
+else:
+    run('dbstep_upstream',[ROOT/'.stericx/paton/reference/venv/bin/python','-m','pytest','-q','tests'],cwd=ROOT/'.stericx/paton/reference/DBSTEP')
+    run('archived_morfeus',[ROOT/'.venv/bin/python','docs/benchmarks/morfeus_current/verify.py'])
 receipt['complete']=True;receipt['all_commands_succeeded']=all(r['returncode']==0 for r in receipt['runs']);save(out/'summary.json',receipt)
 if not receipt['all_commands_succeeded']:raise SystemExit(1)

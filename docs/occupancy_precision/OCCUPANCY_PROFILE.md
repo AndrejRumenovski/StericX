@@ -2,8 +2,8 @@
 
 Baseline source: `ffc698f4`; fresh builds and input identities are in
 `baseline_manifest.json` and `.stericx/occupancy_precision/baseline/build.json`.
-This report is being completed as measurements finish. Native timing/scaling
-tables remain pending; the instruction results below are fresh measurements.
+Native timing/scaling tables remain pending; instruction and simulator results
+below are fresh measurements, with a final-source supplement at the end.
 
 ## Instruction and assembly findings
 
@@ -119,3 +119,26 @@ simulation files. Raw Callgrind, Cachegrind, DHAT and Memcheck outputs are in
 495,808 buffer bytes versus 393,216 point-buffer bytes previously (26.09% more).
 Multiple retained keys can use up to 8 MiB per thread, plus fixed cache/Rc
 bookkeeping; this cap is not a whole-process memory bound.
+
+
+## Final production source reprofile
+
+The final-v2 binary records 78,320,019 modeled instructions. Occupancy's exclusive
+62,986,231 is identical to final-v1; small process/runtime instruction differences
+remain recorded rather than forcing total equality. Final Cachegrind events are
+78,334,599 instructions, 18,652,911 data references, 227,660 L1 data misses,
+11,071 last-level data misses, 8,503,332 branches and 673,032 mispredictions.
+There is still no occupancy FMA. The exact final source and assembly are bound in
+[final_diagnostics.json](final_diagnostics.json), and its full context figure is
+[final_v2_flamegraph.svg](final_v2_flamegraph.svg). Prior final-v1 evidence remains.
+
+For one asymmetric-phosphine 0.05 Å³ integration, modeled instructions fall from
+812,610,878 before C3/C4 to 646,710,617 after them (20.42% fewer). The final
+[continuous flamegraph](continuous_final_flamegraph.svg) still attributes most
+instructions to cell bounds, chord predicates and adaptive traversal. Inlining
+moves specialized arithmetic into chord_cell; increased function-local counts
+must not be mistaken for an overall regression. Allocation calls fall by median
+82.80% at 0.05 and 83.85% at 0.01 on the original twelve molecules. Maximum live
+bytes at 0.01 rise slightly from 29,371,032 to 29,372,128: retained scratch does
+not reduce the dominant adaptive heap. These diagnostics imply no native speed
+ratio. Full allocator rows, including unfavourable changes, are retained.

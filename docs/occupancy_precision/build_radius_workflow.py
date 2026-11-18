@@ -1,9 +1,10 @@
 """Freeze a separate three-radius common-lattice admission experiment."""
-import os,shutil,subprocess
+import argparse,os,shutil,subprocess
 from pathlib import Path
 from campaign import ROOT,EVIDENCE,DOCS,sha,save
-out=EVIDENCE/'competitive_radius_build';out.mkdir(exist_ok=False);adapter=out/'adapter'
-shutil.copytree(EVIDENCE/'competitive_build/adapter',adapter,ignore=shutil.ignore_patterns('target'))
+p=argparse.ArgumentParser(description=__doc__);p.add_argument('--build',default='competitive_build');p.add_argument('--output',default='competitive_radius_build');a=p.parse_args()
+out=EVIDENCE/a.output;out.mkdir(exist_ok=False);adapter=out/'adapter'
+shutil.copytree(EVIDENCE/a.build/'adapter',adapter,ignore=shutil.ignore_patterns('target'))
 source=adapter/'policy_copied_volume.rs';s=source.read_text();needle='((f64::from(x)+3.5)*31.0/7.0)';assert s.count(needle)==1;s=s.replace(needle,'((f64::from(x)+f64::from(cfg.sphere_radius))*31.0/(2.0*f64::from(cfg.sphere_radius)))');source.write_text(s)
 shutil.copy2(DOCS/'radius_workflow.rs',adapter/'src/bin/radius_workflow.rs')
 env=dict(os.environ,CARGO_TARGET_DIR='/tmp/stericx-occupancy-precision-target/competitive',CARGO_BUILD_JOBS='2');env.pop('RUSTFLAGS',None)

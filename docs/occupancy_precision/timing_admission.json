@@ -116,5 +116,241 @@
   },
   "bindings": {
     ".stericx/occupancy_precision/final_window_1/receipt.json": "6a3e42762a5884f5ce5f071ede390a5a9ea31a4e14732fdaf051f13128b2a91c"
+  },
+  "rechecks": [
+    {
+      "turn": 2,
+      "host_preflight": {
+        "interval_seconds": 10.01266214700081,
+        "busy_core_equivalents": 0.49337528096658356,
+        "io_wait_core_equivalents": 0.008988618479148282,
+        "processes": [
+          {
+            "pid": 2774,
+            "name": "gnome-shell",
+            "core_equivalents": 0.286637055946173
+          },
+          {
+            "pid": 6817,
+            "name": "warp-terminal",
+            "core_equivalents": 0.1428191602798005
+          },
+          {
+            "pid": 8936,
+            "name": "codex",
+            "core_equivalents": 0.043944357009169384
+          },
+          {
+            "pid": 4106,
+            "name": "Xwayland",
+            "core_equivalents": 0.011984824638864376
+          },
+          {
+            "pid": 825,
+            "name": "nvidia-modeset/kthread_q",
+            "core_equivalents": 0.00699114770600422
+          },
+          {
+            "pid": 44688,
+            "name": "codex",
+            "core_equivalents": 0.00699114770600422
+          },
+          {
+            "pid": 2827,
+            "name": "nvidia-drm/timeline-6",
+            "core_equivalents": 0.001997470773144063
+          },
+          {
+            "pid": 37652,
+            "name": "brave",
+            "core_equivalents": 0.001997470773144063
+          },
+          {
+            "pid": 36,
+            "name": "migration/3",
+            "core_equivalents": 0.0009987353865720315
+          },
+          {
+            "pid": 530,
+            "name": "systemd-oomd",
+            "core_equivalents": 0.0009987353865720315
+          },
+          {
+            "pid": 596,
+            "name": "systemd-resolve",
+            "core_equivalents": 0.0009987353865720315
+          },
+          {
+            "pid": 1661,
+            "name": "dbus-daemon",
+            "core_equivalents": 0.0009987353865720315
+          },
+          {
+            "pid": 2408,
+            "name": "dbus-daemon",
+            "core_equivalents": 0.0009987353865720315
+          },
+          {
+            "pid": 3243,
+            "name": "xdg-desktop-por",
+            "core_equivalents": 0.0009987353865720315
+          },
+          {
+            "pid": 7095,
+            "name": "nvidia-drm/timeline-27",
+            "core_equivalents": 0.0009987353865720315
+          },
+          {
+            "pid": 37515,
+            "name": "nautilus",
+            "core_equivalents": 0.0009987353865720315
+          },
+          {
+            "pid": 38397,
+            "name": "gnome-text-edit",
+            "core_equivalents": 0.0009987353865720315
+          },
+          {
+            "pid": 56169,
+            "name": "kworker/u48:2-events_unbound",
+            "core_equivalents": 0.0009987353865720315
+          },
+          {
+            "pid": 121041,
+            "name": "python",
+            "core_equivalents": 0.0009987353865720315
+          }
+        ],
+        "pressure_cpu": "some avg10=0.00 avg60=0.21 avg300=2.90 total=357323139\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "pressure_io": "some avg10=0.02 avg60=0.43 avg300=4.84 total=407703092\nfull avg10=0.02 avg60=0.40 avg300=4.36 total=386222260\n",
+        "criteria": "At most 0.15 busy CPU cores and 0.05 cores of I/O wait averaged over this interval. Conservative local campaign gate, not a hardware universal.",
+        "quiet": false
+      },
+      "path": ".stericx/occupancy_precision/final_host_recheck_2.json",
+      "sha256": "117bb243da91411314711b61ae6168b5a1786f73f5f63557a983f3f8e1682f3c"
+    },
+    {
+      "turn": 3,
+      "host_preflight": {
+        "interval_seconds": 10.012229072999617,
+        "busy_core_equivalents": 0.551325779679373,
+        "io_wait_core_equivalents": 0.004993892931878379,
+        "processes": [
+          {
+            "pid": 2774,
+            "name": "gnome-shell",
+            "core_equivalents": 0.28565067570344327
+          },
+          {
+            "pid": 6817,
+            "name": "warp-terminal",
+            "core_equivalents": 0.1438241164380973
+          },
+          {
+            "pid": 8936,
+            "name": "codex",
+            "core_equivalents": 0.043946257800529735
+          },
+          {
+            "pid": 4106,
+            "name": "Xwayland",
+            "core_equivalents": 0.010986564450132434
+          },
+          {
+            "pid": 44688,
+            "name": "codex",
+            "core_equivalents": 0.010986564450132434
+          },
+          {
+            "pid": 825,
+            "name": "nvidia-modeset/kthread_q",
+            "core_equivalents": 0.006991450104629731
+          },
+          {
+            "pid": 2827,
+            "name": "nvidia-drm/timeline-6",
+            "core_equivalents": 0.0019975571727513515
+          },
+          {
+            "pid": 37612,
+            "name": "brave",
+            "core_equivalents": 0.0019975571727513515
+          },
+          {
+            "pid": 37652,
+            "name": "brave",
+            "core_equivalents": 0.0019975571727513515
+          },
+          {
+            "pid": 121075,
+            "name": "python",
+            "core_equivalents": 0.0019975571727513515
+          },
+          {
+            "pid": 60,
+            "name": "migration/7",
+            "core_equivalents": 0.0009987785863756757
+          },
+          {
+            "pid": 2408,
+            "name": "dbus-daemon",
+            "core_equivalents": 0.0009987785863756757
+          },
+          {
+            "pid": 3243,
+            "name": "xdg-desktop-por",
+            "core_equivalents": 0.0009987785863756757
+          },
+          {
+            "pid": 4118,
+            "name": "mutter-x11-fram",
+            "core_equivalents": 0.0009987785863756757
+          },
+          {
+            "pid": 7095,
+            "name": "nvidia-drm/timeline-27",
+            "core_equivalents": 0.0009987785863756757
+          },
+          {
+            "pid": 30590,
+            "name": "kworker/9:0-events",
+            "core_equivalents": 0.0009987785863756757
+          },
+          {
+            "pid": 37515,
+            "name": "nautilus",
+            "core_equivalents": 0.0009987785863756757
+          },
+          {
+            "pid": 37687,
+            "name": "brave",
+            "core_equivalents": 0.0009987785863756757
+          },
+          {
+            "pid": 38397,
+            "name": "gnome-text-edit",
+            "core_equivalents": 0.0009987785863756757
+          },
+          {
+            "pid": 56169,
+            "name": "kworker/u48:2-events_unbound",
+            "core_equivalents": 0.0009987785863756757
+          }
+        ],
+        "pressure_cpu": "some avg10=0.00 avg60=0.13 avg300=2.63 total=357386851\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+        "pressure_io": "some avg10=0.00 avg60=0.26 avg300=4.39 total=407724517\nfull avg10=0.00 avg60=0.25 avg300=3.96 total=386242929\n",
+        "criteria": "At most 0.15 busy CPU cores and 0.05 cores of I/O wait averaged over this interval. Conservative local campaign gate, not a hardware universal.",
+        "quiet": false
+      },
+      "path": ".stericx/occupancy_precision/final_host_recheck_3.json",
+      "sha256": "2b89452c785c3223528050940fb255f98ff463396df2e96a896d515d921cb992"
+    }
+  ],
+  "blocked_audit": {
+    "consecutive_goal_turns": 3,
+    "remaining_work": "Final controlled CLI/kernel/certified/competitive timing, accuracy-cost Pareto figures and final performance report tables.",
+    "reason": "The fixed quiet-host gate failed on three consecutive goal turns; the requested quiet-machine confirmation remains unanswered. All independent non-timing work is complete.",
+    "resume_command": ".venv/bin/python docs/occupancy_precision/performance_window.py --output final_window_2",
+    "scientific_thresholds_changed": false
   }
 }

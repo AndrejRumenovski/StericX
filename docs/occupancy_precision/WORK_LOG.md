@@ -122,3 +122,8 @@
   the frozen 0.15 gate (I/O wait 0.023 <= 0.05). Main background activity is
   GNOME Shell/Warp. Requested quiet-window confirmation under user Phase 12;
   no unrelated process was stopped and no performance completion is claimed.
+
+- Two automatic continuations revalidated the same quiet-window blocker: 0.493
+  and 0.551 busy cores, both above 0.15. No timed trial started. After three
+  consecutive blocked turns, the goal is blocked pending the requested idle-machine
+  confirmation. All source, evidence and final measurement controllers are preserved.

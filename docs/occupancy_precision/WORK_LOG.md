@@ -127,3 +127,41 @@
   and 0.551 busy cores, both above 0.15. No timed trial started. After three
   consecutive blocked turns, the goal is blocked pending the requested idle-machine
   confirmation. All source, evidence and final measurement controllers are preserved.
+
+
+- User resumed 2026-11-18, confirmed an idle machine, explicitly permitted
+  temporary Warp suspension and requested completion afterward. The machine had
+  rebooted; final native A/B runs use both frozen binaries on Linux 7.0.0-43.
+  Compiler remains Rust 1.97 / LLVM 22.1.6, CPU remains Ryzen 5 5600G. A new perf
+  attempt is still denied at paranoid=4.
+- Warp GUI suspension reduces preflight activity to 0.011 busy cores. An
+  independent watchdog and finally restoration protect the application. It is
+  verified resumed after the last benchmark stage.
+- Window 2's 630 exact-output trials fail a later parent I/O-wait endpoint;
+  preserved, excluded by the prospectively fixed gate. Window 3 admits four
+  stages then fails before the next; window 4 admits the remaining four.
+- All controlled stages are now complete. Six-thread throughput 23,411.7 ->
+  34,296.4 files/s (1.4649×). Kernels: volume 2.0520×, regions 2.0494×,
+  ensemble 1.6494×, radius profile 2.3174×; Sterimol control 0.9980×.
+- Certified C3+C4 controlled gain is median 1.1869× across 24 exact-certificate
+  cases. All 1,152 accuracy observations pass; original twelve .05 calls take
+  11.152–72.662 ms. All 432 + 162 competitive trials pass exact admitted outputs.
+- Current production source hashes still equal the frozen final build; all
+  thirteen historical output streams also have identical raw SHA-256 hashes.
+  No historical report changed. Full native distributions, Pareto data and
+  rendered figures are generated; final claim/evidence audit follows.
+
+- Final audit verifies 8,165 source/input/raw-evidence files, all eight admitted
+  stage counts/gates, byte-identical historical streams and Warp restoration.
+  Throughput and per-input accuracy/cost figures are rendered and visually checked;
+  full min/max ranges are shown and all report links resolve. Production sources
+  remain identical to the frozen final build. No historical evidence was edited.
+
+- Requirement-by-requirement completion audit identified a missing continuous
+  batch-scaling measurement. Added a source-bound observer of the unchanged
+  serial certified API, with explicit caller-owned Rayon pool and ordered results.
+- All five 1/2/4/6/12-worker preflights and all 45 warmup/timed processes pass
+  exact per-molecule certificate equality at the unchanged 0.05 target. Both
+  quiet endpoints pass. Six workers take 83.392 ms vs 333.128 at one (3.9947×);
+  twelve are slower at 89.091 ms and use more memory. Warp is restored again.
+  The production engine and all earlier admitted measurements remain unchanged.

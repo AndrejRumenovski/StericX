@@ -6,13 +6,13 @@ and a separate commit. Failed candidates and timing attempts stay on disk.
 
 | ID | Hypothesis | Required evidence | Current decision |
 |---|---|---|---|
-| O1 | Overlapping final AVX2 vector removes scalar tails without changing a predicate | 23 focused tests including 5,200 boundary masks and all 56 conformers; eight alternating kernel pairs | Retain; final controlled acceptance pending |
+| O1 | Overlapping final AVX2 vector removes scalar tails without changing a predicate | 23 focused tests including 5,200 boundary masks and all 56 conformers; eight alternating kernel pairs | Retain; aggregate final A/B and exact replay admitted |
 | O2 | Exact X-slab filtering and squared-X reuse reduce repeated row–atom work | 23 focused tests; eight alternating equal-output pairs | Rejected general path: volume/regions about 12% slower |
-| O3 | Cached row/Z/regional metadata reduces point traversal and mask preparation | 24 focused tests including full prepared-grid point masks; bounded 8 MiB cache; eight alternating pairs | Retain; final controlled acceptance pending |
+| O3 | Cached row/Z/regional metadata reduces point traversal and mask preparation | 24 focused tests including full prepared-grid point masks; bounded 8 MiB cache; eight alternating pairs | Retain; aggregate final A/B and exact replay admitted |
 | O4 | Bounded multi-key grid LRU avoids repeated preparation in radius profiles | 25 focused tests; eight alternating equal-output pairs | Retain: exploratory radius profile 1.893× over O3 |
 | O5 | Cell lists/BVH/bitset row spans/internal parallelism help only larger work | 101 exact mask cases; preparation/execution separated | Reject general path; retain large sparse synthetic evidence |
-| C1 | Certified chord ranges plus smooth-patch Taylor integration tighten boxes | Proof, 6,000 rational predicates, 167 original and 96 additional analytical observations, molecular nesting | Retain as separate explicit API; full regression/final cost pending |
-| C3 | Specialize nonnegative interval arithmetic | 100,000 bit-equivalence cases and full 695-certificate replay | Retain; unchanged bounds, final controlled timing pending |
+| C1 | Certified chord ranges plus smooth-patch Taylor integration tighten boxes | Proof, 6,000 rational predicates, 167 original and 96 additional analytical observations, molecular nesting | Retain as separate explicit API; full regression and controlled cost admitted |
+| C3 | Specialize nonnegative interval arithmetic | 100,000 bit-equivalence cases and full 695-certificate replay | Retain; unchanged bounds; C3+C4 controlled median gain 1.1869× |
 | C4 | Reuse per-integration scratch vectors | Full 695-certificate replay, separate allocation diagnostics | Retain; about 83% fewer allocations, peak live memory unchanged |
 | C2 | Inner/outer plane bounds give certified partial sphere–cell volumes | Mathematical analysis in EXPERIMENTS.md | Not implemented; no performance/certificate claim |
 | G1 | Reuse conservative sphere candidates between related cells/rows | Source-bound full/all-atoms/range-only ablations | Inherited candidates save 1.16–3.98× queries; specialize arithmetic |
@@ -62,3 +62,11 @@ radius-profile reuse (1.893× over O3); other modes span 1.008–1.025× and are
 not claimed as substantive gains. Failed controller invocations (unavailable
 `python`, then wrong output-relative path) are retained alongside the successful
 run. Molecular geometry and occupancy are never cached.
+
+
+Final acceptance: all retained changes pass the frozen full scientific replay and
+controlled measurements. Aggregate baseline-to-final gains are 2.0520× volume,
+2.0494× regions, 1.6494× ensemble and 2.3174× radius profile. These do not replace
+the isolated candidate evidence above. The unchanged Sterimol control is 0.9980×.
+C3+C4 together improve the certified API by median 1.1869× with exact bounds.
+See FINAL_TABLES.md for full distributions and unfavorable samples.

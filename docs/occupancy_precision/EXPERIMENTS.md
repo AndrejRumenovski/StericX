@@ -149,3 +149,21 @@ Final integrated diagnostics confirm median allocation-call reductions of 82.80%
 (0.05) and 83.85% (0.01), while peak live memory changes only by retained scratch.
 `final_diagnostics.json` contains every comparison. Final-v2 review/setup failures
 are recorded in WORK_LOG.md and raw logs; no acceptance criterion was changed.
+
+
+## Controlled timing attempts
+
+The initial host gates failed without timing. The user then explicitly authorized
+resumption and temporary Warp suspension. Window 2 completed 630 CLI trials with
+exact outputs but failed the parent I/O-wait postflight; every trial remains.
+Window 3 admitted the first four stages, then stopped on a CLI-diagnostics
+preflight I/O spike before new measurements. Window 4 admitted all remaining
+stages. No threshold changed, no outlier was removed and no successful stage was
+rerun to choose a faster result. Warp was restored after every window by a
+finally handler, with an independent watchdog as a failure safeguard.
+
+Unfavorable admitted results include small-request startup regressions, the
+0.9980× unchanged Sterimol control, increased retained-grid/peak RSS memory,
+nonlinear thread scaling and several long-tail process timings. The final report
+and complete distributions preserve them. C3+C4's controlled median gain is
+1.1869×, distinct from the earlier exploratory isolated gains.

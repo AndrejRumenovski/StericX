@@ -1,8 +1,8 @@
 {
-  "controlled_performance_complete": false,
+  "controlled_performance_complete": true,
   "attempt": "final_window_1",
-  "status": "host_not_quiet_before_measurement",
-  "scope": "No final timing started. All non-timing work is complete; awaiting the user-requested quiet-window confirmation. The fixed thresholds are unchanged.",
+  "status": "completed_after_user_authorized_quiet_window",
+  "scope": "Historical failed gates remain preserved below. Final timing is complete using the first admitted stage results from windows 3 and 4, after explicit user authorization to suspend Warp temporarily.",
   "host_preflight": {
     "interval_seconds": 10.01331386200036,
     "busy_core_equivalents": 0.5892155265790657,
@@ -115,7 +115,15 @@
     "quiet": false
   },
   "bindings": {
-    ".stericx/occupancy_precision/final_window_1/receipt.json": "6a3e42762a5884f5ce5f071ede390a5a9ea31a4e14732fdaf051f13128b2a91c"
+    ".stericx/occupancy_precision/final_window_1/receipt.json": "6a3e42762a5884f5ce5f071ede390a5a9ea31a4e14732fdaf051f13128b2a91c",
+    ".stericx/occupancy_precision/final_window_2/receipt.json": "0a327e7f68625a02a4bc301ba4b3412a4c4aec4e18b841c1773c04913b4084ed",
+    ".stericx/occupancy_precision/final_window_2_host_control/receipt.json": "dba8a60145b5cfb209df874816f836e4c1de438fe8f8d9ce0a710d86a40163c1",
+    ".stericx/occupancy_precision/final_window_3/receipt.json": "833e724ffc7229a622c6a5db88b4674afb474a73e9ad3c7f4159309f718f0607",
+    ".stericx/occupancy_precision/final_window_3_host_control/receipt.json": "1f3150fb02d853eed864411c89ab153a3589edd7ed9df9b3c94229aab3a0d6cd",
+    ".stericx/occupancy_precision/final_window_4/receipt.json": "79d4b718cd9cc35f0c19ac87bc1fe4596fc863459b702229244e764f77439c5f",
+    ".stericx/occupancy_precision/final_window_4_host_control/receipt.json": "9e0b36c2f24b7c48fc4cffa93350086694eb1db7edcea9107cec8b754d9133c5",
+    ".stericx/occupancy_precision/certified_scaling_1/summary.json": "9e0d6ba269059c964b2b983b40bd29106b9945691b6b1d4ad16ca31e61c6c2d3",
+    ".stericx/occupancy_precision/certified_scaling_1_host_control/receipt.json": "03420f70b6d23a10325cb30ddd8d056d8ef9c4e01c4a9aeccb8233b7c3da0899"
   },
   "rechecks": [
     {
@@ -352,5 +360,27 @@
     "reason": "The fixed quiet-host gate failed on three consecutive goal turns; the requested quiet-machine confirmation remains unanswered. All independent non-timing work is complete.",
     "resume_command": ".venv/bin/python docs/occupancy_precision/performance_window.py --output final_window_2",
     "scientific_thresholds_changed": false
+  },
+  "resolution": {
+    "admitted_windows": [
+      "final_window_3",
+      "final_window_4"
+    ],
+    "suspended_application": "Warp GUI process only, explicitly authorized by the user",
+    "restored": true,
+    "native_trials": {
+      "cli_ab": 630,
+      "kernel_ab": 80,
+      "certified_ab_processes": 18,
+      "kernel_profile": 71,
+      "cli_profile": 175,
+      "accuracy": 1152,
+      "competitive": 432,
+      "radius_competitive": 162,
+      "certified_scaling": 45
+    },
+    "thresholds_unchanged": true,
+    "rejected_completed_attempt": "final_window_2 CLI A/B: all 630 trials retained; parent I/O-wait postflight 0.081912 > 0.05.",
+    "certified_scaling_supplement": "certified_scaling_1"
   }
 }

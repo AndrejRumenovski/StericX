@@ -2,8 +2,9 @@
 
 Baseline source: `ffc698f4`; fresh builds and input identities are in
 `baseline_manifest.json` and `.stericx/occupancy_precision/baseline/build.json`.
-Native timing/scaling tables remain pending; instruction and simulator results
-below are fresh measurements, with a final-source supplement at the end.
+Controlled native timing/scaling tables are complete in FINAL_TABLES.md.
+Instruction and simulator results below are separate measurements, with a
+final-source supplement at the end.
 
 ## Instruction and assembly findings
 
@@ -142,3 +143,19 @@ must not be mistaken for an overall regression. Allocation calls fall by median
 bytes at 0.01 rise slightly from 29,371,032 to 29,372,128: retained scratch does
 not reduce the dominant adaptive heap. These diagnostics imply no native speed
 ratio. Full allocator rows, including unfavourable changes, are retained.
+
+
+## Controlled native result
+
+The final volume/regional kernels take 81.258/81.135 µs versus fresh paired
+166.737/166.277 µs baseline values. Radius-profile and ensemble medians are
+327.317/681.855 µs, gains 2.3174×/1.6494×. At six threads the 10,000-file batch
+increases from 23,411.7 to 34,296.4 files/s. CPU time falls but peak RSS grows
+from 25.076 to 25.766 MiB. Small process-startup workloads can be slower.
+
+These values come from the first admitted quiet stages in windows 3/4. Failed
+window 2 and all slow samples remain preserved. Native performance is measured
+on the resumed Linux 7.0.0-43 kernel with both original and final frozen binaries;
+modeled instruction profiles retain their original host receipts. The arithmetic
+and mask work remain the actionable bottlenecks; no hardware-port, IPC or
+bandwidth conclusion is inferred from this timing result.

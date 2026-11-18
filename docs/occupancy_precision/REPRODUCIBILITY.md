@@ -169,3 +169,57 @@ final_profile_v2 --output precision_observer_v4`. V2 competitive/radius builds,
 gates and preflights are separate from the retained v1 records. Final allocation
 and simulator diagnostics are in `final_diagnostics.json`; their process timings
 were collected during validation load and do not establish comparative speed.
+
+
+## Completed final windows
+
+After the user's explicit idle-machine confirmation and permission to suspend
+Warp, the following source-bound protocol completed. The suspension helper is
+specific to this authorization: it records PID/start time, stops only Warp's GUI,
+uses an independent restore watchdog and sends SIGCONT on every exit path.
+
+```sh
+.venv/bin/python docs/occupancy_precision/run_quiet_window.py --output final_window_2 --suspend-warp
+.venv/bin/python docs/occupancy_precision/run_quiet_window.py --output final_window_3 --suspend-warp
+.venv/bin/python docs/occupancy_precision/run_quiet_window.py --output final_window_4 --start-at cli_profile --suspend-warp
+.venv/bin/python docs/occupancy_precision/summarize_measurements.py --window final_window_3 --window final_window_4
+.venv/bin/python docs/occupancy_precision/plot_measurements.py
+.venv/bin/python docs/occupancy_precision/audit_completion.py
+```
+
+Window 2 is rejected by its postflight gate; window 3 contributes only its four
+admitted stages. Window 4 contributes the remaining four. Existing paths cannot
+be overwritten; use new output names for reproduction. Final records retain
+all 630 CLI A/B launches, 80 kernel launches, 18 certified A/B processes (24 cases
+each, including warmups), 71 kernel diagnostic runs, 175 CLI diagnostic runs,
+1,152 accuracy observations, 432 base competitive trials and 162 radius trials.
+
+`final_measurements.json` stores full native distributions and process metrics;
+`accuracy_pareto.json` stores per-input certified and observed frontiers and
+fastest tested methods by target. Figure scripts read those records directly.
+Their plots were rendered and visually inspected. `completion_audit.json` verifies
+source/binary/input identities, scientific gates, all admitted endpoints and raw
+trial metrics/outputs. `final_admission.json` remains the immutable scientific
+pre-timing snapshot; `completion_audit.json` and `timing_admission.json` record
+final performance completion. The older example commands document earlier
+stages, including setup failures; they are not instructions to overwrite history.
+
+
+The completion audit also identified and closed the fixed-accuracy batch-scaling
+requirement. This supplement uses the same frozen serial certified API and the
+original twelve molecules at 0.05, with an explicit caller-owned Rayon pool:
+
+```sh
+.venv/bin/python docs/occupancy_precision/build_certified_batch.py
+.venv/bin/python docs/occupancy_precision/certified_scaling.py --output certified_scaling_preflight --preflight
+.venv/bin/python docs/occupancy_precision/run_quiet_window.py --output certified_scaling_1 --start-at certified_scaling --controller certified_scaling.py --suspend-warp
+.venv/bin/python docs/occupancy_precision/summarize_certified_scaling.py --input certified_scaling_1
+.venv/bin/python docs/occupancy_precision/audit_completion.py
+```
+
+All five worker-count preflights and 45 timed/warmup processes preserve every
+individual result. The first host-control helper version is preserved in commit
+`a9d1c8c0`; the later optional controller argument enables this supplement without
+changing the original eight-stage benchmark controller or its admitted receipts.
+`certified_scaling.json` and CERTIFIED_SCALING.md retain the full distributions.
+The source and dependency lock remain those of `final_profile_v2`.

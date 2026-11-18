@@ -45,3 +45,11 @@ The initial native profiling window is exploratory: its host preflight fails
 the fixed quiet gate. An exact-output comparison also overlapped the beginning
 of kernel sampling; this is recorded in `baseline_timing_scope.json` locally.
 No sample is discarded, and none is promoted to final controlled evidence.
+
+
+Final controlled comparison completed 2026-11-18 on the same CPU after a reboot
+onto Linux 7.0.0-43. Both frozen binaries ran together with unchanged compiler
+settings and scientific definitions. Fresh baseline six-thread throughput is
+23,411.7 files/s; final is 34,296.4 (1.4649×). Initial exploratory timings remain
+separate. Final windows 3/4, all failed attempts, and the kernel transition are
+recorded in timing_admission.json and FINAL_REPORT.md.

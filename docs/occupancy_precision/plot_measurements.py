@@ -12,8 +12,11 @@ plt.rcParams.update({'font.size':10,'svg.fonttype':'none'})
 fig,ax=plt.subplots(figsize=(7.4,4.6),layout='constrained')
 threads=[1,2,4,6,12]
 for side,label in [('baseline','Frozen baseline'),('candidate','Final engine')]:
-    ax.plot(threads,[data['scaling'][str(t)][side]['files_per_second'] for t in threads],'o-',label=label)
-ax.set(xlabel='Worker threads',ylabel='Files per second',title='10,000-file descriptor batch; median of eight trials',xticks=threads)
+    values=[data['scaling'][str(t)][side]['files_per_second'] for t in threads]
+    lower=[v-1e13/data['cli'][f'descriptors_10000/t{t}'][side]['maximum_ns'] for t,v in zip(threads,values)]
+    upper=[1e13/data['cli'][f'descriptors_10000/t{t}'][side]['minimum_ns']-v for t,v in zip(threads,values)]
+    ax.errorbar(threads,values,yerr=[lower,upper],fmt='o-',capsize=4,label=label)
+ax.set(xlabel='Worker threads',ylabel='Files per second',title='10,000-file batch: median and full range of eight trials',xticks=threads)
 ax.grid(alpha=.25);ax.legend();fig.savefig(root/'throughput_scaling.svg');fig.savefig(root/'throughput_scaling.png',dpi=180);plt.close(fig)
 cases=sorted({r['case'] for r in pareto['rows']})
 fig,axes=plt.subplots(6,3,figsize=(14,20),layout='constrained')

@@ -1,15 +1,17 @@
 # StericX occupancy and certified continuous volume
 
-**Status: scientific implementation and validation complete; final controlled
-performance measurements await a quiet-machine confirmation.** This report does not yet claim completion
-of the campaign's performance objectives. All timing claims below are explicitly
-classified. The final measurement controller refuses to proceed without the
-frozen scientific and quiet-host gates. Its first final attempt failed before
-any timing: 0.589 busy CPU cores exceeded the prospectively fixed 0.15 limit
-(I/O wait 0.023 was below its 0.05 limit). GNOME Shell and Warp dominated the
-background activity. No unrelated applications were stopped. See
-[timing admission](timing_admission.json). Phase 12 explicitly calls for a
-quiet-window confirmation once all non-timing work is complete.
+**Completed scientific and controlled performance campaign, 2026-11-18.**
+The optimized engine preserves all 128,021 historical responses byte for byte.
+On the controlled 10,000-file workload, six-thread throughput rises from
+23,411.7 to 34,296.4 files/s (1.4649×); the buried-volume kernel is 2.0520×
+faster. All twelve originally failing molecular cases now reach a certified
+0.05 Å³ error, and all reach 0.001 Å³ with the expanded budget.
+
+These are workload-specific results. Small startup-dominated requests can be
+slower, retained grid memory increases, and eighteen analytical stress targets
+remain unmet. Full distributions, failed attempts and numerical limitations are
+preserved. [Final tables](FINAL_TABLES.md), [measurement data](final_measurements.json)
+and [accuracy frontier](accuracy_pareto.json) provide the underlying values.
 
 ## Scientific accuracy
 
@@ -92,33 +94,135 @@ boxes cannot resolve partial volume tightly enough within its budget.
 ## Performance
 
 Production baseline: `ffc698f479cc5b0d75ae4f6856edc81ad5ca9c2a`.
-Final production implementation: `aeb3ca74` (full source hashes in the frozen
-`final_profile_v2/build.json`). Portable release compiler settings and inputs are
-identical between the final A/B builds. Historical six-thread throughput of
-23,783.8 files/s is context only; it is not this campaign's measured denominator.
+Final production implementation: `aeb3ca747ffbefa5003854e5709f2efa0ba0905e`.
+Frozen per-file/binary hashes are in the baseline and `final_profile_v2` receipts.
+Both binaries use Rust 1.97.0 / LLVM 22.1.6, portable release settings, thin LTO,
+one codegen unit and the same locked dependencies. No unsafe fast-math or FMA
+contraction was introduced. Hardware is an AMD Ryzen 5 5600G, six physical cores
+and twelve logical CPUs. Final A/B trials ran together on Linux 7.0.0-43; initial
+profiling ran on the earlier kernel recorded in the baseline manifest. The reboot
+and unchanged compiler/hardware are recorded in `resumed_environment.json`.
 
-Controlled one/two/four/six/twelve-thread throughput, occupancy/regional/profile
-latency, conformer throughput, CPU time, memory and accuracy-adjusted runtime
-remain pending. The final protocol retains one warmup, eight alternating pairs,
-full distributions and unsuccessful measurements. Fresh-process measurements use
-warmed OS file caches; they do not measure cold-disk startup. No speed claim is
-drawn from correctness preflights, simulator runtimes or concurrent validation.
+Historical six-thread throughput of 23,783.8 files/s is context only. This campaign
+uses the freshly measured 23,411.7 files/s denominator. All main paired timings
+retain eight alternating trials per side and declared warmups. Statistics are
+medians, unscaled MAD and full ranges, not confidence intervals. Fresh-process
+measurements use warmed OS file caches; they do not measure cold-disk startup.
 
-Exploratory candidate results and unfavorable samples are retained in
-`o1_measurements.json` through `o5_measurements.json` and `c3_measurements.json` /
-`c4_measurements.json`. They justified further validation, not final controlled
-speed claims. X-slab filtering regressed the representative path by about 12%.
-General BVH/cell-list paths and internal parallelism did not amortize well on
-small real molecules. Large sparse synthetic gains remain documented with their
-scope; those methods are not silently selected in production.
+| Threads | Fresh baseline files/s | Final files/s | Speedup | Final efficiency |
+|---|---|---|---|---|
+| 1 | 4,490.1 | 6,680.4 | 1.4878× | 100.00% |
+| 2 | 8,701.9 | 12,766.3 | 1.4671× | 95.55% |
+| 4 | 16,566.2 | 24,088.5 | 1.4541× | 90.15% |
+| 6 | 23,411.7 | 34,296.4 | 1.4649× | 85.56% |
+| 12 | 28,413.9 | 41,926.5 | 1.4756× | 52.30% |
+
+| Kernel/workflow | Baseline µs | Final µs | Speedup |
+|---|---|---|---|
+| volume | 166.737 | 81.258 | 2.0520× |
+| regions | 166.277 | 81.135 | 2.0494× |
+| ensemble | 1124.660 | 681.855 | 1.6494× |
+| radius_profile | 758.524 | 327.317 | 2.3174× |
+| sterimol | 12.472 | 12.498 | 0.9980× |
+
+![Throughput medians and full trial ranges](throughput_scaling.svg)
+
+The unchanged Sterimol control is 0.9980×, slightly slower. A single small
+one-thread CLI request is also slower (1.563 to 1.647 ms, 0.9489×). Parsing-only
+work stays essentially flat. The 56-conformer CLI workload improves 1.3956× at
+one thread and 1.2037× at six; twelve threads have more overhead on that small
+batch than six. Twelve threads do improve the 10,000-file throughput, but parallel
+efficiency falls to 52.30%. No nested occupancy pool was introduced.
+
+Quiet endpoints do not guarantee an interruption-free interval. All slow trials
+remain, including a final six-thread 10,000-file range of 285.510–411.721 ms
+(median 291.576 ms, MAD 4.185 ms), and a 65.525 ms four-thread ensemble-SDF
+trial. No outlier removal or post-hoc threshold relaxation was used.
+
+### Memory, allocation and CPU cost
+
+For the 10,000-file workload, median peak RSS at six threads is 25.076 MiB
+baseline versus 25.766 MiB final; at twelve, 26.395 versus 27.572 MiB. Median
+user-plus-system CPU time falls from 2.344 to 1.579 seconds at six threads.
+Complete CPU/wall/RSS/fault/context-switch distributions are in the final tables'
+linked data. Allocation instrumentation is separate from native timing.
 
 Default prepared-grid buffer retention grows from 393,216 to 495,808 bytes
-(26.09%). The multi-key cache can retain 8 MiB per thread plus fixed bookkeeping;
-this is not a whole-process memory limit. Native allocation and memory diagnostics
-are separate from native speed measurements. Scratch reuse reduces median allocation calls by 82.80% at 0.05 and 83.85% at
-0.01 across the original twelve molecules. Peak live bytes at 0.01 change from
-29,371,032 to 29,372,128; the adaptive heap dominates. Final accuracy/cost Pareto
-results remain pending controlled timing.
+(26.09%). The multi-key cache retains at most 8 MiB per thread plus fixed
+bookkeeping; this is not a process memory limit. Warm volume calls retain three
+allocation calls and nine reallocations; the gain comes from less occupancy
+work. Warm radius-profile allocation calls fall from 68 to 62 and requested
+allocation bytes from 1,440,751 to 12,355 per workflow, while process peak live
+bytes increase from 1,323,968 to 1,843,672 because grids remain cached.
+
+For continuous integration, scratch reuse reduces median allocation calls by
+82.80% at 0.05 and 83.85% at 0.01 across the original twelve molecules. Maximum
+live bytes at 0.01 change slightly from 29,371,032 to 29,372,128: the adaptive
+heap dominates. The combined interval/scratch optimizations deliver a controlled
+median 1.1869× speedup over the initial certified API across 24 molecule/tolerance
+cases (per-case ratios 1.1291–1.2218×), preserving every bound and work count.
+
+### Accuracy-adjusted runtime
+
+Eighteen inputs (the original twelve molecules and six independent analytical
+coaxial cases) were measured in eight passes: 1,152 observations, 144 configurations.
+Every certified 0.1/0.05/0.01 target succeeds. For the original twelve:
+
+| Certified target Å³ | Achieved | Median of per-molecule medians, ms | Range of per-molecule medians, ms |
+|---|---|---|---|
+| 0.1 | 12/12 | 13.092 | 6.042–40.309 |
+| 0.05 | 12/12 | 23.459 | 11.152–72.662 |
+| 0.01 | 12/12 | 92.776 | 46.410–289.953 |
+
+At 262,143 boxes, the old enclosure takes 42.65–139.05 ms and reports error
+bounds 1.176–3.065 Å³. At 1,048,575 boxes it takes 181.92–561.03 ms and still
+reports 0.588–1.536 Å³, missing even 0.1 on these molecules. Thus an equal-target
+speedup ratio against that method is undefined; reporting its apparently close
+point estimate as a certificate would be incorrect.
+
+Midpoint 128 takes 0.099–0.524 ms. Its observed molecular error upper bounds
+against the separate 0.001 enclosure range from 0.00103 to 0.01115 Å³, but it
+has **no intrinsic error certificate**. Finer midpoint results are not uniformly
+closer. Molecular observed-error references come from the same certified method;
+only the six coaxial accuracy references use independent exact equations.
+
+[The per-input Pareto frontier](accuracy_cost_pareto.svg) and
+[fastest-by-target records](accuracy_pareto.json) keep these classes separate.
+The adaptive chord method is the fastest tested certified method at every
+0.1/0.05/0.01 target on all eighteen inputs. Under the separately labeled
+observed-error class, midpoint 128 is fastest at 0.1/0.05 and on seventeen of
+eighteen 0.01 cases; midpoint 256 wins the remaining observed 0.01 case. This
+is not a certified superiority claim or a universal optimum.
+
+### Parallel certified batches
+
+A final supplement measures the same twelve molecular 0.05 Å³ certificates
+with explicit caller-owned Rayon pools. All 45 processes preserve every bound,
+work count and result order. The serial integration API itself is unchanged.
+Pool creation, parsing and one warmup are outside the internal batch timer;
+whole-process CPU/RSS metrics include them.
+
+| Workers | Twelve-molecule batch, ms | Speedup over one | Efficiency | Median process peak RSS, MiB |
+|---|---|---|---|---|
+| 1 | 333.128 | 1.0000× | 100.00% | 16.127 |
+| 2 | 171.186 | 1.9460× | 97.30% | 18.566 |
+| 4 | 110.675 | 3.0100× | 75.25% | 34.650 |
+| 6 | 83.392 | 3.9947× | 66.58% | 42.682 |
+| 12 | 89.091 | 3.7392× | 31.16% | 57.826 |
+
+Six workers are fastest on this twelve-task batch. Twelve are slower and retain
+more process memory; no universal worker-count recommendation follows. These
+measurements establish batch scaling, not parallel subdivision of one integral.
+[Full certified scaling distributions](CERTIFIED_SCALING.md) include MAD, ranges,
+CPU time, wall time and peak RSS for all worker counts. No nested production
+thread pool or new concurrency default was introduced.
+
+Exploratory and rejected candidates remain in `o1_measurements.json` through
+`o5_measurements.json`, `c3_measurements.json`, `c4_measurements.json` and
+[EXPERIMENTS.md](EXPERIMENTS.md). X-slab filtering regressed the representative
+path by about 12%; general BVH/cell-list/internal-parallel variants failed to
+amortize on most real conformers. Large sparse synthetic gains are retained
+without generalizing them to molecular workloads.
 
 ## Profiling
 
@@ -152,21 +256,49 @@ tight targets can still exhaust the cell budget or floating-point resolution.
 
 ## Competitive results
 
-The scientific admission compares identical frozen inputs and common-grid point
-decisions before timing. The 56-conformer gate validates 2,588,544 independent
-exact-decimal/IEEE point decisions; the separately declared twelve-conformer,
-three-radius profile validates 1,664,064. Thread-count preflights check ordered
-outputs at 1/2/4/6/12 workers. Morfeus uses its public buried-volume calculation;
-DBSTEP's occupied-point kernel receives the admitted common points.
+The 56-conformer gate validates 2,588,544 independent exact-decimal/IEEE point
+decisions; the separate twelve-conformer, three-radius gate validates 1,664,064.
+Ordered-output preflights cover 1/2/4/6/12 workers. Identical point masks and
+scientific conventions are checked before timing. Native f32 and Python f64
+reductions have small expected rounding differences: each is checked against
+its independently specified reduction, not asserted to have identical float bits.
 
-DBSTEP's default grid has different semantics and is not substituted into this
-comparison. The radius policy fixes R=2.5/3.5/4.5 Å and
-`density=0.01*(R/3.5)^3`, keeping a 32-side lattice; it is distinct from a
-constant-density profile. Matched finite-grid output is not proof of equivalent
-continuous-volume accuracy. No equivalent certified continuous API was admitted
-for the external tools, so no continuous speed-superiority claim is made.
-Controlled warm/fresh-process competitive timing remains pending. Results will
-apply to these workloads and versions, not universal tool rankings.
+StericX uses its public Rust API, Morfeus its public buried-volume/octant APIs,
+and DBSTEP's occupied-point kernel receives the admitted common grid. **The
+DBSTEP column is an explicit adapter, not DBSTEP's default-grid workflow.**
+The base policy uses R=3.5 Å, density 0.01, scale 1.17, excluded hydrogens and
+the declared center distance 2.28 Å. The radius policy fixes R=2.5/3.5/4.5 Å and
+`density=0.01*(R/3.5)^3`, preserving a 32-side lattice; it is distinct from a
+constant-density profile. Versions are Morfeus 0.8.0, DBSTEP 2.2.0, NumPy 2.5.4,
+SciPy 1.18.1 and Python 3.12.13. BLAS/OpenMP threads are restricted to one.
+
+Selected warmed-workflow results (median ms; eight trials, all retained):
+
+| Workload | StericX ms | Morfeus ms | DBSTEP adapter ms | Morfeus/native ratio | DBSTEP/native ratio |
+|---|---|---|---|---|---|
+| 56 conformers / 1 worker | 7.492 | 751.380 | 633.198 | 100.29× | 84.51× |
+| 56 conformers / 6 workers | 1.600 | 172.028 | 152.926 | 107.49× | 95.55× |
+| 1,000 calculations / 6 workers | 23.634 | 2776.245 | 2598.379 | 117.47× | 109.94× |
+| 12 conformers × 3 radii / 6 workers | 0.955 | 103.835 | 97.836 | 108.76× | 102.47× |
+
+There are 432 base-workflow and 162 radius-workflow trials including warmups.
+The 1,000-calculation batch repeats the 56 geometries; it is not 1,000 unique
+molecules. Full fresh-process/warm distributions and all thread counts are in
+[FINAL_TABLES.md](FINAL_TABLES.md). Startup is material: the one-input fresh
+process medians are 1.238 ms native, 286.337 ms Morfeus and 284.898 ms DBSTEP
+adapter. Those ratios are not occupancy-kernel speedups.
+
+Separate 1,000-calculation process-tree memory sampling gives approximate
+six-worker summed-RSS peaks of 7.00 MiB native, 555.29 MiB Morfeus and
+554.52 MiB DBSTEP adapter. Summed RSS double-counts shared pages, sampling can
+miss peaks, and wait4 max RSS is not whole-tree memory. These diagnostics were
+collected separately from timing and cannot support a precise memory-efficiency
+ratio. All fifteen memory configurations are retained in `competitive_memory_v2`.
+
+These speed ratios are supported only for the admitted finite-grid workflows.
+Matched grids do not establish equal continuous accuracy. No equivalent certified
+continuous API was admitted for the external tools, so no continuous speed
+superiority or universal tool ranking is claimed.
 
 ## Regression and reproducibility
 
@@ -200,3 +332,32 @@ measurements, source archives, binary hashes and frozen datasets are under
 local historical datasets. Input hashes, compiler/hardware details and workload
 identities are tracked in `baseline_manifest.json` and `workload_identity.json`.
 No historical evidence or failed experiment was removed.
+
+## Timing admission and remaining limitations
+
+The original quiet-host failures and all repeated attempts remain in
+[timing_admission.json](timing_admission.json). After explicit user authorization,
+only Warp's GUI process was temporarily suspended with an independent automatic
+restore watchdog. Its process identity and successful SIGCONT restoration are
+recorded; Warp was verified running normally after the last stage.
+
+Window 2 completed 630 CLI trials but failed its final parent I/O-wait gate
+(0.0819 cores > 0.05), so it is retained as inadmissible timing evidence. Window 3
+admits CLI A/B, kernel A/B, certified A/B and kernel diagnostics; its next-stage
+preflight failed before CLI diagnostics began. Window 4 admits CLI diagnostics,
+accuracy, competitive and radius-competitive stages. A separate fixed-accuracy
+certified-batch supplement then passes both quiet endpoints and all 45 process
+checks. The first qualifying result
+for each stage is used. Every admitted parent/child endpoint satisfies the
+unchanged <=0.15 busy-core / <=0.05 I/O-wait-core gates. No slow sample was dropped.
+
+Hardware counters remain inaccessible on the resumed kernel; no measured cycles,
+IPC or bandwidth claim is possible. Physical ARM/macOS/Windows timing, universal
+spatial-acceleration wins, certified regional continuous integrals and a universally
+best integration algorithm remain outside the demonstrated results. The eighteen
+analytical stress failures and the eight broad molecular failures at the original
+expanded cap remain documented even though larger budgets solve the latter.
+
+[Completion audit](COMPLETION_AUDIT.md) maps the requested phases to authoritative
+receipts, including known limitations. Final measurements and scientific reports
+are complete; no package or release was published.

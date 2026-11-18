@@ -1,0 +1,482 @@
+{
+  "archive_commit": "c4aefa6a5227b03b1d3449f354c88b3daece2874",
+  "scientific_source_commit": "aeb3ca747ffbefa5003854e5709f2efa0ba0905e",
+  "scope": "Published campaign files as committed after completion. Workstation-only raw measurements are not included or revalidated by this archive check.",
+  "records": [
+    {
+      "path": "docs/occupancy_precision/BASELINE.md",
+      "bytes": 3440,
+      "sha256": "fbcaf79a307c1d6ab0f629fc73ed87f2361e7ed1985219a4e9137a3eec4975ff"
+    },
+    {
+      "path": "docs/occupancy_precision/CANDIDATES.md",
+      "bytes": 5791,
+      "sha256": "50d2ef0d8f01158eec4f7d3f27ac900081787e5979b3dd0c3f0573046531c093"
+    },
+    {
+      "path": "docs/occupancy_precision/CERTIFIED_SCALING.md",
+      "bytes": 1699,
+      "sha256": "c99970fcff073fd30660a51636ecfc2259bb9d12c686a63d16a7e460a8b19f77"
+    },
+    {
+      "path": "docs/occupancy_precision/COMPLETION_AUDIT.md",
+      "bytes": 4505,
+      "sha256": "c101d27a4c62c33a9ec39a22900df8e9c2fa996a2c8f66d8e09ebf8348ed03d2"
+    },
+    {
+      "path": "docs/occupancy_precision/CONTINUOUS_MATHEMATICS.md",
+      "bytes": 8098,
+      "sha256": "b248f50f7b6c767ee6800042779945ac80601e8fc84867a108e58487b8ba7f3c"
+    },
+    {
+      "path": "docs/occupancy_precision/EXPERIMENTS.md",
+      "bytes": 9960,
+      "sha256": "62dfe2c8368d53c90959fe8bab3bf05def0a6ee817ff44038904eb109a4641b5"
+    },
+    {
+      "path": "docs/occupancy_precision/FINAL_REPORT.md",
+      "bytes": 22573,
+      "sha256": "9fcae94449fbb1ba836d71dce8349ab0c64beec56b73a4e0ac8f76dce4d8ffd4"
+    },
+    {
+      "path": "docs/occupancy_precision/FINAL_TABLES.md",
+      "bytes": 23153,
+      "sha256": "d4d43861c695cbcbf2a836bef465975cb0f9aa4e992c5658ef085719958610da"
+    },
+    {
+      "path": "docs/occupancy_precision/OCCUPANCY_PROFILE.md",
+      "bytes": 9463,
+      "sha256": "56adc059fdf5aa2ab548cca19586ce5d4e6539736f1b2e6444b8efea7e3c7184"
+    },
+    {
+      "path": "docs/occupancy_precision/REPRODUCIBILITY.md",
+      "bytes": 13457,
+      "sha256": "9597e5a17bf731e916461e35e60a82cc6d776b2cdfd060aacefe5854433cf340"
+    },
+    {
+      "path": "docs/occupancy_precision/WORK_LOG.md",
+      "bytes": 11730,
+      "sha256": "b50f0c8986fce272917c31fcb39d77769938990d596591fe5587d5a564155c85"
+    },
+    {
+      "path": "docs/occupancy_precision/accuracy_campaign.py",
+      "bytes": 5085,
+      "sha256": "8ddc9e1b98948f90dc6e67afe00f31de87f712d5f336fb3dd706a1dbe8f2311e"
+    },
+    {
+      "path": "docs/occupancy_precision/accuracy_cost_pareto.png",
+      "bytes": 527911,
+      "sha256": "58b693ca2700ce1a7b6a8b3b2d7f247f530883c2ebd5073f72f42066b47c3863"
+    },
+    {
+      "path": "docs/occupancy_precision/accuracy_cost_pareto.svg",
+      "bytes": 469643,
+      "sha256": "821f80aa698da9597a61d56eedb501f865959348cfc755100133c92f93ec4a28"
+    },
+    {
+      "path": "docs/occupancy_precision/accuracy_pareto.json",
+      "bytes": 777805,
+      "sha256": "fa6f9acdc4ec9126168028a97fdf3a54c40df72a62893bdd65b6d53ba5259d4b"
+    },
+    {
+      "path": "docs/occupancy_precision/arm_replay.py",
+      "bytes": 2914,
+      "sha256": "a3afc4c057af5500ccf9acd3bb623d387e7b4b3b33d0cfd357a88e904389c5b5"
+    },
+    {
+      "path": "docs/occupancy_precision/audit_completion.py",
+      "bytes": 15189,
+      "sha256": "0785da1472dcbf440fa44ad5479a9609adfd5c037aad6a137fe544f9d58a77b5"
+    },
+    {
+      "path": "docs/occupancy_precision/baseline_checks.json",
+      "bytes": 924,
+      "sha256": "b892ab1b6cc9b47760c3546bdc164d1a743be9000677f1c9202459294c797796"
+    },
+    {
+      "path": "docs/occupancy_precision/baseline_counters.json",
+      "bytes": 15965,
+      "sha256": "7750d1788329c587326bd38966434572f8eead4cdad02a5d0d2fcf361e183802"
+    },
+    {
+      "path": "docs/occupancy_precision/baseline_flamegraph.json",
+      "bytes": 695332,
+      "sha256": "67f41fe4ade68d2525db94e2e2f62ee766c5900ad284c9feefbf60367cc99feb"
+    },
+    {
+      "path": "docs/occupancy_precision/baseline_flamegraph.svg",
+      "bytes": 37183,
+      "sha256": "448f80ffb87afb0666fcddf0abdc7f282f57491f1feba2b37e677904ce5d26eb"
+    },
+    {
+      "path": "docs/occupancy_precision/baseline_manifest.json",
+      "bytes": 284193,
+      "sha256": "c651dda0386a76be9b6b6fbb0dbda469e0bc9c86a8cc4e79a6d2f3f8eecc4e10"
+    },
+    {
+      "path": "docs/occupancy_precision/baseline_measurements.json",
+      "bytes": 8413,
+      "sha256": "e90ea677c1de27b8893cd476467f2d2ef647ad1e4f965814f6ab142f26cf8fe5"
+    },
+    {
+      "path": "docs/occupancy_precision/baseline_profile_events.json",
+      "bytes": 2741,
+      "sha256": "1e4e2efb151e15ac1e6e9d163b5aa6ca6bed82b74a96aed0566788f0443ad056"
+    },
+    {
+      "path": "docs/occupancy_precision/build_certified_batch.py",
+      "bytes": 1144,
+      "sha256": "a14a8929324ff6f8128513ccb50a06cc332fd3b172a6589cc969b9d18c84b2b1"
+    },
+    {
+      "path": "docs/occupancy_precision/build_certified_observer.py",
+      "bytes": 1333,
+      "sha256": "45ef4b50189b2f374a080bad90e556f57e786b006f618a7df64e900cc9e36852"
+    },
+    {
+      "path": "docs/occupancy_precision/build_chord_ablations.py",
+      "bytes": 2742,
+      "sha256": "762a897faad22961abaae788753fc58f0c59bc8bb61fcd737b14d0d917a66757"
+    },
+    {
+      "path": "docs/occupancy_precision/build_chord_prototype.py",
+      "bytes": 2101,
+      "sha256": "c3101f14f7cff169c06656545a6da04a7beea367691cca094e479eb39ca8de43"
+    },
+    {
+      "path": "docs/occupancy_precision/build_competitive.py",
+      "bytes": 1826,
+      "sha256": "a871d82326504eb7b90bad4846b2aeb0968013e1be5d2f08175e10bfe9abf1a9"
+    },
+    {
+      "path": "docs/occupancy_precision/build_interval_candidate.py",
+      "bytes": 1423,
+      "sha256": "d14a206c440f6a32b9b31fc5608e62d956ad8241c7b0f6d3d57c60ad0dd504af"
+    },
+    {
+      "path": "docs/occupancy_precision/build_precision_benchmark.py",
+      "bytes": 1442,
+      "sha256": "177397dd7e44b1bb0392bbd0e4fc80bba55b7006ad3703bfad9e9b1851cf75ef"
+    },
+    {
+      "path": "docs/occupancy_precision/build_probe.py",
+      "bytes": 2762,
+      "sha256": "33f9cb6940baf1b266c6fab511bc513cb576ef95073e2214fee6eda08723472c"
+    },
+    {
+      "path": "docs/occupancy_precision/build_radius_workflow.py",
+      "bytes": 1833,
+      "sha256": "12820bced917ce2f32615dda06eadcaece15c7824e657bc82cfb5a734c5f4d88"
+    },
+    {
+      "path": "docs/occupancy_precision/build_scratch_candidate.py",
+      "bytes": 3166,
+      "sha256": "437fee913a5fea9880d33782a94eb7418f885270420f3f2e14b188bdfd15653f"
+    },
+    {
+      "path": "docs/occupancy_precision/build_spatial_probe.py",
+      "bytes": 2003,
+      "sha256": "ca87ddd74ac48d942ae28b0c3766804b3a175721fb50f222602b74abbf2e95d0"
+    },
+    {
+      "path": "docs/occupancy_precision/c1_validation.json",
+      "bytes": 30512,
+      "sha256": "0c7f5c72a5401f3d49e82b23679498d0951881c2686ace4f88f463b08529450c"
+    },
+    {
+      "path": "docs/occupancy_precision/c3_measurements.json",
+      "bytes": 14639,
+      "sha256": "02d825758ad6031d4299d386beedfea882b610d86dbd651c91d3a602b683c082"
+    },
+    {
+      "path": "docs/occupancy_precision/c4_measurements.json",
+      "bytes": 14601,
+      "sha256": "1c1a3a004d64b2ec77c9bb8ad6e92cce756765fccae95714dc7a917124e88d62"
+    },
+    {
+      "path": "docs/occupancy_precision/campaign.py",
+      "bytes": 9349,
+      "sha256": "e4f0ef7e6f728f283b3adeafbeec9f0025dcbc1c3bee841a590f186aa43fc745"
+    },
+    {
+      "path": "docs/occupancy_precision/certified_batch.rs",
+      "bytes": 1575,
+      "sha256": "2c1c4ce82d439d01da710a5df32db5c2de3eb195bcfad9fb71d83d5915a217f2"
+    },
+    {
+      "path": "docs/occupancy_precision/certified_observer.rs",
+      "bytes": 2620,
+      "sha256": "bdca0a96ae80af63400dce68e0b352278807f5c7552a200943c3b454065bd5e1"
+    },
+    {
+      "path": "docs/occupancy_precision/certified_scaling.json",
+      "bytes": 17457,
+      "sha256": "01192f02ede011874138e0f775f6e50ceb6caf79ea86467ee62a5b3d388d4088"
+    },
+    {
+      "path": "docs/occupancy_precision/certified_scaling.py",
+      "bytes": 3875,
+      "sha256": "840928fcc97803dc2f1fb09d252b2855bd8c0e5e70b4718330485054daba5816"
+    },
+    {
+      "path": "docs/occupancy_precision/chord_ablations.json",
+      "bytes": 24224,
+      "sha256": "97bb69ee220eaf0882d1ccc473139a6f7b439579236a84bd7cae6aacf9ccf71b"
+    },
+    {
+      "path": "docs/occupancy_precision/chord_prototype.rs",
+      "bytes": 10808,
+      "sha256": "64e94e37a2a06005ecd48bf62f5118bd84bab66b78d10d9b80f2390705a0bf37"
+    },
+    {
+      "path": "docs/occupancy_precision/compare_chord_candidates.py",
+      "bytes": 2928,
+      "sha256": "269aedd328ebe6c1f52b15fe4dfc548e76949aba6ce8e30c4c3187a081040994"
+    },
+    {
+      "path": "docs/occupancy_precision/completion_audit.json",
+      "bytes": 1355509,
+      "sha256": "a415c0318ae59ce60d2ef12c748a18b47b08b69c85383d3e3f8129daafac405c"
+    },
+    {
+      "path": "docs/occupancy_precision/continuous_final_flamegraph.json",
+      "bytes": 425225,
+      "sha256": "8900bd5f7a09858c5e55bdadd89cb2ef327703b30ec2037a8171b42d1b759e45"
+    },
+    {
+      "path": "docs/occupancy_precision/continuous_final_flamegraph.svg",
+      "bytes": 16373,
+      "sha256": "028f2a6e1c37073df794fc65fd2d551b5ebe961b845b289ecbe0ced70acd7a7f"
+    },
+    {
+      "path": "docs/occupancy_precision/continuous_profile.json",
+      "bytes": 3635,
+      "sha256": "69d0fdb9263310362279320d23cbef2dcfda839da577cb49593ee1f8e8f7944e"
+    },
+    {
+      "path": "docs/occupancy_precision/engineering_replay.py",
+      "bytes": 3858,
+      "sha256": "b914e483e6d6da63ff3a58fa9fe414faeae16c32106eb75ac25c349933913b53"
+    },
+    {
+      "path": "docs/occupancy_precision/final_admission.json",
+      "bytes": 3186,
+      "sha256": "fe1f12e211ceacf14b1ab7fd3e0d2ecb3d652f5cfbdb0b1d4d69a360da4412de"
+    },
+    {
+      "path": "docs/occupancy_precision/final_diagnostics.json",
+      "bytes": 34989,
+      "sha256": "d02b3a9e10bee5bd0ba6262a1f044995d1cd69293d9449e7f79aeda04edc7b11"
+    },
+    {
+      "path": "docs/occupancy_precision/final_flamegraph.json",
+      "bytes": 722518,
+      "sha256": "a714294702c37946662f136e77b6a1ee7d4880228a73cbbf1c3d09b1a179bb92"
+    },
+    {
+      "path": "docs/occupancy_precision/final_flamegraph.svg",
+      "bytes": 46248,
+      "sha256": "0b79b296dcd99dd49bb1eb6a3e36fb5bec7057f2c40f3713ce295c1a6ba2fc3d"
+    },
+    {
+      "path": "docs/occupancy_precision/final_measurements.json",
+      "bytes": 2002267,
+      "sha256": "7f429d4944130375755eaabbfd529c3ccab30064004e29cee044709e56551c11"
+    },
+    {
+      "path": "docs/occupancy_precision/final_profile_events.json",
+      "bytes": 4794,
+      "sha256": "096ca812c80d3f508b2b8fda96530e3d4bfeb0fa2bcfc9b74631fe33b1d4ad13"
+    },
+    {
+      "path": "docs/occupancy_precision/final_v2_flamegraph.json",
+      "bytes": 723832,
+      "sha256": "b577bc8daf9cfd319b6c9b22d9c57752e44b5a8e8fc8e70cfa07f689a5ade26e"
+    },
+    {
+      "path": "docs/occupancy_precision/final_v2_flamegraph.svg",
+      "bytes": 46079,
+      "sha256": "9be55cbbfbd4365d4eff789b5bb9b9bab5ae5aaae93fa77063045c2ebe71d1f9"
+    },
+    {
+      "path": "docs/occupancy_precision/molecular_validation.json",
+      "bytes": 13874,
+      "sha256": "e6cb933df68a60e0e9bdcacd1ab7477abaabb2258461293790e4247390e23ed4"
+    },
+    {
+      "path": "docs/occupancy_precision/o1_measurements.json",
+      "bytes": 4035,
+      "sha256": "fb1a5daf4b08ba280738c18f7f42582e26a5ad3b453538356fe9ace4a95669a9"
+    },
+    {
+      "path": "docs/occupancy_precision/o2_measurements.json",
+      "bytes": 4146,
+      "sha256": "a652444aa689170bf17e20eda2baeb63157771ff6c1d524a5f9b57e2e27b0328"
+    },
+    {
+      "path": "docs/occupancy_precision/o3_measurements.json",
+      "bytes": 3991,
+      "sha256": "377459d699c10cc0f612a5ff6564c05ef5041acd4f1dbe4f508b4894ee4891a7"
+    },
+    {
+      "path": "docs/occupancy_precision/o4_measurements.json",
+      "bytes": 3847,
+      "sha256": "941947e21dae43cf449f198c44572be3ad6608764d78fbce35748d1850d27502"
+    },
+    {
+      "path": "docs/occupancy_precision/o5_measurements.json",
+      "bytes": 66425,
+      "sha256": "dad5dc3d7142c47e065e1bdb80c2530f3ed8f85070d3ec4b4b6c923806f99adb"
+    },
+    {
+      "path": "docs/occupancy_precision/occupancy_probe.rs",
+      "bytes": 4093,
+      "sha256": "67f1bf3651349db50385f80b226d182e3547b71c013f26be9f9803392258e3ca"
+    },
+    {
+      "path": "docs/occupancy_precision/performance_window.py",
+      "bytes": 5744,
+      "sha256": "2ddcea36df8622065e63619e9e8bc5feb8643191291fff8f0d49f74981b4d68e"
+    },
+    {
+      "path": "docs/occupancy_precision/plot_measurements.py",
+      "bytes": 2853,
+      "sha256": "43d2103670b4e1dae1075e2499ac85297377db3d38f3ba27cbfeb4f56054102f"
+    },
+    {
+      "path": "docs/occupancy_precision/positive_interval_tests.rs",
+      "bytes": 1303,
+      "sha256": "f99594cc125ad4828c344fca7ad6fbabbba283c5984fd10de5156dd23e1844d5"
+    },
+    {
+      "path": "docs/occupancy_precision/positive_intervals.rs",
+      "bytes": 830,
+      "sha256": "546a5720308fc422033ec7991eef6b6a06d176e8f429311d8bc314449866a1cb"
+    },
+    {
+      "path": "docs/occupancy_precision/precision_benchmark.rs",
+      "bytes": 2942,
+      "sha256": "bb1ab6f634a88a8d8ce323aaa35d1abef0ade00543a7cd26c675b9324d349ce5"
+    },
+    {
+      "path": "docs/occupancy_precision/predicate_probe.rs",
+      "bytes": 1164,
+      "sha256": "decf7843c65c60f5365cc3da76f43782509a0292830ba23f2d82c2aa90f55f79"
+    },
+    {
+      "path": "docs/occupancy_precision/radius_benchmark.py",
+      "bytes": 3698,
+      "sha256": "3d2251de047b69d2db86146808cc9c91e38c6354748ce3d567678c28c9e0c4f4"
+    },
+    {
+      "path": "docs/occupancy_precision/radius_gate.py",
+      "bytes": 5011,
+      "sha256": "75663a5d8c5adab7e478e32510a9b94808a89ef96ed574586be2fdb6c75ee598"
+    },
+    {
+      "path": "docs/occupancy_precision/radius_worker.py",
+      "bytes": 3719,
+      "sha256": "cb0fccad9885b19742e091d9f027ad7b0f6cff6e5e7d03b29545dfa703410118"
+    },
+    {
+      "path": "docs/occupancy_precision/radius_workflow.rs",
+      "bytes": 2145,
+      "sha256": "9c48a16df38538b9ddd59ea7fd8a0f2051c0ac05429e0c31fe32fa2e66d158b9"
+    },
+    {
+      "path": "docs/occupancy_precision/replay_certified_exact.py",
+      "bytes": 2339,
+      "sha256": "689870ae673076f6aa862527a0482da441ba200c3d02e392e71c6383979c0a57"
+    },
+    {
+      "path": "docs/occupancy_precision/review_final_science.py",
+      "bytes": 10683,
+      "sha256": "8d4562354d44ccdff74af4d531a40878b91a8f14a939f7a8a969b02832599f3b"
+    },
+    {
+      "path": "docs/occupancy_precision/run_quiet_window.py",
+      "bytes": 4093,
+      "sha256": "5f767585adc68122313bbd1196e45d3a682e46044bb31ed5d001e11e3e843dfc"
+    },
+    {
+      "path": "docs/occupancy_precision/scratch_smooth.rs",
+      "bytes": 2191,
+      "sha256": "0a06b604ad0b375978111a94047a68a0e81a5b7366d1d20572bc582987fd3109"
+    },
+    {
+      "path": "docs/occupancy_precision/seal_admission.py",
+      "bytes": 2650,
+      "sha256": "0bb334fe6147dea20ec08f0498c24dc15b9f71f870a7c603d997f8e0e295988a"
+    },
+    {
+      "path": "docs/occupancy_precision/seal_source_transition.py",
+      "bytes": 2359,
+      "sha256": "4f4f7e7bafa7ba49cb318e7faac0d991fddc04acf6567a676b042408b8837589"
+    },
+    {
+      "path": "docs/occupancy_precision/spatial_probe.rs",
+      "bytes": 6213,
+      "sha256": "ed8cd64ebfb608bb7156c2402b5d647cea5b2788b86182a386c8e177ba7afa51"
+    },
+    {
+      "path": "docs/occupancy_precision/summarize_certified_scaling.py",
+      "bytes": 3110,
+      "sha256": "b7fda78e057597c936ddb5310c221eb6473314e72fc8c91e5ea4f9390e81e29a"
+    },
+    {
+      "path": "docs/occupancy_precision/summarize_final_diagnostics.py",
+      "bytes": 3617,
+      "sha256": "a323509d1a252d6f114c830b5d807c19bbbb09efc48568a2fa0c7a615428b6ab"
+    },
+    {
+      "path": "docs/occupancy_precision/summarize_measurements.py",
+      "bytes": 9860,
+      "sha256": "9140eb5d9d1acbea8a21ffc2b1cb7d2bbb131583c95cfb54c472a39d43c7b77b"
+    },
+    {
+      "path": "docs/occupancy_precision/throughput_scaling.png",
+      "bytes": 75654,
+      "sha256": "e66f4da4173f7090c5dc36b3aa7f7da6d01ffe5d88f11165df93ef5be8e9cd15"
+    },
+    {
+      "path": "docs/occupancy_precision/throughput_scaling.svg",
+      "bytes": 23246,
+      "sha256": "9ca67315e78d84910671ce8fb48ac65119e534696d794c7db47768a1330eba78"
+    },
+    {
+      "path": "docs/occupancy_precision/timing_admission.json",
+      "bytes": 13141,
+      "sha256": "141a2da0e2be59223c7360ff0171f4e5d4ce83d0b5030f25d032c85d3a9f1c98"
+    },
+    {
+      "path": "docs/occupancy_precision/validate_chords.py",
+      "bytes": 6047,
+      "sha256": "9708b3a4a5e9255965e7299952cc269cdf076668068fa6d5f48cdadc4f4f62a2"
+    },
+    {
+      "path": "docs/occupancy_precision/validate_coaxial.py",
+      "bytes": 3603,
+      "sha256": "9afe758d4521821e56355ddd9f53054e6f01c70c249b7d7c579839c6c7b044bc"
+    },
+    {
+      "path": "docs/occupancy_precision/validate_molecular_certified.py",
+      "bytes": 6121,
+      "sha256": "6cb22390d6b1ac2a3d6eef9ab91821e1a47ec1a305385dd796833d6d04996320"
+    },
+    {
+      "path": "docs/occupancy_precision/validate_predicates.py",
+      "bytes": 5058,
+      "sha256": "c3936fad472ed6a79689169386b595f67c3d580cee0d905777827f34482575c5"
+    },
+    {
+      "path": "docs/occupancy_precision/volume_replay.py",
+      "bytes": 1609,
+      "sha256": "97575d6e62153113e950a2c0a3ee01520cee883b89ce50ec7f2348d05e7469ac"
+    },
+    {
+      "path": "docs/occupancy_precision/workload_identity.json",
+      "bytes": 257,
+      "sha256": "550b0a2211be458758898035d79adec658e8b84b8f05cf251b7c599673c5e4b2"
+    }
+  ]
+}

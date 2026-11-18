@@ -6,10 +6,12 @@ pyramidalization, and provides a separately defined electron-density-grid
 buried-volume mode. Independent comparisons, failed cases and reproducible
 inputs accompany the implementation.
 
-The [completed scientific and performance campaign](docs/ultimate_engine/FINAL_REPORT.md)
-preserves existing descriptor defaults, adds explicit continuous numerical
-methods, and measures **23,783.8 files/s at six threads** on the frozen
-10,000-file workload, versus 11,242.0 for the matched original implementation.
+The [occupancy and precision campaign](docs/occupancy_precision/FINAL_REPORT.md)
+preserves existing descriptor defaults and measures **34,296.4 files/s at six
+threads**, versus a fresh baseline of 23,411.7 on the frozen 10,000-file workload
+(1.465×). Its separate certified continuous-volume API reaches **0.05 Å³** on
+all twelve previously failing molecular cases within the original cell-count
+budget. Full measurements, failed cases and numerical assumptions are retained.
 
 [![CI](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml/badge.svg)](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#citation-and-license)
@@ -154,13 +156,31 @@ The Rust library also exposes methods for studying continuous geometry:
   `Reference` for conservative volume enclosures under its documented arithmetic
   assumptions. Reference results expose bounds, work and `target_met`; exhausting
   the work budget can leave the requested tolerance unmet.
+- `sphere_union_volume_certified` integrates the union of atomic spheres inside
+  an integration sphere using adaptive chord bounds and proven smooth-region
+  error bounds. `BuriedVolumeCalculator::compute_certified_with_center` applies
+  the established molecular radius-scaling and hydrogen conventions. Results
+  expose lower/upper bounds, absolute and meaningful relative error bounds, work,
+  runtime, status and `target_met`. Always check `target_met` before accepting
+  a requested tolerance; budget exhaustion is reported explicitly.
 
 These methods require explicit selection in Rust. Existing CLI/Python defaults
-retain their validated finite-grid and sampled-angle behavior. Independent
-validation covers 39 high-precision Sterimol cases and 244 analytical/adversarial
-volume observations. The [numerical accuracy report](docs/ultimate_engine/NUMERICAL_ACCURACY.md)
-includes definitions, convergence, failed targets and accuracy-versus-runtime
-comparisons. Finer resolution alone is not an error certificate.
+retain their validated finite-grid and sampled-angle behavior. The certificate
+concerns exact supplied binary64 coordinates and radii under the documented
+IEEE arithmetic assumptions; it does not bound uncertainty in molecular
+geometry or atomic radii. Certified regional continuous volumes are not yet
+implemented.
+
+All twelve original molecular cases reach certified 0.05 Å³ error using
+30,609–141,719 XY cells, within the 262,143-cell cap. All also reach 0.001 Å³
+with expanded budgets. On the broader 220-case set, 212 reach 0.05 Å³ within
+1,048,575 cells; eight need a larger budget. Eighteen analytical stress targets
+remain unmet. The [derivation and Rust example](docs/occupancy_precision/CONTINUOUS_MATHEMATICS.md)
+and [validation and accuracy-adjusted timings](docs/occupancy_precision/FINAL_REPORT.md)
+document these limits. The earlier
+[numerical accuracy report](docs/ultimate_engine/NUMERICAL_ACCURACY.md) retains
+the original midpoint/reference and continuous Sterimol validation.
+Finer resolution alone is not an error certificate.
 
 ## What independent validation establishes
 
@@ -182,12 +202,15 @@ The [scientific audit](docs/scientific_accuracy_audit/SCIENTIFIC_ACCURACY_AUDIT.
 and [remediation](docs/scientific_remediation/SCIENTIFIC_REMEDIATION.md) retain
 previous defects, corrections and unfavorable results.
 
-The latest [complete audit](docs/ultimate_engine/SCIENTIFIC_AUDIT.md) and
-[final validation report](docs/ultimate_engine/VALIDATION_REPORT.md) cover the
-optimized engine and new numerical methods. Rust 1.97 and the declared minimum
-1.85 each pass 364 tests; the fresh Python binding passes 71. AArch64/musl under
-QEMU passes 362 applicable tests. These emulated checks do not establish native
-ARM performance; the latest campaign's native measurements are Linux x86-64.
+The latest [completion audit](docs/occupancy_precision/COMPLETION_AUDIT.md) and
+[final report](docs/occupancy_precision/FINAL_REPORT.md) cover the optimized
+engine and certified method. Rust 1.97 and the declared minimum 1.85 each pass
+372 tests; the fresh Python binding passes 71. AArch64/musl under QEMU passes
+369 applicable tests. All 128,021 historical responses and all 695 certificates
+in the optimization replay are preserved exactly. These emulated checks do not
+establish native ARM performance; the campaign's native measurements are Linux
+x86-64. The earlier [scientific audit](docs/ultimate_engine/SCIENTIFIC_AUDIT.md)
+and [validation report](docs/ultimate_engine/VALIDATION_REPORT.md) remain available.
 The separately tested R² correction fixes small nonconstant targets without
 changing descriptor definitions or chemical constants.
 
@@ -224,47 +247,62 @@ chemistry in Python. Independent files use ordered Rayon processing. Performance
 claims require fixed geometries/settings, numerical admission and retained raw
 samples.
 
-The final controlled comparison uses the same 10,000-file workload and scientific
-settings for the frozen original and optimized engine. Each configuration retains
+The latest controlled comparison uses the same 10,000-file workload and scientific
+settings for baseline `ffc698f4` and the optimized engine. Each configuration retains
 one warmup and eight alternating trials per side on an AMD Ryzen 5 5600G
 (six physical cores, twelve logical CPUs), with Rust 1.97 portable release builds.
 Timing includes process startup, parsing, calculation and output, with warmed
 file caches.
 
-| Threads | Original files/s | Optimized files/s | Throughput ratio |
+| Threads | Fresh baseline files/s | Optimized files/s | Throughput ratio |
 |---|---:|---:|---:|
-| 1 | 2,080.3 | 4,503.3 | 2.165× |
-| 2 | 4,011.0 | 8,711.2 | 2.172× |
-| 4 | 7,762.2 | 16,545.9 | 2.132× |
-| 6 | 11,242.0 | 23,783.8 | 2.116× |
-| 12 | 13,941.4 | 28,320.8 | 2.031× |
+| 1 | 4,490.1 | 6,680.4 | 1.488× |
+| 2 | 8,701.9 | 12,766.3 | 1.467× |
+| 4 | 16,566.2 | 24,088.5 | 1.454× |
+| 6 | 23,411.7 | 34,296.4 | 1.465× |
+| 12 | 28,413.9 | 41,926.5 | 1.476× |
 
-At six threads, throughput increases **111.56%** and elapsed time falls **52.73%**.
-The optimized median is 420.455 ms with a 1.456 ms median absolute deviation;
+At six threads, throughput increases **46.49%**.
+The optimized median is 291.576 ms with a 4.185 ms median absolute deviation;
 all eight samples are retained. All 630 CLI A/B trials across seven workloads
 and five thread counts preserve exact scientific outputs and ordering.
-Separate paired kernels improve 2.920× for buried volume, 2.560× for a
-six-conformer ensemble and 2.160× for radius profiles.
+Separate paired kernels improve 2.052× for buried volume, 2.049× for regional
+volume, 1.649× for a six-conformer ensemble and 2.317× for radius profiles.
 
-![Controlled throughput and scaling](docs/ultimate_engine/final_throughput.svg)
+![Controlled throughput and scaling](docs/occupancy_precision/throughput_scaling.svg)
 
-The accepted changes reuse exact integration grids, apply guarded AVX2 occupancy
-masks with a scalar fallback, and avoid allocating unchanged density tokens.
-Caching reduces allocation traffic but raises peak memory in some workloads.
-Parser-only work is essentially unchanged, and twelve threads slow down several
-small workloads. Hardware cycles/IPC/cache counters were unavailable; modeled
-profiler events are labelled separately. Full distributions, unfavorable trials,
-memory, Python overhead and limitations are in the
-[benchmark tables](docs/ultimate_engine/FINAL_TABLES.md) and
-[profiling report](docs/ultimate_engine/PROFILING_REPORT.md).
+The accepted changes eliminate scalar AVX2 tails on eligible rows, reuse exact
+grid-row and regional metadata, and cache multiple radius/density grids within
+a per-thread buffer cap. Scalar fallback remains available. At six threads,
+median peak RSS rises from 25.076 to 25.766 MiB on the 10,000-file workload.
+Parser-only work is essentially unchanged; small startup-dominated requests can
+be slower, and twelve threads slow down several small workloads. Hardware
+cycles/IPC/cache counters were unavailable; modeled profiler events are labelled
+separately. Full distributions, unfavorable trials, memory and limitations are
+in the [benchmark tables](docs/occupancy_precision/FINAL_TABLES.md) and
+[occupancy profile](docs/occupancy_precision/OCCUPANCY_PROFILE.md).
 
-[Competitive comparisons](docs/ultimate_engine/COMPETITIVE_BENCHMARKS.md) use an
-independently admitted finite-grid volume task; the DBSTEP workflow explicitly
-uses a common-grid adapter. In the separate twelve-molecule Sterimol experiment,
+For the original twelve molecules, certified 0.05 Å³ integration takes
+11.152–72.662 ms per case; 0.01 Å³ takes 46.410–289.953 ms. These are ranges
+of per-case timing medians. The old box method misses even 0.1 Å³ at the tested
+1,048,575-box cap, so an equal-target speedup against it is undefined. Faster
+midpoint estimates remain uncertified. The
+[accuracy-versus-cost frontier](docs/occupancy_precision/accuracy_cost_pareto.svg)
+keeps these accuracy classes separate.
+
+[Latest competitive comparisons](docs/occupancy_precision/FINAL_REPORT.md#competitive-results)
+cover admitted finite-grid volume, regional, radius-profile and conformer
+workflows; DBSTEP explicitly uses a common-grid adapter. Its default lattice
+is a different numerical definition. No equivalent external certified-volume
+comparison is claimed. In the
+[earlier twelve-molecule Sterimol experiment](docs/ultimate_engine/COMPETITIVE_BENCHMARKS.md),
 Morfeus and DBSTEP each miss the prospectively fixed accuracy target on one B1
 value, so no equal-accuracy speed ratio is claimed for those methods. These
 results do not establish universal accuracy or fastest-engine status.
 
+The [previous engine campaign](docs/ultimate_engine/FINAL_REPORT.md) retains its
+23,783.8 files/s six-thread result and 2.116× improvement over its own baseline.
+That historical measurement is not the denominator for the latest comparison.
 The [historical controlled report](docs/validation/dbstep/resolution_performance/PERFORMANCE.md)
 retains the earlier 10,774 files/s result, all 504 native attempts and 96 Python
 timing blocks. It is not the baseline for the final comparison above. The
@@ -277,8 +315,9 @@ reported speedups do not establish an all-descriptor or universal speed ratio.
 The [optimization report](docs/performance/SCIENTIFICALLY_EXACT_OPTIMIZATION.md)
 retains accepted and rejected changes.
 
-Start with the [final engine report](docs/ultimate_engine/FINAL_REPORT.md),
-[campaign baseline and reproduction details](docs/ultimate_engine/BASELINE.md),
+Start with the [occupancy and precision report](docs/occupancy_precision/FINAL_REPORT.md),
+[fresh baseline](docs/occupancy_precision/BASELINE.md),
+[campaign reproduction details](docs/occupancy_precision/REPRODUCIBILITY.md),
 [DBSTEP resolution and release audit](docs/validation/dbstep/FINAL_RESOLUTION.md),
 [original implementation report](docs/paton_recommendations/FINAL_REPORT.md),
 [complete scientific validation](docs/paton_recommendations/SCIENTIFIC_VALIDATION.md),

@@ -115,3 +115,10 @@
   required; the failed log is retained. An early comparison launched before the
   observation manifest existed; its empty destination and log are retained.
   Neither attempt produced scientific differences or altered inputs.
+
+- All non-timing final gates complete. Final-v2 fresh replay again preserves
+  128,021 outputs exactly; source-transition and scientific admission sealed.
+- Final controlled window 1 stopped before any timing: 0.589 busy cores exceeds
+  the frozen 0.15 gate (I/O wait 0.023 <= 0.05). Main background activity is
+  GNOME Shell/Warp. Requested quiet-window confirmation under user Phase 12;
+  no unrelated process was stopped and no performance completion is claimed.

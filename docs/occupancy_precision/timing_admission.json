@@ -1,0 +1,120 @@
+{
+  "controlled_performance_complete": false,
+  "attempt": "final_window_1",
+  "status": "host_not_quiet_before_measurement",
+  "scope": "No final timing started. All non-timing work is complete; awaiting the user-requested quiet-window confirmation. The fixed thresholds are unchanged.",
+  "host_preflight": {
+    "interval_seconds": 10.01331386200036,
+    "busy_core_equivalents": 0.5892155265790657,
+    "io_wait_core_equivalents": 0.02296941883274324,
+    "processes": [
+      {
+        "pid": 2774,
+        "name": "gnome-shell",
+        "core_equivalents": 0.28661840021727436
+      },
+      {
+        "pid": 6817,
+        "name": "warp-terminal",
+        "core_equivalents": 0.1547939095250088
+      },
+      {
+        "pid": 8936,
+        "name": "codex",
+        "core_equivalents": 0.051930859969680374
+      },
+      {
+        "pid": 4106,
+        "name": "Xwayland",
+        "core_equivalents": 0.010985374224355462
+      },
+      {
+        "pid": 44688,
+        "name": "codex",
+        "core_equivalents": 0.010985374224355462
+      },
+      {
+        "pid": 825,
+        "name": "nvidia-modeset/kthread_q",
+        "core_equivalents": 0.0059920223041938885
+      },
+      {
+        "pid": 2827,
+        "name": "nvidia-drm/timeline-6",
+        "core_equivalents": 0.0019973407680646295
+      },
+      {
+        "pid": 3243,
+        "name": "xdg-desktop-por",
+        "core_equivalents": 0.0019973407680646295
+      },
+      {
+        "pid": 37515,
+        "name": "nautilus",
+        "core_equivalents": 0.0019973407680646295
+      },
+      {
+        "pid": 37656,
+        "name": "brave",
+        "core_equivalents": 0.0019973407680646295
+      },
+      {
+        "pid": 1,
+        "name": "systemd",
+        "core_equivalents": 0.0009986703840323147
+      },
+      {
+        "pid": 530,
+        "name": "systemd-oomd",
+        "core_equivalents": 0.0009986703840323147
+      },
+      {
+        "pid": 2091,
+        "name": "tailscaled",
+        "core_equivalents": 0.0009986703840323147
+      },
+      {
+        "pid": 2408,
+        "name": "dbus-daemon",
+        "core_equivalents": 0.0009986703840323147
+      },
+      {
+        "pid": 4118,
+        "name": "mutter-x11-fram",
+        "core_equivalents": 0.0009986703840323147
+      },
+      {
+        "pid": 7095,
+        "name": "nvidia-drm/timeline-27",
+        "core_equivalents": 0.0009986703840323147
+      },
+      {
+        "pid": 37612,
+        "name": "brave",
+        "core_equivalents": 0.0009986703840323147
+      },
+      {
+        "pid": 37652,
+        "name": "brave",
+        "core_equivalents": 0.0009986703840323147
+      },
+      {
+        "pid": 37687,
+        "name": "brave",
+        "core_equivalents": 0.0009986703840323147
+      },
+      {
+        "pid": 38397,
+        "name": "gnome-text-edit",
+        "core_equivalents": 0.0009986703840323147
+      }
+    ],
+    "pressure_cpu": "some avg10=0.00 avg60=1.33 avg300=4.23 total=357087989\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0\n",
+    "pressure_io": "some avg10=0.31 avg60=1.58 avg300=6.91 total=407312018\nfull avg10=0.20 avg60=1.41 avg300=6.21 total=385837779\n",
+    "criteria": "At most 0.15 busy CPU cores and 0.05 cores of I/O wait averaged over this interval. Conservative local campaign gate, not a hardware universal.",
+    "quiet": false
+  },
+  "bindings": {
+    ".stericx/occupancy_precision/final_window_1/receipt.json": "6a3e42762a5884f5ce5f071ede390a5a9ea31a4e14732fdaf051f13128b2a91c"
+  }
+}

@@ -1,10 +1,15 @@
 # StericX occupancy and certified continuous volume
 
 **Status: scientific implementation and validation complete; final controlled
-performance measurements pending.** This report does not yet claim completion
+performance measurements await a quiet-machine confirmation.** This report does not yet claim completion
 of the campaign's performance objectives. All timing claims below are explicitly
 classified. The final measurement controller refuses to proceed without the
-frozen scientific and quiet-host gates.
+frozen scientific and quiet-host gates. Its first final attempt failed before
+any timing: 0.589 busy CPU cores exceeded the prospectively fixed 0.15 limit
+(I/O wait 0.023 was below its 0.05 limit). GNOME Shell and Warp dominated the
+background activity. No unrelated applications were stopped. See
+[timing admission](timing_admission.json). Phase 12 explicitly calls for a
+quiet-window confirmation once all non-timing work is complete.
 
 ## Scientific accuracy
 
@@ -165,12 +170,13 @@ apply to these workloads and versions, not universal tool rankings.
 
 ## Regression and reproducibility
 
-All 128,021 historical outputs in thirteen lanes are exactly preserved on the
-first accepted-source replay. Full independent Morfeus/DBSTEP/Kraken reference,
+All 128,021 historical outputs in thirteen lanes are exactly preserved on both
+the first accepted-source replay and the fresh final-v2 replay. Full independent Morfeus/DBSTEP/Kraken reference,
 regional-bin, model and thermodynamic replays preserve their scientific results,
 including known historical disagreements. The final-v2 transition changes only
 the separate certified implementation; fresh exact-output and engineering
-receipts bind that transition. This does not relabel historical discrepancies as
+receipts bind that transition. [Final scientific admission](final_admission.json)
+records the completed gates and their hashes. This does not relabel historical discrepancies as
 new passes or claim that every external reference program ran twice.
 
 The final native and Rust 1.85 suites each pass 372 tests. Python bindings pass

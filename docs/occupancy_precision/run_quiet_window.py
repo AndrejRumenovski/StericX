@@ -7,7 +7,9 @@ p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--output',required=True)
 p.add_argument('--start-at',default='cli_ab')
 p.add_argument('--suspend-warp',action='store_true')
+p.add_argument('--controller',default='performance_window.py')
 a=p.parse_args()
+controller=(DOCS/a.controller).resolve();assert controller.parent==DOCS.resolve() and controller.is_file()
 directory=EVIDENCE/(a.output+'_host_control');directory.mkdir(exist_ok=False)
 def identity(pid):
     try:
@@ -58,7 +60,7 @@ try:
             if identity(row['pid']) and identity(row['pid'])[0]==row['starttime']:os.kill(row['pid'],signal.SIGSTOP)
         receipt['states_after_suspend']={str(r['pid']):identity(r['pid']) for r in candidates};save(directory/'receipt.json',receipt)
         time.sleep(15)
-    cmd=[sys.executable,str(DOCS/'performance_window.py'),'--output',a.output,'--start-at',a.start_at]
+    cmd=[sys.executable,str(controller),'--output',a.output,'--start-at',a.start_at]
     receipt['command']=cmd;save(directory/'receipt.json',receipt)
     child=subprocess.Popen(cmd,cwd=ROOT)
     receipt['returncode']=child.wait();receipt['complete']=True

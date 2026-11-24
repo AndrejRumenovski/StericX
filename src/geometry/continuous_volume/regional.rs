@@ -494,3 +494,130 @@ fn integrate_regions(
         elapsed_seconds: start.elapsed().as_secs_f64(),
     })
 }
+
+/// One requested profile radius. Errors and duplicates retain input ordering.
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct CertifiedRadiusProfileEntry {
+    pub radius_angstrom: f64,
+    /// Retains exact requested identity even for invalid nonfinite inputs whose
+    /// JSON numeric representation is null.
+    pub radius_bits: u64,
+    pub result: Option<CertifiedRegionalVolumeResult>,
+    pub error: Option<String>,
+    /// Exact same radius bits, center, atoms and options: a previously computed
+    /// certificate is reused without a new integration. Its entry runtime is zero.
+    pub reused_from_index: Option<usize>,
+}
+
+/// All total/regional radius measurements for a fixed center and coordinate frame.
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct CertifiedRadiusProfile {
+    pub center: [f64; 3],
+    pub options: CertifiedVolumeOptions,
+    pub entries: Vec<CertifiedRadiusProfileEntry>,
+    pub prepared_atom_count: usize,
+    pub distinct_integrations: usize,
+    /// Work is counted only for actual integrations, not repeated certificates.
+    pub cells_evaluated: usize,
+    pub geometric_evaluations: usize,
+    pub preparation_seconds: f64,
+    pub elapsed_seconds: f64,
+    pub all_targets_met: bool,
+}
+
+/// Certified total, quadrant and octant volumes at each requested radius.
+///
+/// Canonical atoms and their relative-coordinate/radius intervals are prepared
+/// once. Each distinct radius has its own integration-ball bounds, candidate
+/// decisions, subdivision tree and cell budget. No bound is transferred between
+/// unequal radii. Exact bit-identical duplicates reuse a certificate. Input order
+/// and per-radius errors are preserved. Absolute occupied volumes are monotone
+/// as a mathematical property; percentages and finite-accuracy midpoint estimates
+/// need not be monotone. The method does not impose monotonicity on estimates.
+///
+/// A profile error concerns common input/options. Individual radius or integration
+/// failures are returned in entries. Per-entry runtime excludes shared preparation;
+/// whole-profile runtime includes preparation and all work.
+pub fn sphere_union_volume_certified_radius_profile(
+    center: [f64; 3],
+    atoms: &[AtomicSphere],
+    radii: &[f64],
+    options: CertifiedVolumeOptions,
+) -> Result<CertifiedRadiusProfile, DescriptorError> {
+    let start = Instant::now();
+    let placeholder = AtomicSphere {
+        center,
+        radius: 1.0,
+    };
+    let atoms = prepare(placeholder, atoms, options)?;
+    if options.max_cells < 4 {
+        return Err(error(
+            "regional cell budget must include four quadrant roots",
+        ));
+    }
+    let prepared_atom_count = atoms.len();
+    let mut spheres: Vec<_> = std::iter::once(placeholder).chain(atoms).collect();
+    let mut bounds: Vec<_> = spheres
+        .iter()
+        .map(|&s| relative_sphere(s, center))
+        .collect();
+    let preparation_seconds = start.elapsed().as_secs_f64();
+    let mut entries: Vec<CertifiedRadiusProfileEntry> = Vec::with_capacity(radii.len());
+    let mut distinct_integrations = 0;
+    let mut cells_evaluated = 0;
+    let mut geometric_evaluations = 0;
+    for &radius in radii {
+        let mut entry = CertifiedRadiusProfileEntry {
+            radius_angstrom: radius,
+            radius_bits: radius.to_bits(),
+            result: None,
+            error: None,
+            reused_from_index: None,
+        };
+        if !radius.is_finite() || radius <= 0.0 || radius > 1e100 {
+            entry.error = Some("integration radius must be finite, positive and <=1e100".into());
+        } else if let Some((index, previous)) = entries
+            .iter()
+            .enumerate()
+            .find(|(_, e)| e.radius_bits == radius.to_bits() && e.result.is_some())
+        {
+            entry.result = previous.result.clone();
+            if let Some(r) = &mut entry.result {
+                r.elapsed_seconds = 0.0;
+            }
+            entry.reused_from_index = Some(index);
+        } else {
+            let radius_start = Instant::now();
+            let region = AtomicSphere { center, radius };
+            spheres[0] = region;
+            bounds[0] = relative_sphere(region, center);
+            distinct_integrations += 1;
+            match integrate_regions(region, &spheres, &bounds, options, radius_start) {
+                Ok(r) => {
+                    cells_evaluated += r.cells_evaluated;
+                    geometric_evaluations += r.geometric_evaluations;
+                    entry.result = Some(r);
+                }
+                Err(e) => {
+                    entry.error = Some(e.to_string());
+                }
+            }
+        }
+        entries.push(entry);
+    }
+    let all_targets_met = entries
+        .iter()
+        .all(|e| e.result.as_ref().is_some_and(|r| r.target_met));
+    Ok(CertifiedRadiusProfile {
+        center,
+        options,
+        entries,
+        prepared_atom_count,
+        distinct_integrations,
+        cells_evaluated,
+        geometric_evaluations,
+        preparation_seconds,
+        elapsed_seconds: start.elapsed().as_secs_f64(),
+        all_targets_met,
+    })
+}

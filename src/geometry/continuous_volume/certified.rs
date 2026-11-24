@@ -5,8 +5,9 @@ use std::time::Instant;
 #[path = "regional.rs"]
 mod regional;
 pub use regional::{
-    CertifiedPercentage, CertifiedRegionalMeasure, CertifiedRegionalVolumeResult,
-    sphere_union_volume_certified_regions,
+    CertifiedPercentage, CertifiedRadiusProfile, CertifiedRadiusProfileEntry,
+    CertifiedRegionalMeasure, CertifiedRegionalVolumeResult,
+    sphere_union_volume_certified_radius_profile, sphere_union_volume_certified_regions,
 };
 
 /// Work and absolute-error requirements for the explicit certified integrator.

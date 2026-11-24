@@ -100,6 +100,15 @@ pub struct CertifiedBuriedVolumeFrame {
 }
 
 impl CertifiedBuriedVolumeFrame {
+    /// Reuse this exact frame/center/atomic geometry over a radius profile.
+    pub fn compute_radius_profile(
+        &self,
+        radii: &[f64],
+        options: super::CertifiedVolumeOptions,
+    ) -> Result<super::CertifiedRadiusProfile, super::DescriptorError> {
+        super::sphere_union_volume_certified_radius_profile([0.0; 3], &self.atoms, radii, options)
+    }
+
     /// Integrate all local regions. The evaluation sphere is centered at local zero.
     pub fn compute_regions(
         &self,

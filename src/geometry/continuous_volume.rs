@@ -3,10 +3,12 @@ use super::{BuriedVolumeCalculator, DescriptorError, Molecule};
 use std::{cmp::Ordering, collections::BinaryHeap};
 
 mod certified;
+mod geometric;
 pub use certified::{
     CertifiedVolumeOptions, CertifiedVolumeResult, CertifiedVolumeStatus,
     sphere_union_volume_certified,
 };
+pub use geometric::sphere_union_volume_certified_geometric;
 
 /// A mathematical closed ball. Coordinates/radius are in Å.
 #[derive(Clone, Copy, Debug, PartialEq, serde::Serialize, serde::Deserialize)]

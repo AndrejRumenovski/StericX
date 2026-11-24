@@ -17,7 +17,7 @@ pub use continuous_sterimol::ContinuousSterimolParams;
 pub use continuous_volume::{
     AtomicSphere, CertifiedVolumeOptions, CertifiedVolumeResult, CertifiedVolumeStatus,
     ContinuousVolumeMethod, ContinuousVolumeResult, sphere_union_volume,
-    sphere_union_volume_certified,
+    sphere_union_volume_certified, sphere_union_volume_certified_geometric,
 };
 pub use donor::{DonorTopology, detect_trivalent_donor};
 pub use pyramidalization::{PyramidalizationCalculator, PyramidalizationParams};

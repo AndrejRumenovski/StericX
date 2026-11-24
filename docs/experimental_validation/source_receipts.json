@@ -1,0 +1,102 @@
+[
+  {
+    "url": "https://api.github.com/repos/SigmanGroup/Ni-Catalyzed-hDA/commits/main",
+    "path": ".stericx/experimental_validation/sources/nihda_repo.json",
+    "retrieved_utc": "2026-11-24T19:27:29Z",
+    "status": 200,
+    "final_url": "https://api.github.com/repos/SigmanGroup/Ni-Catalyzed-hDA/commits/main",
+    "content_type": "application/json; charset=utf-8",
+    "sha256": "574df15dafd2b4f7e3e4d24141d8f7dae52f744871e349bce1e14800cc2a0ca5",
+    "bytes": 5084
+  },
+  {
+    "url": "https://api.github.com/repos/SigmanGroup/Ni-Catalyzed-hDA/git/trees/main?recursive=1",
+    "path": ".stericx/experimental_validation/sources/nihda_tree.json",
+    "retrieved_utc": "2026-11-24T19:27:29Z",
+    "status": 200,
+    "final_url": "https://api.github.com/repos/SigmanGroup/Ni-Catalyzed-hDA/git/trees/main?recursive=1",
+    "content_type": "application/json; charset=utf-8",
+    "sha256": "914964da7e832d5c4c5ab6a739ee41ddf19c49b8f228f0ffe2652c0e16f3778b",
+    "bytes": 11969
+  },
+  {
+    "url": "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv",
+    "path": ".stericx/experimental_validation/sources/nihda.csv",
+    "retrieved_utc": "2026-11-24T19:27:31Z",
+    "status": 200,
+    "final_url": "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/data/kraken.csv",
+    "content_type": "text/plain; charset=utf-8",
+    "sha256": "4af1a776378a1f1aa369e076c9b35de2afa8c60e30841ec63cd13d95ccb8f00d",
+    "bytes": 3375494
+  },
+  {
+    "url": "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/Enantioselectivity_Model.ipynb",
+    "path": ".stericx/experimental_validation/sources/nihda_notebook.json",
+    "retrieved_utc": "2026-11-24T19:27:32Z",
+    "status": 200,
+    "final_url": "https://raw.githubusercontent.com/SigmanGroup/Ni-Catalyzed-hDA/main/Enantioselectivity_Model.ipynb",
+    "content_type": "text/plain; charset=utf-8",
+    "sha256": "712b1102ca28964f15dce2c705e976a8b17798857e77d24bc6ac3f38efc414bc",
+    "bytes": 80100
+  },
+  {
+    "url": "https://authors.library.caltech.edu/records/ef9d0-y2c15/files/ja5c09948_si_001.pdf?download=1",
+    "path": ".stericx/experimental_validation/sources/nihda_si.pdf",
+    "retrieved_utc": "2026-11-24T19:27:32Z",
+    "status": 200,
+    "final_url": "https://s3.us-west-2.amazonaws.com/caltechauthors/f3/61/ee17-b69d-46e0-ae41-9f14cf5e98e3/data?response-content-type=application%2Foctet-stream&response-content-disposition=attachment%3B%20filename%3Dja5c09948_si_001.pdf&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARCVIVNNAKP37N3MU%2F20261124%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20261124T192733Z&X-Amz-Expires=60&X-Amz-SignedHeaders=host&X-Amz-Signature=374f89e9b5e0c78c9ae9c8276b28d76f71f567cf83168c653db57aa807e724b2",
+    "content_type": "application/octet-stream",
+    "sha256": "0af476b2476044a930a261a0ea0e7196dacbfd7ac8ee33406c2ecf0a2095866e",
+    "bytes": 12016868
+  },
+  {
+    "url": "https://zenodo.org/api/records/15338599",
+    "path": ".stericx/experimental_validation/sources/nihda_zenodo.json",
+    "retrieved_utc": "2026-11-24T19:27:34Z",
+    "status": 200,
+    "final_url": "https://zenodo.org/api/records/15338599",
+    "content_type": "application/json",
+    "sha256": "980a5c2c4b91812b5c4c1cdcbc2e7266fbac44c772b84c87d8f4e2c62914a8bd",
+    "bytes": 22321
+  },
+  {
+    "url": "https://api.github.com/repos/SigmanGroup/BisphosphineConformerSelection/git/trees/main?recursive=1",
+    "path": ".stericx/experimental_validation/sources/bisphosphine_tree.json",
+    "retrieved_utc": "2026-11-24T19:27:35Z",
+    "status": 200,
+    "final_url": "https://api.github.com/repos/SigmanGroup/BisphosphineConformerSelection/git/trees/main?recursive=1",
+    "content_type": "application/json; charset=utf-8",
+    "sha256": "d594c7ac6f5a4b56b6e2550094e8f1579c7545e592b872193392f707fb10ba6d",
+    "bytes": 2126921
+  },
+  {
+    "url": "https://patonlab.com/code/",
+    "path": ".stericx/experimental_validation/sources/paton_tools.html",
+    "retrieved_utc": "2026-11-24T19:27:35Z",
+    "status": 200,
+    "final_url": "https://patonlab.com/code/",
+    "content_type": "text/html; charset=UTF-8",
+    "sha256": "046059995c6e3ac420f4b02e2c205c56f91395c7d511a57672d6820b6fb6bbb2",
+    "bytes": 62896
+  },
+  {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6417887/",
+    "path": ".stericx/experimental_validation/sources/zahrt.html",
+    "retrieved_utc": "2026-11-24T19:27:37Z",
+    "status": 403,
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6417887/",
+    "content_type": "text/html; charset=UTF-8",
+    "sha256": "c996c0469ef05ff6fdd1f7cefbc3f7e109bb21969de42fcf591498a828a7ad5f",
+    "bytes": 134
+  },
+  {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6641578/",
+    "path": ".stericx/experimental_validation/sources/reid.html",
+    "retrieved_utc": "2026-11-24T19:27:37Z",
+    "status": 403,
+    "final_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6641578/",
+    "content_type": "text/html; charset=UTF-8",
+    "sha256": "c996c0469ef05ff6fdd1f7cefbc3f7e109bb21969de42fcf591498a828a7ad5f",
+    "bytes": 134
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "cases": 96,
+  "regional_integrals": 1248,
+  "failures": [],
+  "unmet": [
+    "budget_4",
+    "budget_32",
+    "budget_1024",
+    "budget_16384"
+  ],
+  "input_sha256": "fed01f209f7d13e45ec3b0c6186a816a9d236ff2fefd4ea9f17fa991049e56ce",
+  "observed_sha256": "df203fea0bc180da8e3626afffe86afe65ef955c0f2634d200cfef275bdf0a24",
+  "engine_sha256": "5f79a7c7f429c2861fd4ceea9667e8ce46f7c404739d33b012621e4bee5cdd51",
+  "controller_sha256": "deea00b0adaebccef4b200d4b6409e3b4bef99018c98eddcf2144ab6da99bb3d",
+  "reference": "Exact rational quadratic envelope integration split at the regional plane, times rational Machin-pi enclosure; sphere cap/union/disjoint analytical references. Percent references cancel pi algebraically."
+}

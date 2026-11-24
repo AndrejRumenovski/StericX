@@ -2,6 +2,13 @@
 use super::*;
 use std::time::Instant;
 
+#[path = "regional.rs"]
+mod regional;
+pub use regional::{
+    CertifiedPercentage, CertifiedRegionalMeasure, CertifiedRegionalVolumeResult,
+    sphere_union_volume_certified_regions,
+};
+
 /// Work and absolute-error requirements for the explicit certified integrator.
 #[derive(Clone, Copy, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct CertifiedVolumeOptions {

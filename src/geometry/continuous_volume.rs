@@ -5,8 +5,9 @@ use std::{cmp::Ordering, collections::BinaryHeap};
 mod certified;
 mod geometric;
 pub use certified::{
+    CertifiedPercentage, CertifiedRegionalMeasure, CertifiedRegionalVolumeResult,
     CertifiedVolumeOptions, CertifiedVolumeResult, CertifiedVolumeStatus,
-    sphere_union_volume_certified,
+    sphere_union_volume_certified, sphere_union_volume_certified_regions,
 };
 pub use geometric::sphere_union_volume_certified_geometric;
 

@@ -84,6 +84,101 @@ pub struct BuriedVolumeDetails {
     pub orientations: Vec<RegionalBuriedVolume>,
 }
 
+/// Explicit local spheres prepared with the established molecular frame.
+/// Certificates refer to these represented local binary64 balls, not an exact
+/// rotation of uncertain source coordinates. Frame coordinates use the legacy
+/// f32 subtraction/dot convention; radii use the explicit continuous f64 scaling.
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct CertifiedBuriedVolumeFrame {
+    pub center: [f32; 3],
+    pub axes: [[f32; 3]; 3],
+    pub donor_atom_index: usize,
+    pub plane_atom_index: usize,
+    pub radii_scale: f64,
+    pub include_hydrogens: bool,
+    pub atoms: Vec<super::AtomicSphere>,
+}
+
+impl CertifiedBuriedVolumeFrame {
+    /// Integrate all local regions. The evaluation sphere is centered at local zero.
+    pub fn compute_regions(
+        &self,
+        radius: f64,
+        options: super::CertifiedVolumeOptions,
+    ) -> Result<super::CertifiedRegionalVolumeResult, super::DescriptorError> {
+        super::sphere_union_volume_certified_regions(
+            super::AtomicSphere {
+                center: [0.0; 3],
+                radius,
+            },
+            &self.atoms,
+            options,
+        )
+    }
+}
+
+impl BuriedVolumeCalculator {
+    /// Prepare one explicit donor-plane frame, independently of finite-grid density.
+    /// The center and plane atom are supplied, so no coordination/protonation or
+    /// ensemble population is inferred. Repeat for each desired molecular plane.
+    pub fn prepare_certified_frame(
+        molecule: &Molecule,
+        donor_idx: usize,
+        plane_idx: usize,
+        center: Vec3,
+        radii_scale: f64,
+        include_hydrogens: bool,
+    ) -> Result<CertifiedBuriedVolumeFrame, super::DescriptorError> {
+        if donor_idx >= molecule.atoms.len()
+            || plane_idx >= molecule.atoms.len()
+            || donor_idx == plane_idx
+        {
+            return Err(super::DescriptorError(
+                "invalid donor/plane atom indices".into(),
+            ));
+        }
+        if !radii_scale.is_finite() || radii_scale <= 0.0 {
+            return Err(super::DescriptorError(
+                "continuous radii scale must be finite and positive".into(),
+            ));
+        }
+        let basis = coordinate_basis(molecule, donor_idx, plane_idx, center)
+            .map_err(|e| super::DescriptorError(e.to_string()))?;
+        let mut atoms = Vec::with_capacity(molecule.atoms.len());
+        for a in &molecule.atoms {
+            if !include_hydrogens && a.element.eq_ignore_ascii_case("H") {
+                continue;
+            }
+            if !a.position.is_finite() || !a.vdw_radius.is_finite() || a.vdw_radius <= 0.0 {
+                return Err(super::DescriptorError(
+                    "atom has invalid coordinates or radius".into(),
+                ));
+            }
+            let delta = a.position - center;
+            let local = Vec3::new(delta.dot(basis.x), delta.dot(basis.y), delta.dot(basis.z));
+            let radius = f64::from(a.vdw_radius) * radii_scale;
+            if !local.is_finite() || !radius.is_finite() || radius > 1e100 || radius == 0.0 {
+                return Err(super::DescriptorError(
+                    "aligned sphere exceeds continuous input domain".into(),
+                ));
+            }
+            atoms.push(super::AtomicSphere {
+                center: local.as_dvec3().to_array(),
+                radius,
+            });
+        }
+        Ok(CertifiedBuriedVolumeFrame {
+            center: center.to_array(),
+            axes: [basis.x.to_array(), basis.y.to_array(), basis.z.to_array()],
+            donor_atom_index: donor_idx,
+            plane_atom_index: plane_idx,
+            radii_scale,
+            include_hydrogens,
+            atoms,
+        })
+    }
+}
+
 /// Conformer-ensemble aggregation used by Kraken-style descriptor tables.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct BuriedVolumeEnsembleParams {

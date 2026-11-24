@@ -10,14 +10,15 @@ mod xyz;
 
 pub use buried_volume::{
     BuriedVolumeCalculator, BuriedVolumeConfig, BuriedVolumeDetails, BuriedVolumeEnsembleParams,
-    BuriedVolumeError, BuriedVolumeParams, RegionalBuriedVolume, bonded_neighbors,
-    coordination_center, coordination_center_with_neighbors,
+    BuriedVolumeError, BuriedVolumeParams, CertifiedBuriedVolumeFrame, RegionalBuriedVolume,
+    bonded_neighbors, coordination_center, coordination_center_with_neighbors,
 };
 pub use continuous_sterimol::ContinuousSterimolParams;
 pub use continuous_volume::{
-    AtomicSphere, CertifiedVolumeOptions, CertifiedVolumeResult, CertifiedVolumeStatus,
-    ContinuousVolumeMethod, ContinuousVolumeResult, sphere_union_volume,
-    sphere_union_volume_certified, sphere_union_volume_certified_geometric,
+    AtomicSphere, CertifiedPercentage, CertifiedRegionalMeasure, CertifiedRegionalVolumeResult,
+    CertifiedVolumeOptions, CertifiedVolumeResult, CertifiedVolumeStatus, ContinuousVolumeMethod,
+    ContinuousVolumeResult, sphere_union_volume, sphere_union_volume_certified,
+    sphere_union_volume_certified_geometric, sphere_union_volume_certified_regions,
 };
 pub use donor::{DonorTopology, detect_trivalent_donor};
 pub use pyramidalization::{PyramidalizationCalculator, PyramidalizationParams};

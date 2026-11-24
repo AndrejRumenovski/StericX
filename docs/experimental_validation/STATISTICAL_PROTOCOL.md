@@ -96,3 +96,43 @@ sensitivity uses 298.15/353.15/400 K for those approximate weights, while the
 experimental response remains at its reported reaction temperature. Geometry,
 optimization and incomplete coverage sensitivity must not be interpreted as
 experimentally measured populations.
+
+## Pre-prediction data-quality amendment (2026-11-24)
+
+After native descriptors were computed, but **before any new experimental model was
+fit or scored**, a mapped geometric audit found a phosphorus-handedness disagreement
+for all 15 ligand-401 exports and a mixture for ligand 1058 (6 opposite, 8 matching)
+relative to the encoded source SMILES. Ordinary RDKit 3D assignment had left these
+centers unassigned. Independent stereo-constrained source embeddings and an explicit
+virtual-point diagnostic agree after accounting for implicit-neighbor parity.
+An initial diagnostic without that parity conversion misleadingly implicated 1057;
+that exploratory interpretation was rejected. 1057's five structures match.
+
+The original eleven-ligand comparison will still be reported as the **as-distributed
+library association**, with this limitation, rather than silently replacing its
+structures or dropping unfavorable results. Add a common nine-ligand sensitivity
+excluding 401 and 1058, and a filtered-published sensitivity retaining only the eight
+matching 1058 conformers and excluding 401. Neither is a new primary endpoint.
+Unknown absolute axial/spiro assignments remain limitations. A statistical improvement
+on the as-distributed lane alone cannot establish a conformer-population hypothesis
+for the experimentally used stereoisomers.
+
+Generated structures will preserve source-encoded stereochemistry and separately
+record relative handedness filters for source-unencoded P/axial geometry. This is a
+separate structure-preparation experiment, including a deliberate stereoisomer
+correction for 401; it is not a silent replacement of the primary input library.
+
+## Post-primary preparation sensitivity (2026-11-24)
+
+After primary modeling, inspection of the separately generated lane found that
+standard RDKit aromaticity marks P-containing BINOL rings aromatic and hides the
+single biaryl bond from the initial relative-handedness filter. Preserve generated
+v1 and all its outcomes as a preparation experiment with incomplete stereo control.
+Generated v2 uses the original SDF bond orders and MDL aromaticity/hybridization
+before ETKDG, then the same MMFF94 optimization, seeds, budgets and RMS criteria.
+It transfers source-encoded R/S centers explicitly, filters indexed biaryl/spiro
+handedness relative to the first original geometry, and evaluates serialized-geometry
+energies using the same preparation. MMFF's own aromaticity typing is recorded as
+an implementation convention. This is a disclosed post-primary quality correction,
+not a newly registered confirmatory comparison. No generated result replaces the
+published primary endpoint, feature or split.

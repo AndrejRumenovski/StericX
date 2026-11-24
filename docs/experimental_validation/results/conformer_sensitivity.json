@@ -1,0 +1,3898 @@
+{
+  "rows": [
+    {
+      "ligand_id": 401,
+      "published_conformers": 15,
+      "generated_counts": [
+        3,
+        3
+      ],
+      "coverage": [
+        {
+          "sampled_conformers": 1,
+          "minimum_descriptor_5_50_95_quantiles": [
+            2.4127750396728516,
+            3.0655059814453125,
+            16.71458625793457
+          ],
+          "probability_sample_min_equals_full_min": 0.137
+        },
+        {
+          "sampled_conformers": 2,
+          "minimum_descriptor_5_50_95_quantiles": [
+            2.4127750396728516,
+            2.4477434158325195,
+            5.827958106994629
+          ],
+          "probability_sample_min_equals_full_min": 0.256
+        },
+        {
+          "sampled_conformers": 4,
+          "minimum_descriptor_5_50_95_quantiles": [
+            2.4127750396728516,
+            2.436086654663086,
+            3.0655059814453125
+          ],
+          "probability_sample_min_equals_full_min": 0.471
+        },
+        {
+          "sampled_conformers": 8,
+          "minimum_descriptor_5_50_95_quantiles": [
+            2.4127750396728516,
+            2.4127750396728516,
+            2.4477434158325195
+          ],
+          "probability_sample_min_equals_full_min": 0.809
+        },
+        {
+          "sampled_conformers": 15,
+          "minimum_descriptor_5_50_95_quantiles": [
+            2.4127750396728516,
+            2.4127750396728516,
+            2.4127750396728516
+          ],
+          "probability_sample_min_equals_full_min": 1.0
+        }
+      ],
+      "features": {
+        "sterimol_l": {
+          "published_range": 4.222756862640381,
+          "generated_seed_mean_difference": 0.0002266565958652933,
+          "generated_seed_min_difference": 0.000568389892578125,
+          "temperature_weighted_mean_range": 0.0035702175137135583,
+          "optimization_mean_difference": 0.1274881362915039,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -2.0720759391784664
+        },
+        "sterimol_b1": {
+          "published_range": 0.23178863525390625,
+          "generated_seed_mean_difference": 0.0015649795532226562,
+          "generated_seed_min_difference": 0.00024247169494628906,
+          "temperature_weighted_mean_range": 0.0015776911943699012,
+          "optimization_mean_difference": 0.12888701756795248,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.04315474828084298
+        },
+        "sterimol_b5": {
+          "published_range": 4.550426006317139,
+          "generated_seed_mean_difference": 0.0001220703125,
+          "generated_seed_min_difference": 2.47955322265625e-05,
+          "temperature_weighted_mean_range": 0.006084579514931576,
+          "optimization_mean_difference": -0.25444698333740234,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 1.2510134379069004
+        },
+        "percent_buried_volume": {
+          "published_range": 9.865005493164062,
+          "generated_seed_mean_difference": 0.0007203420003243366,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.00791630737259652,
+          "optimization_mean_difference": -3.392897923787435,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.983471171061197
+        },
+        "max_delta_qvbur": {
+          "published_range": 14.301811218261719,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.01680365625651259,
+          "optimization_mean_difference": -3.7298943201700845,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -0.3877532323201498
+        },
+        "qvbur_min": {
+          "published_range": 0.2797422409057617,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0016310631613478677,
+          "optimization_mean_difference": -0.372989018758138,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.14453328450520786
+        },
+        "qvbur_max": {
+          "published_range": 15.04779052734375,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.01517259309516561,
+          "optimization_mean_difference": -4.165048281351726,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -0.06993535359700509
+        },
+        "ovbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.0,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.0
+        },
+        "ovbur_max": {
+          "published_range": 5.816303253173828,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.01517259309516561,
+          "optimization_mean_difference": -3.7842880884806314,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -0.7226668675740555
+        },
+        "pyr_p": {
+          "published_range": 0.0013938546180725098,
+          "generated_seed_mean_difference": 8.12609990430424e-06,
+          "generated_seed_min_difference": 3.147125244140625e-05,
+          "temperature_weighted_mean_range": 8.80999866361698e-05,
+          "optimization_mean_difference": 0.1151742935180664,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.03619904120763151
+        },
+        "pyr_alpha": {
+          "published_range": 0.25538158416748047,
+          "generated_seed_mean_difference": 0.0011628468831368366,
+          "generated_seed_min_difference": 0.004543304443359375,
+          "temperature_weighted_mean_range": 0.00979878552804081,
+          "optimization_mean_difference": -12.711600621541342,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -5.157859675089519
+        }
+      },
+      "generated_energy_analyses": [
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              35.900090295203256,
+              35.991781670950616,
+              38.746016562987286
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              0.09169137574735942,
+              2.84592626778403
+            ],
+            "weights": [
+              0.5362433236383505,
+              0.45935839034591364,
+              0.004398286015735895
+            ],
+            "effective_states": 2.0056705205558663,
+            "max_weight": 0.5362433236383505
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              35.900090295203256,
+              35.991781670950616,
+              38.746016562987286
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              0.09169137574735942,
+              2.84592626778403
+            ],
+            "weights": [
+              0.5277460576466612,
+              0.46310786443294916,
+              0.00914607792038976
+            ],
+            "effective_states": 2.028115990186834,
+            "max_weight": 0.5277460576466612
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              35.900090295203256,
+              35.991781670950616,
+              38.746016562987286
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              0.09169137574735942,
+              2.84592626778403
+            ],
+            "weights": [
+              0.5211266909475826,
+              0.46435110257824985,
+              0.014522206474167448
+            ],
+            "effective_states": 2.051678208398535,
+            "max_weight": 0.5211266909475826
+          }
+        ],
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              35.9917621346935,
+              35.90008220789123,
+              38.74601358991479
+            ],
+            "relative_energies_kcal_mol": [
+              0.09167992680227144,
+              0.0,
+              2.845931382023558
+            ],
+            "weights": [
+              0.459363206772979,
+              0.5362385840503804,
+              0.004398209176640611
+            ],
+            "effective_states": 2.005673170895264,
+            "max_weight": 0.5362385840503804
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              35.9917621346935,
+              35.90008220789123,
+              38.74601358991479
+            ],
+            "relative_energies_kcal_mol": [
+              0.09167992680227144,
+              0.0,
+              2.845931382023558
+            ],
+            "weights": [
+              0.4631119516293914,
+              0.527742105592525,
+              0.009145942778083655
+            ],
+            "effective_states": 2.028117586854964,
+            "max_weight": 0.527742105592525
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              35.9917621346935,
+              35.90008220789123,
+              38.74601358991479
+            ],
+            "relative_energies_kcal_mol": [
+              0.09167992680227144,
+              0.0,
+              2.845931382023558
+            ],
+            "weights": [
+              0.46435472849541903,
+              0.5211232542354883,
+              0.014522017269092665
+            ],
+            "effective_states": 2.051679134454428,
+            "max_weight": 0.5211232542354883
+          }
+        ]
+      ]
+    },
+    {
+      "ligand_id": 498,
+      "published_conformers": 2,
+      "generated_counts": [
+        2,
+        2
+      ],
+      "coverage": [
+        {
+          "sampled_conformers": 1,
+          "minimum_descriptor_5_50_95_quantiles": [
+            5.431657791137695,
+            5.431657791137695,
+            5.4433135986328125
+          ],
+          "probability_sample_min_equals_full_min": 0.512
+        },
+        {
+          "sampled_conformers": 2,
+          "minimum_descriptor_5_50_95_quantiles": [
+            5.431657791137695,
+            5.431657791137695,
+            5.431657791137695
+          ],
+          "probability_sample_min_equals_full_min": 1.0
+        }
+      ],
+      "features": {
+        "sterimol_l": {
+          "published_range": 0.000293731689453125,
+          "generated_seed_mean_difference": 0.0001697540283203125,
+          "generated_seed_min_difference": 0.00019931793212890625,
+          "temperature_weighted_mean_range": 0.0018164690467212807,
+          "optimization_mean_difference": 1.0352225303649902,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": 0.062398433685302734
+        },
+        "sterimol_b1": {
+          "published_range": 7.152557373046875e-07,
+          "generated_seed_mean_difference": 0.001605391502380371,
+          "generated_seed_min_difference": 0.008302688598632812,
+          "temperature_weighted_mean_range": 0.004672116456523323,
+          "optimization_mean_difference": -0.12196743488311768,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": -0.12834835052490234
+        },
+        "sterimol_b5": {
+          "published_range": 0.00017452239990234375,
+          "generated_seed_mean_difference": 2.8133392333984375e-05,
+          "generated_seed_min_difference": 5.1021575927734375e-05,
+          "temperature_weighted_mean_range": 0.000943205633800126,
+          "optimization_mean_difference": -0.5332851409912109,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": 0.12970924377441406
+        },
+        "percent_buried_volume": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0010814666748046875,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.007300608314793067,
+          "optimization_mean_difference": -3.687479019165039,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": -1.8291349411010742
+        },
+        "max_delta_qvbur": {
+          "published_range": 0.011655807495117188,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.016097236655205904,
+          "optimization_mean_difference": -0.8450531959533691,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": -3.9338717460632324
+        },
+        "qvbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.004024317129887933,
+          "optimization_mean_difference": -1.9173989295959473,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": 0.06410789489746094
+        },
+        "qvbur_max": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.010904571103974803,
+          "optimization_mean_difference": -2.8556995391845703,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": -3.753206253051758
+        },
+        "ovbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.0,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": 0.0
+        },
+        "ovbur_max": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.006750459905877193,
+          "optimization_mean_difference": -2.028130531311035,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": -2.867356300354004
+        },
+        "pyr_p": {
+          "published_range": 3.159046173095703e-05,
+          "generated_seed_mean_difference": 1.749396324157715e-05,
+          "generated_seed_min_difference": 2.092123031616211e-05,
+          "temperature_weighted_mean_range": 0.00030115184552381713,
+          "optimization_mean_difference": 0.41184453666210175,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": 0.001617521047592163
+        },
+        "pyr_alpha": {
+          "published_range": 0.0041790008544921875,
+          "generated_seed_mean_difference": 0.0023040771484375,
+          "generated_seed_min_difference": 0.0020885467529296875,
+          "temperature_weighted_mean_range": 0.04071994675988577,
+          "optimization_mean_difference": -35.859853744506836,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": -0.9920854568481445
+        }
+      },
+      "generated_energy_analyses": [
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              77.89955544689528,
+              81.24438779985542
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              3.3448323529601396
+            ],
+            "weights": [
+              0.9964788142061128,
+              0.0035211857938870993
+            ],
+            "effective_states": 1.0070671684673027,
+            "max_weight": 0.9964788142061128
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              77.89955544689528,
+              81.24438779985542
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              3.3448323529601396
+            ],
+            "weights": [
+              0.9915592211962668,
+              0.008440778803733172
+            ],
+            "effective_states": 1.017024030451035,
+            "max_weight": 0.9915592211962668
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              77.89955544689528,
+              81.24438779985542
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              3.3448323529601396
+            ],
+            "weights": [
+              0.9853414210092478,
+              0.014658578990752236
+            ],
+            "effective_states": 1.029746715680604,
+            "max_weight": 0.9853414210092478
+          }
+        ],
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              77.89954404909912,
+              81.24437554765163
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              3.3448314985525087
+            ],
+            "weights": [
+              0.9964788091461758,
+              0.0035211908538241884
+            ],
+            "effective_states": 1.0070671786584413,
+            "max_weight": 0.9964788091461758
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              77.89954404909912,
+              81.24437554765163
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              3.3448314985525087
+            ],
+            "weights": [
+              0.9915592110064863,
+              0.008440788993513831
+            ],
+            "effective_states": 1.0170240511745352,
+            "max_weight": 0.9915592110064863
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              77.89954404909912,
+              81.24437554765163
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              3.3448314985525087
+            ],
+            "weights": [
+              0.9853414054838958,
+              0.01465859451610425
+            ],
+            "effective_states": 1.029746747640815,
+            "max_weight": 0.9853414054838958
+          }
+        ]
+      ]
+    },
+    {
+      "ligand_id": 723,
+      "published_conformers": 8,
+      "generated_counts": [
+        1,
+        1
+      ],
+      "coverage": [
+        {
+          "sampled_conformers": 1,
+          "minimum_descriptor_5_50_95_quantiles": [
+            19.278888702392578,
+            23.428394317626953,
+            27.962547302246094
+          ],
+          "probability_sample_min_equals_full_min": 0.122
+        },
+        {
+          "sampled_conformers": 2,
+          "minimum_descriptor_5_50_95_quantiles": [
+            19.278888702392578,
+            19.41875648498535,
+            25.549774169921875
+          ],
+          "probability_sample_min_equals_full_min": 0.243
+        },
+        {
+          "sampled_conformers": 4,
+          "minimum_descriptor_5_50_95_quantiles": [
+            19.278888702392578,
+            19.41875648498535,
+            23.428394317626953
+          ],
+          "probability_sample_min_equals_full_min": 0.493
+        },
+        {
+          "sampled_conformers": 8,
+          "minimum_descriptor_5_50_95_quantiles": [
+            19.278888702392578,
+            19.278888702392578,
+            19.278888702392578
+          ],
+          "probability_sample_min_equals_full_min": 1.0
+        }
+      ],
+      "features": {
+        "sterimol_l": {
+          "published_range": 0.15752792358398438,
+          "generated_seed_mean_difference": 0.00013828277587890625,
+          "generated_seed_min_difference": 0.00013828277587890625,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -0.06848812103271484,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.10719966888427734
+        },
+        "sterimol_b1": {
+          "published_range": 0.02324652671813965,
+          "generated_seed_mean_difference": 0.0018448829650878906,
+          "generated_seed_min_difference": 0.0018448829650878906,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -0.08545041084289551,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.029025912284851074
+        },
+        "sterimol_b5": {
+          "published_range": 1.1144766807556152,
+          "generated_seed_mean_difference": 8.0108642578125e-05,
+          "generated_seed_min_difference": 8.0108642578125e-05,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.5370302200317383,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -0.22805756330490112
+        },
+        "percent_buried_volume": {
+          "published_range": 8.22732925415039,
+          "generated_seed_mean_difference": 0.00215911865234375,
+          "generated_seed_min_difference": 0.00215911865234375,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 5.752422332763672,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -0.5819473266601562
+        },
+        "max_delta_qvbur": {
+          "published_range": 8.683658599853516,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 11.224647521972656,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -1.9436230659484863
+        },
+        "qvbur_min": {
+          "published_range": 0.3963003158569336,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -0.11655998229980469,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -0.1544402837753296
+        },
+        "qvbur_max": {
+          "published_range": 8.462196350097656,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 10.000776290893555,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -1.4482474327087402
+        },
+        "ovbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.0,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.0
+        },
+        "ovbur_max": {
+          "published_range": 0.8508815765380859,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.7226657867431641,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.4676945209503174
+        },
+        "pyr_p": {
+          "published_range": 0.009085655212402344,
+          "generated_seed_mean_difference": 3.337860107421875e-06,
+          "generated_seed_min_difference": 3.337860107421875e-06,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.08351725339889526,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.006418049335479736
+        },
+        "pyr_alpha": {
+          "published_range": 1.3351802825927734,
+          "generated_seed_mean_difference": 0.0004949569702148438,
+          "generated_seed_min_difference": 0.0004949569702148438,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -10.14388370513916,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -0.9417678117752075
+        }
+      },
+      "generated_energy_analyses": [
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              89.86633827324738
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              89.86633827324738
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              89.86633827324738
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          }
+        ],
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              89.86632995199241
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              89.86632995199241
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              89.86632995199241
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          }
+        ]
+      ]
+    },
+    {
+      "ligand_id": 724,
+      "published_conformers": 2,
+      "generated_counts": [
+        1,
+        1
+      ],
+      "coverage": [
+        {
+          "sampled_conformers": 1,
+          "minimum_descriptor_5_50_95_quantiles": [
+            26.598804473876953,
+            26.622116088867188,
+            26.622116088867188
+          ],
+          "probability_sample_min_equals_full_min": 0.489
+        },
+        {
+          "sampled_conformers": 2,
+          "minimum_descriptor_5_50_95_quantiles": [
+            26.598804473876953,
+            26.598804473876953,
+            26.598804473876953
+          ],
+          "probability_sample_min_equals_full_min": 1.0
+        }
+      ],
+      "features": {
+        "sterimol_l": {
+          "published_range": 0.000255584716796875,
+          "generated_seed_mean_difference": 2.86102294921875e-06,
+          "generated_seed_min_difference": 2.86102294921875e-06,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -0.11405754089355469,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.14237308502197266
+        },
+        "sterimol_b1": {
+          "published_range": 0.0004649162292480469,
+          "generated_seed_mean_difference": 0.001140594482421875,
+          "generated_seed_min_difference": 0.001140594482421875,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -0.07500004768371582,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.02701735496520996
+        },
+        "sterimol_b5": {
+          "published_range": 6.67572021484375e-06,
+          "generated_seed_mean_difference": 3.528594970703125e-05,
+          "generated_seed_min_difference": 3.528594970703125e-05,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.7398576736450195,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.018398761749267578
+        },
+        "percent_buried_volume": {
+          "published_range": 0.017307281494140625,
+          "generated_seed_mean_difference": 0.002166748046875,
+          "generated_seed_min_difference": 0.002166748046875,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 3.8443260192871094,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 2.388364791870117
+        },
+        "max_delta_qvbur": {
+          "published_range": 0.023311614990234375,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 7.984301567077637,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 2.972261428833008
+        },
+        "qvbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -0.44292449951171875,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.05827903747558594
+        },
+        "qvbur_max": {
+          "published_range": 0.023311614990234375,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 5.571529388427734,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 3.030538558959961
+        },
+        "ovbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.0,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.0
+        },
+        "ovbur_max": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.25642967224121094,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.4895496368408203
+        },
+        "pyr_p": {
+          "published_range": 1.8775463104248047e-05,
+          "generated_seed_mean_difference": 4.1604042053222656e-05,
+          "generated_seed_min_difference": 4.1604042053222656e-05,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.018949031829833984,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.007570058107376099
+        },
+        "pyr_alpha": {
+          "published_range": 0.0029802322387695312,
+          "generated_seed_mean_difference": 0.005629539489746094,
+          "generated_seed_min_difference": 0.005629539489746094,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -2.9399423599243164,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -1.042954921722412
+        }
+      },
+      "generated_energy_analyses": [
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              101.71857869873502
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              101.71857869873502
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              101.71857869873502
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          }
+        ],
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              101.71857076913795
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              101.71857076913795
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              101.71857076913795
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          }
+        ]
+      ]
+    },
+    {
+      "ligand_id": 785,
+      "published_conformers": 2,
+      "generated_counts": [
+        2,
+        2
+      ],
+      "coverage": [
+        {
+          "sampled_conformers": 1,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.608903884887695,
+            6.620560646057129,
+            6.620560646057129
+          ],
+          "probability_sample_min_equals_full_min": 0.488
+        },
+        {
+          "sampled_conformers": 2,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.608903884887695,
+            6.608903884887695,
+            6.608903884887695
+          ],
+          "probability_sample_min_equals_full_min": 1.0
+        }
+      ],
+      "features": {
+        "sterimol_l": {
+          "published_range": 0.00030422210693359375,
+          "generated_seed_mean_difference": 0.2718315124511719,
+          "generated_seed_min_difference": 0.543609619140625,
+          "temperature_weighted_mean_range": 0.03381826557320622,
+          "optimization_mean_difference": 5.288933515548706,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": 0.6568779945373535
+        },
+        "sterimol_b1": {
+          "published_range": 0.0002601146697998047,
+          "generated_seed_mean_difference": 0.23777306079864502,
+          "generated_seed_min_difference": 0.4773564338684082,
+          "temperature_weighted_mean_range": 0.034017503327528065,
+          "optimization_mean_difference": -0.3089662790298462,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": -0.1620495319366455
+        },
+        "sterimol_b5": {
+          "published_range": 0.0006160736083984375,
+          "generated_seed_mean_difference": 0.009499073028564453,
+          "generated_seed_min_difference": 9.250640869140625e-05,
+          "temperature_weighted_mean_range": 0.00013061263240032872,
+          "optimization_mean_difference": 0.2289600372314453,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": -0.15175247192382812
+        },
+        "percent_buried_volume": {
+          "published_range": 0.0064907073974609375,
+          "generated_seed_mean_difference": 0.42618656158447266,
+          "generated_seed_min_difference": 0.11898612976074219,
+          "temperature_weighted_mean_range": 0.005956636269022653,
+          "optimization_mean_difference": -15.854320526123047,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": -0.7431192398071289
+        },
+        "max_delta_qvbur": {
+          "published_range": 0.011656761169433594,
+          "generated_seed_mean_difference": 0.34385061264038086,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.09033764853662785,
+          "optimization_mean_difference": -10.63019609451294,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": 1.4278483390808105
+        },
+        "qvbur_min": {
+          "published_range": 0.011656761169433594,
+          "generated_seed_mean_difference": 0.04079580307006836,
+          "generated_seed_min_difference": 0.08159160614013672,
+          "temperature_weighted_mean_range": 0.019612804551867313,
+          "optimization_mean_difference": -2.226280689239502,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": -0.5012040138244629
+        },
+        "qvbur_max": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.3030548095703125,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.07013052246830398,
+          "optimization_mean_difference": -14.068692207336426,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": 0.9208164215087891
+        },
+        "ovbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.0,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": 0.0
+        },
+        "ovbur_max": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.3030548095703125,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.07013052246830398,
+          "optimization_mean_difference": -7.360711097717285,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": 0.9208164215087891
+        },
+        "pyr_p": {
+          "published_range": 7.861852645874023e-05,
+          "generated_seed_mean_difference": 0.0023726820945739746,
+          "generated_seed_min_difference": 0.004755854606628418,
+          "temperature_weighted_mean_range": 0.0008190703103441166,
+          "optimization_mean_difference": 0.8372066058218479,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": -0.01368221640586853
+        },
+        "pyr_alpha": {
+          "published_range": 0.00913238525390625,
+          "generated_seed_mean_difference": 0.3465614318847656,
+          "generated_seed_min_difference": 0.001739501953125,
+          "temperature_weighted_mean_range": 0.12496842582792667,
+          "optimization_mean_difference": -66.5663914680481,
+          "optimization_matched_pairs": 2,
+          "published_minus_generated_mean": 0.9798741340637207
+        }
+      },
+      "generated_energy_analyses": [
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              111.01022706302842,
+              109.28867900638072
+            ],
+            "relative_energies_kcal_mol": [
+              1.7215480566477055,
+              0.0
+            ],
+            "weights": [
+              0.05187545368000231,
+              0.9481245463199977
+            ],
+            "effective_states": 1.109100905119534,
+            "max_weight": 0.9481245463199977
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              111.01022706302842,
+              109.28867900638072
+            ],
+            "relative_energies_kcal_mol": [
+              1.7215480566477055,
+              0.0
+            ],
+            "weights": [
+              0.07921125015045007,
+              0.9207887498495498
+            ],
+            "effective_states": 1.1707869766865826,
+            "max_weight": 0.9207887498495498
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              111.01022706302842,
+              109.28867900638072
+            ],
+            "relative_energies_kcal_mol": [
+              1.7215480566477055,
+              0.0
+            ],
+            "weights": [
+              0.10286475808527663,
+              0.8971352419147234
+            ],
+            "effective_states": 1.2263426233171801,
+            "max_weight": 0.8971352419147234
+          }
+        ],
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              109.28867740110869,
+              111.26345101118173
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              1.9747736100730435
+            ],
+            "weights": [
+              0.9655449108492296,
+              0.034455089150770425
+            ],
+            "effective_states": 1.0712784454875746,
+            "max_weight": 0.9655449108492296
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              109.28867740110869,
+              111.26345101118173
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              1.9747736100730435
+            ],
+            "weights": [
+              0.9434247469545693,
+              0.05657525304543062
+            ],
+            "effective_states": 1.11950614787095,
+            "max_weight": 0.9434247469545693
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              109.28867740110869,
+              111.26345101118173
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              1.9747736100730435
+            ],
+            "weights": [
+              0.9230382150243408,
+              0.07696178497565923
+            ],
+            "effective_states": 1.1656062293586622,
+            "max_weight": 0.9230382150243408
+          }
+        ]
+      ]
+    },
+    {
+      "ligand_id": 1057,
+      "published_conformers": 5,
+      "generated_counts": [
+        1,
+        1
+      ],
+      "coverage": [
+        {
+          "sampled_conformers": 1,
+          "minimum_descriptor_5_50_95_quantiles": [
+            16.120132446289062,
+            21.878158569335938,
+            24.034500122070312
+          ],
+          "probability_sample_min_equals_full_min": 0.2
+        },
+        {
+          "sampled_conformers": 2,
+          "minimum_descriptor_5_50_95_quantiles": [
+            16.120132446289062,
+            16.329940795898438,
+            24.022846221923828
+          ],
+          "probability_sample_min_equals_full_min": 0.406
+        },
+        {
+          "sampled_conformers": 4,
+          "minimum_descriptor_5_50_95_quantiles": [
+            16.120132446289062,
+            16.120132446289062,
+            16.329940795898438
+          ],
+          "probability_sample_min_equals_full_min": 0.81
+        },
+        {
+          "sampled_conformers": 5,
+          "minimum_descriptor_5_50_95_quantiles": [
+            16.120132446289062,
+            16.120132446289062,
+            16.120132446289062
+          ],
+          "probability_sample_min_equals_full_min": 1.0
+        }
+      ],
+      "features": {
+        "sterimol_l": {
+          "published_range": 0.12105751037597656,
+          "generated_seed_mean_difference": 3.147125244140625e-05,
+          "generated_seed_min_difference": 3.147125244140625e-05,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.09925651550292969,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.11493129730224627
+        },
+        "sterimol_b1": {
+          "published_range": 0.04819631576538086,
+          "generated_seed_mean_difference": 0.008334636688232422,
+          "generated_seed_min_difference": 0.008334636688232422,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.04227948188781738,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -0.0444948673248291
+        },
+        "sterimol_b5": {
+          "published_range": 0.5360422134399414,
+          "generated_seed_mean_difference": 0.00010728836059570312,
+          "generated_seed_min_difference": 0.00010728836059570312,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.6393780708312988,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -0.17491531372070312
+        },
+        "percent_buried_volume": {
+          "published_range": 8.279251098632812,
+          "generated_seed_mean_difference": 0.0129852294921875,
+          "generated_seed_min_difference": 0.0129852294921875,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 4.967113494873047,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -0.1315353393554659
+        },
+        "max_delta_qvbur": {
+          "published_range": 7.91436767578125,
+          "generated_seed_mean_difference": 3.814697265625e-06,
+          "generated_seed_min_difference": 3.814697265625e-06,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 8.030925750732422,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -1.3311042785644531
+        },
+        "qvbur_min": {
+          "published_range": 0.09324836730957031,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 1.1655921936035156,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -0.254099273681641
+        },
+        "qvbur_max": {
+          "published_range": 8.40391731262207,
+          "generated_seed_mean_difference": 0.011653900146484375,
+          "generated_seed_min_difference": 0.011653900146484375,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 7.576345443725586,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -0.9721035003662095
+        },
+        "ovbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.0,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.0
+        },
+        "ovbur_max": {
+          "published_range": 0.7226676940917969,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.23311805725097656,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.46157417297363423
+        },
+        "pyr_p": {
+          "published_range": 0.008065521717071533,
+          "generated_seed_mean_difference": 8.58306884765625e-06,
+          "generated_seed_min_difference": 8.58306884765625e-06,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.038843512535095215,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": 0.005959260463714644
+        },
+        "pyr_alpha": {
+          "published_range": 1.2519617080688477,
+          "generated_seed_mean_difference": 0.0009984970092773438,
+          "generated_seed_min_difference": 0.0009984970092773438,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -5.103294372558594,
+          "optimization_matched_pairs": 1,
+          "published_minus_generated_mean": -0.8588493347167976
+        }
+      },
+      "generated_energy_analyses": [
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              91.14658115642507
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              91.14658115642507
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              91.14658115642507
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          }
+        ],
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              91.14657464809946
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              91.14657464809946
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              91.14657464809946
+            ],
+            "relative_energies_kcal_mol": [
+              0.0
+            ],
+            "weights": [
+              1.0
+            ],
+            "effective_states": 1.0,
+            "max_weight": 1.0
+          }
+        ]
+      ]
+    },
+    {
+      "ligand_id": 1058,
+      "published_conformers": 14,
+      "generated_counts": [
+        3,
+        3
+      ],
+      "coverage": [
+        {
+          "sampled_conformers": 1,
+          "minimum_descriptor_5_50_95_quantiles": [
+            15.350844383239746,
+            18.83596420288086,
+            23.952909469604492
+          ],
+          "probability_sample_min_equals_full_min": 0.083
+        },
+        {
+          "sampled_conformers": 2,
+          "minimum_descriptor_5_50_95_quantiles": [
+            15.350844383239746,
+            16.52808952331543,
+            20.899059295654297
+          ],
+          "probability_sample_min_equals_full_min": 0.149
+        },
+        {
+          "sampled_conformers": 4,
+          "minimum_descriptor_5_50_95_quantiles": [
+            15.350844383239746,
+            16.178415298461914,
+            18.83596420288086
+          ],
+          "probability_sample_min_equals_full_min": 0.273
+        },
+        {
+          "sampled_conformers": 8,
+          "minimum_descriptor_5_50_95_quantiles": [
+            15.350844383239746,
+            15.350844383239746,
+            16.364906311035156
+          ],
+          "probability_sample_min_equals_full_min": 0.588
+        },
+        {
+          "sampled_conformers": 14,
+          "minimum_descriptor_5_50_95_quantiles": [
+            15.350844383239746,
+            15.350844383239746,
+            15.350844383239746
+          ],
+          "probability_sample_min_equals_full_min": 1.0
+        }
+      ],
+      "features": {
+        "sterimol_l": {
+          "published_range": 0.49347734451293945,
+          "generated_seed_mean_difference": 5.8492024739287274e-05,
+          "generated_seed_min_difference": 0.00016117095947265625,
+          "temperature_weighted_mean_range": 0.00024415128212584847,
+          "optimization_mean_difference": 0.057044665018717446,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.1954775537763327
+        },
+        "sterimol_b1": {
+          "published_range": 0.6252641677856445,
+          "generated_seed_mean_difference": 0.00396458307901959,
+          "generated_seed_min_difference": 0.0003037452697753906,
+          "temperature_weighted_mean_range": 0.0008461096238994159,
+          "optimization_mean_difference": 0.217758576075236,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.00992346945263023
+        },
+        "sterimol_b5": {
+          "published_range": 1.1777544021606445,
+          "generated_seed_mean_difference": 0.00013303756713867188,
+          "generated_seed_min_difference": 3.6716461181640625e-05,
+          "temperature_weighted_mean_range": 4.715032344559944e-05,
+          "optimization_mean_difference": 0.5662598609924316,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -0.17280773889450796
+        },
+        "percent_buried_volume": {
+          "published_range": 8.554000854492188,
+          "generated_seed_mean_difference": 0.000720977783203125,
+          "generated_seed_min_difference": 0.0064849853515625,
+          "temperature_weighted_mean_range": 0.08613994134839231,
+          "optimization_mean_difference": 3.123915354410807,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -1.8197615487234913
+        },
+        "max_delta_qvbur": {
+          "published_range": 8.602065086364746,
+          "generated_seed_mean_difference": 0.007770538330078125,
+          "generated_seed_min_difference": 1.9073486328125e-06,
+          "temperature_weighted_mean_range": 0.10371621605284886,
+          "optimization_mean_difference": 7.595773061116536,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 1.348201910654705
+        },
+        "qvbur_min": {
+          "published_range": 3.8464527130126953,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.06220349406853032,
+          "optimization_mean_difference": 0.07770570119222005,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -0.40906692686535173
+        },
+        "qvbur_max": {
+          "published_range": 8.660345077514648,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.011653900146484375,
+          "temperature_weighted_mean_range": 0.012455936896820674,
+          "optimization_mean_difference": 7.234438578287761,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -1.5222064881097737
+        },
+        "ovbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -0.09324733416239421,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.0
+        },
+        "ovbur_max": {
+          "published_range": 0.9441299438476562,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0006630040789872282,
+          "optimization_mean_difference": 0.011655807495117188,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.3846456436883834
+        },
+        "pyr_p": {
+          "published_range": 0.044340550899505615,
+          "generated_seed_mean_difference": 1.5735626220703125e-05,
+          "generated_seed_min_difference": 6.556510925292969e-06,
+          "temperature_weighted_mean_range": 2.2603604988735704e-05,
+          "optimization_mean_difference": 0.06217700242996216,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -0.002182436840874824
+        },
+        "pyr_alpha": {
+          "published_range": 5.381669044494629,
+          "generated_seed_mean_difference": 0.002415339152017637,
+          "generated_seed_min_difference": 0.0035066604614257812,
+          "temperature_weighted_mean_range": 0.0036542240456540753,
+          "optimization_mean_difference": -7.825760205586751,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.06512719108944864
+        }
+      },
+      "generated_energy_analyses": [
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              96.40403731125684,
+              96.6700357193745,
+              96.24190631989005
+            ],
+            "relative_energies_kcal_mol": [
+              0.16213099136679432,
+              0.4281293994844475,
+              0.0
+            ],
+            "weights": [
+              0.3386335669762952,
+              0.2161482974562856,
+              0.4452181355674191
+            ],
+            "effective_states": 2.780775087074496,
+            "max_weight": 0.4452181355674191
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              96.40403731125684,
+              96.6700357193745,
+              96.24190631989005
+            ],
+            "relative_energies_kcal_mol": [
+              0.16213099136679432,
+              0.4281293994844475,
+              0.0
+            ],
+            "weights": [
+              0.3396257884168352,
+              0.23248161155078537,
+              0.4278926000323795
+            ],
+            "effective_states": 2.8369965098002883,
+            "max_weight": 0.4278926000323795
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              96.40403731125684,
+              96.6700357193745,
+              96.24190631989005
+            ],
+            "relative_energies_kcal_mol": [
+              0.16213099136679432,
+              0.4281293994844475,
+              0.0
+            ],
+            "weights": [
+              0.33992144654129264,
+              0.24324655637181794,
+              0.41683199708688934
+            ],
+            "effective_states": 2.8697336841264622,
+            "max_weight": 0.41683199708688934
+          }
+        ],
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              96.24192766589363,
+              96.67004123457342,
+              96.40404090868651
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              0.428113568679791,
+              0.1621132427928842
+            ],
+            "weights": [
+              0.4452110479279874,
+              0.21615063181292596,
+              0.3386383202590867
+            ],
+            "effective_states": 2.780791191590554,
+            "max_weight": 0.4452110479279874
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              96.24192766589363,
+              96.67004123457342,
+              96.40404090868651
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              0.428113568679791,
+              0.1621132427928842
+            ],
+            "weights": [
+              0.42788668069606955,
+              0.2324836397857393,
+              0.33962967951819123
+            ],
+            "effective_states": 2.837008417958272,
+            "max_weight": 0.42788668069606955
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              96.24192766589363,
+              96.67004123457342,
+              96.40404090868651
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              0.428113568679791,
+              0.1621132427928842
+            ],
+            "weights": [
+              0.4168268140230387,
+              0.24324837621038772,
+              0.3399248097665735
+            ],
+            "effective_states": 2.8697431473281663,
+            "max_weight": 0.4168268140230387
+          }
+        ]
+      ]
+    },
+    {
+      "ligand_id": 2062,
+      "published_conformers": 23,
+      "generated_counts": [
+        6,
+        5
+      ],
+      "coverage": [
+        {
+          "sampled_conformers": 1,
+          "minimum_descriptor_5_50_95_quantiles": [
+            10.000776290893555,
+            18.241512298583984,
+            30.52684783935547
+          ],
+          "probability_sample_min_equals_full_min": 0.042
+        },
+        {
+          "sampled_conformers": 2,
+          "minimum_descriptor_5_50_95_quantiles": [
+            7.121766090393066,
+            14.534928321838379,
+            28.626934051513672
+          ],
+          "probability_sample_min_equals_full_min": 0.084
+        },
+        {
+          "sampled_conformers": 4,
+          "minimum_descriptor_5_50_95_quantiles": [
+            7.121766090393066,
+            11.749163627624512,
+            18.241512298583984
+          ],
+          "probability_sample_min_equals_full_min": 0.174
+        },
+        {
+          "sampled_conformers": 8,
+          "minimum_descriptor_5_50_95_quantiles": [
+            7.121766090393066,
+            10.000776290893555,
+            14.534928321838379
+          ],
+          "probability_sample_min_equals_full_min": 0.312
+        },
+        {
+          "sampled_conformers": 23,
+          "minimum_descriptor_5_50_95_quantiles": [
+            7.121766090393066,
+            7.121766090393066,
+            7.121766090393066
+          ],
+          "probability_sample_min_equals_full_min": 1.0
+        }
+      ],
+      "features": {
+        "sterimol_l": {
+          "published_range": 1.5965957641601562,
+          "generated_seed_mean_difference": 0.39824965794881173,
+          "generated_seed_min_difference": 0.15381813049316406,
+          "temperature_weighted_mean_range": 0.057792056588830576,
+          "optimization_mean_difference": 1.2538622220357258,
+          "optimization_matched_pairs": 6,
+          "published_minus_generated_mean": 1.0233905557273086
+        },
+        "sterimol_b1": {
+          "published_range": 1.7590162754058838,
+          "generated_seed_mean_difference": 0.11844113667805978,
+          "generated_seed_min_difference": 0.1062459945678711,
+          "temperature_weighted_mean_range": 0.026333687295729824,
+          "optimization_mean_difference": -0.3045179843902588,
+          "optimization_matched_pairs": 6,
+          "published_minus_generated_mean": -0.0557045763817392
+        },
+        "sterimol_b5": {
+          "published_range": 0.9269571304321289,
+          "generated_seed_mean_difference": 0.01791753768920934,
+          "generated_seed_min_difference": 0.03913593292236328,
+          "temperature_weighted_mean_range": 0.08288958552946646,
+          "optimization_mean_difference": 0.11313613255818684,
+          "optimization_matched_pairs": 6,
+          "published_minus_generated_mean": 0.20538655571315623
+        },
+        "percent_buried_volume": {
+          "published_range": 33.447994232177734,
+          "generated_seed_mean_difference": 3.9169411977132214,
+          "generated_seed_min_difference": 0.002162933349609375,
+          "temperature_weighted_mean_range": 0.4889389732320524,
+          "optimization_mean_difference": -11.036834716796875,
+          "optimization_matched_pairs": 6,
+          "published_minus_generated_mean": 6.9877908402595
+        },
+        "max_delta_qvbur": {
+          "published_range": 24.186030387878418,
+          "generated_seed_mean_difference": 3.4684124946594252,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 1.2014777686196183,
+          "optimization_mean_difference": 0.7984301249186198,
+          "optimization_matched_pairs": 6,
+          "published_minus_generated_mean": 7.020832248356033
+        },
+        "qvbur_min": {
+          "published_range": 1.5385818481445312,
+          "generated_seed_mean_difference": 0.02991692225138287,
+          "generated_seed_min_difference": 0.03496837615966797,
+          "temperature_weighted_mean_range": 0.03503023910721481,
+          "optimization_mean_difference": -5.115004857381185,
+          "optimization_matched_pairs": 6,
+          "published_minus_generated_mean": 0.08758817893871296
+        },
+        "qvbur_max": {
+          "published_range": 27.414716720581055,
+          "generated_seed_mean_difference": 3.8853061676025398,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 1.2459438111866277,
+          "optimization_mean_difference": -3.8697640101114907,
+          "optimization_matched_pairs": 6,
+          "published_minus_generated_mean": 8.527401882669203
+        },
+        "ovbur_min": {
+          "published_range": 0.2797420024871826,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -0.09518999233841896,
+          "optimization_matched_pairs": 6,
+          "published_minus_generated_mean": 0.012162695760312288
+        },
+        "ovbur_max": {
+          "published_range": 5.303443908691406,
+          "generated_seed_mean_difference": 0.022146161397298414,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.26799868534619264,
+          "optimization_mean_difference": -1.3112907409667969,
+          "optimization_matched_pairs": 6,
+          "published_minus_generated_mean": 1.5535310524097383
+        },
+        "pyr_p": {
+          "published_range": 0.04210472106933594,
+          "generated_seed_mean_difference": 0.00021991729736325905,
+          "generated_seed_min_difference": 0.00756382942199707,
+          "temperature_weighted_mean_range": 9.152454295091594e-05,
+          "optimization_mean_difference": 0.7355902629594008,
+          "optimization_matched_pairs": 6,
+          "published_minus_generated_mean": -0.009922688421995729
+        },
+        "pyr_alpha": {
+          "published_range": 5.1475677490234375,
+          "generated_seed_mean_difference": 0.023321151733398438,
+          "generated_seed_min_difference": 0.00722503662109375,
+          "temperature_weighted_mean_range": 0.008767913321143794,
+          "optimization_mean_difference": -59.079338709513344,
+          "optimization_matched_pairs": 6,
+          "published_minus_generated_mean": 0.6995786169300899
+        }
+      },
+      "generated_energy_analyses": [
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              198.2819062431714,
+              197.3071128240498,
+              200.24998890476462,
+              200.43605977044,
+              199.38586661543212,
+              205.76423139809654
+            ],
+            "relative_energies_kcal_mol": [
+              0.9747934191215961,
+              0.0,
+              2.942876080714825,
+              3.128946946390215,
+              2.0787537913823257,
+              8.457118574046746
+            ],
+            "weights": [
+              0.15625020243346546,
+              0.8097465816786303,
+              0.005639050537556547,
+              0.004119221027363782,
+              0.02424443236043789,
+              5.119625459987572e-07
+            ],
+            "effective_states": 1.4689891721549166,
+            "max_weight": 0.8097465816786303
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              198.2819062431714,
+              197.3071128240498,
+              200.24998890476462,
+              200.43605977044,
+              199.38586661543212,
+              205.76423139809654
+            ],
+            "relative_energies_kcal_mol": [
+              0.9747934191215961,
+              0.0,
+              2.942876080714825,
+              3.128946946390215,
+              2.0787537913823257,
+              8.457118574046746
+            ],
+            "weights": [
+              0.18778072041162386,
+              0.753178672541074,
+              0.011368702678622084,
+              0.00872090783695143,
+              0.03894659864568033,
+              4.3978860483648316e-06
+            ],
+            "effective_states": 1.6549116884730284,
+            "max_weight": 0.753178672541074
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              198.2819062431714,
+              197.3071128240498,
+              200.24998890476462,
+              200.43605977044,
+              199.38586661543212,
+              205.76423139809654
+            ],
+            "relative_energies_kcal_mol": [
+              0.9747934191215961,
+              0.0,
+              2.942876080714825,
+              3.128946946390215,
+              2.0787537913823257,
+              8.457118574046746
+            ],
+            "weights": [
+              0.2079525916099974,
+              0.7088527746406774,
+              0.017485396234178316,
+              0.013836081701870104,
+              0.0518561775317017,
+              1.6978281575132435e-05
+            ],
+            "effective_states": 1.8218162549984473,
+            "max_weight": 0.7088527746406774
+          }
+        ],
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              198.28190236369204,
+              200.81682192722394,
+              202.54056273023255,
+              202.4467948882284,
+              206.52596838918373
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              2.5349195635319006,
+              4.258660366540511,
+              4.164892524536356,
+              8.24406602549169
+            ],
+            "weights": [
+              0.9847306823419537,
+              0.0136523852715136,
+              0.0007442138685958395,
+              0.000871826496813972,
+              8.92021123009484e-07
+            ],
+            "effective_states": 1.0310530300749723,
+            "max_weight": 0.9847306823419537
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              198.28190236369204,
+              200.81682192722394,
+              202.54056273023255,
+              202.4467948882284,
+              206.52596838918373
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              2.5349195635319006,
+              4.258660366540511,
+              4.164892524536356,
+              8.24406602549169
+            ],
+            "weights": [
+              0.9690267394273662,
+              0.026158384363415957,
+              0.0022432661738560366,
+              0.002563944748042258,
+              7.66528731964476e-06
+            ],
+            "effective_states": 1.0641595760463765,
+            "max_weight": 0.9690267394273662
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              198.28190236369204,
+              200.81682192722394,
+              202.54056273023255,
+              202.4467948882284,
+              206.52596838918373
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              2.5349195635319006,
+              4.258660366540511,
+              4.164892524536356,
+              8.24406602549169
+            ],
+            "weights": [
+              0.9512425652092491,
+              0.03920155807392135,
+              0.004482434822172237,
+              0.005043654457771383,
+              2.9787436885974752e-05
+            ],
+            "effective_states": 1.1032112463384902,
+            "max_weight": 0.9512425652092491
+          }
+        ]
+      ]
+    },
+    {
+      "ligand_id": 2063,
+      "published_conformers": 12,
+      "generated_counts": [
+        5,
+        3
+      ],
+      "coverage": [
+        {
+          "sampled_conformers": 1,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.142667770385742,
+            6.6089067459106445,
+            7.716217994689941
+          ],
+          "probability_sample_min_equals_full_min": 0.077
+        },
+        {
+          "sampled_conformers": 2,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.142667770385742,
+            6.585592269897461,
+            6.620561599731445
+          ],
+          "probability_sample_min_equals_full_min": 0.165
+        },
+        {
+          "sampled_conformers": 4,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.142667770385742,
+            6.154324531555176,
+            6.597248077392578
+          ],
+          "probability_sample_min_equals_full_min": 0.357
+        },
+        {
+          "sampled_conformers": 8,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.142667770385742,
+            6.142667770385742,
+            6.585592269897461
+          ],
+          "probability_sample_min_equals_full_min": 0.663
+        },
+        {
+          "sampled_conformers": 12,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.142667770385742,
+            6.142667770385742,
+            6.142667770385742
+          ],
+          "probability_sample_min_equals_full_min": 1.0
+        }
+      ],
+      "features": {
+        "sterimol_l": {
+          "published_range": 0.11035823822021484,
+          "generated_seed_mean_difference": 0.6366150538126618,
+          "generated_seed_min_difference": 2.207291603088379,
+          "temperature_weighted_mean_range": 0.005061778486741275,
+          "optimization_mean_difference": 3.994653415679932,
+          "optimization_matched_pairs": 5,
+          "published_minus_generated_mean": 1.0182881514231354
+        },
+        "sterimol_b1": {
+          "published_range": 0.7647416591644287,
+          "generated_seed_mean_difference": 0.2313629150390626,
+          "generated_seed_min_difference": 0.2428112030029297,
+          "temperature_weighted_mean_range": 0.001337885697426433,
+          "optimization_mean_difference": -0.45704331398010256,
+          "optimization_matched_pairs": 5,
+          "published_minus_generated_mean": 0.11636511087417611
+        },
+        "sterimol_b5": {
+          "published_range": 0.09909248352050781,
+          "generated_seed_mean_difference": 0.07210356394449846,
+          "generated_seed_min_difference": 0.37505435943603516,
+          "temperature_weighted_mean_range": 0.001457522252866994,
+          "optimization_mean_difference": 0.31902294158935546,
+          "optimization_matched_pairs": 5,
+          "published_minus_generated_mean": -0.07968300183614119
+        },
+        "percent_buried_volume": {
+          "published_range": 0.8134307861328125,
+          "generated_seed_mean_difference": 1.0574568430582687,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.006356249294544369,
+          "optimization_mean_difference": -13.405157470703125,
+          "optimization_matched_pairs": 5,
+          "published_minus_generated_mean": -0.46736268997192454
+        },
+        "max_delta_qvbur": {
+          "published_range": 1.5735502243041992,
+          "generated_seed_mean_difference": 0.9200398763020834,
+          "generated_seed_min_difference": 0.8741941452026367,
+          "temperature_weighted_mean_range": 0.0028958121387470115,
+          "optimization_mean_difference": -6.399098014831543,
+          "optimization_matched_pairs": 5,
+          "published_minus_generated_mean": 1.0055165926615404
+        },
+        "qvbur_min": {
+          "published_range": 0.33802223205566406,
+          "generated_seed_mean_difference": 0.0714899063110348,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0020508276222468425,
+          "optimization_mean_difference": -2.958271789550781,
+          "optimization_matched_pairs": 5,
+          "published_minus_generated_mean": -0.11403344472249444
+        },
+        "qvbur_max": {
+          "published_range": 1.5269250869750977,
+          "generated_seed_mean_difference": 1.0692358016967773,
+          "generated_seed_min_difference": 0.6876993179321289,
+          "temperature_weighted_mean_range": 0.0049466397609965185,
+          "optimization_mean_difference": -10.198926734924317,
+          "optimization_matched_pairs": 5,
+          "published_minus_generated_mean": 0.9079959392547607
+        },
+        "ovbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -0.0046623673290014265,
+          "optimization_matched_pairs": 5,
+          "published_minus_generated_mean": 0.0
+        },
+        "ovbur_max": {
+          "published_range": 1.5269250869750977,
+          "generated_seed_mean_difference": 0.7747302373250307,
+          "generated_seed_min_difference": 0.6876993179321289,
+          "temperature_weighted_mean_range": 0.004644416587913369,
+          "optimization_mean_difference": -6.098375511169434,
+          "optimization_matched_pairs": 5,
+          "published_minus_generated_mean": 0.9243144512176507
+        },
+        "pyr_p": {
+          "published_range": 0.0076631903648376465,
+          "generated_seed_mean_difference": 0.005983889102935791,
+          "generated_seed_min_difference": 0.0031903982162475586,
+          "temperature_weighted_mean_range": 6.0705315030218365e-05,
+          "optimization_mean_difference": 0.7982684209942817,
+          "optimization_matched_pairs": 5,
+          "published_minus_generated_mean": -0.008851513266563416
+        },
+        "pyr_alpha": {
+          "published_range": 0.8843708038330078,
+          "generated_seed_mean_difference": 0.9219917297363267,
+          "generated_seed_min_difference": 0.13974380493164062,
+          "temperature_weighted_mean_range": 0.009075341919043467,
+          "optimization_mean_difference": -63.738473129272464,
+          "optimization_matched_pairs": 5,
+          "published_minus_generated_mean": 0.3340502738952651
+        }
+      },
+      "generated_energy_analyses": [
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              104.04267112079644,
+              110.03031885716416,
+              108.34998027184488,
+              109.80837312347138,
+              109.06444785415515
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              5.98764773636772,
+              4.307309151048443,
+              5.765702002674942,
+              5.021776733358706
+            ],
+            "weights": [
+              0.9989961516543482,
+              4.0793180534931264e-05,
+              0.0006954794431853125,
+              5.93300779829217e-05,
+              0.00020824564394848375
+            ],
+            "effective_states": 1.0020101894929523,
+            "max_weight": 0.9989961516543482
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              104.04267112079644,
+              110.03031885716416,
+              108.34998027184488,
+              109.80837312347138,
+              109.06444785415515
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              5.98764773636772,
+              4.307309151048443,
+              5.765702002674942,
+              5.021776733358706
+            ],
+            "weights": [
+              0.9966038978795659,
+              0.00019637703647938225,
+              0.002152591009146058,
+              0.00026942688647517985,
+              0.0007777071883335428
+            ],
+            "effective_states": 1.0068215392185462,
+            "max_weight": 0.9966038978795659
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              104.04267112079644,
+              110.03031885716416,
+              108.34998027184488,
+              109.80837312347138,
+              109.06444785415515
+            ],
+            "relative_energies_kcal_mol": [
+              0.0,
+              5.98764773636772,
+              4.307309151048443,
+              5.765702002674942,
+              5.021776733358706
+            ],
+            "weights": [
+              0.9925759626236629,
+              0.000531288704778536,
+              0.004399532530523526,
+              0.0007024148227243915,
+              0.0017908013183106368
+            ],
+            "effective_states": 1.0149910317526587,
+            "max_weight": 0.9925759626236629
+          }
+        ],
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              108.37480373900831,
+              110.03031421880797,
+              104.59561807117464
+            ],
+            "relative_energies_kcal_mol": [
+              3.779185667833673,
+              5.434696147633332,
+              0.0
+            ],
+            "weights": [
+              0.001694556404063537,
+              0.00010364740337371012,
+              0.9982017961925628
+            ],
+            "effective_states": 1.003603228455377,
+            "max_weight": 0.9982017961925628
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              108.37480373900831,
+              110.03031421880797,
+              104.59561807117464
+            ],
+            "relative_energies_kcal_mol": [
+              3.779185667833673,
+              5.434696147633332,
+              0.0
+            ],
+            "weights": [
+              0.0045613397858318225,
+              0.0004311082946335379,
+              0.9950075519195346
+            ],
+            "effective_states": 1.0100387549320649,
+            "max_weight": 0.9950075519195346
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              108.37480373900831,
+              110.03031421880797,
+              104.59561807117464
+            ],
+            "relative_energies_kcal_mol": [
+              3.779185667833673,
+              5.434696147633332,
+              0.0
+            ],
+            "weights": [
+              0.00853107062837219,
+              0.0010629008683825268,
+              0.9904060285032453
+            ],
+            "effective_states": 1.0193908421819187,
+            "max_weight": 0.9904060285032453
+          }
+        ]
+      ]
+    },
+    {
+      "ligand_id": 2064,
+      "published_conformers": 13,
+      "generated_counts": [
+        3,
+        3
+      ],
+      "coverage": [
+        {
+          "sampled_conformers": 1,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.57393741607666,
+            8.240734100341797,
+            15.735488891601562
+          ],
+          "probability_sample_min_equals_full_min": 0.071
+        },
+        {
+          "sampled_conformers": 2,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.57393741607666,
+            6.63221549987793,
+            14.639833450317383
+          ],
+          "probability_sample_min_equals_full_min": 0.153
+        },
+        {
+          "sampled_conformers": 4,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.57393741607666,
+            6.63221549987793,
+            8.240734100341797
+          ],
+          "probability_sample_min_equals_full_min": 0.296
+        },
+        {
+          "sampled_conformers": 8,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.57393741607666,
+            6.57393741607666,
+            6.63221549987793
+          ],
+          "probability_sample_min_equals_full_min": 0.626
+        },
+        {
+          "sampled_conformers": 13,
+          "minimum_descriptor_5_50_95_quantiles": [
+            6.57393741607666,
+            6.57393741607666,
+            6.57393741607666
+          ],
+          "probability_sample_min_equals_full_min": 1.0
+        }
+      ],
+      "features": {
+        "sterimol_l": {
+          "published_range": 0.28443336486816406,
+          "generated_seed_mean_difference": 0.0175793965657558,
+          "generated_seed_min_difference": 0.052722930908203125,
+          "temperature_weighted_mean_range": 0.003767787782200216,
+          "optimization_mean_difference": 3.0024072329203286,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.2565930684407558
+        },
+        "sterimol_b1": {
+          "published_range": 1.0504004955291748,
+          "generated_seed_mean_difference": 0.21185127894083644,
+          "generated_seed_min_difference": 0.33979058265686035,
+          "temperature_weighted_mean_range": 0.009080729128776888,
+          "optimization_mean_difference": -0.6095797220865885,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -0.02248104413350438
+        },
+        "sterimol_b5": {
+          "published_range": 0.23946380615234375,
+          "generated_seed_mean_difference": 0.001040776570638613,
+          "generated_seed_min_difference": 6.580352783203125e-05,
+          "temperature_weighted_mean_range": 0.0005405830220972518,
+          "optimization_mean_difference": 0.5899496078491211,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -0.10467037787804223
+        },
+        "percent_buried_volume": {
+          "published_range": 5.510124206542969,
+          "generated_seed_mean_difference": 0.7456436157226562,
+          "generated_seed_min_difference": 0.002166748046875,
+          "temperature_weighted_mean_range": 0.058464693525404954,
+          "optimization_mean_difference": -9.164791107177734,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.3221752460186309
+        },
+        "max_delta_qvbur": {
+          "published_range": 9.161551475524902,
+          "generated_seed_mean_difference": 1.2355270385742179,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.1299940435717737,
+          "optimization_mean_difference": 0.13986905415852866,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 2.338356189238719
+        },
+        "qvbur_min": {
+          "published_range": 1.1655912399291992,
+          "generated_seed_mean_difference": 0.0427385965983067,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.003622965085146035,
+          "optimization_mean_difference": -2.739140192667643,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -0.08906298417311476
+        },
+        "qvbur_max": {
+          "published_range": 8.823528289794922,
+          "generated_seed_mean_difference": 1.2782656351725237,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.12637107848662765,
+          "optimization_mean_difference": -3.741549809773763,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 2.3120558323004303
+        },
+        "ovbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": 0.0,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 0.0
+        },
+        "ovbur_max": {
+          "published_range": 4.25440788269043,
+          "generated_seed_mean_difference": 0.7304375966389962,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.09442493593306978,
+          "optimization_mean_difference": -3.4501527150472007,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": 1.3036692692683296
+        },
+        "pyr_p": {
+          "published_range": 0.028199195861816406,
+          "generated_seed_mean_difference": 0.0022732019424438477,
+          "generated_seed_min_difference": 0.006804049015045166,
+          "temperature_weighted_mean_range": 0.0003213726580970633,
+          "optimization_mean_difference": 0.7266024698813757,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -0.0008136400809655164
+        },
+        "pyr_alpha": {
+          "published_range": 3.9286813735961914,
+          "generated_seed_mean_difference": 0.3094501495361328,
+          "generated_seed_min_difference": 0.0012798309326171875,
+          "temperature_weighted_mean_range": 0.04736651529639957,
+          "optimization_mean_difference": -58.57447655995687,
+          "optimization_matched_pairs": 3,
+          "published_minus_generated_mean": -0.5284214508839149
+        }
+      },
+      "generated_energy_analyses": [
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              121.81589419482563,
+              124.91368862201796,
+              121.63657163532602
+            ],
+            "relative_energies_kcal_mol": [
+              0.17932255949961018,
+              3.2771169866919365,
+              0.0
+            ],
+            "weights": [
+              0.42394108513358697,
+              0.002273036630777049,
+              0.5737858782356359
+            ],
+            "effective_states": 1.964785370205879,
+            "max_weight": 0.5737858782356359
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              121.81589419482563,
+              124.91368862201796,
+              121.63657163532602
+            ],
+            "relative_energies_kcal_mol": [
+              0.17932255949961018,
+              3.2771169866919365,
+              0.0
+            ],
+            "weights": [
+              0.4341703301095213,
+              0.005255359584800873,
+              0.5605743103056777
+            ],
+            "effective_states": 1.9889610603512118,
+            "max_weight": 0.5605743103056777
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              121.81589419482563,
+              124.91368862201796,
+              121.63657163532602
+            ],
+            "relative_energies_kcal_mol": [
+              0.17932255949961018,
+              3.2771169866919365,
+              0.0
+            ],
+            "weights": [
+              0.43987577005200346,
+              0.00892910066078871,
+              0.5511951292872078
+            ],
+            "effective_states": 2.01050896062593,
+            "max_weight": 0.5511951292872078
+          }
+        ],
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              122.15742955918125,
+              121.81589780998348,
+              121.63657091696439
+            ],
+            "relative_energies_kcal_mol": [
+              0.5208586422168651,
+              0.17932689301909477,
+              0.0
+            ],
+            "weights": [
+              0.19273607374702723,
+              0.343010580964622,
+              0.4642533452883508
+            ],
+            "effective_states": 2.7002606352347036,
+            "max_weight": 0.4642533452883508
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              122.15742955918125,
+              121.81589780998348,
+              121.63657091696439
+            ],
+            "relative_energies_kcal_mol": [
+              0.5208586422168651,
+              0.17932689301909477,
+              0.0
+            ],
+            "weights": [
+              0.21153179287277935,
+              0.3441368735309771,
+              0.4443313335962435
+            ],
+            "effective_states": 2.7731080092083378,
+            "max_weight": 0.4443313335962435
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              122.15742955918125,
+              121.81589780998348,
+              121.63657091696439
+            ],
+            "relative_energies_kcal_mol": [
+              0.5208586422168651,
+              0.17932689301909477,
+              0.0
+            ],
+            "weights": [
+              0.22409493763714255,
+              0.3443757678403193,
+              0.431529294522538
+            ],
+            "effective_states": 2.8166574892340175,
+            "max_weight": 0.431529294522538
+          }
+        ]
+      ]
+    },
+    {
+      "ligand_id": 2067,
+      "published_conformers": 39,
+      "generated_counts": [
+        9,
+        9
+      ],
+      "coverage": [
+        {
+          "sampled_conformers": 1,
+          "minimum_descriptor_5_50_95_quantiles": [
+            11.504390716552734,
+            16.458154678344727,
+            28.40546989440918
+          ],
+          "probability_sample_min_equals_full_min": 0.021
+        },
+        {
+          "sampled_conformers": 2,
+          "minimum_descriptor_5_50_95_quantiles": [
+            9.5228853225708,
+            15.082756042480469,
+            19.20895004272461
+          ],
+          "probability_sample_min_equals_full_min": 0.071
+        },
+        {
+          "sampled_conformers": 4,
+          "minimum_descriptor_5_50_95_quantiles": [
+            9.5228853225708,
+            14.72142505645752,
+            16.458154678344727
+          ],
+          "probability_sample_min_equals_full_min": 0.114
+        },
+        {
+          "sampled_conformers": 8,
+          "minimum_descriptor_5_50_95_quantiles": [
+            9.5228853225708,
+            11.504390716552734,
+            14.733078956604004
+          ],
+          "probability_sample_min_equals_full_min": 0.199
+        },
+        {
+          "sampled_conformers": 39,
+          "minimum_descriptor_5_50_95_quantiles": [
+            9.5228853225708,
+            9.5228853225708,
+            9.5228853225708
+          ],
+          "probability_sample_min_equals_full_min": 1.0
+        }
+      ],
+      "features": {
+        "sterimol_l": {
+          "published_range": 1.398606300354004,
+          "generated_seed_mean_difference": 0.5618299908108177,
+          "generated_seed_min_difference": 0.06618499755859375,
+          "temperature_weighted_mean_range": 0.002764074937157801,
+          "optimization_mean_difference": 1.5592159165276422,
+          "optimization_matched_pairs": 9,
+          "published_minus_generated_mean": 1.1014754955585193
+        },
+        "sterimol_b1": {
+          "published_range": 1.1463074684143066,
+          "generated_seed_mean_difference": 0.17555578549702933,
+          "generated_seed_min_difference": 0.28711438179016113,
+          "temperature_weighted_mean_range": 7.896442164145867e-05,
+          "optimization_mean_difference": -0.08817174699571398,
+          "optimization_matched_pairs": 9,
+          "published_minus_generated_mean": -0.27482113471397973
+        },
+        "sterimol_b5": {
+          "published_range": 0.2808876037597656,
+          "generated_seed_mean_difference": 0.13400374518500513,
+          "generated_seed_min_difference": 0.2557859420776367,
+          "temperature_weighted_mean_range": 0.0003103591239295156,
+          "optimization_mean_difference": 0.2643212212456597,
+          "optimization_matched_pairs": 9,
+          "published_minus_generated_mean": 0.10692280989426806
+        },
+        "percent_buried_volume": {
+          "published_range": 22.79768180847168,
+          "generated_seed_mean_difference": 0.865109761555992,
+          "generated_seed_min_difference": 0.5170440673828125,
+          "temperature_weighted_mean_range": 0.008530262809173905,
+          "optimization_mean_difference": -16.817381964789497,
+          "optimization_matched_pairs": 9,
+          "published_minus_generated_mean": 1.4580797700800403
+        },
+        "max_delta_qvbur": {
+          "published_range": 21.889811515808105,
+          "generated_seed_mean_difference": 0.2654958301120338,
+          "generated_seed_min_difference": 1.5152692794799805,
+          "temperature_weighted_mean_range": 0.014833873942791342,
+          "optimization_mean_difference": -3.147097799513075,
+          "optimization_matched_pairs": 9,
+          "published_minus_generated_mean": 3.2839797011807423
+        },
+        "qvbur_min": {
+          "published_range": 0.8042583465576172,
+          "generated_seed_mean_difference": 0.21110174391004755,
+          "generated_seed_min_difference": 0.03496742248535156,
+          "temperature_weighted_mean_range": 0.0005813438322128661,
+          "optimization_mean_difference": -4.48234748840332,
+          "optimization_matched_pairs": 9,
+          "published_minus_generated_mean": 0.22704116299621013
+        },
+        "qvbur_max": {
+          "published_range": 23.684825897216797,
+          "generated_seed_mean_difference": 0.41443273756239307,
+          "generated_seed_min_difference": 1.1772480010986328,
+          "temperature_weighted_mean_range": 0.009672433535957481,
+          "optimization_mean_difference": -7.9739424387613935,
+          "optimization_matched_pairs": 9,
+          "published_minus_generated_mean": 3.683468924628361
+        },
+        "ovbur_min": {
+          "published_range": 0.0,
+          "generated_seed_mean_difference": 0.0,
+          "generated_seed_min_difference": 0.0,
+          "temperature_weighted_mean_range": 0.0,
+          "optimization_mean_difference": -0.4753024055519038,
+          "optimization_matched_pairs": 9,
+          "published_minus_generated_mean": 0.0
+        },
+        "ovbur_max": {
+          "published_range": 3.1354427337646484,
+          "generated_seed_mean_difference": 0.07123057047525805,
+          "generated_seed_min_difference": 0.594451904296875,
+          "temperature_weighted_mean_range": 0.0006603933696780473,
+          "optimization_mean_difference": -1.7691090901692708,
+          "optimization_matched_pairs": 9,
+          "published_minus_generated_mean": 1.361948681692791
+        },
+        "pyr_p": {
+          "published_range": 0.036237359046936035,
+          "generated_seed_mean_difference": 0.0024832685788472864,
+          "generated_seed_min_difference": 0.0068245530128479,
+          "temperature_weighted_mean_range": 1.649590836882986e-05,
+          "optimization_mean_difference": 0.8024268775350518,
+          "optimization_matched_pairs": 9,
+          "published_minus_generated_mean": -0.015526500522580866
+        },
+        "pyr_alpha": {
+          "published_range": 4.507031440734863,
+          "generated_seed_mean_difference": 0.33631059858533874,
+          "generated_seed_min_difference": 0.1640920639038086,
+          "temperature_weighted_mean_range": 0.0021464915864655154,
+          "optimization_mean_difference": -63.56088733673096,
+          "optimization_matched_pairs": 9,
+          "published_minus_generated_mean": 1.166855005117565
+        }
+      },
+      "generated_energy_analyses": [
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              164.49373669789554,
+              161.11513033487938,
+              156.20428793489202,
+              164.51415349393363,
+              161.46318716523004,
+              162.73394750177812,
+              162.42605730938897,
+              162.38590886693237,
+              163.44728879861515
+            ],
+            "relative_energies_kcal_mol": [
+              8.28944876300352,
+              4.910842399987359,
+              0.0,
+              8.309865559041612,
+              5.258899230338017,
+              6.529659566886096,
+              6.221769374496944,
+              6.181620932040346,
+              7.243000863723125
+            ],
+            "weights": [
+              8.386628698674405e-07,
+              0.00025125983242755304,
+              0.9995292890798586,
+              8.102551508770187e-07,
+              0.0001396354338437754,
+              1.6350154019667054e-05,
+              2.7492037349582063e-05,
+              2.941954405905426e-05,
+              4.905000421131646e-06
+            ],
+            "effective_states": 1.0009420022610303,
+            "max_weight": 0.9995292890798586
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              164.49373669789554,
+              161.11513033487938,
+              156.20428793489202,
+              164.51415349393363,
+              161.46318716523004,
+              162.73394750177812,
+              162.42605730938897,
+              162.38590886693237,
+              163.44728879861515
+            ],
+            "relative_energies_kcal_mol": [
+              8.28944876300352,
+              4.910842399987359,
+              0.0,
+              8.309865559041612,
+              5.258899230338017,
+              6.529659566886096,
+              6.221769374496944,
+              6.181620932040346,
+              7.243000863723125
+            ],
+            "weights": [
+              7.4008817105046534e-06,
+              0.0009122639482169715,
+              0.9981038058559333,
+              7.188671037416147e-06,
+              0.0005555548372976121,
+              9.084938173641988e-05,
+              0.0001408830001777655,
+              0.00014917783321439677,
+              3.2875590675593154e-05
+            ],
+            "effective_states": 1.0038020007857194,
+            "max_weight": 0.9981038058559333
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              164.49373669789554,
+              161.11513033487938,
+              156.20428793489202,
+              164.51415349393363,
+              161.46318716523004,
+              162.73394750177812,
+              162.42605730938897,
+              162.38590886693237,
+              163.44728879861515
+            ],
+            "relative_energies_kcal_mol": [
+              8.28944876300352,
+              4.910842399987359,
+              0.0,
+              8.309865559041612,
+              5.258899230338017,
+              6.529659566886096,
+              6.221769374496944,
+              6.181620932040346,
+              7.243000863723125
+            ],
+            "weights": [
+              2.943897201828912e-05,
+              0.0020647639110637052,
+              0.9953510063126032,
+              2.86924507745221e-05,
+              0.0013326152989323727,
+              0.0002694061578091302,
+              0.0003968510489276665,
+              0.00041741032044001426,
+              0.0001098155274310601
+            ],
+            "effective_states": 1.0093566524601136,
+            "max_weight": 0.9953510063126032
+          }
+        ],
+        [
+          {
+            "temperature_k": 298.15,
+            "energies_kcal_mol": [
+              163.1073136254771,
+              161.2332571696437,
+              161.115145386161,
+              163.45388202394494,
+              156.2042863649752,
+              164.08484362339595,
+              164.4937321603594,
+              159.96513287047713,
+              157.953959560728
+            ],
+            "relative_energies_kcal_mol": [
+              6.903027260501915,
+              5.028970804668518,
+              4.910859021185814,
+              7.249595658969753,
+              0.0,
+              7.880557258420765,
+              8.28944579538421,
+              3.760846505501945,
+              1.7496731957528198
+            ],
+            "weights": [
+              8.261137865865755e-06,
+              0.00019531373481404134,
+              0.0002384016862013776,
+              4.602602520821516e-06,
+              0.9484052844338474,
+              1.5867386815670623e-06,
+              7.957708596192896e-07,
+              0.0016606356100099964,
+              0.049485118285199074
+            ],
+            "effective_states": 1.108740607357411,
+            "max_weight": 0.9484052844338474
+          },
+          {
+            "temperature_k": 353.15,
+            "energies_kcal_mol": [
+              163.1073136254771,
+              161.2332571696437,
+              161.115145386161,
+              163.45388202394494,
+              156.2042863649752,
+              164.08484362339595,
+              164.4937321603594,
+              159.96513287047713,
+              157.953959560728
+            ],
+            "relative_energies_kcal_mol": [
+              6.903027260501915,
+              5.028970804668518,
+              4.910859021185814,
+              7.249595658969753,
+              0.0,
+              7.880557258420765,
+              8.28944579538421,
+              3.760846505501945,
+              1.7496731957528198
+            ],
+            "weights": [
+              4.909118980073577e-05,
+              0.0007091790677852263,
+              0.0008391679984696466,
+              2.9959260500674673e-05,
+              0.9181516076782957,
+              1.2191665100004414e-05,
+              6.808069597045196e-06,
+              0.004320455780438574,
+              0.07588153929001232
+            ],
+            "effective_states": 1.1781612362117906,
+            "max_weight": 0.9181516076782957
+          },
+          {
+            "temperature_k": 400.0,
+            "energies_kcal_mol": [
+              163.1073136254771,
+              161.2332571696437,
+              161.115145386161,
+              163.45388202394494,
+              156.2042863649752,
+              164.08484362339595,
+              164.4937321603594,
+              159.96513287047713,
+              157.953959560728
+            ],
+            "relative_energies_kcal_mol": [
+              6.903027260501915,
+              5.028970804668518,
+              4.910859021185814,
+              7.249595658969753,
+              0.0,
+              7.880557258420765,
+              8.28944579538421,
+              3.760846505501945,
+              1.7496731957528198
+            ],
+            "weights": [
+              0.00015058555044248357,
+              0.001591107991938505,
+              0.0018459997770069734,
+              9.737128915509542e-05,
+              0.8899110194491586,
+              4.4024702213655974e-05,
+              2.6320527374245716e-05,
+              0.00784434523065784,
+              0.09848922548205263
+            ],
+            "effective_states": 1.2473349784598091,
+            "max_weight": 0.8899110194491586
+          }
+        ]
+      ]
+    }
+  ],
+  "published_relative_axial_stereo": [
+    {
+      "ligand_id": 401,
+      "axes": [],
+      "records": [
+        {
+          "conformer_id": 38989,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 38990,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 38991,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 38992,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 38993,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 38994,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 38995,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 38996,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 38997,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 38998,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 38999,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 39000,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 39001,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 39002,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 39003,
+          "dihedrals_rad": []
+        }
+      ],
+      "sign_pattern_counts": {
+        "()": 15
+      }
+    },
+    {
+      "ligand_id": 498,
+      "axes": [],
+      "records": [
+        {
+          "conformer_id": 40870,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 40871,
+          "dihedrals_rad": []
+        }
+      ],
+      "sign_pattern_counts": {
+        "()": 2
+      }
+    },
+    {
+      "ligand_id": 723,
+      "axes": [],
+      "records": [
+        {
+          "conformer_id": 46112,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 46113,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 46114,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 46115,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 46116,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 46117,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 46118,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 46119,
+          "dihedrals_rad": []
+        }
+      ],
+      "sign_pattern_counts": {
+        "()": 8
+      }
+    },
+    {
+      "ligand_id": 724,
+      "axes": [],
+      "records": [
+        {
+          "conformer_id": 46120,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 46121,
+          "dihedrals_rad": []
+        }
+      ],
+      "sign_pattern_counts": {
+        "()": 2
+      }
+    },
+    {
+      "ligand_id": 785,
+      "axes": [
+        [
+          15,
+          16,
+          13,
+          4
+        ]
+      ],
+      "records": [
+        {
+          "conformer_id": 46989,
+          "dihedrals_rad": [
+            0.9479167381999024
+          ]
+        },
+        {
+          "conformer_id": 46990,
+          "dihedrals_rad": [
+            0.9478712915840929
+          ]
+        }
+      ],
+      "sign_pattern_counts": {
+        "(1,)": 2
+      }
+    },
+    {
+      "ligand_id": 1057,
+      "axes": [],
+      "records": [
+        {
+          "conformer_id": 49520,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49521,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49522,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49523,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49524,
+          "dihedrals_rad": []
+        }
+      ],
+      "sign_pattern_counts": {
+        "()": 5
+      }
+    },
+    {
+      "ligand_id": 1058,
+      "axes": [],
+      "records": [
+        {
+          "conformer_id": 49525,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49526,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49527,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49528,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49529,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49530,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49531,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49532,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49533,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49534,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49535,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49536,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49537,
+          "dihedrals_rad": []
+        },
+        {
+          "conformer_id": 49538,
+          "dihedrals_rad": []
+        }
+      ],
+      "sign_pattern_counts": {
+        "()": 14
+      }
+    },
+    {
+      "ligand_id": 2062,
+      "axes": [
+        [
+          38,
+          39,
+          36,
+          27
+        ]
+      ],
+      "records": [
+        {
+          "conformer_id": 64936,
+          "dihedrals_rad": [
+            0.9259174836509155
+          ]
+        },
+        {
+          "conformer_id": 64937,
+          "dihedrals_rad": [
+            0.942373173071005
+          ]
+        },
+        {
+          "conformer_id": 64938,
+          "dihedrals_rad": [
+            0.9435451872050677
+          ]
+        },
+        {
+          "conformer_id": 64939,
+          "dihedrals_rad": [
+            0.9419342630607521
+          ]
+        },
+        {
+          "conformer_id": 64940,
+          "dihedrals_rad": [
+            0.9185830813743259
+          ]
+        },
+        {
+          "conformer_id": 64941,
+          "dihedrals_rad": [
+            0.9441495451115722
+          ]
+        },
+        {
+          "conformer_id": 64942,
+          "dihedrals_rad": [
+            0.9421472811303162
+          ]
+        },
+        {
+          "conformer_id": 64943,
+          "dihedrals_rad": [
+            0.9467029439786214
+          ]
+        },
+        {
+          "conformer_id": 64944,
+          "dihedrals_rad": [
+            0.9498110965448907
+          ]
+        },
+        {
+          "conformer_id": 64945,
+          "dihedrals_rad": [
+            0.9434568035384522
+          ]
+        },
+        {
+          "conformer_id": 64946,
+          "dihedrals_rad": [
+            0.9480944110333788
+          ]
+        },
+        {
+          "conformer_id": 64947,
+          "dihedrals_rad": [
+            0.9582819433719223
+          ]
+        },
+        {
+          "conformer_id": 64948,
+          "dihedrals_rad": [
+            0.9259065730622033
+          ]
+        },
+        {
+          "conformer_id": 64949,
+          "dihedrals_rad": [
+            0.9156243847413926
+          ]
+        },
+        {
+          "conformer_id": 64950,
+          "dihedrals_rad": [
+            0.9497356339825506
+          ]
+        },
+        {
+          "conformer_id": 64951,
+          "dihedrals_rad": [
+            0.9390267090933898
+          ]
+        },
+        {
+          "conformer_id": 64952,
+          "dihedrals_rad": [
+            0.9368191611721508
+          ]
+        },
+        {
+          "conformer_id": 64953,
+          "dihedrals_rad": [
+            0.94196450223859
+          ]
+        },
+        {
+          "conformer_id": 64954,
+          "dihedrals_rad": [
+            0.9388595384539659
+          ]
+        },
+        {
+          "conformer_id": 64955,
+          "dihedrals_rad": [
+            0.9619438929029295
+          ]
+        },
+        {
+          "conformer_id": 64956,
+          "dihedrals_rad": [
+            0.9404146080455715
+          ]
+        },
+        {
+          "conformer_id": 64957,
+          "dihedrals_rad": [
+            0.9495475532044317
+          ]
+        },
+        {
+          "conformer_id": 64958,
+          "dihedrals_rad": [
+            0.9345533449177336
+          ]
+        }
+      ],
+      "sign_pattern_counts": {
+        "(1,)": 23
+      }
+    },
+    {
+      "ligand_id": 2063,
+      "axes": [
+        [
+          8,
+          17,
+          20,
+          19
+        ]
+      ],
+      "records": [
+        {
+          "conformer_id": 64959,
+          "dihedrals_rad": [
+            -0.9441612301752104
+          ]
+        },
+        {
+          "conformer_id": 64960,
+          "dihedrals_rad": [
+            -0.9448071957460373
+          ]
+        },
+        {
+          "conformer_id": 64961,
+          "dihedrals_rad": [
+            -0.9441135513267401
+          ]
+        },
+        {
+          "conformer_id": 64962,
+          "dihedrals_rad": [
+            -0.9441821724346926
+          ]
+        },
+        {
+          "conformer_id": 64963,
+          "dihedrals_rad": [
+            -0.9475093338585113
+          ]
+        },
+        {
+          "conformer_id": 64964,
+          "dihedrals_rad": [
+            -0.9473060056323984
+          ]
+        },
+        {
+          "conformer_id": 64965,
+          "dihedrals_rad": [
+            -0.9441821724346926
+          ]
+        },
+        {
+          "conformer_id": 64966,
+          "dihedrals_rad": [
+            0.9468251239359279
+          ]
+        },
+        {
+          "conformer_id": 64967,
+          "dihedrals_rad": [
+            -0.9449252788456465
+          ]
+        },
+        {
+          "conformer_id": 64968,
+          "dihedrals_rad": [
+            -0.9448577115098162
+          ]
+        },
+        {
+          "conformer_id": 64969,
+          "dihedrals_rad": [
+            -0.946783323054478
+          ]
+        },
+        {
+          "conformer_id": 64970,
+          "dihedrals_rad": [
+            -0.9456533700718036
+          ]
+        }
+      ],
+      "sign_pattern_counts": {
+        "(-1,)": 11,
+        "(1,)": 1
+      }
+    },
+    {
+      "ligand_id": 2064,
+      "axes": [
+        [
+          12,
+          21,
+          24,
+          23
+        ]
+      ],
+      "records": [
+        {
+          "conformer_id": 64971,
+          "dihedrals_rad": [
+            0.9419101531319075
+          ]
+        },
+        {
+          "conformer_id": 64972,
+          "dihedrals_rad": [
+            0.9420233797290766
+          ]
+        },
+        {
+          "conformer_id": 64973,
+          "dihedrals_rad": [
+            0.9538122116314952
+          ]
+        },
+        {
+          "conformer_id": 64974,
+          "dihedrals_rad": [
+            0.9560199027985349
+          ]
+        },
+        {
+          "conformer_id": 64975,
+          "dihedrals_rad": [
+            0.9520545164682821
+          ]
+        },
+        {
+          "conformer_id": 64976,
+          "dihedrals_rad": [
+            0.942761915951059
+          ]
+        },
+        {
+          "conformer_id": 64977,
+          "dihedrals_rad": [
+            0.9457079955432758
+          ]
+        },
+        {
+          "conformer_id": 64978,
+          "dihedrals_rad": [
+            0.9457123820227621
+          ]
+        },
+        {
+          "conformer_id": 64979,
+          "dihedrals_rad": [
+            0.9418904769937059
+          ]
+        },
+        {
+          "conformer_id": 64980,
+          "dihedrals_rad": [
+            0.9560534054162011
+          ]
+        },
+        {
+          "conformer_id": 64981,
+          "dihedrals_rad": [
+            0.9511670239199498
+          ]
+        },
+        {
+          "conformer_id": 64982,
+          "dihedrals_rad": [
+            0.9555411969220831
+          ]
+        },
+        {
+          "conformer_id": 64983,
+          "dihedrals_rad": [
+            0.9419808816382641
+          ]
+        }
+      ],
+      "sign_pattern_counts": {
+        "(1,)": 13
+      }
+    },
+    {
+      "ligand_id": 2067,
+      "axes": [
+        [
+          19,
+          28,
+          31,
+          30
+        ]
+      ],
+      "records": [
+        {
+          "conformer_id": 65036,
+          "dihedrals_rad": [
+            -0.9420667295840361
+          ]
+        },
+        {
+          "conformer_id": 65037,
+          "dihedrals_rad": [
+            -0.9352803165342108
+          ]
+        },
+        {
+          "conformer_id": 65038,
+          "dihedrals_rad": [
+            -0.9176306437604672
+          ]
+        },
+        {
+          "conformer_id": 65039,
+          "dihedrals_rad": [
+            -0.9415392574435016
+          ]
+        },
+        {
+          "conformer_id": 65040,
+          "dihedrals_rad": [
+            -0.9671885471341022
+          ]
+        },
+        {
+          "conformer_id": 65041,
+          "dihedrals_rad": [
+            -0.9352078091831905
+          ]
+        },
+        {
+          "conformer_id": 65042,
+          "dihedrals_rad": [
+            -0.9446240128333968
+          ]
+        },
+        {
+          "conformer_id": 65043,
+          "dihedrals_rad": [
+            -0.9497510511776839
+          ]
+        },
+        {
+          "conformer_id": 65044,
+          "dihedrals_rad": [
+            -0.944665624630627
+          ]
+        },
+        {
+          "conformer_id": 65045,
+          "dihedrals_rad": [
+            -0.9446240128333968
+          ]
+        },
+        {
+          "conformer_id": 65046,
+          "dihedrals_rad": [
+            -0.9497318966057076
+          ]
+        },
+        {
+          "conformer_id": 65047,
+          "dihedrals_rad": [
+            -0.9499028896062204
+          ]
+        },
+        {
+          "conformer_id": 65048,
+          "dihedrals_rad": [
+            -0.9177750820042854
+          ]
+        },
+        {
+          "conformer_id": 65049,
+          "dihedrals_rad": [
+            -0.9446258493735084
+          ]
+        },
+        {
+          "conformer_id": 65050,
+          "dihedrals_rad": [
+            -0.9446690869956187
+          ]
+        },
+        {
+          "conformer_id": 65051,
+          "dihedrals_rad": [
+            -0.943962164726008
+          ]
+        },
+        {
+          "conformer_id": 65052,
+          "dihedrals_rad": [
+            -0.9519900037773137
+          ]
+        },
+        {
+          "conformer_id": 65053,
+          "dihedrals_rad": [
+            -0.9447210555337454
+          ]
+        },
+        {
+          "conformer_id": 65054,
+          "dihedrals_rad": [
+            -0.9450107178985496
+          ]
+        },
+        {
+          "conformer_id": 65055,
+          "dihedrals_rad": [
+            -0.9330857654865562
+          ]
+        },
+        {
+          "conformer_id": 65056,
+          "dihedrals_rad": [
+            -0.9457690901773441
+          ]
+        },
+        {
+          "conformer_id": 65057,
+          "dihedrals_rad": [
+            -0.917688599850641
+          ]
+        },
+        {
+          "conformer_id": 65058,
+          "dihedrals_rad": [
+            -0.9331823698327164
+          ]
+        },
+        {
+          "conformer_id": 65059,
+          "dihedrals_rad": [
+            -0.9332671579539256
+          ]
+        },
+        {
+          "conformer_id": 65060,
+          "dihedrals_rad": [
+            -0.9456830835722307
+          ]
+        },
+        {
+          "conformer_id": 65061,
+          "dihedrals_rad": [
+            -0.9416311747983092
+          ]
+        },
+        {
+          "conformer_id": 65062,
+          "dihedrals_rad": [
+            -0.9497829107746776
+          ]
+        },
+        {
+          "conformer_id": 65063,
+          "dihedrals_rad": [
+            -0.9519676161170405
+          ]
+        },
+        {
+          "conformer_id": 65064,
+          "dihedrals_rad": [
+            -0.9498451847872191
+          ]
+        },
+        {
+          "conformer_id": 65065,
+          "dihedrals_rad": [
+            -0.9407681838615863
+          ]
+        },
+        {
+          "conformer_id": 65066,
+          "dihedrals_rad": [
+            -0.933236860387752
+          ]
+        },
+        {
+          "conformer_id": 65067,
+          "dihedrals_rad": [
+            -0.9457264677598829
+          ]
+        },
+        {
+          "conformer_id": 65068,
+          "dihedrals_rad": [
+            -0.9456446229403779
+          ]
+        },
+        {
+          "conformer_id": 65069,
+          "dihedrals_rad": [
+            -0.9417593097800195
+          ]
+        },
+        {
+          "conformer_id": 65070,
+          "dihedrals_rad": [
+            -0.9414683764368842
+          ]
+        },
+        {
+          "conformer_id": 65071,
+          "dihedrals_rad": [
+            -0.9456360414350757
+          ]
+        },
+        {
+          "conformer_id": 65072,
+          "dihedrals_rad": [
+            -0.9488501559617658
+          ]
+        },
+        {
+          "conformer_id": 65073,
+          "dihedrals_rad": [
+            -0.9405523736371758
+          ]
+        },
+        {
+          "conformer_id": 65074,
+          "dihedrals_rad": [
+            -0.9416223797641392
+          ]
+        }
+      ],
+      "sign_pattern_counts": {
+        "(-1,)": 39
+      }
+    }
+  ],
+  "generated_encoded_p_mismatches": [],
+  "generated_embedding_count": 218,
+  "generated_retained_count": 69,
+  "generated_rejections": {
+    "postoptimization_duplicate_heavy_rms_below_0.25_A": 59,
+    "opposite_source_relative_spiro_handedness": 8,
+    "opposite_source_relative_axial_sector": 82
+  },
+  "notes": "Coverage experiment samples recorded library conformers without replacement and does not fit outcomes. Relative axial sign is not an absolute experimental assignment. Optimization differences compare matched retained pairs; missing pairs are not replaced."
+}

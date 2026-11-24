@@ -1,0 +1,1723 @@
+{
+  "models": {
+    "B_certified_midpoint": {
+      "model": "B_certified_midpoint",
+      "method": "ols",
+      "n_features": 1,
+      "parameter_count": 2,
+      "folds": [
+        {
+          "group": "BINOL",
+          "train_ids": [
+            401,
+            498,
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "test_ids": [
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "coefficients": [
+            -0.18966381731420964,
+            0.08037095221106422
+          ],
+          "rank": 2,
+          "residual_df": 4,
+          "condition_number": 39.29027996193991,
+          "metrics": {
+            "n": 5,
+            "mae": 0.540248540485155,
+            "rmse": 0.6287133386411211,
+            "r2": -1.725693418378492,
+            "bias": 0.2107869969335387
+          }
+        },
+        {
+          "group": "benzoxaphosphole",
+          "train_ids": [
+            401,
+            498,
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "coefficients": [
+            0.24127265981197202,
+            0.01230841399520954
+          ],
+          "rank": 2,
+          "residual_df": 5,
+          "condition_number": 19.682295767984844,
+          "metrics": {
+            "n": 4,
+            "mae": 1.160118489782835,
+            "rmse": 1.2188792905256773,
+            "r2": -9.322023816578012,
+            "bias": -1.160118489782835
+          }
+        },
+        {
+          "group": "cage",
+          "train_ids": [
+            498,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            401
+          ],
+          "coefficients": [
+            -0.14528201832365928,
+            0.07008621618155418
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 37.180272459398886,
+          "metrics": {
+            "n": 1,
+            "mae": 0.03462452287522012,
+            "rmse": 0.03462452287522012,
+            "r2": null,
+            "bias": -0.03462452287522012
+          }
+        },
+        {
+          "group": "spiro",
+          "train_ids": [
+            401,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            498
+          ],
+          "coefficients": [
+            -0.09529682846283391,
+            0.06775682183832045
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 34.99252948707415,
+          "metrics": {
+            "n": 1,
+            "mae": 0.1580916657256016,
+            "rmse": 0.1580916657256016,
+            "r2": null,
+            "bias": 0.1580916657256016
+          }
+        }
+      ],
+      "predictions": [
+        {
+          "ligand_id": 401,
+          "family": "cage",
+          "observed": 0.0561724661568183,
+          "predicted": 0.021547943281598175,
+          "conditional_95_prediction_interval": [
+            -1.4598568306952993,
+            1.5029527172584956
+          ]
+        },
+        {
+          "ligand_id": 498,
+          "family": "spiro",
+          "observed": 0.1125254548056778,
+          "predicted": 0.2706171205312794,
+          "conditional_95_prediction_interval": [
+            -1.129505992059428,
+            1.6707402331219865
+          ]
+        },
+        {
+          "ligand_id": 723,
+          "family": "benzoxaphosphole",
+          "observed": 1.9309757096365725,
+          "predicted": 0.481317774848963,
+          "conditional_95_prediction_interval": [
+            -0.9459587695019327,
+            1.9085943191998587
+          ]
+        },
+        {
+          "ligand_id": 724,
+          "family": "benzoxaphosphole",
+          "observed": 2.1439757994430626,
+          "predicted": 0.5670879212053006,
+          "conditional_95_prediction_interval": [
+            -1.226101455694282,
+            2.360277298104883
+          ]
+        },
+        {
+          "ligand_id": 785,
+          "family": "BINOL",
+          "observed": 1.1637132628397338,
+          "predicted": 0.3400594039606931,
+          "conditional_95_prediction_interval": [
+            -0.9436933281482031,
+            1.6238121360695894
+          ]
+        },
+        {
+          "ligand_id": 1057,
+          "family": "benzoxaphosphole",
+          "observed": 1.503821191496915,
+          "predicted": 0.5353000686641025,
+          "conditional_95_prediction_interval": [
+            -1.111431896393053,
+            2.182032033721258
+          ]
+        },
+        {
+          "ligand_id": 1058,
+          "family": "benzoxaphosphole",
+          "observed": 1.1637132628397338,
+          "predicted": 0.5183062395665783,
+          "conditional_95_prediction_interval": [
+            -1.0548406826635652,
+            2.091453161796722
+          ]
+        },
+        {
+          "ligand_id": 2062,
+          "family": "BINOL",
+          "observed": 0.3435557331594024,
+          "predicted": 1.2908269901120966,
+          "conditional_95_prediction_interval": [
+            0.09991449977127331,
+            2.48173948045292
+          ]
+        },
+        {
+          "ligand_id": 2063,
+          "family": "BINOL",
+          "observed": 0.2554240533252148,
+          "predicted": 0.33538889868232047,
+          "conditional_95_prediction_interval": [
+            -0.9494271613037092,
+            1.6202049586683502
+          ]
+        },
+        {
+          "ligand_id": 2064,
+          "family": "BINOL",
+          "observed": 0.0421195099233527,
+          "predicted": 0.3393710419183472,
+          "conditional_95_prediction_interval": [
+            -0.9445380806307152,
+            1.6232801644674097
+          ]
+        },
+        {
+          "ligand_id": 2067,
+          "family": "BINOL",
+          "observed": 0.465487401194074,
+          "predicted": 1.0185886104360138,
+          "conditional_95_prediction_interval": [
+            -0.17209038379496366,
+            2.2092676046669912
+          ]
+        }
+      ],
+      "failures": [],
+      "metrics": {
+        "n": 11,
+        "mae": 0.6849484409234488,
+        "rmse": 0.8498802612332074,
+        "r2": -0.3134459471140516,
+        "bias": -0.3148247119648422
+      },
+      "fold_rmse_sd": 0.5374085973288231,
+      "fold_rmse_range": [
+        0.03462452287522012,
+        1.2188792905256773
+      ],
+      "conditional_interval_coverage": 0.9090909090909091,
+      "conditional_interval_mean_width": 2.8283531080583946
+    },
+    "C_certified_midpoint": {
+      "model": "C_certified_midpoint",
+      "method": "ols",
+      "n_features": 1,
+      "parameter_count": 2,
+      "folds": [
+        {
+          "group": "BINOL",
+          "train_ids": [
+            401,
+            498,
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "test_ids": [
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "coefficients": [
+            -0.2314206633632117,
+            0.0976532252066876
+          ],
+          "rank": 2,
+          "residual_df": 4,
+          "condition_number": 32.86359692200737,
+          "metrics": {
+            "n": 5,
+            "mae": 0.31721692097966353,
+            "rmse": 0.3953993714445045,
+            "r2": -0.07806167206221004,
+            "bias": 0.016615475184144225
+          }
+        },
+        {
+          "group": "benzoxaphosphole",
+          "train_ids": [
+            401,
+            498,
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "coefficients": [
+            -0.08246700761491121,
+            0.06897605498092847
+          ],
+          "rank": 2,
+          "residual_df": 5,
+          "condition_number": 21.986836251179756,
+          "metrics": {
+            "n": 4,
+            "mae": 0.43666289226093197,
+            "rmse": 0.4713663391379889,
+            "r2": -0.5436917814138817,
+            "bias": -0.43666289226093197
+          }
+        },
+        {
+          "group": "cage",
+          "train_ids": [
+            498,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            401
+          ],
+          "coefficients": [
+            -0.25159915229336255,
+            0.09818935642362955
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 27.65882877543951,
+          "metrics": {
+            "n": 1,
+            "mae": 0.07404625197062599,
+            "rmse": 0.07404625197062599,
+            "r2": null,
+            "bias": -0.07404625197062599
+          }
+        },
+        {
+          "group": "spiro",
+          "train_ids": [
+            401,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            498
+          ],
+          "coefficients": [
+            -0.18861805072492865,
+            0.09481711607437787
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 25.998593978538665,
+          "metrics": {
+            "n": 1,
+            "mae": 0.21090685978606813,
+            "rmse": 0.21090685978606813,
+            "r2": null,
+            "bias": 0.21090685978606813
+          }
+        }
+      ],
+      "predictions": [
+        {
+          "ligand_id": 401,
+          "family": "cage",
+          "observed": 0.0561724661568183,
+          "predicted": -0.01787378581380769,
+          "conditional_95_prediction_interval": [
+            -0.9333755518693589,
+            0.8976279802417435
+          ]
+        },
+        {
+          "ligand_id": 498,
+          "family": "spiro",
+          "observed": 0.1125254548056778,
+          "predicted": 0.32343231459174593,
+          "conditional_95_prediction_interval": [
+            -0.5330008261451539,
+            1.1798654553286458
+          ]
+        },
+        {
+          "ligand_id": 723,
+          "family": "benzoxaphosphole",
+          "observed": 1.9309757096365725,
+          "predicted": 1.2474794056895857,
+          "conditional_95_prediction_interval": [
+            -1.4970730544878728,
+            3.992031865867044
+          ]
+        },
+        {
+          "ligand_id": 724,
+          "family": "benzoxaphosphole",
+          "observed": 2.1439757994430626,
+          "predicted": 1.743393854088191,
+          "conditional_95_prediction_interval": [
+            -2.3133305956227637,
+            5.800118303799145
+          ]
+        },
+        {
+          "ligand_id": 785,
+          "family": "BINOL",
+          "observed": 1.1637132628397338,
+          "predicted": 0.4122096483509355,
+          "conditional_95_prediction_interval": [
+            -0.29154853618633453,
+            1.1159678328882054
+          ]
+        },
+        {
+          "ligand_id": 1057,
+          "family": "benzoxaphosphole",
+          "observed": 1.503821191496915,
+          "predicted": 1.0282949596995625,
+          "conditional_95_prediction_interval": [
+            -1.1666333027212061,
+            3.223223222120331
+          ]
+        },
+        {
+          "ligand_id": 1058,
+          "family": "benzoxaphosphole",
+          "observed": 1.1637132628397338,
+          "predicted": 0.9766661748952168,
+          "conditional_95_prediction_interval": [
+            -1.0940606808366922,
+            3.0473930306271257
+          ]
+        },
+        {
+          "ligand_id": 2062,
+          "family": "BINOL",
+          "observed": 0.3435557331594024,
+          "predicted": 0.4684973600768187,
+          "conditional_95_prediction_interval": [
+            -0.22957871462148544,
+            1.1665734347751229
+          ]
+        },
+        {
+          "ligand_id": 2063,
+          "family": "BINOL",
+          "observed": 0.2554240533252148,
+          "predicted": 0.36098917560909066,
+          "conditional_95_prediction_interval": [
+            -0.3482861505053924,
+            1.0702645017235737
+          ]
+        },
+        {
+          "ligand_id": 2064,
+          "family": "BINOL",
+          "observed": 0.0421195099233527,
+          "predicted": 0.40635945393038514,
+          "conditional_95_prediction_interval": [
+            -0.29801232569601727,
+            1.1107312335567876
+          ]
+        },
+        {
+          "ligand_id": 2067,
+          "family": "BINOL",
+          "observed": 0.465487401194074,
+          "predicted": 0.7053216983952688,
+          "conditional_95_prediction_interval": [
+            0.026572981713909982,
+            1.3840704150766276
+          ]
+        }
+      ],
+      "failures": [],
+      "metrics": {
+        "n": 11,
+        "mae": 0.32888084415443086,
+        "rmse": 0.3954758662121394,
+        "r2": 0.7155953510215918,
+        "bias": -0.1387921441188695
+      },
+      "fold_rmse_sd": 0.17970102774162164,
+      "fold_rmse_range": [
+        0.07404625197062599,
+        0.4713663391379889
+      ],
+      "conditional_interval_coverage": 0.9090909090909091,
+      "conditional_interval_mean_width": 2.9696540029984293
+    },
+    "B_all_lower": {
+      "model": "B_all_lower",
+      "method": "ols",
+      "n_features": 1,
+      "parameter_count": 2,
+      "folds": [
+        {
+          "group": "BINOL",
+          "train_ids": [
+            401,
+            498,
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "test_ids": [
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "coefficients": [
+            -0.187844620196369,
+            0.08038631965572396
+          ],
+          "rank": 2,
+          "residual_df": 4,
+          "condition_number": 39.20158544436733,
+          "metrics": {
+            "n": 5,
+            "mae": 0.5400672025960073,
+            "rmse": 0.6285340282101712,
+            "r2": -1.7241388925370984,
+            "bias": 0.21056846353456127
+          }
+        },
+        {
+          "group": "benzoxaphosphole",
+          "train_ids": [
+            401,
+            498,
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "coefficients": [
+            0.2415180028154555,
+            0.012317410235240031
+          ],
+          "rank": 2,
+          "residual_df": 5,
+          "condition_number": 19.600820485536943,
+          "metrics": {
+            "n": 4,
+            "mae": 1.1599976655487627,
+            "rmse": 1.2187629020329627,
+            "r2": -9.320052649383554,
+            "bias": -1.1599976655487627
+          }
+        },
+        {
+          "group": "cage",
+          "train_ids": [
+            498,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            401
+          ],
+          "coefficients": [
+            -0.14373224240725982,
+            0.07010794595669884
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 37.07981623730178,
+          "metrics": {
+            "n": 1,
+            "mae": 0.034705784445036233,
+            "rmse": 0.034705784445036233,
+            "r2": null,
+            "bias": -0.034705784445036233
+          }
+        },
+        {
+          "group": "spiro",
+          "train_ids": [
+            401,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            498
+          ],
+          "coefficients": [
+            -0.09376553768037711,
+            0.06777647018146546
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 34.898179061158864,
+          "metrics": {
+            "n": 1,
+            "mae": 0.15816837657839053,
+            "rmse": 0.15816837657839053,
+            "r2": null,
+            "bias": 0.15816837657839053
+          }
+        }
+      ],
+      "predictions": [
+        {
+          "ligand_id": 401,
+          "family": "cage",
+          "observed": 0.0561724661568183,
+          "predicted": 0.021466681711782065,
+          "conditional_95_prediction_interval": [
+            -1.4596559449208313,
+            1.5025893083443955
+          ]
+        },
+        {
+          "ligand_id": 498,
+          "family": "spiro",
+          "observed": 0.1125254548056778,
+          "predicted": 0.27069383138406833,
+          "conditional_95_prediction_interval": [
+            -1.1291312887061287,
+            1.6705189514742653
+          ]
+        },
+        {
+          "ligand_id": 723,
+          "family": "benzoxaphosphole",
+          "observed": 1.9309757096365725,
+          "predicted": 0.48142315145091996,
+          "conditional_95_prediction_interval": [
+            -0.9461088524356704,
+            1.9089551553375104
+          ]
+        },
+        {
+          "ligand_id": 724,
+          "family": "benzoxaphosphole",
+          "observed": 2.1439757994430626,
+          "predicted": 0.5672278367486467,
+          "conditional_95_prediction_interval": [
+            -1.2263629277333767,
+            2.36081860123067
+          ]
+        },
+        {
+          "ligand_id": 785,
+          "family": "BINOL",
+          "observed": 1.1637132628397338,
+          "predicted": 0.33996641518611875,
+          "conditional_95_prediction_interval": [
+            -0.9437462786321056,
+            1.6236791090043432
+          ]
+        },
+        {
+          "ligand_id": 1057,
+          "family": "benzoxaphosphole",
+          "observed": 1.503821191496915,
+          "predicted": 0.5354252734335851,
+          "conditional_95_prediction_interval": [
+            -1.1116491084044222,
+            2.1824996552715925
+          ]
+        },
+        {
+          "ligand_id": 1058,
+          "family": "benzoxaphosphole",
+          "observed": 1.1637132628397338,
+          "predicted": 0.518419039588081,
+          "conditional_95_prediction_interval": [
+            -1.0550185834864834,
+            2.0918566626626456
+          ]
+        },
+        {
+          "ligand_id": 2062,
+          "family": "BINOL",
+          "observed": 0.3435557331594024,
+          "predicted": 1.2903110867830363,
+          "conditional_95_prediction_interval": [
+            0.09947548047567589,
+            2.4811466930903965
+          ]
+        },
+        {
+          "ligand_id": 2063,
+          "family": "BINOL",
+          "observed": 0.2554240533252148,
+          "predicted": 0.335244305251646,
+          "conditional_95_prediction_interval": [
+            -0.9495435322805112,
+            1.6200321427838034
+          ]
+        },
+        {
+          "ligand_id": 2064,
+          "family": "BINOL",
+          "observed": 0.0421195099233527,
+          "predicted": 0.33918537388389175,
+          "conditional_95_prediction_interval": [
+            -0.9447047813559459,
+            1.6230755291237293
+          ]
+        },
+        {
+          "ligand_id": 2067,
+          "family": "BINOL",
+          "observed": 0.465487401194074,
+          "predicted": 1.018435097009891,
+          "conditional_95_prediction_interval": [
+            -0.172194780925917,
+            2.209064974945699
+          ]
+        }
+      ],
+      "failures": [],
+      "metrics": {
+        "n": 11,
+        "mae": 0.6848364396544103,
+        "rmse": 0.849760869860197,
+        "r2": -0.31307694666184216,
+        "bias": -0.31488052294444463
+      },
+      "fold_rmse_sd": 0.5373035276276514,
+      "fold_rmse_range": [
+        0.034705784445036233,
+        1.2187629020329627
+      ],
+      "conditional_interval_coverage": 0.9090909090909091,
+      "conditional_interval_mean_width": 2.82844339833407
+    },
+    "B_all_upper": {
+      "model": "B_all_upper",
+      "method": "ols",
+      "n_features": 1,
+      "parameter_count": 2,
+      "folds": [
+        {
+          "group": "BINOL",
+          "train_ids": [
+            401,
+            498,
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "test_ids": [
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "coefficients": [
+            -0.19148230911582537,
+            0.0803555900488112
+          ],
+          "rank": 2,
+          "residual_df": 4,
+          "condition_number": 39.379085502442805,
+          "metrics": {
+            "n": 5,
+            "mae": 0.5404298102493088,
+            "rmse": 0.628892640882264,
+            "r2": -1.7272483166056785,
+            "bias": 0.2110054503811764
+          }
+        },
+        {
+          "group": "benzoxaphosphole",
+          "train_ids": [
+            401,
+            498,
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "coefficients": [
+            0.24102769890754489,
+            0.012299428140620731
+          ],
+          "rank": 2,
+          "residual_df": 5,
+          "condition_number": 19.763951083793675,
+          "metrics": {
+            "n": 4,
+            "mae": 1.160239177162019,
+            "rmse": 1.2189955480269166,
+            "r2": -9.323992953202078,
+            "bias": -1.160239177162019
+          }
+        },
+        {
+          "group": "cage",
+          "train_ids": [
+            498,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            401
+          ],
+          "coefficients": [
+            -0.14683065080811852,
+            0.07006448776699402
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 37.28087905179571,
+          "metrics": {
+            "n": 1,
+            "mae": 0.03454315773754617,
+            "rmse": 0.03454315773754617,
+            "r2": null,
+            "bias": -0.03454315773754617
+          }
+        },
+        {
+          "group": "spiro",
+          "train_ids": [
+            401,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            498
+          ],
+          "coefficients": [
+            -0.0968270866163116,
+            0.06773717509535962
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 35.087027801929274,
+          "metrics": {
+            "n": 1,
+            "mae": 0.15801509129544064,
+            "rmse": 0.15801509129544064,
+            "r2": null,
+            "bias": 0.15801509129544064
+          }
+        }
+      ],
+      "predictions": [
+        {
+          "ligand_id": 401,
+          "family": "cage",
+          "observed": 0.0561724661568183,
+          "predicted": 0.02162930841927213,
+          "conditional_95_prediction_interval": [
+            -1.4600575397387874,
+            1.5033161565773319
+          ]
+        },
+        {
+          "ligand_id": 498,
+          "family": "spiro",
+          "observed": 0.1125254548056778,
+          "predicted": 0.27054054610111844,
+          "conditional_95_prediction_interval": [
+            -1.1298804960963529,
+            1.6709615882985895
+          ]
+        },
+        {
+          "ligand_id": 723,
+          "family": "benzoxaphosphole",
+          "observed": 1.9309757096365725,
+          "predicted": 0.4812125224152543,
+          "conditional_95_prediction_interval": [
+            -0.9458088793096486,
+            1.9082339241401574
+          ]
+        },
+        {
+          "ligand_id": 724,
+          "family": "benzoxaphosphole",
+          "observed": 2.1439757994430626,
+          "predicted": 0.5669481611034297,
+          "conditional_95_prediction_interval": [
+            -1.2258402275792848,
+            2.3597365497861444
+          ]
+        },
+        {
+          "ligand_id": 785,
+          "family": "BINOL",
+          "observed": 1.1637132628397338,
+          "predicted": 0.34015236316940306,
+          "conditional_95_prediction_interval": [
+            -0.9436404134948357,
+            1.6239451398336417
+          ]
+        },
+        {
+          "ligand_id": 1057,
+          "family": "benzoxaphosphole",
+          "observed": 1.503821191496915,
+          "predicted": 0.5351750049572257,
+          "conditional_95_prediction_interval": [
+            -1.1112149037213184,
+            2.1815649136357695
+          ]
+        },
+        {
+          "ligand_id": 1058,
+          "family": "benzoxaphosphole",
+          "observed": 1.1637132628397338,
+          "predicted": 0.5181935662922981,
+          "conditional_95_prediction_interval": [
+            -1.0546629657884452,
+            2.0910500983730413
+          ]
+        },
+        {
+          "ligand_id": 2062,
+          "family": "BINOL",
+          "observed": 0.3435557331594024,
+          "predicted": 1.2913426952008094,
+          "conditional_95_prediction_interval": [
+            0.10035324667630863,
+            2.4823321437253103
+          ]
+        },
+        {
+          "ligand_id": 2063,
+          "family": "BINOL",
+          "observed": 0.2554240533252148,
+          "predicted": 0.3355334428544198,
+          "conditional_95_prediction_interval": [
+            -0.9493108518213635,
+            1.6203777375302033
+          ]
+        },
+        {
+          "ligand_id": 2064,
+          "family": "BINOL",
+          "observed": 0.0421195099233527,
+          "predicted": 0.3395566449631308,
+          "conditional_95_prediction_interval": [
+            -0.9443714627660942,
+            1.623484752692356
+          ]
+        },
+        {
+          "ligand_id": 2067,
+          "family": "BINOL",
+          "observed": 0.465487401194074,
+          "predicted": 1.0187420661598967,
+          "conditional_95_prediction_interval": [
+            -0.1719860528384911,
+            2.2094701851582847
+          ]
+        }
+      ],
+      "failures": [],
+      "metrics": {
+        "n": 11,
+        "mae": 0.6850603644479643,
+        "rmse": 0.849999591018121,
+        "r2": -0.3138148090180044,
+        "bias": -0.3147688657440273
+      },
+      "fold_rmse_sd": 0.5375136222029412,
+      "fold_rmse_range": [
+        0.03454315773754617,
+        1.2189955480269166
+      ],
+      "conditional_interval_coverage": 0.9090909090909091,
+      "conditional_interval_mean_width": 2.8282630669299227
+    },
+    "C_all_lower": {
+      "model": "C_all_lower",
+      "method": "ols",
+      "n_features": 1,
+      "parameter_count": 2,
+      "folds": [
+        {
+          "group": "BINOL",
+          "train_ids": [
+            401,
+            498,
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "test_ids": [
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "coefficients": [
+            -0.22910101402972297,
+            0.09767550908060633
+          ],
+          "rank": 2,
+          "residual_df": 4,
+          "condition_number": 32.77322266014668,
+          "metrics": {
+            "n": 5,
+            "mae": 0.3171566292724624,
+            "rmse": 0.39536886356951334,
+            "r2": -0.07789531822214513,
+            "bias": 0.01656318321917597
+          }
+        },
+        {
+          "group": "benzoxaphosphole",
+          "train_ids": [
+            401,
+            498,
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "coefficients": [
+            -0.08083149680525326,
+            0.06899295550682072
+          ],
+          "rank": 2,
+          "residual_df": 5,
+          "condition_number": 21.829443875397068,
+          "metrics": {
+            "n": 4,
+            "mae": 0.4366821476459858,
+            "rmse": 0.4712956857747923,
+            "r2": -0.5432290464539036,
+            "bias": -0.4366821476459858
+          }
+        },
+        {
+          "group": "cage",
+          "train_ids": [
+            498,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            401
+          ],
+          "coefficients": [
+            -0.2491849501360771,
+            0.09820730855393747
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 27.56716981384393,
+          "metrics": {
+            "n": 1,
+            "mae": 0.0739465327996376,
+            "rmse": 0.0739465327996376,
+            "r2": null,
+            "bias": -0.0739465327996376
+          }
+        },
+        {
+          "group": "spiro",
+          "train_ids": [
+            401,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            498
+          ],
+          "coefficients": [
+            -0.18627342012278889,
+            0.09483455085844535
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 25.9129063055073,
+          "metrics": {
+            "n": 1,
+            "mae": 0.21116188990391224,
+            "rmse": 0.21116188990391224,
+            "r2": null,
+            "bias": 0.21116188990391224
+          }
+        }
+      ],
+      "predictions": [
+        {
+          "ligand_id": 401,
+          "family": "cage",
+          "observed": 0.0561724661568183,
+          "predicted": -0.017774066642819303,
+          "conditional_95_prediction_interval": [
+            -0.9331298514182168,
+            0.8975817181325781
+          ]
+        },
+        {
+          "ligand_id": 498,
+          "family": "spiro",
+          "observed": 0.1125254548056778,
+          "predicted": 0.32368734470959004,
+          "conditional_95_prediction_interval": [
+            -0.5325487413920652,
+            1.1799234308112454
+          ]
+        },
+        {
+          "ligand_id": 723,
+          "family": "benzoxaphosphole",
+          "observed": 1.9309757096365725,
+          "predicted": 1.2476781038631712,
+          "conditional_95_prediction_interval": [
+            -1.4967733789869155,
+            3.992129586713258
+          ]
+        },
+        {
+          "ligand_id": 724,
+          "family": "benzoxaphosphole",
+          "observed": 2.1439757994430626,
+          "predicted": 1.743552334821568,
+          "conditional_95_prediction_interval": [
+            -2.312618978922301,
+            5.799723648565437
+          ]
+        },
+        {
+          "ligand_id": 785,
+          "family": "BINOL",
+          "observed": 1.1637132628397338,
+          "predicted": 0.4122296477065177,
+          "conditional_95_prediction_interval": [
+            -0.29123355601290946,
+            1.115692851425945
+          ]
+        },
+        {
+          "ligand_id": 1057,
+          "family": "benzoxaphosphole",
+          "observed": 1.503821191496915,
+          "predicted": 1.0283479229449262,
+          "conditional_95_prediction_interval": [
+            -1.1662631536414103,
+            3.2229589995312624
+          ]
+        },
+        {
+          "ligand_id": 1058,
+          "family": "benzoxaphosphole",
+          "observed": 1.1637132628397338,
+          "predicted": 0.9761790112026754,
+          "conditional_95_prediction_interval": [
+            -1.0929822283388853,
+            3.045340250744236
+          ]
+        },
+        {
+          "ligand_id": 2062,
+          "family": "BINOL",
+          "observed": 0.3435557331594024,
+          "predicted": 0.4683760353518551,
+          "conditional_95_prediction_interval": [
+            -0.22942153582122482,
+            1.166173606524935
+          ]
+        },
+        {
+          "ligand_id": 2063,
+          "family": "BINOL",
+          "observed": 0.2554240533252148,
+          "predicted": 0.3607450476274815,
+          "conditional_95_prediction_interval": [
+            -0.3482619436324864,
+            1.0697520388874495
+          ]
+        },
+        {
+          "ligand_id": 2064,
+          "family": "BINOL",
+          "observed": 0.0421195099233527,
+          "predicted": 0.40616176798177195,
+          "conditional_95_prediction_interval": [
+            -0.29793764126779454,
+            1.1102611772313384
+          ]
+        },
+        {
+          "ligand_id": 2067,
+          "family": "BINOL",
+          "observed": 0.465487401194074,
+          "predicted": 0.7056033778700311,
+          "conditional_95_prediction_interval": [
+            0.02715459108745122,
+            1.3840521646526112
+          ]
+        }
+      ],
+      "failures": [],
+      "metrics": {
+        "n": 11,
+        "mae": 0.3288745599681641,
+        "rmse": 0.3954420562750973,
+        "r2": 0.7156439774641443,
+        "bias": -0.1387906652167081
+      },
+      "fold_rmse_sd": 0.17967410348189908,
+      "fold_rmse_range": [
+        0.0739465327996376,
+        0.4712956857747923
+      ],
+      "conditional_interval_coverage": 0.9090909090909091,
+      "conditional_interval_mean_width": 2.9688732628697325
+    },
+    "C_all_upper": {
+      "model": "C_all_upper",
+      "method": "ols",
+      "n_features": 1,
+      "parameter_count": 2,
+      "folds": [
+        {
+          "group": "BINOL",
+          "train_ids": [
+            401,
+            498,
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "test_ids": [
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "coefficients": [
+            -0.2337387853266416,
+            0.09763091843841228
+          ],
+          "rank": 2,
+          "residual_df": 4,
+          "condition_number": 32.95411000410631,
+          "metrics": {
+            "n": 5,
+            "mae": 0.31727731564201744,
+            "rmse": 0.3954299592791415,
+            "r2": -0.0782284747939257,
+            "bias": 0.016667973941036217
+          }
+        },
+        {
+          "group": "benzoxaphosphole",
+          "train_ids": [
+            401,
+            498,
+            785,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            723,
+            724,
+            1057,
+            1058
+          ],
+          "coefficients": [
+            -0.08410096430846144,
+            0.06895904267380074
+          ],
+          "rank": 2,
+          "residual_df": 5,
+          "condition_number": 22.144840104024464,
+          "metrics": {
+            "n": 4,
+            "mae": 0.4366452141798731,
+            "rmse": 0.4714385990078841,
+            "r2": -0.5441651097278739,
+            "bias": -0.4366452141798731
+          }
+        },
+        {
+          "group": "cage",
+          "train_ids": [
+            498,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            401
+          ],
+          "coefficients": [
+            -0.2540120407311896,
+            0.09817137456261547
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 27.750668578329797,
+          "metrics": {
+            "n": 1,
+            "mae": 0.07414559069534866,
+            "rmse": 0.07414559069534866,
+            "r2": null,
+            "bias": -0.07414559069534866
+          }
+        },
+        {
+          "group": "spiro",
+          "train_ids": [
+            401,
+            723,
+            724,
+            785,
+            1057,
+            1058,
+            2062,
+            2063,
+            2064,
+            2067
+          ],
+          "test_ids": [
+            498
+          ],
+          "coefficients": [
+            -0.1909614759631072,
+            0.09479965804471964
+          ],
+          "rank": 2,
+          "residual_df": 8,
+          "condition_number": 26.084458042151034,
+          "metrics": {
+            "n": 1,
+            "mae": 0.2106521060198385,
+            "rmse": 0.2106521060198385,
+            "r2": null,
+            "bias": 0.2106521060198385
+          }
+        }
+      ],
+      "predictions": [
+        {
+          "ligand_id": 401,
+          "family": "cage",
+          "observed": 0.0561724661568183,
+          "predicted": -0.017973124538530366,
+          "conditional_95_prediction_interval": [
+            -0.9336215511672582,
+            0.8976753020901974
+          ]
+        },
+        {
+          "ligand_id": 498,
+          "family": "spiro",
+          "observed": 0.1125254548056778,
+          "predicted": 0.3231775608255163,
+          "conditional_95_prediction_interval": [
+            -0.5334531907942004,
+            1.179808312445233
+          ]
+        },
+        {
+          "ligand_id": 723,
+          "family": "benzoxaphosphole",
+          "observed": 1.9309757096365725,
+          "predicted": 1.2472792399203112,
+          "conditional_95_prediction_interval": [
+            -1.4973726472414957,
+            3.9919311270821183
+          ]
+        },
+        {
+          "ligand_id": 724,
+          "family": "benzoxaphosphole",
+          "observed": 2.1439757994430626,
+          "predicted": 1.743233022594819,
+          "conditional_95_prediction_interval": [
+            -2.314041998540375,
+            5.800508043730012
+          ]
+        },
+        {
+          "ligand_id": 785,
+          "family": "BINOL",
+          "observed": 1.1637132628397338,
+          "predicted": 0.41218990858728066,
+          "conditional_95_prediction_interval": [
+            -0.29186530022002366,
+            1.1162451173945849
+          ]
+        },
+        {
+          "ligand_id": 1057,
+          "family": "benzoxaphosphole",
+          "observed": 1.503821191496915,
+          "predicted": 1.0282408388278754,
+          "conditional_95_prediction_interval": [
+            -1.1670035445060631,
+            3.223485222161814
+          ]
+        },
+        {
+          "ligand_id": 1058,
+          "family": "benzoxaphosphole",
+          "observed": 1.1637132628397338,
+          "predicted": 0.9771520053537858,
+          "conditional_95_prediction_interval": [
+            -1.0951399491718834,
+            3.0494439598794547
+          ]
+        },
+        {
+          "ligand_id": 2062,
+          "family": "BINOL",
+          "observed": 0.3435557331594024,
+          "predicted": 0.46861886081654935,
+          "conditional_95_prediction_interval": [
+            -0.22973774150971338,
+            1.166975463142812
+          ]
+        },
+        {
+          "ligand_id": 2063,
+          "family": "BINOL",
+          "observed": 0.2554240533252148,
+          "predicted": 0.36123345994798917,
+          "conditional_95_prediction_interval": [
+            -0.34831225295216195,
+            1.0707791728481402
+          ]
+        },
+        {
+          "ligand_id": 2064,
+          "family": "BINOL",
+          "observed": 0.0421195099233527,
+          "predicted": 0.40655730207462826,
+          "conditional_95_prediction_interval": [
+            -0.2980888874302736,
+            1.1112034915795301
+          ]
+        },
+        {
+          "ligand_id": 2067,
+          "family": "BINOL",
+          "observed": 0.465487401194074,
+          "predicted": 0.7050402987205112,
+          "conditional_95_prediction_interval": [
+            0.025989655483386387,
+            1.384090941957636
+          ]
+        }
+      ],
+      "failures": [],
+      "metrics": {
+        "n": 11,
+        "mae": 0.32888773924043335,
+        "rmse": 0.39551043572092776,
+        "r2": 0.7155456278422021,
+        "bias": -0.1387940428808929
+      },
+      "fold_rmse_sd": 0.17972877064479695,
+      "fold_rmse_range": [
+        0.07414559069534866,
+        0.4714385990078841
+      ],
+      "conditional_interval_coverage": 0.9090909090909091,
+      "conditional_interval_mean_width": 2.970435778396509
+    }
+  },
+  "features": [
+    {
+      "ligand_id": 401,
+      "single": 2.380353380372174,
+      "single_lower": 2.3563509366124435,
+      "single_upper": 2.4043558241319047,
+      "ensemble_min": 2.380353380372174,
+      "ensemble_lower": 2.3563509366124435,
+      "ensemble_upper": 2.4043558241319047
+    },
+    {
+      "ligand_id": 498,
+      "single": 5.400400123064324,
+      "single_lower": 5.377373122097358,
+      "single_upper": 5.423427124031289,
+      "ensemble_min": 5.400400123064324,
+      "ensemble_lower": 5.377373122097358,
+      "ensemble_upper": 5.423427124031289
+    },
+    {
+      "ligand_id": 723,
+      "single": 19.502522025211128,
+      "single_lower": 19.476914712891304,
+      "single_upper": 19.52812933753095,
+      "ensemble_min": 19.281276867345056,
+      "ensemble_lower": 19.25572822484879,
+      "ensemble_upper": 19.306825509841325
+    },
+    {
+      "ligand_id": 724,
+      "single": 26.470937808895325,
+      "single_lower": 26.44304506489015,
+      "single_upper": 26.4988305529005,
+      "ensemble_min": 26.470937808895325,
+      "ensemble_lower": 26.44304506489015,
+      "ensemble_upper": 26.4988305529005
+    },
+    {
+      "ligand_id": 785,
+      "single": 6.590978540154446,
+      "single_lower": 6.565931089306993,
+      "single_upper": 6.6160259910019,
+      "ensemble_min": 6.590978540154446,
+      "ensemble_lower": 6.565931089306993,
+      "ensemble_upper": 6.6160259910019
+    },
+    {
+      "ligand_id": 1057,
+      "single": 23.88832622680441,
+      "single_lower": 23.86112543181057,
+      "single_upper": 23.915527021798248,
+      "ensemble_min": 16.10358794253446,
+      "ensemble_lower": 16.076705391183374,
+      "ensemble_upper": 16.130470493885543
+    },
+    {
+      "ligand_id": 1058,
+      "single": 22.50765857099284,
+      "single_lower": 22.48045908062828,
+      "single_upper": 22.534858061357404,
+      "ensemble_min": 15.355084932053202,
+      "ensemble_lower": 15.320557008221389,
+      "ensemble_upper": 15.389612855885016
+    },
+    {
+      "ligand_id": 2062,
+      "single": 18.42072000762603,
+      "single_lower": 18.38815003983271,
+      "single_upper": 18.453289975419352,
+      "ensemble_min": 7.167382561698513,
+      "ensemble_lower": 7.140756735713431,
+      "ensemble_upper": 7.194008387683596
+    },
+    {
+      "ligand_id": 2063,
+      "single": 6.532866683197628,
+      "single_lower": 6.507188383400111,
+      "single_upper": 6.558544982995144,
+      "ensemble_min": 6.066464653045912,
+      "ensemble_lower": 6.038832735137692,
+      "ensemble_upper": 6.094096570954132
+    },
+    {
+      "ligand_id": 2064,
+      "single": 6.58241372882139,
+      "single_lower": 6.556214992021136,
+      "single_upper": 6.608612465621643,
+      "ensemble_min": 6.531070693709354,
+      "ensemble_lower": 6.503808252355734,
+      "ensemble_upper": 6.558333135062973
+    },
+    {
+      "ligand_id": 2067,
+      "single": 15.033446718127722,
+      "single_lower": 15.006032399200231,
+      "single_upper": 15.060861037055211,
+      "ensemble_min": 9.59253890258946,
+      "ensemble_lower": 9.569485746200646,
+      "ensemble_upper": 9.615592058978276
+    }
+  ],
+  "paired_uncertainty": {
+    "delta_rmse_c_minus_b": -0.45440439502106794,
+    "family_bootstrap_95_interval": [
+      -0.7152456771742468,
+      0.04362043340503209
+    ],
+    "ligand_bootstrap_95_interval": [
+      -0.6911044024754186,
+      -0.18384318068078603
+    ],
+    "exact_signflip_one_sided_p": 0.25,
+    "family_loss_differences": {
+      "BINOL": -1.194698996232779,
+      "benzoxaphosphole": -5.053921996800117,
+      "cage": 0.004283989846560791,
+      "spiro": 0.01948872873292485
+    },
+    "signflip_values": [
+      6.22484827445341,
+      6.263825731919259,
+      6.233416254146532,
+      6.272393711612382,
+      -3.882995719146824,
+      -3.844018261680974,
+      -3.8744277394537026,
+      -3.8354502819878524,
+      3.8354502819878524,
+      3.8744277394537026,
+      3.844018261680974,
+      3.882995719146824,
+      -6.272393711612382,
+      -6.233416254146532,
+      -6.263825731919259,
+      -6.22484827445341
+    ],
+    "bootstrap_draws": 10000,
+    "seed": 20261124,
+    "interpretation": "Conditional resampling of fixed cross-fitted predictions, not a full refit bootstrap. Four clusters, dependent CV training sets and tiny chemical sample limit uncertainty calibration; ligand bootstrap ignores family dependence."
+  },
+  "scope": "Same as-distributed molecules and family splits; only finite-grid versus explicit continuous regional descriptor changes. Endpoint fits at all-lower/all-upper inputs are sensitivity scenarios, NOT certified extrema of the fitted model over the descriptor box. The maximum/absolute-difference/minimum operations on per-conformer intervals are monotone interval operations; no volume certainty is transferred to molecular population or model uncertainty."
+}

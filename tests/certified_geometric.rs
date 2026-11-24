@@ -67,6 +67,28 @@ fn possible_triples_and_clipped_balls_use_original_certified_fallback() {
 }
 
 #[test]
+fn subnormal_absolute_target_does_not_require_a_false_zero_volume() {
+    let u = f64::from_bits(1);
+    for r in [u, 1e-200, 1e-150, f64::from_bits((1023_u64 - 359) << 52)] {
+        let result =
+            sphere_union_volume_certified_geometric(s(0., 0., 0., r), &[s(r, 0., 0., r)], o(u, 1))
+                .unwrap();
+        assert!(result.target_met);
+        assert_eq!(result.lower_bound_angstrom3, 0.);
+        assert_eq!(result.upper_bound_angstrom3, u);
+        assert_eq!(result.absolute_error_bound_angstrom3, u);
+        assert_eq!(result.relative_error_bound, None);
+        let tangent = sphere_union_volume_certified_geometric(
+            s(0., 0., 0., r),
+            &[s(2. * r, 0., 0., r)],
+            o(u, 1),
+        )
+        .unwrap();
+        assert_eq!(tangent.upper_bound_angstrom3, 0.);
+    }
+}
+
+#[test]
 fn invalid_inputs_are_rejected_before_any_analytical_shortcut() {
     for options in [o(0., 1), o(f64::NAN, 1), o(0.05, 0)] {
         assert!(sphere_union_volume_certified_geometric(s(0., 0., 0., 1.), &[], options).is_err());

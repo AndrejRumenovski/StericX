@@ -60,3 +60,27 @@ no controlled speed ratio is claimed. `geometric_v1/` retains the earlier combin
 prototype and its tests. The combined prototype is decomposed into independently
 reviewable accepted changes rather than retrospectively treated as one experiment.
 Further subnormal improvement and regional methods are evaluated separately.
+
+## G2: global bound for positive subnormal volumes
+
+For 0<R<=2^-359 Å, V<=4πR³/3<8R³<=2^-1074 Å³, using π<6. The radius
+threshold is constructed as an exact exponent bit pattern. After validated exact
+nonoverlap checks, return [0,2^-1074] if no sharper proof exists. The estimate is
+zero, but the nonzero upper/error bound explicitly preserves a possible positive
+volume. The exact error-distance machinery in G1 reports error=2^-1074 without
+unnecessarily widening it. This does not assume that a rounded zero equals the
+true volume, and it does not claim a relative certificate.
+
+Isolated G2 resolves the remaining **4/18** requests. The combined explicit method
+meets **18/18 original targets within the original budgets**, with all **167/167**
+independent analytical enclosures contained. Source-bound results and original
+failures are retained in `geometric_subnormal_validation.json`; raw logs and peak
+RSS are under `.stericx/experimental_validation/geometric_subnormal_v1/`.
+The four API tests include invalid-input handling, triple-overlap fallback,
+permutation/duplicate invariance and the exact underflow threshold. Existing
+certified API tests continue to exercise the original algorithm and its honest
+budget failures.
+
+These finite analytical successes do not establish that arbitrary tangent,
+clipped, thin or multiply overlapping molecular geometries meet arbitrary error
+targets. Regional stress tests and the complete regression remain separate gates.

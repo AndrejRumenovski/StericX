@@ -1,0 +1,1489 @@
+{
+  "cases": 167,
+  "invalid": [],
+  "original_failed_count": 18,
+  "resolved": 18,
+  "remaining": [],
+  "original_cases": [
+    {
+      "request": {
+        "id": "three_overlapping_chain/reference_1023",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 3.5
+        },
+        "atoms": [
+          {
+            "center": [
+              -1.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          },
+          {
+            "center": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          },
+          {
+            "center": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          }
+        ],
+        "tolerance": 1e-05,
+        "budget": 1023,
+        "independent_reference": [
+          9.948376736367678,
+          9.94837673636768
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 0.9293947204774949,
+        "allocations": null,
+        "analytical": false,
+        "cells": 1023,
+        "elapsed_ns": 422475.0,
+        "empty_cells": 84,
+        "geometric_evaluations": 3567,
+        "id": "three_overlapping_chain/reference_1023",
+        "lower": 9.157990516443498,
+        "peak_heap_cells": 428,
+        "range_cells": 687,
+        "relative_error_bound": 0.10148456900110715,
+        "smooth_cells": 252,
+        "status": "cell_budget_exhausted",
+        "subdivisions": 511,
+        "target_met": false,
+        "upper": 11.016779957398487,
+        "volume": 10.087385236920992
+      },
+      "candidate": {
+        "absolute_error_bound": 3.197442310920451e-14,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 1393.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 7,
+        "id": "three_overlapping_chain/reference_1023",
+        "lower": 9.948376736367647,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": 3.214034204426301e-15,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 9.94837673636771,
+        "volume": 9.948376736367678
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "three_overlapping_chain/reference_8191",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 3.5
+        },
+        "atoms": [
+          {
+            "center": [
+              -1.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          },
+          {
+            "center": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          },
+          {
+            "center": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          }
+        ],
+        "tolerance": 1e-05,
+        "budget": 8191,
+        "independent_reference": [
+          9.948376736367678,
+          9.94837673636768
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 0.09208706887789476,
+        "allocations": null,
+        "analytical": false,
+        "cells": 8191,
+        "elapsed_ns": 3343066.0,
+        "empty_cells": 488,
+        "geometric_evaluations": 32383,
+        "id": "three_overlapping_chain/reference_8191",
+        "lower": 9.880155354861564,
+        "peak_heap_cells": 3608,
+        "range_cells": 4383,
+        "relative_error_bound": 0.009320406974429103,
+        "smooth_cells": 3320,
+        "status": "cell_budget_exhausted",
+        "subdivisions": 4095,
+        "target_met": false,
+        "upper": 10.064329492617354,
+        "volume": 9.97224242373946
+      },
+      "candidate": {
+        "absolute_error_bound": 3.197442310920451e-14,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 3056.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 7,
+        "id": "three_overlapping_chain/reference_8191",
+        "lower": 9.948376736367647,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": 3.214034204426301e-15,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 9.94837673636771,
+        "volume": 9.948376736367678
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "three_overlapping_chain/reference_65535",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 3.5
+        },
+        "atoms": [
+          {
+            "center": [
+              -1.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          },
+          {
+            "center": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          },
+          {
+            "center": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          }
+        ],
+        "tolerance": 1e-05,
+        "budget": 65535,
+        "independent_reference": [
+          9.948376736367678,
+          9.94837673636768
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 0.00772957671433261,
+        "allocations": null,
+        "analytical": false,
+        "cells": 65535,
+        "elapsed_ns": 34788696.0,
+        "empty_cells": 2876,
+        "geometric_evaluations": 295951,
+        "id": "three_overlapping_chain/reference_65535",
+        "lower": 9.943313782210572,
+        "peak_heap_cells": 29892,
+        "range_cells": 25511,
+        "relative_error_bound": 0.0007773642553814882,
+        "smooth_cells": 37148,
+        "status": "cell_budget_exhausted",
+        "subdivisions": 32767,
+        "target_met": false,
+        "upper": 9.958772935639237,
+        "volume": 9.951043358924904
+      },
+      "candidate": {
+        "absolute_error_bound": 3.197442310920451e-14,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 1462.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 7,
+        "id": "three_overlapping_chain/reference_65535",
+        "lower": 9.948376736367647,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": 3.214034204426301e-15,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 9.94837673636771,
+        "volume": 9.948376736367678
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "three_disjoint/reference_1023",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 4.0
+        },
+        "atoms": [
+          {
+            "center": [
+              -2.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          },
+          {
+            "center": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          },
+          {
+            "center": [
+              2.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          }
+        ],
+        "tolerance": 1e-05,
+        "budget": 1023,
+        "independent_reference": [
+          1.5707963267948966,
+          1.5707963267948968
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 0.18691645015273808,
+        "allocations": null,
+        "analytical": false,
+        "cells": 1023,
+        "elapsed_ns": 358434.0,
+        "empty_cells": 52,
+        "geometric_evaluations": 3343,
+        "id": "three_disjoint/reference_1023",
+        "lower": 1.430925886298595,
+        "peak_heap_cells": 460,
+        "range_cells": 659,
+        "relative_error_bound": 0.13062622735565899,
+        "smooth_cells": 312,
+        "status": "cell_budget_exhausted",
+        "subdivisions": 511,
+        "target_met": false,
+        "upper": 1.8047587866040709,
+        "volume": 1.617842336451333
+      },
+      "candidate": {
+        "absolute_error_bound": 2.6645352591003757e-15,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 591.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 7,
+        "id": "three_disjoint/reference_1023",
+        "lower": 1.5707963267948941,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": 1.6962958301138785e-15,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 1.5707963267948992,
+        "volume": 1.5707963267948966
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "three_disjoint/reference_8191",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 4.0
+        },
+        "atoms": [
+          {
+            "center": [
+              -2.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          },
+          {
+            "center": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          },
+          {
+            "center": [
+              2.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          }
+        ],
+        "tolerance": 1e-05,
+        "budget": 8191,
+        "independent_reference": [
+          1.5707963267948966,
+          1.5707963267948968
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 0.02165373801460935,
+        "allocations": null,
+        "analytical": false,
+        "cells": 8191,
+        "elapsed_ns": 3159631.0,
+        "empty_cells": 460,
+        "geometric_evaluations": 31407,
+        "id": "three_disjoint/reference_8191",
+        "lower": 1.556267255678021,
+        "peak_heap_cells": 3636,
+        "range_cells": 3987,
+        "relative_error_bound": 0.013913894246380863,
+        "smooth_cells": 3744,
+        "status": "cell_budget_exhausted",
+        "subdivisions": 4095,
+        "target_met": false,
+        "upper": 1.5995747317072397,
+        "volume": 1.5779209936926304
+      },
+      "candidate": {
+        "absolute_error_bound": 2.6645352591003757e-15,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 481.00000000000006,
+        "empty_cells": 0,
+        "geometric_evaluations": 7,
+        "id": "three_disjoint/reference_8191",
+        "lower": 1.5707963267948941,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": 1.6962958301138785e-15,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 1.5707963267948992,
+        "volume": 1.5707963267948966
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "three_disjoint/reference_65535",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 4.0
+        },
+        "atoms": [
+          {
+            "center": [
+              -2.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          },
+          {
+            "center": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          },
+          {
+            "center": [
+              2.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          }
+        ],
+        "tolerance": 1e-05,
+        "budget": 65535,
+        "independent_reference": [
+          1.5707963267948966,
+          1.5707963267948968
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 0.002206481910004055,
+        "allocations": null,
+        "analytical": false,
+        "cells": 65535,
+        "elapsed_ns": 34086646.0,
+        "empty_cells": 3376,
+        "geometric_evaluations": 286911,
+        "id": "three_disjoint/reference_65535",
+        "lower": 1.5694229824252321,
+        "peak_heap_cells": 29392,
+        "range_cells": 23211,
+        "relative_error_bound": 0.0014059192038811453,
+        "smooth_cells": 38948,
+        "status": "cell_budget_exhausted",
+        "subdivisions": 32767,
+        "target_met": false,
+        "upper": 1.5738359462452403,
+        "volume": 1.5716294643352362
+      },
+      "candidate": {
+        "absolute_error_bound": 2.6645352591003757e-15,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 481.00000000000006,
+        "empty_cells": 0,
+        "geometric_evaluations": 7,
+        "id": "three_disjoint/reference_65535",
+        "lower": 1.5707963267948941,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": 1.6962958301138785e-15,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 1.5707963267948992,
+        "volume": 1.5707963267948966
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "boundary_1e-200_overlap/reference_stress",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 1e-200
+        },
+        "atoms": [
+          {
+            "center": [
+              1e-200,
+              0.0,
+              0.0
+            ],
+            "radius": 1e-200
+          }
+        ],
+        "tolerance": 5e-324,
+        "budget": 1023,
+        "independent_reference": [
+          0.0,
+          5e-324
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 2.5e-323,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 651.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 2,
+        "id": "boundary_1e-200_overlap/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "floating_point_limit",
+        "subdivisions": 0,
+        "target_met": false,
+        "upper": 3.5e-323,
+        "volume": 2e-323
+      },
+      "candidate": {
+        "absolute_error_bound": 5e-324,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 110.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 1,
+        "id": "boundary_1e-200_overlap/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 5e-324,
+        "volume": 0.0
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "boundary_1e-200_external_below/reference_stress",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 1e-200
+        },
+        "atoms": [
+          {
+            "center": [
+              1.9999999999999997e-200,
+              0.0,
+              0.0
+            ],
+            "radius": 1e-200
+          }
+        ],
+        "tolerance": 5e-324,
+        "budget": 1023,
+        "independent_reference": [
+          0.0,
+          5e-324
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 2.5e-323,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 461.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 2,
+        "id": "boundary_1e-200_external_below/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "floating_point_limit",
+        "subdivisions": 0,
+        "target_met": false,
+        "upper": 3.5e-323,
+        "volume": 2e-323
+      },
+      "candidate": {
+        "absolute_error_bound": 5e-324,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 90.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 1,
+        "id": "boundary_1e-200_external_below/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 5e-324,
+        "volume": 0.0
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "boundary_1e-200_external_equal/reference_stress",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 1e-200
+        },
+        "atoms": [
+          {
+            "center": [
+              2e-200,
+              0.0,
+              0.0
+            ],
+            "radius": 1e-200
+          }
+        ],
+        "tolerance": 5e-324,
+        "budget": 1023,
+        "independent_reference": [
+          0.0,
+          0.0
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 2.5e-323,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 510.99999999999994,
+        "empty_cells": 0,
+        "geometric_evaluations": 2,
+        "id": "boundary_1e-200_external_equal/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "floating_point_limit",
+        "subdivisions": 0,
+        "target_met": false,
+        "upper": 3.5e-323,
+        "volume": 2e-323
+      },
+      "candidate": {
+        "absolute_error_bound": 0.0,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 50.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 1,
+        "id": "boundary_1e-200_external_equal/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 0.0,
+        "volume": 0.0
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "boundary_1e-200_external_above/reference_stress",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 1e-200
+        },
+        "atoms": [
+          {
+            "center": [
+              2.0000000000000003e-200,
+              0.0,
+              0.0
+            ],
+            "radius": 1e-200
+          }
+        ],
+        "tolerance": 5e-324,
+        "budget": 1023,
+        "independent_reference": [
+          0.0,
+          0.0
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 2.5e-323,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 441.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 2,
+        "id": "boundary_1e-200_external_above/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "floating_point_limit",
+        "subdivisions": 0,
+        "target_met": false,
+        "upper": 3.5e-323,
+        "volume": 2e-323
+      },
+      "candidate": {
+        "absolute_error_bound": 0.0,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 29.999999999999996,
+        "empty_cells": 0,
+        "geometric_evaluations": 1,
+        "id": "boundary_1e-200_external_above/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 0.0,
+        "volume": 0.0
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "boundary_1e-150_overlap/reference_stress",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 1e-150
+        },
+        "atoms": [
+          {
+            "center": [
+              1e-150,
+              0.0,
+              0.0
+            ],
+            "radius": 1e-150
+          }
+        ],
+        "tolerance": 5e-324,
+        "budget": 1023,
+        "independent_reference": [
+          0.0,
+          5e-324
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 1e-323,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 942.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 2,
+        "id": "boundary_1e-150_overlap/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "floating_point_limit",
+        "subdivisions": 0,
+        "target_met": false,
+        "upper": 5e-324,
+        "volume": 0.0
+      },
+      "candidate": {
+        "absolute_error_bound": 5e-324,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 70.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 1,
+        "id": "boundary_1e-150_overlap/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 5e-324,
+        "volume": 0.0
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "boundary_1e-150_external_below/reference_stress",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 1e-150
+        },
+        "atoms": [
+          {
+            "center": [
+              1.9999999999999997e-150,
+              0.0,
+              0.0
+            ],
+            "radius": 1e-150
+          }
+        ],
+        "tolerance": 5e-324,
+        "budget": 1023,
+        "independent_reference": [
+          0.0,
+          5e-324
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 1e-323,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 682.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 2,
+        "id": "boundary_1e-150_external_below/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "floating_point_limit",
+        "subdivisions": 0,
+        "target_met": false,
+        "upper": 5e-324,
+        "volume": 0.0
+      },
+      "candidate": {
+        "absolute_error_bound": 5e-324,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 70.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 1,
+        "id": "boundary_1e-150_external_below/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 5e-324,
+        "volume": 0.0
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "boundary_1e-150_external_equal/reference_stress",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 1e-150
+        },
+        "atoms": [
+          {
+            "center": [
+              2e-150,
+              0.0,
+              0.0
+            ],
+            "radius": 1e-150
+          }
+        ],
+        "tolerance": 5e-324,
+        "budget": 1023,
+        "independent_reference": [
+          0.0,
+          0.0
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 1e-323,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 520.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 2,
+        "id": "boundary_1e-150_external_equal/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "floating_point_limit",
+        "subdivisions": 0,
+        "target_met": false,
+        "upper": 5e-324,
+        "volume": 0.0
+      },
+      "candidate": {
+        "absolute_error_bound": 0.0,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 29.999999999999996,
+        "empty_cells": 0,
+        "geometric_evaluations": 1,
+        "id": "boundary_1e-150_external_equal/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 0.0,
+        "volume": 0.0
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "boundary_1e-150_external_above/reference_stress",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 1e-150
+        },
+        "atoms": [
+          {
+            "center": [
+              2.0000000000000003e-150,
+              0.0,
+              0.0
+            ],
+            "radius": 1e-150
+          }
+        ],
+        "tolerance": 5e-324,
+        "budget": 1023,
+        "independent_reference": [
+          0.0,
+          0.0
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 1e-323,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 411.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 2,
+        "id": "boundary_1e-150_external_above/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "floating_point_limit",
+        "subdivisions": 0,
+        "target_met": false,
+        "upper": 5e-324,
+        "volume": 0.0
+      },
+      "candidate": {
+        "absolute_error_bound": 0.0,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 50.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 1,
+        "id": "boundary_1e-150_external_above/reference_stress",
+        "lower": 0.0,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": null,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 0.0,
+        "volume": 0.0
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "three_overlapping_chain_rigid/reference",
+        "region": {
+          "center": [
+            1000.0,
+            -500.0,
+            250.0
+          ],
+          "radius": 3.5
+        },
+        "atoms": [
+          {
+            "center": [
+              1000.0,
+              -501.0,
+              250.0
+            ],
+            "radius": 1.0
+          },
+          {
+            "center": [
+              1000.0,
+              -500.0,
+              250.0
+            ],
+            "radius": 1.0
+          },
+          {
+            "center": [
+              1000.0,
+              -499.0,
+              250.0
+            ],
+            "radius": 1.0
+          }
+        ],
+        "tolerance": 1e-05,
+        "budget": 65535,
+        "independent_reference": [
+          9.948376736367678,
+          9.94837673636768
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 0.008412446816311816,
+        "allocations": null,
+        "analytical": false,
+        "cells": 65535,
+        "elapsed_ns": 33390627.0,
+        "empty_cells": 3140,
+        "geometric_evaluations": 290839,
+        "id": "three_overlapping_chain_rigid/reference",
+        "lower": 9.942994011750889,
+        "peak_heap_cells": 29628,
+        "range_cells": 26459,
+        "relative_error_bound": 0.0008460677745928207,
+        "smooth_cells": 35936,
+        "status": "cell_budget_exhausted",
+        "subdivisions": 32767,
+        "target_met": false,
+        "upper": 9.95981890538351,
+        "volume": 9.951406458567199
+      },
+      "candidate": {
+        "absolute_error_bound": 3.197442310920451e-14,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 1242.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 7,
+        "id": "three_overlapping_chain_rigid/reference",
+        "lower": 9.948376736367647,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": 3.214034204426301e-15,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 9.94837673636771,
+        "volume": 9.948376736367678
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "three_overlapping_chain_permuted/reference",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 3.5
+        },
+        "atoms": [
+          {
+            "center": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          },
+          {
+            "center": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          },
+          {
+            "center": [
+              -1.0,
+              0.0,
+              0.0
+            ],
+            "radius": 1.0
+          }
+        ],
+        "tolerance": 1e-05,
+        "budget": 65535,
+        "independent_reference": [
+          9.948376736367678,
+          9.94837673636768
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 0.00772957671433261,
+        "allocations": null,
+        "analytical": false,
+        "cells": 65535,
+        "elapsed_ns": 31777945.000000004,
+        "empty_cells": 2876,
+        "geometric_evaluations": 295951,
+        "id": "three_overlapping_chain_permuted/reference",
+        "lower": 9.943313782210572,
+        "peak_heap_cells": 29892,
+        "range_cells": 25511,
+        "relative_error_bound": 0.0007773642553814882,
+        "smooth_cells": 37148,
+        "status": "cell_budget_exhausted",
+        "subdivisions": 32767,
+        "target_met": false,
+        "upper": 9.958772935639237,
+        "volume": 9.951043358924904
+      },
+      "candidate": {
+        "absolute_error_bound": 3.197442310920451e-14,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 1272.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 7,
+        "id": "three_overlapping_chain_permuted/reference",
+        "lower": 9.948376736367647,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": 3.214034204426301e-15,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 9.94837673636771,
+        "volume": 9.948376736367678
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "three_disjoint_rigid/reference",
+        "region": {
+          "center": [
+            1000.0,
+            -500.0,
+            250.0
+          ],
+          "radius": 4.0
+        },
+        "atoms": [
+          {
+            "center": [
+              1000.0,
+              -502.0,
+              250.0
+            ],
+            "radius": 0.5
+          },
+          {
+            "center": [
+              1000.0,
+              -500.0,
+              250.0
+            ],
+            "radius": 0.5
+          },
+          {
+            "center": [
+              1000.0,
+              -498.0,
+              250.0
+            ],
+            "radius": 0.5
+          }
+        ],
+        "tolerance": 1e-05,
+        "budget": 65535,
+        "independent_reference": [
+          1.5707963267948966,
+          1.5707963267948968
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 0.002207038959564534,
+        "allocations": null,
+        "analytical": false,
+        "cells": 65535,
+        "elapsed_ns": 30055587.0,
+        "empty_cells": 3384,
+        "geometric_evaluations": 286835,
+        "id": "three_disjoint_rigid/reference",
+        "lower": 1.5694226794333002,
+        "peak_heap_cells": 29384,
+        "range_cells": 23219,
+        "relative_error_bound": 0.0014062744144626926,
+        "smooth_cells": 38932,
+        "status": "cell_budget_exhausted",
+        "subdivisions": 32767,
+        "target_met": false,
+        "upper": 1.5738367573524292,
+        "volume": 1.5716297183928647
+      },
+      "candidate": {
+        "absolute_error_bound": 2.6645352591003757e-15,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 541.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 7,
+        "id": "three_disjoint_rigid/reference",
+        "lower": 1.5707963267948941,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": 1.6962958301138785e-15,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 1.5707963267948992,
+        "volume": 1.5707963267948966
+      },
+      "valid": true
+    },
+    {
+      "request": {
+        "id": "three_disjoint_permuted/reference",
+        "region": {
+          "center": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 4.0
+        },
+        "atoms": [
+          {
+            "center": [
+              2.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          },
+          {
+            "center": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          },
+          {
+            "center": [
+              -2.0,
+              0.0,
+              0.0
+            ],
+            "radius": 0.5
+          }
+        ],
+        "tolerance": 1e-05,
+        "budget": 65535,
+        "independent_reference": [
+          1.5707963267948966,
+          1.5707963267948968
+        ]
+      },
+      "baseline": {
+        "absolute_error_bound": 0.002206481910004055,
+        "allocations": null,
+        "analytical": false,
+        "cells": 65535,
+        "elapsed_ns": 30822568.0,
+        "empty_cells": 3376,
+        "geometric_evaluations": 286911,
+        "id": "three_disjoint_permuted/reference",
+        "lower": 1.5694229824252321,
+        "peak_heap_cells": 29392,
+        "range_cells": 23211,
+        "relative_error_bound": 0.0014059192038811453,
+        "smooth_cells": 38948,
+        "status": "cell_budget_exhausted",
+        "subdivisions": 32767,
+        "target_met": false,
+        "upper": 1.5738359462452403,
+        "volume": 1.5716294643352362
+      },
+      "candidate": {
+        "absolute_error_bound": 2.6645352591003757e-15,
+        "allocations": null,
+        "analytical": true,
+        "cells": 0,
+        "elapsed_ns": 440.0,
+        "empty_cells": 0,
+        "geometric_evaluations": 7,
+        "id": "three_disjoint_permuted/reference",
+        "lower": 1.5707963267948941,
+        "peak_heap_cells": 0,
+        "range_cells": 0,
+        "relative_error_bound": 1.6962958301138785e-15,
+        "smooth_cells": 0,
+        "status": "tolerance_achieved",
+        "subdivisions": 0,
+        "target_met": true,
+        "upper": 1.5707963267948992,
+        "volume": 1.5707963267948966
+      },
+      "valid": true
+    }
+  ],
+  "inputs_sha256": "16f581d15023ede050312092938d74883f1749f36860311d9db05a7d732868fc",
+  "baseline_sha256": "9d17f4bd174f150b97623d8c51db2cb8e5e53ea9a8fb3bd8180e679b672c14fe",
+  "observed_sha256": "115dfca9f42682c11d7a5dfa2b0a0f9de445218197b80841a09dd07c4dce421a",
+  "source": {
+    "src/cli.rs": "b01560e0b7c71c109822285f431a71d4edf8edd5d085f2a4aaed2e896611c548",
+    "src/commands/buried_volume.rs": "6b2820a90f31d9f5ed3cfd01b53ead0634d8240fab17e72143ea286039b0d6af",
+    "src/commands/compare.rs": "f0abefdebd8d65195d152990551f281b2630b8d1a46b004e0183d40ae9f03d15",
+    "src/commands/db.rs": "89970a785131d7abf2c262a74c3c25a8eb3c86268186e8d30eef8e96bb8e2a2f",
+    "src/commands/evaluate.rs": "56b0cf34cf83936cfd2ab97cb69b66c6b035dbdb1ccc9145f8ee245be8c8c8d5",
+    "src/commands/fit.rs": "aeb75584d77a86278bdd729280d11149bf2d33986db564e0ada851baa825d3c0",
+    "src/commands/mod.rs": "b19f2005232ae1e0afc7490ad5e0b459d2cc8d5cdcf2a5ad55ca53ae24aebc93",
+    "src/commands/model.rs": "05b88f69b108a451d7058eb97fa0bf9f1c0e16faf4d78d92187713b3e394574f",
+    "src/commands/parse.rs": "0ce1d9d13f8a31f45fc43b78559084ac1b26791ff125c9037afc995cc8a391b9",
+    "src/commands/predict.rs": "756cde61b3e517063b8da117d92254362365d561f44085a515a90f97559f4ca8",
+    "src/commands/screen.rs": "e4c67c99daaf6d2a2753cc068988c4b474687f85b004082bbf11b86b4176681c",
+    "src/commands/search.rs": "fa4a370e823aa4f10a14cdc343cbeb1441decfabc0f3ce7e5315c27c50cd245b",
+    "src/commands/simulate.rs": "76c55051f322942ebb24a25896b644bd70bcb977431c44cf81279a86f46a1c8a",
+    "src/density/analysis.rs": "4c98ed1229068f9b05ed293d39d75f9e87921d55d050243cd56d537b96d1f09d",
+    "src/density/mod.rs": "0bf3a4de2695032a064ec177dc03b9abf3924b84f54fc2ce0fde0603d73f21b9",
+    "src/descriptors.rs": "e99c7e368a0aed176d4d6283d29955985f293b9967d4042401a2c6fa66601d66",
+    "src/digest.rs": "7518ebda69a0404b286aba9d0573db123f609ee14ea8ff44e227aa52d790487d",
+    "src/ensemble/input.rs": "4c46062839a915121b0c6a2e496006d6f5a940c08bf0da8418584d121e56665c",
+    "src/ensemble/mod.rs": "791490efd77e3befc00cc0bb2125f27490d36631cd881c8ced7359f7c0b1740e",
+    "src/ensemble/population.rs": "d04485e52a8bee0c3709126b175a3f3b00d5b93fa081af3a9eebb1762cb5fe80",
+    "src/ensemble/sensitivity.rs": "dfd51a2932421a44ba6cb463c0c2f6f982c955c6c6259d6f9db6a65049c5a4d6",
+    "src/ensemble/statistics.rs": "e077544f5c46049eb32d7ef708557b2c834dbba283ab8a4014d35d009d435a43",
+    "src/geometry/buried_volume/aggregation_remediation_tests.rs": "37467d6b38843c76ca007444a187d7b3b7314148b9a4b1052d0628cf47eca880",
+    "src/geometry/buried_volume.rs": "f27bf3ece4e09c08190c8db694d0049e8cbe7d865abaf2df3ce57b95773cc580",
+    "src/geometry/continuous_sterimol.rs": "ebbc3abb9597a876d8eb188515d1727f64f70206baae0878e12dc9b0d03906eb",
+    "src/geometry/continuous_volume/certified.rs": "849d8dabfbcdd59a6c667fe98e4162d47531514c450e1223656ad460975451d3",
+    "src/geometry/continuous_volume/geometric.rs": "dd2e857b5906c4eae69cbf0f37479d3d28af65c1e6f65ada2a43588d58adb47e",
+    "src/geometry/continuous_volume.rs": "0694eb846a073fca9628e2d802071014ef2bfd8ba88a34712eae9b8205851385",
+    "src/geometry/donor.rs": "8c167acea9f0b5d965b560896216f470b828660be9539cc2b88d400891f0e059",
+    "src/geometry/mod.rs": "a751ed28bcb0cfa8259b7eeaa9a0525bbe8c4d894196da23e0b61b5bead6703e",
+    "src/geometry/pyramidalization.rs": "af2d34aa23dac9ab05e5fbbeddb92a59cc9282e8ce64c201b66a09d6d17ca381",
+    "src/geometry/sterimol.rs": "221a4947a83a61fbb1f3b10661298bbce23935c1545388a2249c5f77982839c9",
+    "src/geometry/xyz.rs": "eb6cc172f5467667d10ff8164e1ee06aa4635c2f80626ab97af63b5d962c59f3",
+    "src/kinetics/eyring.rs": "b86300a11dc8fe07430bbd480b51df448d47295080219e47bb1b3e9f08d4b454",
+    "src/kinetics/mod.rs": "273fad2c13d5cae69bf98a80be34594344c7872cf973c2c9184a40adbc82a3d2",
+    "src/lib.rs": "e9736276f4dccfd1f9a9cce43c2e22a6ede3e87a4047166b5305e129503cc66f",
+    "src/main.rs": "f66dcf928f8c0cc681ad08aab50056ea25db6b130f92930be857c9a27543ecaa",
+    "src/model/dataset.rs": "09f0f42066d9df30cefeae885eb0beba69ae31cd2e6cce6880c85c5b83c14d37",
+    "src/model/domain.rs": "4ef296bf4bfbd0a67d6177b25466d3483c2e6b3fd29091913620371ad98ff270",
+    "src/model/domain_interval_cache_tests.rs": "9098b9cb5ead279d49a574b3214c9c4adffddf52faa05729b1b3f9d6bce30bde",
+    "src/model/evaluation.rs": "a0a959b6e93a145ecf7fbbedd08c9be98577b2646e04cba42d9c814acd3355f5",
+    "src/model/features.rs": "12a50e2f690a5975bd0eda62ce0910816414022bec8456b8cc6e1eea37d6ea4a",
+    "src/model/fit.rs": "e2d7bbfe803c2a3d58a2f3f7c0a4c71dea5aafcf38a1dba3b29c6c3bd0accd13",
+    "src/model/mod.rs": "1928c62a747e041e92b5ec1e5d086e39f20d1eb990d8683e3e5545cdeb9963c3",
+    "src/model/portable.rs": "6631f6792b1084f4aeb67a16e2425ce80bf98749f406613e0d6e31f074bf875b",
+    "src/model/regress.rs": "cc1939755b611150dc0c0faef6f2bc4da2fbdb3b8d8fa929c0a941fc11842260",
+    "src/model/training.rs": "b7febe7066c552ca3ac5c995ebf6f32c17d259fc33e7495587c95c17c77f1abf",
+    "src/output.rs": "4b8b3f2d333573cf667afa3b914d79e1d67d5e56ee435bda3ca10350a8a296d6",
+    "src/profiles.rs": "5bb01751c8e3f013f5f7e57e154ecee8216cad8e91d0939807afd89c85a48396",
+    "src/profiling.rs": "26f501150d25b199502fcb9d5493c45c5f4e7944db7898153814f9b12411109d",
+    "src/reaction.rs": "7095145631679cd9feeb071fb94a92585bf8e9ff50cedf1c0a9f46907e850c6b",
+    "src/storage/mod.rs": "7b8516382aa1529d7132a13ca92485512e2fbbdf2fc34e598000832809896a5f",
+    "src/storage/pack.rs": "80ffbb1e2a690b19b61f312a102db25d3e226250c49f8753328ab74b19f5710d",
+    "src/storage/schema.rs": "8648a358ef6b76426b267efc94364130cff7651928319f441ef01c936dd4a633",
+    "src/test_support.rs": "9eeb77f25eedc057c210b7055fcb7a89e2614b895be2974db94944ae7d638b06"
+  }
+}

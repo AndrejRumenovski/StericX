@@ -155,8 +155,9 @@ pub(super) fn analytical_result(
 /// Certifies contained unions by pair inclusion-exclusion only if a conservative
 /// overlap graph is triangle-free. Exact axis contacts count as disjoint in
 /// volume. If this proof fails, uses the original certified chord integrator.
-/// No rescaling, molecular tolerance change, or inference of zero volume from
-/// underflow occurs.
+/// Integration spheres with entire volume below the minimum positive f64 use
+/// a proven global volume bound. No rescaling, molecular tolerance change, or
+/// inference of zero volume from underflow occurs.
 ///
 /// Preprocessing has O(n²) pair queries; graph triangle checks can take O(n³)
 /// time in the worst case. Its work is counted separately from the cell budget.
@@ -176,6 +177,20 @@ pub fn sphere_union_volume_certified_geometric(
     if no_overlap {
         return Ok(analytical_result(
             Interval::point(0.0),
+            options,
+            evaluations,
+            start.elapsed().as_secs_f64(),
+        ));
+    }
+    // pi < 6, hence 4*pi*R³/3 < 8R³. For R <= 2^-359 this is <= 2^-1074.
+    // Construct the exact power of two by exponent bits (no pow rounding).
+    let tiny_radius = f64::from_bits((1023_u64 - 359) << 52);
+    if region.radius <= tiny_radius {
+        return Ok(analytical_result(
+            Interval {
+                lo: 0.0,
+                hi: f64::from_bits(1),
+            },
             options,
             evaluations,
             start.elapsed().as_secs_f64(),

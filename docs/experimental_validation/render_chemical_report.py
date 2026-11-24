@@ -146,11 +146,14 @@ allpred=[v['predicted'] for k in ['B_single','C_ensemble_min'] for v in primary[
 for ax,k,title in zip(axes,['B_single','C_ensemble_min'],['Single conformer · RMSE 0.850','Ensemble minimum · RMSE 0.389']):
  ax.plot([low,high],[low,high],color='#a1a7ad',ls='--',lw=1)
  for v in primary[k]['predictions']:
-  ax.scatter(v['observed'],v['predicted'],color=colors[v['family']],s=42,zorder=3);ax.annotate(str(v['ligand_id'])+('*' if v['ligand_id'] in [401,1058] else ''),(v['observed'],v['predicted']),xytext=({498:(5,-13),2063:(6,9),2062:(5,10)}.get(v['ligand_id'],(4,5))),textcoords='offset points',fontsize=8)
+  ax.scatter(v['observed'],v['predicted'],color=colors[v['family']],s=42,zorder=3);ax.annotate(str(v['ligand_id'])+('*' if v['ligand_id'] in [401,1058] else ''),(v['observed'],v['predicted']),xytext=({498:(5,-13),2063:(8,-4),2062:(5,10)}.get(v['ligand_id'],(4,5))),textcoords='offset points',fontsize=8)
  ax.set(title=title,xlabel='Observed apparent |ΔΔG| (kcal/mol)',xlim=(low,high),ylim=(low,high));ax.grid(alpha=.16)
 axes[0].set_ylabel('Family-held-out prediction (kcal/mol)');fig.suptitle('Ni-hDA · 11 ligands · same four family splits',fontsize=13)
 from matplotlib.lines import Line2D
 fig.legend([Line2D([0],[0],marker='o',color='none',markerfacecolor=c,markeredgecolor=c,markersize=6) for c in colors.values()],list(colors),loc='outside lower center',ncol=4,frameon=False)
 fig.savefig(FIG/'held_out_predictions.svg');fig.savefig(FIG/'held_out_predictions.png',dpi=160);plt.close(fig)
 ensembles=json.loads((SRC/'ensemble_statistics.json').read_text());pub=[r for r in ensembles if r['lane']=='published_dft_library'];precision=pd.read_csv(SRC/'numerical_comparison.csv');fig,ax=plt.subplots(figsize=(8,5.7),layout='constrained');xx=np.arange(len(pub));ranges=[r['features']['max_delta_qvbur']['range'] for r in pub];errors=[precision[precision.ligand_id==r['ligand_id']].delta_grid_minus_continuous.abs().max() for r in pub];ax.scatter(ranges,xx,label='Across-library range',s=42,color='#176b86');ax.scatter(errors,xx,label='Max grid–continuous discrepancy',s=38,marker='x',color='#b45f39');ax.set_yticks(xx,[str(r['ligand_id'])+('*' if r['ligand_id'] in [401,1058] else '') for r in pub]);ax.invert_yaxis();ax.set(xscale='log',xlabel='Adjacent-quadrant volume difference (Å³, logarithmic scale)',ylabel='Kraken ligand ID',title='Conformer variation versus observed numerical discrepancy');ax.grid(axis='x',alpha=.2);ax.legend(fontsize=9);fig.savefig(FIG/'conformer_vs_numerics.svg');fig.savefig(FIG/'conformer_vs_numerics.png',dpi=160);plt.close(fig)
+for name in ['held_out_predictions.svg', 'conformer_vs_numerics.svg']:
+ path = FIG/name
+ path.write_text('\n'.join(line.rstrip() for line in path.read_text().splitlines())+'\n')
 print('Created statistical report, tables and scientific figures.')

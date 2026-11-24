@@ -308,7 +308,7 @@ fn regional_cell(
         cell.candidates.push(i);
         scratch.base.push(s);
     }
-    for side in 0..2 {
+    for (side, cell_bound) in cell.bounds.iter_mut().enumerate() {
         scratch.chord.spans.clear();
         scratch.chord.spans.extend(
             scratch
@@ -316,7 +316,7 @@ fn regional_cell(
                 .iter()
                 .filter_map(|&s| clip_plane(s, side == 0)),
         );
-        cell.bounds[side] = bound_piece(lo, hi, spheres, bounds, &mut scratch.chord)?;
+        *cell_bound = bound_piece(lo, hi, spheres, bounds, &mut scratch.chord)?;
     }
     Ok(cell)
 }
@@ -463,10 +463,10 @@ fn integrate_regions(
                 &mut scratch,
             )?;
             cells += 1;
-            for side in 0..2 {
+            for (side, child_bound) in child.bounds.iter().enumerate() {
                 let i = parent.quadrant + 4 * side;
-                lower[i] = (lower[i] + child.bounds[side].lo).down();
-                upper[i] = (upper[i] + child.bounds[side].hi).up();
+                lower[i] = (lower[i] + child_bound.lo).down();
+                upper[i] = (upper[i] + child_bound.hi).up();
             }
             if child.width() > 0.0 {
                 heap.push(child);

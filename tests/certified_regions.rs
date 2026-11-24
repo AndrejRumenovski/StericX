@@ -65,8 +65,8 @@ fn sphere_plane_cap_and_region_labels_are_correct() {
     )
     .unwrap();
     enclosed(r.octants[0], pi / 6.);
-    for i in 1..8 {
-        enclosed(r.octants[i], 0.);
+    for &octant in r.octants.iter().skip(1) {
+        enclosed(octant, 0.);
     }
 }
 #[test]

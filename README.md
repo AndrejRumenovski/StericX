@@ -6,12 +6,13 @@ pyramidalization, and provides a separately defined electron-density-grid
 buried-volume mode. Independent comparisons, failed cases and reproducible
 inputs accompany the implementation.
 
-The [occupancy and precision campaign](docs/occupancy_precision/FINAL_REPORT.md)
-preserves existing descriptor defaults and measures **34,296.4 files/s at six
-threads**, versus a fresh baseline of 23,411.7 on the frozen 10,000-file workload
-(1.465×). Its separate certified continuous-volume API reaches **0.05 Å³** on
-all twelve previously failing molecular cases within the original cell-count
-budget. Full measurements, failed cases and numerical assumptions are retained.
+The [experimental chemistry and certified geometry campaign](docs/experimental_validation/FINAL_REPORT.md)
+adds explicit Rust APIs for certified quadrant, octant and radius-profile volumes.
+A separately selectable geometric method meets **all eighteen original analytical
+stress targets** at unchanged tolerances and budgets. Experimental analysis of
+eleven ligands finds a promising ensemble-minimum association with catalytic
+selectivity, but **does not confirm a general predictive benefit**. Existing
+descriptor defaults and historical outputs remain preserved.
 
 [![CI](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml/badge.svg)](https://github.com/AndrejRumenovski/StericX/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#citation-and-license)
@@ -20,8 +21,8 @@ budget. Full measurements, failed cases and numerical assumptions are retained.
 
 The checkout uses Python package version **0.4.0rc1** and Rust crate version
 **0.3.0**. Build from source to include the latest engine improvements; the
-archived release-candidate artifacts below predate the final optimization
-campaign. With Python 3.11–3.14 and Rust 1.85 or newer installed:
+archived release-candidate artifacts below predate the optimization and certified
+regional campaigns. With Python 3.11–3.14 and Rust 1.85 or newer installed:
 
 ```bash
 python -m pip install ./python
@@ -163,24 +164,70 @@ The Rust library also exposes methods for studying continuous geometry:
   expose lower/upper bounds, absolute and meaningful relative error bounds, work,
   runtime, status and `target_met`. Always check `target_met` before accepting
   a requested tolerance; budget exhaustion is reported explicitly.
+- `sphere_union_volume_certified_geometric` adds analytical proofs for eligible
+  sphere unions, exact contact and underflow-scale volumes, falling back to the
+  existing certified method when its geometric conditions cannot be proved.
+- `sphere_union_volume_certified_regions` returns total, quadrant and octant
+  occupied volumes and percentages, with certified bounds and convergence flags.
+  `BuriedVolumeCalculator::prepare_certified_frame` exposes the molecular frame
+  and local spheres for its `compute_regions` method.
+- `sphere_union_volume_certified_radius_profile` and the prepared frame's
+  `compute_radius_profile` retain that center/frame across requested radii.
+  Geometry preparation is shared; distinct radii receive independent integration
+  budgets, and exact duplicate radii reuse their certificates. Absolute occupied
+  volume is nondecreasing with radius; buried-volume percentage need not be.
 
 These methods require explicit selection in Rust. Existing CLI/Python defaults
 retain their validated finite-grid and sampled-angle behavior. The certificate
 concerns exact supplied binary64 coordinates and radii under the documented
 IEEE arithmetic assumptions; it does not bound uncertainty in molecular
-geometry or atomic radii. Certified regional continuous volumes are not yet
-implemented.
+geometry or atomic radii. A prepared molecular frame certifies its represented
+local spheres, not the rounding error of the frame transformation.
 
-All twelve original molecular cases reach certified 0.05 Å³ error using
-30,609–141,719 XY cells, within the 262,143-cell cap. All also reach 0.001 Å³
+In the preceding occupancy campaign, all twelve original molecular cases reach
+certified 0.05 Å³ error using 30,609–141,719 XY cells, within the 262,143-cell cap.
+All also reach 0.001 Å³
 with expanded budgets. On the broader 220-case set, 212 reach 0.05 Å³ within
-1,048,575 cells; eight need a larger budget. Eighteen analytical stress targets
-remain unmet. The [derivation and Rust example](docs/occupancy_precision/CONTINUOUS_MATHEMATICS.md)
+1,048,575 cells; eight need a larger budget. The
+[derivation and Rust example](docs/occupancy_precision/CONTINUOUS_MATHEMATICS.md)
 and [validation and accuracy-adjusted timings](docs/occupancy_precision/FINAL_REPORT.md)
-document these limits. The earlier
+retain those results and the original eighteen failed analytical targets.
+The new geometric method resolves all eighteen, with all 167 original analytical
+reference values enclosed; the [failure analysis](docs/experimental_validation/NUMERICAL_FAILURE_ANALYSIS.md)
+explains its scope and fallback conditions.
+
+Independent regional references verify **1,248 integrals across 96 cases**;
+radius-profile references verify another **936 integrals**. Four additional
+stringent regional requests still exhaust their budgets with valid bounds.
+The [regional mathematics](docs/experimental_validation/REGIONAL_MATHEMATICS.md)
+and [certified radius profiles](docs/experimental_validation/CERTIFIED_RADIUS_PROFILES.md)
+describe normalization, shared work and remaining limits. The earlier
 [numerical accuracy report](docs/ultimate_engine/NUMERICAL_ACCURACY.md) retains
 the original midpoint/reference and continuous Sterimol validation.
 Finer resolution alone is not an error certificate.
+
+## Experimental catalytic selectivity
+
+The [Ni-catalyzed homo-Diels–Alder study](docs/experimental_validation/DATASET_REVIEW.md)
+evaluates **11 ligands and 135 published-library conformers** against experimental
+enantioselectivity. The primary comparison uses the same four ligand-family
+holdouts and equal-capacity models of apparent |ΔΔG|. An ensemble-minimum steric
+descriptor gives RMSE **0.389 kcal/mol**, versus **0.850 kcal/mol** for the first
+documented conformer. The paired family-bootstrap 95% interval for the RMSE difference
+is **[−0.728, +0.044] kcal/mol**, including no improvement.
+
+This is an outcome-aware retrospective study with only four families, not an
+untouched prospective test. Stereochemical discrepancies in distributed structures
+and missing published conformer energies further limit interpretation. Ensemble
+means, multivariate models and separately generated MMFF-weighted ensembles do not
+show a general advantage; adding native descriptors to the published steric
+reference does not demonstrate extra predictive information. The hypothesis remains
+**insufficiently supported**, and association does not establish causation.
+
+The [statistical results](docs/experimental_validation/STATISTICAL_RESULTS.md),
+[conformer study](docs/experimental_validation/CONFORMER_STUDY.md) and
+[descriptor reproduction](docs/experimental_validation/DESCRIPTOR_REPRODUCTION.md)
+retain all models, exclusions, generated-geometry experiments and uncertainty.
 
 ## What independent validation establishes
 
@@ -202,15 +249,21 @@ The [scientific audit](docs/scientific_accuracy_audit/SCIENTIFIC_ACCURACY_AUDIT.
 and [remediation](docs/scientific_remediation/SCIENTIFIC_REMEDIATION.md) retain
 previous defects, corrections and unfavorable results.
 
-The latest [completion audit](docs/occupancy_precision/COMPLETION_AUDIT.md) and
-[final report](docs/occupancy_precision/FINAL_REPORT.md) cover the optimized
-engine and certified method. Rust 1.97 and the declared minimum 1.85 each pass
-372 tests; the fresh Python binding passes 71. AArch64/musl under QEMU passes
-369 applicable tests. All 128,021 historical responses and all 695 certificates
-in the optimization replay are preserved exactly. These emulated checks do not
-establish native ARM performance; the campaign's native measurements are Linux
-x86-64. The earlier [scientific audit](docs/ultimate_engine/SCIENTIFIC_AUDIT.md)
-and [validation report](docs/ultimate_engine/VALIDATION_REPORT.md) remain available.
+The latest [validation report](docs/experimental_validation/VALIDATION_REPORT.md)
+records **385 Rust tests** on both Rust 1.97 and the declared minimum 1.85,
+71 fresh Python-binding tests and 156 Python research tests. All 128,021 historical
+responses are reproduced exactly. Fresh matched-input Morfeus/DBSTEP checks cover
+all 135 experimental conformers. The
+[CI compatibility follow-up](docs/experimental_validation/CI_COMPATIBILITY.md)
+also passes Rust 1.100 checks and reproduces the archived numerical and statistical
+results after a loop-style cleanup.
+
+The preceding [completion audit](docs/occupancy_precision/COMPLETION_AUDIT.md)
+retains its 695 exact certificate replays and 369 applicable AArch64/musl tests
+under QEMU. Those emulated checks do not establish native ARM performance;
+controlled campaign measurements are Linux x86-64. The earlier
+[scientific audit](docs/ultimate_engine/SCIENTIFIC_AUDIT.md) and
+[validation report](docs/ultimate_engine/VALIDATION_REPORT.md) remain available.
 The separately tested R² correction fixes small nonconstant targets without
 changing descriptor definitions or chemical constants.
 
@@ -282,6 +335,11 @@ separately. Full distributions, unfavorable trials, memory and limitations are
 in the [benchmark tables](docs/occupancy_precision/FINAL_TABLES.md) and
 [occupancy profile](docs/occupancy_precision/OCCUPANCY_PROFILE.md).
 
+The subsequent [certified regional/profile diagnostics](docs/experimental_validation/PERFORMANCE.md)
+record CPU time, allocations, peak memory, simulated instructions and parallel
+scaling under ordinary workstation load. They make no new controlled wall-time
+speedup claim; the finite-grid benchmark above remains a separate measurement.
+
 For the original twelve molecules, certified 0.05 Å³ integration takes
 11.152–72.662 ms per case; 0.01 Å³ takes 46.410–289.953 ms. These are ranges
 of per-case timing medians. The old box method misses even 0.1 Å³ at the tested
@@ -315,9 +373,10 @@ reported speedups do not establish an all-descriptor or universal speed ratio.
 The [optimization report](docs/performance/SCIENTIFICALLY_EXACT_OPTIMIZATION.md)
 retains accepted and rejected changes.
 
-Start with the [occupancy and precision report](docs/occupancy_precision/FINAL_REPORT.md),
-[fresh baseline](docs/occupancy_precision/BASELINE.md),
-[campaign reproduction details](docs/occupancy_precision/REPRODUCIBILITY.md),
+Start with the [experimental chemistry and geometry report](docs/experimental_validation/FINAL_REPORT.md),
+[reproducible data and replay instructions](docs/experimental_validation/REPRODUCIBILITY.md),
+[occupancy and precision report](docs/occupancy_precision/FINAL_REPORT.md),
+[controlled benchmark reproduction](docs/occupancy_precision/REPRODUCIBILITY.md),
 [DBSTEP resolution and release audit](docs/validation/dbstep/FINAL_RESOLUTION.md),
 [original implementation report](docs/paton_recommendations/FINAL_REPORT.md),
 [complete scientific validation](docs/paton_recommendations/SCIENTIFIC_VALIDATION.md),
@@ -331,6 +390,7 @@ not establish catalyst-prediction accuracy.
 
 Cite original reference methods and datasets when used: the
 [Kraken platform](https://doi.org/10.1021/jacs.1c09718),
+[Ni-hDA experimental dataset and correction](docs/experimental_validation/DATASET_REVIEW.md),
 [Morfeus](https://github.com/digital-chemistry-laboratory/morfeus), and
 [DBSTEP](https://github.com/patonlab/DBSTEP). Density-method primary references
 are listed in the [method document](docs/methods/electron_density_buried_volume.md).

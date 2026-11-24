@@ -114,5 +114,23 @@ class OccupancyArchiveTests(CampaignArchiveTests):
     campaign = PurePosixPath("docs/occupancy_precision")
 
 
+class ExperimentalArchiveTests(CampaignArchiveTests):
+    campaign = PurePosixPath("docs/experimental_validation")
+
+    def test_mapping_manifest_selects_and_verifies_published_records(self):
+        row = self.records[0]
+        mapped = {
+            row["path"]: {key: value for key, value in row.items() if key != "path"},
+            ".stericx/experimental_validation/private.json": {},
+        }
+        records = published_records({"records": mapped}, self.campaign)
+        self.assertEqual(records, self.records)
+        self.assertEqual(self.verify(self.root, records, ["recorded.py"]), 1)
+
+    def test_mapping_manifest_rejects_traversal(self):
+        with self.assertRaisesRegex(ValueError, "Unsafe manifest path"):
+            published_records({"records": {"../outside": {}}}, self.campaign)
+
+
 if __name__ == "__main__":
     unittest.main()

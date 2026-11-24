@@ -1,0 +1,29 @@
+# Preserve the executed sources bound by campaign_manifest.json.
+# CI verifies their pinned hashes and Python syntax with verify_campaign_archive.py.
+# Exact filenames only: new helpers retain the repository lint rules.
+extend = "../../pyproject.toml"
+extend-exclude = [
+    "acquire_sources.py",
+    "acquire_structures.py",
+    "analyze_chemistry.py",
+    "archive_chemical_data.py",
+    "audit_stereochemistry.py",
+    "chemical_numerical_sensitivity.py",
+    "conformer_sensitivity.py",
+    "freeze_baseline.py",
+    "generate_conformers.py",
+    "generate_sum_oracle.py",
+    "prepare_chemistry.py",
+    "profile_methods.py",
+    "profile_valgrind.py",
+    "render_chemical_report.py",
+    "reproduce_results.py",
+    "run_engineering.py",
+    "seal_campaign.py",
+    "stereo_sensitivity.py",
+    "validate_chemical_references.py",
+    "validate_numerical.py",
+    "validate_profiles.py",
+    "validate_regions.py",
+    "verify_profile_outputs.py",
+]

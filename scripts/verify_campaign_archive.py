@@ -22,6 +22,11 @@ ARCHIVES = [
         "published_archive.json",
         "6678d84c94f64f65c7b771413760dc294f25c484a3e2d3be553ec2ff69c384d7",
     ),
+    (
+        PurePosixPath("docs/experimental_validation"),
+        "campaign_manifest.json",
+        "7d24348d5a555f29c41ceed641f678fcf7e993f571927aba46c5371df729c6bc",
+    ),
 ]
 
 
@@ -29,7 +34,12 @@ def published_records(data, campaign=CAMPAIGN):
     """Select exactly the campaign paths, without requiring private raw files."""
     records = []
     seen = set()
-    for row in data["records"]:
+    source_records = data["records"]
+    if isinstance(source_records, dict):
+        source_records = [
+            dict(metadata, path=path) for path, metadata in source_records.items()
+        ]
+    for row in source_records:
         path = PurePosixPath(row["path"])
         if path.is_absolute() or ".." in path.parts:
             raise ValueError(f"Unsafe manifest path: {path}")

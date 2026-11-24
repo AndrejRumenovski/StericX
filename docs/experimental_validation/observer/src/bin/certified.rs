@@ -31,14 +31,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let allocation = Value::Null;
         match result {
             Err(e) => println!("{}", json!({"id":q["id"],"error":e.to_string()})),
-            Ok(r) => println!("{}", json!({"id":q["id"],"volume":r.volume_angstrom3,
+            Ok(r) => println!(
+                "{}",
+                json!({"id":q["id"],"volume":r.volume_angstrom3,
                 "lower":r.lower_bound_angstrom3,"upper":r.upper_bound_angstrom3,
                 "absolute_error_bound":r.absolute_error_bound_angstrom3,"relative_error_bound":r.relative_error_bound,
                 "target_met":r.target_met,"status":r.status,"cells":r.cells_evaluated,
                 "subdivisions":r.subdivisions,"geometric_evaluations":r.geometric_evaluations,
                 "smooth_cells":r.smooth_cells,"range_cells":r.range_cells,"empty_cells":r.empty_cells,
                 "peak_heap_cells":r.peak_heap_cells,"elapsed_ns":r.elapsed_seconds*1e9,
-                "analytical":r.analytical,"allocations":allocation})),
+                "analytical":r.analytical,"allocations":allocation})
+            ),
         }
     }
     Ok(())

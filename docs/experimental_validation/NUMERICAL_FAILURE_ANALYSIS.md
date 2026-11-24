@@ -84,3 +84,15 @@ budget failures.
 These finite analytical successes do not establish that arbitrary tangent,
 clipped, thin or multiply overlapping molecular geometries meet arbitrary error
 targets. Regional stress tests and the complete regression remain separate gates.
+
+## Expanded-budget and profiling replay
+
+The frozen and new binaries were rerun on all eighteen requests at the original
+budgets and at four times those budgets, retaining each tolerance. Baseline success
+is 0/18 at both budgets; the new method is 18/18 at both. Every independent reference
+interval is contained. All new accepted cases use analytical proofs with no adaptive
+subdivision. Full per-case geometry, original/expanded work, status, bounds, runtime
+and memory diagnostics are retained in `performance_v1/`; see [PERFORMANCE.md](PERFORMANCE.md).
+The remaining four deliberately stringent regional requests at 1e-8 Å³ are different
+experiments, remain honestly budget-limited, and are not counted as resolutions of
+these eighteen historical requests.

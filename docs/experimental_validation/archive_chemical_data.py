@@ -10,6 +10,7 @@ def main():
   groups={'published_inputs':list((BASE/'structures').rglob('*.sdf'))+list((BASE/'structures').rglob('molecule.json'))+[BASE/'structures/receipts.json',BASE/'sources/nihda.csv',BASE/'chemistry_preparation/requests.json',BASE/'chemistry_preparation/audit.json',BASE/'stereochemistry_v1/audit.json'],'generated_inputs':list((BASE/'generated_v1').rglob('*.sdf'))+[BASE/'generated_v1/audit.json',BASE/'generated_v1/requests.json',BASE/'generated_v1/post_stereo_audit.json'],'native_results':[BASE/'chemistry_preparation/native.jsonl',BASE/'generated_v1/native.jsonl',BASE/'chemical_references_v2/summary.json']}
   groups['corrected_generated_inputs']=list((BASE/'generated_v2').rglob('*.sdf'))+[BASE/'generated_v2/audit.json',BASE/'generated_v2/requests.json',BASE/'generated_v2/native.jsonl']
   groups['analysis_and_provenance']=list((BASE/'chemical_analysis_v1').glob('*.json'))+list((BASE/'chemical_analysis_v2').glob('*.json'))+list((BASE/'sources').glob('*.json'))+list((BASE/'structures').rglob('*.json'))+[BASE/'conformer_sensitivity_v2/summary.json',BASE/'chemical_analysis_v1/protocol_at_analysis.md',BASE/'generated_v1/controller.py',BASE/'sources/table_s3_original.txt',BASE/'sources/table_s3_corrected.txt']
+  groups['numerical_inputs']=list((BASE/'numerical_frozen').glob('*'))
   manifest={}
   for name,paths in groups.items():
    rows=[]

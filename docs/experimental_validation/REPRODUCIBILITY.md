@@ -73,7 +73,7 @@ analytical profiles and checks the frozen molecular geometries, standalone ident
 work accounting and monotonicity consistency. The original tolerances are unchanged.
 
 `tests/certified_geometric.rs`, `tests/certified_regions.rs` and
-`tests/certified_profiles.rs` exercise public APIs; the exact-addition test reads
+`tests/certified_radius_profiles.rs` exercise public APIs; the exact-addition test reads
 6,005 independently generated rational-oracle witnesses. Full engineering checks are
 logged by `run_engineering.py`, including actual Rust 1.85, modern Rust, Python,
 research, external DBSTEP and available cross-target compilation.
@@ -100,3 +100,21 @@ Package/toolchain versions and binary/source hashes are retained. Reproducing
 floating-point certificates assumes IEEE binary64 round-to-nearest with gradual
 underflow; geometry generation additionally depends on the specified RDKit version.
 Cross-target compilation is not a physical cross-platform accuracy/timing experiment.
+
+## Fresh complete replay with a new output directory
+
+```sh
+.venv/bin/python docs/experimental_validation/reproduce_results.py \
+  --output .stericx/experimental_validation/reproduction_new
+```
+
+This verifies/restores bundled bytes, builds fresh adapters, recalculates all 167
+historical analytical requests, 96 regional cases, 24 radius profiles, 135 published
+conformers and the corrected generated lane, then repeats every locked statistical
+fit using the fresh native outputs. The controller requires exact scientific-field
+agreement, including deterministic work/status fields, and ignores only explicitly
+named time/allocation diagnostics. It checks all source hashes again at completion.
+The numerical-input bundle includes frozen analytical references and historical
+failures, so the replay does not depend on a live chemical API or re-downloadable
+four-decimal SDF headers. Independent rational/third-party validation remains a
+separate requirement from this deterministic reproducibility check.
